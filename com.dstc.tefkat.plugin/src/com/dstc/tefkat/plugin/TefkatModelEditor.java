@@ -1,0 +1,512 @@
+/*
+ *
+ *  Copyright (C) DSTC Pty Ltd (ACN 052 372 577) 2004.
+ *  Unpublished work.  All Rights Reserved.
+ *
+ *  The software contained on this media is the property of the
+ *  DSTC Pty Ltd.  Use of this software is strictly in accordance
+ *  with the license agreement in the accompanying LICENSE.DOC
+ *  file.  If your distribution of this software does not contain
+ *  a LICENSE.DOC file then you have no rights to use this
+ *  software in any manner and should contact DSTC at the address
+ *  below to determine an appropriate licensing arrangement.
+ *
+ *     DSTC Pty Ltd
+ *     Level 7, G.P. South
+ *     Staff House Road
+ *     University of Queensland
+ *     St Lucia, 4072
+ *     Australia
+ *     Tel: +61 7 3365 4310
+ *     Fax: +61 7 3365 4311
+ *     Email: enquiries@dstc.edu.au
+ *
+ *  This software is being provided "AS IS" without warranty of
+ *  any kind.  In no event shall DSTC Pty Ltd be liable for
+ *  damage of any kind arising out of or in connection with
+ *  the use or performance of this software.
+ *
+ *  Project:  com.dstc.tefkat.plugin
+ *
+ *  File:     TefkatModelEditor.java
+ *
+ *  History:  Created on 11/06/2004 by lawley
+ *
+ */
+
+package com.dstc.tefkat.plugin;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.text.DocumentEvent;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IDocumentListener;
+import org.eclipse.jface.text.ITextInputListener;
+import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.ide.IGotoMarker;
+import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+
+import antlr.ANTLRException;
+import antlr.RecognitionException;
+import antlr.TokenStreamHiddenTokenFilter;
+import antlr.debug.MessageEvent;
+import antlr.debug.MessageAdapter;
+
+import com.dstc.tefkat.model.parser.ParserEvent;
+import com.dstc.tefkat.model.parser.ParserListener;
+import com.dstc.tefkat.model.parser.TefkatLexer;
+import com.dstc.tefkat.model.parser.TefkatMessageEvent;
+import com.dstc.tefkat.model.parser.TefkatParser;
+
+/**
+ * @author lawley
+ *
+ * To change the template for this generated type comment go to
+ * Window>Preferences>Java>Code Generation>Code and Comments
+ */
+public class TefkatModelEditor extends MultiPageEditorPart {
+
+    final private static String PARSE_ERROR = TefkatPlugin.PLUGIN_ID + ".parser.error";
+
+    private ParserThread runner = new ParserThread();
+    
+    private static Map SERIALIZATION_OPTIONS;
+
+    static {
+        SERIALIZATION_OPTIONS = new HashMap();
+        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData());
+    }
+    
+    private StyledText text;
+    private TextEditor textEditor;
+    
+    private TefkatModelOutlinePage outline = null;
+
+    private Map startCharMap = new HashMap();
+    private Map endCharMap = new HashMap();
+
+    /**
+     * 
+     */
+    public TefkatModelEditor() {
+        super();
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IWorkbenchPart#dispose()
+     */
+    public void dispose() {
+        // TODO Auto-generated method stub
+        super.dispose();
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.part.MultiPageEditorPart#createPages()
+     */
+    protected void createPages() {
+        createPage0();
+        createPage1();
+//        IActionBars actionBars = getEditorSite().getActionBars();
+//        System.out.println(actionBars.getGlobalActionHandler(ActionFactory.PRINT.getId()));
+//        System.out.println(ActionFactory.PRINT);
+//        actionBars.setGlobalActionHandler(ActionFactory.PRINT.getId(), ActionFactory.PRINT.create(getEditorSite().getWorkbenchWindow()));
+    }
+
+    private void createPage0() {
+        textEditor = new TefkatTextEditor();
+
+        try {
+            int index = addPage(textEditor, getEditorInput());
+            setPartName(getEditorInput().getName());
+            setPageText(index, "Transformation");
+            IAnnotationModel am = textEditor.getDocumentProvider().getAnnotationModel(textEditor.getEditorInput());
+        } catch (PartInitException e) {
+            ErrorDialog.openError(
+                           getSite().getShell(),
+                           "Error creating nested text editor",
+                           null,
+                           e.getStatus());
+        }
+    }
+
+    private void createPage1() {
+        Composite composite = new Composite(getContainer(), SWT.NONE);
+        FillLayout layout = new FillLayout();
+        composite.setLayout(layout);
+        text = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
+        text.setEditable(false);
+        
+        int index = addPage(composite);
+        setPageText(index, "XMI Preview");
+        runner.requestParse();
+    }
+
+    protected void pageChange(int newPageIndex) {
+        super.pageChange(newPageIndex);
+        if (newPageIndex == 1) {
+            runner.requestParse();
+        }
+    }
+        
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
+     */
+    public void doSave(IProgressMonitor monitor) {
+        getEditor(0).doSave(monitor);
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.part.EditorPart#doSaveAs()
+     */
+    public void doSaveAs() {
+        IEditorPart editor = getEditor(0);
+        editor.doSaveAs();
+        setPageText(0, editor.getTitle());
+        setInput(editor.getEditorInput());
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.part.EditorPart#gotoMarker(org.eclipse.core.resources.IMarker)
+     */
+    public void gotoMarker(IMarker marker) {
+        setActivePage(0);
+        IGotoMarker gotoMarker = (IGotoMarker) getEditor(0).getAdapter(IGotoMarker.class);
+        if (gotoMarker != null) {
+            gotoMarker.gotoMarker(marker);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
+     */
+    public boolean isSaveAsAllowed() {
+        return true;
+    }
+
+    private final class TefkatTextEditor extends TextEditor {
+
+        public TefkatTextEditor() {
+            super();
+            setSourceViewerConfiguration(new TefkatModelSourceViewerConfiguration());
+        }
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.IWorkbenchPart#dispose()
+         */
+        public void dispose() {
+            // TODO Auto-generated method stub
+            super.dispose();
+        }
+
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.texteditor.AbstractTextEditor#selectAndReveal(int, int, int, int)
+         */
+        protected void selectAndReveal(int selectionStart, int selectionLength,
+                int revealStart, int revealLength) {
+            pageChange(0);
+            super.selectAndReveal(selectionStart, selectionLength, revealStart,
+                    revealLength);
+        }
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.IEditorPart#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
+         */
+        public void createPartControl(Composite parent) {
+            super.createPartControl(parent);
+        
+            final IDocumentListener documentListener = new IDocumentListener() {
+                public void documentAboutToBeChanged(DocumentEvent event) {
+                    // ignore
+                }
+                public void documentChanged(DocumentEvent event) {
+                    runner.requestParse();
+                }
+            };
+
+            ISourceViewer sourceViewer = getSourceViewer();
+            sourceViewer.addTextInputListener(new ITextInputListener() {
+
+                public void inputDocumentAboutToBeChanged(IDocument oldInput, IDocument newInput) {
+                    // ignore
+                }
+
+                public void inputDocumentChanged(IDocument oldInput, IDocument newInput) {
+                    if (null != oldInput) {
+                        oldInput.removeDocumentListener(documentListener);
+                    }
+                    if (null != newInput) {
+                        newInput.addDocumentListener(documentListener);
+                    }
+                }
+                
+            });
+            IDocument document = sourceViewer.getDocument();
+            if (null != document) {
+                document.addDocumentListener(documentListener);
+            }
+        }
+    }
+    
+    class ParserThread extends Thread {
+        private boolean parseRequested = false;
+        
+        synchronized final public void requestParse() {
+            parseRequested = true;
+            if (!isAlive()) {
+                start();
+            }
+            notify();
+        }
+        
+        final public void run() {
+            boolean doWork = false;
+
+            while (!getContainer().isDisposed()) {
+                synchronized (this) {
+                    if (parseRequested) {
+                        doWork = true;
+                        parseRequested = false;
+                    } else {
+                        doWork = false;
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                        }
+                    }
+                }
+                if (doWork) {
+                    try {
+                        doParse();
+                        try {
+                            Thread.sleep(500);  // throttle the parsing
+                        } catch (InterruptedException e) {
+                        }
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        private void doParse() {
+            if (null == textEditor.getEditorInput()) {
+                // nothing to do
+                return;
+            }
+            
+            ResourceSet resourceSet = new ResourceSetImpl();
+
+            final IResource resource = (IResource) textEditor.getEditorInput().getAdapter(IResource.class);
+            try {
+                resource.deleteMarkers(PARSE_ERROR, false, IResource.DEPTH_INFINITE);
+            } catch (CoreException e1) {
+                // TODO Log this
+            }
+        
+            String editorText = textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput()).get();
+            Reader in = new StringReader(editorText);
+            final TefkatLexer lexer = new TefkatLexer(in);
+            lexer.setTokenObjectClass("antlr.CommonHiddenStreamToken");
+            // create the filter
+            TokenStreamHiddenTokenFilter filter = new TokenStreamHiddenTokenFilter(lexer);
+            // hide not discard
+            filter.hide(TefkatParser.COMMENT);
+            filter.hide(TefkatParser.WS);
+        
+            TefkatParser parser = new TefkatParser(filter);
+
+            parser.addMessageListener(new MessageAdapter() {
+                public void reportError(MessageEvent e) {
+                    if (e instanceof TefkatMessageEvent) {
+                        createErrorMarker(resource, e.getText(), ((TefkatMessageEvent) e).getLine());
+                    } else {
+                        createErrorMarker(resource, e.getText(), lexer.getLine());
+                    }
+                }
+
+                public void reportWarning(MessageEvent e) {
+                    if (e instanceof TefkatMessageEvent) {
+                        createWarningMarker(resource, e.getText(), ((TefkatMessageEvent) e).getLine());
+                    } else {
+                        createWarningMarker(resource, e.getText(), lexer.getLine());
+                    }
+                }
+            });
+            
+            // store map of char position to parse terms
+            startCharMap.clear();
+            endCharMap.clear();
+            parser.addParserListener(new ParserListener() {
+            public void matched(ParserEvent e) {
+                    startCharMap.put(e.getObj(), new Integer(e.getStartChar()));
+                    endCharMap.put(e.getObj(), new Integer(e.getEndChar()));
+               }
+            });
+
+            URI uri = URI.createPlatformResourceURI(resource.getFullPath().toString());
+            final Resource res = resourceSet.createResource(uri);
+        
+            try {
+                parser.transformation(res);
+                OutputStream out = new ByteArrayOutputStream();
+                res.save(out, SERIALIZATION_OPTIONS);
+                final String xmi = out.toString();
+                Display.getDefault().asyncExec(new Runnable() {
+                    public void run() {
+                        if (getContainer().isDisposed()) {
+                            return;
+                        }
+                        if (null != outline) {
+                            outline.setResource(res);
+                        }
+                        text.setText(xmi);
+                    }
+                });
+            } catch (final RecognitionException e) {
+                createErrorMarker(resource, e.toString(), e.getLine());
+            } catch (final ANTLRException e) {
+                createErrorMarker(resource, e.toString(), lexer.getLine());
+            } catch (final Exception e) {
+                e.printStackTrace();
+                createErrorMarker(resource, e.toString(), lexer.getLine());
+            }
+        }
+
+    }
+
+    private void createErrorMarker(final IResource resource, final String message, final int line) {
+    Display.getDefault().asyncExec(new Runnable() {
+        public void run() {
+        text.setText(message);
+        try {
+            Map map = new HashMap(3);
+            map.put(IMarker.LINE_NUMBER, new Integer(line));
+            map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
+            map.put(IMarker.MESSAGE, message);
+            createMarker(resource, map);
+        } catch (CoreException e) {
+            // TODO Log later
+            e.printStackTrace();
+        }
+        }
+    });
+    }
+
+    private void createWarningMarker(final IResource resource, final String message, final int line) {
+	Display.getDefault().asyncExec(new Runnable() {
+	    public void run() {
+		text.setText(message);
+		try {
+		    Map map = new HashMap(3);
+		    map.put(IMarker.LINE_NUMBER, new Integer(line));
+		    map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
+		    map.put(IMarker.MESSAGE, message);
+		    createMarker(resource, map);
+		} catch (CoreException e) {
+		    // TODO Log later
+		    e.printStackTrace();
+		}
+	    }
+	});
+    }
+
+    private void createMarker(final IResource resource, final Map map)
+        throws CoreException {
+        ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+            public void run(IProgressMonitor monitor) throws CoreException {
+                IMarker marker = resource.createMarker(PARSE_ERROR);
+                marker.setAttributes(map);
+            }
+        }, null);
+    }
+
+    public Object getAdapter(Class adapter) {
+        
+        if (adapter.equals(IContentOutlinePage.class)) {
+            if (null == outline) {
+                outline = new TefkatModelOutlinePage();
+                outline.addSelectionChangedListener(new ISelectionChangedListener() {
+
+                    public void selectionChanged(SelectionChangedEvent event) {
+                        ISelection selection = event.getSelection();
+                        if (!selection.isEmpty()) {
+                            EObject obj = (EObject) ((IStructuredSelection) selection).getFirstElement();
+                            Integer startChar = getStartChar(obj);
+                            Integer endChar = getEndChar(obj);
+                            if (null != startChar && null != endChar) {
+                                int start = startChar.intValue();
+                                int length = endChar.intValue() - start;
+                                textEditor.setHighlightRange(start, length, true);
+                                return;
+                            }
+                        }
+
+                        textEditor.resetHighlightRange();
+                    }
+                });
+            }
+            return outline;
+        } else if (adapter.equals(ITextEditor.class)) {
+            return textEditor;
+        }
+        
+        return super.getAdapter(adapter);
+    }
+    
+    public Integer getStartChar(EObject obj) {
+        while (obj != null) {
+            Integer pos = (Integer) startCharMap.get(obj);
+            if (pos != null) {
+                return pos;
+            }
+            obj = obj.eContainer();
+        }
+        return null;
+    }
+    
+    public Integer getEndChar(EObject obj) {
+        while (obj != null) {
+            Integer pos = (Integer) endCharMap.get(obj);
+            if (pos != null) {
+                return pos;
+            }
+            obj = obj.eContainer();
+        }
+        return null;
+    }
+
+}

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="com.dstc.tefkat.plugin"
+   name="%pluginName"
+   version="2.0.9.01"
+   provider-name="%providerName"
+   class="com.dstc.tefkat.plugin.TefkatPlugin">
+
+   <runtime>
+      <library name="tefkat_plugin.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.draw2d" optional="true"/>
+      <import plugin="org.eclipse.emf.ecore" export="true"/>
+      <import plugin="org.eclipse.emf.ecore.edit" export="true"/>
+      <import plugin="org.eclipse.emf.ecore.editor" export="true"/>
+      <import plugin="org.eclipse.emf.ecore.xmi" export="true"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.console"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.antlr"/>
+      <import plugin="com.dstc.emf.view" export="false" optional="true"/>
+      <import plugin="com.dstc.tefkat.engine" export="true"/>
+      <import plugin="com.dstc.tefkat.config" export="true"/>
+      <import plugin="com.dstc.tefkat.config.edit" export="true"/>
+      <import plugin="com.dstc.tefkat.config.editor" export="true"/>
+      <import plugin="com.dstc.tefkat.model.parser" export="true"/>
+      <import plugin="com.dstc.tefkat.model" export="true"/>
+   </requires>
+   <extension-point id="functionSet" name="Function Set" schema="schema/functionSet.exsd"/>
+
+
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri=""
+            class="com.dstc.tefkat.plugin.TefkatConfig.TefkatConfigPackage">
+      </package>
+   </extension>
+   <extension
+         id="TefkatNature"
+         name="Tefkat"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="com.dstc.tefkat.plugin.TefkatNature">
+         </run>
+      </runtime>
+      <builder
+            id="com.dstc.tefkat.plugin.TefkatBuilder">
+      </builder>
+   </extension>
+   <extension
+         id="TefkatBuilder"
+         name="Tefkat Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder>
+         <run
+               class="com.dstc.tefkat.plugin.TefkatBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IProject"
+            adaptable="true"
+            id="com.dstc.tefkat.plugin.ToggleNature">
+         <action
+               label="Add Tefkat Nature"
+               class="com.dstc.tefkat.plugin.ToggleNatureAction"
+               enablesFor="1"
+               id="com.dstc.tefkat.plugin.ToggleNatureAction">
+         </action>
+         <visibility>
+            <not>
+               <objectState
+                     name="nature"
+                     value="com.dstc.tefkat.plugin.TefkatNature">
+               </objectState>
+            </not>
+         </visibility>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IProject"
+            adaptable="true"
+            id="com.dstc.tefkat.plugin.ToggleNature">
+         <action
+               label="Remove Tefkat Nature"
+               class="com.dstc.tefkat.plugin.ToggleNatureAction"
+               enablesFor="1"
+               id="com.dstc.tefkat.plugin.ToggleNatureAction">
+         </action>
+         <visibility>
+            <objectState
+                  name="nature"
+                  value="com.dstc.tefkat.plugin.TefkatNature">
+            </objectState>
+         </visibility>
+      </objectContribution>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            icon="icons/full/obj16/TefkatModelFile.gif"
+            class="com.dstc.tefkat.plugin.TefkatModelEditor"
+            default="true"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            name="Tefkat Textual Editor"
+            id="com.dstc.tefkat.plugin.TefkatModelEditor"
+            extensions="qvt">
+      </editor>
+   </extension>
+   <extension
+         id="parser.error"
+         name="Tefkat Parser Error"
+         point="org.eclipse.core.resources.markers">
+      <persistent value="true"/>
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <super type="org.eclipse.core.resources.textmarker"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="com.dstc.tefkat.plugin.TefkatView"
+            name="Tefkat View"
+            id="com.dstc.tefkat.plugin.TefkatView"/>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            type="com.dstc.tefkat.plugin.debug.launching.engine"
+            class="com.dstc.tefkat.plugin.debug.EngineLaunchConfigurationTabGroup"
+            id="com.dstc.tefkat.plugin.debug.launchConfigurationTabGroup.engine">
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="com.dstc.tefkat.plugin.debug.EngineLaunchConfigurationDelegate"
+            name="Tefkat Engine"
+            id="com.dstc.tefkat.plugin.debug.launching.engine"
+            modes="run, debug"/>
+   </extension>
+   <extension
+         id="TefkatDocumentSetupParticipant"
+         point="org.eclipse.core.filebuffers.documentSetup">
+      <participant
+            class="com.dstc.tefkat.plugin.TefkatDocumentSetupParticipant"
+            extensions="qvt"/>
+   </extension>
+   <extension
+         id="TefkatPreferencePage"
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.dstc.tefkat.plugin.TefkatPreferencePage"
+            name="Tefkat"
+            id="com.dstc.tefkat.plugin.tefkatPreferencePage"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+         <actionSet id="org.eclipse.debug.ui.launchActionSet"/>
+      </perspectiveExtension>
+   </extension>
+   
+</plugin>
+

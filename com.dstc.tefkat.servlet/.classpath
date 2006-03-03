@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="tarzan/WEB-INF/src"/>
+	<classpathentry kind="src" path="work"/>
+	<classpathentry exported="true" kind="src" path="/Tarzan"/>
+	<classpathentry exported="true" kind="src" path="/QVTModel"/>
+	<classpathentry exported="true" kind="src" path="/QVTModelParser"/>
+	<classpathentry kind="lib" path="/Tarzan/log4j-1_2_8.jar"/>
+	<classpathentry kind="lib" path="tarzan/WEB-INF/lib/common.jar"/>
+	<classpathentry kind="lib" path="tarzan/WEB-INF/lib/ecore.jar"/>
+	<classpathentry kind="lib" path="tarzan/WEB-INF/lib/ecore.xmi.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/common/lib/servlet.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/common/lib/jasper-runtime.jar"/>
+	<classpathentry kind="output" path="tarzan/WEB-INF/classes"/>
+</classpath>

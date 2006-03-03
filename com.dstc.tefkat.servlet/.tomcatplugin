@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomcatProjectProperties>
+    <rootDir>/tarzan</rootDir>
+    <exportSource>false</exportSource>
+    <reloadable>true</reloadable>
+    <redirectLogger>false</redirectLogger>
+    <updateXml>false</updateXml>
+    <warLocation>workspace3/TarzanWebService/tarzan.war</warLocation>
+    <extraInfo></extraInfo>
+    <webPath>/TarzanWebService</webPath>
+</tomcatProjectProperties>
