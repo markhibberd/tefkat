@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>TarzanWebService</name>
+	<name>com.dstc.tefkat.servlet</name>
 	<comment></comment>
 	<projects>
-		<project>QVTModel</project>
-		<project>QVTModelParser</project>
-		<project>Tarzan</project>
+		<project>com.dstc.tefkat.engine</project>
+		<project>com.dstc.tefkat.model</project>
+		<project>com.dstc.tefkat.model.parser</project>
+		<project>com.dstc.tefkat.servlet</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
+			<triggers>full,incremental,</triggers>
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
 					<value>&lt;project&gt;/.externalToolBuilders/Copy Classdirs.launch</value>
 				</dictionary>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>

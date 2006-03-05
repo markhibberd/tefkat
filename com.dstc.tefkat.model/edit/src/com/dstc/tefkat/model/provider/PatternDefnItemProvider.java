@@ -49,7 +49,7 @@ public class PatternDefnItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright DSTC Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley 2003-2005";
 
     /**
      * This constructs an instance from a factory and a notifier.

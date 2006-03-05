@@ -1,9 +1,17 @@
 /*
- * Created on 19/04/2004
+ * Copyright (c) 2004- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Contributors:
+ *     michael lawley
+ *
+ *
+ *
  */
+
 package com.dstc.tefkat.engine;
 
 import java.util.ArrayList;
@@ -19,8 +27,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 /**
  * @author lawley
  *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 final public class DynamicObject extends EObjectImpl {
     static int counter = 0;

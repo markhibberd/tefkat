@@ -1,7 +1,17 @@
 /*
- * Created on 8/09/2003
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Contributors:
+ *     michael lawley
+ *
+ *
  *
  */
+
 package com.dstc.tefkat.engine.view;
 
 import java.awt.BasicStroke;
@@ -25,13 +35,23 @@ import org.jgraph.graph.VertexView;
 /**
  * @author lawley
  *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class ResourceView extends JGraph {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2153555135139051987L;
+
+    private static final String PACKAGE_PREFIX = "com.dstc.tefkat.model.impl.";
+    
     static CellViewRenderer renderer = new VertexRenderer() {
-        public void paint(Graphics g) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6458030594465954749L;
+
+	public void paint(Graphics g) {
             int b = borderWidth;
             Graphics2D g2 = (Graphics2D) g;
             Dimension d = getSize();
@@ -78,8 +98,8 @@ public class ResourceView extends JGraph {
             return ((EObject) userObj).eClass().getName() + " " + value.hashCode();
         }
         String str = super.convertValueToString(value);
-        if (null != str && str.startsWith("xmorph.impl")) {
-            str = str.substring(12);
+        if (null != str && str.startsWith(PACKAGE_PREFIX)) {
+            str = str.substring(PACKAGE_PREFIX.length());
         }
         return str;
     }
@@ -89,7 +109,12 @@ public class ResourceView extends JGraph {
      */
     protected VertexView createVertexView(Object v, CellMapper cm) {
         return new VertexView(v, this, cm) {
-            // Returns Perimeter Point for Ellipses
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1650125773511030753L;
+
+			// Returns Perimeter Point for Ellipses
             public Point getPerimeterPoint(Point source, Point p) {
                 // Compute relative bounds
                 Rectangle r = getBounds();

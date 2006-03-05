@@ -7,7 +7,7 @@ then
 fi
 
 ECLIPSE_OSX=/Applications/eclipse-SDK-3.0
-ECLIPSE_DSTC=/dstc/eclipse3
+ECLIPSE_DSTC=/dstc/eclipse3.1
 if [ -d $ECLIPSE_OSX ]
 then
   ECLIPSE=$ECLIPSE_OSX
@@ -15,7 +15,7 @@ then
 else
   ECLIPSE=$ECLIPSE_DSTC
 fi
-EMF_VERSION=2.0.0
+EMF_VERSION=2.1.0
 
 DIR=`dirname $0`
 
@@ -28,7 +28,7 @@ LOGGING_JAR=log4j-1_2_8.jar
 LOGGING_JAR=
 
 MODELS=http://www.dstc.edu.au:8080/qvt/models
-CLASSPATH=$DIR/jgraph.jar:$DIR/runtime:$DIR/../com.dstc.tefkat.config/runtime:$DIR/../com.dstc.tefkat.model/runtime:$DIR/../com.dstc.tefkat.model.parser/runtime:$ECLIPSE/plugins/org.eclipse.emf.ecore_$EMF_VERSION/runtime/ecore.jar:$ECLIPSE/plugins/org.eclipse.emf.ecore.xmi_$EMF_VERSION/runtime/ecore.xmi.jar:$ECLIPSE/plugins/org.eclipse.emf.common_$EMF_VERSION/runtime/common.jar:"$LOGGING_JAR":$ECLIPSE/plugins/org.antlr_2.7.4/antlr.jar
+CLASSPATH=$DIR/jgraph.jar:$DIR/runtime:$DIR/../com.dstc.tefkat.config/runtime:$DIR/../com.dstc.tefkat.model/runtime:$DIR/../com.dstc.tefkat.model.parser/runtime:$ECLIPSE/plugins/org.eclipse.emf.ecore_$EMF_VERSION.jar:$ECLIPSE/plugins/org.eclipse.emf.ecore.xmi_$EMF_VERSION.jar:$ECLIPSE/plugins/org.eclipse.emf.common_$EMF_VERSION.jar:"$LOGGING_JAR":$ECLIPSE/plugins/org.antlr_2.7.6.b2/antlr.jar
 
 cd $DIR
 

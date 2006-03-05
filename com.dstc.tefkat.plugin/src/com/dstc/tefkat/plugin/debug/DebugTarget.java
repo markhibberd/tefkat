@@ -1,9 +1,17 @@
 /*
- * Created on 11/10/2004
+ * Copyright (c) 2004- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Contributors:
+ *     michael lawley
+ *
+ *
+ * 
  */
+
 package com.dstc.tefkat.plugin.debug;
 
 import java.util.ArrayList;
@@ -41,8 +49,6 @@ import com.dstc.tefkat.model.parser.ParserListener;
 /**
  * @author lawley
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class DebugTarget extends AbstractDebugElement implements IDebugTarget, ParserListener {
     
@@ -74,7 +80,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
         threads = new IThread[] {thread};
         
         engine.addTefkatListener(new TefkatListener() {
-            int depth = 0;
+            // int depth = 0;
             boolean initial = true;
 
             public void started() {
@@ -162,11 +168,11 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
 //                depth--;
             }
             
-            private void indent(int n, char c) {
-                for (int i = 0; i < n; i++) {
-                    System.err.print(c);
-                }
-            }
+//            private void indent(int n, char c) {
+//                for (int i = 0; i < n; i++) {
+//                    System.err.print(c);
+//                }
+//            }
 
             public void enterTree(Tree tree) {
                 trees.push(tree);

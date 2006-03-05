@@ -1,9 +1,17 @@
 /*
- * Created on 11/10/2004
+ * Copyright (c) 2004- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Contributors:
+ *     michael lawley
+ *
+ *
+ * 
  */
+
 package com.dstc.tefkat.plugin.debug;
 
 import org.eclipse.core.resources.IResource;
@@ -13,7 +21,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.debug.internal.ui.SWTUtil;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -32,8 +39,6 @@ import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 /**
  * @author lawley
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class EngineParametersTab extends AbstractLaunchConfigurationTab {
 
@@ -54,7 +59,7 @@ public class EngineParametersTab extends AbstractLaunchConfigurationTab {
          * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
          */
         public void widgetSelected(SelectionEvent e) {
-            Object source = e.getSource();
+//            Object source = e.getSource();
 //            if (source == sourcesTable) {
 //                setSourcesButtonsEnableState();
 //            } else if (source == sourcesAddButton) {
@@ -126,7 +131,7 @@ public class EngineParametersTab extends AbstractLaunchConfigurationTab {
         configurationText.setFont(font);
         configurationText.addModifyListener(listener);
         
-        Button configurationButton = SWTUtil.createPushButton(configurationComp, "Browse...", null);
+        Button configurationButton = createPushButton(configurationComp, "Browse...");
 //        gd = new GridData(GridData.FILL_HORIZONTAL);
 //        configurationButton.setLayoutData(gd);
         configurationButton.addSelectionListener(new SelectionAdapter() {
@@ -143,7 +148,19 @@ public class EngineParametersTab extends AbstractLaunchConfigurationTab {
             }
         });
     }
-    
+
+	private static Button createPushButton(Composite parent, String label) {
+		Button button = new Button(parent, SWT.PUSH);
+		button.setFont(parent.getFont());
+		if (label != null) {
+			button.setText(label);
+		}
+		GridData gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		button.setLayoutData(gd);
+		return button;	
+	}	
+
     private void handleForceButtonSelected() {
         updateLaunchConfigurationDialog();
     }

@@ -1,36 +1,13 @@
 /*
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- *  Copyright (C) DSTC Pty Ltd (ACN 052 372 577) 2004.
- *  Unpublished work.  All Rights Reserved.
+ * Contributors:
+ *     michael lawley
  *
- *  The software contained on this media is the property of the
- *  DSTC Pty Ltd.  Use of this software is strictly in accordance
- *  with the license agreement in the accompanying LICENSE.DOC
- *  file.  If your distribution of this software does not contain
- *  a LICENSE.DOC file then you have no rights to use this
- *  software in any manner and should contact DSTC at the address
- *  below to determine an appropriate licensing arrangement.
- *
- *     DSTC Pty Ltd
- *     Level 7, G.P. South
- *     Staff House Road
- *     University of Queensland
- *     St Lucia, 4072
- *     Australia
- *     Tel: +61 7 3365 4310
- *     Fax: +61 7 3365 4311
- *     Email: enquiries@dstc.edu.au
- *
- *  This software is being provided "AS IS" without warranty of
- *  any kind.  In no event shall DSTC Pty Ltd be liable for
- *  damage of any kind arising out of or in connection with
- *  the use or performance of this software.
- *
- *  Project:  QVTModelParser
- *
- *  File:     tefkat.g
- *
- *  History:  Created on 01/04/2003 by lawley
  *
  */
 
@@ -39,19 +16,27 @@ package com.dstc.tefkat.model.parser;
 }
 
 {
-/**
- * Copyright (C) DSTC Pty Ltd (ACN 052 372 577) 2004-2005.
- * Unpublished work.  All Rights Reserved.
+/*
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Lexer for an SQL-like QVT language.
+ * Contributors:
+ *     michael lawley
  *
- * @author michael lawley
- * @date 1 April 2003
  */
  
 import com.dstc.tefkat.model.parser.TefkatToken;
 }
 
+/**
+ * Lexer for an SQL-like QVT language.
+ *
+ * @author michael lawley
+ * @date 1 April 2003
+ */
 class TefkatLexer extends Lexer;
 
 /*
@@ -322,14 +307,16 @@ options {
     ;
 
 {	
-/**
- * Copyright (C) DSTC Pty Ltd (ACN 052 372 577) 2004-2005.
- * Unpublished work.  All Rights Reserved.
+/*
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * Parser for an SQL-like QVT language.
+ * Contributors:
+ *     michael lawley
  *
- * @author michael lawley
- * @date 1 April 2003
  */
 	
 import java.util.ArrayList;
@@ -363,6 +350,12 @@ import com.dstc.tefkat.model.*;
 import com.dstc.tefkat.model.internal.Util;
 }
 
+/**
+ * Parser for an SQL-like QVT language.
+ *
+ * @author michael lawley
+ * @date 1 April 2003
+ */
 class TefkatParser extends Parser;
 options {
     defaultErrorHandler = false;
@@ -447,11 +440,6 @@ options {
      * with the given name.
      */
     private Map supersedesVarMap = new HashMap();
-    
-    /**
-     * A counter to use for naming anonymous variables.
-     */
-    private int anonVarCounter = 0;
     
     /**
      * Flag to indicate whether or not to preserve comments.
@@ -889,7 +877,6 @@ body[Transformation t, ExtentVar srcExtent, ExtentVar tgtExtent]
 classDecl[Transformation t] {
 	Resource res = t.eResource();
 	EClass eClass = null;
-	EObject obj = null;
 	EClassifier type = null;
 	int sChar = -1, eChar = -1;
 }
@@ -1009,9 +996,7 @@ map_value returns [Object obj = null] {
 		}
 	;
 
-importDecl[Transformation t] {
-	Resource res = null;
-}
+importDecl[Transformation t]
 	:	"IMPORT" uri:URITOK {
 			String uriStr = uri.getText();
 			t.getImportedPackages().add(uriStr);
@@ -1081,7 +1066,6 @@ templateDefn[Transformation t, ExtentVar tgtExtent] {
 	PatternDefn pd = null;
 	String name;
 	AndTerm conjunct = null;
-	Expression expr = null;
 	int sChar = -1, eChar = -1;
 	int sConjChar = -1;
 }
@@ -1121,10 +1105,9 @@ templateDefn[Transformation t, ExtentVar tgtExtent] {
 trule[Transformation t, ExtentVar srcExtent, ExtentVar tgtExtent] {
 	TRule trule = null;
 	String name;
-	List srcs, params = null;
+	List params = null;
 	AndTerm conjunct = null;
 	boolean isAbstract = false;
-	Expression expr = null;
 	int sChar = -1, eChar = -1;
 	int sConjChar = -1, eConjChar = -1;
 }
@@ -1157,7 +1140,7 @@ trule[Transformation t, ExtentVar srcExtent, ExtentVar tgtExtent] {
 	        |
 	            { params = EMPTY_PARAMS; }
 	        )
-		( where:"WHERE" conjunct[trule, conjunct.getTerm()] )?
+		( "WHERE" conjunct[trule, conjunct.getTerm()] )?
                 { eConjChar = getCharIndex(LT(0)); }
                 targetClauses[trule, tgtExtent, trule.getTgt(), params]
 		semi:SEMI
@@ -1176,8 +1159,8 @@ trule[Transformation t, ExtentVar srcExtent, ExtentVar tgtExtent] {
 targetClauses[VarScope scope, ExtentVar tgtExtent, List terms, List params] {
 }
 	:
-	( make:"MAKE" making[scope, tgtExtent, terms, params] )?
-	( set:"SET" settings[scope, tgtExtent, terms, params] )?
+	( "MAKE" making[scope, tgtExtent, terms, params] )?
+	( "SET" settings[scope, tgtExtent, terms, params] )?
 	( trackingUses[scope, terms] )?
 	;
 
@@ -1460,8 +1443,6 @@ disjunct[VarScope scope, List terms] returns [Term term] {
 	;
 
 s_ifthenelse[VarScope scope] returns [IfTerm term = null] {
-	Term condTerm = null, thenTerm = null, elseTerm = null;
-	List termList = new ArrayList();
 	int sChar = -1, eChar = -1;
 }
 	:	{ sChar = getCharIndex(); }
@@ -1540,8 +1521,6 @@ s_ite[VarScope scope] returns [IfTerm term = null] {
 	;
 
 t_ifthenelse[VarScope scope, ExtentVar tgtExtent, List params] returns [IfTerm term = null] {
-	Term condTerm = null, thenTerm = null, elseTerm = null;
-	List termList = new ArrayList();
 	int sChar = -1, eChar = -1;
 }
 	:	{ sChar = getCharIndex(); }
@@ -1744,17 +1723,14 @@ making[VarScope scope, ExtentVar tgtExtent, List tgts, List params]
 		)*
 	;
 
-make[VarScope scope, ExtentVar tgtExtent, List tgts, List params] {
-	AbstractVar targetVar;
-}
+make[VarScope scope, ExtentVar tgtExtent, List tgts, List params]
 	:	(pname LBRACK) => templateUse[scope, tgtExtent, tgts]
-	|	targetVar = makeObject[scope, tgtExtent, true, tgts, params]
+	|	makeObject[scope, tgtExtent, true, tgts, params]
 	;
 
 // ((null == params) => source side) => no unique and no Injection
 // EMPTY_LIST == params => TEMPLATE => unique required
 makeObject[VarScope scope, ExtentVar tgtExtent, boolean isExactly, List tgts, List params] returns [AbstractVar targetVar = null] {
-	PatternUse useTerm;
 	MofInstance makeTerm;
 	int sChar = -1, eChar = -1;
 }
@@ -1959,7 +1935,6 @@ trackingUses[VarScope scope, List terms] {
 	;
 
 trackingUse[VarScope scope, List terms] returns [TrackingUse use = null] {
-	Expression expr;
 	String tname;
 	Map featureMap = null;
 	int sChar = -1, eChar = -1;
@@ -2068,8 +2043,6 @@ term[VarScope scope, List terms] returns [Expression expr] {
 
 factor[VarScope scope, List terms] returns [Expression expr = null] {
 	String vname = null;
-	EObject obj = null;
-	Expression thenExpr, elseExpr;
 }
 	:
 	(	expr = literal[scope, terms]
@@ -2259,11 +2232,10 @@ vardecl[VarScope vs, EClass varClass]  returns [AbstractVar var = null]
 /*
 NOT YET IMPLEMENTED -- need a decent syntax
 */
-enumlit[VarScope scope, List terms] returns [EnumConstant enum = null] {
+enumlit[VarScope scope, List terms] returns [EnumConstant enumeration = null] {
 	// EClassifier eClassifier;
 	Expression typeExpr;
 	Expression literalExpr;
-	String ename = null;
 }
 	:	HASH
 		// eClassifier = simpleTypeLiteral
@@ -2278,12 +2250,12 @@ enumlit[VarScope scope, List terms] returns [EnumConstant enum = null] {
 //			EEnumLiteral literal = eenum.getEEnumLiteral(id.getText());
 //                        Resource res = literal.eResource();
 //                        String uriFrag = res.getURIFragment(literal);
-                        enum = TefkatFactory.eINSTANCE.createEnumConstant();
-                        List args = enum.getArg();
+                        enumeration = TefkatFactory.eINSTANCE.createEnumConstant();
+                        List args = enumeration.getArg();
                         args.add(typeExpr);
                         args.add(literalExpr);
-//                        enum.setRepresentation(res.getURI() + uriFrag);
-//                        literal.eResource().getResourceSet().getEObject(URI.createURI(enum.getRepresentation()), false);
+//                        enumeration.setRepresentation(res.getURI() + uriFrag);
+//                        literal.eResource().getResourceSet().getEObject(URI.createURI(enumeration.getRepresentation()), false);
 //			ref = TefkatFactory.eINSTANCE.createInstanceRef();
 //		        ref.setObject(literal);
 		}
@@ -2363,14 +2335,10 @@ collectionlit[VarScope scope, List terms] returns [CollectionExpr collection = n
 	;
 
 objectBody[VarScope scope, AbstractVar var, boolean isExactly, List terms, List params] {
-	Expression expr = null, feature;
-	List exprs;
-	AbstractVar objVar;
-	int sChar = -1, eChar = -1;
+	Expression feature;
 }
 	:	LBRACE
 		(
-		    { sChar = getCharIndex(); }
 		    feature = feature[scope, terms]
 		    COLON
 		    (

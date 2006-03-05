@@ -3,9 +3,15 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="TefkatConfig"
     nsURI="http://www.dstc.edu.au:8080/qvt/TefkatConfig.ecore" nsPrefix="config">
+  <eAnnotations source="Copyright" references="#/">
+    <details key="Copyright" value="michael lawley"/>
+    <details key="Licence" value="Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA"/>
+  </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Configuration">
     <eStructuralFeatures xsi:type="ecore:EReference" name="transformationTasks" upperBound="-1"
         eType="#//TransformationTask" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="PackageClasses" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TransformationTask">
     <eStructuralFeatures xsi:type="ecore:EReference" name="transformation" lowerBound="1"

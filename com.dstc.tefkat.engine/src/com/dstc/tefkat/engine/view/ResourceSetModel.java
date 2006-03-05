@@ -1,9 +1,17 @@
 /*
- * Created on 8/09/2003
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Contributors:
+ *     michael lawley
+ *
+ *
+ *
  */
+
 package com.dstc.tefkat.engine.view;
 
 import java.awt.EventQueue;
@@ -22,10 +30,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 /**
  * @author lawley
  *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public final class ResourceSetModel extends AbstractResourceModel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6765862732137235095L;
+    
     private List resources = null;
 
     protected final class ResourceListener implements Adapter {

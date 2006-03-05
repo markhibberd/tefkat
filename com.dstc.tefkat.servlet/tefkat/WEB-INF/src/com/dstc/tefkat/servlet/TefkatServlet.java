@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -261,8 +260,11 @@ public class TefkatServlet extends HttpServlet {
 
         Tefkat engine = new Tefkat();
         engine.registerFactory(
-            "qvt",
-            new TefkatResourceFactory(engine.getResourceSet()));
+                "qvt",
+                new TefkatResourceFactory(engine.getResourceSet()));
+        engine.registerFactory(
+                "tfk",
+                new TefkatResourceFactory(engine.getResourceSet()));
 
         Extent xmorph = engine.getExtent(xmorphURI);
         Extent src = engine.getExtent(srcURI);
@@ -278,7 +280,7 @@ public class TefkatServlet extends HttpServlet {
         OutputStream out = resp.getOutputStream();
         try {
 	    // Use same extent for target and tracking model instances
-            engine.transform(xmorph, src, tgt, tgt);
+            engine.transform(xmorph, new Extent[] {src}, new Extent[] {tgt}, tgt);
             resp.setContentType("text/xml");
             tgt.getResource().save(out, SERIALIZATION_OPTIONS);
             out.close();
@@ -299,8 +301,11 @@ public class TefkatServlet extends HttpServlet {
 
         Tefkat engine = new Tefkat();
         engine.registerFactory(
-            "qvt",
-            new TefkatResourceFactory(engine.getResourceSet()));
+                "qvt",
+                new TefkatResourceFactory(engine.getResourceSet()));
+        engine.registerFactory(
+                "tfk",
+                new TefkatResourceFactory(engine.getResourceSet()));
 
         Extent src = engine.getExtent(xmorphURI);
         resp.setContentType("text/xml");
@@ -328,6 +333,7 @@ public class TefkatServlet extends HttpServlet {
         map.put("xmi", xmiFactory);
         map.put("xmorph", xmiFactory);
         map.put("qvt", new TefkatResourceFactory(resourceSet));
+        map.put("tfk", new TefkatResourceFactory(resourceSet));
 
         URI uri = URI.createURI(xmorphURI);
         Resource resource = resourceSet.getResource(uri, true);

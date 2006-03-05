@@ -6,28 +6,22 @@
  * <copyright>
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2005/06/27 06:55:56 lawley Exp $
  */
 -->
 
-<plugin
-    name = "%pluginName"
-    id = "com.dstc.tefkat.config.edit"
-    version = "2.0.3"
-    provider-name = "%providerName"
-    class = "com.dstc.tefkat.config.TefkatConfig.provider.TefkatConfigEditPlugin$Implementation">
-
-  <requires>
-    <import plugin="org.eclipse.core.runtime.compatibility" />
-    <import plugin="org.eclipse.emf.edit" export="true"/>
-    <import plugin="com.dstc.tefkat.config" export="true"/>
-  </requires>
-
-  <runtime>
-    <library name="tefkat_config_edit.jar">
-       <export name="*"/>
-    </library>
-  </runtime>
+<plugin>
+   <extension
+         point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+    <factory 
+       uri = "http://www.dstc.edu.au:8080/qvt/TefkatConfig.ecore" 
+       class = "com.dstc.tefkat.config.TefkatConfig.provider.TefkatConfigItemProviderAdapterFactory" 
+       supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+   </extension>
 
 </plugin>
 

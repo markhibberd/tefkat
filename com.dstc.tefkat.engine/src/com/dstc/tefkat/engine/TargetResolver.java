@@ -1,18 +1,17 @@
-/**
- *  TargetResolver.java
+/*
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- *  TargetResolver performs SLDNF resolution on a provided goal, creating an SLDNF
- *  resolution tree.  The success nodes of this tree represent different
- *  variable bindings that make the provided goal true.
+ * Contributors:
+ *     michael lawley
+ *     David Hearnden
  *
- *  Example:
- *      TargetResolver r = new TargetResolver();
- *      Tree t = r.resolve(goal, binding);
- *      Collection solutions = r.solutions(t, vars);
  *
- *  @author David Hearnden, Aug 2003
- *  @author michael lawley, Aug 2003 -- modified for QVT model
  */
+
 package com.dstc.tefkat.engine;
 
 import org.eclipse.emf.ecore.EClass;
@@ -44,10 +43,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *  TargetResolver performs SLDNF resolution on a provided goal, creating an SLDNF resolution tree.
+ *  The success nodes of this tree represent different
+ *  variable bindings that make the provided goal true.
+ *
+ *  Example:
+ *      TargetResolver r = new TargetResolver();
+ *      Tree t = r.resolve(goal, binding);
+ *      Collection solutions = r.solutions(t, vars);
+ *
+ *  @author David Hearnden, Aug 2003
+ *  @author michael lawley, Aug 2003 -- modified for QVT model
+ */
 class TargetResolver extends AbstractResolver {
 
     private static final String NOT_BOUND_MESSAGE = " was not bound in source term!";
-    private static final String DELAYING_MESSAGE = " was not bound in source term!  Attempting to delay and continue.";
+//    private static final String DELAYING_MESSAGE = " was not bound in source term!  Attempting to delay and continue.";
     static {
         // Ensure EMF runtime knows about the Trace metamodel
         TracePackageImpl.init();

@@ -2,7 +2,6 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AttributeImpl.java,v 1.3 2005/05/11 06:23:47 lawley Exp $
  */
 package com.dstc.xmlModel.impl;
 
@@ -44,7 +43,7 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "(c) DSTC Pty Ltd";
+    public static final String copyright = "(c) michael lawley";
 
     /**
      * The cached value of the '{@link #getNamespace() <em>Namespace</em>}' reference.

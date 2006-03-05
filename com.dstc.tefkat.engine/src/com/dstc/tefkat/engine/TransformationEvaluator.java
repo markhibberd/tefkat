@@ -1,3 +1,17 @@
+/*
+ * Copyright (c) 2005- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Contributors:
+ *     michael lawley
+ *
+ *
+ *
+ */
+
 package com.dstc.tefkat.engine;
 
 import java.util.ArrayList;
@@ -38,22 +52,19 @@ import com.dstc.tefkat.model.impl.TermImpl;
 
 public class TransformationEvaluator {
 
-    private List listeners;
-
     private Map sourceXMap = new HashMap();
 
     private Map sourceSMap = new HashMap();
 
     private Map targetMap = new HashMap();
 
-    public TransformationEvaluator(List listeners) {
-        this.listeners = listeners;
+    public TransformationEvaluator() {
     }
 
     public void evaluate(Transformation transformation, Binding context) {
         buildSourceGoals(transformation);
         buildTargetGoals(transformation);
-        RTTerm goal = buildTransformationGoal(transformation);
+//        RTTerm goal = buildTransformationGoal(transformation);
 
         // resolve(goal, context);
     }
@@ -149,23 +160,24 @@ public class TransformationEvaluator {
         }
     }
 
-    private RTTerm buildTransformationGoal(Transformation transformation) {
-        RTTerm rtGoal = new RTOrTerm();
-        List goalTerms = rtGoal.getTerms();
-        for (Iterator ruleItr = transformation.getTRule().iterator(); ruleItr
-                .hasNext();) {
-            TRule rule = (TRule) ruleItr.next();
-            if (true/* !rule.isAbstract() */) {     // TODO add abstract flag to model
-                RTTerm rtRule = new RTAndTerm();
-                List ruleTerms = rtRule.getTerms();
-                ruleTerms.addAll((List) sourceSMap.get(rule));
-                ruleTerms.add(targetMap.get(rule));
-                goalTerms.add(rtRule);
-            }
-        }
+//    private RTTerm buildTransformationGoal(Transformation transformation) {
+//        RTTerm rtGoal = new RTOrTerm();
+//        List goalTerms = rtGoal.getTerms();
+//        for (Iterator ruleItr = transformation.getTRule().iterator(); ruleItr
+//                .hasNext();) {
+//            TRule rule = (TRule) ruleItr.next();
+//            if (true/* !rule.isAbstract() */) {     // TODO add abstract flag to model
+//                RTTerm rtRule = new RTAndTerm();
+//                List ruleTerms = rtRule.getTerms();
+//                ruleTerms.addAll((List) sourceSMap.get(rule));
+//                ruleTerms.add(targetMap.get(rule));
+//                goalTerms.add(rtRule);
+//            }
+//        }
+//
+//        return rtGoal;
+//    }
 
-        return rtGoal;
-    }
 }
 
 abstract class RTTerm extends TermImpl {

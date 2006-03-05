@@ -7,7 +7,7 @@
     <eOperations name="contains" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="instance" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     </eOperations>
-    <eOperations name="getObjectsByClass" upperBound="-1" eType="#//List">
+    <eOperations name="getObjectsByClass" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
       <eParameters name="theClass" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       <eParameters name="isExactly" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
@@ -27,8 +27,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resources" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="List" instanceClassName="java.util.List"
-      serializable="false"/>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractVar" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="scope" eType="#//VarScope"
         eOpposite="#//VarScope/vars"/>

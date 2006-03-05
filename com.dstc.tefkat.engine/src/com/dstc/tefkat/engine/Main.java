@@ -1,9 +1,17 @@
 /*
- * Created on 21/04/2004
+ * Copyright (c) 2004- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Contributors:
+ *     michael lawley
+ *
+ *
+ *
  */
+
 package com.dstc.tefkat.engine;
 
 import java.awt.Dimension;
@@ -39,7 +47,10 @@ import com.dstc.tefkat.engine.view.RadialTreeLayoutAlgorithm;
 import com.dstc.tefkat.engine.view.ResourceSetModel;
 import com.dstc.tefkat.engine.view.ResourceView;
 import com.dstc.tefkat.engine.view.Visualiser;
+import com.dstc.tefkat.model.ContainerExtent;
+import com.dstc.tefkat.model.Extent;
 import com.dstc.tefkat.model.PatternUse;
+import com.dstc.tefkat.model.ReferenceExtent;
 import com.dstc.tefkat.model.TRule;
 import com.dstc.tefkat.model.Term;
 import com.dstc.tefkat.model.Transformation;
@@ -48,12 +59,10 @@ import com.dstc.tefkat.model.parser.TefkatResourceFactory;
 /**
  * @author lawley
  * 
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class Main {
 
-    private static final int DELAY = 100;
+    private static final int DELAY = 1;
 
     private static final TefkatResourceFactory TEFKAT_RESOURCE_FACTORY = new TefkatResourceFactory();
     
@@ -109,8 +118,9 @@ public class Main {
                 System.err.println("Warn: " + message);
             }
             
-            public void error(String message) {
+            public void error(String message, Throwable cause) {
                 System.err.println("Error: " + message);
+                cause.printStackTrace();
             }
 
         });
@@ -201,7 +211,13 @@ public class Main {
                 for (Iterator configItr = config.getContents().iterator(); configItr.hasNext(); ) {
                     Object obj = configItr.next();
                     if (obj instanceof Configuration) {
-                        for (Iterator transItr = ((Configuration) obj).getTransformationTasks().iterator(); transItr.hasNext(); ) {
+                    	Configuration configuration = (Configuration) obj;
+                    	for (Iterator pkgClsItr = configuration.getPackageClasses().iterator(); pkgClsItr.hasNext(); ) {
+                    		String pkgClsName = (String) pkgClsItr.next();
+                    		Class pkgClass = Class.forName(pkgClsName);
+                    		pkgClass.getDeclaredField("eINSTANCE").get(null);
+                    	}
+                        for (Iterator transItr = configuration.getTransformationTasks().iterator(); transItr.hasNext(); ) {
                             TransformationTask task = (TransformationTask) transItr.next();
 
                             if (task.isEnabled()) {
@@ -365,22 +381,40 @@ public class Main {
                 System.err.println("Loaded " + res.getURI());
             }
             
-            public void transformationStarted(Transformation transformation, Resource[] srcs, Resource[] tgts, Resource trace, Binding context) {
+            public void transformationStarted(Transformation transformation, Extent[] srcs, Extent[] tgts, Extent trace, Binding context) {
                 if (mapVis) {
                     model.addResource(transformation.eResource());
                 }
                 if (sourceVis) {
                     for (int i = 0; i < srcs.length; i++) {
-                        model.addResource(srcs[i]);
+                    	if (srcs[i] instanceof ContainerExtent) {
+                    		model.addResource(((ContainerExtent) srcs[i]).getResource());
+                    	} else {
+                    		for (Iterator itr = ((ReferenceExtent) srcs[i]).getResources().iterator(); itr.hasNext(); ) {
+                    			model.addResource((Resource) itr.next());
+                    		}
+                    	}
                     }
                 }
                 if (targetVis) {
                     for (int i = 0; i < tgts.length; i++) {
-                        model.addResource(tgts[i]);
+                    	if (tgts[i] instanceof ContainerExtent) {
+                    		model.addResource(((ContainerExtent) tgts[i]).getResource());
+                    	} else {
+                    		for (Iterator itr = ((ReferenceExtent) tgts[i]).getResources().iterator(); itr.hasNext(); ) {
+                    			model.addResource((Resource) itr.next());
+                    		}
+                    	}
                     }
                 }
                 if (traceVis) {
-                    model.addResource(trace);
+                	if (trace instanceof ContainerExtent) {
+                		model.addResource(((ContainerExtent) trace).getResource());
+                	} else {
+                		for (Iterator itr = ((ReferenceExtent) trace).getResources().iterator(); itr.hasNext(); ) {
+                			model.addResource((Resource) itr.next());
+                		}
+                	}
                 }
             }
 
@@ -445,6 +479,7 @@ public class Main {
 
             if (layout) {
                 final LayoutThread layoutThread = new LayoutThread(props, layoutAlg);
+                layoutThread.start();
                 
                 graph.getModel().addGraphModelListener(
                         new GraphModelListener() {
@@ -454,8 +489,8 @@ public class Main {
                                     return;
                                 }
                                 if (graph.getModel().getRootCount() > 0) {
-                                    // layoutThread.requestLayout();
-                                    layoutAlg.perform(graph, true, props);
+                                    layoutThread.requestLayout();
+                                    // layoutAlg.perform(graph, true, props);
                                 }
                             }
                         });
@@ -521,12 +556,16 @@ public class Main {
                     }
                 }
                 if (doLayout) {
+                	long start = System.currentTimeMillis();
                     try {
                         System.err.println("start...");
                         layoutAlg.perform(graph, true, props);
                         System.err.println("...stop");
                     } catch (Throwable t) {
                         t.printStackTrace();
+                    } finally {
+                    	long end = System.currentTimeMillis();
+                    	System.err.println("layout time: " + (end - start));
                     }
                 }
             }

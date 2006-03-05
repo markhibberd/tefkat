@@ -1,5 +1,13 @@
 /*
- * Created on 1/04/2003
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Contributors:
+ *     michael lawley
+ *
  *
  */
 package com.dstc.tefkat.model.parser;
@@ -56,12 +64,12 @@ public abstract class Main {
         // create the filter
         TokenStreamHiddenTokenFilter filter = new TokenStreamHiddenTokenFilter(lexer);
         // hide not discard
-        //filter.hide(XmorphParser.COMMENT);
+        //filter.hide(TefkatParser.COMMENT);
         filter.hide(TefkatParser.WS);
         
         TefkatParser parser = new TefkatParser(filter);
         try {
-            URI uri = URI.createURI(name + ".xmorph");
+            URI uri = URI.createURI(name + ".tefkat");
             Resource resource = resourceSet.createResource(uri);
             System.err.println("Enter transformation:");
             Transformation t = parser.transformation(resource);
@@ -77,7 +85,7 @@ public abstract class Main {
             System.err.println("OK!");
                     
             if (dumpXMI) {
-                dumpXMI(name + ".xmorph", t);
+                dumpXMI(name + ".tefkat", t);
             }
             
         } catch (RecognitionException e) {

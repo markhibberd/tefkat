@@ -3,7 +3,7 @@
 <plugin
    id="com.dstc.tefkat.plugin"
    name="%pluginName"
-   version="2.0.9.01"
+   version="2.1.0.1"
    provider-name="%providerName"
    class="com.dstc.tefkat.plugin.TefkatPlugin">
 
@@ -37,6 +37,8 @@
       <import plugin="com.dstc.tefkat.config.editor" export="true"/>
       <import plugin="com.dstc.tefkat.model.parser" export="true"/>
       <import plugin="com.dstc.tefkat.model" export="true"/>
+      <import plugin="com.dstc.tefkat.model.editor" export="true"/>
+      <import plugin="com.dstc.tefkat.model.edit" export="true"/>
    </requires>
    <extension-point id="functionSet" name="Function Set" schema="schema/functionSet.exsd"/>
 
@@ -137,9 +139,15 @@
    <extension
          point="org.eclipse.ui.views">
       <view
+            category="com.dstc.emf.view"
             class="com.dstc.tefkat.plugin.TefkatView"
-            name="Tefkat View"
-            id="com.dstc.tefkat.plugin.TefkatView"/>
+            id="com.dstc.tefkat.plugin.TefkatView"
+            name="Tefkat View"/>
+      <view
+            category="com.dstc.emf.view"
+            class="com.dstc.tefkat.plugin.TefkatTransformationView"
+            id="com.dstc.tefkat.plugin.TefkatTransformationView"
+            name="Tefkat Transformation View"/>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">

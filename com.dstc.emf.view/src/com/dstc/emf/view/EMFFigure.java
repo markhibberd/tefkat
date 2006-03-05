@@ -1,9 +1,15 @@
 /*
- * Created on 12/01/2005
+ * Copyright (c) 2005- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Contributors:
+ *     michael lawley
+ *
  */
+
 package com.dstc.emf.view;
 
 import java.util.ArrayList;
@@ -19,6 +25,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -32,8 +39,6 @@ import org.eclipse.ui.PlatformUI;
 /**
  * @author lawley
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class EMFFigure extends Figure {
     
@@ -41,9 +46,12 @@ public class EMFFigure extends Figure {
 
     public final static FigureConfigurationAction DEFAULT_NODE_CONFIG = new FigureConfigurationAction() {
         
+    	final private Dimension D = new Dimension(8, 8);
         private Color classColor = new Color(null,255,206,255);
 
         public void configure(IFigure figure) {
+        	figure.setMinimumSize(D);
+        	figure.setSize(D);
             figure.setBorder(new LineBorder(ColorConstants.black,1));
             figure.setBackgroundColor(classColor);
             figure.setOpaque(true);
@@ -176,8 +184,8 @@ public class EMFFigure extends Figure {
         PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
             public void run() {
                 try {
-                    System.out.println("Add");
-                    System.out.println("Before Nodes + Edges: " + getChildren().size());
+//                    System.out.println("Add");
+//                    System.out.println("Before Nodes + Edges: " + getChildren().size());
                     addAllNodes(null, nodes);
                     addReferencedObjects();
                     addReferenceEdges();
@@ -187,7 +195,7 @@ public class EMFFigure extends Figure {
                     // viewer.repaint();
                     invalidate();
                     repaint();
-                    System.out.println("After  Nodes + Edges: " + getChildren().size());
+//                    System.out.println("After  Nodes + Edges: " + getChildren().size());
                 } catch (Throwable e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -199,14 +207,14 @@ public class EMFFigure extends Figure {
     protected void removeAll(final List nodes) {
         PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
             public void run() {
-                System.out.println("Remove");
-                System.out.println("Before Nodes + Edges = " + getChildren().size());
+//                System.out.println("Remove");
+//                System.out.println("Before Nodes + Edges = " + getChildren().size());
                 removeAllNodes(nodes);
 
                 depthBound();
                 invalidate();
                 repaint();
-                System.out.println("After  Nodes + Edges = " + getChildren().size());
+//                System.out.println("After  Nodes + Edges = " + getChildren().size());
             }
         });
     }
@@ -254,7 +262,7 @@ public class EMFFigure extends Figure {
                 continue;
             }
 
-            Figure fig = addNode(obj);
+            addNode(obj);
 
 //            // add edge from parent if there is one
 //            if (null != parent) {
@@ -312,11 +320,11 @@ public class EMFFigure extends Figure {
                 if (null != radialLayout) {
                     NodeFigure fig = (NodeFigure) connector.getTargetAnchor().getOwner();
                     radialLayout.setConstraint(fig, null);
-                    System.out.println("-- " + fig + "\t" + connector.getSourceAnchor().getOwner());
+//                    System.out.println("-- " + fig + "\t" + connector.getSourceAnchor().getOwner());
                 }
                 remove(connector);
                 edgeFigMap.remove(key);
-                if (DEBUG) System.out.println("Del edge: " + key);
+//                if (DEBUG) System.out.println("Del edge: " + key);
 //            } else {
 //                System.out.println("No edge: " + key);
             }
@@ -351,6 +359,8 @@ public class EMFFigure extends Figure {
     }
     
     private void addEdge(EObject source, EObject target, boolean containment) {
+    	if (!containment) return;
+    	
         String keyST = edgeKey(source, target, containment);
 //        String keyTS = edgeKey(source, target, containment);
         
@@ -365,11 +375,11 @@ public class EMFFigure extends Figure {
 //            edgeFigMap.put(keyTS, connector);
             add(connector);
             
-            if (DEBUG) System.out.println("New edge: " + keyST);
+//            if (DEBUG) System.out.println("New edge: " + keyST);
 
             if (containment && null != radialLayout) {
                 radialLayout.setConstraint(targetFigure, sourceFigure);
-                System.out.println("++n " + targetFigure + "\t" + sourceFigure);
+//                System.out.println("++n " + targetFigure + "\t" + sourceFigure);
             }
         } else if (null == connector.getParent()) {
             add(connector);
@@ -379,12 +389,12 @@ public class EMFFigure extends Figure {
                 NodeFigure targetFigure = addNode(target);
                 
                 radialLayout.setConstraint(targetFigure, sourceFigure);
-                System.out.println("++o " + targetFigure + "\t" + sourceFigure);
+//                System.out.println("++o " + targetFigure + "\t" + sourceFigure);
             }
             
-            if (DEBUG) System.out.println("Add edge: " + keyST);
+//            if (DEBUG) System.out.println("Add edge: " + keyST);
         } else {
-            if (DEBUG) System.out.println("Old edge: " + keyST);
+//            if (DEBUG) System.out.println("Old edge: " + keyST);
         }
     }
     

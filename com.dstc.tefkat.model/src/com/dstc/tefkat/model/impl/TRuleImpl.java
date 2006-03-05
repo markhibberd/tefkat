@@ -1,8 +1,14 @@
-/**
- * <copyright>
- * </copyright>
+/*
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * $Id: TRuleImpl.java,v 1.6 2005/06/07 07:02:19 lawley Exp $
+ * Contributors:
+ *     michael lawley
+ *
+ *
  */
 package com.dstc.tefkat.model.impl;
 
@@ -49,429 +55,429 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public class TRuleImpl extends VarScopeImpl implements TRule {
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public static final String copyright = "Copyright DSTC Pty Ltd 2003-2005";
+	 * @generated
+	 */
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
 
-    /**
-     * The cached value of the '{@link #getSrc() <em>Src</em>}' containment reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getSrc() <em>Src</em>}' containment reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSrc()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSrc()
+	 * @generated
+	 * @ordered
+	 */
     protected SourceTerm src = null;
 
-    /**
-     * The cached value of the '{@link #getTgt() <em>Tgt</em>}' containment reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getTgt() <em>Tgt</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getTgt()
-     * @generated
-     * @ordered
-     */
+	 * @see #getTgt()
+	 * @generated
+	 * @ordered
+	 */
     protected EList tgt = null;
 
-    /**
-     * The cached value of the '{@link #getExtended() <em>Extended</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getExtended() <em>Extended</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getExtended()
-     * @generated
-     * @ordered
-     */
+	 * @see #getExtended()
+	 * @generated
+	 * @ordered
+	 */
     protected EList extended = null;
 
-    /**
-     * The cached value of the '{@link #getSuperseded() <em>Superseded</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getSuperseded() <em>Superseded</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSuperseded()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSuperseded()
+	 * @generated
+	 * @ordered
+	 */
     protected EList superseded = null;
 
-    /**
-     * The default value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isAbstract()
-     * @generated
-     * @ordered
-     */
+	 * @see #isAbstract()
+	 * @generated
+	 * @ordered
+	 */
     protected static final boolean ABSTRACT_EDEFAULT = false;
 
-    /**
-     * The cached value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isAbstract()
-     * @generated
-     * @ordered
-     */
+	 * @see #isAbstract()
+	 * @generated
+	 * @ordered
+	 */
     protected boolean abstract_ = ABSTRACT_EDEFAULT;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected TRuleImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getTRule();
-    }
+		return TefkatPackage.eINSTANCE.getTRule();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Transformation getTransformation() {
-        if (eContainerFeatureID != TefkatPackage.TRULE__TRANSFORMATION) return null;
-        return (Transformation)eContainer;
-    }
+		if (eContainerFeatureID != TefkatPackage.TRULE__TRANSFORMATION) return null;
+		return (Transformation)eContainer;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setTransformation(Transformation newTransformation) {
-        if (newTransformation != eContainer || (eContainerFeatureID != TefkatPackage.TRULE__TRANSFORMATION && newTransformation != null)) {
-            if (EcoreUtil.isAncestor(this, newTransformation))
-                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-            NotificationChain msgs = null;
-            if (eContainer != null)
-                msgs = eBasicRemoveFromContainer(msgs);
-            if (newTransformation != null)
-                msgs = ((InternalEObject)newTransformation).eInverseAdd(this, TefkatPackage.TRANSFORMATION__TRULE, Transformation.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newTransformation, TefkatPackage.TRULE__TRANSFORMATION, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.TRULE__TRANSFORMATION, newTransformation, newTransformation));
-    }
+		if (newTransformation != eContainer || (eContainerFeatureID != TefkatPackage.TRULE__TRANSFORMATION && newTransformation != null)) {
+			if (EcoreUtil.isAncestor(this, newTransformation))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eContainer != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newTransformation != null)
+				msgs = ((InternalEObject)newTransformation).eInverseAdd(this, TefkatPackage.TRANSFORMATION__TRULE, Transformation.class, msgs);
+			msgs = eBasicSetContainer((InternalEObject)newTransformation, TefkatPackage.TRULE__TRANSFORMATION, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.TRULE__TRANSFORMATION, newTransformation, newTransformation));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public SourceTerm getSrc() {
-        return src;
-    }
+		return src;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetSrc(SourceTerm newSrc, NotificationChain msgs) {
-        SourceTerm oldSrc = src;
-        src = newSrc;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TefkatPackage.TRULE__SRC, oldSrc, newSrc);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		SourceTerm oldSrc = src;
+		src = newSrc;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TefkatPackage.TRULE__SRC, oldSrc, newSrc);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setSrc(SourceTerm newSrc) {
-        if (newSrc != src) {
-            NotificationChain msgs = null;
-            if (src != null)
-                msgs = ((InternalEObject)src).eInverseRemove(this, TefkatPackage.SOURCE_TERM__TRULE_SRC, SourceTerm.class, msgs);
-            if (newSrc != null)
-                msgs = ((InternalEObject)newSrc).eInverseAdd(this, TefkatPackage.SOURCE_TERM__TRULE_SRC, SourceTerm.class, msgs);
-            msgs = basicSetSrc(newSrc, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.TRULE__SRC, newSrc, newSrc));
-    }
+		if (newSrc != src) {
+			NotificationChain msgs = null;
+			if (src != null)
+				msgs = ((InternalEObject)src).eInverseRemove(this, TefkatPackage.SOURCE_TERM__TRULE_SRC, SourceTerm.class, msgs);
+			if (newSrc != null)
+				msgs = ((InternalEObject)newSrc).eInverseAdd(this, TefkatPackage.SOURCE_TERM__TRULE_SRC, SourceTerm.class, msgs);
+			msgs = basicSetSrc(newSrc, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.TRULE__SRC, newSrc, newSrc));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getTgt() {
-        if (tgt == null) {
-            tgt = new EObjectContainmentWithInverseEList(TargetTerm.class, this, TefkatPackage.TRULE__TGT, TefkatPackage.TARGET_TERM__TRULE_TGT);
-        }
-        return tgt;
-    }
+		if (tgt == null) {
+			tgt = new EObjectContainmentWithInverseEList(TargetTerm.class, this, TefkatPackage.TRULE__TGT, TefkatPackage.TARGET_TERM__TRULE_TGT);
+		}
+		return tgt;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getExtended() {
-        if (extended == null) {
-            extended = new EObjectResolvingEList(TRule.class, this, TefkatPackage.TRULE__EXTENDED);
-        }
-        return extended;
-    }
+		if (extended == null) {
+			extended = new EObjectResolvingEList(TRule.class, this, TefkatPackage.TRULE__EXTENDED);
+		}
+		return extended;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getSuperseded() {
-        if (superseded == null) {
-            superseded = new EObjectResolvingEList(TRule.class, this, TefkatPackage.TRULE__SUPERSEDED);
-        }
-        return superseded;
-    }
+		if (superseded == null) {
+			superseded = new EObjectResolvingEList(TRule.class, this, TefkatPackage.TRULE__SUPERSEDED);
+		}
+		return superseded;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean isAbstract() {
-        return abstract_;
-    }
+		return abstract_;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setAbstract(boolean newAbstract) {
-        boolean oldAbstract = abstract_;
-        abstract_ = newAbstract;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.TRULE__ABSTRACT, oldAbstract, abstract_));
-    }
+		boolean oldAbstract = abstract_;
+		abstract_ = newAbstract;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.TRULE__ABSTRACT, oldAbstract, abstract_));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.TRULE__VARS:
-                    return ((InternalEList)getVars()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.TRULE__TRANSFORMATION:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.TRULE__TRANSFORMATION, msgs);
-                case TefkatPackage.TRULE__SRC:
-                    if (src != null)
-                        msgs = ((InternalEObject)src).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TefkatPackage.TRULE__SRC, null, msgs);
-                    return basicSetSrc((SourceTerm)otherEnd, msgs);
-                case TefkatPackage.TRULE__TGT:
-                    return ((InternalEList)getTgt()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case TefkatPackage.TRULE__VARS:
+					return ((InternalEList)getVars()).basicAdd(otherEnd, msgs);
+				case TefkatPackage.TRULE__TRANSFORMATION:
+					if (eContainer != null)
+						msgs = eBasicRemoveFromContainer(msgs);
+					return eBasicSetContainer(otherEnd, TefkatPackage.TRULE__TRANSFORMATION, msgs);
+				case TefkatPackage.TRULE__SRC:
+					if (src != null)
+						msgs = ((InternalEObject)src).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TefkatPackage.TRULE__SRC, null, msgs);
+					return basicSetSrc((SourceTerm)otherEnd, msgs);
+				case TefkatPackage.TRULE__TGT:
+					return ((InternalEList)getTgt()).basicAdd(otherEnd, msgs);
+				default:
+					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		if (eContainer != null)
+			msgs = eBasicRemoveFromContainer(msgs);
+		return eBasicSetContainer(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.TRULE__VARS:
-                    return ((InternalEList)getVars()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.TRULE__TRANSFORMATION:
-                    return eBasicSetContainer(null, TefkatPackage.TRULE__TRANSFORMATION, msgs);
-                case TefkatPackage.TRULE__SRC:
-                    return basicSetSrc(null, msgs);
-                case TefkatPackage.TRULE__TGT:
-                    return ((InternalEList)getTgt()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case TefkatPackage.TRULE__VARS:
+					return ((InternalEList)getVars()).basicRemove(otherEnd, msgs);
+				case TefkatPackage.TRULE__TRANSFORMATION:
+					return eBasicSetContainer(null, TefkatPackage.TRULE__TRANSFORMATION, msgs);
+				case TefkatPackage.TRULE__SRC:
+					return basicSetSrc(null, msgs);
+				case TefkatPackage.TRULE__TGT:
+					return ((InternalEList)getTgt()).basicRemove(otherEnd, msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.TRULE__TRANSFORMATION:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, TefkatPackage.TRANSFORMATION__TRULE, Transformation.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
+		if (eContainerFeatureID >= 0) {
+			switch (eContainerFeatureID) {
+				case TefkatPackage.TRULE__TRANSFORMATION:
+					return eContainer.eInverseRemove(this, TefkatPackage.TRANSFORMATION__TRULE, Transformation.class, msgs);
+				default:
+					return eDynamicBasicRemoveFromContainer(msgs);
+			}
+		}
+		return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE__VARS:
-                return getVars();
-            case TefkatPackage.TRULE__NAME:
-                return getName();
-            case TefkatPackage.TRULE__COMMENTS:
-                return getComments();
-            case TefkatPackage.TRULE__TRANSFORMATION:
-                return getTransformation();
-            case TefkatPackage.TRULE__SRC:
-                return getSrc();
-            case TefkatPackage.TRULE__TGT:
-                return getTgt();
-            case TefkatPackage.TRULE__EXTENDED:
-                return getExtended();
-            case TefkatPackage.TRULE__SUPERSEDED:
-                return getSuperseded();
-            case TefkatPackage.TRULE__ABSTRACT:
-                return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.TRULE__VARS:
+				return getVars();
+			case TefkatPackage.TRULE__NAME:
+				return getName();
+			case TefkatPackage.TRULE__COMMENTS:
+				return getComments();
+			case TefkatPackage.TRULE__TRANSFORMATION:
+				return getTransformation();
+			case TefkatPackage.TRULE__SRC:
+				return getSrc();
+			case TefkatPackage.TRULE__TGT:
+				return getTgt();
+			case TefkatPackage.TRULE__EXTENDED:
+				return getExtended();
+			case TefkatPackage.TRULE__SUPERSEDED:
+				return getSuperseded();
+			case TefkatPackage.TRULE__ABSTRACT:
+				return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
+		}
+		return eDynamicGet(eFeature, resolve);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE__VARS:
-                getVars().clear();
-                getVars().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRULE__NAME:
-                setName((String)newValue);
-                return;
-            case TefkatPackage.TRULE__COMMENTS:
-                getComments().clear();
-                getComments().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRULE__TRANSFORMATION:
-                setTransformation((Transformation)newValue);
-                return;
-            case TefkatPackage.TRULE__SRC:
-                setSrc((SourceTerm)newValue);
-                return;
-            case TefkatPackage.TRULE__TGT:
-                getTgt().clear();
-                getTgt().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRULE__EXTENDED:
-                getExtended().clear();
-                getExtended().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRULE__SUPERSEDED:
-                getSuperseded().clear();
-                getSuperseded().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRULE__ABSTRACT:
-                setAbstract(((Boolean)newValue).booleanValue());
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.TRULE__VARS:
+				getVars().clear();
+				getVars().addAll((Collection)newValue);
+				return;
+			case TefkatPackage.TRULE__NAME:
+				setName((String)newValue);
+				return;
+			case TefkatPackage.TRULE__COMMENTS:
+				getComments().clear();
+				getComments().addAll((Collection)newValue);
+				return;
+			case TefkatPackage.TRULE__TRANSFORMATION:
+				setTransformation((Transformation)newValue);
+				return;
+			case TefkatPackage.TRULE__SRC:
+				setSrc((SourceTerm)newValue);
+				return;
+			case TefkatPackage.TRULE__TGT:
+				getTgt().clear();
+				getTgt().addAll((Collection)newValue);
+				return;
+			case TefkatPackage.TRULE__EXTENDED:
+				getExtended().clear();
+				getExtended().addAll((Collection)newValue);
+				return;
+			case TefkatPackage.TRULE__SUPERSEDED:
+				getSuperseded().clear();
+				getSuperseded().addAll((Collection)newValue);
+				return;
+			case TefkatPackage.TRULE__ABSTRACT:
+				setAbstract(((Boolean)newValue).booleanValue());
+				return;
+		}
+		eDynamicSet(eFeature, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE__VARS:
-                getVars().clear();
-                return;
-            case TefkatPackage.TRULE__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case TefkatPackage.TRULE__COMMENTS:
-                getComments().clear();
-                return;
-            case TefkatPackage.TRULE__TRANSFORMATION:
-                setTransformation((Transformation)null);
-                return;
-            case TefkatPackage.TRULE__SRC:
-                setSrc((SourceTerm)null);
-                return;
-            case TefkatPackage.TRULE__TGT:
-                getTgt().clear();
-                return;
-            case TefkatPackage.TRULE__EXTENDED:
-                getExtended().clear();
-                return;
-            case TefkatPackage.TRULE__SUPERSEDED:
-                getSuperseded().clear();
-                return;
-            case TefkatPackage.TRULE__ABSTRACT:
-                setAbstract(ABSTRACT_EDEFAULT);
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.TRULE__VARS:
+				getVars().clear();
+				return;
+			case TefkatPackage.TRULE__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case TefkatPackage.TRULE__COMMENTS:
+				getComments().clear();
+				return;
+			case TefkatPackage.TRULE__TRANSFORMATION:
+				setTransformation((Transformation)null);
+				return;
+			case TefkatPackage.TRULE__SRC:
+				setSrc((SourceTerm)null);
+				return;
+			case TefkatPackage.TRULE__TGT:
+				getTgt().clear();
+				return;
+			case TefkatPackage.TRULE__EXTENDED:
+				getExtended().clear();
+				return;
+			case TefkatPackage.TRULE__SUPERSEDED:
+				getSuperseded().clear();
+				return;
+			case TefkatPackage.TRULE__ABSTRACT:
+				setAbstract(ABSTRACT_EDEFAULT);
+				return;
+		}
+		eDynamicUnset(eFeature);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE__VARS:
-                return vars != null && !vars.isEmpty();
-            case TefkatPackage.TRULE__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case TefkatPackage.TRULE__COMMENTS:
-                return comments != null && !comments.isEmpty();
-            case TefkatPackage.TRULE__TRANSFORMATION:
-                return getTransformation() != null;
-            case TefkatPackage.TRULE__SRC:
-                return src != null;
-            case TefkatPackage.TRULE__TGT:
-                return tgt != null && !tgt.isEmpty();
-            case TefkatPackage.TRULE__EXTENDED:
-                return extended != null && !extended.isEmpty();
-            case TefkatPackage.TRULE__SUPERSEDED:
-                return superseded != null && !superseded.isEmpty();
-            case TefkatPackage.TRULE__ABSTRACT:
-                return abstract_ != ABSTRACT_EDEFAULT;
-        }
-        return eDynamicIsSet(eFeature);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.TRULE__VARS:
+				return vars != null && !vars.isEmpty();
+			case TefkatPackage.TRULE__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case TefkatPackage.TRULE__COMMENTS:
+				return comments != null && !comments.isEmpty();
+			case TefkatPackage.TRULE__TRANSFORMATION:
+				return getTransformation() != null;
+			case TefkatPackage.TRULE__SRC:
+				return src != null;
+			case TefkatPackage.TRULE__TGT:
+				return tgt != null && !tgt.isEmpty();
+			case TefkatPackage.TRULE__EXTENDED:
+				return extended != null && !extended.isEmpty();
+			case TefkatPackage.TRULE__SUPERSEDED:
+				return superseded != null && !superseded.isEmpty();
+			case TefkatPackage.TRULE__ABSTRACT:
+				return abstract_ != ABSTRACT_EDEFAULT;
+		}
+		return eDynamicIsSet(eFeature);
+	}
 
     /**
      * <!-- begin-user-doc -->

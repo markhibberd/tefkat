@@ -1,9 +1,16 @@
 /*
- * Created on Dec 15, 2004
+ * Copyright (c) 2004- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Contributors:
+ *     michael lawley
+ *
+ *
  */
+
 package com.dstc.emf.view;
 
 import java.util.ArrayList;
@@ -22,12 +29,11 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * @author lawley
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class NodeFigure extends Figure {
+	
+	final static private boolean SIMPLE = true;
     
-    private EObject data;
     private double angle;
     
     private List below = new ArrayList();
@@ -38,12 +44,13 @@ public class NodeFigure extends Figure {
      * 
      */
     public NodeFigure(EObject obj) {
-        data = obj;
-        LayoutManager layout = new ToolbarLayout();
-        setLayoutManager(layout);
-        
-        Label label = newLabel(obj.hashCode() + ":" + obj.eClass().getName());
-        add(label);
+        if (!SIMPLE) {
+            LayoutManager layout = new ToolbarLayout();
+            setLayoutManager(layout);
+            
+        	Label label = newLabel(obj.hashCode() + ":" + obj.eClass().getName());
+        	add(label);
+        }
     }
     
     public void setFigureAbove(NodeFigure fig) {
@@ -103,11 +110,13 @@ public class NodeFigure extends Figure {
     Figure kvFig = null;
     
     public void addKeyVal(Object key, Object val) {
-        if (null == kvFig) {
-            kvFig = new CompartmentFigure();
-            add(kvFig);
+        if (!SIMPLE) {
+        	if (null == kvFig) {
+        		kvFig = new CompartmentFigure();
+        		add(kvFig);
+        	}
+        	kvFig.add(newLabel(key + ": " + val));
         }
-        kvFig.add(newLabel(key + ": " + val));
     }
     
     private Label newLabel(String text) {

@@ -1,15 +1,18 @@
-/**
- *  Binding.java
+/*
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- *  Represents a mapping from Variables to Objects.
- *  Supports the following operations between unifiers:
+ * Contributors:
+ *     michael lawley
+ *     David Hearnden
  *
- *      u.composeLeft(t)     u <- u o t
- *      u.composeRight(t)    u <- t o u
  *
- *  @author David Hearnden, 2003
- *  @author Michael Lawley, 2003-2005
+ *
  */
+
 package com.dstc.tefkat.engine;
 
 import java.util.Collection;
@@ -25,10 +28,19 @@ import com.dstc.tefkat.model.AbstractVar;
 import com.dstc.tefkat.model.VarUse;
 
 /**
+ *
+ *  Represents a mapping from Variables to Objects.
+ *  Supports the following operations between unifiers:
+ *
+ *      u.composeLeft(t)     u <- u o t
+ *      u.composeRight(t)    u <- t o u
+ *
  *  Constraints maintained by this class:
  *
  *  keySet().intersect(values).isEmpty()
  *
+ *  @author David Hearnden, 2003
+ *  @author Michael Lawley, 2003-2005
  */
 public class Binding {
     static int counter = 0;
@@ -320,7 +332,12 @@ public class Binding {
     }
     
     public static class BindingError extends Error {
-        public BindingError(String message) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 6575697896092447618L;
+
+		public BindingError(String message) {
             super(message);
         }
     }

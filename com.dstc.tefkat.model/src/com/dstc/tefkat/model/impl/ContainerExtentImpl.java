@@ -1,19 +1,25 @@
-/**
- * <copyright>
- * </copyright>
+/*
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * $Id: ContainerExtentImpl.java,v 1.3 2005/05/24 05:24:31 lawley Exp $
+ * Contributors:
+ *     michael lawley
+ *
+ *
  */
 package com.dstc.tefkat.model.impl;
 
 import com.dstc.tefkat.model.ContainerExtent;
 import com.dstc.tefkat.model.TefkatPackage;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 
 import org.eclipse.emf.ecore.EClass;
@@ -38,50 +44,50 @@ import org.eclipse.emf.ecore.resource.Resource;
  * @generated
  */
 public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public static final String copyright = "Copyright DSTC Pty Ltd 2003-2005";
+	 * @generated
+	 */
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
 
-    /**
-     * The default value of the '{@link #getResource() <em>Resource</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #getResource() <em>Resource</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getResource()
-     * @generated
-     * @ordered
-     */
+	 * @see #getResource()
+	 * @generated
+	 * @ordered
+	 */
     protected static final Resource RESOURCE_EDEFAULT = null;
 
-    /**
-     * The cached value of the '{@link #getResource() <em>Resource</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getResource() <em>Resource</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getResource()
-     * @generated
-     * @ordered
-     */
+	 * @see #getResource()
+	 * @generated
+	 * @ordered
+	 */
     protected Resource resource = RESOURCE_EDEFAULT;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected ContainerExtentImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getContainerExtent();
-    }
+		return TefkatPackage.eINSTANCE.getContainerExtent();
+	}
 
     /**
      * <!-- begin-user-doc -->
@@ -98,8 +104,8 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public List getObjectsByClass(EClass theClass, boolean isExactly) {
-        List objects = getAllObjectsByClass(theClass, isExactly);
+    public EList getObjectsByClass(EClass theClass, boolean isExactly) {
+        EList objects = getAllObjectsByClass(theClass, isExactly);
         return objects;
     }
 
@@ -108,8 +114,8 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      * @param isExactly
      * @return
      */
-    private List getAllObjectsByClass(EClass theClass, boolean isExactly) {
-        List objects = new ArrayList();
+    private EList getAllObjectsByClass(EClass theClass, boolean isExactly) {
+        EList objects = new BasicEList();
         Iterator itr = resource.getAllContents();
         while (itr.hasNext()) {
             EObject obj = (EObject) itr.next();
@@ -157,80 +163,80 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
         resource.getContents().remove(obj);
     }
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Resource getResource() {
-        return resource;
-    }
+		return resource;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setResource(Resource newResource) {
-        Resource oldResource = resource;
-        resource = newResource;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.CONTAINER_EXTENT__RESOURCE, oldResource, resource));
-    }
+		Resource oldResource = resource;
+		resource = newResource;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.CONTAINER_EXTENT__RESOURCE, oldResource, resource));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
-                return getResource();
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
+				return getResource();
+		}
+		return eDynamicGet(eFeature, resolve);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
-                setResource((Resource)newValue);
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
+				setResource((Resource)newValue);
+				return;
+		}
+		eDynamicSet(eFeature, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
-                setResource(RESOURCE_EDEFAULT);
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
+				setResource(RESOURCE_EDEFAULT);
+				return;
+		}
+		eDynamicUnset(eFeature);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
-                return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
-        }
-        return eDynamicIsSet(eFeature);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
+				return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
+		}
+		return eDynamicIsSet(eFeature);
+	}
 
     /**
      * <!-- begin-user-doc -->

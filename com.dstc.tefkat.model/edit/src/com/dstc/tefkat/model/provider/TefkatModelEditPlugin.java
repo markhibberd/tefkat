@@ -2,7 +2,6 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TefkatModelEditPlugin.java,v 1.7 2005/05/18 06:41:52 lawley Exp $
  */
 package com.dstc.tefkat.model.provider;
 
@@ -24,7 +23,7 @@ public final class TefkatModelEditPlugin extends EMFPlugin {
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public static final String copyright = "Copyright DSTC Pty Ltd 2003-2005";
+	public static final String copyright = "Copyright michael lawley 2003-2005";
 
     /**
      * Keep track of the singleton.

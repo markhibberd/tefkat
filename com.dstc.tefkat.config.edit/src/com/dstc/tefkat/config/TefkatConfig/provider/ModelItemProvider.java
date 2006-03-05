@@ -1,8 +1,14 @@
-/**
- * <copyright>
- * </copyright>
+/*
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * $Id: ModelItemProvider.java,v 1.4 2005/06/10 06:10:30 lawley Exp $
+ * Contributors:
+ *     michael lawley
+ *
+ *
  */
 package com.dstc.tefkat.config.TefkatConfig.provider;
 
@@ -30,7 +36,7 @@ import com.dstc.tefkat.config.TefkatConfig.Model;
 import com.dstc.tefkat.config.TefkatConfig.TefkatConfigPackage;
 
 /**
- * This is the item provider adpater for a {@link com.dstc.tefkat.config.TefkatConfig.Model} object.
+ * This is the item provider adapter for a {@link com.dstc.tefkat.config.TefkatConfig.Model} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -43,65 +49,67 @@ public class ModelItemProvider
 		ITreeItemContentProvider,
 		IItemLabelProvider,
 		IItemPropertySource {
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public static final String copyright = "Copyright DSTC Pty Ltd 2004-2005";
+	 * @generated
+	 */
+	public static final String copyright = "Copyright michael lawley Pty Ltd 2004-2005";
 
-    /**
-     * This constructs an instance from a factory and a notifier.
-     * <!-- begin-user-doc -->
+	/**
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public ModelItemProvider(AdapterFactory adapterFactory) {
-        super(adapterFactory);
-    }
+		super(adapterFactory);
+	}
 
-    /**
-     * This returns the property descriptors for the adapted class.
-     * <!-- begin-user-doc -->
+	/**
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public List getPropertyDescriptors(Object object) {
-        if (itemPropertyDescriptors == null) {
-            super.getPropertyDescriptors(object);
+		if (itemPropertyDescriptors == null) {
+			super.getPropertyDescriptors(object);
 
-            addLocationUriPropertyDescriptor(object);
-        }
-        return itemPropertyDescriptors;
-    }
+			addLocationUriPropertyDescriptor(object);
+		}
+		return itemPropertyDescriptors;
+	}
 
-    /**
-     * This adds a property descriptor for the Location Uri feature.
-     * <!-- begin-user-doc -->
+	/**
+	 * This adds a property descriptor for the Location Uri feature.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	protected void addLocationUriPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (new ItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_Model_locationUri_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_Model_locationUri_feature", "_UI_Model_type"),
-                 TefkatConfigPackage.eINSTANCE.getModel_LocationUri(),
-                 true,
-                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Model_locationUri_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Model_locationUri_feature", "_UI_Model_type"),
+				 TefkatConfigPackage.eINSTANCE.getModel_LocationUri(),
+				 true,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
 
-    /**
-     * This returns Model.gif.
-     * <!-- begin-user-doc -->
+	/**
+	 * This returns Model.gif.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/Model");
-    }
+		return getResourceLocator().getImage("full/obj16/Model");
+	}
 
     /**
      * This returns the label text for the adapted class.
@@ -119,43 +127,43 @@ public class ModelItemProvider
             prefix + ": " + label;
 	}
 
-    /**
-     * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-     * <!-- begin-user-doc -->
+	/**
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void notifyChanged(Notification notification) {
-        updateChildren(notification);
+		updateChildren(notification);
 
-        switch (notification.getFeatureID(Model.class)) {
-            case TefkatConfigPackage.MODEL__LOCATION_URI:
-                fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-                return;
-        }
-        super.notifyChanged(notification);
-    }
+		switch (notification.getFeatureID(Model.class)) {
+			case TefkatConfigPackage.MODEL__LOCATION_URI:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
+		super.notifyChanged(notification);
+	}
 
-    /**
-     * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
-     * describing all of the children that can be created under this object.
-     * <!-- begin-user-doc -->
+	/**
+	 * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
+	 * describing all of the children that can be created under this object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
-    }
+		super.collectNewChildDescriptors(newChildDescriptors, object);
+	}
 
-    /**
-     * Return the resource locator for this item provider's resources.
-     * <!-- begin-user-doc -->
+	/**
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public ResourceLocator getResourceLocator() {
-        return TefkatConfigEditPlugin.INSTANCE;
-    }
+		return TefkatConfigEditPlugin.INSTANCE;
+	}
 
 }

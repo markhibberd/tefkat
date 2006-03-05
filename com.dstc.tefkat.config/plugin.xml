@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="com.dstc.tefkat.config"
-   name="%pluginName"
-   version="2.0.2.01"
-   provider-name="%providerName">
 
-   <runtime>
-      <library name="tefkat_config.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   <requires>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
-      <import plugin="org.eclipse.emf.ecore" export="true"/>
-   </requires>
+<!--
+ <copyright>
+ </copyright>
 
+-->
+
+
+<plugin>
 
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://www.dstc.edu.au:8080/qvt/TefkatConfig.ecore"
-            class="com.dstc.tefkat.config.TefkatConfig.TefkatConfigPackage">
+            class="com.dstc.tefkat.config.TefkatConfig.TefkatConfigPackage"
+            genModel="src/model/TefkatConfig.genmodel"
+            uri="http://www.dstc.edu.au:8080/qvt/TefkatConfig.ecore">
       </package>
    </extension>
 

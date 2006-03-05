@@ -2,7 +2,7 @@
 <feature
       id="com.dstc.tefkat.plugin"
       label="%featureName"
-      version="2.0.10.03"
+      version="2.1.0.1"
       provider-name="%providerName">
 
    <description>
@@ -10,7 +10,7 @@
    </description>
 
    <copyright>
-      (c) DSTC Pty Ltd
+      (c) michael lawley
    </copyright>
 
    <license url="%licenseURL">
@@ -41,7 +41,7 @@
       <import plugin="org.antlr"/>
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
-      <import plugin="org.eclipse.emf"/>
+      <import plugin="org.eclipse.emf" version="2.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.common"/>
       <import plugin="org.junit"/>
       <import plugin="org.eclipse.core.runtime"/>
@@ -49,50 +49,68 @@
 
    <plugin
          id="com.dstc.tefkat.config"
-         download-size="12750"
-         install-size="15717"
-         version="2.0.2.01"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="com.dstc.tefkat.config.edit"
-         download-size="7157"
-         install-size="8784"
-         version="2.0.3"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="com.dstc.tefkat.config.editor"
-         download-size="38618"
-         install-size="46345"
-         version="2.0.2"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="com.dstc.tefkat.engine"
          download-size="0"
          install-size="0"
-         version="2.0.9.02"/>
+         version="0.0.0"/>
 
    <plugin
          id="com.dstc.tefkat.model"
          download-size="0"
          install-size="0"
-         version="2.0.9.02"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="com.dstc.tefkat.model.parser"
          download-size="0"
          install-size="0"
-         version="2.0.7.01"/>
+         version="0.0.0"/>
 
    <plugin
          id="com.dstc.tefkat.plugin"
          download-size="0"
          install-size="0"
-         version="2.0.9.01"/>
+         version="0.0.0"/>
 
    <plugin
          id="com.dstc.emf.view"
          download-size="0"
          install-size="0"
-         version="1.0.2"/>
+         version="0.0.0"/>
+
+   <plugin
+         id="com.dstc.tefkat.model.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.dstc.tefkat.model.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

@@ -3,8 +3,8 @@
 <plugin
    id="com.dstc.emf.view"
    name="EMF View Plug-in"
-   version="1.0.2"
-   provider-name="DSTC Pty Ltd"
+   version="1.1.0.1"
+   provider-name="michael lawley"
    class="com.dstc.emf.view.ViewPlugin">
 
    <runtime>

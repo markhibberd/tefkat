@@ -1,9 +1,17 @@
 /*
- * Created on 3/02/2005
+ * Copyright (c) 2005- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Contributors:
+ *     michael lawley
+ *
+ *
+ * 
  */
+
 package com.dstc.tefkat.plugin;
 
 import java.util.ArrayList;
@@ -20,17 +28,18 @@ import com.dstc.emf.view.EMFView;
 import com.dstc.tefkat.engine.Binding;
 import com.dstc.tefkat.engine.TefkatListener;
 import com.dstc.tefkat.engine.TefkatListenerAdapter;
+import com.dstc.tefkat.model.ContainerExtent;
+import com.dstc.tefkat.model.Extent;
+import com.dstc.tefkat.model.ReferenceExtent;
 import com.dstc.tefkat.model.Transformation;
 
 /**
  * @author lawley
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class TefkatView extends EMFView {
     
-    private boolean showSources = true;
+    private boolean showSources = false;
     private boolean showTargets = true;
     private boolean showTrace = false;
     
@@ -39,23 +48,47 @@ public class TefkatView extends EMFView {
     private List actions = new ArrayList();
 
     private final TefkatListener listener = new TefkatListenerAdapter() {
-        public void transformationStarted(Transformation trans, Resource[] srcs, Resource[] tgts, Resource trace, Binding context) {
-            traceResource = trace;
+        public void transformationStarted(Transformation trans, Extent[] srcs, Extent[] tgts, Extent trace, Binding context) {
+        	if (trace instanceof ContainerExtent) {
+        		traceResource = ((ContainerExtent) trace).getResource();
+        	} else {
+        		for (Iterator itr = ((ReferenceExtent) trace).getResources().iterator(); itr.hasNext(); ) {
+        			traceResource = (Resource) itr.next();
+        		}
+        	}
 
             clear();
             refresh();
             if (showSources) {
                 for (int i = 0; i < srcs.length; i++) {
-                    addResource(srcs[i]);
+                	if (srcs[i] instanceof ContainerExtent) {
+                		addResource(((ContainerExtent) srcs[i]).getResource());
+                	} else {
+                		for (Iterator itr = ((ReferenceExtent) srcs[i]).getResources().iterator(); itr.hasNext(); ) {
+                			addResource((Resource) itr.next());
+                		}
+                	}
                 }
             }
             if (showTargets) {
                 for (int i = 0; i < tgts.length; i++) {
-                    addResource(tgts[i]);
+                	if (tgts[i] instanceof ContainerExtent) {
+                		addResource(((ContainerExtent) tgts[i]).getResource());
+                	} else {
+                		for (Iterator itr = ((ReferenceExtent) tgts[i]).getResources().iterator(); itr.hasNext(); ) {
+                			addResource((Resource) itr.next());
+                		}
+                	}
                 }
             }
             if (showTrace) {
-                addResource(trace);
+            	if (trace instanceof ContainerExtent) {
+            		addResource(((ContainerExtent) trace).getResource());
+            	} else {
+            		for (Iterator itr = ((ReferenceExtent) trace).getResources().iterator(); itr.hasNext(); ) {
+            			addResource((Resource) itr.next());
+            		}
+            	}
             }
         }
 

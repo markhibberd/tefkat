@@ -1,9 +1,18 @@
 /*
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Contributors:
+ *     michael lawley
+ *
  * Created on 13/11/2003
  *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ *
  */
+
 package com.dstc.tefkat.engine;
 
 import java.util.ArrayList;
@@ -100,28 +109,49 @@ abstract class AbstractResolver {
         //  A negation spawns a new tree
         //  A disjunction has its disjunctions distributed into subtrees
         //
-        if (literal instanceof MofInstance) {
+        switch (id) {
+        case TefkatPackage.MOF_INSTANCE:
             resolveMofInstance(tree, node, goal, (MofInstance) literal);
-        } else if (literal instanceof TrackingUse) {
+            break;
+            
+        case TefkatPackage.TRACKING_USE:
             resolveTrackingUse(tree, node, goal, (TrackingUse) literal);
-        } else if (literal instanceof PatternUse) {
+            break;
+            
+        case TefkatPackage.PATTERN_USE:
             resolvePatternUse(tree, node, goal, (PatternUse) literal, isNegation);
-        } else if (literal instanceof NotTerm) {
+            break;
+            
+        case TefkatPackage.NOT_TERM:
             resolveNotTerm(tree, node, goal, (NotTerm) literal);
-        } else if (literal instanceof OverrideTerm) {
-            resolveOverrideTerm(tree, node, goal, (OverrideTerm) literal);
-        } else if (literal instanceof OrTerm) {
+            break;
+            
+        case TefkatPackage.OR_TERM:
             resolveOrTerm(tree, node, goal, (OrTerm) literal);
-        } else if (literal instanceof AndTerm) {
+            break;
+            
+        case TefkatPackage.AND_TERM:
             resolveAndTerm(tree, node, goal, (AndTerm) literal);
-        } else if (literal instanceof Condition) {
+            break;
+            
+        case TefkatPackage.CONDITION:
             resolveCondition(tree, node, goal, (Condition) literal);
-        } else if (literal instanceof IfTerm) {
+            break;
+            
+        case TefkatPackage.IF_TERM:
             resolveIfTerm(tree, node, goal, (IfTerm) literal);
-        } else if (literal instanceof MofOrder) {
+            break;
+            
+        case TefkatPackage.MOF_ORDER:
             resolveMofOrder(tree, node, goal, (MofOrder) literal);
-        } else {
-            throw new ResolutionException(node, "Unrecognised term type: " + literal);
+            break;
+            
+        default:
+            if (literal instanceof OverrideTerm) {
+                resolveOverrideTerm(tree, node, goal, (OverrideTerm) literal);
+            } else {
+            	throw new ResolutionException(node, "Unrecognised term type: " + literal);
+            }
         }
         
         long end = System.currentTimeMillis();

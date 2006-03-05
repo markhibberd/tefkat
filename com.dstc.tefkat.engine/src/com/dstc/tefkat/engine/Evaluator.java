@@ -1,7 +1,17 @@
 /*
- * Created on 4/09/2003
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Contributors:
+ *     michael lawley
+ *
+ *
  *
  */
+
 package com.dstc.tefkat.engine;
 
 import java.lang.reflect.Field;
@@ -28,12 +38,12 @@ import com.dstc.tefkat.model.*;
 import com.dstc.tefkat.model.internal.Util;
 
 /**
- * @author lawley
- *
- * Evaluator implements a expression evaluator for the QVTModel.
+ * Evaluator implements an expression evaluator for the QVTModel.
  * It requires that all Vars referenced in the Expression have been
  * supplied with (ground) bindings in the supplied context. 
  * 
+ * @author lawley
+ *
  */
 class Evaluator {
 
@@ -573,18 +583,18 @@ class Evaluator {
 
         for (final Iterator eItr = enumObjs.iterator(); eItr.hasNext(); ) {
             Object eObj = eItr.next();
-            EEnum enum = null;
+            EEnum enumeration = null;
             if (eObj instanceof String) {
                 eObj = Util.findClassifierByName(ruleEval.nameMap, (String) eObj);
             }
             if (eObj instanceof EEnum) {
-                enum = (EEnum) eObj;
+                enumeration = (EEnum) eObj;
             }
-            if (null != enum) {
+            if (null != enumeration) {
                 for (final Iterator lItr = literalObjs.iterator(); lItr.hasNext(); ) {
                     Object lObj = lItr.next();
                     if (lObj instanceof String) {
-                        EEnumLiteral eLit = enum.getEEnumLiteral((String) lObj);
+                        EEnumLiteral eLit = enumeration.getEEnumLiteral((String) lObj);
                         if (null != eLit) {
                             values.add(eLit.getInstance());
                         }
@@ -830,28 +840,28 @@ class Evaluator {
         return results;
     }
     
-    private Object[] coerceTypes(Method meth, Object[] params) {
-        System.err.println(meth.isAccessible());
-        System.err.println(meth.getModifiers());
-        System.err.println(meth.getName());
-        
-        Class[] types = meth.getParameterTypes();
-        System.err.println(meth);
-        System.err.println(Arrays.asList(params));
-        System.err.println(Arrays.asList(types));
-        for (int i = 0; i < types.length; i++) {
-            System.err.println(types[i].getName() + "\t" + params[i].getClass().getName() + "\t" + params[i]);
-            if (!types[i].isInstance(params[i])) {
-                System.err.println("Type mismatch: " + types[i]);
-                if (int.class.equals(types[i])) {
-                    Integer theInt = Integer.valueOf(String.valueOf(params[i]));
-                    params[i] = theInt;
-                }
-            }
-        }
-        
-        return null;
-    }
+//    private Object[] coerceTypes(Method meth, Object[] params) {
+//        System.err.println(meth.isAccessible());
+//        System.err.println(meth.getModifiers());
+//        System.err.println(meth.getName());
+//        
+//        Class[] types = meth.getParameterTypes();
+//        System.err.println(meth);
+//        System.err.println(Arrays.asList(params));
+//        System.err.println(Arrays.asList(types));
+//        for (int i = 0; i < types.length; i++) {
+//            System.err.println(types[i].getName() + "\t" + params[i].getClass().getName() + "\t" + params[i]);
+//            if (!types[i].isInstance(params[i])) {
+//                System.err.println("Type mismatch: " + types[i]);
+//                if (int.class.equals(types[i])) {
+//                    Integer theInt = Integer.valueOf(String.valueOf(params[i]));
+//                    params[i] = theInt;
+//                }
+//            }
+//        }
+//        
+//        return null;
+//    }
 
     Object fetchFeature(Node node, String featureName, Object obj) throws ResolutionException {
         Object valuesObject = null;

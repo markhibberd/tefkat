@@ -2,7 +2,6 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementImpl.java,v 1.3 2005/05/11 06:23:47 lawley Exp $
  */
 package com.dstc.xmlModel.impl;
 
@@ -54,7 +53,7 @@ public class ElementImpl extends ContentImpl implements Element {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "(c) DSTC Pty Ltd";
+    public static final String copyright = "(c) michael lawley";
 
     /**
      * The cached value of the '{@link #getNamespaces() <em>Namespaces</em>}' containment reference list.

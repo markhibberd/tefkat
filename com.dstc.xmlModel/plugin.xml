@@ -4,7 +4,7 @@
    id="com.dstc.xmlModel"
    name="XmlModel Plug-in"
    version="1.0.0"
-   provider-name="DSTC Pty Ltd">
+   provider-name="michael lawley">
 
    <runtime>
       <library name="xmlModel.jar">

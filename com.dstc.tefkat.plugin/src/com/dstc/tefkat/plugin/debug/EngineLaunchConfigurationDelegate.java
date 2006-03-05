@@ -1,9 +1,17 @@
 /*
- * Created on 30/09/2004
+ * Copyright (c) 2004- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Contributors:
+ *     michael lawley
+ *
+ *
+ * 
  */
+
 package com.dstc.tefkat.plugin.debug;
 
 import java.util.Iterator;
@@ -16,22 +24,25 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.ILaunchConfigurationDelegate;
-import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 import com.dstc.tefkat.config.TefkatConfig.Configuration;
 import com.dstc.tefkat.config.TefkatConfig.TransformationTask;
 import com.dstc.tefkat.config.TefkatConfig.impl.TefkatConfigPackageImpl;
 import com.dstc.tefkat.engine.Tefkat;
+import com.dstc.tefkat.engine.TefkatListener;
 import com.dstc.tefkat.plugin.TefkatPlugin;
 
 /**
  * @author lawley
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class EngineLaunchConfigurationDelegate implements
         ILaunchConfigurationDelegate {
@@ -72,10 +83,33 @@ public class EngineLaunchConfigurationDelegate implements
                                 final TransformationTask task = (TransformationTask) transItr.next();
 
                                 if (task.isEnabled()) {
+//                                  System.out.println("transforming: " + task);
+                                    final Tefkat engine = plugin.getTefkat();
+
                                     try {
-//                                        System.out.println("transforming: " + task);
-                                        final Tefkat engine = plugin.getTefkat();
 //                                        IProcess process = new TefkatProcess(launch, engine);
+
+                                        final IWorkbench workbench = PlatformUI.getWorkbench();
+                                        workbench.getDisplay().syncExec(new Runnable() {
+                                            public void run() {
+                                                IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+                                                IWorkbenchPage page = window.getActivePage();
+                                                IViewPart view = page.findView("com.dstc.tefkat.plugin.TefkatView");
+                                                if (null != view && page.isPartVisible(view)) {
+                                                    TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
+                                                    if (null != listener) {
+                                                        engine.addTefkatListener(listener);
+                                                    }
+                                                }
+                                                view = page.findView("com.dstc.tefkat.plugin.TefkatTransformationView");
+                                                if (null != view && page.isPartVisible(view)) {
+                                                    TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
+                                                    if (null != listener) {
+                                                        engine.addTefkatListener(listener);
+                                                    }
+                                                }
+                                            }
+                                        });
 
                                         if (mode.equals(ILaunchManager.DEBUG_MODE)) {
                                             DebugTarget target = new DebugTarget(launch, engine);
@@ -92,6 +126,28 @@ public class EngineLaunchConfigurationDelegate implements
                                     } catch (Exception e) {
                                         error[0] = e;
                                     } finally {
+                                        final IWorkbench workbench = PlatformUI.getWorkbench();
+                                        workbench.getDisplay().syncExec(new Runnable() {
+                                            public void run() {
+                                                IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+                                                IWorkbenchPage page = window.getActivePage();
+                                                IViewPart view = page.findView("com.dstc.tefkat.plugin.TefkatView");
+                                                if (null != view) {
+                                                    TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
+                                                    if (null != listener) {
+                                                        engine.removeTefkatListener(listener);
+                                                    }
+                                                }
+                                                view = page.findView("com.dstc.tefkat.plugin.TefkatTransformationView");
+                                                if (null != view) {
+                                                    TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
+                                                    if (null != listener) {
+                                                        engine.removeTefkatListener(listener);
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    	
                                         DebugTarget target = (DebugTarget) launch.getDebugTarget();
                                         if (null != target) {
                                             TefkatPlugin.TEFKAT_RESOURCE_FACTORY.removeParserListener(target);

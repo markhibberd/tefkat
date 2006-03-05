@@ -1,8 +1,14 @@
-/**
- * <copyright>
- * </copyright>
+/*
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * $Id: VarUseImpl.java,v 1.4 2005/05/16 01:52:26 lawley Exp $
+ * Contributors:
+ *     michael lawley
+ *
+ *
  */
 package com.dstc.tefkat.model.impl;
 
@@ -36,78 +42,78 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class VarUseImpl extends ExpressionImpl implements VarUse {
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public static final String copyright = "Copyright DSTC Pty Ltd 2003-2005";
+	 * @generated
+	 */
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
 
-    /**
-     * The cached value of the '{@link #getVar() <em>Var</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getVar() <em>Var</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getVar()
-     * @generated
-     * @ordered
-     */
+	 * @see #getVar()
+	 * @generated
+	 * @ordered
+	 */
     protected AbstractVar var = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected VarUseImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getVarUse();
-    }
+		return TefkatPackage.eINSTANCE.getVarUse();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public AbstractVar getVar() {
-        if (var != null && var.eIsProxy()) {
-            AbstractVar oldVar = var;
-            var = (AbstractVar)eResolveProxy((InternalEObject)var);
-            if (var != oldVar) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, TefkatPackage.VAR_USE__VAR, oldVar, var));
-            }
-        }
-        return var;
-    }
+		if (var != null && var.eIsProxy()) {
+			AbstractVar oldVar = var;
+			var = (AbstractVar)eResolveProxy((InternalEObject)var);
+			if (var != oldVar) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TefkatPackage.VAR_USE__VAR, oldVar, var));
+			}
+		}
+		return var;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public AbstractVar basicGetVar() {
-        return var;
-    }
+		return var;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setVar(AbstractVar newVar) {
-        AbstractVar oldVar = var;
-        var = newVar;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.VAR_USE__VAR, oldVar, var));
-    }
+		AbstractVar oldVar = var;
+		var = newVar;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.VAR_USE__VAR, oldVar, var));
+	}
 
     /**
      * <!-- begin-user-doc -->
@@ -121,125 +127,125 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
         return copy;
     }
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.VAR_USE__EXPR:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.VAR_USE__EXPR, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case TefkatPackage.VAR_USE__EXPR:
+					if (eContainer != null)
+						msgs = eBasicRemoveFromContainer(msgs);
+					return eBasicSetContainer(otherEnd, TefkatPackage.VAR_USE__EXPR, msgs);
+				default:
+					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		if (eContainer != null)
+			msgs = eBasicRemoveFromContainer(msgs);
+		return eBasicSetContainer(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.VAR_USE__EXPR:
-                    return eBasicSetContainer(null, TefkatPackage.VAR_USE__EXPR, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case TefkatPackage.VAR_USE__EXPR:
+					return eBasicSetContainer(null, TefkatPackage.VAR_USE__EXPR, msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.VAR_USE__EXPR:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
+		if (eContainerFeatureID >= 0) {
+			switch (eContainerFeatureID) {
+				case TefkatPackage.VAR_USE__EXPR:
+					return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
+				default:
+					return eDynamicBasicRemoveFromContainer(msgs);
+			}
+		}
+		return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.VAR_USE__EXPR:
-                return getExpr();
-            case TefkatPackage.VAR_USE__VAR:
-                if (resolve) return getVar();
-                return basicGetVar();
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.VAR_USE__EXPR:
+				return getExpr();
+			case TefkatPackage.VAR_USE__VAR:
+				if (resolve) return getVar();
+				return basicGetVar();
+		}
+		return eDynamicGet(eFeature, resolve);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.VAR_USE__EXPR:
-                setExpr((CompoundExpr)newValue);
-                return;
-            case TefkatPackage.VAR_USE__VAR:
-                setVar((AbstractVar)newValue);
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.VAR_USE__EXPR:
+				setExpr((CompoundExpr)newValue);
+				return;
+			case TefkatPackage.VAR_USE__VAR:
+				setVar((AbstractVar)newValue);
+				return;
+		}
+		eDynamicSet(eFeature, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.VAR_USE__EXPR:
-                setExpr((CompoundExpr)null);
-                return;
-            case TefkatPackage.VAR_USE__VAR:
-                setVar((AbstractVar)null);
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.VAR_USE__EXPR:
+				setExpr((CompoundExpr)null);
+				return;
+			case TefkatPackage.VAR_USE__VAR:
+				setVar((AbstractVar)null);
+				return;
+		}
+		eDynamicUnset(eFeature);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.VAR_USE__EXPR:
-                return getExpr() != null;
-            case TefkatPackage.VAR_USE__VAR:
-                return var != null;
-        }
-        return eDynamicIsSet(eFeature);
-    }
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case TefkatPackage.VAR_USE__EXPR:
+				return getExpr() != null;
+			case TefkatPackage.VAR_USE__VAR:
+				return var != null;
+		}
+		return eDynamicIsSet(eFeature);
+	}
 
     /**
      * <!-- begin-user-doc -->

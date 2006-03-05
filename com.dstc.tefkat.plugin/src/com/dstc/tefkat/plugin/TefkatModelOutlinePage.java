@@ -1,9 +1,17 @@
 /*
- * Created on 4/10/2004
+ * Copyright (c) 2004- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Contributors:
+ *     michael lawley
+ *
+ *
+ * 
  */
+
 package com.dstc.tefkat.plugin;
 
 import java.util.HashMap;
@@ -37,12 +45,9 @@ import com.dstc.tefkat.model.VarUse;
 /**
  * @author lawley
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class TefkatModelOutlinePage extends ContentOutlinePage {
 
-    private Resource res;
     private String resId;
     final private Map objMap = new HashMap();
     final private Map idMap = new HashMap();
@@ -58,7 +63,6 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
         String id = res.getURI().toString();
         boolean reparse = id.equals(resId);
 
-        this.res = res;
         resId = id;
         
         // leaks mem like a sieve without these two lines :-)
@@ -241,7 +245,6 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
     }
 
     public void dispose() {
-        res = null;
         resId = null;
         objMap.clear();
         idMap.clear();

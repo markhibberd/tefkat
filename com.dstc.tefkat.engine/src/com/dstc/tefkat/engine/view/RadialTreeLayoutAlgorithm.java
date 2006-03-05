@@ -1,8 +1,15 @@
 /*
- * @(#)RadialTreeLayoutAlgorithm.java 1.0 06.10.2003
- * 
- * Copyright (C) 2003 michael j lawley
- *  
+ * Copyright (c) 2003- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Contributors:
+ *     michael lawley
+ *
+ *
+ *
  */
 
 package com.dstc.tefkat.engine.view;
@@ -88,6 +95,8 @@ public class RadialTreeLayoutAlgorithm {
             return; // nothing to do
         }
 
+System.err.println("Layout " + selectedCells.length);	// TODO delete
+        
         CellView[] selectedCellViews = jgraph.getGraphLayoutCache().getMapping(selectedCells, true);
 
         // search all roots
@@ -332,7 +341,7 @@ public class RadialTreeLayoutAlgorithm {
         
         if (childNodes.size() > 0) {
             int idx = leaves.indexOf(node);
-            int n = leaves.size();
+            // int n = leaves.size();
             leaves.remove(idx);
             leaves.addAll(idx, childNodes);
             // System.out.println(n + " " + childNodes.size() + " " + leaves.size());

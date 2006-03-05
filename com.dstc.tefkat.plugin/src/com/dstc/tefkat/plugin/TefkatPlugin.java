@@ -1,36 +1,14 @@
 /*
+ * Copyright (c) 2004- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- *  Copyright (C) DSTC Pty Ltd (ACN 052 372 577) 2004.
- *  Unpublished work.  All Rights Reserved.
+ * Contributors:
+ *     michael lawley
  *
- *  The software contained on this media is the property of the
- *  DSTC Pty Ltd.  Use of this software is strictly in accordance
- *  with the license agreement in the accompanying LICENSE.DOC
- *  file.  If your distribution of this software does not contain
- *  a LICENSE.DOC file then you have no rights to use this
- *  software in any manner and should contact DSTC at the address
- *  below to determine an appropriate licensing arrangement.
  *
- *     DSTC Pty Ltd
- *     Level 7, G.P. South
- *     Staff House Road
- *     University of Queensland
- *     St Lucia, 4072
- *     Australia
- *     Tel: +61 7 3365 4310
- *     Fax: +61 7 3365 4311
- *     Email: enquiries@dstc.edu.au
- *
- *  This software is being provided "AS IS" without warranty of
- *  any kind.  In no event shall DSTC Pty Ltd be liable for
- *  damage of any kind arising out of or in connection with
- *  the use or performance of this software.
- *
- *  Project:  TefkatPlugin
- *
- *  File:     TefkatPlugin.java
- *
- *  History:  Created on 28/05/2004 by lawley
  *
  */
 
@@ -79,6 +57,7 @@ import com.dstc.tefkat.engine.Function;
 import com.dstc.tefkat.engine.Tefkat;
 import com.dstc.tefkat.engine.TefkatListener;
 import com.dstc.tefkat.engine.TefkatListenerAdapter;
+import com.dstc.tefkat.model.Extent;
 import com.dstc.tefkat.model.TRule;
 import com.dstc.tefkat.model.Transformation;
 import com.dstc.tefkat.model.parser.TefkatResourceFactory;
@@ -166,7 +145,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
             warnStream.println(s.toString());
         }
 
-        public void transformationStarted(Transformation transformation, Resource[] srcs, Resource[] tgts, Resource trace, Binding context) {
+        public void transformationStarted(Transformation transformation, Extent[] srcs, Extent[] tgts, Extent trace, Binding context) {
             info("Transformation started: " + transformation.getName());
         }
 
@@ -504,7 +483,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
                     monitor.subTask("Evaluating rule: " + rule.getName());
                 }
 
-                public void transformationStarted(Transformation transformation, Resource[] srcs, Resource[] tgts, Resource trace, Binding context) {
+                public void transformationStarted(Transformation transformation, Extent[] srcs, Extent[] tgts, Extent trace, Binding context) {
                     monitor.worked(2);
                 }
 
@@ -647,11 +626,11 @@ public class TefkatPlugin extends AbstractUIPlugin {
         return resources;
     }
     
-    private void unloadResource(Resource res) {
-//        System.out.println("unloading " + res.getURI());
-        res.getContents().clear();
-        res.unload();
-    }
+//    private void unloadResource(Resource res) {
+////        System.out.println("unloading " + res.getURI());
+//        res.getContents().clear();
+//        res.unload();
+//    }
 
     // This causes meta-models to also be unloaded so that we can deal
     // with changes to meta-models as well as their instances
@@ -721,7 +700,14 @@ public class TefkatPlugin extends AbstractUIPlugin {
                     IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
                     IWorkbenchPage page = window.getActivePage();
                     IViewPart view = page.findView("com.dstc.tefkat.plugin.TefkatView");
-                    if (null != view) {
+                    if (null != view && page.isPartVisible(view)) {
+                        TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
+                        if (null != listener) {
+                            engine.addTefkatListener(listener);
+                        }
+                    }
+                    view = page.findView("com.dstc.tefkat.plugin.TefkatTransformationView");
+                    if (null != view && page.isPartVisible(view)) {
                         TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
                         if (null != listener) {
                             engine.addTefkatListener(listener);
@@ -741,6 +727,28 @@ public class TefkatPlugin extends AbstractUIPlugin {
                 engine.transform(transformation, sources, targets, trace);
             } catch (Exception e) {
                 exception = e;
+            } finally {
+                final IWorkbench workbench = PlatformUI.getWorkbench();
+                workbench.getDisplay().syncExec(new Runnable() {
+                    public void run() {
+                        IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+                        IWorkbenchPage page = window.getActivePage();
+                        IViewPart view = page.findView("com.dstc.tefkat.plugin.TefkatView");
+                        if (null != view) {
+                            TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
+                            if (null != listener) {
+                                engine.removeTefkatListener(listener);
+                            }
+                        }
+                        view = page.findView("com.dstc.tefkat.plugin.TefkatTransformationView");
+                        if (null != view) {
+                            TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
+                            if (null != listener) {
+                                engine.removeTefkatListener(listener);
+                            }
+                        }
+                    }
+                });
             }
         }
 

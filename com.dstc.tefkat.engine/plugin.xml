@@ -3,7 +3,7 @@
 <plugin
    id="com.dstc.tefkat.engine"
    name="%pluginName"
-   version="2.0.9.02"
+   version="2.1.0.1"
    provider-name="%providerName">
 
    <runtime>
@@ -15,11 +15,9 @@
       </library>
    </runtime>
    <requires>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
-      <import plugin="org.eclipse.emf" export="true"/>
       <import plugin="org.eclipse.emf.ecore" export="true"/>
       <import plugin="org.eclipse.emf.ecore.xmi" export="true"/>
-      <import plugin="com.dstc.tefkat.config"/>
+      <import plugin="com.dstc.tefkat.config" export="true"/>
       <import plugin="com.dstc.tefkat.model" export="true"/>
       <import plugin="com.dstc.tefkat.model.parser" export="true"/>
    </requires>

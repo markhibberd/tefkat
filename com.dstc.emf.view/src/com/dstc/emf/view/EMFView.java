@@ -1,7 +1,16 @@
+/*
+ * Copyright (c) 2005- michael lawley and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation
+ * which accompanies this distribution, and is available by writing to
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Contributors:
+ *     michael lawley
+ *
+ */
 
 package com.dstc.emf.view;
-
-import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
@@ -13,9 +22,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.draw2d.AbstractLayout;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -104,7 +110,6 @@ public class EMFView extends ViewPart {
         }
     }
     
-    private boolean details = false;
     private void makeActions() {
 //        action0 = new Action() {
 //            public void run() {
@@ -198,17 +203,6 @@ public class EMFView extends ViewPart {
     
     public void clear() {
         viewer.clear();
-    }
-
-    private ResourceSet _resourceSet = null;
-
-    private ResourceSet getResourceSet() {
-        if (null == _resourceSet) {
-            _resourceSet = new ResourceSetImpl();
-            Map map = _resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
-            map.put("*", new XMIResourceFactoryImpl());
-        }
-        return _resourceSet;
     }
 
     /**
