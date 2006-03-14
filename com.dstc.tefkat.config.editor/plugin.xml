@@ -19,9 +19,9 @@
       name="%_UI_Wizard_category">
     </category>
     <wizard
-      id = "com.dstc.tefkat.config.TefkatConfig.presentation.TefkatConfigModelWizardID"
+      id = "tefkat.config.TefkatConfig.presentation.TefkatConfigModelWizardID"
       name = "%_UI_TefkatConfigModelWizard_label"
-      class = "com.dstc.tefkat.config.TefkatConfig.presentation.TefkatConfigModelWizard"
+      class = "tefkat.config.TefkatConfig.presentation.TefkatConfigModelWizard"
       category = "org.eclipse.emf.ecore.Wizard.category.ID"
       icon = "icons/full/obj16/TefkatConfigModelFile.gif">
       <description>%_UI_TefkatConfigModelWizard_description</description>
@@ -31,12 +31,13 @@
 
   <extension point = "org.eclipse.ui.editors">
     <editor
+          class="tefkat.config.TefkatConfig.presentation.TefkatConfigEditor"
+          contributorClass="tefkat.config.TefkatConfig.presentation.TefkatConfigActionBarContributor"
+          extensions="tefkatconfig"
           filenames="tefkat.xml"
-          class="com.dstc.tefkat.config.TefkatConfig.presentation.TefkatConfigEditor"
           icon="icons/full/obj16/TefkatConfigModelFile.gif"
-          contributorClass="com.dstc.tefkat.config.TefkatConfig.presentation.TefkatConfigActionBarContributor"
-          name="%_UI_TefkatConfigEditor_label"
-          id="com.dstc.tefkat.config.TefkatConfig.presentation.TefkatConfigEditorID">
+          id="tefkat.config.TefkatConfig.presentation.TefkatConfigEditorID"
+          name="%_UI_TefkatConfigEditor_label">
     </editor>
   </extension>    
 </plugin>
