@@ -17,9 +17,9 @@
       name="%_UI_Wizard_category">
     </category>
     <wizard
-      id = "com.dstc.tefkat.model.presentation.TefkatModelWizardID"
+      id = "tefkat.model.presentation.TefkatModelWizardID"
       name = "%_UI_TefkatModelWizard_label"
-      class = "com.dstc.tefkat.model.presentation.TefkatModelWizard"
+      class = "tefkat.model.presentation.TefkatModelWizard"
       category = "org.eclipse.emf.ecore.Wizard.category.ID"
       icon = "icons/full/obj16/TefkatModelFile.gif">
       <description>%_UI_TefkatModelWizard_description</description>
@@ -29,12 +29,12 @@
 
   <extension point = "org.eclipse.ui.editors">
     <editor
-        id = "com.dstc.tefkat.model.presentation.TefkatEditorID"
+        id = "tefkat.model.presentation.TefkatEditorID"
         name = "%_UI_TefkatEditor_label"
         icon = "icons/full/obj16/TefkatModelFile.gif"
         extensions = "tefkat"
-        class = "com.dstc.tefkat.model.presentation.TefkatEditor" 
-        contributorClass="com.dstc.tefkat.model.presentation.TefkatActionBarContributor" >
+        class = "tefkat.model.presentation.TefkatEditor" 
+        contributorClass="tefkat.model.presentation.TefkatActionBarContributor" >
     </editor>
   </extension>    
 </plugin>
