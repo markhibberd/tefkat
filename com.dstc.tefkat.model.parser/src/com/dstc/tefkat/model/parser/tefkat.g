@@ -557,7 +557,7 @@ options {
                 for (final Iterator itr = vars.iterator(); itr.hasNext(); ) {
                     AbstractVar v = (AbstractVar) itr.next();
                     if (name.equals(v.getName())) {
-                        reportWarning("Anonynous variable name, " + name + ", occurs multiple times in " + scope, sChar, eChar);
+                        reportWarning("Anonymous variable name, " + name + ", occurs multiple times in " + scope, sChar, eChar);
                     }
                 }
             } else {
@@ -752,7 +752,7 @@ transformation[Resource res] returns [Transformation t = null;] {
 		    	    	Map.Entry entry = (Map.Entry) itr.next();
 		    	    	AbstractVar svar = (AbstractVar) entry.getKey();
 		    	    	int[] location = (int[]) entry.getValue();
-		    	    	reportWarning("non-anonynous variable, " + svar + ", is only referenced once in " + svar.getScope(), location[0], location[1]);
+		    	    	reportWarning("non-anonymous variable, " + svar + ", is only referenced once in " + svar.getScope(), location[0], location[1]);
 		    	    }
 		    	}
 		    	singletonVars.clear();
