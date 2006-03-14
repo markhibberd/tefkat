@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="http://www.lawley.id.au/updates">
+      Update Site for the Tefkat Model Transformation Engine
+   </description>
+   <feature url="features/com.dstc.tefkat.plugin_2.1.0.1.jar" id="com.dstc.tefkat.plugin" version="2.1.0.1"/>
+</site>
