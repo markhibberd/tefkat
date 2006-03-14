@@ -11,48 +11,49 @@
  *
  */
 
-package com.dstc.tefkat.model.parser.tests;
+package tefkat.model.parser.tests;
 
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
-import com.dstc.tefkat.model.ExtentVar;
-import com.dstc.tefkat.model.parser.TefkatParser;
+import tefkat.model.parser.TefkatParser;
 
 /**
  * @author lawley
  *
  */
-public class ExactMofInstanceTest extends ParserTestCase {
+public class ImportStmtTest extends ParserTestCase {
 
     /**
-     * Constructor for ExactMofInstanceTest.
+     * Constructor for ImportStmtTest.
      * @param name
      */
-    public ExactMofInstanceTest(String name) {
+    public ImportStmtTest(String name) {
         super(name);
     }
 
-    public void testExactKeyword() {
-        TefkatParser parser = setupParser("EXACT ClassName verName");
+    public void testFileImport() {
+        TefkatParser parser = setupParser("IMPORT file://home/lawley/workspace/QVTModelParser/tests/UMLRelationalTracking.ecore;");
         try {
-            parser.range(t, (ExtentVar) t.getVars().get(0), false, null);
+            parser.importDecl(t);
         } catch (RecognitionException e) {
             fail(e.toString());
         } catch (TokenStreamException e) {
             fail(e.toString());
         }
+        assertTrue(t.getImportedPackages().get(0) != null);
     }
 
-    public void testNoExactKeyword() {
-        TefkatParser parser = setupParser("ClassName verName");
+    public void testFileImportFailure() {
+        TefkatParser parser = setupParser("IMPORT file://home/lawley/workspace/QVTModelParser/tests/DoesNotExist.ecore;");
         try {
-            parser.range(t, (ExtentVar) t.getVars().get(0), false, null);
+            parser.importDecl(t);
         } catch (RecognitionException e) {
-            fail(e.toString());
+            assertTrue(e.getMessage().startsWith("Unable to load tracking package from URI:"));
+            return;
         } catch (TokenStreamException e) {
             fail(e.toString());
         }
+        fail("URI should not have been found");
     }
-
 }

@@ -11,49 +11,52 @@
  *
  */
 
-package com.dstc.tefkat.model.parser.tests;
+package tefkat.model.parser.tests;
 
+import tefkat.model.ExtentVar;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
-import com.dstc.tefkat.model.parser.TefkatParser;
+import tefkat.model.parser.TefkatParser;
 
 /**
  * @author lawley
  *
  */
-public class ImportStmtTest extends ParserTestCase {
+public class UniquenessTest extends ParserTestCase {
 
     /**
-     * Constructor for ImportStmtTest.
+     * Constructor for UniquenessTest.
      * @param name
      */
-    public ImportStmtTest(String name) {
+    public UniquenessTest(String name) {
         super(name);
     }
 
-    public void testFileImport() {
-        TefkatParser parser = setupParser("IMPORT file://home/lawley/workspace/QVTModelParser/tests/UMLRelationalTracking.ecore;");
+    public void testInstanceRef() {
+        TefkatParser parser = setupParser("RULE foo MAKE bar b FROM p(x+3);");
         try {
-            parser.importDecl(t);
+            parser.trule(t, (ExtentVar) t.getVars().get(0), (ExtentVar) t.getVars().get(1));
         } catch (RecognitionException e) {
             fail(e.toString());
         } catch (TokenStreamException e) {
             fail(e.toString());
         }
-        assertTrue(t.getImportedPackages().get(0) != null);
+        assertTrue(true);
+        
     }
 
-    public void testFileImportFailure() {
-        TefkatParser parser = setupParser("IMPORT file://home/lawley/workspace/QVTModelParser/tests/DoesNotExist.ecore;");
+    public void testNoInstanceRef() {
+        TefkatParser parser = setupParser("RULE foo MAKE bar b;");
         try {
-            parser.importDecl(t);
+            parser.trule(t, (ExtentVar) t.getVars().get(0), (ExtentVar) t.getVars().get(1));
         } catch (RecognitionException e) {
-            assertTrue(e.getMessage().startsWith("Unable to load tracking package from URI:"));
-            return;
+            fail(e.toString());
         } catch (TokenStreamException e) {
             fail(e.toString());
         }
-        fail("URI should not have been found");
+        assertTrue(true);
+        
     }
+
 }

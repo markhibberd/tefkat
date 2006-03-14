@@ -11,52 +11,48 @@
  *
  */
 
-package com.dstc.tefkat.model.parser.tests;
+package tefkat.model.parser.tests;
 
+import tefkat.model.ExtentVar;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
-import com.dstc.tefkat.model.ExtentVar;
-import com.dstc.tefkat.model.parser.TefkatParser;
+import tefkat.model.parser.TefkatParser;
 
 /**
  * @author lawley
  *
  */
-public class UniquenessTest extends ParserTestCase {
+public class ExactMofInstanceTest extends ParserTestCase {
 
     /**
-     * Constructor for UniquenessTest.
+     * Constructor for ExactMofInstanceTest.
      * @param name
      */
-    public UniquenessTest(String name) {
+    public ExactMofInstanceTest(String name) {
         super(name);
     }
 
-    public void testInstanceRef() {
-        TefkatParser parser = setupParser("RULE foo MAKE bar b FROM p(x+3);");
+    public void testExactKeyword() {
+        TefkatParser parser = setupParser("EXACT ClassName verName");
         try {
-            parser.trule(t, (ExtentVar) t.getVars().get(0), (ExtentVar) t.getVars().get(1));
+            parser.range(t, (ExtentVar) t.getVars().get(0), false, null);
         } catch (RecognitionException e) {
             fail(e.toString());
         } catch (TokenStreamException e) {
             fail(e.toString());
         }
-        assertTrue(true);
-        
     }
 
-    public void testNoInstanceRef() {
-        TefkatParser parser = setupParser("RULE foo MAKE bar b;");
+    public void testNoExactKeyword() {
+        TefkatParser parser = setupParser("ClassName verName");
         try {
-            parser.trule(t, (ExtentVar) t.getVars().get(0), (ExtentVar) t.getVars().get(1));
+            parser.range(t, (ExtentVar) t.getVars().get(0), false, null);
         } catch (RecognitionException e) {
             fail(e.toString());
         } catch (TokenStreamException e) {
             fail(e.toString());
         }
-        assertTrue(true);
-        
     }
 
 }

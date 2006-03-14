@@ -10,7 +10,7 @@
  *
  *
  */
-package com.dstc.tefkat.model.parser;
+package tefkat.model.parser;
 
 import antlr.CommonHiddenStreamToken;
 

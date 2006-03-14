@@ -11,7 +11,7 @@
  *
  */
 
-package com.dstc.tefkat.model.parser.tests;
+package tefkat.model.parser.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -26,7 +26,7 @@ public class AllTests {
     }
 
     public static Test suite() {
-        TestSuite suite = new TestSuite("Test for com.dstc.qvtparser.tests");
+        TestSuite suite = new TestSuite("Test for tefkat.model.parser");
         //$JUnit-BEGIN$
         suite.addTest(new TestSuite(IdentifierStmtTest.class));
         suite.addTest(new TestSuite(ImportStmtTest.class));

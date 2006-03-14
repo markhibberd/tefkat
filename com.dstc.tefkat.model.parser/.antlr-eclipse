@@ -1,6 +1,6 @@
 <?xml version='1.0' ?> 
 <settings>
-  <resource name='src/com/dstc/tefkat/model/parser/tefkat.g'>
+  <resource name='src/tefkat/model/parser/tefkat.g'>
     <property name='traceTreeParser' value='false' />
     <property name='noTrace' value='true' />
     <property name='output' value='' />

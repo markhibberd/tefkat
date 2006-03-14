@@ -10,17 +10,18 @@
  *
  *
  */
-package com.dstc.tefkat.model.parser.tests;
+package tefkat.model.parser.tests;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import tefkat.model.Condition;
+import tefkat.model.Term;
+
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
-import com.dstc.tefkat.model.Condition;
-import com.dstc.tefkat.model.Term;
-import com.dstc.tefkat.model.parser.TefkatParser;
+import tefkat.model.parser.TefkatParser;
 
 /**
  * @author lawley

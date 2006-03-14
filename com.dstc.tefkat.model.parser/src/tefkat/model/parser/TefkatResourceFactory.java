@@ -10,7 +10,7 @@
  *
  *
  */
-package com.dstc.tefkat.model.parser;
+package tefkat.model.parser;
 
 import java.util.ArrayList;
 import java.util.List;

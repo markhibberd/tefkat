@@ -10,7 +10,7 @@
  *
  *
  */
-package com.dstc.tefkat.model.parser;
+package tefkat.model.parser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,8 +28,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-import com.dstc.tefkat.model.TRule;
-import com.dstc.tefkat.model.Transformation;
+import tefkat.model.TRule;
+import tefkat.model.Transformation;
+
 
 /**
  * @author lawley
@@ -40,7 +41,7 @@ public abstract class Main {
     private static ResourceSet resourceSet = new ResourceSetImpl();
 
     public static void main(String[] args) {
-    	com.dstc.tefkat.model.impl.TefkatPackageImpl.init();
+    	tefkat.model.impl.TefkatPackageImpl.init();
         
         if (args.length > 0) {
             for (int i = 0; i < args.length; i++) {

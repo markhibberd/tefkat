@@ -11,12 +11,12 @@
  *
  */
 
-package com.dstc.tefkat.model.parser.tests;
+package tefkat.model.parser.tests;
 
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
-import com.dstc.tefkat.model.parser.TefkatParser;
+import tefkat.model.parser.TefkatParser;
 
 /**
  * @author lawley

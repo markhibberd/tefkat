@@ -11,7 +11,7 @@
  *
  */
 
-package com.dstc.tefkat.model.parser.tests;
+package tefkat.model.parser.tests;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -23,16 +23,17 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import com.dstc.tefkat.model.TRule;
-import com.dstc.tefkat.model.Transformation;
-import com.dstc.tefkat.model.TefkatFactory;
+import tefkat.model.TRule;
+import tefkat.model.TefkatFactory;
+import tefkat.model.Transformation;
+
 import antlr.TokenStreamHiddenTokenFilter;
 import antlr.debug.MessageEvent;
 import antlr.debug.MessageListener;
 import antlr.debug.TraceEvent;
 
-import com.dstc.tefkat.model.parser.TefkatLexer;
-import com.dstc.tefkat.model.parser.TefkatParser;
+import tefkat.model.parser.TefkatLexer;
+import tefkat.model.parser.TefkatParser;
 
 import junit.framework.TestCase;
 

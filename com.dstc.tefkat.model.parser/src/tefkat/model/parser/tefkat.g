@@ -12,7 +12,7 @@
  */
 
 header {
-package com.dstc.tefkat.model.parser;
+package tefkat.model.parser;
 }
 
 {
@@ -28,7 +28,7 @@ package com.dstc.tefkat.model.parser;
  *
  */
  
-import com.dstc.tefkat.model.parser.TefkatToken;
+import tefkat.model.parser.TefkatToken;
 }
 
 /**
@@ -345,9 +345,9 @@ import org.eclipse.emf.common.util.WrappedException;
 import antlr.debug.MessageEvent;
 import antlr.debug.MessageListener;
 
-import com.dstc.tefkat.data.*;
-import com.dstc.tefkat.model.*;
-import com.dstc.tefkat.model.internal.Util;
+import tefkat.data.*;
+import tefkat.model.*;
+import tefkat.model.internal.Util;
 }
 
 /**

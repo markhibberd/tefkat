@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin
-   id="com.dstc.tefkat.model.parser"
+   id="tefkat.model.parser"
    name="%pluginName"
    version="2.1.0.1"
    provider-name="%providerName">
@@ -18,7 +18,7 @@
       <import plugin="org.eclipse.emf.ecore.xmi" export="true"/>
       <import plugin="org.antlr"/>
       <import plugin="org.junit" optional="true"/>
-      <import plugin="com.dstc.tefkat.model" export="true"/>
+      <import plugin="tefkat.model" export="true"/>
    </requires>
 
 </plugin>
