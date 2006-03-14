@@ -14,7 +14,7 @@
          point="org.eclipse.emf.edit.itemProviderAdapterFactories">
     <factory 
        uri = "http://www.dstc.edu.au:8080/qvt/TefkatConfig.ecore" 
-       class = "com.dstc.tefkat.config.TefkatConfig.provider.TefkatConfigItemProviderAdapterFactory" 
+       class = "tefkat.config.TefkatConfig.provider.TefkatConfigItemProviderAdapterFactory" 
        supportedTypes = 
          "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
           org.eclipse.emf.edit.provider.IStructuredItemContentProvider
