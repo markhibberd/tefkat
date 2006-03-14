@@ -22,13 +22,13 @@ DIR=`dirname $0`
 PATH=$JAVA_HOME/bin:$PATH
 export PATH
 
-MAIN=com.dstc.tefkat.engine.Main
+MAIN=tefkat.engine.Main
 
 LOGGING_JAR=log4j-1_2_8.jar
 LOGGING_JAR=
 
 MODELS=http://www.dstc.edu.au:8080/qvt/models
-CLASSPATH=$DIR/jgraph.jar:$DIR/runtime:$DIR/../com.dstc.tefkat.config/runtime:$DIR/../com.dstc.tefkat.model/runtime:$DIR/../com.dstc.tefkat.model.parser/runtime:$ECLIPSE/plugins/org.eclipse.emf.ecore_$EMF_VERSION.jar:$ECLIPSE/plugins/org.eclipse.emf.ecore.xmi_$EMF_VERSION.jar:$ECLIPSE/plugins/org.eclipse.emf.common_$EMF_VERSION.jar:"$LOGGING_JAR":$ECLIPSE/plugins/org.antlr_2.7.6.b2/antlr.jar
+CLASSPATH=$DIR/jgraph.jar:$DIR/runtime:$DIR/../tefkat.config/runtime:$DIR/../tefkat.model/runtime:$DIR/../tefkat.model.parser/runtime:$ECLIPSE/plugins/org.eclipse.emf.ecore_$EMF_VERSION.jar:$ECLIPSE/plugins/org.eclipse.emf.ecore.xmi_$EMF_VERSION.jar:$ECLIPSE/plugins/org.eclipse.emf.common_$EMF_VERSION.jar:"$LOGGING_JAR":$ECLIPSE/plugins/org.antlr_2.7.6.b2/antlr.jar
 
 cd $DIR
 

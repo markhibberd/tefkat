@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin
-   id="com.dstc.tefkat.engine"
+   id="tefkat.engine"
    name="%pluginName"
    version="2.1.0.1"
    provider-name="%providerName">
@@ -17,16 +17,16 @@
    <requires>
       <import plugin="org.eclipse.emf.ecore" export="true"/>
       <import plugin="org.eclipse.emf.ecore.xmi" export="true"/>
-      <import plugin="com.dstc.tefkat.config" export="true"/>
-      <import plugin="com.dstc.tefkat.model" export="true"/>
-      <import plugin="com.dstc.tefkat.model.parser" export="true"/>
+      <import plugin="tefkat.config" export="true"/>
+      <import plugin="tefkat.model" export="true"/>
+      <import plugin="tefkat.model.parser" export="true"/>
    </requires>
 
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http:///com/dstc/tefkat/TefkatTrace.ecore"
-            class="com.dstc.tefkat.engine.trace.TracePackage">
+            class="tefkat.engine.trace.TracePackage">
       </package>
    </extension>
 
