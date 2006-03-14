@@ -3,5 +3,5 @@
    <description url="http://www.lawley.id.au/updates">
       Update Site for the Tefkat Model Transformation Engine
    </description>
-   <feature url="features/com.dstc.tefkat.plugin_2.1.0.1.jar" id="com.dstc.tefkat.plugin" version="2.1.0.1"/>
+   <feature url="features/tefkat.feature_2.1.0.1.jar" id="tefkat.feature" version="2.1.0.1"/>
 </site>
