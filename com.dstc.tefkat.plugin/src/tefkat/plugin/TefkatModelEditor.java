@@ -12,7 +12,7 @@
  *
  */
 
-package com.dstc.tefkat.plugin;
+package tefkat.plugin;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -57,17 +57,18 @@ import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
+import tefkat.model.parser.ParserEvent;
+import tefkat.model.parser.ParserListener;
+
 import antlr.ANTLRException;
 import antlr.RecognitionException;
 import antlr.TokenStreamHiddenTokenFilter;
 import antlr.debug.MessageEvent;
 import antlr.debug.MessageAdapter;
 
-import com.dstc.tefkat.model.parser.ParserEvent;
-import com.dstc.tefkat.model.parser.ParserListener;
-import com.dstc.tefkat.model.parser.TefkatLexer;
-import com.dstc.tefkat.model.parser.TefkatMessageEvent;
-import com.dstc.tefkat.model.parser.TefkatParser;
+import tefkat.model.parser.TefkatLexer;
+import tefkat.model.parser.TefkatMessageEvent;
+import tefkat.model.parser.TefkatParser;
 
 /**
  * @author lawley

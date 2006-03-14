@@ -11,7 +11,7 @@
  *
  * 
  */
-package com.dstc.tefkat.plugin.debug;
+package tefkat.plugin.debug;
 
 import java.util.List;
 
@@ -21,8 +21,9 @@ import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.emf.ecore.EObject;
 
-import com.dstc.tefkat.model.AbstractVar;
-import com.dstc.tefkat.model.TRule;
+import tefkat.model.AbstractVar;
+import tefkat.model.TRule;
+
 
 /**
  * @author lawley
@@ -52,14 +53,14 @@ public class RuleStackFrame extends AbstractStackFrame {
     }
 
     /* (non-Javadoc)
-     * @see com.dstc.tefkat.plugin.debug.AbstractStackFrame#getVariableValue(java.lang.Object)
+     * @see tefkat.plugin.debug.AbstractStackFrame#getVariableValue(java.lang.Object)
      */
     protected IValue getVariableValue(Object var) {
         return null;
     }
 
     /* (non-Javadoc)
-     * @see com.dstc.tefkat.plugin.debug.AbstractStackFrame#getTerm()
+     * @see tefkat.plugin.debug.AbstractStackFrame#getTerm()
      */
     protected EObject getElement() {
         return rule;

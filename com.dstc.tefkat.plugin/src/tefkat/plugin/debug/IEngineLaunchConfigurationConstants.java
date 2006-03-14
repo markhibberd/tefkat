@@ -11,7 +11,7 @@
  *
  * 
  */
-package com.dstc.tefkat.plugin.debug;
+package tefkat.plugin.debug;
 
 /**
  * @author lawley
@@ -19,7 +19,7 @@ package com.dstc.tefkat.plugin.debug;
  */
 public interface IEngineLaunchConfigurationConstants {
 
-    public static final String ID_ENGINE_DEBUG_MODEL = "com.dstc.tefkat.plugin.debug";
+    public static final String ID_ENGINE_DEBUG_MODEL = "tefkat.plugin.debug";
 
     public static final String CONFIGURATION_URI = ID_ENGINE_DEBUG_MODEL + ".CONFIGURATION_URI";
 

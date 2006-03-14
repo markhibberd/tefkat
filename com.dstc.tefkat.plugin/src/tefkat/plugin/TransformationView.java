@@ -11,7 +11,7 @@
  *
  */
 
-package com.dstc.tefkat.plugin;
+package tefkat.plugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,12 +29,13 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
-import com.dstc.tefkat.engine.Binding;
-import com.dstc.tefkat.engine.Node;
-import com.dstc.tefkat.engine.TefkatListenerAdapter;
-import com.dstc.tefkat.model.TRule;
-import com.dstc.tefkat.model.Term;
-import com.dstc.tefkat.model.Transformation;
+import tefkat.engine.Binding;
+import tefkat.engine.Node;
+import tefkat.engine.TefkatListenerAdapter;
+import tefkat.model.TRule;
+import tefkat.model.Term;
+import tefkat.model.Transformation;
+
 
 /**
  * @author lawley

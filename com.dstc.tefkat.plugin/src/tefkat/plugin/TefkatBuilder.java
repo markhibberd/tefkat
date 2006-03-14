@@ -12,7 +12,7 @@
  *
  */
 
-package com.dstc.tefkat.plugin;
+package tefkat.plugin;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -31,9 +31,10 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import com.dstc.tefkat.config.TefkatConfig.Configuration;
-import com.dstc.tefkat.config.TefkatConfig.Model;
-import com.dstc.tefkat.config.TefkatConfig.TransformationTask;
+import tefkat.config.TefkatConfig.Configuration;
+import tefkat.config.TefkatConfig.Model;
+import tefkat.config.TefkatConfig.TransformationTask;
+
 
 /**
  * @author lawley
@@ -50,7 +51,7 @@ public class TefkatBuilder extends IncrementalProjectBuilder {
     private static boolean filechecking = true;
     static {
         String value =
-            Platform.getDebugOption("com.dstc.tefkat/trace/filechecking");
+            Platform.getDebugOption("tefkat/trace/filechecking");
         if (value != null && value.equalsIgnoreCase("true")) {
             TefkatBuilder.filechecking = true;
         }

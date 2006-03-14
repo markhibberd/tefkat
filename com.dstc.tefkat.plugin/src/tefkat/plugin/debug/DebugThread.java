@@ -12,7 +12,7 @@
  * 
  */
 
-package com.dstc.tefkat.plugin.debug;
+package tefkat.plugin.debug;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -21,7 +21,8 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 
-import com.dstc.tefkat.plugin.TefkatPlugin;
+import tefkat.plugin.TefkatPlugin;
+
 
 /**
  * @author lawley

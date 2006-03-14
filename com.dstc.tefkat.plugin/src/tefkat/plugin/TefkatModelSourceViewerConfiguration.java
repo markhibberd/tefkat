@@ -11,7 +11,8 @@
  *
  *
  */
-package com.dstc.tefkat.plugin;
+
+package tefkat.plugin;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextAttribute;

@@ -12,7 +12,7 @@
  * 
  */
 
-package com.dstc.tefkat.plugin;
+package tefkat.plugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;

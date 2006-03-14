@@ -12,7 +12,7 @@
  * 
  */
 
-package com.dstc.tefkat.plugin.debug;
+package tefkat.plugin.debug;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;

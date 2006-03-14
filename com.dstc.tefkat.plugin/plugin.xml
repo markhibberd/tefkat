@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin
-   id="com.dstc.tefkat.plugin"
+   id="tefkat.plugin"
    name="%pluginName"
    version="2.1.0.1"
    provider-name="%providerName"
-   class="com.dstc.tefkat.plugin.TefkatPlugin">
+   class="tefkat.plugin.TefkatPlugin">
 
    <runtime>
       <library name="tefkat_plugin.jar">
@@ -17,7 +17,7 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.debug.core"/>
       <import plugin="org.eclipse.debug.ui"/>
-      <import plugin="org.eclipse.draw2d" optional="true"/>
+      <!-- import plugin="org.eclipse.draw2d" optional="true"/ -->
       <import plugin="org.eclipse.emf.ecore" export="true"/>
       <import plugin="org.eclipse.emf.ecore.edit" export="true"/>
       <import plugin="org.eclipse.emf.ecore.editor" export="true"/>
@@ -30,15 +30,15 @@
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import plugin="org.antlr"/>
-      <import plugin="com.dstc.emf.view" export="false" optional="true"/>
-      <import plugin="com.dstc.tefkat.engine" export="true"/>
-      <import plugin="com.dstc.tefkat.config" export="true"/>
-      <import plugin="com.dstc.tefkat.config.edit" export="true"/>
-      <import plugin="com.dstc.tefkat.config.editor" export="true"/>
-      <import plugin="com.dstc.tefkat.model.parser" export="true"/>
-      <import plugin="com.dstc.tefkat.model" export="true"/>
-      <import plugin="com.dstc.tefkat.model.editor" export="true"/>
-      <import plugin="com.dstc.tefkat.model.edit" export="true"/>
+      <!-- import plugin="com.dstc.emf.view" export="false" optional="true"/ -->
+      <import plugin="tefkat.model" export="true"/>
+      <import plugin="tefkat.model.edit" export="true"/>
+      <import plugin="tefkat.model.editor" export="true"/>
+      <import plugin="tefkat.config" export="true"/>
+      <import plugin="tefkat.config.edit" export="true"/>
+      <import plugin="tefkat.config.editor" export="true"/>
+      <import plugin="tefkat.model.parser" export="true"/>
+      <import plugin="tefkat.engine" export="true"/>
    </requires>
    <extension-point id="functionSet" name="Function Set" schema="schema/functionSet.exsd"/>
 
@@ -47,7 +47,7 @@
          point="org.eclipse.emf.ecore.generated_package">
       <package
             uri=""
-            class="com.dstc.tefkat.plugin.TefkatConfig.TefkatConfigPackage">
+            class="tefkat.plugin.TefkatConfig.TefkatConfigPackage">
       </package>
    </extension>
    <extension
@@ -56,11 +56,11 @@
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="com.dstc.tefkat.plugin.TefkatNature">
+               class="tefkat.plugin.TefkatNature">
          </run>
       </runtime>
       <builder
-            id="com.dstc.tefkat.plugin.TefkatBuilder">
+            id="tefkat.plugin.TefkatBuilder">
       </builder>
    </extension>
    <extension
@@ -69,7 +69,7 @@
          point="org.eclipse.core.resources.builders">
       <builder>
          <run
-               class="com.dstc.tefkat.plugin.TefkatBuilder">
+               class="tefkat.plugin.TefkatBuilder">
          </run>
       </builder>
    </extension>
@@ -78,18 +78,18 @@
       <objectContribution
             objectClass="org.eclipse.core.resources.IProject"
             adaptable="true"
-            id="com.dstc.tefkat.plugin.ToggleNature">
+            id="tefkat.plugin.ToggleNature">
          <action
                label="Add Tefkat Nature"
-               class="com.dstc.tefkat.plugin.ToggleNatureAction"
+               class="tefkat.plugin.ToggleNatureAction"
                enablesFor="1"
-               id="com.dstc.tefkat.plugin.ToggleNatureAction">
+               id="tefkat.plugin.ToggleNatureAction">
          </action>
          <visibility>
             <not>
                <objectState
                      name="nature"
-                     value="com.dstc.tefkat.plugin.TefkatNature">
+                     value="tefkat.plugin.TefkatNature">
                </objectState>
             </not>
          </visibility>
@@ -100,17 +100,17 @@
       <objectContribution
             objectClass="org.eclipse.core.resources.IProject"
             adaptable="true"
-            id="com.dstc.tefkat.plugin.ToggleNature">
+            id="tefkat.plugin.ToggleNature">
          <action
                label="Remove Tefkat Nature"
-               class="com.dstc.tefkat.plugin.ToggleNatureAction"
+               class="tefkat.plugin.ToggleNatureAction"
                enablesFor="1"
-               id="com.dstc.tefkat.plugin.ToggleNatureAction">
+               id="tefkat.plugin.ToggleNatureAction">
          </action>
          <visibility>
             <objectState
                   name="nature"
-                  value="com.dstc.tefkat.plugin.TefkatNature">
+                  value="tefkat.plugin.TefkatNature">
             </objectState>
          </visibility>
       </objectContribution>
@@ -120,11 +120,11 @@
          point="org.eclipse.ui.editors">
       <editor
             icon="icons/full/obj16/TefkatModelFile.gif"
-            class="com.dstc.tefkat.plugin.TefkatModelEditor"
+            class="tefkat.plugin.TefkatModelEditor"
             default="true"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             name="Tefkat Textual Editor"
-            id="com.dstc.tefkat.plugin.TefkatModelEditor"
+            id="tefkat.plugin.TefkatModelEditor"
             extensions="qvt">
       </editor>
    </extension>
@@ -140,45 +140,40 @@
          point="org.eclipse.ui.views">
       <view
             category="com.dstc.emf.view"
-            class="com.dstc.tefkat.plugin.TefkatView"
-            id="com.dstc.tefkat.plugin.TefkatView"
-            name="Tefkat View"/>
-      <view
-            category="com.dstc.emf.view"
-            class="com.dstc.tefkat.plugin.TefkatTransformationView"
-            id="com.dstc.tefkat.plugin.TefkatTransformationView"
+            class="tefkat.plugin.TefkatTransformationView"
+            id="tefkat.plugin.TefkatTransformationView"
             name="Tefkat Transformation View"/>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
       <launchConfigurationTabGroup
-            type="com.dstc.tefkat.plugin.debug.launching.engine"
-            class="com.dstc.tefkat.plugin.debug.EngineLaunchConfigurationTabGroup"
-            id="com.dstc.tefkat.plugin.debug.launchConfigurationTabGroup.engine">
+            type="tefkat.plugin.debug.launching.engine"
+            class="tefkat.plugin.debug.EngineLaunchConfigurationTabGroup"
+            id="tefkat.plugin.debug.launchConfigurationTabGroup.engine">
       </launchConfigurationTabGroup>
    </extension>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType
-            delegate="com.dstc.tefkat.plugin.debug.EngineLaunchConfigurationDelegate"
+            delegate="tefkat.plugin.debug.EngineLaunchConfigurationDelegate"
             name="Tefkat Engine"
-            id="com.dstc.tefkat.plugin.debug.launching.engine"
+            id="tefkat.plugin.debug.launching.engine"
             modes="run, debug"/>
    </extension>
    <extension
          id="TefkatDocumentSetupParticipant"
          point="org.eclipse.core.filebuffers.documentSetup">
       <participant
-            class="com.dstc.tefkat.plugin.TefkatDocumentSetupParticipant"
+            class="tefkat.plugin.TefkatDocumentSetupParticipant"
             extensions="qvt"/>
    </extension>
    <extension
          id="TefkatPreferencePage"
          point="org.eclipse.ui.preferencePages">
       <page
-            class="com.dstc.tefkat.plugin.TefkatPreferencePage"
+            class="tefkat.plugin.TefkatPreferencePage"
             name="Tefkat"
-            id="com.dstc.tefkat.plugin.tefkatPreferencePage"/>
+            id="tefkat.plugin.tefkatPreferencePage"/>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">

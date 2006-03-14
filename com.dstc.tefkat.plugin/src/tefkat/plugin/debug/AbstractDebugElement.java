@@ -12,7 +12,7 @@
  * 
  */
 
-package com.dstc.tefkat.plugin.debug;
+package tefkat.plugin.debug;
 
 import org.eclipse.core.runtime.PlatformObject;
 import org.eclipse.debug.core.DebugEvent;

@@ -12,7 +12,7 @@
  * 
  */
 
-package com.dstc.tefkat.plugin.debug;
+package tefkat.plugin.debug;
 
 import java.util.Iterator;
 
@@ -33,12 +33,13 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
-import com.dstc.tefkat.config.TefkatConfig.Configuration;
-import com.dstc.tefkat.config.TefkatConfig.TransformationTask;
-import com.dstc.tefkat.config.TefkatConfig.impl.TefkatConfigPackageImpl;
-import com.dstc.tefkat.engine.Tefkat;
-import com.dstc.tefkat.engine.TefkatListener;
-import com.dstc.tefkat.plugin.TefkatPlugin;
+import tefkat.config.TefkatConfig.Configuration;
+import tefkat.config.TefkatConfig.TransformationTask;
+import tefkat.config.TefkatConfig.impl.TefkatConfigPackageImpl;
+import tefkat.engine.Tefkat;
+import tefkat.engine.TefkatListener;
+import tefkat.plugin.TefkatPlugin;
+
 
 /**
  * @author lawley
@@ -94,14 +95,14 @@ public class EngineLaunchConfigurationDelegate implements
                                             public void run() {
                                                 IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
                                                 IWorkbenchPage page = window.getActivePage();
-                                                IViewPart view = page.findView("com.dstc.tefkat.plugin.TefkatView");
+                                                IViewPart view = page.findView("tefkat.plugin.TefkatView");
                                                 if (null != view && page.isPartVisible(view)) {
                                                     TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
                                                     if (null != listener) {
                                                         engine.addTefkatListener(listener);
                                                     }
                                                 }
-                                                view = page.findView("com.dstc.tefkat.plugin.TefkatTransformationView");
+                                                view = page.findView("tefkat.plugin.TefkatTransformationView");
                                                 if (null != view && page.isPartVisible(view)) {
                                                     TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
                                                     if (null != listener) {
@@ -131,14 +132,14 @@ public class EngineLaunchConfigurationDelegate implements
                                             public void run() {
                                                 IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
                                                 IWorkbenchPage page = window.getActivePage();
-                                                IViewPart view = page.findView("com.dstc.tefkat.plugin.TefkatView");
+                                                IViewPart view = page.findView("tefkat.plugin.TefkatView");
                                                 if (null != view) {
                                                     TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
                                                     if (null != listener) {
                                                         engine.removeTefkatListener(listener);
                                                     }
                                                 }
-                                                view = page.findView("com.dstc.tefkat.plugin.TefkatTransformationView");
+                                                view = page.findView("tefkat.plugin.TefkatTransformationView");
                                                 if (null != view) {
                                                     TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
                                                     if (null != listener) {

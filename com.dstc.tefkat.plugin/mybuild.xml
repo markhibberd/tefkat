@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="com.dstc.tefkat.plugin" default="Update Build ID" basedir=".">
+<project name="tefkat.plugin" default="Update Build ID" basedir=".">
 
   <target name="Update Build ID">
     <propertyfile file="about.mappings">

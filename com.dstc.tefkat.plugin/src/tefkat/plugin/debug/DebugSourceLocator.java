@@ -12,7 +12,7 @@
  * 
  */
 
-package com.dstc.tefkat.plugin.debug;
+package tefkat.plugin.debug;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -65,7 +65,7 @@ public class DebugSourceLocator implements ISourceLocator, ISourcePresentation {
      */
     public String getEditorId(IEditorInput input, Object element) {
         if (element instanceof EObject) {
-            return "com.dstc.tefkat.plugin.TefkatModelEditor";
+            return "tefkat.plugin.TefkatModelEditor";
         }
         return null;
     }

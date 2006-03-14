@@ -11,7 +11,7 @@
  *
  * 
  */
-package com.dstc.tefkat.plugin;
+package tefkat.plugin;
 
 import org.eclipse.core.filebuffers.IDocumentSetupParticipant;
 import org.eclipse.jface.text.IDocument;

@@ -12,7 +12,7 @@
  * 
  */
 
-package com.dstc.tefkat.plugin;
+package tefkat.plugin;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,14 +33,15 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
-import com.dstc.tefkat.model.AbstractVar;
-import com.dstc.tefkat.model.AndTerm;
-import com.dstc.tefkat.model.MofInstance;
-import com.dstc.tefkat.model.OrTerm;
-import com.dstc.tefkat.model.Term;
-import com.dstc.tefkat.model.Transformation;
-import com.dstc.tefkat.model.VarScope;
-import com.dstc.tefkat.model.VarUse;
+import tefkat.model.AbstractVar;
+import tefkat.model.AndTerm;
+import tefkat.model.MofInstance;
+import tefkat.model.OrTerm;
+import tefkat.model.Term;
+import tefkat.model.Transformation;
+import tefkat.model.VarScope;
+import tefkat.model.VarUse;
+
 
 /**
  * @author lawley

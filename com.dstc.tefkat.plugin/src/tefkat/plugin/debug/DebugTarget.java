@@ -12,7 +12,7 @@
  * 
  */
 
-package com.dstc.tefkat.plugin.debug;
+package tefkat.plugin.debug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,18 +33,19 @@ import org.eclipse.debug.core.model.IThread;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import com.dstc.tefkat.engine.Binding;
-import com.dstc.tefkat.engine.Node;
-import com.dstc.tefkat.engine.OverrideTerm;
-import com.dstc.tefkat.engine.Tefkat;
-import com.dstc.tefkat.engine.TefkatListener;
-import com.dstc.tefkat.engine.Tree;
-import com.dstc.tefkat.model.Extent;
-import com.dstc.tefkat.model.TRule;
-import com.dstc.tefkat.model.Term;
-import com.dstc.tefkat.model.Transformation;
-import com.dstc.tefkat.model.parser.ParserEvent;
-import com.dstc.tefkat.model.parser.ParserListener;
+import tefkat.engine.Binding;
+import tefkat.engine.Node;
+import tefkat.engine.OverrideTerm;
+import tefkat.engine.Tefkat;
+import tefkat.engine.TefkatListener;
+import tefkat.engine.Tree;
+import tefkat.model.Extent;
+import tefkat.model.TRule;
+import tefkat.model.Term;
+import tefkat.model.Transformation;
+import tefkat.model.parser.ParserEvent;
+import tefkat.model.parser.ParserListener;
+
 
 /**
  * @author lawley
@@ -369,7 +370,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
     }
 
     /* (non-Javadoc)
-     * @see com.dstc.tefkat.model.parser.ParserListener#matched(com.dstc.tefkat.model.parser.ParserEvent)
+     * @see tefkat.model.parser.ParserListener#matched(tefkat.model.parser.ParserEvent)
      */
     public void matched(ParserEvent event) {
         startCharMap.put(event.getObj(), new Integer(event.getStartChar()));

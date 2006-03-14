@@ -1,2 +1,2 @@
 # Display tracing information
-com.dstc.tefkat/trace/filechecking=true
+tefkat/trace/filechecking=true

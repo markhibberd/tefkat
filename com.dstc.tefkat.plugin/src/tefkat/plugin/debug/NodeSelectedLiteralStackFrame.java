@@ -11,7 +11,7 @@
  *
  * 
  */
-package com.dstc.tefkat.plugin.debug;
+package tefkat.plugin.debug;
 
 import java.util.List;
 
@@ -21,9 +21,10 @@ import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.emf.ecore.EObject;
 
-import com.dstc.tefkat.engine.Node;
-import com.dstc.tefkat.model.AbstractVar;
-import com.dstc.tefkat.model.VarScope;
+import tefkat.engine.Node;
+import tefkat.model.AbstractVar;
+import tefkat.model.VarScope;
+
 
 /**
  * @author lawley

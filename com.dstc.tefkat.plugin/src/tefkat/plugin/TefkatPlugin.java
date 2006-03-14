@@ -12,7 +12,7 @@
  *
  */
 
-package com.dstc.tefkat.plugin;
+package tefkat.plugin;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.IViewPart;
@@ -52,20 +52,21 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.osgi.framework.BundleContext;
 
-import com.dstc.tefkat.engine.Binding;
-import com.dstc.tefkat.engine.Function;
-import com.dstc.tefkat.engine.Tefkat;
-import com.dstc.tefkat.engine.TefkatListener;
-import com.dstc.tefkat.engine.TefkatListenerAdapter;
-import com.dstc.tefkat.model.Extent;
-import com.dstc.tefkat.model.TRule;
-import com.dstc.tefkat.model.Transformation;
-import com.dstc.tefkat.model.parser.TefkatResourceFactory;
-import com.dstc.tefkat.plugin.TefkatPreferencePage.URIMap;
-import com.dstc.tefkat.config.TefkatConfig.ExecutionMode;
-import com.dstc.tefkat.config.TefkatConfig.Model;
-import com.dstc.tefkat.config.TefkatConfig.TefkatConfigFactory;
-import com.dstc.tefkat.config.TefkatConfig.TransformationTask;
+import tefkat.config.TefkatConfig.ExecutionMode;
+import tefkat.config.TefkatConfig.Model;
+import tefkat.config.TefkatConfig.TefkatConfigFactory;
+import tefkat.config.TefkatConfig.TransformationTask;
+import tefkat.engine.Binding;
+import tefkat.engine.Function;
+import tefkat.engine.Tefkat;
+import tefkat.engine.TefkatListener;
+import tefkat.engine.TefkatListenerAdapter;
+import tefkat.model.Extent;
+import tefkat.model.TRule;
+import tefkat.model.Transformation;
+import tefkat.model.parser.TefkatResourceFactory;
+import tefkat.plugin.TefkatPreferencePage.URIMap;
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -77,7 +78,7 @@ import java.util.*;
  */
 public class TefkatPlugin extends AbstractUIPlugin {
 
-    public static final String PLUGIN_ID = "com.dstc.tefkat.plugin";
+    public static final String PLUGIN_ID = "tefkat.plugin";
 
     public static final String TEFKAT_NATURE = PLUGIN_ID + ".TefkatNature";
 
@@ -182,7 +183,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
     public TefkatPlugin() {
         plugin = this;
         try {
-            resourceBundle = ResourceBundle.getBundle("com.dstc.tefkat.plugin.TefkatPluginResources");
+            resourceBundle = ResourceBundle.getBundle("tefkat.plugin.TefkatPluginResources");
         } catch (MissingResourceException x) {
             resourceBundle = null;
         }
@@ -699,14 +700,14 @@ public class TefkatPlugin extends AbstractUIPlugin {
                 public void run() {
                     IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
                     IWorkbenchPage page = window.getActivePage();
-                    IViewPart view = page.findView("com.dstc.tefkat.plugin.TefkatView");
+                    IViewPart view = page.findView("tefkat.plugin.TefkatView");
                     if (null != view && page.isPartVisible(view)) {
                         TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
                         if (null != listener) {
                             engine.addTefkatListener(listener);
                         }
                     }
-                    view = page.findView("com.dstc.tefkat.plugin.TefkatTransformationView");
+                    view = page.findView("tefkat.plugin.TefkatTransformationView");
                     if (null != view && page.isPartVisible(view)) {
                         TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
                         if (null != listener) {
@@ -733,14 +734,14 @@ public class TefkatPlugin extends AbstractUIPlugin {
                     public void run() {
                         IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
                         IWorkbenchPage page = window.getActivePage();
-                        IViewPart view = page.findView("com.dstc.tefkat.plugin.TefkatView");
+                        IViewPart view = page.findView("tefkat.plugin.TefkatView");
                         if (null != view) {
                             TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
                             if (null != listener) {
                                 engine.removeTefkatListener(listener);
                             }
                         }
-                        view = page.findView("com.dstc.tefkat.plugin.TefkatTransformationView");
+                        view = page.findView("tefkat.plugin.TefkatTransformationView");
                         if (null != view) {
                             TefkatListener listener = (TefkatListener) view.getAdapter(TefkatListener.class);
                             if (null != listener) {

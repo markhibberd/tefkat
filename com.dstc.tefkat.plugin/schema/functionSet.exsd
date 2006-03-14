@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="com.dstc.tefkat.plugin">
+<schema targetNamespace="tefkat.plugin">
 <annotation>
       <appInfo>
-         <meta.schema plugin="com.dstc.tefkat.plugin" id="functionSet" name="Function Set"/>
+         <meta.schema plugin="tefkat.plugin" id="functionSet" name="Function Set"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]

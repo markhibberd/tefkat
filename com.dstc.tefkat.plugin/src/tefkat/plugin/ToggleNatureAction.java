@@ -12,7 +12,7 @@
  * 
  */
 
-package com.dstc.tefkat.plugin;
+package tefkat.plugin;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
