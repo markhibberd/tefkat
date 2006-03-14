@@ -2,14 +2,14 @@
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright michael lawley Pty Ltd 2004-2005"
-    modelDirectory="/com.dstc.tefkat.config/src" editDirectory="/com.dstc.tefkat.config.edit/src"
-    editorDirectory="/com.dstc.tefkat.config.editor/src" modelPluginID="com.dstc.tefkat.config"
-    templateDirectory="/com.dstc.tefkat.config/templates" dynamicTemplates="true"
-    modelName="TefkatConfig" editPluginClass="com.dstc.tefkat.config.TefkatConfig.provider.TefkatConfigEditPlugin"
-    editorPluginClass="com.dstc.tefkat.config.TefkatConfig.presentation.TefkatConfigEditorPlugin"
+    modelDirectory="/tefkat.config/src" editDirectory="/tefkat.config.edit/src" editorDirectory="/tefkat.config.editor/src"
+    modelPluginID="tefkat.config" templateDirectory="/tefkat.config/templates" dynamicTemplates="true"
+    modelName="TefkatConfig" editPluginClass="tefkat.config.TefkatConfig.provider.TefkatConfigEditPlugin"
+    editorPluginClass="tefkat.config.TefkatConfig.presentation.TefkatConfigEditorPlugin"
+    testsDirectory="/tefkat.config.tests/src" testSuiteClass="tefkat.config.TefkatConfig.tests.TefkatConfigAllTests"
     importerID="org.eclipse.emf.importer.ecore">
   <foreignModel>TefkatConfig.ecore</foreignModel>
-  <genPackages prefix="TefkatConfig" basePackage="com.dstc.tefkat.config" ecorePackage="TefkatConfig.ecore#/">
+  <genPackages prefix="TefkatConfig" basePackage="tefkat.config" ecorePackage="TefkatConfig.ecore#/">
     <genEnums ecoreEnum="TefkatConfig.ecore#//ExecutionMode">
       <genEnumLiterals ecoreEnumLiteral="TefkatConfig.ecore#//ExecutionMode/REPLACE"/>
       <genEnumLiterals ecoreEnumLiteral="TefkatConfig.ecore#//ExecutionMode/UPDATE"/>

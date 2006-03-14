@@ -13,7 +13,7 @@
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
-            class="com.dstc.tefkat.config.TefkatConfig.TefkatConfigPackage"
+            class="tefkat.config.TefkatConfig.TefkatConfigPackage"
             genModel="src/model/TefkatConfig.genmodel"
             uri="http://www.dstc.edu.au:8080/qvt/TefkatConfig.ecore">
       </package>
