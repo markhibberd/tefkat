@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry excluding="tefkat/engine/new/" kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="jgraph.jar"/>
-	<classpathentry exported="true" kind="lib" path="log4j-1_2_8.jar"/>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="runtime"/>
-</classpath>
