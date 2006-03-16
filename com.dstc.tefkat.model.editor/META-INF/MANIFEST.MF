@@ -13,6 +13,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
- tefkat.model;visibility:=reexport,
- tefkat.model.edit;visibility:=reexport
+ tefkat.model,
+ tefkat.model.edit
 Eclipse-AutoStart: true
