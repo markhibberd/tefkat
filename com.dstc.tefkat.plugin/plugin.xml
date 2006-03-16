@@ -1,47 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="tefkat.plugin"
-   name="%pluginName"
-   version="2.1.0.1"
-   provider-name="%providerName"
-   class="tefkat.plugin.TefkatPlugin">
+<plugin>
 
-   <runtime>
-      <library name="tefkat_plugin.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   <requires>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.debug.core"/>
-      <import plugin="org.eclipse.debug.ui"/>
-      <!-- import plugin="org.eclipse.draw2d" optional="true"/ -->
-      <import plugin="org.eclipse.emf.ecore" export="true"/>
-      <import plugin="org.eclipse.emf.ecore.edit" export="true"/>
-      <import plugin="org.eclipse.emf.ecore.editor" export="true"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" export="true"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.ui.console"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="org.antlr"/>
-      <!-- import plugin="com.dstc.emf.view" export="false" optional="true"/ -->
-      <import plugin="tefkat.model" export="true"/>
-      <import plugin="tefkat.model.edit" export="true"/>
-      <import plugin="tefkat.model.editor" export="true"/>
-      <import plugin="tefkat.config" export="true"/>
-      <import plugin="tefkat.config.edit" export="true"/>
-      <import plugin="tefkat.config.editor" export="true"/>
-      <import plugin="tefkat.model.parser" export="true"/>
-      <import plugin="tefkat.engine" export="true"/>
-   </requires>
-   <extension-point id="functionSet" name="Function Set" schema="schema/functionSet.exsd"/>
-
+   <extension-point
+         id="functionSet"
+         name="Function Set"
+         schema="schema/functionSet.exsd"/>
 
    <extension
          point="org.eclipse.emf.ecore.generated_package">
