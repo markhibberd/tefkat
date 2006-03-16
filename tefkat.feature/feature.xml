@@ -37,6 +37,12 @@
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import feature="org.eclipse.emf" version="2.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.emf.ecore.editor"/>
    </requires>
 
    <plugin
@@ -75,14 +81,14 @@
          unpack="false"/>
 
    <plugin
-         id="tefkat.model.editor"
+         id="tefkat.model.parser"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="tefkat.model.parser"
+         id="tefkat.model.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"

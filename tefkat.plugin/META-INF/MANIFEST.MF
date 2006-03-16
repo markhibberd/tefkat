@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: tefkat.plugin; singleton:=true
 Bundle-Version: 2.1.0.1
-Bundle-ClassPath: tefkat_plugin.jar
+Bundle-ClassPath: .
 Bundle-Activator: tefkat.plugin.TefkatPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin

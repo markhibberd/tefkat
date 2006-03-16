@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: tefkat.model.edit; singleton:=true
-Bundle-Version: 2.1.0
-Bundle-ClassPath: tefkat.model.edit.jar
+Bundle-Version: 2.1.0.1
+Bundle-ClassPath: .
 Bundle-Activator: tefkat.model.provider.TefkatModelEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
