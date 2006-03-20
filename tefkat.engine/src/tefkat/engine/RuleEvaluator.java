@@ -375,7 +375,7 @@ public class RuleEvaluator {
             for (final Iterator sItr = set.iterator(); sItr.hasNext(); ) {
                 Object scope = sItr.next();
                 lesseq.add(new Object[] {tc, scope});
-//                System.out.println(tc + " <= " + scope);
+//                System.out.println("PR: " + tc + " <= " + scope);
             }
         }
 
@@ -386,7 +386,7 @@ public class RuleEvaluator {
             for (final Iterator sItr = set.iterator(); sItr.hasNext(); ) {
                 Object scope = sItr.next();
                 lesseq.add(new Object[] {scope, tc});
-//                System.out.println(scope + " <= " + tc);
+//                System.out.println("PW: " + scope + " <= " + tc);
             }
         }
 
@@ -397,7 +397,7 @@ public class RuleEvaluator {
             for (final Iterator sItr = set.iterator(); sItr.hasNext(); ) {
                 Object scope = sItr.next();
                 less.add(new Object[] {tc, scope});
-//                System.out.println(tc + " < " + scope);
+//                System.out.println("NR: " + tc + " < " + scope);
             }
         }
 
@@ -408,7 +408,7 @@ public class RuleEvaluator {
             for (final Iterator sItr = set.iterator(); sItr.hasNext(); ) {
                 Object scope = sItr.next();
                 less.add(new Object[] {tc, scope});
-//                System.out.println(tc + " < " + scope);
+//                System.out.println("NW: " + tc + " < " + scope);
             }
         }
 
@@ -519,6 +519,17 @@ public class RuleEvaluator {
         }
     }
 
+    /**
+     * Stratification is determined with respect to the tracking classes
+     * referenced in TrackingUse terms.  Each of readers, writers, neg_readers,
+     * and neg_writers maps from either a type (EClass) to a set of VarScopes (TRule
+     * or PatternDefn) that have the associated dependency on that type, or from
+     * a PatternDefn to a set of VarScopes that have the associated dependency on that
+     * PatternDefn (to capture transitive dependencies).
+     * 
+     * @author lawley
+     *
+     */
     static class Stratifier extends TefkatSwitch {
         final Map readers = new HashMap();
         final Map writers = new HashMap();
@@ -535,14 +546,6 @@ public class RuleEvaluator {
             check(term);
         }
         
-        /* (non-Javadoc)
-         * @see tefkat.model.util.TefkatSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
-         */
-//        public Object doSwitch(EObject theEObject) {
-//            System.out.println(theEObject);
-//            return super.doSwitch(theEObject);
-//        }
-
         private void store(Map map, Object key) {
             if (!map.containsKey(key)) {
                 map.put(key, new HashSet());
@@ -626,18 +629,14 @@ public class RuleEvaluator {
                 return null;
             }
             Map map;
+            /*
+             * A Rule/Pattern cannot be in a stratum less than that of
+             * a Pattern that it invokes.
+             */
             if (negated) {
-                if (isTarget(object)) {
-                    map = neg_writers;
-                } else {
-                    map = neg_readers;
-                }
+            	map = neg_readers;
             } else {
-                if (isTarget(object)) {
-                    map = writers;
-                } else {
-                    map = readers;
-                }
+            	map = readers;
             }
             store(map, key);
             return this;
