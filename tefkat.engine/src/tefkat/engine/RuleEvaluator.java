@@ -201,8 +201,8 @@ public class RuleEvaluator {
     public void runIncrementalTransformation(Transformation transformation, boolean force)
             throws ResolutionException {
 
-        try {
-            buildMaps(transformation);
+    	try {
+    		buildMaps(transformation);
             
             List[] strata = stratify(transformation.getTRule(), transformation.getPatternDefn());
 
@@ -212,10 +212,10 @@ public class RuleEvaluator {
                 // Currently, we use a single Tree per stratum which means
                 // that it's really a forest with one root Node per TRule
                 //
-		Tree tree = new Tree(transformation, null, _context, trackingExtent, false);
-		tree.setLevel(level);
+                Tree tree = new Tree(transformation, null, _context, trackingExtent, false);
+                tree.setLevel(level);
 
-		addUnresolvedTree(tree);
+                addUnresolvedTree(tree);
 
                 for (final Iterator itr = strata[level].iterator(); itr.hasNext(); ) {
                     Object scope = itr.next();
@@ -224,7 +224,7 @@ public class RuleEvaluator {
                         TRule tRule = (TRule) scope;
 
                         if (!tRule.isAbstract()) {
-			    incrementalEvaluate(tRule, tree);
+                        	incrementalEvaluate(tRule, tree);
                         }
                     }
                 }
@@ -232,19 +232,19 @@ public class RuleEvaluator {
                 while (unresolvedTrees.size() > 0) {
                     try {
                         resolve();
-//			System.err.println("completing trees...");
-			int minLevel = Integer.MAX_VALUE;
-			List done = new ArrayList();
+//                      System.err.println("completing trees...");
+                        int minLevel = Integer.MAX_VALUE;
+                        List done = new ArrayList();
                         for (int j = 0; j < unresolvedTrees.size(); j++) {
                             Tree cTree = (Tree) unresolvedTrees.get(j);
-			    if (cTree.getLevel() < minLevel) {
-				done.clear();
-				done.add(cTree);
-				minLevel = cTree.getLevel();
-			    } else if (cTree.getLevel() == minLevel) {
-				done.add(cTree);
-			    }
-			}
+                            if (cTree.getLevel() < minLevel) {
+                            	done.clear();
+                            	done.add(cTree);
+                            	minLevel = cTree.getLevel();
+                            } else if (cTree.getLevel() == minLevel) {
+                            	done.add(cTree);
+                            }
+                        }
 
                         if (done.size() == 0) {
                             // I don't think we should ever reach here...
@@ -253,23 +253,23 @@ public class RuleEvaluator {
                             System.err.print(cTree + "\t" + cTree.getLevel() + " - FORCED");
                             cTree.completed();
                         } else {
-//			    System.err.println("Min level: " + minLevel);
-			    for (Iterator itr = done.iterator(); itr.hasNext(); ) {
-				Tree cTree = (Tree) itr.next();
-//				System.err.println(cTree + " " + cTree.isNegation() + "\t" + cTree.getLevel());
-				unresolvedTrees.remove(cTree);
-				cTree.completed();
-			    }
-			}
-//                        System.err.println(" #trees = " + unresolvedTrees.size());
-		    } catch (ResolutionException e) {
-			if (force) {
-			    fireError(e);
-			} else {
-			    throw e;
-			}
-		    }
-		}
+//                      	System.err.println("Min level: " + minLevel);
+                        	for (Iterator itr = done.iterator(); itr.hasNext(); ) {
+                        		Tree cTree = (Tree) itr.next();
+//                      		System.err.println(cTree + " " + cTree.isNegation() + "\t" + cTree.getLevel());
+                        		unresolvedTrees.remove(cTree);
+                        		cTree.completed();
+                        	}
+                        }
+//                      System.err.println(" #trees = " + unresolvedTrees.size());
+                    } catch (ResolutionException e) {
+                    	if (force) {
+                    		fireError(e);
+                    	} else {
+                    		throw e;
+                    	}
+                    }
+                }
 
             }
 
@@ -690,7 +690,7 @@ public class RuleEvaluator {
             
             tree.addTreeListener(new TreeListener() {
 
-                public void solution(Node node) throws ResolutionException {
+                public void solution(Binding answer) throws ResolutionException {
                 }
 
                 public void completed(Tree tree) {

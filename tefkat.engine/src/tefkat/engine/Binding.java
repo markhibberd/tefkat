@@ -329,7 +329,7 @@ public class Binding {
     }
     
     public int hashCode() {
-        return varToTerm.hashCode() + 42;
+        return entrySet().hashCode() + 42;
     }
     
     public static class BindingError extends Error {

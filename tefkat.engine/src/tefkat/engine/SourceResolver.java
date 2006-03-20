@@ -585,44 +585,44 @@ class SourceResolver extends AbstractResolver {
         // leading to possible spurious flounderings -- see also resolveIfTerm 
         Node newRoot = new Node(negGoal, context);
         final Tree newTree = new Tree(tree.getTransformation(), newRoot, tree.getContext(), tree.getTrackingExtent(), true);
-	newTree.setLevel(tree.getLevel() - 1);
+        newTree.setLevel(tree.getLevel() - 1);
 
-	if (ruleEval.INCREMENTAL) {
+        if (ruleEval.INCREMENTAL) {
             newTree.addTreeListener(new TreeListener() {
 
-                public void solution(Node sNode) {
+                public void solution(Binding answer) {
                 }
 
                 public void completed(Tree theTree) {
                     if (theTree.isSuccess()) {
-			newTree.removeTreeListener(this);
-			tree.failure(node);
+                    	newTree.removeTreeListener(this);
+                    	tree.failure(node);
                     } else {
-			// Negation tree finitely failed, regard as true.
-			//
-			List newGoal = new ArrayList(goal);
-			newGoal.remove(literal);
-                        tree.createBranch(node, null, newGoal);
-		    }
+                    	// Negation tree finitely failed, regard as true.
+                    	//
+                    	List newGoal = new ArrayList(goal);
+                    	newGoal.remove(literal);
+                    	tree.createBranch(node, null, newGoal);
+                    }
                 }
                 
             });
-	    ruleEval.addUnresolvedTree(newTree);
+            ruleEval.addUnresolvedTree(newTree);
         } else {
-	    // Any success nodes in the negation tree?
-	    //
-	    ruleEval.resolveNode(newTree);
-	    if (newTree.isSuccess()) {
-		tree.failure(node);
-	    } else {
-		// Negation tree finitely failed, regard as true.
-		//
-		List newGoal = new ArrayList(goal);
-		newGoal.remove(literal);
-		tree.createBranch(node, null, newGoal);
-	    }
-	}
-
+        	// Any success nodes in the negation tree?
+        	//
+        	ruleEval.resolveNode(newTree);
+        	if (newTree.isSuccess()) {
+        		tree.failure(node);
+        	} else {
+        		// Negation tree finitely failed, regard as true.
+        		//
+        		List newGoal = new ArrayList(goal);
+        		newGoal.remove(literal);
+        		tree.createBranch(node, null, newGoal);
+        	}
+        }
+        
     }
 
     protected void resolveOrTerm(

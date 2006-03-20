@@ -17,9 +17,12 @@ package tefkat.engine;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnumLiteral;
@@ -58,7 +61,7 @@ abstract class AbstractResolver {
     /**
      *  Collect the unifiers that describe the solutions to the goal.
      *  If the goal was not successful, throws a RuntimeExpcetion.
-     *  @see #getSucceeded
+     *  
      *  @return A collection of unifiers, each unifier containing only the set
      *          or variables in the goal, and mapping each variable to a term.
      */
@@ -70,9 +73,9 @@ abstract class AbstractResolver {
         
         Collection unifiers = new ArrayList();
       
-        for (Iterator itr = tree.successes().iterator(); itr.hasNext(); ) {
-            Node node = (Node) itr.next();
-            unifiers.add(node.getBindings());
+        for (Iterator itr = tree.getAnswers().iterator(); itr.hasNext(); ) {
+            Binding answer = (Binding) itr.next();
+            unifiers.add(answer);
         }
 
 //        Binding init = new Binding();
@@ -327,13 +330,14 @@ abstract class AbstractResolver {
             final Node node, Collection goal, Term literal, final List pDefVars, final List args,
             PatternDefn pDefn, Binding newContext, boolean isNegation)
             throws ResolutionException {
-        Tree resultTree = null;
+
+    	final Collection newGoal = new ArrayList(goal);
+        newGoal.remove(literal);
 
         Map cache = ruleEval.getPatternCache(pDefn);
-        resultTree = (Tree) cache.get(newContext);
-
-        final Collection newGoal = new ArrayList(goal);
-        newGoal.remove(literal);
+        Tree resultTree = (Tree) cache.get(newContext);
+        
+		System.err.println("TREE: " + resultTree);
         
         if (null == resultTree) {
             Collection patGoal = new ArrayList();
@@ -344,7 +348,7 @@ abstract class AbstractResolver {
             Node patternNode = new Node(patGoal, newContext);
         
             resultTree = new Tree(tree.getTransformation(), patternNode, tree.getContext(), tree.getTrackingExtent(), isNegation);
-	    resultTree.setLevel(tree.getLevel());
+            resultTree.setLevel(tree.getLevel());
             
             ruleEval.addUnresolvedTree(resultTree);
 
@@ -355,10 +359,10 @@ abstract class AbstractResolver {
             // Register listener for any new solutions
             
             resultTree.addTreeListener(new TreeListener() {
+            	Set solutionCache = new HashSet();
 
-                public void solution(Node sNode) throws ResolutionException {
+                public void solution(Binding answer) throws ResolutionException {
                     Binding unifier = new Binding();
-                    Binding currentSolution = sNode.getBindings();
                     // System.err.println("  s " + currentSolution); // TODO delete
                     for (int j = 0; j < args.size(); j++) {
                         Expression argExpr = (Expression) args.get(j);
@@ -369,16 +373,20 @@ abstract class AbstractResolver {
                                 // bound, otherwise we end up with multiple identical bindings
                                 // for the same Var.
                                 unifier.add(((VarUse) argExpr).getVar(),
-                                        currentSolution.lookup((PatternVar) pDefVars.get(j)));
+                                        answer.lookup((PatternVar) pDefVars.get(j)));
                             } else if (val instanceof WrappedVar) {
                                 unifier.add(((WrappedVar) val).getVar(),
-                                        currentSolution.lookup((PatternVar) pDefVars.get(j)));
+                                        answer.lookup((PatternVar) pDefVars.get(j)));
                             }
                         }
                     }
 
-                    // System.err.println("  u " + unifier); // TODO delete
-                    tree.createBranch(node, unifier, newGoal);
+//                    System.err.println("  u " + unifier); // TODO delete
+                    // Only create new branches for new solutions
+                    if (!solutionCache.contains(unifier)) {
+                    	solutionCache.add(unifier);
+                    	tree.createBranch(node, unifier, newGoal);
+                    }
                 }
 
                 public void completed(Tree theTree) {
@@ -736,8 +744,8 @@ abstract class AbstractResolver {
             
             newTree.addTreeListener(new TreeListener() {
 
-                public void solution(Node sNode) {
-                    Binding sContext = new Binding(sNode.getBindings());
+                public void solution(Binding answer) {
+                    Binding sContext = new Binding(answer);
                     newGoal.add(0, literal.getTerm().get(1));
                     tree.createBranch(node, sContext, newGoal);
                 }
@@ -755,9 +763,9 @@ abstract class AbstractResolver {
             ruleEval.resolveNode(newTree);
             
             if (newTree.isSuccess()) {
-                for (final Iterator itr = newTree.successes().iterator(); itr.hasNext(); ) {
-                    Node sNode = (Node) itr.next();
-                    Binding sContext = new Binding(sNode.getBindings());
+                for (final Iterator itr = newTree.getAnswers().iterator(); itr.hasNext(); ) {
+                    Binding answer = (Binding) itr.next();
+                    Binding sContext = new Binding(answer);
                     List newGoal = new ArrayList(goal);
                     newGoal.remove(literal);
                     newGoal.add(0, literal.getTerm().get(1));

@@ -15,6 +15,8 @@
 package tefkat.engine;
 
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -404,6 +406,31 @@ public class Tefkat {
     public void transform(TransformationTask task, boolean save, boolean force)
     throws ResolutionException, IOException {
         try {
+//            String classpathList = (String) task.getProperties().get("classpaths");
+//            ClassLoader loader;
+//            if (null != classpathList) {
+//                String[] classpaths = classpathList.split("\\s*,\\s*");
+//                URL[] urls = new URL[classpaths.length];
+//                for (int i = 0; i < classpaths.length; i++) {
+//                	urls[i] = new URL(classpaths[i]);
+//            		System.err.println("[" + urls[i] + "]");
+//                }
+//            	loader = new URLClassLoader(urls, this.getClass().getClassLoader());
+//            } else {
+//            	loader = this.getClass().getClassLoader();
+//            }
+//            String packageList = (String) task.getProperties().get("packages");
+//            if (null != packageList) {
+//            	String[] packages = packageList.split("\\s*,\\s*");
+//            	for (int i = 0; i < packages.length; i++) {
+//            		System.err.println("<" + packages[i] + ">");
+//            		Class c;
+//            		c = loader.loadClass(packages[i]);
+//            		//c = Class.forName(packages[i]);
+//            		System.err.println(".eINSTANCE = " + c.getField("eINSTANCE").get(null));
+//            	}
+//            }
+
             setResourceSet(task.eResource().getResourceSet());
         
             List uriMaps = task.getUriMap();
@@ -467,7 +494,17 @@ public class Tefkat {
                 }
             }
 
-        } finally {
+//        } catch (ClassNotFoundException e) {
+//            throw new ResolutionException(null, "Could not find requested model classes", e);
+//		} catch (IllegalArgumentException e) {
+//            throw new ResolutionException(null, "Could not initialise requested model classes", e);
+//		} catch (SecurityException e) {
+//            throw new ResolutionException(null, "Could not initialise requested model classes", e);
+//		} catch (IllegalAccessException e) {
+//            throw new ResolutionException(null, "Could not initialise requested model classes", e);
+//		} catch (NoSuchFieldException e) {
+//            throw new ResolutionException(null, "Could not initialise requested model classes", e);
+		} finally {
             // clear out loaded resources so that a reload is forced
             // next time through - things may have changed so we don't
             // want any cached state.

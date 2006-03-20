@@ -35,7 +35,7 @@ public class Tree {
 
     private final Transformation transformation;
 
-    private final Collection successes = new ArrayList();
+    private final Collection answers = new ArrayList();
     
     private final List unresolvedNodes = new ArrayList();
     
@@ -134,11 +134,15 @@ public class Tree {
 
     public void success(Node node) throws ResolutionException {
         node.setIsSuccess(true);
-        successes.add(node);
         
-        for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
-            TreeListener listener = (TreeListener) itr.next();
-            listener.solution(node);
+        Binding answer = node.getBindings();
+        if (!answers.contains(answer)) {
+        	answers.add(answer);
+        
+        	for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
+        		TreeListener listener = (TreeListener) itr.next();
+        		listener.solution(answer);
+        	}
         }
         
         if (isNegation) {
@@ -150,12 +154,12 @@ public class Tree {
         node.setIsFailure(true);
     }
 
-    public Collection successes() {
-        return successes;
+    public Collection getAnswers() {
+        return answers;
     }
 
     public boolean isSuccess() {
-        return (successes.size() > 0);
+        return (answers.size() > 0);
     }
     
     public boolean isCompleted() {
