@@ -3,10 +3,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="tefkat/WEB-INF/src"/>
 	<classpathentry kind="src" path="work"/>
-	<classpathentry kind="lib" path="/com.dstc.tefkat.engine/log4j-1_2_8.jar"/>
-	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.emf.common_2.1.0.jar"/>
-	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.emf.ecore_2.1.0.jar"/>
-	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.emf.ecore.xmi_2.1.0.jar"/>
+	<classpathentry kind="lib" path="/projects/pegamento/users/lawley/Tefkat/com.dstc.tefkat.engine/log4j-1_2_8.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.emf.common_2.0.0/runtime/common.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.emf.ecore_2.0.0/runtime/ecore.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.emf.ecore.xmi_2.0.0/runtime/ecore.xmi.jar"/>
 	<classpathentry kind="src" path="/com.dstc.tefkat.engine"/>
 	<classpathentry kind="src" path="/com.dstc.tefkat.model"/>
 	<classpathentry kind="src" path="/com.dstc.tefkat.model.parser"/>
