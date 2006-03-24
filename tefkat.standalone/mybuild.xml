@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="tefkat.standalone" default="package" basedir=".">
+
+  <property name="eclipse.dir" value="/Applications/eclipse-SDK-3.1"/>
+  <property name="eclipse.plugins" value="${eclipse.dir}/plugins"/>
+  <property name="tefkat.version" value="2.1.0.1"/>
+
+  <target name="build.config">
+
+    <java classname="org.eclipse.core.launcher.Main"
+          classpath="${eclipse.dir}/startup.jar"
+	  fork="yes"
+	  >
+      <arg value="-application org.eclipse.ant.core.antRunner"/>
+      <arg value="-buildfile build.xml"/>
+      <arg value="-Dcomponent=tefkat.engine"/>
+      <arg value="-Dpde.build.scripts=${eclipse.plugins}/org.eclipse.pde.build_3.1.0/scripts"/>
+      <arg value="-DbaseLocation=${eclipse.dir}"/>
+    </java>
+
+  </target>
+
+  <target name="package">
+
+    <mkdir dir="main"/>
+    <mkdir dir="wrap"/>
+    <mkdir dir="lib"/>
+
+    <jar destfile="main/tefkat.jar">
+      <manifest>
+        <attribute name="Main-Class" value="tefkat.engine.Main"/>
+        <attribute name="Built-By" value="${user.name}"/>
+      </manifest>
+      <fileset dir="../tefkat.config/runtime"/>
+      <fileset dir="../tefkat.model/runtime"/>
+      <fileset dir="../tefkat.model.parser/runtime"/>
+      <fileset dir="../tefkat.engine/runtime"/>
+    </jar>
+
+    <jar destfile="wrap/wraploader.jar" basedir="." includes="com/**/*.class">
+      <manifest>
+        <attribute name="Wrap-Class-Loader" value="com.simontuffs.onejar.ExternalClassLoader"/>
+        <attribute name="Built-By" value="${user.name}"/>
+      </manifest>
+    </jar>
+
+    <copy file="../tefkat.engine/jgraph.jar" todir="lib"/>
+    <!--
+    <copy file="${eclipse.plugins}/org.antlr_2.7.6/antlr.jar" todir="lib"/>
+    <copy file="${eclipse.plugins}/org.eclipse.emf.ecore_2.0.1.jar" todir="lib"/>
+    <copy file="${eclipse.plugins}/org.eclipse.emf.ecore.xmi_2.0.1.jar" todir="lib"/>
+    <copy file="${eclipse.plugins}/org.eclipse.emf.common_2.0.1.jar" todir="lib"/>
+    -->
+
+    <copy file="one-jar-boot-0.95.jar"
+	  tofile="Tefkat_${tefkat.version}.jar"
+	  overwrite="true"
+	  preservelastmodified="true"/>
+
+    <jar destfile="Tefkat_${tefkat.version}.jar"
+	update="true"
+	basedir="."
+	includes="main/tefkat.jar,wrap/wraploader.jar,lib/**"
+    >
+      <manifest>
+        <attribute name="Main-Class" value="com.simontuffs.onejar.Boot"/>
+	<attribute name="One-Jar-Expand" value="expand,doc"/>
+      </manifest>
+    </jar>
+
+  </target>
+
+</project>
