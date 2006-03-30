@@ -41,21 +41,21 @@ import tefkat.model.TefkatPackage;
  * @generated
  */
 public class EnumConstantImpl extends CompoundExprImpl implements EnumConstant {
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EnumConstantImpl() {
-		super();
-	}
+        super();
+    }
 
     /**
      * <!-- begin-user-doc -->
@@ -73,137 +73,137 @@ public class EnumConstantImpl extends CompoundExprImpl implements EnumConstant {
         return copy;
     }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return TefkatPackage.eINSTANCE.getEnumConstant();
-	}
+        return TefkatPackage.eINSTANCE.getEnumConstant();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case TefkatPackage.ENUM_CONSTANT__EXPR:
-					if (eContainer != null)
-						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, TefkatPackage.ENUM_CONSTANT__EXPR, msgs);
-				case TefkatPackage.ENUM_CONSTANT__ARG:
-					return ((InternalEList)getArg()).basicAdd(otherEnd, msgs);
-				default:
-					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		if (eContainer != null)
-			msgs = eBasicRemoveFromContainer(msgs);
-		return eBasicSetContainer(otherEnd, featureID, msgs);
-	}
+        if (featureID >= 0) {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case TefkatPackage.ENUM_CONSTANT__EXPR:
+                    if (eContainer != null)
+                        msgs = eBasicRemoveFromContainer(msgs);
+                    return eBasicSetContainer(otherEnd, TefkatPackage.ENUM_CONSTANT__EXPR, msgs);
+                case TefkatPackage.ENUM_CONSTANT__ARG:
+                    return ((InternalEList)getArg()).basicAdd(otherEnd, msgs);
+                default:
+                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        if (eContainer != null)
+            msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case TefkatPackage.ENUM_CONSTANT__EXPR:
-					return eBasicSetContainer(null, TefkatPackage.ENUM_CONSTANT__EXPR, msgs);
-				case TefkatPackage.ENUM_CONSTANT__ARG:
-					return ((InternalEList)getArg()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
+        if (featureID >= 0) {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case TefkatPackage.ENUM_CONSTANT__EXPR:
+                    return eBasicSetContainer(null, TefkatPackage.ENUM_CONSTANT__EXPR, msgs);
+                case TefkatPackage.ENUM_CONSTANT__ARG:
+                    return ((InternalEList)getArg()).basicRemove(otherEnd, msgs);
+                default:
+                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        return eBasicSetContainer(null, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-		if (eContainerFeatureID >= 0) {
-			switch (eContainerFeatureID) {
-				case TefkatPackage.ENUM_CONSTANT__EXPR:
-					return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
-				default:
-					return eDynamicBasicRemoveFromContainer(msgs);
-			}
-		}
-		return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-	}
+        if (eContainerFeatureID >= 0) {
+            switch (eContainerFeatureID) {
+                case TefkatPackage.ENUM_CONSTANT__EXPR:
+                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
+                default:
+                    return eDynamicBasicRemoveFromContainer(msgs);
+            }
+        }
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.ENUM_CONSTANT__EXPR:
-				return getExpr();
-			case TefkatPackage.ENUM_CONSTANT__ARG:
-				return getArg();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.ENUM_CONSTANT__EXPR:
+                return getExpr();
+            case TefkatPackage.ENUM_CONSTANT__ARG:
+                return getArg();
+        }
+        return eDynamicGet(eFeature, resolve);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.ENUM_CONSTANT__EXPR:
-				setExpr((CompoundExpr)newValue);
-				return;
-			case TefkatPackage.ENUM_CONSTANT__ARG:
-				getArg().clear();
-				getArg().addAll((Collection)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.ENUM_CONSTANT__EXPR:
+                setExpr((CompoundExpr)newValue);
+                return;
+            case TefkatPackage.ENUM_CONSTANT__ARG:
+                getArg().clear();
+                getArg().addAll((Collection)newValue);
+                return;
+        }
+        eDynamicSet(eFeature, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.ENUM_CONSTANT__EXPR:
-				setExpr((CompoundExpr)null);
-				return;
-			case TefkatPackage.ENUM_CONSTANT__ARG:
-				getArg().clear();
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.ENUM_CONSTANT__EXPR:
+                setExpr((CompoundExpr)null);
+                return;
+            case TefkatPackage.ENUM_CONSTANT__ARG:
+                getArg().clear();
+                return;
+        }
+        eDynamicUnset(eFeature);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.ENUM_CONSTANT__EXPR:
-				return getExpr() != null;
-			case TefkatPackage.ENUM_CONSTANT__ARG:
-				return arg != null && !arg.isEmpty();
-		}
-		return eDynamicIsSet(eFeature);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.ENUM_CONSTANT__EXPR:
+                return getExpr() != null;
+            case TefkatPackage.ENUM_CONSTANT__ARG:
+                return arg != null && !arg.isEmpty();
+        }
+        return eDynamicIsSet(eFeature);
+    }
 
 } //EnumConstantImpl

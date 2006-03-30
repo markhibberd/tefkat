@@ -315,6 +315,7 @@ class SourceResolver extends AbstractResolver {
                     // This branch does lazy expansion of the tree.
                     // This will cause relatively untested code (and broken) to be used in
                     // other parts of Abstract/Source/TargetResolver and Evaluator
+                	// FIXME make this stuff work
                     WrappedVar wVar = (WrappedVar) instance;
                     wVar.setExtent(extent);
                     // TODO Handle the any-type named "_"
@@ -549,23 +550,6 @@ class SourceResolver extends AbstractResolver {
          */
         NotTerm term = (NotTerm) literal;
         Collection negGoal = new ArrayList(term.getTerm());
-        
-        evalNegatedGoal(tree, node, goal, literal, negGoal);
-    }
-
-
-    protected void resolveOverrideTerm(
-        Tree tree,
-        Node node,
-        Collection goal,
-        OverrideTerm literal)
-        throws ResolutionException {
-        /**
-         *  Create a new subtree attached to this node, and mark
-         *  that tree as a negative tree.
-         */
-        OverrideTerm term = (OverrideTerm) literal;
-        Collection negGoal = new ArrayList(term.getNegatedTerms());
         
         evalNegatedGoal(tree, node, goal, literal, negGoal);
     }

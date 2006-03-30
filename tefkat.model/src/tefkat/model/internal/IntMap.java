@@ -12,7 +12,7 @@
  *
  */
 
-package tefkat.engine;
+package tefkat.model.internal;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,7 +44,7 @@ public class IntMap {
         size = 0;
     }
     
-    Collection entries() {
+    public Collection entries() {
         return Arrays.asList(contents);
     }
     
@@ -149,9 +149,9 @@ public class IntMap {
            947,    953,    967,    971,    977,    983,    991,    997,   1009
     };
 
-    static class Entry {
-        Object key;
-        int value;
+    public static class Entry {
+        public Object key;
+        public int value;
         
         Entry(Object key, int value) {
             this.key = key;

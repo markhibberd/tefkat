@@ -14,6 +14,9 @@
 
 package tefkat.plugin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -37,6 +40,7 @@ import tefkat.model.AbstractVar;
 import tefkat.model.AndTerm;
 import tefkat.model.MofInstance;
 import tefkat.model.OrTerm;
+import tefkat.model.TefkatException;
 import tefkat.model.Term;
 import tefkat.model.Transformation;
 import tefkat.model.VarScope;
@@ -176,6 +180,8 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                     return ((ETypedElement) obj).getName() + ": " + ((ETypedElement) obj).getEType().getName();
                 } else if (obj instanceof EPackage) {
                     return ((EPackage) obj).getName() + " <" + ((EPackage) obj).getNsURI() + ">";
+                } else if (obj instanceof Collection) {
+                    return "stratum";
                 } else {
                     return String.valueOf(obj);
                 }
@@ -187,12 +193,33 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                 Object element = objMap.get(elementID); // map from String id to (E)Object
 
                 if (element instanceof EObject) {
+                    if (element instanceof Transformation) {
+                        Transformation t = (Transformation) element;
+                        Collection strata;
+                        try {
+                            strata = Arrays.asList(t.getStrata());
+                        } catch (TefkatException e) {
+                            e.printStackTrace();
+                            strata = new ArrayList();
+                            strata.add(t.getTRule());
+                            strata.add(t.getPatternDefn());
+                        }
+                        Collection contents = new ArrayList(t.eContents());
+                        contents.removeAll(t.getTRule());
+                        contents.removeAll(t.getPatternDefn());
+                        contents.addAll(strata);
+                        return getIDs(contents.toArray());
+                    }
+                    
                     Object[] children = ((EObject) element).eContents().toArray();
                     if (element instanceof Term) {
                         return getIDs(children, ((Term) element).getContext());
                     } else {
                         return getIDs(children);
                     }
+                } else if (element instanceof Collection) {
+                    Object[] children = ((Collection) element).toArray();
+                    return getIDs(children);
                 } else {
 //                    System.out.println("************* Parent element must be an EObject: " + element);
                     return null;
@@ -213,6 +240,8 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                 boolean children = false;
                 if (element instanceof EObject) {
                     children = !((EObject) element).eContents().isEmpty();
+                } else if (element instanceof Collection) {
+                    children = !((Collection) element).isEmpty();
                 }
                 return children;
             }
@@ -221,11 +250,7 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                 Object element = objMap.get(elementID); // map from String id to Object
                 if (element instanceof Resource) {
                     Object[] children = ((Resource) element).getContents().toArray();
-                    if (element instanceof Term) {
-                        return getIDs(children, ((Term) element).getContext());
-                    } else {
-                        return getIDs(children);
-                    }
+                    return getIDs(children);
                 } else {
 //                    System.out.println("************* Root element must be a Resource: " + element);
                     return null;

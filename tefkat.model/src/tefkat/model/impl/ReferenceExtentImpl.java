@@ -46,40 +46,40 @@ import tefkat.model.TefkatPackage;
  * @generated
  */
 public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
 
-	/**
-	 * The cached value of the '{@link #getResources() <em>Resources</em>}' attribute list.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getResources() <em>Resources</em>}' attribute list.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getResources()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getResources()
+     * @generated
+     * @ordered
+     */
     protected EList resources = null;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected ReferenceExtentImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return TefkatPackage.eINSTANCE.getReferenceExtent();
-	}
+        return TefkatPackage.eINSTANCE.getReferenceExtent();
+    }
 
     /**
      * <!-- begin-user-doc -->
@@ -209,86 +209,86 @@ public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
         resource.getContents().remove(obj);
     }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public EList getResources() {
-		if (resources == null) {
-			resources = new EDataTypeUniqueEList(Resource.class, this, TefkatPackage.REFERENCE_EXTENT__RESOURCES);
-		}
-		return resources;
-	}
+        if (resources == null) {
+            resources = new EDataTypeUniqueEList(Resource.class, this, TefkatPackage.REFERENCE_EXTENT__RESOURCES);
+        }
+        return resources;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
-				return getResources();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
+                return getResources();
+        }
+        return eDynamicGet(eFeature, resolve);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
-				getResources().clear();
-				getResources().addAll((Collection)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
+                getResources().clear();
+                getResources().addAll((Collection)newValue);
+                return;
+        }
+        eDynamicSet(eFeature, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
-				getResources().clear();
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
+                getResources().clear();
+                return;
+        }
+        eDynamicUnset(eFeature);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
-				return resources != null && !resources.isEmpty();
-		}
-		return eDynamicIsSet(eFeature);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
+                return resources != null && !resources.isEmpty();
+        }
+        return eDynamicIsSet(eFeature);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (resources: ");
-		result.append(resources);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (resources: ");
+        result.append(resources);
+        result.append(')');
+        return result.toString();
+    }
 
 } //ReferenceExtentImpl

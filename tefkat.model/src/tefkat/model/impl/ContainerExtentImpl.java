@@ -45,50 +45,50 @@ import tefkat.model.TefkatPackage;
  * @generated
  */
 public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
 
-	/**
-	 * The default value of the '{@link #getResource() <em>Resource</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #getResource() <em>Resource</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getResource()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getResource()
+     * @generated
+     * @ordered
+     */
     protected static final Resource RESOURCE_EDEFAULT = null;
 
-	/**
-	 * The cached value of the '{@link #getResource() <em>Resource</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getResource() <em>Resource</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getResource()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getResource()
+     * @generated
+     * @ordered
+     */
     protected Resource resource = RESOURCE_EDEFAULT;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected ContainerExtentImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return TefkatPackage.eINSTANCE.getContainerExtent();
-	}
+        return TefkatPackage.eINSTANCE.getContainerExtent();
+    }
 
     /**
      * <!-- begin-user-doc -->
@@ -164,80 +164,80 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
         resource.getContents().remove(obj);
     }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Resource getResource() {
-		return resource;
-	}
+        return resource;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setResource(Resource newResource) {
-		Resource oldResource = resource;
-		resource = newResource;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.CONTAINER_EXTENT__RESOURCE, oldResource, resource));
-	}
+        Resource oldResource = resource;
+        resource = newResource;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.CONTAINER_EXTENT__RESOURCE, oldResource, resource));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
-				return getResource();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
+                return getResource();
+        }
+        return eDynamicGet(eFeature, resolve);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
-				setResource((Resource)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
+                setResource((Resource)newValue);
+                return;
+        }
+        eDynamicSet(eFeature, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
-				setResource(RESOURCE_EDEFAULT);
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
+                setResource(RESOURCE_EDEFAULT);
+                return;
+        }
+        eDynamicUnset(eFeature);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
-				return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
-		}
-		return eDynamicIsSet(eFeature);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
+                return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
+        }
+        return eDynamicIsSet(eFeature);
+    }
 
     /**
      * <!-- begin-user-doc -->

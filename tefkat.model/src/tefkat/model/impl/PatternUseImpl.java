@@ -54,316 +54,316 @@ import tefkat.model.TefkatPackage;
  * @generated
  */
 public class PatternUseImpl extends SimpleTermImpl implements PatternUse {
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
 
-	/**
-	 * The cached value of the '{@link #getDefn() <em>Defn</em>}' reference.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getDefn() <em>Defn</em>}' reference.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getDefn()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getDefn()
+     * @generated
+     * @ordered
+     */
     protected PatternDefn defn = null;
 
-	/**
-	 * The cached value of the '{@link #getArg() <em>Arg</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getArg() <em>Arg</em>}' containment reference list.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getArg()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getArg()
+     * @generated
+     * @ordered
+     */
     protected EList arg = null;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected PatternUseImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return TefkatPackage.eINSTANCE.getPatternUse();
-	}
+        return TefkatPackage.eINSTANCE.getPatternUse();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public PatternDefn getDefn() {
-		if (defn != null && defn.eIsProxy()) {
-			PatternDefn oldDefn = defn;
-			defn = (PatternDefn)eResolveProxy((InternalEObject)defn);
-			if (defn != oldDefn) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TefkatPackage.PATTERN_USE__DEFN, oldDefn, defn));
-			}
-		}
-		return defn;
-	}
+        if (defn != null && defn.eIsProxy()) {
+            PatternDefn oldDefn = defn;
+            defn = (PatternDefn)eResolveProxy((InternalEObject)defn);
+            if (defn != oldDefn) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, TefkatPackage.PATTERN_USE__DEFN, oldDefn, defn));
+            }
+        }
+        return defn;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public PatternDefn basicGetDefn() {
-		return defn;
-	}
+        return defn;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setDefn(PatternDefn newDefn) {
-		PatternDefn oldDefn = defn;
-		defn = newDefn;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.PATTERN_USE__DEFN, oldDefn, defn));
-	}
+        PatternDefn oldDefn = defn;
+        defn = newDefn;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.PATTERN_USE__DEFN, oldDefn, defn));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public EList getArg() {
-		if (arg == null) {
-			arg = new EObjectContainmentEList(Expression.class, this, TefkatPackage.PATTERN_USE__ARG);
-		}
-		return arg;
-	}
+        if (arg == null) {
+            arg = new EObjectContainmentEList(Expression.class, this, TefkatPackage.PATTERN_USE__ARG);
+        }
+        return arg;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
-					if (eContainer != null)
-						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, TefkatPackage.PATTERN_USE__PATTERN_DEFN, msgs);
-				case TefkatPackage.PATTERN_USE__QUERY:
-					if (eContainer != null)
-						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, TefkatPackage.PATTERN_USE__QUERY, msgs);
-				case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
-					if (eContainer != null)
-						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, TefkatPackage.PATTERN_USE__COMPOUND_TERM, msgs);
-				case TefkatPackage.PATTERN_USE__TRULE_SRC:
-					if (eContainer != null)
-						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, TefkatPackage.PATTERN_USE__TRULE_SRC, msgs);
-				case TefkatPackage.PATTERN_USE__TRULE_TGT:
-					if (eContainer != null)
-						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, TefkatPackage.PATTERN_USE__TRULE_TGT, msgs);
-				default:
-					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		if (eContainer != null)
-			msgs = eBasicRemoveFromContainer(msgs);
-		return eBasicSetContainer(otherEnd, featureID, msgs);
-	}
+        if (featureID >= 0) {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
+                    if (eContainer != null)
+                        msgs = eBasicRemoveFromContainer(msgs);
+                    return eBasicSetContainer(otherEnd, TefkatPackage.PATTERN_USE__PATTERN_DEFN, msgs);
+                case TefkatPackage.PATTERN_USE__QUERY:
+                    if (eContainer != null)
+                        msgs = eBasicRemoveFromContainer(msgs);
+                    return eBasicSetContainer(otherEnd, TefkatPackage.PATTERN_USE__QUERY, msgs);
+                case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
+                    if (eContainer != null)
+                        msgs = eBasicRemoveFromContainer(msgs);
+                    return eBasicSetContainer(otherEnd, TefkatPackage.PATTERN_USE__COMPOUND_TERM, msgs);
+                case TefkatPackage.PATTERN_USE__TRULE_SRC:
+                    if (eContainer != null)
+                        msgs = eBasicRemoveFromContainer(msgs);
+                    return eBasicSetContainer(otherEnd, TefkatPackage.PATTERN_USE__TRULE_SRC, msgs);
+                case TefkatPackage.PATTERN_USE__TRULE_TGT:
+                    if (eContainer != null)
+                        msgs = eBasicRemoveFromContainer(msgs);
+                    return eBasicSetContainer(otherEnd, TefkatPackage.PATTERN_USE__TRULE_TGT, msgs);
+                default:
+                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        if (eContainer != null)
+            msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
-					return eBasicSetContainer(null, TefkatPackage.PATTERN_USE__PATTERN_DEFN, msgs);
-				case TefkatPackage.PATTERN_USE__QUERY:
-					return eBasicSetContainer(null, TefkatPackage.PATTERN_USE__QUERY, msgs);
-				case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
-					return eBasicSetContainer(null, TefkatPackage.PATTERN_USE__COMPOUND_TERM, msgs);
-				case TefkatPackage.PATTERN_USE__TRULE_SRC:
-					return eBasicSetContainer(null, TefkatPackage.PATTERN_USE__TRULE_SRC, msgs);
-				case TefkatPackage.PATTERN_USE__TRULE_TGT:
-					return eBasicSetContainer(null, TefkatPackage.PATTERN_USE__TRULE_TGT, msgs);
-				case TefkatPackage.PATTERN_USE__ARG:
-					return ((InternalEList)getArg()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
+        if (featureID >= 0) {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
+                    return eBasicSetContainer(null, TefkatPackage.PATTERN_USE__PATTERN_DEFN, msgs);
+                case TefkatPackage.PATTERN_USE__QUERY:
+                    return eBasicSetContainer(null, TefkatPackage.PATTERN_USE__QUERY, msgs);
+                case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
+                    return eBasicSetContainer(null, TefkatPackage.PATTERN_USE__COMPOUND_TERM, msgs);
+                case TefkatPackage.PATTERN_USE__TRULE_SRC:
+                    return eBasicSetContainer(null, TefkatPackage.PATTERN_USE__TRULE_SRC, msgs);
+                case TefkatPackage.PATTERN_USE__TRULE_TGT:
+                    return eBasicSetContainer(null, TefkatPackage.PATTERN_USE__TRULE_TGT, msgs);
+                case TefkatPackage.PATTERN_USE__ARG:
+                    return ((InternalEList)getArg()).basicRemove(otherEnd, msgs);
+                default:
+                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        return eBasicSetContainer(null, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-		if (eContainerFeatureID >= 0) {
-			switch (eContainerFeatureID) {
-				case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
-					return eContainer.eInverseRemove(this, TefkatPackage.PATTERN_DEFN__TERM, PatternDefn.class, msgs);
-				case TefkatPackage.PATTERN_USE__QUERY:
-					return eContainer.eInverseRemove(this, TefkatPackage.QUERY__TERM, Query.class, msgs);
-				case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
-					return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_TERM__TERM, CompoundTerm.class, msgs);
-				case TefkatPackage.PATTERN_USE__TRULE_SRC:
-					return eContainer.eInverseRemove(this, TefkatPackage.TRULE__SRC, TRule.class, msgs);
-				case TefkatPackage.PATTERN_USE__TRULE_TGT:
-					return eContainer.eInverseRemove(this, TefkatPackage.TRULE__TGT, TRule.class, msgs);
-				default:
-					return eDynamicBasicRemoveFromContainer(msgs);
-			}
-		}
-		return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-	}
+        if (eContainerFeatureID >= 0) {
+            switch (eContainerFeatureID) {
+                case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
+                    return eContainer.eInverseRemove(this, TefkatPackage.PATTERN_DEFN__TERM, PatternDefn.class, msgs);
+                case TefkatPackage.PATTERN_USE__QUERY:
+                    return eContainer.eInverseRemove(this, TefkatPackage.QUERY__TERM, Query.class, msgs);
+                case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
+                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_TERM__TERM, CompoundTerm.class, msgs);
+                case TefkatPackage.PATTERN_USE__TRULE_SRC:
+                    return eContainer.eInverseRemove(this, TefkatPackage.TRULE__SRC, TRule.class, msgs);
+                case TefkatPackage.PATTERN_USE__TRULE_TGT:
+                    return eContainer.eInverseRemove(this, TefkatPackage.TRULE__TGT, TRule.class, msgs);
+                default:
+                    return eDynamicBasicRemoveFromContainer(msgs);
+            }
+        }
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
-				return getPatternDefn();
-			case TefkatPackage.PATTERN_USE__QUERY:
-				return getQuery();
-			case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
-				return getCompoundTerm();
-			case TefkatPackage.PATTERN_USE__CONTEXT:
-				if (resolve) return getContext();
-				return basicGetContext();
-			case TefkatPackage.PATTERN_USE__TRULE_SRC:
-				return getTRuleSrc();
-			case TefkatPackage.PATTERN_USE__TRULE_TGT:
-				return getTRuleTgt();
-			case TefkatPackage.PATTERN_USE__DEFN:
-				if (resolve) return getDefn();
-				return basicGetDefn();
-			case TefkatPackage.PATTERN_USE__ARG:
-				return getArg();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
+                return getPatternDefn();
+            case TefkatPackage.PATTERN_USE__QUERY:
+                return getQuery();
+            case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
+                return getCompoundTerm();
+            case TefkatPackage.PATTERN_USE__CONTEXT:
+                if (resolve) return getContext();
+                return basicGetContext();
+            case TefkatPackage.PATTERN_USE__TRULE_SRC:
+                return getTRuleSrc();
+            case TefkatPackage.PATTERN_USE__TRULE_TGT:
+                return getTRuleTgt();
+            case TefkatPackage.PATTERN_USE__DEFN:
+                if (resolve) return getDefn();
+                return basicGetDefn();
+            case TefkatPackage.PATTERN_USE__ARG:
+                return getArg();
+        }
+        return eDynamicGet(eFeature, resolve);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
-				setPatternDefn((PatternDefn)newValue);
-				return;
-			case TefkatPackage.PATTERN_USE__QUERY:
-				setQuery((Query)newValue);
-				return;
-			case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
-				setCompoundTerm((CompoundTerm)newValue);
-				return;
-			case TefkatPackage.PATTERN_USE__CONTEXT:
-				setContext((ExtentVar)newValue);
-				return;
-			case TefkatPackage.PATTERN_USE__TRULE_SRC:
-				setTRuleSrc((TRule)newValue);
-				return;
-			case TefkatPackage.PATTERN_USE__TRULE_TGT:
-				setTRuleTgt((TRule)newValue);
-				return;
-			case TefkatPackage.PATTERN_USE__DEFN:
-				setDefn((PatternDefn)newValue);
-				return;
-			case TefkatPackage.PATTERN_USE__ARG:
-				getArg().clear();
-				getArg().addAll((Collection)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
+                setPatternDefn((PatternDefn)newValue);
+                return;
+            case TefkatPackage.PATTERN_USE__QUERY:
+                setQuery((Query)newValue);
+                return;
+            case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
+                setCompoundTerm((CompoundTerm)newValue);
+                return;
+            case TefkatPackage.PATTERN_USE__CONTEXT:
+                setContext((ExtentVar)newValue);
+                return;
+            case TefkatPackage.PATTERN_USE__TRULE_SRC:
+                setTRuleSrc((TRule)newValue);
+                return;
+            case TefkatPackage.PATTERN_USE__TRULE_TGT:
+                setTRuleTgt((TRule)newValue);
+                return;
+            case TefkatPackage.PATTERN_USE__DEFN:
+                setDefn((PatternDefn)newValue);
+                return;
+            case TefkatPackage.PATTERN_USE__ARG:
+                getArg().clear();
+                getArg().addAll((Collection)newValue);
+                return;
+        }
+        eDynamicSet(eFeature, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
-				setPatternDefn((PatternDefn)null);
-				return;
-			case TefkatPackage.PATTERN_USE__QUERY:
-				setQuery((Query)null);
-				return;
-			case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
-				setCompoundTerm((CompoundTerm)null);
-				return;
-			case TefkatPackage.PATTERN_USE__CONTEXT:
-				setContext((ExtentVar)null);
-				return;
-			case TefkatPackage.PATTERN_USE__TRULE_SRC:
-				setTRuleSrc((TRule)null);
-				return;
-			case TefkatPackage.PATTERN_USE__TRULE_TGT:
-				setTRuleTgt((TRule)null);
-				return;
-			case TefkatPackage.PATTERN_USE__DEFN:
-				setDefn((PatternDefn)null);
-				return;
-			case TefkatPackage.PATTERN_USE__ARG:
-				getArg().clear();
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
+                setPatternDefn((PatternDefn)null);
+                return;
+            case TefkatPackage.PATTERN_USE__QUERY:
+                setQuery((Query)null);
+                return;
+            case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
+                setCompoundTerm((CompoundTerm)null);
+                return;
+            case TefkatPackage.PATTERN_USE__CONTEXT:
+                setContext((ExtentVar)null);
+                return;
+            case TefkatPackage.PATTERN_USE__TRULE_SRC:
+                setTRuleSrc((TRule)null);
+                return;
+            case TefkatPackage.PATTERN_USE__TRULE_TGT:
+                setTRuleTgt((TRule)null);
+                return;
+            case TefkatPackage.PATTERN_USE__DEFN:
+                setDefn((PatternDefn)null);
+                return;
+            case TefkatPackage.PATTERN_USE__ARG:
+                getArg().clear();
+                return;
+        }
+        eDynamicUnset(eFeature);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
-				return getPatternDefn() != null;
-			case TefkatPackage.PATTERN_USE__QUERY:
-				return getQuery() != null;
-			case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
-				return getCompoundTerm() != null;
-			case TefkatPackage.PATTERN_USE__CONTEXT:
-				return context != null;
-			case TefkatPackage.PATTERN_USE__TRULE_SRC:
-				return getTRuleSrc() != null;
-			case TefkatPackage.PATTERN_USE__TRULE_TGT:
-				return getTRuleTgt() != null;
-			case TefkatPackage.PATTERN_USE__DEFN:
-				return defn != null;
-			case TefkatPackage.PATTERN_USE__ARG:
-				return arg != null && !arg.isEmpty();
-		}
-		return eDynamicIsSet(eFeature);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case TefkatPackage.PATTERN_USE__PATTERN_DEFN:
+                return getPatternDefn() != null;
+            case TefkatPackage.PATTERN_USE__QUERY:
+                return getQuery() != null;
+            case TefkatPackage.PATTERN_USE__COMPOUND_TERM:
+                return getCompoundTerm() != null;
+            case TefkatPackage.PATTERN_USE__CONTEXT:
+                return context != null;
+            case TefkatPackage.PATTERN_USE__TRULE_SRC:
+                return getTRuleSrc() != null;
+            case TefkatPackage.PATTERN_USE__TRULE_TGT:
+                return getTRuleTgt() != null;
+            case TefkatPackage.PATTERN_USE__DEFN:
+                return defn != null;
+            case TefkatPackage.PATTERN_USE__ARG:
+                return arg != null && !arg.isEmpty();
+        }
+        return eDynamicIsSet(eFeature);
+    }
 
     /**
      * <!-- begin-user-doc -->

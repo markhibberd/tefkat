@@ -57,6 +57,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TRule" eSuperTypes="#//VarScope">
     <eAnnotations source="22July2004 - Added abstract attribute and removed opposite ends for extended/superseded"/>
+    <eOperations name="getGoal" lowerBound="1" eType="#//Collection"/>
+    <eOperations name="getSourceTerms" lowerBound="1" eType="#//Collection"/>
+    <eOperations name="getOverrideTerms" lowerBound="1" eType="#//Collection"/>
+    <eOperations name="getTargetTerms" lowerBound="1" eType="#//Collection"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="transformation" lowerBound="1"
         eType="#//Transformation" eOpposite="#//Transformation/tRule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="src" eType="#//SourceTerm"
@@ -70,6 +74,18 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Transformation" eSuperTypes="#//PatternScope">
+    <eOperations name="getStrata" eType="#//ListArray" eExceptions="#//TefkatException"/>
+    <eOperations name="addSupersedes">
+      <eParameters name="superseder" lowerBound="1" eType="#//TRule"/>
+      <eParameters name="superseded" lowerBound="1" eType="#//TRule"/>
+    </eOperations>
+    <eOperations name="removeSupersedes">
+      <eParameters name="superseder" lowerBound="1" eType="#//TRule"/>
+      <eParameters name="superseded" lowerBound="1" eType="#//TRule"/>
+    </eOperations>
+    <eOperations name="getSupersedingRules" lowerBound="1" eType="#//Collection">
+      <eParameters name="superseded" lowerBound="1" eType="#//TRule"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tRule" upperBound="-1"
         eType="#//TRule" containment="true" eOpposite="#//TRule/transformation"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedPackages" upperBound="-1"
@@ -93,6 +109,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Term" abstract="true">
     <eOperations name="getExtent" eType="#//ExtentVar"/>
+    <eOperations name="isTarget" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="patternDefn" eType="#//PatternDefn"
         eOpposite="#//PatternDefn/term"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
@@ -207,4 +224,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
         eType="#//VarUse" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Collection" instanceClassName="java.util.Collection"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="List" instanceClassName="java.util.List"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ListArray" instanceClassName="java.util.List[]"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="TefkatException" instanceClassName="tefkat.model.TefkatException"/>
 </ecore:EPackage>

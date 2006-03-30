@@ -17,12 +17,9 @@ package tefkat.engine;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnumLiteral;
@@ -30,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import tefkat.model.*;
+import tefkat.model.internal.IntMap;
 import tefkat.model.internal.Util;
 
 
@@ -151,11 +149,7 @@ abstract class AbstractResolver {
             break;
             
         default:
-            if (literal instanceof OverrideTerm) {
-                resolveOverrideTerm(tree, node, goal, (OverrideTerm) literal);
-            } else {
-            	throw new ResolutionException(node, "Unrecognised term type: " + literal);
-            }
+            throw new ResolutionException(node, "Unrecognised term type: " + literal);
         }
         
         long end = System.currentTimeMillis();
@@ -224,12 +218,6 @@ abstract class AbstractResolver {
      */
     protected void resolveNotTerm(Tree tree, Node node, Collection goal,
             Term literal) throws ResolutionException {
-        // Overridden in subtypes
-    }
-
-
-    protected void resolveOverrideTerm(Tree tree, Node node, Collection goal,
-        OverrideTerm literal) throws ResolutionException {
         // Overridden in subtypes
     }
     
@@ -337,8 +325,6 @@ abstract class AbstractResolver {
         Map cache = ruleEval.getPatternCache(pDefn);
         Tree resultTree = (Tree) cache.get(newContext);
         
-		System.err.println("TREE: " + resultTree);
-        
         if (null == resultTree) {
             Collection patGoal = new ArrayList();
             Term pDefTerm = pDefn.getTerm();
@@ -359,11 +345,9 @@ abstract class AbstractResolver {
             // Register listener for any new solutions
             
             resultTree.addTreeListener(new TreeListener() {
-            	Set solutionCache = new HashSet();
 
                 public void solution(Binding answer) throws ResolutionException {
                     Binding unifier = new Binding();
-                    // System.err.println("  s " + currentSolution); // TODO delete
                     for (int j = 0; j < args.size(); j++) {
                         Expression argExpr = (Expression) args.get(j);
                         if (argExpr instanceof VarUse) {
@@ -381,12 +365,7 @@ abstract class AbstractResolver {
                         }
                     }
 
-//                    System.err.println("  u " + unifier); // TODO delete
-                    // Only create new branches for new solutions
-                    if (!solutionCache.contains(unifier)) {
-                    	solutionCache.add(unifier);
-                    	tree.createBranch(node, unifier, newGoal);
-                    }
+                    tree.createBranch(node, unifier, newGoal);
                 }
 
                 public void completed(Tree theTree) {
@@ -404,9 +383,8 @@ abstract class AbstractResolver {
             
             Collection solutions = solutions(resultTree, pDefVars);
             for (Iterator itr = solutions.iterator(); itr.hasNext();) {
+                Binding answer = (Binding) itr.next();
                 Binding unifier = new Binding();
-                Binding currentSolution = (Binding) itr.next();
-                // System.err.println("  s " + currentSolution); // TODO delete
                 for (int j = 0; j < args.size(); j++) {
                     Expression argExpr = (Expression) args.get(j);
                     if (argExpr instanceof VarUse) {
@@ -416,15 +394,14 @@ abstract class AbstractResolver {
                             // bound, otherwise we end up with multiple identical bindings
                             // for the same Var.
                             unifier.add(((VarUse) argExpr).getVar(),
-                                    currentSolution.lookup((PatternVar) pDefVars.get(j)));
+                                    answer.lookup((PatternVar) pDefVars.get(j)));
                         } else if (val instanceof WrappedVar) {
                             unifier.add(((WrappedVar) val).getVar(),
-                                    currentSolution.lookup((PatternVar) pDefVars.get(j)));
+                                    answer.lookup((PatternVar) pDefVars.get(j)));
                         }
                     }
                 }
 
-                // System.err.println("  u " + unifier); // TODO delete
                 tree.createBranch(node, unifier, newGoal);
             }
         }

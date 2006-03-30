@@ -439,14 +439,17 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                     public void selectionChanged(SelectionChangedEvent event) {
                         ISelection selection = event.getSelection();
                         if (!selection.isEmpty()) {
-                            EObject obj = (EObject) ((IStructuredSelection) selection).getFirstElement();
-                            Integer startChar = getStartChar(obj);
-                            Integer endChar = getEndChar(obj);
-                            if (null != startChar && null != endChar) {
-                                int start = startChar.intValue();
-                                int length = endChar.intValue() - start;
-                                textEditor.setHighlightRange(start, length, true);
-                                return;
+                            Object selectionElement = ((IStructuredSelection) selection).getFirstElement();
+                            if (selectionElement instanceof EObject) {
+                                EObject obj = (EObject) selectionElement;
+                                Integer startChar = getStartChar(obj);
+                                Integer endChar = getEndChar(obj);
+                                if (null != startChar && null != endChar) {
+                                    int start = startChar.intValue();
+                                    int length = endChar.intValue() - start;
+                                    textEditor.setHighlightRange(start, length, true);
+                                    return;
+                                }
                             }
                         }
 
