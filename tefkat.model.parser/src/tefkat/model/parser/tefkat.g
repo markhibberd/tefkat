@@ -1590,11 +1590,19 @@ t_ite[VarScope scope, ExtentVar tgtExtent, List params] returns [IfTerm term = n
 		}
 		)
 		{
+			// tests for null are required in case we're continuing after
+			// a parse error
 		    term = TefkatFactory.eINSTANCE.createIfTerm();
 		    List args = term.getTerm();
-		    args.add(condTerm);
-		    args.add(thenTerm);
-		    args.add(elseTerm);
+		    if (null != condTerm) {
+			    args.add(condTerm);
+		    }
+		    if (null != thenTerm) {
+			    args.add(thenTerm);
+		    }
+		    if (null != elseTerm) {
+		    	args.add(elseTerm);
+		    }
 		}
 	;
 
