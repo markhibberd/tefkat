@@ -26,8 +26,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import tefkat.model.CompoundTerm;
 import tefkat.model.ExtentVar;
+import tefkat.model.IfTerm;
 import tefkat.model.PatternDefn;
 import tefkat.model.Query;
+import tefkat.model.TargetTerm;
 import tefkat.model.TefkatPackage;
 import tefkat.model.Term;
 
@@ -229,21 +231,44 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 
     /**
      * <!-- begin-user-doc -->
-     * A term is in a "target" context if it's a subsclass of TargetTerm and:
+     * A term is in a "target" context if (1) it's a subsclass of TargetTerm and:
      * <ul>
-     * <li> it's owned by a TRule via its "tgt" reference, or </li>
-     * <li> it's owned by a PatternDefn for which "isSource" is false, or </li>
-     * <li> it's not the condition of an IfTerm, and
-     * it's owned by a CompoundTerm that is a "target" term.</li>
+     * <li> (2) it's owned by a TRule via its "tgt" reference, or </li>
+     * <li> (3) it's owned by a PatternDefn for which "isSource" is false, or </li>
+     * <li> (4) it's not the condition of an IfTerm, and
+     *      (5) it's owned by a CompoundTerm that is a "target" term.</li>
      * </ul>
      * 
      * Otherwise its either owned by a TRule via its "src" reference or by a
      * PatternDefn for which "isSource" is true or by a Query so it must be a
      * "source" term.
+     * 
+     * Note that the implementation is here, rather than in TargetTermImpl due
+     * to the wonderful nature of multiple inheritance -- most of the relevant
+     * ...TermImpls actually extend SourceTermImpl, and not TargetTermImpl.
+     * 
      * <!-- end-user-doc -->
      * @generated NOT
      */
     public boolean isTarget() {
+        // (1)
+        if (this instanceof TargetTerm) {
+            // (2)
+            if (((TargetTerm) this).getTRuleTgt() != null ||
+                    // (3)
+                    (this.getPatternDefn() != null && !this.getPatternDefn().isSource())) {
+                return true;
+            }
+            CompoundTerm parent = getCompoundTerm();
+            if (parent != null &&
+                    // (4)
+                    !(parent instanceof IfTerm &&
+                            ((IfTerm) parent).getTerm().get(0).equals(this)) &&
+                  // (5)
+                  parent.isTarget()) {
+                return true;
+            }
+        }
         return false;
     }
 

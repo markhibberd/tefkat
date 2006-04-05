@@ -277,29 +277,4 @@ public abstract class TargetTermImpl extends TermImpl implements TargetTerm {
         return eDynamicIsSet(eFeature);
     }
 
-    /**
-     * A TargetTerm is in a "target" context if:
-     * <ul>
-     * <li> it's owned by a TRule via its "tgt" reference, or </li>
-     * <li> it's owned by a PatternDefn for which "isSource" is false, or </li>
-     * <li> it's not the condition of an IfTerm, and
-     * it's owned by a CompoundTerm that is a "target" term.</li>
-     * </ul>
-     * 
-     * Otherwise its either owned by a TRule via its "src" reference or by a
-     * PatternDefn for which "isSource" is true or by a Query so it must be a
-     * "source" term.
-     * 
-     * @generated NOT
-     */
-    public boolean isTarget() {
-        CompoundTerm parent = getCompoundTerm();
-        return (this.getTRuleTgt() != null
-                || (this.getPatternDefn() != null && !this.getPatternDefn().isSource())
-                || (parent != null
-                        && !(parent instanceof IfTerm &&
-                                ((IfTerm) parent).getTerm().get(0).equals(this))
-                                && parent.isTarget()));
-    }
-
 } //TargetTermImpl

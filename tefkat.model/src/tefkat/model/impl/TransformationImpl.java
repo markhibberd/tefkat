@@ -297,11 +297,6 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
             }
         }
         
-        if (!done) {
-            String s = orderString(levelMapping, less, lesseq);
-            throw new StratificationException("Rules are not stratifiable: max level = " + maxLevel + s);
-        }
-        
         List[] strata = new List[maxLevel + 1];
         for (int level = 0; level < strata.length; level++) {
             strata[level] = new ArrayList();
@@ -321,16 +316,21 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
             strata[level].add(scope);
         }
         
+        if (!done) {
+            String s = orderString(maxLevel, levelMapping, less, lesseq);
+            throw new StratificationException(strata, "Rules are not stratifiable: " + s);
+        }
+        
         return strata;
     }
     
-    private String orderString(final IntMap levelMapping, List less, List lesseq) {
+    private String orderString(int maxLevel, IntMap levelMapping, List less, List lesseq) {
         StringBuffer sb = new StringBuffer();
         for (final Iterator lItr = less.iterator(); lItr.hasNext(); ) {
             Object[] pair = (Object[]) lItr.next();
             int lidx = levelMapping.get(pair[0]);
             int gidx = levelMapping.get(pair[1]);
-            if (true || lidx >= gidx) {
+            if (maxLevel == lidx && maxLevel == gidx) {
                 sb.append(", ");
                 sb.append(getName(pair[0]));
                 sb.append(" < ");
@@ -341,7 +341,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
             Object[] pair = (Object[]) lItr.next();
             int lidx = levelMapping.get(pair[0]);
             int gidx = levelMapping.get(pair[1]);
-            if (true || lidx > gidx) {
+            if (maxLevel == lidx && maxLevel == gidx) {
                 sb.append(", ");
                 sb.append(getName(pair[0]));
                 sb.append(" <= ");

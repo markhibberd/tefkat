@@ -193,33 +193,12 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                 Object element = objMap.get(elementID); // map from String id to (E)Object
 
                 if (element instanceof EObject) {
-                    if (element instanceof Transformation) {
-                        Transformation t = (Transformation) element;
-                        Collection strata;
-                        try {
-                            strata = Arrays.asList(t.getStrata());
-                        } catch (TefkatException e) {
-                            e.printStackTrace();
-                            strata = new ArrayList();
-                            strata.add(t.getTRule());
-                            strata.add(t.getPatternDefn());
-                        }
-                        Collection contents = new ArrayList(t.eContents());
-                        contents.removeAll(t.getTRule());
-                        contents.removeAll(t.getPatternDefn());
-                        contents.addAll(strata);
-                        return getIDs(contents.toArray());
-                    }
-                    
                     Object[] children = ((EObject) element).eContents().toArray();
                     if (element instanceof Term) {
                         return getIDs(children, ((Term) element).getContext());
                     } else {
                         return getIDs(children);
                     }
-                } else if (element instanceof Collection) {
-                    Object[] children = ((Collection) element).toArray();
-                    return getIDs(children);
                 } else {
 //                    System.out.println("************* Parent element must be an EObject: " + element);
                     return null;
@@ -240,8 +219,6 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                 boolean children = false;
                 if (element instanceof EObject) {
                     children = !((EObject) element).eContents().isEmpty();
-                } else if (element instanceof Collection) {
-                    children = !((Collection) element).isEmpty();
                 }
                 return children;
             }

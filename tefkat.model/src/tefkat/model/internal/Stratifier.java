@@ -112,7 +112,7 @@ public class Stratifier extends TefkatSwitch {
         }
         store(map, key);
         if (null != keys) {
-            for (Iterator itr = keys.iterator(); itr.hasNext(); ) {
+            for (final Iterator itr = keys.iterator(); itr.hasNext(); ) {
                 store(map, itr.next());
             }
         }
