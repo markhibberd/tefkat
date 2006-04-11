@@ -23,11 +23,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import com.dstc.tefkat.engine.Extent;
-import com.dstc.tefkat.engine.ResolutionException;
-import com.dstc.tefkat.engine.Tefkat;
-import com.dstc.tefkat.model.parser.TefkatResourceFactory;
-//import com.dstc.tefkat.model.printer.TransMofWalker;
+import tefkat.engine.Tefkat;
+import tefkat.model.TefkatException;
+import tefkat.model.impl.TefkatPackageImpl;
+import tefkat.model.parser.TefkatResourceFactory;
 
 /**
  * @author lawley
@@ -44,6 +43,8 @@ public class TefkatServlet extends HttpServlet {
     private static String XMORPH_XMI = "xmorphXMI";
     private static String XMORPH_URI = "xmorphURI";
     private static String XMORPH_FILE = "xmorphFile";
+
+    private static final TefkatResourceFactory TEFKAT_RESOURCE_FACTORY = new TefkatResourceFactory();
 
     private static Map SERIALIZATION_OPTIONS;
 
@@ -259,32 +260,28 @@ public class TefkatServlet extends HttpServlet {
         }
 
         Tefkat engine = new Tefkat();
-        engine.registerFactory(
-                "qvt",
-                new TefkatResourceFactory(engine.getResourceSet()));
-        engine.registerFactory(
-                "tfk",
-                new TefkatResourceFactory(engine.getResourceSet()));
+        engine.registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
+        engine.registerFactory("tfk", TEFKAT_RESOURCE_FACTORY);
 
-        Extent xmorph = engine.getExtent(xmorphURI);
-        Extent src = engine.getExtent(srcURI);
+        ResourceSet rs = engine.getResourceSet();
+        Resource xmorph = rs.getResource(URI.createURI(xmorphURI), true);
+        Resource src = rs.getResource(URI.createURI(srcURI), true);
 
         File directory =
             (File) getServletContext().getAttribute(
                 "javax.servlet.context.tmpdir");
 
-	// maybe should use actual transformation request URL?
-        Extent tgt =
-            new Extent(engine.createTempResource("target", ".xmi", directory));
+        // maybe should use actual transformation request URL?
+        Resource tgt = rs.createResource(URI.createURI(directory.getAbsolutePath().concat(File.pathSeparator).concat("target.xmi")));
 
         OutputStream out = resp.getOutputStream();
         try {
 	    // Use same extent for target and tracking model instances
-            engine.transform(xmorph, new Extent[] {src}, new Extent[] {tgt}, tgt);
+            engine.transform(xmorph, src, tgt, tgt);
             resp.setContentType("text/xml");
-            tgt.getResource().save(out, SERIALIZATION_OPTIONS);
+            tgt.save(out, SERIALIZATION_OPTIONS);
             out.close();
-        } catch (ResolutionException e) {
+        } catch (TefkatException e) {
             throw new ServletException("Transformation failed.", e);
         }
     }
@@ -300,17 +297,14 @@ public class TefkatServlet extends HttpServlet {
         }
 
         Tefkat engine = new Tefkat();
-        engine.registerFactory(
-                "qvt",
-                new TefkatResourceFactory(engine.getResourceSet()));
-        engine.registerFactory(
-                "tfk",
-                new TefkatResourceFactory(engine.getResourceSet()));
+        engine.registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
+        engine.registerFactory("tfk", TEFKAT_RESOURCE_FACTORY);
 
-        Extent src = engine.getExtent(xmorphURI);
+        ResourceSet rs = engine.getResourceSet();
+        Resource xmorph = rs.getResource(URI.createURI(xmorphURI), true);
         resp.setContentType("text/xml");
         OutputStream out = resp.getOutputStream();
-        src.getResource().save(out, SERIALIZATION_OPTIONS);
+        xmorph.save(out, SERIALIZATION_OPTIONS);
         out.close();
     }
 
@@ -332,8 +326,8 @@ public class TefkatServlet extends HttpServlet {
         map.put("ecore", xmiFactory);
         map.put("xmi", xmiFactory);
         map.put("xmorph", xmiFactory);
-        map.put("qvt", new TefkatResourceFactory(resourceSet));
-        map.put("tfk", new TefkatResourceFactory(resourceSet));
+        map.put("qvt", TEFKAT_RESOURCE_FACTORY);
+        map.put("tfk", TEFKAT_RESOURCE_FACTORY);
 
         URI uri = URI.createURI(xmorphURI);
         Resource resource = resourceSet.getResource(uri, true);
@@ -341,7 +335,7 @@ public class TefkatServlet extends HttpServlet {
         resp.setContentType("text/plain");
         try {
             OutputStream out = resp.getOutputStream();
-            com.dstc.tefkat.model.impl.TefkatPackageImpl.init();
+            TefkatPackageImpl.init();
 //            TransMofWalker.walk(null, resource, out);
             out.close();
         } catch (Exception e) {
