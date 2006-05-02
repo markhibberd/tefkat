@@ -17,7 +17,6 @@ package tefkat.engine;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -693,51 +692,36 @@ class Evaluator {
         return method;
     }
     
+    /**
+     * Beware, this will find the first method (they are in an arbitrary order) that matches subject to
+     * auto-unboxing...eg, teh choice between foo(int) and foo(Integer) is arbitrary
+     * 
+     * @param instance
+     * @param name
+     * @param types
+     * @param unboxedTypes may be null, but otherwise the same length as types
+     * @return
+     */
     private Method resolveMethod(Object instance, String name, Class[] types, Class[] unboxedTypes) {
         Method method = null;
         Class cls = instance.getClass();
         
-        // Loop through the class hierarchy
-        while (null == method && null != cls) {
-            Class[] interfaces = cls.getInterfaces();
-
-            // First try the implemented interfaces since their methods must be
-            // accessible to us
-            for (int i = 0; i < interfaces.length && null == method; i++) {
-                try {
-                    method = interfaces[i].getMethod(name, types);
-                } catch (SecurityException e1) {
-                } catch (NoSuchMethodException e1) {
+        Method[] ms = cls.getMethods();
+        for (int i = 0; null == method && i < ms.length; i++) {
+            if (name.equals(ms[i].getName())) {
+                Class[] parameterTypes = ms[i].getParameterTypes();
+                if (parameterTypes.length != types.length) {
+                    continue;
                 }
-            }
-            if (null != unboxedTypes) {
-                for (int i = 0; i < interfaces.length && null == method; i++) {
-                    try {
-                        method = interfaces[i].getMethod(name, unboxedTypes);
-                    } catch (SecurityException e1) {
-                    } catch (NoSuchMethodException e1) {
+                method = ms[i];
+                for (int j = 0; j < parameterTypes.length; j++) {
+                    if (!parameterTypes[j].isAssignableFrom(types[j]) &&
+                        (null == unboxedTypes || !parameterTypes[j].isAssignableFrom(unboxedTypes[j]))) {
+                        method = null;
+                        break;
                     }
                 }
             }
-
-            // Only check public classes
-            if (null == method && (cls.getModifiers() & Modifier.PUBLIC) > 0) {
-                try {
-                    method = cls.getMethod(name, types);
-                } catch (SecurityException e) {
-                } catch (NoSuchMethodException e) {
-                }
-
-                if (null == method && null != unboxedTypes) {
-                    try {
-                        method = cls.getMethod(name, unboxedTypes);
-                    } catch (SecurityException e) {
-                    } catch (NoSuchMethodException e) {
-                    }
-                }
-            }
-            
-            cls = cls.getSuperclass();
         }
 
         return method;
@@ -774,7 +758,7 @@ class Evaluator {
     }
 
     private void warnNoMethod(Object instance, String methodName) {
-        String message = "WARNING: no such operation: ";
+        String message = "No such operation: ";
         if (instance instanceof EObject) {
             message += Util.getFullyQualifiedName(((EObject) instance).eClass()) + "." + methodName;
         } else {
