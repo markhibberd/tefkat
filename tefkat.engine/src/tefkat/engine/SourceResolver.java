@@ -271,7 +271,7 @@ class SourceResolver extends AbstractResolver {
             Object instance = itr.next();
             
             if (instance instanceof WrappedVar) {
-                // handle the ++- mode
+                // handle the ??- mode
                 if (true) {
                     // This branch does eager expansion of the tree.
                     if (null == extent) {
@@ -331,16 +331,17 @@ class SourceResolver extends AbstractResolver {
                     }
                 }
             } else {
+                // handle the ??+ mode
                 Binding unifier = null;
                 if (instance instanceof BindingPair) {
                     unifier = (Binding) instance;
                     instance = ((BindingPair) instance).getValue();
                 }
-                // handle the +++ mode
                 if (instance instanceof EObject && (null == extent || extent.contains((EObject) instance))) {
                     ExtentUtil.highlightNode(instance, ExtentUtil.OBJECT_LOOKUP);
                     boolean isOfType =
-                        term.isExact() ? theClass.equals(((EObject) instance).eClass()) : theClass.isInstance(instance);
+                        null == theClass ||
+                        (term.isExact() ? theClass.equals(((EObject) instance).eClass()) : theClass.isInstance(instance));
                     if (isOfType) {
                         success = true;
                     
