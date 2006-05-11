@@ -145,10 +145,12 @@
   <eClassifiers xsi:type="ecore:EClass" name="NotTerm" eSuperTypes="#//CompoundTerm"/>
   <eClassifiers xsi:type="ecore:EClass" name="IfTerm" eSuperTypes="#//CompoundTerm #//TargetTerm"/>
   <eClassifiers xsi:type="ecore:EClass" name="TrackingUse" eSuperTypes="#//SimpleTerm">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="tracking" lowerBound="1"
-        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracking" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"
+        transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
         eType="#//FeatureValuePair" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trackingName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FeatureValuePair" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Expression"

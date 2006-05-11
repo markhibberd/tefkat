@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.jgraph.event.GraphModelEvent;
 import org.jgraph.event.GraphModelListener;
 
@@ -68,6 +69,8 @@ public class Main {
     private static final TefkatResourceFactory TEFKAT_RESOURCE_FACTORY = new TefkatResourceFactory();
     
     private static final Resource.Factory XMI_RESOURCE_FACTORY = new XMIResourceFactoryImpl();
+    
+    private static final Resource.Factory XSD_RESOURCE_FACTORY = new XSDResourceFactoryImpl();
 
     private static boolean quiet = false;
 
@@ -193,6 +196,8 @@ public class Main {
         TefkatConfigPackageImpl.init();
         
         engine.registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
+        engine.registerFactory("xsd", XSD_RESOURCE_FACTORY);
+        engine.registerFactory("wsdl", XSD_RESOURCE_FACTORY);
         engine.registerFactory("*", XMI_RESOURCE_FACTORY);
 
         try {

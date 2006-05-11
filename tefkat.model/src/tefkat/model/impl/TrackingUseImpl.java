@@ -46,6 +46,7 @@ import tefkat.model.TrackingUse;
  * <ul>
  *   <li>{@link tefkat.model.impl.TrackingUseImpl#getTracking <em>Tracking</em>}</li>
  *   <li>{@link tefkat.model.impl.TrackingUseImpl#getFeatures <em>Features</em>}</li>
+ *   <li>{@link tefkat.model.impl.TrackingUseImpl#getTrackingName <em>Tracking Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,6 +79,26 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
      * @ordered
      */
     protected EMap features = null;
+
+    /**
+     * The default value of the '{@link #getTrackingName() <em>Tracking Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+     * @see #getTrackingName()
+     * @generated
+     * @ordered
+     */
+	protected static final String TRACKING_NAME_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getTrackingName() <em>Tracking Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+     * @see #getTrackingName()
+     * @generated
+     * @ordered
+     */
+	protected String trackingName = TRACKING_NAME_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -116,19 +137,19 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
 
     /**
      * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
      * @generated
      */
-    public EClass basicGetTracking() {
+	public EClass basicGetTracking() {
         return tracking;
     }
 
     /**
      * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
      * @generated
      */
-    public void setTracking(EClass newTracking) {
+	public void setTracking(EClass newTracking) {
         EClass oldTracking = tracking;
         tracking = newTracking;
         if (eNotificationRequired())
@@ -145,6 +166,27 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
             features = new EcoreEMap(TefkatPackage.eINSTANCE.getFeatureValuePair(), FeatureValuePairImpl.class, this, TefkatPackage.TRACKING_USE__FEATURES);
         }
         return features;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+     * @generated
+     */
+	public String getTrackingName() {
+        return trackingName;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+     * @generated
+     */
+	public void setTrackingName(String newTrackingName) {
+        String oldTrackingName = trackingName;
+        trackingName = newTrackingName;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.TRACKING_USE__TRACKING_NAME, oldTrackingName, trackingName));
     }
 
     /**
@@ -261,6 +303,8 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
                 return basicGetTracking();
             case TefkatPackage.TRACKING_USE__FEATURES:
                 return getFeatures();
+            case TefkatPackage.TRACKING_USE__TRACKING_NAME:
+                return getTrackingName();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -297,6 +341,9 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
                 getFeatures().clear();
                 getFeatures().addAll((Collection)newValue);
                 return;
+            case TefkatPackage.TRACKING_USE__TRACKING_NAME:
+                setTrackingName((String)newValue);
+                return;
         }
         eDynamicSet(eFeature, newValue);
     }
@@ -332,6 +379,9 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
             case TefkatPackage.TRACKING_USE__FEATURES:
                 getFeatures().clear();
                 return;
+            case TefkatPackage.TRACKING_USE__TRACKING_NAME:
+                setTrackingName(TRACKING_NAME_EDEFAULT);
+                return;
         }
         eDynamicUnset(eFeature);
     }
@@ -359,6 +409,8 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
                 return tracking != null;
             case TefkatPackage.TRACKING_USE__FEATURES:
                 return features != null && !features.isEmpty();
+            case TefkatPackage.TRACKING_USE__TRACKING_NAME:
+                return TRACKING_NAME_EDEFAULT == null ? trackingName != null : !TRACKING_NAME_EDEFAULT.equals(trackingName);
         }
         return eDynamicIsSet(eFeature);
     }
@@ -373,10 +425,10 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
         
         String name;
         
-        if (null == tracking) {
+        if (null == trackingName) {
             name = "unknown tracking";
         } else {
-            name = getTracking().getName();
+            name = getTrackingName();
         }
 
         return name + getFeatures();

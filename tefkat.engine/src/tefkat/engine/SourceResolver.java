@@ -256,13 +256,6 @@ class SourceResolver extends AbstractResolver {
         // Our "package instance" wrapper around an EMOF ExtentUtil (EMF Resource)
         Extent extent = (null == extentVar ? null : (Extent) node.lookup(extentVar));
 
-        // Check mode of term is compatible with ++-
-//        if (null == extent) {
-//            throw new ResolutionException(
-//                node,
-//                "Unbound context ExtentUtil for MofInstance: " + term);
-//        }
-
         Collection instances = exprEval.eval(node, instanceExpr);
 
         boolean success = false;
@@ -272,7 +265,7 @@ class SourceResolver extends AbstractResolver {
             
             if (instance instanceof WrappedVar) {
                 // handle the ??- mode
-                if (true) {
+                if (false) {
                     // This branch does eager expansion of the tree.
                     if (null == extent) {
                         throw new NotGroundException("Unbound ExtentUtil for " + literal);
@@ -313,13 +306,22 @@ class SourceResolver extends AbstractResolver {
                     }
                 } else {
                     // This branch does lazy expansion of the tree.
-                    // This will cause relatively untested code (and broken) to be used in
+                    // This will cause relatively untested code (and broken?) to be used in
                     // other parts of Abstract/Source/TargetResolver and Evaluator
                 	// FIXME make this stuff work
+                        // FIXME I think it works, but some Unit tests would make me more comfortable
                     WrappedVar wVar = (WrappedVar) instance;
                     wVar.setExtent(extent);
-                    // TODO Handle the any-type named "_"
-                    if (!(theClass instanceof EClass)) {
+                    if ("_".equals(className)) {
+                        // Any type will do, isExact in this context is meaningless
+                        // hence, no need to call setType on the WrappedVar
+                        Collection newGoal = new ArrayList(goal);
+                        newGoal.remove(term);
+
+                        Binding unifier = new Binding();
+                        unifier.add(wVar.getVar(), wVar);
+                        tree.createBranch(node, unifier, newGoal);
+                    } else if (!(theClass instanceof EClass)) {
                         ruleEval.fireWarning("Could not find class named: " + className);
                     } else if (wVar.setType((EClass) theClass, term.isExact())) {
                         Collection newGoal = new ArrayList(goal);

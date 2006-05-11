@@ -27,6 +27,7 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -47,6 +48,7 @@ import tefkat.model.TefkatFactory;
 import tefkat.model.Transformation;
 import tefkat.model.impl.TefkatPackageImpl;
 import tefkat.model.internal.IntMap;
+import tefkat.model.internal.Util;
 
 
 /**
@@ -244,6 +246,14 @@ public class Tefkat {
             trackingE = TefkatFactory.eINSTANCE.createContainerExtent();
             trackingE.setResource(tracking);
         }
+        // Mark the tracking resource as modified so that caching in the
+        // tracking extent is disabled - this saves the overhead of automatic
+        // tracking modification since the tracking extent will almost certainly
+        // be modified, and if it isn't, it'll be empty (currently) so the cost
+        // of not caching is very low.
+        //
+        // TODO refactor this as an Extent operation: setCaching(false)
+        trackingE.getResource().setModified(true);
 
         transform(transformation, srcEs, tgtEs, trackingE, force);
     }
@@ -336,16 +346,13 @@ public class Tefkat {
      * @throws ResolutionException
      */
     private void createRuleEvaluator(Extent trackingExtent, Transformation t, Binding context) throws ResolutionException {
-        List importedResources = new ArrayList();
-        for (final Iterator itr = t.getImportedPackages().iterator(); itr.hasNext(); ) {
-            String uriStr = (String) itr.next();
-            try {
-                importedResources.add(getResource(uriStr));
-            } catch (IOException e) {
-                throw new ResolutionException(null, "Could not import model: " + uriStr, e);
-            }
-        }
+        List importedResources = getImportedResources(t);
         ruleEvaluator = new RuleEvaluator(context, trackingExtent, importedResources, engineListeners);
+        try {
+            Util.resolveTrackingClassNames(t, ruleEvaluator.nameMap);
+        } catch (TefkatException e) {
+            throw new ResolutionException(null, "Could not resolve tracking class references", e);
+        }
         ruleEvaluator.setInterrupted(false);
         ruleEvaluator.INCREMENTAL = isIncremental;
         Evaluator evaluator = ruleEvaluator.getEvaluator();
@@ -355,6 +362,35 @@ public class Tefkat {
             Function function = (Function) entry.getValue();
             evaluator.addFunction(name, function);
         }
+    }
+
+    private List getImportedResources(Transformation t) throws ResolutionException {
+        List importedResources = new ArrayList();
+        EPackage.Registry registry = getResourceSet().getPackageRegistry();
+        
+        // Avoid explicitly loading resources corresponding to packages that
+        // have already been loaded (or dynamically created!)
+        //
+        for (final Iterator itr = t.getImportedPackages().iterator(); itr.hasNext(); ) {
+            String uriStr = (String) itr.next();
+            try {
+                if (registry.containsKey(uriStr)) {
+                    importedResources.add(registry.getEPackage(uriStr).eResource());
+                } else {
+                    // gracefully handle the case where an XSD has no targetNamespace
+                    // (there can be only one :-)
+                    EPackage nullPkg = registry.getEPackage(null);
+                    if (null != nullPkg && uriStr.equals(nullPkg.getNsURI())) {
+                        importedResources.add(nullPkg.eResource());
+                    } else {
+                        importedResources.add(getResource(uriStr));
+                    }
+                }
+            } catch (IOException e) {
+                throw new ResolutionException(null, "Could not import model: " + uriStr, e);
+            }
+        }
+        return importedResources;
     }
 
     // Attempting to use a separate thread to allow hung resource loads to be interrupted

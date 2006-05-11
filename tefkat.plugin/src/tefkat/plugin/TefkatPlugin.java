@@ -26,6 +26,8 @@ import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
@@ -48,6 +50,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.osgi.framework.BundleContext;
@@ -94,7 +98,10 @@ public class TefkatPlugin extends AbstractUIPlugin {
 
     public static final TefkatResourceFactory TEFKAT_RESOURCE_FACTORY = new TefkatResourceFactory();
     
+    private static final Resource.Factory ECORE_RESOURCE_FACTORY = new EcoreResourceFactoryImpl();
     private static final Resource.Factory XMI_RESOURCE_FACTORY = new XMIResourceFactoryImpl();
+    private static final Resource.Factory XML_RESOURCE_FACTORY = new GenericXMLResourceFactoryImpl();
+    private static final Resource.Factory XSD_RESOURCE_FACTORY = new XSDResourceFactoryImpl();
     
     final static String TEFKAT_CONSOLE_NAME = "Tefkat";
 
@@ -662,10 +669,13 @@ public class TefkatPlugin extends AbstractUIPlugin {
             _resourceSet.getLoadOptions().putAll(SERIALIZATION_OPTIONS);
 
             Map map = _resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
-            map.put("ecore", XMI_RESOURCE_FACTORY);
+            map.put("ecore", ECORE_RESOURCE_FACTORY);
             map.put("xmi", XMI_RESOURCE_FACTORY);
             map.put("tefkat", XMI_RESOURCE_FACTORY);
             // map.put("qvt", TEFKAT_RESOURCE_FACTORY);
+            map.put("xsd", XSD_RESOURCE_FACTORY);
+            map.put("wsdl", XSD_RESOURCE_FACTORY);
+            map.put("xml", XML_RESOURCE_FACTORY);
         }
         return _resourceSet;
     }

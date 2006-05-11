@@ -22,10 +22,23 @@ import java.util.Map;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.ecore.XSDEcoreBuilder;
+
+import tefkat.model.CompoundTerm;
+import tefkat.model.PatternDefn;
+import tefkat.model.TRule;
+import tefkat.model.TefkatException;
+import tefkat.model.Term;
+import tefkat.model.TrackingUse;
+import tefkat.model.Transformation;
 
 /**
  * @author lawley
@@ -34,16 +47,15 @@ import org.eclipse.emf.ecore.resource.Resource;
  * Preferences - Java - Code Style - Code Templates
  */
 public abstract class Util {
-
+    
     public final static String getFullyQualifiedName(Class klass) {
         return klass.getName();
     }
-
+    
     public final static String getFullyQualifiedName(EClassifier eClassifier) {
-        return getFullyQualifiedName(eClassifier.getEPackage()) + "::"
-                + eClassifier.getName();
+        return getFullyQualifiedName(eClassifier.getEPackage()) + "::" + eClassifier.getName();
     }
-
+    
     final static protected String getFullyQualifiedName(EPackage ePackage) {
         String name = "";
         while (null != ePackage) {
@@ -52,13 +64,11 @@ public abstract class Util {
         }
         return name;
     }
-
-    public final static String getFullyQualifiedName(
-            EStructuralFeature eFeature) {
-        return getFullyQualifiedName(eFeature.getEContainingClass()) + "."
-                + eFeature.getName();
+    
+    public final static String getFullyQualifiedName(EStructuralFeature eFeature) {
+        return getFullyQualifiedName(eFeature.getEContainingClass()) + "." + eFeature.getName();
     }
-
+    
     /**
      * @param node
      * @param klass
@@ -68,7 +78,7 @@ public abstract class Util {
      */
     final public static EStructuralFeature getFeature(EClass klass, String featureName) {
         EStructuralFeature feature = klass.getEStructuralFeature(featureName);
-
+        
         if (null == feature) {
             String featureNames = null;
             List allFeatures = klass.getEAllStructuralFeatures();
@@ -105,7 +115,7 @@ public abstract class Util {
         }
         return (EClassifier) obj;
     }
-
+    
     /**
      * Given a set of resources containing EPackages and EClasses, build a Map of
      * names to EClasses using both the unqualified and fully-qualifed names.
@@ -120,50 +130,126 @@ public abstract class Util {
     }
     
     public final static Map buildNameMaps(Collection resources, Map nameMap) {
+        XSDEcoreBuilder xsdEcoreBuilder = null;
         for (Iterator itr = resources.iterator(); itr.hasNext();) {
             Resource res = (Resource) itr.next();
             // Do a tree iteration over the Resource, pruning on every
             // non-EPackage since only EPackages can (transitively) contain
             // EClassifiers
-            for (TreeIterator resItr = res.getAllContents(); resItr.hasNext();) {
-                EObject obj = (EObject) resItr.next();
-                if (obj instanceof EClassifier) {
-                    EClassifier eClassifier = (EClassifier) obj;
-
-                    String fqName = Util.getFullyQualifiedName(eClassifier);
-                    nameMap.put(fqName, eClassifier);
-
-                    String name = eClassifier.getName();
-                    if (nameMap.containsKey(name) && !eClassifier.equals(nameMap.get(name))) {
-                        // Record a name-clash by storing a List of the clashing things
-                        Object clashObj = nameMap.get(name);
-                        if (clashObj instanceof List) {
-                            ((List) clashObj).add(fqName);
-                        } else {
-                            List allNames = new ArrayList();
-                            allNames.add(Util.getFullyQualifiedName((EClassifier) clashObj));
-                            allNames.add(fqName);
-                            nameMap.put(name, allNames);
-                        }
-                    } else {
-                        nameMap.put(name, eClassifier);
-                    }
-
-//                    if (obj instanceof EEnum) {
-//                        EEnum eEnum = (EEnum) obj;
-//                        for (Iterator eItr = eEnum.getELiterals().iterator(); eItr.hasNext(); ) {
-//                            EEnumLiteral eLiteral = (EEnumLiteral) eItr.next();
-//                            nameMap.put(fqName + "::" + eLiteral.getName(), eLiteral);
-//                        }
-//                    }
-                    
-                    resItr.prune();
-                } else if (!(obj instanceof EPackage)) {
-                    resItr.prune();
-                }
+            TreeIterator treeItr = res.getAllContents();
+            xsdEcoreBuilder = buildNameMaps(treeItr, nameMap, res.getResourceSet(), xsdEcoreBuilder);
+        }
+        if (null != xsdEcoreBuilder) {
+            for (Iterator itr = xsdEcoreBuilder.getTargetNamespaceToEPackageMap().values().iterator(); itr.hasNext();) {
+                EPackage pkg = (EPackage) itr.next();
+                xsdEcoreBuilder = buildNameMaps(pkg.eAllContents(), nameMap, null, xsdEcoreBuilder);
             }
         }
+        
         return nameMap;
     }
-
+    
+    private static XSDEcoreBuilder buildNameMaps(TreeIterator treeItr, Map nameMap, final ResourceSet resourceSet, XSDEcoreBuilder xsdEcoreBuilder) {
+        while (treeItr.hasNext()) {
+            EObject obj = (EObject) treeItr.next();
+            if (obj instanceof EClassifier) {
+                EClassifier eClassifier = (EClassifier) obj;
+                
+                String fqName = Util.getFullyQualifiedName(eClassifier);
+                addToMap(nameMap, fqName, eClassifier);
+                
+                String name = eClassifier.getName();
+                addToMap(nameMap, name, eClassifier);
+                
+//              if (obj instanceof EEnum) {
+//              EEnum eEnum = (EEnum) obj;
+//              for (Iterator eItr = eEnum.getELiterals().iterator(); eItr.hasNext(); ) {
+//              EEnumLiteral eLiteral = (EEnumLiteral) eItr.next();
+//              nameMap.put(fqName + "::" + eLiteral.getName(), eLiteral);
+//              }
+//              }
+            } else if (obj instanceof XSDSchema) {
+                // Attempt to handle ecore models dynamically generated from xml schema 
+                if (null == xsdEcoreBuilder) {
+                    xsdEcoreBuilder = new XSDEcoreBuilder();
+                }
+                try {
+                    xsdEcoreBuilder.generate((XSDSchema) obj);
+                } catch (ClassCastException e) {
+                    // FIXME ignore this for the moment -- it's patched in EMF's CVS HEAD
+                    // see bugzilla -- https://bugs.eclipse.org/bugs/show_bug.cgi?id=136267
+                    System.err.println(obj);
+                    //e.printStackTrace();
+                }
+            }
+            
+            if (!(obj instanceof EPackage)) {
+                treeItr.prune();
+            }
+        }
+        return xsdEcoreBuilder;
+    }
+    
+    private static void addToMap(Map nameMap, String name, EClassifier eClassifier) {
+        if (nameMap.containsKey(name)) {
+            if (!eClassifier.equals(nameMap.get(name))) {
+                // Record a name-clash by storing a List of the clashing things
+                Object clashObj = nameMap.get(name);
+                if (clashObj instanceof List) {
+                    ((List) clashObj).add(eClassifier);
+                } else {
+                    List allNames = new ArrayList();
+                    allNames.add((EClassifier) clashObj);
+                    allNames.add(eClassifier);
+                    nameMap.put(name, allNames);
+                }
+            }
+        } else {
+            nameMap.put(name, eClassifier);
+        }
+    }
+    
+    public static void resolveTrackingClassNames(Transformation t, Map nameMap)
+    throws TefkatException {
+        for (Iterator itr = t.getPatternDefn().iterator(); itr.hasNext(); ) {
+            PatternDefn pDefn = (PatternDefn) itr.next();
+            resolveTrackingClassNames(pDefn.getTerm(), nameMap);
+        }
+        for (Iterator itr = t.getTRule().iterator(); itr.hasNext(); ) {
+            TRule tRule = (TRule) itr.next();
+            resolveTrackingClassNames(tRule.getSrc(), nameMap);
+            resolveTrackingClassNames(tRule.getTgt(), nameMap);
+        }
+    }
+    
+    private static void resolveTrackingClassNames(List terms, Map nameMap)
+    throws TefkatException {
+        for (Iterator itr = terms.iterator(); itr.hasNext(); ) {
+            Term term = (Term) itr.next();
+            resolveTrackingClassNames(term, nameMap);
+        }
+    }
+    
+    private static void resolveTrackingClassNames(Term term, Map nameMap)
+    throws TefkatException {
+        if (term instanceof TrackingUse) {
+            TrackingUse trackingUse = (TrackingUse) term;
+            String tname = trackingUse.getTrackingName();
+            EClassifier tracking = findClassifierByName(nameMap, tname);
+            if (null == tracking) {
+                throw new TefkatException("Undefined tracking class: " + tname);
+            }
+            if (!(tracking instanceof EClass)) {
+                String type = (tracking instanceof EDataType) ? "an EDataType" :
+                              (tracking instanceof EEnum) ? "an EEnum" :
+                              "a " + tracking.getClass().getName();
+                throw new TefkatException("Expected an EClass: " + tname + ", found " + type);
+            }
+            trackingUse.setTracking((EClass) tracking);
+        } else if (term instanceof CompoundTerm) {
+            CompoundTerm compoundTerm = (CompoundTerm) term;
+            resolveTrackingClassNames(compoundTerm.getTerm(), nameMap);
+        }
+    }
+    
 }

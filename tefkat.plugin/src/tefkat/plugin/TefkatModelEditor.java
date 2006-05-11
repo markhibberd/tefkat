@@ -34,9 +34,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
@@ -59,9 +61,14 @@ import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.xsd.util.XSDResourceFactoryImpl;
+import org.eclipse.xsd.util.XSDResourceImpl;
 
+import tefkat.engine.ResolutionException;
 import tefkat.model.StratificationException;
+import tefkat.model.TefkatException;
 import tefkat.model.Transformation;
+import tefkat.model.internal.Util;
 import tefkat.model.parser.ParserEvent;
 import tefkat.model.parser.ParserListener;
 
@@ -91,6 +98,8 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         SERIALIZATION_OPTIONS = new HashMap();
         SERIALIZATION_OPTIONS.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
         SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData());
+        SERIALIZATION_OPTIONS.put(XSDResourceImpl.XSD_TRACK_LOCATION, Boolean.TRUE);
+
     }
     private int EDITOR_PAGE = -1;
     private int XMI_PAGE = -1;
@@ -326,7 +335,14 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                 return;
             }
             
+//            TefkatPlugin.getPlugin().clearResourceSet();
+//            ResourceSet resourceSet = TefkatPlugin.getPlugin().getResourceSet();
             ResourceSet resourceSet = new ResourceSetImpl();
+            
+            // Need to use a new ExtendedMetaData instance to avoid cached ePackage instances.
+            //
+            SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData(resourceSet.getPackageRegistry()));
+            resourceSet.getLoadOptions().putAll(SERIALIZATION_OPTIONS);
 
             final IResource resource = (IResource) textEditor.getEditorInput().getAdapter(IResource.class);
             try {
@@ -384,6 +400,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                 final Transformation transformation = parser.transformation(res);
                 res.save(out, SERIALIZATION_OPTIONS);
 
+                Util.resolveTrackingClassNames(transformation, parser.trackingMap);
                 printStrata(sb, transformation.getStrata());
                 
             } catch (final RecognitionException e) {
