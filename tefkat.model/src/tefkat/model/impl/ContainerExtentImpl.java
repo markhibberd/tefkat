@@ -13,7 +13,10 @@
 package tefkat.model.impl;
 
 
+import java.lang.ref.WeakReference;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
@@ -72,6 +75,9 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      */
     protected Resource resource = RESOURCE_EDEFAULT;
 
+    private Map exactlyCache = new WeakHashMap();
+    private Map inexactlyCache = new WeakHashMap();
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -109,32 +115,85 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
         EList objects = getAllObjectsByClass(theClass, isExactly);
         return objects;
     }
+    
+    static private interface Filter {
+        boolean filter(EObject eObject);
+    }
 
     /**
+     * FIXME Yikes, need to invalidate the cache if the extent is modified, but
+     * in the context of a Tefkat transformation, only tracking extents will get
+     * modified.
+     * 
      * @param theClass
      * @param isExactly
      * @return
      */
-    private EList getAllObjectsByClass(EClass theClass, boolean isExactly) {
+    private EList getAllObjectsByClass(final EClass theClass, final boolean isExactly) {
+        EList objects;
+        if (null == theClass) {
+            // null class means no type constraint -- i.e., get all instances
+            objects = (EList) cacheLookup(exactlyCache, theClass);
+            if (null == objects) {
+                objects = getMatchingObjects(new Filter() {
+                    public boolean filter(EObject eObject) {
+                        return true;
+                    }
+                });
+                cacheStore(exactlyCache, theClass, objects);
+            }
+        } else if (isExactly) {
+            objects = (EList) cacheLookup(exactlyCache, theClass);
+            if (null == objects) {
+                objects = getMatchingObjects(new Filter() {
+                    public boolean filter(EObject eObject) {
+                        return theClass.equals(eObject.eClass());
+                    }
+                });
+                cacheStore(exactlyCache, theClass, objects);
+            }
+        } else {
+            objects = (EList) cacheLookup(inexactlyCache, theClass);
+            if (null == objects) {
+                objects = getMatchingObjects(new Filter() {
+                    public boolean filter(EObject eObject) {
+                        return theClass.isSuperTypeOf(eObject.eClass());
+                    }
+                });
+                cacheStore(inexactlyCache, theClass, objects);
+            }
+        }
+        
+        return objects;
+    }
+
+    private EList getMatchingObjects(Filter filter) {
         EList objects = new BasicEList();
         Iterator itr = resource.getAllContents();
         while (itr.hasNext()) {
             EObject obj = (EObject) itr.next();
-            EClass eClass = obj.eClass();
-            if (eClass.equals(theClass)) {
+            if (filter.filter(obj)) {
                 objects.add(obj);
-            } else if (!isExactly) {
-                Iterator itr2 = eClass.getEAllSuperTypes().iterator();
-                while (itr2.hasNext()) {
-                    EClass subClass = (EClass) itr2.next();
-                    if (theClass.equals(subClass)) {
-                        objects.add(obj);
-                        break;
-                    }
-                }
             }
         }
         return objects;
+    }
+    
+    private Object cacheLookup(Map cache, Object key) {
+        // Can't cache if underlying resource has changed
+        if (getResource().isModified()) {
+            return null;
+        }
+        Object result = cache.get(key);
+        if (null != result) {
+            result = ((WeakReference) result).get();
+        }
+        return result;
+    }
+    
+    private void cacheStore(Map cache, Object key, Object value) {
+        // Can't cache if underlying resource has changed
+        cache.put(key, new WeakReference(value));
     }
 
     /**
@@ -176,11 +235,13 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
     public void setResource(Resource newResource) {
         Resource oldResource = resource;
         resource = newResource;
+        exactlyCache.clear();
+        inexactlyCache.clear();
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.CONTAINER_EXTENT__RESOURCE, oldResource, resource));
     }
