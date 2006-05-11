@@ -14,6 +14,7 @@
 
 package tefkat.engine;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,7 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -303,13 +303,9 @@ class Evaluator {
     }
     
     List expand(WrappedVar wVar, Expression expr) throws NotGroundException {
-        AbstractVar var = wVar.getVar();
-        EClass type = wVar.getType();
-        if (null == type) {
-            throw new NotGroundException(
-                "Unsupported mode (unbound '" + var.getName() + "') for Expression: " + expr);
-        }
-        System.out.println("Expanding " + wVar);   // TODO delete
+//        AbstractVar var = wVar.getVar();
+//        EClass type = wVar.getType();
+//        System.out.println("Expanding " + wVar);   // TODO delete
 //        System.out.println("\t" + wVar.getExtent().getObjectsByClass(wVar.getType(), wVar.isExact()));
         return wVar.getExtent().getObjectsByClass(wVar.getType(), wVar.isExact());
     }
@@ -490,6 +486,10 @@ class Evaluator {
                 } else {
                     Object valuesObject = fetchFeature(node, featureName, obj);
                     
+                    if (null != valuesObject && valuesObject.getClass().isArray()) {
+                        valuesObject = wrapArray(valuesObject);
+                    }
+                    
                     if (valuesObject instanceof Collection) {
                         if (featExpr.isCollect()) {
                             if (null != var) {
@@ -551,6 +551,26 @@ class Evaluator {
             }
         }
         return values;
+    }
+
+    /**
+     * Turn an array of things into a List of things, boxing primitive types as required.
+     * 
+     * @param valuesObject
+     * @return
+     */
+    private Object wrapArray(Object valuesObject) {
+        if (valuesObject instanceof Object[]) {
+            valuesObject = Arrays.asList((Object[]) valuesObject);
+        } else if (valuesObject.getClass().isArray()) {
+            final int length = Array.getLength(valuesObject);
+            List l = new ArrayList(length);
+            for (int i = 0; i < length; i++) {
+                l.add(Array.get(valuesObject, i));
+            }
+            valuesObject = l;
+        }
+        return valuesObject;
     }
 
     private Object evalSimpleExpr(Expression expr) {
@@ -879,10 +899,10 @@ class Evaluator {
                 String methName = "get" + featureName.substring(0, 1).toUpperCase() + featureName.substring(1, featureName.length());
                 try {
                     try {
-                        valuesObject = obj.getClass().getDeclaredMethod(methName, null).invoke(obj, null);
+                        valuesObject = obj.getClass().getMethod(methName, null).invoke(obj, null);
                     } catch (NoSuchMethodException e) {
                         if (null == valuesObject) {
-                            valuesObject = obj.getClass().getDeclaredField(featureName).get(obj);
+                            valuesObject = obj.getClass().getField(featureName).get(obj);
                         }
                     }
                 } catch (Exception e) {
