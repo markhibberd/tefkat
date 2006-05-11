@@ -249,7 +249,16 @@ abstract class AbstractResolver {
             for (int i = 0; i < args.size(); i++) {
                 String str;
                 try {
-                    str = String.valueOf(exprEval.eval(node, (Expression) args.get(i)));
+                    List values = exprEval.eval(node, (Expression) args.get(i));
+                    str = "[";
+                    for (Iterator itr = values.iterator(); itr.hasNext(); ) {
+                        Object o = itr.next();
+                        str += (o instanceof BindingPair ? ((BindingPair) o).getValue() : o);
+                        if (itr.hasNext()) {
+                            str += ", ";
+                        }
+                    }
+                    str += "]";
                 } catch (NotGroundException e) {
                     str = "(" + args.get(i) + " not sufficiently ground)";
                 }
