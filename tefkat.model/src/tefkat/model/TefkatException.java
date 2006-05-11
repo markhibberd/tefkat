@@ -1,6 +1,6 @@
 package tefkat.model;
 
-public abstract class TefkatException extends Exception {
+public class TefkatException extends Exception {
     
     public TefkatException(String message, Throwable cause) {
         super(message, cause);
