@@ -489,6 +489,8 @@ options {
     private void definePackage(Transformation t, String uriString) throws antlr.SemanticException {
         URI uri = URI.createURI(uriString);
         ResourceSet resourceSet = t.eResource().getResourceSet();
+System.err.println(        	resourceSet.getResourceFactoryRegistry()
+                    .getExtensionToFactoryMap());
         Resource resource = null;
         try {
             resource = resourceSet.getResource(uri, true);//loadOnDemand);
@@ -703,26 +705,27 @@ options {
         }
     }
     
-    Resource xres = null;
-    List srcExtents, tgtExtents;
+    private Resource resource = null;
+    private List srcExtents, tgtExtents;
+    
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
 }
 
-transformation[Resource res] returns [Transformation t = null;] {
+transformation returns [Transformation t = null;] {
         ExtentVar srcExtent = null, tgtExtent = null;
 }
-        :       {
-                        xres = (XMLResource) res;
-                }
-                tok:"TRANSFORMATION" {
+        :       tok:"TRANSFORMATION" {
                         t = TefkatFactory.eINSTANCE.createTransformation();
 //                        org.eclipse.emf.ecore.xml.type.AnyType any = 
 //                                XMLTypeFactory.eINSTANCE.createAnyType();
-//                        xres.getEObjectToExtensionMap().put(t, any);
+//                        resource.getEObjectToExtensionMap().put(t, any);
                         annotate(t, tok);
                 }
                 name:ID {
                         t.setName(name.getText());
-                        res.getContents().add(t);
+                        resource.getContents().add(t);
                 }
                 (
                     // for backwards compatability
@@ -885,7 +888,7 @@ classDecl[Transformation t] {
                     sChar = getCharIndex(c);
                     if (null == ePackage) {
                             ePackage = EcoreFactory.eINSTANCE.createEPackage();
-                            ePackage.setNsURI(String.valueOf(xres.getURI()));
+                            ePackage.setNsURI(String.valueOf(resource.getURI()));
                             ePackage.setName(t.getName());
                         res.getContents().add(0, ePackage);
                     }
@@ -949,7 +952,7 @@ map {
                     
                     dataMap = DataFactory.eINSTANCE.createDataMap();
                     dataMap.setKey(mapName);
-                    xres.getContents().add(dataMap);
+                    resource.getContents().add(dataMap);
 
                     mapMap.put(mapName, dataMap);
                 }
@@ -2302,7 +2305,7 @@ objectlit returns [EObject obj = null] {
 }        :       LANGLE
                 tok:URITOK {
                     URI uri = URI.createURI(tok.getText());
-                    obj = xres.getResourceSet().getEObject(uri, true);
+                    obj = resource.getResourceSet().getEObject(uri, true);
                     if (null == obj) {
                             setMark(tok);
                             throw new antlr.SemanticException("Could not resolve instance reference: " + tok.getText(), getFilename(), getMarkLine(), getMarkColumn());

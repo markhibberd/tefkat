@@ -397,7 +397,8 @@ public class TefkatModelEditor extends MultiPageEditorPart {
             final OutputStream out = new ByteArrayOutputStream();
             final StringBuffer sb = new StringBuffer();
             try {
-                final Transformation transformation = parser.transformation(res);
+                parser.setResource(res);
+                final Transformation transformation = parser.transformation();
                 res.save(out, SERIALIZATION_OPTIONS);
 
                 Util.resolveTrackingClassNames(transformation, parser.trackingMap);
