@@ -15,6 +15,6 @@
 package tefkat.engine;
 
 public interface Function {
-    public Object call(Object[] params);
+    public Object call(Object[] params) throws ResolutionException;
 }
 

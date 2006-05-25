@@ -72,6 +72,22 @@ class Evaluator {
                 return Arrays.asList(params);
             }
         });
+        
+        funcMap.put("funmap", new Function() {
+            public Object call(Object[] params) throws ResolutionException {
+                final Node node = (Node) funcMap.get(CONTEXT_KEY);
+                final Collection list = (Collection) params[0];
+                final String feature = (String) params[1];
+                final List result = new ArrayList();
+                
+                for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
+                    Object obj = itr.next();
+                    result.add(fetchFeature(node, feature, obj));
+                }
+
+                return result;
+            }
+        });
 
         funcMap.put("append", new Function() {
             final public Object call(Object[] params) {
@@ -248,6 +264,7 @@ class Evaluator {
             }
         });
         
+        // FIXME rename this function to dataMap or something (see tefkat.g)
         funcMap.put("map", new Function() {
             final public Object call(Object[] params) {
                 DataMap dataMap = (DataMap) params[0];
@@ -400,7 +417,7 @@ class Evaluator {
             e.printStackTrace();
             throw new ResolutionException(node, "Badly typed parameter(s) to function: " + op, e);
         } catch (RuntimeException e) {
-            throw new ResolutionException(node, "Function eval failed", e);
+            throw new ResolutionException(node, "Function evaluation failed: " + op, e);
         }
         return values;
     }
@@ -916,11 +933,11 @@ class Evaluator {
         return valuesObject;
     }
     
-    private void accumulate(Function f, List ls, Collection results) {
+    private void accumulate(Function f, List ls, Collection results) throws ResolutionException {
         accumulate(f, ls, 0, new Object[ls.size()], results);
     }
     
-    private void accumulate(Function f, List ls, int i, Object[] params, Collection results) {
+    private void accumulate(Function f, List ls, int i, Object[] params, Collection results) throws ResolutionException {
         Collection l = (Collection) ls.get(i);
         if (i < ls.size()-1) {
             for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
