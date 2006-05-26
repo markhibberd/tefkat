@@ -1,0 +1,76 @@
+// $ANTLR : tefkat.g -> TefkatLexerTokenTypes.txt$
+TefkatLexer    // output token vocab name
+UNDERSCORE("an underscore")=4
+ESCAPEDWS=5
+ALPHA=6
+DIGIT=7
+SCHEME=8
+ID("an identifier")=9
+ANON_ID("an anonymous identifier")=10
+URITOK("an absolute URI (must start with a scheme followed by a colon; see RFC 2396)")=11
+BOOLEAN=12
+ID_OR_IMPORT_OR_OBJREF=13
+FQID("a fully qualified identifier")=14
+STRING("a double-quoted string")=15
+ESCAPE=16
+INT("an integer")=17
+REAL("a real")=18
+REAL_OR_INT=19
+AT("an @ symbol")=20
+LANGLE("a left angle bracket '<'")=21
+RANGLE("a right angle bracket '>'")=22
+LBRACK("a left bracket '('")=23
+RBRACK("a right bracket ')'")=24
+LBRACE("a left brace '{'")=25
+RBRACE("a right brace '}'")=26
+LSQUARE("a left square bracket '['")=27
+RSQUARE("a right square bracket ']'")=28
+COMMA("a comma")=29
+PERIOD("a period")=30
+ARROW("an arrow")=31
+COLON("a colon")=32
+SEMI("a semicolon")=33
+ASSIGN("an '='")=34
+RELOP("a relational operator")=35
+ADDOP("a '+' or '-'")=36
+MULOP("a '/' or '*'")=37
+BANG("an exclamation mark (!)")=38
+DOLLAR("a dollar sign ($)")=39
+HASH("a hash/pound sign (#)")=40
+WS("whitespace")=41
+SL_COMMENT("a single-line comment")=42
+ML_COMMENT("a multi-line comment")=43
+LITERAL_TRANSFORMATION="TRANSFORMATION"=44
+LITERAL_CLASS="CLASS"=45
+LITERAL_EXTENDS="EXTENDS"=46
+LITERAL_MAP="MAP"=47
+LITERAL_IMPORT="IMPORT"=48
+LITERAL_PATTERN="PATTERN"=49
+LITERAL_FORALL="FORALL"=50
+LITERAL_WHERE="WHERE"=51
+LITERAL_TEMPLATE="TEMPLATE"=52
+LITERAL_ABSTRACT="ABSTRACT"=53
+LITERAL_RULE="RULE"=54
+LITERAL_MAKE="MAKE"=55
+LITERAL_SET="SET"=56
+LITERAL_OVERRIDES="OVERRIDES"=57
+LITERAL_SUPERSEDES="SUPERSEDES"=58
+LITERAL_EXACT="EXACT"=59
+LITERAL_DYNAMIC="DYNAMIC"=60
+LITERAL_AND="AND"=61
+LITERAL_OR="OR"=62
+LITERAL_IF="IF"=63
+LITERAL_ENDIF="ENDIF"=64
+LITERAL_THEN="THEN"=65
+LITERAL_ELSEIF="ELSEIF"=66
+LITERAL_ELSE="ELSE"=67
+LITERAL_NOT="NOT"=68
+LITERAL_LINKS="LINKS"=69
+LITERAL_UNDEF="UNDEF"=70
+LITERAL_BEFORE="BEFORE"=71
+LITERAL_IN="IN"=72
+LITERAL_FROM="FROM"=73
+LITERAL_LINKING="LINKING"=74
+LITERAL_WITH="WITH"=75
+LITERAL_true="true"=76
+LITERAL_false="false"=77
