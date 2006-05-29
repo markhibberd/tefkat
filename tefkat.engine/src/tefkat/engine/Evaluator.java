@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -320,8 +321,11 @@ class Evaluator {
     }
     
     List expand(WrappedVar wVar, Expression expr) throws NotGroundException {
+        if (null == wVar.getExtent()) {
+            throw new NotGroundException("Unsupported mode: unbound extent for" + wVar);
+        }
 //        AbstractVar var = wVar.getVar();
-//        EClass type = wVar.getType();
+//        EClassifier type = wVar.getType();
 //        System.out.println("Expanding " + wVar);   // TODO delete
 //        System.out.println("\t" + wVar.getExtent().getObjectsByClass(wVar.getType(), wVar.isExact()));
         return wVar.getExtent().getObjectsByClass(wVar.getType(), wVar.isExact());
