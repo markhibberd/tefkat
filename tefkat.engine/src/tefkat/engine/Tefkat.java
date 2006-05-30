@@ -415,6 +415,7 @@ public class Tefkat {
             thread.join();
         } catch (InterruptedException e) {
             res[0] = null;
+            error[0] = e;
         }
         if (null == res[0] || null != error[0]) {
             IOException e = new IOException("Failed to load Resource from " + location);
@@ -422,6 +423,11 @@ public class Tefkat {
                 e.initCause(error[0]);
             }
             throw e;
+        } else if (null != res[0]) {
+            List errors = res[0].getErrors();
+            if (errors.size() > 0) {
+                throw new IOException("Parse errors: " + errors);
+            }
         }
         return res[0];
     }
