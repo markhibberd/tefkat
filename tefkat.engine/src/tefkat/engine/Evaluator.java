@@ -48,6 +48,193 @@ import tefkat.model.internal.Util;
  */
 class Evaluator {
 
+    private static final class IdentityFunction implements Function {
+        final public Object call(Object[] params) {
+            return params[0];
+        }
+    }
+
+    private static final class CollectFunction implements Function {
+        final public Object call(Object[] params) {
+            return Arrays.asList(params);
+        }
+    }
+
+    private static final class AppendFunction implements Function {
+        final public Object call(Object[] params) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < params.length; i++) {
+                sb.append(params[i]);
+            }
+            return sb.toString();
+        }
+    }
+
+    private static final class ElementAt implements Function {
+        public Object call(Object[] params) {
+            List list = (List) params[0];
+            Number index = (Number) params[1];
+            return list.get(index.intValue());
+        }
+    }
+
+    private static final class SubList implements Function {
+        public Object call(Object[] params) {
+            List list = (List) params[0];
+            Number start = (Number) params[1];
+            if (params.length > 2) {
+                Number end = (Number) params[2];
+                return list.subList(start.intValue(), end.intValue());
+            } else {
+                return list.subList(start.intValue(), list.size());
+            }
+        }
+    }
+
+    private static final class JoinStrings implements Function {
+        /**
+         * concatenate a list of Strings interspersed with a separator
+         * @params[0]   separator
+         * @params[1..n]    the list of strings
+         */
+        final public Object call(Object[] params) {
+            String separator = String.valueOf(params[0]);
+            StringBuffer b = new StringBuffer();
+            if (params.length == 2 && params[1] instanceof Collection) {
+                for (Iterator itr = ((Collection) params[1]).iterator(); itr.hasNext(); ) {
+                    b.append(itr.next());
+                    if (itr.hasNext()) {
+                        b.append(separator);
+                    }
+                }
+            } else if (params.length > 1) {
+                b.append(params[1]);
+                for (int i = 2; i < params.length; i++) {
+                    b.append(separator).append(params[i]);
+                }
+            }
+            return b.toString();
+        }
+    }
+
+    private static final class SplitString implements Function {
+        final public Object call(Object[] params) {
+            String string = String.valueOf(params[0]);
+            String regex = String.valueOf(params[1]);
+            return Arrays.asList(string.split(regex));
+        }
+    }
+
+    private static final class StripSuffix implements Function {
+        final public Object call(Object[] params) {
+            String str = (String) params[0];
+            String suffix = (String) params[1];
+            String result = str;
+            if (str.endsWith(suffix)) {
+                result = str.substring(0, str.length() - suffix.length());
+            }
+            return result;
+        }
+    }
+
+    private static final class CastInt implements Function {
+        final public Object call(Object[] params) {
+            return Integer.decode(String.valueOf(params[0]));
+        }
+    }
+
+    private static final class CastLong implements Function {
+        final public Object call(Object[] params) {
+            return Long.decode(String.valueOf(params[0]));
+        }
+    }
+
+    private static final class CastFloat implements Function {
+        final public Object call(Object[] params) {
+            return Float.valueOf(String.valueOf(params[0]));
+        }
+    }
+
+    private static final class CastDouble implements Function {
+        final public Object call(Object[] params) {
+            return Double.valueOf(String.valueOf(params[0]));
+        }
+    }
+
+    private static final class Add implements Function {
+        final public Object call(Object[] params) {
+            Number lhs = (Number) params[0];
+            Number rhs = (Number) params[1];
+            if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
+                double lval = lhs.doubleValue();
+                double rval = rhs.doubleValue();
+                double result = lval + rval;
+                if (result < Float.MAX_VALUE && result > Float.MIN_VALUE) {
+                    return new Float(result);
+                } else {
+                    return new Double(result);
+                }
+            } else {
+                long lval = lhs.longValue();
+                long rval = rhs.longValue();
+                long result = lval + rval;
+                if (result < Integer.MAX_VALUE && result > Integer.MIN_VALUE) {
+                    return new Integer((int) result);
+                } else {
+                    return new Long(result);
+                }
+            }
+        }
+    }
+
+    private static final class Subtract implements Function {
+        final public Object call(Object[] params) {
+            Number lhs = (Number) params[0];
+            Number rhs = (Number) params[1];
+            if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
+                double lval = lhs.doubleValue();
+                double rval = rhs.doubleValue();
+                return new Double(lval - rval);
+            } else {
+                long lval = lhs.longValue();
+                long rval = rhs.longValue();
+                return new Long(lval - rval);
+            }
+        }
+    }
+
+    private static final class Multiply implements Function {
+        final public Object call(Object[] params) {
+            Number lhs = (Number) params[0];
+            Number rhs = (Number) params[1];
+            if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
+                double lval = lhs.doubleValue();
+                double rval = rhs.doubleValue();
+                return new Double(lval * rval);
+            } else {
+                long lval = lhs.longValue();
+                long rval = rhs.longValue();
+                return new Long(lval * rval);
+            }
+        }
+    }
+
+    private static final class Divide implements Function {
+        final public Object call(Object[] params) {
+            Number lhs = (Number) params[0];
+            Number rhs = (Number) params[1];
+            if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
+                double lval = lhs.doubleValue();
+                double rval = rhs.doubleValue();
+                return new Double(lval / rval);
+            } else {
+                long lval = lhs.longValue();
+                long rval = rhs.longValue();
+                return new Long(lval / rval);
+            }
+        }
+    }
+
     /**
      * Key for Node instance in the funcMap (yes, it's a hack)
      */
@@ -62,17 +249,9 @@ class Evaluator {
     }
 
     private void initFunctionMap() {
-        funcMap.put("identity", new Function() {
-            final public Object call(Object[] params) {
-                return params[0];
-            }
-        });
+        funcMap.put("identity", new IdentityFunction());
 
-        funcMap.put("collect", new Function() {
-            final public Object call(Object[] params) {
-                return Arrays.asList(params);
-            }
-        });
+        funcMap.put("collect", new CollectFunction());
         
         funcMap.put("funmap", new Function() {
             public Object call(Object[] params) throws ResolutionException {
@@ -90,180 +269,33 @@ class Evaluator {
             }
         });
 
-        funcMap.put("append", new Function() {
-            final public Object call(Object[] params) {
-                StringBuffer sb = new StringBuffer();
-                for (int i = 0; i < params.length; i++) {
-                    sb.append(params[i]);
-                }
-                return sb.toString();
-            }
-        });
+        funcMap.put("append", new AppendFunction());
         
-        funcMap.put("elementAt", new Function() {
-            public Object call(Object[] params) {
-                List list = (List) params[0];
-                Number index = (Number) params[1];
-                return list.get(index.intValue());
-            }
-        });
+        funcMap.put("elementAt", new ElementAt());
         
-        funcMap.put("subList", new Function() {
-            public Object call(Object[] params) {
-                List list = (List) params[0];
-                Number start = (Number) params[1];
-                if (params.length > 2) {
-                    Number end = (Number) params[2];
-                    return list.subList(start.intValue(), end.intValue());
-                } else {
-                    return list.subList(start.intValue(), list.size());
-                }
-            }
-        });
+        funcMap.put("subList", new SubList());
         
-        funcMap.put("join", new Function() {
-            /**
-             * concatenate a list of Strings interspersed with a separator
-             * @params[0]   separator
-             * @params[1..n]    the list of strings
-             */
-            final public Object call(Object[] params) {
-                String separator = String.valueOf(params[0]);
-                StringBuffer b = new StringBuffer();
-                if (params.length == 2 && params[1] instanceof Collection) {
-                    for (Iterator itr = ((Collection) params[1]).iterator(); itr.hasNext(); ) {
-                        b.append(itr.next());
-                        if (itr.hasNext()) {
-                            b.append(separator);
-                        }
-                    }
-                } else if (params.length > 1) {
-                    b.append(params[1]);
-                    for (int i = 2; i < params.length; i++) {
-                        b.append(separator).append(params[i]);
-                    }
-                }
-                return b.toString();
-            }
-        });
+        funcMap.put("join", new JoinStrings());
         
-        funcMap.put("split", new Function() {
-            final public Object call(Object[] params) {
-                String string = String.valueOf(params[0]);
-                String regex = String.valueOf(params[1]);
-                return Arrays.asList(string.split(regex));
-            }
-        });
+        funcMap.put("split", new SplitString());
         
-        funcMap.put("stripSuffix", new Function() {
-            final public Object call(Object[] params) {
-                String str = (String) params[0];
-                String suffix = (String) params[1];
-                String result = str;
-                if (str.endsWith(suffix)) {
-                    result = str.substring(0, str.length() - suffix.length());
-                }
-                return result;
-            }
-        });
+        funcMap.put("stripSuffix", new StripSuffix());
 
-        funcMap.put("int", new Function() {
-            final public Object call(Object[] params) {
-                return Integer.decode(String.valueOf(params[0]));
-            }
-        });
+        funcMap.put("int", new CastInt());
 
-        funcMap.put("long", new Function() {
-            final public Object call(Object[] params) {
-                return Long.decode(String.valueOf(params[0]));
-            }
-        });
+        funcMap.put("long", new CastLong());
 
-        funcMap.put("float", new Function() {
-            final public Object call(Object[] params) {
-                return Float.valueOf(String.valueOf(params[0]));
-            }
-        });
+        funcMap.put("float", new CastFloat());
 
-        funcMap.put("double", new Function() {
-            final public Object call(Object[] params) {
-                return Double.valueOf(String.valueOf(params[0]));
-            }
-        });
+        funcMap.put("double", new CastDouble());
 
-        funcMap.put("+", new Function() {
-            final public Object call(Object[] params) {
-                Number lhs = (Number) params[0];
-                Number rhs = (Number) params[1];
-                if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
-                    double lval = lhs.doubleValue();
-                    double rval = rhs.doubleValue();
-                    double result = lval + rval;
-                    if (result < Float.MAX_VALUE && result > Float.MIN_VALUE) {
-                        return new Float(result);
-                    } else {
-                        return new Double(result);
-                    }
-                } else {
-                    long lval = lhs.longValue();
-                    long rval = rhs.longValue();
-                    long result = lval + rval;
-                    if (result < Integer.MAX_VALUE && result > Integer.MIN_VALUE) {
-                        return new Integer((int) result);
-                    } else {
-                        return new Long(result);
-                    }
-                }
-            }
-        });
+        funcMap.put("+", new Add());
 
-        funcMap.put("-", new Function() {
-            final public Object call(Object[] params) {
-                Number lhs = (Number) params[0];
-                Number rhs = (Number) params[1];
-                if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
-                    double lval = lhs.doubleValue();
-                    double rval = rhs.doubleValue();
-                    return new Double(lval - rval);
-                } else {
-                    long lval = lhs.longValue();
-                    long rval = rhs.longValue();
-                    return new Long(lval - rval);
-                }
-            }
-        });
+        funcMap.put("-", new Subtract());
 
-        funcMap.put("*", new Function() {
-            final public Object call(Object[] params) {
-                Number lhs = (Number) params[0];
-                Number rhs = (Number) params[1];
-                if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
-                    double lval = lhs.doubleValue();
-                    double rval = rhs.doubleValue();
-                    return new Double(lval * rval);
-                } else {
-                    long lval = lhs.longValue();
-                    long rval = rhs.longValue();
-                    return new Long(lval * rval);
-                }
-            }
-        });
+        funcMap.put("*", new Multiply());
 
-        funcMap.put("/", new Function() {
-            final public Object call(Object[] params) {
-                Number lhs = (Number) params[0];
-                Number rhs = (Number) params[1];
-                if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
-                    double lval = lhs.doubleValue();
-                    double rval = rhs.doubleValue();
-                    return new Double(lval / rval);
-                } else {
-                    long lval = lhs.longValue();
-                    long rval = rhs.longValue();
-                    return new Long(lval / rval);
-                }
-            }
-        });
+        funcMap.put("/", new Divide());
         
         // FIXME rename this function to dataMap or something (see tefkat.g)
         funcMap.put("map", new Function() {
@@ -908,7 +940,7 @@ class Evaluator {
                     // EFeature not found, so try other ways to get a value for featureName
                 }
             }
-            if (null == valuesObject && obj instanceof FeatureMap.Entry) {
+            if (obj instanceof FeatureMap.Entry) {
                 FeatureMap.Entry entry = (FeatureMap.Entry) obj;
                 EStructuralFeature eFeature = entry.getEStructuralFeature();
                 if (eFeature.getName().equals(featureName)) {
@@ -916,19 +948,18 @@ class Evaluator {
                     return valuesObject;    // This was a valid feature - don't want to fall through
                 }
             }
-            if (null == valuesObject) {
-                String methName = "get" + featureName.substring(0, 1).toUpperCase() + featureName.substring(1, featureName.length());
+
+            String methName = "get" + featureName.substring(0, 1).toUpperCase() + featureName.substring(1, featureName.length());
+            try {
                 try {
-                    try {
-                        valuesObject = obj.getClass().getMethod(methName, null).invoke(obj, null);
-                    } catch (NoSuchMethodException e) {
-                        if (null == valuesObject) {
-                            valuesObject = obj.getClass().getField(featureName).get(obj);
-                        }
+                    valuesObject = obj.getClass().getMethod(methName, null).invoke(obj, null);
+                } catch (NoSuchMethodException e) {
+                    if (null == valuesObject) {
+                        valuesObject = obj.getClass().getField(featureName).get(obj);
                     }
-                } catch (Exception e) {
-                    throw new ResolutionException(node, "Could not find a source of values for '" + featureName + "' in '" + obj + "'", e);
                 }
+            } catch (Exception e) {
+                throw new ResolutionException(node, "Could not find a source of values for '" + featureName + "' in '" + obj + "'", e);
             }
         } catch (ResolutionException e) {
             ruleEval.fireWarning(e);

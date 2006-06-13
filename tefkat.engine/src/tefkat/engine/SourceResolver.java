@@ -49,6 +49,159 @@ import java.util.Map;
  */
 class SourceResolver extends AbstractResolver {
     
+    private static final class NegatedResultListener implements TreeListener {
+        private final Collection goal;
+
+        private final Tree tree;
+
+        private final Tree tree2;
+
+        private final Node node;
+
+        private final Term literal;
+
+        private NegatedResultListener(Collection goal, Tree tree, Tree tree2, Node node, Term literal) {
+            super();
+            this.goal = goal;
+            this.tree = tree;
+            this.tree2 = tree2;
+            this.node = node;
+            this.literal = literal;
+        }
+
+        public void solution(Binding answer) {
+        }
+
+        public void completed(Tree theTree) {
+            if (theTree.isSuccess()) {
+            	tree2.removeTreeListener(this);
+            	tree.failure(node);
+            } else {
+            	// Negation tree finitely failed, regard as true.
+            	//
+            	List newGoal = new ArrayList(goal);
+            	newGoal.remove(literal);
+            	tree.createBranch(node, null, newGoal);
+            }
+        }
+    }
+
+    private static final class HandleNewTrackingInstance implements TrackingCallback {
+        private final Tree tree;
+
+        private final EClass class1;
+
+        private final Collection goal;
+
+        private final Object[][] map;
+
+        private final Node node;
+
+        private HandleNewTrackingInstance(Tree tree, EClass class1, Collection goal, Object[][] map, Node node) {
+            super();
+            this.tree = tree;
+            this.class1 = class1;
+            this.goal = goal;
+            this.map = map;
+            this.node = node;
+        }
+
+        public String toString() {
+            return tree.toString();
+        }
+
+        public void handleInstance(EObject inst) throws ResolutionException, NotGroundException {
+            if (tree.isCompleted()) {
+                throw new ResolutionException(node, "INTERNAL ERROR: Tree completed too early: " + tree);
+            }
+        
+            // Check each feature looking for a mismatch
+            List oldBindings = new ArrayList();
+            oldBindings.add(new Binding());
+            
+            boolean isMatch = true;
+            for (int i = 0; isMatch && i < map.length; i++) {
+                String featureName = (String) map[i][0];
+                List featureValues = (List) map[i][1];
+                List newBindings = null;
+                
+                EStructuralFeature sFeature = getFeature(node, class1, featureName);
+                Object value = inst.eGet(sFeature);
+        
+                if (value == null) {
+                    // NOT_EQUAL, NULL
+                    isMatch = false;
+                } else if (sFeature.isMany()) {
+                    if (((List) value).size() == 0) {
+                        isMatch = false;
+                    } else if (featureValues.size() == 1 && featureValues.get(0) instanceof WrappedVar) {
+                        // UNIFY
+                        AbstractVar var = ((WrappedVar) featureValues.get(0)).getVar();
+                        newBindings = new ArrayList();
+                        for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
+                            Binding oldUnifier = (Binding) bindingItr.next();
+                            for (Iterator valueItr = ((List) value).iterator(); valueItr.hasNext(); ) {
+                                Binding unifier = new Binding(oldUnifier);
+                                unifier.add(var, valueItr.next());
+                                newBindings.add(unifier);
+                            }
+                        }
+                        ExtentUtil.highlightEdge(inst, value, ExtentUtil.FEATURE_LOOKUP);
+                    } else {
+                        for (Iterator valItr = ((List) value).iterator(); valItr.hasNext(); ) {
+                            Object o = valItr.next();
+                            if (o instanceof BindingPair) {
+                                throw new NotGroundException("Implementation limitiation: BindingPair in TrackingUse not yet supported.");
+                            }
+                        }
+                        if (featureValues.removeAll((List) value)) {
+                            newBindings = oldBindings;
+                        } else {
+                            isMatch = false;
+                        }
+                    }
+                } else if (featureValues.size() == 1) {
+                    Object featureValue = featureValues.get(0);
+                    if (featureValue instanceof WrappedVar) {
+                        // UNIFY
+                        AbstractVar var = ((WrappedVar) featureValue).getVar();
+                        newBindings = new ArrayList();
+                        for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
+                            Binding oldUnifier = (Binding) bindingItr.next();
+                            Binding unifier = new Binding(oldUnifier);
+                            unifier.add(var, value);
+                            newBindings.add(unifier);
+                        }
+                        ExtentUtil.highlightEdge(inst, value, ExtentUtil.FEATURE_LOOKUP);
+                    } else if (featureValue instanceof BindingPair) {
+                        throw new NotGroundException("Implementation limitiation: BindingPair in TrackingUse not yet supported.");
+                    } else if (value.equals(featureValue)) {
+                        newBindings = oldBindings;
+                    } else {
+                        // NOT-EQUAL, non-NULL
+                        isMatch = false;
+                    }
+                } else {
+                    // NOT_EQUAL, cardinality mismatch
+                    isMatch = false;
+                }
+                
+                oldBindings = newBindings;
+            }
+            
+            if (isMatch) {
+                for (Iterator itr = oldBindings.iterator(); itr.hasNext(); ) {
+                    Binding unifier = (Binding) itr.next();
+                    /**
+                     * Create a new branch of the tree, and continue 
+                     * resolution from the newly created node.
+                     */
+                    tree.createBranch(node, unifier, goal);
+                 }
+            }
+        }
+    }
+
     SourceResolver(RuleEvaluator evaluator, List listeners) {
     	super(evaluator);
     }
@@ -100,103 +253,7 @@ class SourceResolver extends AbstractResolver {
         final Collection newGoal = new ArrayList(goal);
         newGoal.remove(term);
      
-        TrackingCallback callback = new TrackingCallback() {
-
-            public String toString() {
-                return tree.toString();
-            }
-            
-            public void handleInstance(EObject inst) throws ResolutionException, NotGroundException {
-                if (tree.isCompleted()) {
-                    throw new ResolutionException(node, "INTERNAL ERROR: Tree completed too early: " + tree);
-                }
-
-                // Check each feature looking for a mismatch
-                List oldBindings = new ArrayList();
-                oldBindings.add(new Binding());
-                
-                boolean isMatch = true;
-                for (int i = 0; isMatch && i < featureMap.length; i++) {
-                    String featureName = (String) featureMap[i][0];
-                    List featureValues = (List) featureMap[i][1];
-                    List newBindings = null;
-                    
-                    EStructuralFeature sFeature = getFeature(node, trackingClass, featureName);
-                    Object value = inst.eGet(sFeature);
-
-                    if (value == null) {
-                        // NOT_EQUAL, NULL
-                        isMatch = false;
-                    } else if (sFeature.isMany()) {
-                        if (((List) value).size() == 0) {
-                            isMatch = false;
-                        } else if (featureValues.size() == 1 && featureValues.get(0) instanceof WrappedVar) {
-                            // UNIFY
-                            AbstractVar var = ((WrappedVar) featureValues.get(0)).getVar();
-                            newBindings = new ArrayList();
-                            for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
-                                Binding oldUnifier = (Binding) bindingItr.next();
-                                for (Iterator valueItr = ((List) value).iterator(); valueItr.hasNext(); ) {
-                                    Binding unifier = new Binding(oldUnifier);
-                                    unifier.add(var, valueItr.next());
-                                    newBindings.add(unifier);
-                                }
-                            }
-                            ExtentUtil.highlightEdge(inst, value, ExtentUtil.FEATURE_LOOKUP);
-                        } else {
-                            for (Iterator valItr = ((List) value).iterator(); valItr.hasNext(); ) {
-                                Object o = valItr.next();
-                                if (o instanceof BindingPair) {
-                                    throw new NotGroundException("Implementation limitiation: BindingPair in TrackingUse not yet supported.");
-                                }
-                            }
-                            if (featureValues.removeAll((List) value)) {
-                                newBindings = oldBindings;
-                            } else {
-                                isMatch = false;
-                            }
-                        }
-                    } else if (featureValues.size() == 1) {
-                        Object featureValue = featureValues.get(0);
-                        if (featureValue instanceof WrappedVar) {
-                            // UNIFY
-                            AbstractVar var = ((WrappedVar) featureValue).getVar();
-                            newBindings = new ArrayList();
-                            for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
-                                Binding oldUnifier = (Binding) bindingItr.next();
-                                Binding unifier = new Binding(oldUnifier);
-                                unifier.add(var, value);
-                                newBindings.add(unifier);
-                            }
-                            ExtentUtil.highlightEdge(inst, value, ExtentUtil.FEATURE_LOOKUP);
-                        } else if (featureValue instanceof BindingPair) {
-                            throw new NotGroundException("Implementation limitiation: BindingPair in TrackingUse not yet supported.");
-                        } else if (value.equals(featureValue)) {
-                            newBindings = oldBindings;
-                        } else {
-                            // NOT-EQUAL, non-NULL
-                            isMatch = false;
-                        }
-                    } else {
-                        // NOT_EQUAL, cardinality mismatch
-                        isMatch = false;
-                    }
-                    
-                    oldBindings = newBindings;
-                }
-                
-                if (isMatch) {
-                    for (Iterator itr = oldBindings.iterator(); itr.hasNext(); ) {
-                        Binding unifier = (Binding) itr.next();
-                        /**
-                         * Create a new branch of the tree, and continue 
-                         * resolution from the newly created node.
-                         */
-                        tree.createBranch(node, unifier, newGoal);
-                     }
-                }
-            }
-        };
+        TrackingCallback callback = new HandleNewTrackingInstance(tree, trackingClass, newGoal, featureMap, node);
 
         // Get the existing instances of the tracking class.
         //
@@ -575,25 +632,7 @@ class SourceResolver extends AbstractResolver {
         newTree.setLevel(tree.getLevel() - 1);
 
         if (ruleEval.INCREMENTAL) {
-            newTree.addTreeListener(new TreeListener() {
-
-                public void solution(Binding answer) {
-                }
-
-                public void completed(Tree theTree) {
-                    if (theTree.isSuccess()) {
-                    	newTree.removeTreeListener(this);
-                    	tree.failure(node);
-                    } else {
-                    	// Negation tree finitely failed, regard as true.
-                    	//
-                    	List newGoal = new ArrayList(goal);
-                    	newGoal.remove(literal);
-                    	tree.createBranch(node, null, newGoal);
-                    }
-                }
-                
-            });
+            newTree.addTreeListener(new NegatedResultListener(goal, tree, newTree, node, literal));
             ruleEval.addUnresolvedTree(newTree);
         } else {
         	// Any success nodes in the negation tree?

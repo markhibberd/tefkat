@@ -407,10 +407,6 @@ class TargetResolver extends AbstractResolver {
 			}
 			EClass subCls = (EClass) eClassifier;
                         
-			if (null == subCls) {
-			    throw new ResolutionException(node, "Cannot find class named: " + typeName);
-			}
-
 			boolean result = conformToType(eObj, subCls);
 			if (!result) {
 			    throw new ResolutionException(node, "Type mismatch, " + typeName + " not compatible with " + eObj.eClass());
@@ -895,7 +891,7 @@ class TargetResolver extends AbstractResolver {
     }
 
     protected  Term doSelectLiteral(Node node) {
-        Term[] literals = (Term[]) node.goal().toArray(new Term[0]);
+        Term[] literals = (Term[]) node.goal().toArray(new Term[node.goal().size()]);
         
         /**
          * Expand:

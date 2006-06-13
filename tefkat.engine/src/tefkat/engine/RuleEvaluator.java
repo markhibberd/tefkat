@@ -73,13 +73,13 @@ public class RuleEvaluator {
 
     boolean INCREMENTAL = false;
 
-    private transient boolean isInterrupted = false;
+    private volatile boolean isInterrupted = false;
 
-    private transient boolean stepMode = false;
+    private volatile boolean stepMode = false;
 
-    private transient int returnMode = 0;
+    private volatile int returnMode = 0;
 
-    private transient int step = 0;
+    private volatile int step = 0;
     
     private int depth = 0;
 
@@ -387,50 +387,62 @@ public class RuleEvaluator {
         evalCache.put(trule, truleSolutions);
     }
 
-    synchronized final protected void pause() {
-        stepMode = true;
-    }
-
-    synchronized final protected void step() {
-        step++;
-        notify();
-    }
-
-    synchronized final protected void stepReturn() {
-        returnMode = depth;
-        resume();
-    }
-
-    synchronized final protected void resume() {
-        stepMode = false;
-        notify();
-    }
-
-    synchronized final private void breakpoint(Term t) {
-        pause();
-        fireBreakpoint(t);
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    final protected void pause() {
+        synchronized (unresolvedTrees) {
+            stepMode = true;
         }
     }
-
-    synchronized final private void waitStep() {
-        while (stepMode && step < 1) {
+    
+    final protected void step() {
+        synchronized (unresolvedTrees) {
+            step++;
+            unresolvedTrees.notify();
+        }
+    }
+    
+    final protected void stepReturn() {
+        synchronized (unresolvedTrees) {
+            returnMode = depth;
+            resume();
+        }
+    }
+    
+    final protected void resume() {
+        synchronized (unresolvedTrees) {
+            stepMode = false;
+            unresolvedTrees.notify();
+        }
+    }
+    
+    final private void breakpoint(Term t) {
+        synchronized (unresolvedTrees) {
+            pause();
+            fireBreakpoint(t);
             try {
-                fireSuspend();
-                if (step < 1) {
-                    wait();
-                }
+                unresolvedTrees.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        if (stepMode && step > 0) {
-            step--;
+    }
+    
+    final private void waitStep() {
+        synchronized (unresolvedTrees) {
+            while (stepMode && step < 1) {
+                try {
+                    fireSuspend();
+                    if (step < 1) {
+                        unresolvedTrees.wait();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (stepMode && step > 0) {
+                step--;
+            }
+            fireResume();
         }
-        fireResume();
     }
 
     protected void fireBreakpoint(Term t) {
@@ -857,7 +869,7 @@ public class RuleEvaluator {
      *         success)
      */
     private Term selectLiteral(Node node) {
-        Term[] literals = (Term[]) node.goal().toArray(new Term[0]);
+        Term[] literals = (Term[]) node.goal().toArray(new Term[node.goal().size()]);
 
         // Simple selection rule:
         //    + select non-target, non-negation terms first

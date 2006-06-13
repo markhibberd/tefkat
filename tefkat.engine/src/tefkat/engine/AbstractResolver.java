@@ -37,6 +37,86 @@ import tefkat.model.internal.Util;
  */
 abstract class AbstractResolver {
 
+    private static final class IfConditionResultListener implements TreeListener {
+        private final IfTerm literal;
+
+        private final Node node;
+
+        private final List goal;
+
+        private final Tree tree;
+
+        private IfConditionResultListener(IfTerm literal, Node node, List goal, Tree tree) {
+            super();
+            this.literal = literal;
+            this.node = node;
+            this.goal = goal;
+            this.tree = tree;
+        }
+
+        public void solution(Binding answer) {
+            Binding sContext = new Binding(answer);
+            goal.add(0, literal.getTerm().get(1));
+            tree.createBranch(node, sContext, goal);
+        }
+
+        public void completed(Tree theTree) {
+            if (!theTree.isSuccess()) {
+                goal.add(0, literal.getTerm().get(2));
+                tree.createBranch(node, null, goal);
+            }
+        }
+    }
+
+    private static final class NewPatternSolutionsListener implements TreeListener {
+        private final Collection goal;
+
+        private final Node node;
+
+        private final Tree tree;
+
+        private final List vars;
+
+        private final List args;
+
+        private NewPatternSolutionsListener(Collection goal, Node node, Tree tree, List vars, List args) {
+            super();
+            this.goal = goal;
+            this.node = node;
+            this.tree = tree;
+            this.vars = vars;
+            this.args = args;
+        }
+
+        public void solution(Binding answer) throws ResolutionException {
+            Binding unifier = new Binding();
+            for (int j = 0; j < args.size(); j++) {
+                Expression argExpr = (Expression) args.get(j);
+                if (argExpr instanceof VarUse) {
+                    Object val = node.lookup(((VarUse) argExpr).getVar());
+                    if (null == val) {
+                        // We only add a new binding if argExpr is not already
+                        // bound, otherwise we end up with multiple identical bindings
+                        // for the same Var.
+                        unifier.add(((VarUse) argExpr).getVar(),
+                                answer.lookup((PatternVar) vars.get(j)));
+                    } else if (val instanceof WrappedVar) {
+                        unifier.add(((WrappedVar) val).getVar(),
+                                answer.lookup((PatternVar) vars.get(j)));
+                    }
+                }
+            }
+        
+            tree.createBranch(node, unifier, goal);
+        }
+
+        public void completed(Tree theTree) {
+            if (!theTree.isSuccess()) {
+                tree.failure(node);
+            }
+        }
+    }
+
     final IntMap elapsedTime = new IntMap();
     final IntMap callCount = new IntMap();
     
@@ -353,37 +433,7 @@ abstract class AbstractResolver {
         if (!resultTree.isCompleted()) {
             // Register listener for any new solutions
             
-            resultTree.addTreeListener(new TreeListener() {
-
-                public void solution(Binding answer) throws ResolutionException {
-                    Binding unifier = new Binding();
-                    for (int j = 0; j < args.size(); j++) {
-                        Expression argExpr = (Expression) args.get(j);
-                        if (argExpr instanceof VarUse) {
-                            Object val = node.lookup(((VarUse) argExpr).getVar());
-                            if (null == val) {
-                                // We only add a new binding if argExpr is not already
-                                // bound, otherwise we end up with multiple identical bindings
-                                // for the same Var.
-                                unifier.add(((VarUse) argExpr).getVar(),
-                                        answer.lookup((PatternVar) pDefVars.get(j)));
-                            } else if (val instanceof WrappedVar) {
-                                unifier.add(((WrappedVar) val).getVar(),
-                                        answer.lookup((PatternVar) pDefVars.get(j)));
-                            }
-                        }
-                    }
-
-                    tree.createBranch(node, unifier, newGoal);
-                }
-
-                public void completed(Tree theTree) {
-                    if (!theTree.isSuccess()) {
-                        tree.failure(node);
-                    }
-                }
-                
-            });
+            resultTree.addTreeListener(new NewPatternSolutionsListener(newGoal, node, tree, pDefVars, args));
         }
         
         //System.err.println("\t" + resultTree.isSuccess());      // TODO delete
@@ -530,7 +580,7 @@ abstract class AbstractResolver {
      *          (i.e. success)
      */
     protected Term selectLiteral(Node node) {
-        Term[] literals = (Term[]) node.goal().toArray(new Term[0]);
+        Term[] literals = (Term[]) node.goal().toArray(new Term[node.goal().size()]);
 
         /**
          *  Simple selection rule:
@@ -728,22 +778,7 @@ abstract class AbstractResolver {
             final List newGoal = new ArrayList(goal);
             newGoal.remove(literal);
             
-            newTree.addTreeListener(new TreeListener() {
-
-                public void solution(Binding answer) {
-                    Binding sContext = new Binding(answer);
-                    newGoal.add(0, literal.getTerm().get(1));
-                    tree.createBranch(node, sContext, newGoal);
-                }
-
-                public void completed(Tree theTree) {
-                    if (!theTree.isSuccess()) {
-                        newGoal.add(0, literal.getTerm().get(2));
-                        tree.createBranch(node, null, newGoal);
-                    }
-                }
-                
-            });
+            newTree.addTreeListener(new IfConditionResultListener(literal, node, newGoal, tree));
 	    ruleEval.addUnresolvedTree(newTree);
         } else {
             ruleEval.resolveNode(newTree);

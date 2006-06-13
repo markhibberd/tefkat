@@ -483,8 +483,8 @@ public class Tefkat {
             }
             
             Resource transformationR = null;
-            Resource[] sourcesR = null;
-            Resource[] targetsR = null;
+            Resource[] sourcesR;
+            Resource[] targetsR;
             Resource traceR = null;
             
             URIConverter converter = getResourceSet().getURIConverter();

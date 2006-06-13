@@ -301,7 +301,7 @@ public class Binding {
             Object subs = lookup(var);
             
             if (null == subs) {
-                throw new BindingError("NULL binding for " + subs);
+                throw new BindingError("NULL binding for " + var);
             } else if (subs.getClass().equals(EObjectImpl.class)) {
                 subs = subs.hashCode() + ":" + ((EObject) subs).eClass().getName();
             } else if (subs instanceof WrappedVar) {
