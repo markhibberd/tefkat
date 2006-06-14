@@ -24,12 +24,12 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface OrTerm extends CompoundTerm {
+public interface OrTerm extends CompoundTerm{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
 } // OrTerm

@@ -33,13 +33,13 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Injection extends TargetTerm {
+public interface Injection extends TargetTerm{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>Name</b></em>' attribute.

@@ -14,9 +14,15 @@ package tefkat.model.impl;
 
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -27,6 +33,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import tefkat.model.AbstractVar;
 import tefkat.model.CompoundTerm;
 import tefkat.model.ExtentVar;
 import tefkat.model.IfTerm;
@@ -35,6 +42,8 @@ import tefkat.model.Query;
 import tefkat.model.TRule;
 import tefkat.model.TargetTerm;
 import tefkat.model.TefkatPackage;
+import tefkat.model.Term;
+import tefkat.model.VarUse;
 
 /**
  * <!-- begin-user-doc -->
@@ -55,7 +64,7 @@ public class IfTermImpl extends CompoundTermImpl implements IfTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * <!-- begin-user-doc -->
@@ -104,6 +113,46 @@ public class IfTermImpl extends CompoundTermImpl implements IfTerm {
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.IF_TERM__TRULE_TGT, newTRuleTgt, newTRuleTgt));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * Returns a list of AbstractVars that are referenced (by VarUse) in the <em>condition</em> of this IfTerm but not anywhere else (except the <em>then</em> or <em>else</em> terms.
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public EList getNonLocalVars() {
+        EList nonLocalVars = new BasicEList();
+        Set conditionVars = new HashSet();
+        Set usages = new HashSet();
+
+        // Find the Vars that occur in the condition of the IF
+        for (Iterator itr = ((Term) getTerm().get(0)).eAllContents(); itr.hasNext(); ) {
+            Object obj = itr.next();
+            
+            if (obj instanceof VarUse) {
+                conditionVars.add(((VarUse) obj).getVar());
+            }
+        }
+
+        // Find all VarUses that occur in the whole IF-THEN-ELSE
+        for (Iterator itr = eAllContents(); itr.hasNext(); ) {
+            Object obj = itr.next();
+            
+            if (obj instanceof VarUse) {
+                usages.add(obj);
+            }
+        }
+        
+        // Find just those condition Vars that are NOT only referenced in the IF-THEN-ELSE
+        for (Iterator varItr = conditionVars.iterator(); varItr.hasNext(); ) {
+            AbstractVar var = (AbstractVar) varItr.next();
+            if (!usages.containsAll(var.getUsages())) {
+                nonLocalVars.add(var);
+            }
+        }
+        
+        return nonLocalVars;
     }
 
     /**

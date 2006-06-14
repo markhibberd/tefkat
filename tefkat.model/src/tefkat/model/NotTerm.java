@@ -14,6 +14,8 @@
 package tefkat.model;
 
 
+import org.eclipse.emf.common.util.EList;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Not Term</b></em>'.
@@ -24,12 +26,20 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface NotTerm extends CompoundTerm {
+public interface NotTerm extends CompoundTerm{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @model kind="operation" type="tefkat.model.AbstractVar"
+     * @generated
+     */
+    EList getNonLocalVars();
 
 } // NotTerm

@@ -16,6 +16,8 @@ package tefkat.model.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -23,11 +25,16 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import org.eclipse.emf.ecore.util.InternalEList;
 
 import tefkat.model.AbstractVar;
 import tefkat.model.TefkatPackage;
 import tefkat.model.VarScope;
+
+import tefkat.model.VarUse;
 
 /**
  * <!-- begin-user-doc -->
@@ -38,6 +45,7 @@ import tefkat.model.VarScope;
  * <ul>
  *   <li>{@link tefkat.model.impl.AbstractVarImpl#getScope <em>Scope</em>}</li>
  *   <li>{@link tefkat.model.impl.AbstractVarImpl#getName <em>Name</em>}</li>
+ *   <li>{@link tefkat.model.impl.AbstractVarImpl#getUsages <em>Usages</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,7 +57,7 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -70,6 +78,16 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * @ordered
      */
     protected String name = NAME_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getUsages() <em>Usages</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getUsages()
+     * @generated
+     * @ordered
+     */
+    protected EList usages = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -146,6 +164,18 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * <!-- end-user-doc -->
      * @generated
      */
+    public EList getUsages() {
+        if (usages == null) {
+            usages = new EObjectWithInverseResolvingEList(VarUse.class, this, TefkatPackage.ABSTRACT_VAR__USAGES, TefkatPackage.VAR_USE__VAR);
+        }
+        return usages;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -153,6 +183,8 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
                     return eBasicSetContainer(otherEnd, TefkatPackage.ABSTRACT_VAR__SCOPE, msgs);
+                case TefkatPackage.ABSTRACT_VAR__USAGES:
+                    return ((InternalEList)getUsages()).basicAdd(otherEnd, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -172,6 +204,8 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
                 case TefkatPackage.ABSTRACT_VAR__SCOPE:
                     return eBasicSetContainer(null, TefkatPackage.ABSTRACT_VAR__SCOPE, msgs);
+                case TefkatPackage.ABSTRACT_VAR__USAGES:
+                    return ((InternalEList)getUsages()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -207,6 +241,8 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
                 return getScope();
             case TefkatPackage.ABSTRACT_VAR__NAME:
                 return getName();
+            case TefkatPackage.ABSTRACT_VAR__USAGES:
+                return getUsages();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -256,6 +292,8 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
                 return getScope() != null;
             case TefkatPackage.ABSTRACT_VAR__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+            case TefkatPackage.ABSTRACT_VAR__USAGES:
+                return usages != null && !usages.isEmpty();
         }
         return eDynamicIsSet(eFeature);
     }

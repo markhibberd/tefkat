@@ -35,13 +35,13 @@ import org.eclipse.emf.ecore.EClass;
  * @model
  * @generated
  */
-public interface TrackingUse extends SimpleTerm {
+public interface TrackingUse extends SimpleTerm{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>Tracking</b></em>' reference.

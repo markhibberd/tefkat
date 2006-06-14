@@ -84,7 +84,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * <!-- begin-user-doc -->
@@ -553,6 +553,15 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      */
     public EAttribute getAbstractVar_Name() {
         return (EAttribute)abstractVarEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getAbstractVar_Usages() {
+        return (EReference)abstractVarEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -1512,6 +1521,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         abstractVarEClass = createEClass(ABSTRACT_VAR);
         createEReference(abstractVarEClass, ABSTRACT_VAR__SCOPE);
         createEAttribute(abstractVarEClass, ABSTRACT_VAR__NAME);
+        createEReference(abstractVarEClass, ABSTRACT_VAR__USAGES);
 
         patternVarEClass = createEClass(PATTERN_VAR);
 
@@ -1749,6 +1759,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         initEClass(abstractVarEClass, AbstractVar.class, "AbstractVar", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getAbstractVar_Scope(), this.getVarScope(), this.getVarScope_Vars(), "scope", null, 0, 1, AbstractVar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getAbstractVar_Name(), ecorePackage.getEString(), "name", null, 0, 1, AbstractVar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getAbstractVar_Usages(), this.getVarUse(), this.getVarUse_Var(), "usages", null, 0, -1, AbstractVar.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
         initEClass(patternVarEClass, PatternVar.class, "PatternVar", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1847,7 +1858,11 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
 
         initEClass(notTermEClass, NotTerm.class, "NotTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+        addEOperation(notTermEClass, this.getAbstractVar(), "getNonLocalVars");
+
         initEClass(ifTermEClass, IfTerm.class, "IfTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+        addEOperation(ifTermEClass, this.getAbstractVar(), "getNonLocalVars");
 
         initEClass(trackingUseEClass, TrackingUse.class, "TrackingUse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getTrackingUse_Tracking(), ecorePackage.getEClass(), null, "tracking", null, 0, 1, TrackingUse.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1886,7 +1901,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         initEAttribute(getSimpleExpr_Representation(), ecorePackage.getEString(), "representation", null, 1, 1, SimpleExpr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(varUseEClass, VarUse.class, "VarUse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getVarUse_Var(), this.getAbstractVar(), null, "var", null, 1, 1, VarUse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVarUse_Var(), this.getAbstractVar(), this.getAbstractVar_Usages(), "var", null, 1, 1, VarUse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(collectionExprEClass, CollectionExpr.class, "CollectionExpr", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getCollectionExpr_Unique(), ecorePackage.getEBoolean(), "unique", null, 1, 1, CollectionExpr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

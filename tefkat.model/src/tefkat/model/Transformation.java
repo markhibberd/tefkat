@@ -35,13 +35,13 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Transformation extends PatternScope {
+public interface Transformation extends PatternScope{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>TRule</b></em>' containment reference list.

@@ -35,13 +35,13 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface VarScope extends EObject {
+public interface VarScope extends EObject{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>Vars</b></em>' containment reference list.

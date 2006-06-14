@@ -23,13 +23,13 @@ import org.eclipse.emf.ecore.EFactory;
  * @see tefkat.model.TefkatPackage
  * @generated
  */
-public interface TefkatFactory extends EFactory {
+public interface TefkatFactory extends EFactory{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * The singleton instance of the factory.

@@ -47,7 +47,7 @@ public class OrTermImpl extends CompoundTermImpl implements OrTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * <!-- begin-user-doc -->

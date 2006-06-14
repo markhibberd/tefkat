@@ -31,13 +31,13 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface CollectionExpr extends CompoundExpr {
+public interface CollectionExpr extends CompoundExpr{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>Unique</b></em>' attribute.

@@ -52,7 +52,7 @@ public abstract class SimpleTermImpl extends SourceTermImpl implements SimpleTer
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * <!-- begin-user-doc -->

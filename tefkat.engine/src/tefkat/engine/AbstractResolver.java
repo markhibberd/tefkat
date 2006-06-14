@@ -266,7 +266,7 @@ abstract class AbstractResolver {
      * @param literal
      */
     protected abstract void resolveTrackingUse(Tree tree, Node node,
-            Collection goal, Term literal) throws ResolutionException, NotGroundException;
+            Collection goal, TrackingUse literal) throws ResolutionException, NotGroundException;
 
     /**
      * @param tree
@@ -276,7 +276,7 @@ abstract class AbstractResolver {
      * @return
      */
     protected abstract boolean resolveMofInstance(Tree tree, Node node,
-            Collection goal, Term literal) throws ResolutionException, NotGroundException;
+            Collection goal, MofInstance literal) throws ResolutionException, NotGroundException;
 
     /**
      * @param tree
@@ -284,10 +284,8 @@ abstract class AbstractResolver {
      * @param goal
      * @param literal
      */
-    protected void resolveOrTerm(Tree tree, Node node, Collection goal,
-            Term literal) throws ResolutionException {
-        // Overridden in subtypes
-    }
+    protected abstract void resolveOrTerm(Tree tree, Node node, Collection goal,
+            OrTerm literal) throws ResolutionException ;
 
     /**
      * @param tree
@@ -296,10 +294,8 @@ abstract class AbstractResolver {
      * @param literal
      * @return
      */
-    protected void resolveNotTerm(Tree tree, Node node, Collection goal,
-            Term literal) throws ResolutionException {
-        // Overridden in subtypes
-    }
+    protected abstract void resolveNotTerm(Tree tree, Node node, Collection goal,
+            NotTerm literal) throws ResolutionException, NotGroundException;
     
     /**
      * Resolve the PatternDefn passing in a set of bindings for the vars.
@@ -316,11 +312,10 @@ abstract class AbstractResolver {
      * TODO Cache PatternUse calls to trap infinite recursion.
      */
     protected void resolvePatternUse(Tree tree, Node node, Collection goal,
-            Term literal, boolean isNegation) throws ResolutionException, NotGroundException {
+            PatternUse literal, boolean isNegation) throws ResolutionException, NotGroundException {
 
-        PatternUse term = (PatternUse) literal;
-        PatternDefn pDefn = term.getDefn();
-        List args = term.getArg();
+        PatternDefn pDefn = literal.getDefn();
+        List args = literal.getArg();
 
         if (null == pDefn) { // TODO fix this println hack
         //            System.err.println("PAT: println " + ((VarUse)args.get(0)).getVar().getName());
@@ -404,11 +399,11 @@ abstract class AbstractResolver {
     }
 
     private void incrementalResolvePatternDefn(final Tree tree,
-            final Node node, Collection goal, Term literal, final List pDefVars, final List args,
+            final Node node, Collection goal, PatternUse literal, final List pDefVars, final List args,
             PatternDefn pDefn, Binding newContext, boolean isNegation)
             throws ResolutionException {
 
-    	final Collection newGoal = new ArrayList(goal);
+        final Collection newGoal = new ArrayList(goal);
         newGoal.remove(literal);
 
         Map cache = ruleEval.getPatternCache(pDefn);
@@ -467,7 +462,7 @@ abstract class AbstractResolver {
     }
     
     private void resolvePatternDefn(final Tree tree,
-            final Node node, Collection goal, Term literal, final List pDefVars, final List args,
+            final Node node, Collection goal, PatternUse literal, final List pDefVars, final List args,
             PatternDefn pDefn, Binding newContext, boolean isNegation)
             throws ResolutionException {
         Tree resultTree = null;
@@ -620,11 +615,11 @@ abstract class AbstractResolver {
     }
 
     protected void resolveAndTerm(Tree tree, Node node, Collection goal,
-            Term literal) throws ResolutionException {
+            AndTerm literal) throws ResolutionException {
         /**
          *  Add the conjuncts of this literal into the goal.
          */
-        Collection terms = ((AndTerm) literal).getTerm();
+        Collection terms = literal.getTerm();
         if (null == terms) {
             throw new ResolutionException(node,
                     "Malformed (null) AndTerm contents");
@@ -767,6 +762,15 @@ abstract class AbstractResolver {
 
     protected void resolveIfTerm(final Tree tree, final Node node, Collection goal, final IfTerm literal)
     throws ResolutionException, NotGroundException {
+        
+        // Ensure that all non-local variables are already bound
+        for (Iterator itr = literal.getNonLocalVars().iterator(); itr.hasNext(); ) {
+            AbstractVar var = (AbstractVar) itr.next();
+            if (null == node.lookup(var)) {
+                throw new NotGroundException("Non-local variable " + var + " is not bound.");
+            }
+        }
+        
         Binding context = new Binding(node.getBindings());
         List condGoal = new ArrayList();
         condGoal.add(literal.getTerm().get(0));

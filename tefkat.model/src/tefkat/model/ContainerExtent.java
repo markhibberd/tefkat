@@ -31,13 +31,13 @@ import org.eclipse.emf.ecore.resource.Resource;
  * @model
  * @generated
  */
-public interface ContainerExtent extends Extent {
+public interface ContainerExtent extends Extent{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>Resource</b></em>' attribute.

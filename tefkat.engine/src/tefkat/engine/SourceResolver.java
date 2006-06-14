@@ -225,13 +225,12 @@ class SourceResolver extends AbstractResolver {
         final Tree tree,
         final Node node,
         Collection goal,
-        Term literal)
+        TrackingUse literal)
         throws ResolutionException, NotGroundException {
 
         // Get the properties of the TrackingUse
-        TrackingUse term = (TrackingUse) literal;
         
-        final EClass trackingClass = term.getTracking();
+        final EClass trackingClass = literal.getTracking();
         if (trackingClass.eIsProxy()) {
             // If it's still a proxy after the getTracking() call, the cross-document reference proxy has
             // not been resolved, meaning the reference was dodgy, i.e. to a non-existent class or something
@@ -239,7 +238,7 @@ class SourceResolver extends AbstractResolver {
             throw new ResolutionException(node, "Unable to locate tracking class: " + trackingClass);
         }
 
-        List featureList = term.getFeatures();
+        List featureList = literal.getFeatures();
         final Object[][] featureMap = new Object[featureList.size()][2];
         
         int i = 0;
@@ -251,7 +250,7 @@ class SourceResolver extends AbstractResolver {
         }
 
         final Collection newGoal = new ArrayList(goal);
-        newGoal.remove(term);
+        newGoal.remove(literal);
      
         TrackingCallback callback = new HandleNewTrackingInstance(tree, trackingClass, newGoal, featureMap, node);
 
@@ -275,15 +274,14 @@ class SourceResolver extends AbstractResolver {
         Tree tree,
         Node node,
         Collection goal,
-        Term literal)
+        MofInstance literal)
         throws ResolutionException, NotGroundException {
         /**
          * Find all instances of the specified class in the (context) extent
          */
-        MofInstance term = (MofInstance) literal;
-        ExtentVar extentVar = term.getExtent();
+        ExtentVar extentVar = literal.getExtent();
 
-        List results = exprEval.eval(node, term.getTypeName());
+        List results = exprEval.eval(node, literal.getTypeName());
         if (results.size() != 1) {
             throw new ResolutionException(node, "Expected only a single type name, got: " + results);
         }
@@ -296,7 +294,7 @@ class SourceResolver extends AbstractResolver {
         } else if (typeObj instanceof WrappedVar) {
             throw new ResolutionException(
                     node,
-                    "Unsupported mode (unbound typeName) for MofInstance: " + term);
+                    "Unsupported mode (unbound typeName) for MofInstance: " + literal);
         } else {
             className = String.valueOf(typeObj);
             if (!"_".equals(className)) {
@@ -308,7 +306,7 @@ class SourceResolver extends AbstractResolver {
             }
         }
         
-        Expression instanceExpr = term.getInstance();
+        Expression instanceExpr = literal.getInstance();
 
         // Our "package instance" wrapper around an EMOF ExtentUtil (EMF Resource)
         Extent extent = (null == extentVar ? null : (Extent) node.lookup(extentVar));
@@ -335,7 +333,7 @@ class SourceResolver extends AbstractResolver {
                         }
                         ExtentUtil.highlightNodes(objects, ExtentUtil.OBJECT_LOOKUP);
                     } else if (theClass instanceof EClass) {
-                        objects = extent.getObjectsByClass((EClass) theClass, term.isExact());
+                        objects = extent.getObjectsByClass((EClass) theClass, literal.isExact());
                         ExtentUtil.highlightNodes(objects, ExtentUtil.CLASS_NAME_LOOKUP);
                     } else {
                         ruleEval.fireWarning("Could not find class named: " + className);
@@ -357,7 +355,7 @@ class SourceResolver extends AbstractResolver {
                              * resolution from the newly created node.
                              */
                             Collection newGoal = new ArrayList(goal);
-                            newGoal.remove(term);
+                            newGoal.remove(literal);
                             tree.createBranch(node, unifier, newGoal);
                         }
                     }
@@ -373,16 +371,16 @@ class SourceResolver extends AbstractResolver {
                         // Any type will do, isExact in this context is meaningless
                         // hence, no need to call setType on the WrappedVar
                         Collection newGoal = new ArrayList(goal);
-                        newGoal.remove(term);
+                        newGoal.remove(literal);
 
                         Binding unifier = new Binding();
                         unifier.add(wVar.getVar(), wVar);
                         tree.createBranch(node, unifier, newGoal);
                     } else if (!(theClass instanceof EClass)) {
                         ruleEval.fireWarning("Could not find class named: " + className);
-                    } else if (wVar.setType((EClass) theClass, term.isExact())) {
+                    } else if (wVar.setType((EClass) theClass, literal.isExact())) {
                         Collection newGoal = new ArrayList(goal);
-                        newGoal.remove(term);
+                        newGoal.remove(literal);
 
                         Binding unifier = new Binding();
                         unifier.add(wVar.getVar(), wVar);
@@ -400,12 +398,12 @@ class SourceResolver extends AbstractResolver {
                     ExtentUtil.highlightNode(instance, ExtentUtil.OBJECT_LOOKUP);
                     boolean isOfType =
                         null == theClass ||
-                        (term.isExact() ? theClass.equals(((EObject) instance).eClass()) : theClass.isInstance(instance));
+                        (literal.isExact() ? theClass.equals(((EObject) instance).eClass()) : theClass.isInstance(instance));
                     if (isOfType) {
                         success = true;
                     
                         Collection newGoal = new ArrayList(goal);
-                        newGoal.remove(term);
+                        newGoal.remove(literal);
                         /**
                          * Create a new branch of the tree, and continue 
                          * resolution from the newly created node.
@@ -602,14 +600,21 @@ class SourceResolver extends AbstractResolver {
         Tree tree,
         Node node,
         Collection goal,
-        Term literal)
-        throws ResolutionException {
-        /**
-         *  Create a new subtree attached to this node, and mark
-         *  that tree as a negative tree.
-         */
-        NotTerm term = (NotTerm) literal;
-        Collection negGoal = new ArrayList(term.getTerm());
+        NotTerm literal)
+        throws ResolutionException, NotGroundException {
+        
+        // Ensure that all non-local variables are already bound
+        for (Iterator itr = literal.getNonLocalVars().iterator(); itr.hasNext(); ) {
+            AbstractVar var = (AbstractVar) itr.next();
+            if (null == node.lookup(var)) {
+                throw new NotGroundException("Non-local variable " + var + " is not bound.");
+            }
+        }
+
+        //  Create a new subtree attached to this node, and mark
+        //  that tree as a negative tree.
+        //
+        Collection negGoal = new ArrayList(literal.getTerm());
         
         evalNegatedGoal(tree, node, goal, literal, negGoal);
     }
@@ -655,13 +660,13 @@ class SourceResolver extends AbstractResolver {
         Tree tree,
         Node node,
         Collection goal,
-        Term literal)
+        OrTerm literal)
         throws ResolutionException {
         /**
          *  Create a node for each disjunct, distributing them into
          *  the remaining conjuncts of the goal.
          */
-        Collection terms = ((OrTerm) literal).getTerm();
+        Collection terms = literal.getTerm();
         if (null == terms || terms.isEmpty()) {
             throw new ResolutionException(node, "Malformed (empty) OrTerm");
         }

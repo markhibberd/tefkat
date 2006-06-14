@@ -56,7 +56,7 @@ public class FeatureExprImpl extends CompoundExprImpl implements FeatureExpr {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * The default value of the '{@link #isOperation() <em>Operation</em>}' attribute.

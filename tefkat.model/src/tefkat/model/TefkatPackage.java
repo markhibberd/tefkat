@@ -34,13 +34,13 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface TefkatPackage extends EPackage {
+public interface TefkatPackage extends EPackage{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * The package name.
@@ -178,13 +178,22 @@ public interface TefkatPackage extends EPackage {
     int ABSTRACT_VAR__NAME = 1;
 
     /**
+     * The feature id for the '<em><b>Usages</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_VAR__USAGES = 2;
+
+    /**
      * The number of structural features of the the '<em>Abstract Var</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ABSTRACT_VAR_FEATURE_COUNT = 2;
+    int ABSTRACT_VAR_FEATURE_COUNT = 3;
 
     /**
      * The meta object id for the '{@link tefkat.model.impl.PatternVarImpl <em>Pattern Var</em>}' class.
@@ -213,6 +222,15 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int PATTERN_VAR__NAME = ABSTRACT_VAR__NAME;
+
+    /**
+     * The feature id for the '<em><b>Usages</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PATTERN_VAR__USAGES = ABSTRACT_VAR__USAGES;
 
     /**
      * The number of structural features of the the '<em>Pattern Var</em>' class.
@@ -250,6 +268,15 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int TRULE_VAR__NAME = ABSTRACT_VAR__NAME;
+
+    /**
+     * The feature id for the '<em><b>Usages</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TRULE_VAR__USAGES = ABSTRACT_VAR__USAGES;
 
     /**
      * The feature id for the '<em><b>Extender</b></em>' reference list.
@@ -323,6 +350,15 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int EXTENT_VAR__NAME = ABSTRACT_VAR__NAME;
+
+    /**
+     * The feature id for the '<em><b>Usages</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENT_VAR__USAGES = ABSTRACT_VAR__USAGES;
 
     /**
      * The number of structural features of the the '<em>Extent Var</em>' class.
@@ -2742,6 +2778,17 @@ public interface TefkatPackage extends EPackage {
      * @generated
      */
     EAttribute getAbstractVar_Name();
+
+    /**
+     * Returns the meta object for the reference list '{@link tefkat.model.AbstractVar#getUsages <em>Usages</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Usages</em>'.
+     * @see tefkat.model.AbstractVar#getUsages()
+     * @see #getAbstractVar()
+     * @generated
+     */
+    EReference getAbstractVar_Usages();
 
     /**
      * Returns the meta object for class '{@link tefkat.model.PatternVar <em>Pattern Var</em>}'.

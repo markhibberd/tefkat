@@ -65,7 +65,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
     
     /**
      * The cached value of the '{@link #getTRule() <em>TRule</em>}' containment reference list.

@@ -59,7 +59,7 @@ public class PatternDefnImpl extends VarScopeImpl implements PatternDefn {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * The cached value of the '{@link #getTerm() <em>Term</em>}' containment reference.

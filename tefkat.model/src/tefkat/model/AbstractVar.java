@@ -13,6 +13,8 @@
  */
 package tefkat.model;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -25,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link tefkat.model.AbstractVar#getScope <em>Scope</em>}</li>
  *   <li>{@link tefkat.model.AbstractVar#getName <em>Name</em>}</li>
+ *   <li>{@link tefkat.model.AbstractVar#getUsages <em>Usages</em>}</li>
  * </ul>
  * </p>
  *
@@ -32,13 +35,13 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface AbstractVar extends EObject {
+public interface AbstractVar extends EObject{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>Scope</b></em>' container reference.
@@ -93,5 +96,23 @@ public interface AbstractVar extends EObject {
      * @generated
      */
     void setName(String value);
+
+    /**
+     * Returns the value of the '<em><b>Usages</b></em>' reference list.
+     * The list contents are of type {@link tefkat.model.VarUse}.
+     * It is bidirectional and its opposite is '{@link tefkat.model.VarUse#getVar <em>Var</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Usages</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Usages</em>' reference list.
+     * @see tefkat.model.TefkatPackage#getAbstractVar_Usages()
+     * @see tefkat.model.VarUse#getVar
+     * @model type="tefkat.model.VarUse" opposite="var" changeable="false" ordered="false"
+     * @generated
+     */
+    EList getUsages();
 
 } // AbstractVar

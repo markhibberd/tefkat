@@ -30,13 +30,13 @@ package tefkat.model;
  * @model abstract="true"
  * @generated
  */
-public interface SourceTerm extends Term {
+public interface SourceTerm extends Term{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>TRule Src</b></em>' container reference.

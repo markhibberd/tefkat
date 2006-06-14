@@ -30,16 +30,17 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface VarUse extends Expression {
+public interface VarUse extends Expression{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>Var</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link tefkat.model.AbstractVar#getUsages <em>Usages</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Var</em>' reference isn't clear,
@@ -49,7 +50,8 @@ public interface VarUse extends Expression {
      * @return the value of the '<em>Var</em>' reference.
      * @see #setVar(AbstractVar)
      * @see tefkat.model.TefkatPackage#getVarUse_Var()
-     * @model required="true"
+     * @see tefkat.model.AbstractVar#getUsages
+     * @model opposite="usages" required="true"
      * @generated
      */
     AbstractVar getVar();

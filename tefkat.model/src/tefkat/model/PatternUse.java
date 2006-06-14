@@ -32,13 +32,13 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface PatternUse extends SimpleTerm {
+public interface PatternUse extends SimpleTerm{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>Defn</b></em>' reference.

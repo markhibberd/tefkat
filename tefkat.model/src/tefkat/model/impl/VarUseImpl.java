@@ -48,7 +48,7 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * The cached value of the '{@link #getVar() <em>Var</em>}' reference.
@@ -109,11 +109,33 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setVar(AbstractVar newVar) {
+    public NotificationChain basicSetVar(AbstractVar newVar, NotificationChain msgs) {
         AbstractVar oldVar = var;
         var = newVar;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.VAR_USE__VAR, oldVar, var));
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TefkatPackage.VAR_USE__VAR, oldVar, newVar);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setVar(AbstractVar newVar) {
+        if (newVar != var) {
+            NotificationChain msgs = null;
+            if (var != null)
+                msgs = ((InternalEObject)var).eInverseRemove(this, TefkatPackage.ABSTRACT_VAR__USAGES, AbstractVar.class, msgs);
+            if (newVar != null)
+                msgs = ((InternalEObject)newVar).eInverseAdd(this, TefkatPackage.ABSTRACT_VAR__USAGES, AbstractVar.class, msgs);
+            msgs = basicSetVar(newVar, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.VAR_USE__VAR, newVar, newVar));
     }
 
     /**
@@ -140,6 +162,10 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
                     return eBasicSetContainer(otherEnd, TefkatPackage.VAR_USE__EXPR, msgs);
+                case TefkatPackage.VAR_USE__VAR:
+                    if (var != null)
+                        msgs = ((InternalEObject)var).eInverseRemove(this, TefkatPackage.ABSTRACT_VAR__USAGES, AbstractVar.class, msgs);
+                    return basicSetVar((AbstractVar)otherEnd, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -159,6 +185,8 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
                 case TefkatPackage.VAR_USE__EXPR:
                     return eBasicSetContainer(null, TefkatPackage.VAR_USE__EXPR, msgs);
+                case TefkatPackage.VAR_USE__VAR:
+                    return basicSetVar(null, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }

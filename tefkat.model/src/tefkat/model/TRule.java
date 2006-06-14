@@ -38,13 +38,13 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface TRule extends VarScope {
+public interface TRule extends VarScope{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>Transformation</b></em>' container reference.

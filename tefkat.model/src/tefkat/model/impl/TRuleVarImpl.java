@@ -52,7 +52,7 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * The cached value of the '{@link #getExtender() <em>Extender</em>}' reference list.
@@ -172,6 +172,8 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
                     return eBasicSetContainer(otherEnd, TefkatPackage.TRULE_VAR__SCOPE, msgs);
+                case TefkatPackage.TRULE_VAR__USAGES:
+                    return ((InternalEList)getUsages()).basicAdd(otherEnd, msgs);
                 case TefkatPackage.TRULE_VAR__EXTENDER:
                     return ((InternalEList)getExtender()).basicAdd(otherEnd, msgs);
                 case TefkatPackage.TRULE_VAR__EXTENDED:
@@ -199,6 +201,8 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
                 case TefkatPackage.TRULE_VAR__SCOPE:
                     return eBasicSetContainer(null, TefkatPackage.TRULE_VAR__SCOPE, msgs);
+                case TefkatPackage.TRULE_VAR__USAGES:
+                    return ((InternalEList)getUsages()).basicRemove(otherEnd, msgs);
                 case TefkatPackage.TRULE_VAR__EXTENDER:
                     return ((InternalEList)getExtender()).basicRemove(otherEnd, msgs);
                 case TefkatPackage.TRULE_VAR__EXTENDED:
@@ -242,6 +246,8 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
                 return getScope();
             case TefkatPackage.TRULE_VAR__NAME:
                 return getName();
+            case TefkatPackage.TRULE_VAR__USAGES:
+                return getUsages();
             case TefkatPackage.TRULE_VAR__EXTENDER:
                 return getExtender();
             case TefkatPackage.TRULE_VAR__EXTENDED:
@@ -327,6 +333,8 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
                 return getScope() != null;
             case TefkatPackage.TRULE_VAR__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+            case TefkatPackage.TRULE_VAR__USAGES:
+                return usages != null && !usages.isEmpty();
             case TefkatPackage.TRULE_VAR__EXTENDER:
                 return extender != null && !extender.isEmpty();
             case TefkatPackage.TRULE_VAR__EXTENDED:

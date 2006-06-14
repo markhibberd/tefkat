@@ -24,12 +24,12 @@ package tefkat.model;
  * @model abstract="true"
  * @generated
  */
-public interface SimpleTerm extends SourceTerm, TargetTerm {
+public interface SimpleTerm extends SourceTerm, TargetTerm{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
 } // SimpleTerm

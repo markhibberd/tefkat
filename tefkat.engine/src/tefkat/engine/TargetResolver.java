@@ -215,15 +215,14 @@ class TargetResolver extends AbstractResolver {
         Tree tree,
         Node node,
         Collection goal,
-        Term literal)
+        TrackingUse literal)
         throws ResolutionException, NotGroundException {
 
         long t1 = System.currentTimeMillis();
         
         // Get the properties of the TrackingUse
-        TrackingUse term = (TrackingUse) literal;
         
-        EClass trackingClass = term.getTracking();
+        EClass trackingClass = literal.getTracking();
         if (trackingClass.eIsProxy()) {
             // If it's still a proxy after the getTracking() call, the cross-document reference proxy has
             // not been resolved, meaning the reference was dodgy, i.e. to a non-existent class or something
@@ -232,7 +231,7 @@ class TargetResolver extends AbstractResolver {
         }
 
         Map featureVal = new HashMap();
-        List featureList = term.getFeatures();
+        List featureList = literal.getFeatures();
         
         for (Iterator itr = featureList.iterator(); itr.hasNext(); ) {
             Map.Entry keyEntry = (Map.Entry) itr.next();
@@ -362,15 +361,14 @@ class TargetResolver extends AbstractResolver {
         Tree tree,
         Node node,
         Collection goal,
-        Term literal)
+        MofInstance literal)
         throws ResolutionException, NotGroundException {
 
-        MofInstance term = (MofInstance) literal;
-        Expression instanceExpr = term.getInstance();
+        Expression instanceExpr = literal.getInstance();
         Collection instances = exprEval.eval(node, instanceExpr);
 
         // deal with type
-        List results = exprEval.eval(node, term.getTypeName());
+        List results = exprEval.eval(node, literal.getTypeName());
         if (results.size() != 1) {
             throw new ResolutionException(node, "Expected only a single type name, got: " + results);
         }
@@ -422,7 +420,7 @@ class TargetResolver extends AbstractResolver {
                     throw new ResolutionException(node, "Invalid Expression type for MofInstance.typeName: " + typeObj);
                 }
                 
-                if (term.isExact() && eObj instanceof DynamicObject) {
+                if (literal.isExact() && eObj instanceof DynamicObject) {
                     if (eObj.eResource() != null) {
                         eObj.eResource().getContents().remove(eObj);
 //                      System.err.println("  ...removed: " + eObj.hashCode());
@@ -431,7 +429,7 @@ class TargetResolver extends AbstractResolver {
                 }
                 
                 // deal with extent
-                Extent extentObj = (Extent) node.lookup(term.getExtent());
+                Extent extentObj = (Extent) node.lookup(literal.getExtent());
                 if (null != extentObj) {
                     // Extents are optional, but dangling objects may be created that
                     // should cause errors when the Resource is saved, but only if there
@@ -447,7 +445,7 @@ class TargetResolver extends AbstractResolver {
         }
         
         Collection newGoal = new ArrayList(goal);
-        newGoal.remove(term);
+        newGoal.remove(literal);
         tree.createBranch(node, unifier, newGoal);
 
         return true;
@@ -733,9 +731,9 @@ class TargetResolver extends AbstractResolver {
         Tree tree,
         Node node,
         Collection goal,
-        Term literal)
+        NotTerm literal)
         throws ResolutionException {
-            throw new ResolutionException(node, "NotTerm is Not Yet Implemented");
+            throw new ResolutionException(node, "NotTerm not supported in target term");
         //      /**
         //       *  Create a new subtree attached to this node, and mark
         //       *  that tree as a negative tree.
@@ -779,7 +777,7 @@ class TargetResolver extends AbstractResolver {
         Tree tree,
         Node node,
         Collection goal,
-        Term literal)
+        OrTerm literal)
         throws ResolutionException {
         /**
          * Throw a ResolutionException - OrTerms on the target side give us nasty nondeterminism

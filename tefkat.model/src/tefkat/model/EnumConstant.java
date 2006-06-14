@@ -24,12 +24,12 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface EnumConstant extends CompoundExpr {
+public interface EnumConstant extends CompoundExpr{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
 } // EnumConstant

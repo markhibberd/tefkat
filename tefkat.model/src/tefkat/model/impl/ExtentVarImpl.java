@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.util.InternalEList;
+
 import tefkat.model.ExtentVar;
 import tefkat.model.TefkatPackage;
 import tefkat.model.VarScope;
@@ -38,7 +40,7 @@ public class ExtentVarImpl extends AbstractVarImpl implements ExtentVar {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * <!-- begin-user-doc -->
@@ -70,6 +72,8 @@ public class ExtentVarImpl extends AbstractVarImpl implements ExtentVar {
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
                     return eBasicSetContainer(otherEnd, TefkatPackage.EXTENT_VAR__SCOPE, msgs);
+                case TefkatPackage.EXTENT_VAR__USAGES:
+                    return ((InternalEList)getUsages()).basicAdd(otherEnd, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -89,6 +93,8 @@ public class ExtentVarImpl extends AbstractVarImpl implements ExtentVar {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
                 case TefkatPackage.EXTENT_VAR__SCOPE:
                     return eBasicSetContainer(null, TefkatPackage.EXTENT_VAR__SCOPE, msgs);
+                case TefkatPackage.EXTENT_VAR__USAGES:
+                    return ((InternalEList)getUsages()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -124,6 +130,8 @@ public class ExtentVarImpl extends AbstractVarImpl implements ExtentVar {
                 return getScope();
             case TefkatPackage.EXTENT_VAR__NAME:
                 return getName();
+            case TefkatPackage.EXTENT_VAR__USAGES:
+                return getUsages();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -173,6 +181,8 @@ public class ExtentVarImpl extends AbstractVarImpl implements ExtentVar {
                 return getScope() != null;
             case TefkatPackage.EXTENT_VAR__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+            case TefkatPackage.EXTENT_VAR__USAGES:
+                return usages != null && !usages.isEmpty();
         }
         return eDynamicIsSet(eFeature);
     }

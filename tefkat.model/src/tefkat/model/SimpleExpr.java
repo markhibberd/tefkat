@@ -30,13 +30,13 @@ package tefkat.model;
  * @model abstract="true"
  * @generated
  */
-public interface SimpleExpr extends Expression {
+public interface SimpleExpr extends Expression{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * Returns the value of the '<em><b>Representation</b></em>' attribute.

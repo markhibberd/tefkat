@@ -24,12 +24,12 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface BooleanConstant extends SimpleExpr {
+public interface BooleanConstant extends SimpleExpr{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
 } // BooleanConstant

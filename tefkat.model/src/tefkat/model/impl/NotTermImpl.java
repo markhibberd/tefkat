@@ -14,8 +14,14 @@ package tefkat.model.impl;
 
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -23,6 +29,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import tefkat.model.AbstractVar;
 import tefkat.model.CompoundTerm;
 import tefkat.model.ExtentVar;
 import tefkat.model.NotTerm;
@@ -30,6 +37,7 @@ import tefkat.model.PatternDefn;
 import tefkat.model.Query;
 import tefkat.model.TRule;
 import tefkat.model.TefkatPackage;
+import tefkat.model.VarUse;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,7 +54,7 @@ public class NotTermImpl extends CompoundTermImpl implements NotTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * <!-- begin-user-doc -->
@@ -64,6 +72,37 @@ public class NotTermImpl extends CompoundTermImpl implements NotTerm {
      */
     protected EClass eStaticClass() {
         return TefkatPackage.eINSTANCE.getNotTerm();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public EList getNonLocalVars() {
+        EList nonLocalVars = new BasicEList();
+        Set notVars = new HashSet();
+        Set usages = new HashSet();
+
+        // Find the Vars and VarUses that occur in the NOT
+        for (Iterator itr = eAllContents(); itr.hasNext(); ) {
+            Object obj = itr.next();
+            
+            if (obj instanceof VarUse) {
+                notVars.add(((VarUse) obj).getVar());
+                usages.add(obj);
+            }
+        }
+        
+        // Find just those Vars that are NOT only referenced in the NOT
+        for (Iterator varItr = notVars.iterator(); varItr.hasNext(); ) {
+            AbstractVar var = (AbstractVar) varItr.next();
+            if (!usages.containsAll(var.getUsages())) {
+                nonLocalVars.add(var);
+            }
+        }
+        
+        return nonLocalVars;
     }
 
     /**

@@ -24,12 +24,12 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface AndTerm extends CompoundTerm, TargetTerm {
+public interface AndTerm extends CompoundTerm, TargetTerm{
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
 } // AndTerm
