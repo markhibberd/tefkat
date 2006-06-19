@@ -14,6 +14,7 @@ import tefkat.model.IfTerm;
 import tefkat.model.NotTerm;
 import tefkat.model.PatternDefn;
 import tefkat.model.PatternUse;
+import tefkat.model.TefkatException;
 import tefkat.model.Term;
 import tefkat.model.TrackingUse;
 import tefkat.model.VarScope;
@@ -39,11 +40,15 @@ public class Stratifier extends TefkatSwitch {
     boolean negated = false;
     VarScope scope;
     
-    public void check(VarScope scope, Term term) {
+    public void check(VarScope scope, Term term) throws TefkatException {
         this.negated = false;
         this.scope = scope;
         
-        check(term);
+        try {
+            check(term);
+        } catch (IllegalStateException e) {
+            throw new TefkatException("Illegal Transformation specification.", e);
+        }
     }
     
     private void store(Map map, Object key) {
@@ -84,6 +89,7 @@ public class Stratifier extends TefkatSwitch {
     
     /**
      * Return the Set of dependency items to add the current scope (TRule or PatternDefn) to.
+     * @throws TefkatException 
      * 
      * @see tefkat.model.util.TefkatSwitch#caseTrackingUse(tefkat.model.TrackingUse)
      */
@@ -93,21 +99,19 @@ public class Stratifier extends TefkatSwitch {
         Map map;
         if (negated) {
             if (object.isTarget()) {
-                map = neg_writers;
-                // Affects all subclasses as well
+                throw new IllegalStateException("Cannot create a tracking instance inside a negation: " + object);
             } else {
                 map = neg_readers;
                 // Affected by all superclasses as well
-                keys = key.getEAllSuperTypes();
             }
         } else {
             if (object.isTarget()) {
                 map = writers;
                 // Affects all subclasses as well
+                keys = key.getEAllSuperTypes();
             } else {
                 map = readers;
                 // Affected by all superclasses as well
-                keys = key.getEAllSuperTypes();
             }
         }
         store(map, key);
