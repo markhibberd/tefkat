@@ -489,8 +489,6 @@ options {
     private void definePackage(Transformation t, String uriString) throws antlr.SemanticException {
         URI uri = URI.createURI(uriString);
         ResourceSet resourceSet = t.eResource().getResourceSet();
-System.err.println(        	resourceSet.getResourceFactoryRegistry()
-                    .getExtensionToFactoryMap());
         Resource resource = null;
         try {
             resource = resourceSet.getResource(uri, true);//loadOnDemand);
@@ -930,7 +928,10 @@ superClasses[EClass eClass] {
 }
         :       superEClass = simpleTypeLiteral {
                     if (!(superEClass instanceof EClass)) {
-                        throw new antlr.SemanticException("Expected an EClass: " + superEClass + ", found an EDataType or EEnum", getFilename(), getMarkLine(), getMarkColumn());
+                        String type = (superEClass instanceof EDataType) ? "an EDataType" :
+                                      (superEClass instanceof EEnum) ? "an EEnum" :
+                                      "a " + superEClass.getClass().getName();
+                        throw new antlr.SemanticException("Expected an EClass: " + superEClass + ", found " + type, getFilename(), getMarkLine(), getMarkColumn());
                     }
                     eClass.getESuperTypes().add(superEClass);
                 }
