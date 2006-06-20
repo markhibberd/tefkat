@@ -138,9 +138,9 @@ public class Stratifier extends TefkatSwitch {
          * a Pattern that it invokes.
          */
         if (negated) {
-        	map = neg_readers;
+            map = neg_readers;
         } else {
-        	map = readers;
+            map = readers;
         }
         store(map, key);
         return this;
@@ -157,5 +157,6 @@ public class Stratifier extends TefkatSwitch {
         }
         return null;
     }
-    
+
 }
+
