@@ -686,10 +686,10 @@ class Evaluator {
      * @throws ResolutionException
      * @throws NotGroundException
      */
+    // FIXME Handle BindingPairs
     private List evalAll(Node node, List args) throws ResolutionException, NotGroundException {
         List results = new ArrayList(args.size());
-        Iterator itr = args.iterator();
-        while (itr.hasNext()) {
+        for (Iterator itr = args.iterator(); itr.hasNext(); ) {
             Expression arg = (Expression) itr.next();
             List vals = eval(node, arg);
             if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {

@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -349,4 +351,127 @@ public class Binding {
     public void freeze() {
         frozen = true;
     }
+    
+
+    public static Binding createBinding(Object val1, Object val2) throws ResolutionException {
+        Binding unifier = null;
+        if (val1 instanceof BindingPair) {
+            unifier = new Binding();
+            unifier.composeLeft((BindingPair) val1);
+            val1 = ((BindingPair) val1).getValue();
+        }
+        if (val2 instanceof BindingPair) {
+            if (null == unifier) {
+                unifier = new Binding();
+            }
+            unifier.composeLeft((BindingPair) val2);
+            val2 = ((BindingPair) val2).getValue();
+        }
+    
+        if (val1 instanceof WrappedVar) {
+            unifier = bindWrappedVar(unifier, (WrappedVar) val1, val2);
+        } else if (val2 instanceof WrappedVar) {
+            unifier = bindWrappedVar(unifier, (WrappedVar) val2, val1);
+        } else if (val1 instanceof Number && val2 instanceof Number) {
+            if (val1 instanceof Float || val1 instanceof Double ||
+                val2 instanceof Float || val2 instanceof Double) {
+                double v1 = ((Number) val1).doubleValue();
+                double v2 = ((Number) val2).doubleValue();
+                if (v1 == v2) {
+                    if (null == unifier) {
+                        unifier = new Binding();
+                    }
+                } else {
+                    unifier = null;
+                }
+            } else {
+                long l1 = ((Number) val1).longValue();
+                long l2 = ((Number) val2).longValue();
+                if (l1 == l2) {
+                    if (null == unifier) {
+                        unifier = new Binding();
+                    }
+                } else {
+                    unifier = null;
+                }
+            }
+        } else {
+            // bloody EMF - a "generated" EEnumLiteral is not "equal" to a
+            // dynamic EEnumLiteral or something like that
+            // - you need to get the EEnumerator for comparisons...
+            if (val1 instanceof EEnumLiteral) {
+                val1 = ((EEnumLiteral) val1).getInstance();
+            }
+            if (val2 instanceof EEnumLiteral) {
+                val2 = ((EEnumLiteral) val2).getInstance();
+            }
+            if (val1.equals(val2)) {
+                if (null == unifier) {
+                    unifier = new Binding();
+                }
+            } else {
+                unifier = null;
+            }
+        }
+        return unifier;
+    }
+
+    static private Binding bindWrappedVar(Binding unifier, WrappedVar wVar, Object val) throws ResolutionException {
+        AbstractVar var = wVar.getVar();
+        EClass eClass = wVar.getType();
+        if (null != eClass) {
+            if (val instanceof WrappedVar) {
+                EClass eClass2 = ((WrappedVar) val).getType();
+                if (null == eClass2) {
+                    if (null == unifier) {
+                        unifier = new Binding();
+                    }
+                    unifier.add(var, val);
+                } else if (eClass.isSuperTypeOf(eClass2)) {
+                    if (null == unifier) {
+                        unifier = new Binding();
+                    }
+                    unifier.add(var, val);
+                } else if (eClass2.isSuperTypeOf(eClass)) {
+                    if (null == unifier) {
+                        unifier = new Binding();
+                    }
+                    unifier.add(((WrappedVar) val).getVar(), wVar);
+                } else {    // type mismatch
+                    unifier = null;
+                }
+            } else if (val instanceof EObject) {
+                if (eClass.isSuperTypeOf(((EObject) val).eClass())) {
+                    if (null == unifier) {
+                        unifier = new Binding();
+                    }
+                    unifier.add(var, val);
+                } else {
+                    unifier = null;
+                }
+            } else {
+                Class cls = eClass.getInstanceClass();
+                if (null != cls) {
+                    if (cls.isAssignableFrom(val.getClass())) {
+                        if (null == unifier) {
+                            unifier = new Binding();
+                        }
+                        unifier.add(var, val);
+                    } else {
+                        unifier = null;
+                    }
+                } else {
+                    unifier = null;
+                }
+            }
+        } else {
+            if (null == unifier) {
+                unifier = new Binding();
+            }
+            unifier.add(var, val);
+        }
+        
+        return unifier;
+    }
+
 }

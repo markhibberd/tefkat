@@ -449,7 +449,7 @@ class SourceResolver extends AbstractResolver {
                 for (final Iterator itr2 = vals2.iterator(); itr2.hasNext(); ) {
                     Object val2 = itr2.next();
                     
-                    Binding unifier = bind(val1, val2);
+                    Binding unifier = Binding.createBinding(val1, val2);
 
                     if (null != unifier) {
                         result = true;

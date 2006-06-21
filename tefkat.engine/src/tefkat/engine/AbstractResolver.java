@@ -89,23 +89,7 @@ abstract class AbstractResolver {
         }
 
         public void solution(Binding answer) throws ResolutionException {
-            Binding unifier = new Binding();
-            for (int j = 0; j < args.size(); j++) {
-                Expression argExpr = (Expression) args.get(j);
-                if (argExpr instanceof VarUse) {
-                    Object val = node.lookup(((VarUse) argExpr).getVar());
-                    if (null == val) {
-                        // We only add a new binding if argExpr is not already
-                        // bound, otherwise we end up with multiple identical bindings
-                        // for the same Var.
-                        unifier.add(((VarUse) argExpr).getVar(),
-                                answer.lookup((PatternVar) vars.get(j)));
-                    } else if (val instanceof WrappedVar) {
-                        unifier.add(((WrappedVar) val).getVar(),
-                                answer.lookup((PatternVar) vars.get(j)));
-                    }
-                }
-            }
+            Binding unifier = createOutputBinding(node, vars, args, answer);
         
             tree.createBranch(node, unifier, goal);
         }
@@ -359,6 +343,8 @@ abstract class AbstractResolver {
         }
         
         // Eval all the input Expressions
+        
+        // FIXME handle BindingPairs
         List actuals = new ArrayList();
         for (Iterator itr = args.iterator(); itr.hasNext(); ) {
             Expression actualExpr = (Expression) itr.next();
@@ -438,23 +424,7 @@ abstract class AbstractResolver {
             Collection solutions = solutions(resultTree, pDefVars);
             for (Iterator itr = solutions.iterator(); itr.hasNext();) {
                 Binding answer = (Binding) itr.next();
-                Binding unifier = new Binding();
-                for (int j = 0; j < args.size(); j++) {
-                    Expression argExpr = (Expression) args.get(j);
-                    if (argExpr instanceof VarUse) {
-                        Object val = node.lookup(((VarUse) argExpr).getVar());
-                        if (null == val) {
-                            // We only add a new binding if argExpr is not already
-                            // bound, otherwise we end up with multiple identical bindings
-                            // for the same Var.
-                            unifier.add(((VarUse) argExpr).getVar(),
-                                    answer.lookup((PatternVar) pDefVars.get(j)));
-                        } else if (val instanceof WrappedVar) {
-                            unifier.add(((WrappedVar) val).getVar(),
-                                    answer.lookup((PatternVar) pDefVars.get(j)));
-                        }
-                    }
-                }
+                Binding unifier = createOutputBinding(node, pDefVars, args, answer);
 
                 tree.createBranch(node, unifier, newGoal);
             }
@@ -479,37 +449,19 @@ abstract class AbstractResolver {
             Node patternNode = new Node(patGoal, newContext);
         
             resultTree = new Tree(tree.getTransformation(), patternNode, tree.getContext(), tree.getTrackingExtent(), isNegation);
-	    resultTree.setLevel(tree.getLevel());
+            resultTree.setLevel(tree.getLevel());
 
             ruleEval.resolveNode(resultTree);
 
             cache.put(newContext, resultTree);
-            
         }
         
         //System.err.println("\t" + resultTree.isSuccess());      // TODO delete
         if (resultTree.isSuccess()) {
             Collection solutions = solutions(resultTree, pDefVars);
-            for (Iterator itr = solutions.iterator(); itr.hasNext();) {
-                Binding unifier = new Binding();
+            for (Iterator itr = solutions.iterator(); itr.hasNext(); ) {
                 Binding currentSolution = (Binding) itr.next();
-                // System.err.println("  s " + currentSolution); // TODO delete
-                for (int j = 0; j < args.size(); j++) {
-                    Expression argExpr = (Expression) args.get(j);
-                    if (argExpr instanceof VarUse) {
-                        Object val = node.lookup(((VarUse) argExpr).getVar());
-                        if (null == val) {
-                            // We only add a new binding if argExpr is not already
-                            // bound, otherwise we end up with multiple identical bindings
-                            // for the same Var.
-                            unifier.add(((VarUse) argExpr).getVar(),
-                                    currentSolution.lookup((PatternVar) pDefVars.get(j)));
-                        } else if (val instanceof WrappedVar) {
-                            unifier.add(((WrappedVar) val).getVar(),
-                                    currentSolution.lookup((PatternVar) pDefVars.get(j)));
-                        }
-                    }
-                }
+                Binding unifier = createOutputBinding(node, pDefVars, args, currentSolution);
 
                 // System.err.println("  u " + unifier); // TODO delete
                 Collection newGoal = new ArrayList(goal);
@@ -519,6 +471,30 @@ abstract class AbstractResolver {
         } else {
             tree.failure(node);
         }
+    }
+
+    static private Binding createOutputBinding(final Node node, final List formals, final List actuals, Binding solution) throws ResolutionException {
+        Binding unifier = new Binding();
+        // System.err.println("  s " + currentSolution); // TODO delete
+        for (int j = 0; j < actuals.size(); j++) {
+            Expression argExpr = (Expression) actuals.get(j);
+            if (argExpr instanceof VarUse) {
+                Object val = node.lookup(((VarUse) argExpr).getVar());
+                if (null == val) {
+                    // We only add a new binding if argExpr is not already
+                    // bound, otherwise we end up with multiple identical bindings
+                    // for the same Var.
+                    unifier.add(((VarUse) argExpr).getVar(),
+                            solution.lookup((PatternVar) formals.get(j)));
+                } else if (val instanceof WrappedVar) {
+                    unifier.add(((WrappedVar) val).getVar(),
+                            solution.lookup((PatternVar) formals.get(j)));
+                } else if (!val.equals(solution.lookup((PatternVar) formals.get(j)))) {
+                    throw new ResolutionException(node, "conflicting pattern arg and result: " + val + "\t" + solution.lookup((PatternVar) formals.get(j)));
+                }
+            }
+        }
+        return unifier;
     }
 
     /**
@@ -556,7 +532,11 @@ abstract class AbstractResolver {
                     // only values are passed in, not references (i.e., Vars)
                     // since we get WrappedVars for unbound inputs as well as for
                     // vars bound to other vars
-                    if (!(params[j] instanceof WrappedVar)) {
+                    // FIXME - the above is bogus (I think) at least need to
+                    // propagate var bindings when calculating the actualsList
+                    // to handle, for example, p(X, X) and also p(X.foo, X.bar)
+                    // -- the latter involves BindingPairs
+                    if (true || !(params[j] instanceof WrappedVar)) {
                         newContext.add((PatternVar) formals.get(j), params[j]);
                     }
                 }
@@ -637,127 +617,6 @@ abstract class AbstractResolver {
         } catch (RuntimeException e) {
             throw new ResolutionException(node, e.getMessage());
         }
-    }
-
-    Binding bind(Object val1, Object val2) throws ResolutionException {
-        Binding unifier = null;
-        if (val1 instanceof BindingPair) {
-            unifier = new Binding();
-            unifier.composeLeft((BindingPair) val1);
-            val1 = ((BindingPair) val1).getValue();
-        }
-        if (val2 instanceof BindingPair) {
-            if (null == unifier) {
-                unifier = new Binding();
-            }
-            unifier.composeLeft((BindingPair) val2);
-            val2 = ((BindingPair) val2).getValue();
-        }
-    
-        if (val1 instanceof WrappedVar) {
-            unifier = bindWrappedVar(unifier, (WrappedVar) val1, val2);
-        } else if (val2 instanceof WrappedVar) {
-            unifier = bindWrappedVar(unifier, (WrappedVar) val2, val1);
-	} else if (val1 instanceof Number && val2 instanceof Number) {
-	    if (val1 instanceof Float || val1 instanceof Double ||
-	        val2 instanceof Float || val2 instanceof Double) {
-	        double v1 = ((Number) val1).doubleValue();
-		double v2 = ((Number) val2).doubleValue();
-		if (v1 == v2) {
-		    if (null == unifier) {
-			unifier = new Binding();
-		    }
-		} else {
-		    unifier = null;
-		}
-	    } else {
-		long l1 = ((Number) val1).longValue();
-		long l2 = ((Number) val2).longValue();
-		if (l1 == l2) {
-		    if (null == unifier) {
-			unifier = new Binding();
-		    }
-		} else {
-		    unifier = null;
-		}
-	    }
-        } else {
-            // bloody EMF - a "generated" EEnumLiteral is not "equal" to a
-            // dynamic EEnumLiteral or something like that
-            // - you need to get the EEnumerator for comparisons...
-            if (val1 instanceof EEnumLiteral) {
-                val1 = ((EEnumLiteral) val1).getInstance();
-            }
-            if (val2 instanceof EEnumLiteral) {
-                val2 = ((EEnumLiteral) val2).getInstance();
-            }
-            if (val1.equals(val2)) {
-                if (null == unifier) {
-                    unifier = new Binding();
-                }
-            } else {
-                unifier = null;
-            }
-        }
-        return unifier;
-    }
-
-    private Binding bindWrappedVar(Binding unifier, WrappedVar wVar, Object val) throws ResolutionException {
-        AbstractVar var = wVar.getVar();
-        EClass eClass = wVar.getType();
-        if (null != eClass) {
-            if (val instanceof WrappedVar) {
-                EClass eClass2 = ((WrappedVar) val).getType();
-                if (null == eClass2) {
-                    if (null == unifier) {
-                        unifier = new Binding();
-                    }
-                    unifier.add(var, val);
-                } else if (eClass.isSuperTypeOf(eClass2)) {
-                    if (null == unifier) {
-                        unifier = new Binding();
-                    }
-                    unifier.add(var, val);
-                } else if (eClass2.isSuperTypeOf(eClass)) {
-                    if (null == unifier) {
-                        unifier = new Binding();
-                    }
-                    unifier.add(((WrappedVar) val).getVar(), wVar);
-                } else {    // type mismatch
-                    unifier = null;
-                }
-            } else if (val instanceof EObject) {
-                if (eClass.isSuperTypeOf(((EObject) val).eClass())) {
-                    if (null == unifier) {
-                        unifier = new Binding();
-                    }
-                    unifier.add(var, val);
-                } else {
-                    unifier = null;
-                }
-            } else {
-                Class cls = eClass.getInstanceClass();
-                if (null != cls) {
-                    if (cls.isAssignableFrom(val.getClass())) {
-                        if (null == unifier) {
-                            unifier = new Binding();
-                        }
-                        unifier.add(var, val);
-                    } else {
-                        unifier = null;
-                    }
-                } else {
-                    unifier = null;
-                }
-            }
-        } else {
-            if (null == unifier) {
-                unifier = new Binding();
-            }
-            unifier.add(var, val);
-        }
-        
-        return unifier;
     }
 
     protected void resolveIfTerm(final Tree tree, final Node node, Collection goal, final IfTerm literal)

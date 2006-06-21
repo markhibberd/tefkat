@@ -394,12 +394,12 @@ class TargetResolver extends AbstractResolver {
 			Map nameMap = getNameMap();
 			String typeName = (String) typeObj;
 			EClassifier eClassifier = Util.findClassifierByName(nameMap, typeName);
-                        if (null == eClassifier) {
-                            for (final Iterator nItr = nameMap.keySet().iterator(); nItr.hasNext(); ) {
-                                Object entry =  nItr.next();
-                                System.out.println(entry);
-                            }
-                            throw new ResolutionException(node, "Expected an EClass called: " + typeName + ", but found nothing");
+			if (null == eClassifier) {
+//			    for (final Iterator nItr = nameMap.keySet().iterator(); nItr.hasNext(); ) {
+//			        Object entry =  nItr.next();
+//			        System.out.println(entry);
+//			    }
+			    throw new ResolutionException(node, "Expected an EClass called: " + typeName + ", but found nothing");
 			} else if (!(eClassifier instanceof EClass)) {
 			    throw new ResolutionException(node, "Expected an EClass called: " + typeName + ", but found an EDataType or EEnum");
 			}

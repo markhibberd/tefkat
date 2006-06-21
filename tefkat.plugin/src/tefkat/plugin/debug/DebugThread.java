@@ -14,6 +14,9 @@
 
 package tefkat.plugin.debug;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugException;
@@ -21,6 +24,8 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 
+import tefkat.engine.Node;
+import tefkat.engine.Tree;
 import tefkat.plugin.TefkatPlugin;
 
 
@@ -30,16 +35,21 @@ import tefkat.plugin.TefkatPlugin;
  */
 public class DebugThread extends AbstractDebugElement implements IThread {
 
+    final private String name;
     final private IStackFrame[] emptyStack = new NodeSelectedLiteralStackFrame[0];
+    final private Tree tree;
     
     private boolean stepping = false;
+    private IStackFrame[] frames = emptyStack;
     private IBreakpoint[] breakpoints;
 
     /**
      * 
      */
-    public DebugThread(DebugTarget target) {
+    public DebugThread(String name, DebugTarget target, Tree tree) {
         super(target);
+        this.name = "Thread[" + name + "]";
+        this.tree = tree;
     }
 
     /* (non-Javadoc)
@@ -47,7 +57,10 @@ public class DebugThread extends AbstractDebugElement implements IThread {
      */
     public IStackFrame[] getStackFrames() throws DebugException {
         if (hasStackFrames()) {
-            return ((DebugTarget) target).getStackFrames();
+            if (target.isCurrentThread(this)) {
+                frames = target.getStackFrames(this);
+            }
+            return frames;
         } else {
             return emptyStack;
         }
@@ -82,7 +95,7 @@ public class DebugThread extends AbstractDebugElement implements IThread {
      * @see org.eclipse.debug.core.model.IThread#getName()
      */
     public String getName() throws DebugException {
-        return "Thread[1]";
+        return name;
     }
 
     /* (non-Javadoc)

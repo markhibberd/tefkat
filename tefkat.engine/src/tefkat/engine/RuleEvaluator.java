@@ -53,6 +53,8 @@ import tefkat.model.internal.Util;
 
 public class RuleEvaluator {
 
+    private static final boolean ONE_TREE = true;
+
     private final Evaluator exprEval;
 
     final SourceResolver srcResolver;
@@ -130,6 +132,12 @@ public class RuleEvaluator {
         // This means we perform a depth-first traversal which will
         // make debugging more intuitive.
         unresolvedTrees.add(0, tree);
+        fireTreeAdded(tree);
+    }
+    
+    void removeUnresolvedTree(Tree tree) {
+        unresolvedTrees.remove(tree);
+        fireTreeRemoved(tree);
     }
     
     protected void addBreakpoint(Term t) {
@@ -200,36 +208,45 @@ public class RuleEvaluator {
     public void runIncrementalTransformation(Transformation transformation, boolean force)
             throws TefkatException {
 
-    	try {
-    		buildMaps(transformation);
+        try {
+            buildMaps(transformation);
             
-                fireInfo("Constructing stratification...");
+            fireInfo("Constructing stratification...");
             List[] strata = transformation.getStrata();
             fireInfo("... " + strata.length + " levels.");
-
+            
             for (int level = 0; level < strata.length; level++) {
                 fireInfo("Stratum " + level + " : " + strata[level]);
-
+                
                 // Currently, we use a single Tree per stratum which means
                 // that it's really a forest with one root Node per TRule
                 //
-                Tree tree = new Tree(transformation, null, _context, trackingExtent, false);
-                tree.setLevel(level);
-
-                addUnresolvedTree(tree);
-
+                Tree tree;
+                if (ONE_TREE) {
+                    tree = new Tree(transformation, null, _context, trackingExtent, false);
+                    tree.setLevel(level);
+                    
+                    addUnresolvedTree(tree);
+                }
+                
                 for (final Iterator itr = strata[level].iterator(); itr.hasNext(); ) {
                     Object scope = itr.next();
-
+                    
                     if (scope instanceof TRule) {
                         TRule tRule = (TRule) scope;
-
+                        
                         if (!tRule.isAbstract()) {
-                        	incrementalEvaluate(tRule, tree);
+                            if (!ONE_TREE) {
+                                tree = new Tree(transformation, null, _context, trackingExtent, false);
+                                tree.setLevel(level);
+                                
+                                addUnresolvedTree(tree);
+                            }
+                            incrementalEvaluate(tRule, tree);
                         }
                     }
                 }
-
+                
                 while (unresolvedTrees.size() > 0) {
                     try {
                         resolve();
@@ -239,36 +256,33 @@ public class RuleEvaluator {
                         for (int j = 0; j < unresolvedTrees.size(); j++) {
                             Tree cTree = (Tree) unresolvedTrees.get(j);
                             if (cTree.getLevel() < minLevel) {
-                            	done.clear();
-                            	done.add(cTree);
-                            	minLevel = cTree.getLevel();
+                                done.clear();
+                                done.add(cTree);
+                                minLevel = cTree.getLevel();
                             } else if (cTree.getLevel() == minLevel) {
-                            	done.add(cTree);
+                                done.add(cTree);
                             }
                         }
-
+                        
                         if (done.size() == 0) {
                             // I don't think we should ever reach here...
-                            // TODO check this out
-                            Tree cTree = (Tree) unresolvedTrees.remove(0);
-                            System.err.print(cTree + "\t" + cTree.getLevel() + " - FORCED");
-                            cTree.completed();
+                            throw new TefkatException("Internal Error.  Please file a bug report.");
                         } else {
-//                      	System.err.println("Min level: " + minLevel);
-                        	for (Iterator itr = done.iterator(); itr.hasNext(); ) {
-                        		Tree cTree = (Tree) itr.next();
-//                      		System.err.println(cTree + " " + cTree.isNegation() + "\t" + cTree.getLevel());
-                        		unresolvedTrees.remove(cTree);
-                        		cTree.completed();
-                        	}
+//                          System.err.println("Min level: " + minLevel);
+                            for (Iterator itr = done.iterator(); itr.hasNext(); ) {
+                                Tree cTree = (Tree) itr.next();
+//                              System.err.println(cTree + " " + cTree.isNegation() + "\t" + cTree.getLevel());
+                                removeUnresolvedTree(cTree);
+                                cTree.completed();
+                            }
                         }
 //                      System.err.println(" #trees = " + unresolvedTrees.size());
                     } catch (ResolutionException e) {
-                    	if (force) {
-                    		fireError(e);
-                    	} else {
-                    		throw e;
-                    	}
+                        if (force) {
+                            fireError(e);
+                        } else {
+                            throw e;
+                        }
                     }
                 }
 
@@ -366,7 +380,7 @@ public class RuleEvaluator {
 
 	    tree.createBranch(null, ruleContext, goal);
             
-            tree.addTreeListener(new TreeListener() {
+	    tree.addTreeListener(new TreeListener() {
 
                 public void solution(Binding answer) throws ResolutionException {
                 }
@@ -537,6 +551,32 @@ public class RuleEvaluator {
         for (Iterator itr = listeners.iterator(); itr.hasNext();) {
             try {
                 ((TefkatListener) itr.next()).resourceLoaded(res);
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void fireTreeAdded(Tree tree) {
+        for (Iterator itr = listeners.iterator(); itr.hasNext();) {
+            try {
+                Object listener = itr.next();
+                if (listener instanceof TefkatListener2) {
+                    ((TefkatListener2) listener).treeAdded(tree);
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void fireTreeRemoved(Tree tree) {
+        for (Iterator itr = listeners.iterator(); itr.hasNext();) {
+            try {
+                Object listener = itr.next();
+                if (listener instanceof TefkatListener2) {
+                    ((TefkatListener2) listener).treeRemoved(tree);
+                }
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -749,7 +789,7 @@ public class RuleEvaluator {
                 }
 
 		if (tree.isCompleted()) {
-		    unresolvedTrees.remove(tree);
+		    removeUnresolvedTree(tree);
 		}
 
                 fireExitTree(tree);
