@@ -348,7 +348,7 @@ import antlr.debug.MessageListener;
 
 import tefkat.data.*;
 import tefkat.model.*;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 }
 
 /**
@@ -493,10 +493,10 @@ options {
         try {
             resource = resourceSet.getResource(uri, true);//loadOnDemand);
         } catch (final WrappedException e) {
-            throw new antlr.SemanticException("Unable to load model from URI: " + uriString) {
-                    {
-                        initCause(e);
-                    }
+        	throw new antlr.SemanticException("Unable to load model from URI: " + uriString) {
+        		{
+	                initCause(e);
+        		}
             };
         }
         if (null == resource) {
@@ -512,10 +512,10 @@ options {
 //                contents.prune();
 //            }
 //        }
-//        Set resources = Util.findAllResources(packages);
+//        Set resources = ModelUtils.findAllResources(packages);
         List resources = new ArrayList(1);
         resources.add(resource);
-        Util.buildNameMaps(resources, trackingMap);
+        ModelUtils.buildNameMaps(resources, trackingMap);
     }
     
     /**
@@ -1341,7 +1341,7 @@ simpleTypeLiteral returns [EClassifier type = null] {
 }
         :       id: ID {
                         String name = id.getText();
-                            type = Util.findClassifierByName(trackingMap, name);
+                            type = ModelUtils.findClassifierByName(trackingMap, name);
                         if (null == type) {
                                 throw new antlr.SemanticException("Cannot resolve type: " + name, getFilename(), getMarkLine(), getMarkColumn());
                         }
@@ -1349,7 +1349,7 @@ simpleTypeLiteral returns [EClassifier type = null] {
         |
                 fqid: FQID {
                             String name = fqid.getText();
-                            type = Util.findClassifierByName(trackingMap, name);
+                            type = ModelUtils.findClassifierByName(trackingMap, name);
                         if (null == type) {
                                throw new antlr.SemanticException("Cannot resolve type: " + name, getFilename(), getMarkLine(), getMarkColumn());
                         }
@@ -1956,7 +1956,7 @@ trackingUse[VarScope scope, List terms] returns [TrackingUse use = null] {
                 "LINKING" tname = tname "WITH" {
                         use = TefkatFactory.eINSTANCE.createTrackingUse();
                         use.setTrackingName(tname);
-                        EClassifier tracking = Util.findClassifierByName(trackingMap, tname);
+                        EClassifier tracking = ModelUtils.findClassifierByName(trackingMap, tname);
                         if (null == tracking) {
                             reportWarning("Undefined tracking class: " + tname, getMarkLine(), getMarkColumn());
                         }
@@ -2135,7 +2135,7 @@ links[VarScope scope, List terms] returns [TrackingUse use = null] {
         :       tname = tname "LINKS" {
                         use = TefkatFactory.eINSTANCE.createTrackingUse();
                         use.setTrackingName(tname);
-                        EClassifier tracking = Util.findClassifierByName(trackingMap, tname);
+                        EClassifier tracking = ModelUtils.findClassifierByName(trackingMap, tname);
                         if (null == tracking) {
                             reportWarning("Undefined tracking class: " + tname, getMarkLine(), getMarkColumn());
                         }

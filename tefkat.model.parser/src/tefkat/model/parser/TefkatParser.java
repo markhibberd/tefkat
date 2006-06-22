@@ -57,7 +57,7 @@ import antlr.debug.MessageListener;
 
 import tefkat.data.*;
 import tefkat.model.*;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 
 /**
  * Parser for an SQL-like QVT language.
@@ -199,10 +199,10 @@ public class TefkatParser extends antlr.LLkParser       implements TefkatLexerTo
         try {
             resource = resourceSet.getResource(uri, true);//loadOnDemand);
         } catch (final WrappedException e) {
-            throw new antlr.SemanticException("Unable to load model from URI: " + uriString) {
-                    {
-                        initCause(e);
-                    }
+        	throw new antlr.SemanticException("Unable to load model from URI: " + uriString) {
+        		{
+	                initCause(e);
+        		}
             };
         }
         if (null == resource) {
@@ -218,10 +218,10 @@ public class TefkatParser extends antlr.LLkParser       implements TefkatLexerTo
 //                contents.prune();
 //            }
 //        }
-//        Set resources = Util.findAllResources(packages);
+//        Set resources = ModelUtils.findAllResources(packages);
         List resources = new ArrayList(1);
         resources.add(resource);
-        Util.buildNameMaps(resources, trackingMap);
+        ModelUtils.buildNameMaps(resources, trackingMap);
     }
     
     /**
@@ -512,7 +512,7 @@ public TefkatParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			_loop83:
+			_loop2703:
 			do {
 				if ((_tokenSet_0.member(LA(1)))) {
 					body(t, srcExtent, tgtExtent);
@@ -531,7 +531,7 @@ public TefkatParser(ParserSharedInputState state) {
 					}
 				}
 				else {
-					break _loop83;
+					break _loop2703;
 				}
 				
 			} while (true);
@@ -681,7 +681,7 @@ public TefkatParser(ParserSharedInputState state) {
 			
 		}
 		{
-		_loop234:
+		_loop2854:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
@@ -693,7 +693,7 @@ public TefkatParser(ParserSharedInputState state) {
 				}
 			}
 			else {
-				break _loop234;
+				break _loop2854;
 			}
 			
 		} while (true);
@@ -833,7 +833,7 @@ public TefkatParser(ParserSharedInputState state) {
 		{
 			match(LBRACE);
 			{
-			_loop91:
+			_loop2711:
 			do {
 				if ((LA(1)==ID||LA(1)==FQID||LA(1)==LANGLE)) {
 					type=simpleTypeLiteral();
@@ -857,7 +857,7 @@ public TefkatParser(ParserSharedInputState state) {
 					}
 				}
 				else {
-					break _loop91;
+					break _loop2711;
 				}
 				
 			} while (true);
@@ -1215,13 +1215,13 @@ public TefkatParser(ParserSharedInputState state) {
 		}
 		}
 		{
-		_loop112:
+		_loop2732:
 		do {
 			if ((LA(1)==LITERAL_EXTENDS||LA(1)==LITERAL_OVERRIDES||LA(1)==LITERAL_SUPERSEDES)) {
 				relatedRules(trule);
 			}
 			else {
-				break _loop112;
+				break _loop2732;
 			}
 			
 		} while (true);
@@ -1353,7 +1353,7 @@ public TefkatParser(ParserSharedInputState state) {
 			if ( inputState.guessing==0 ) {
 				
 				String name = id.getText();
-				type = Util.findClassifierByName(trackingMap, name);
+				type = ModelUtils.findClassifierByName(trackingMap, name);
 				if (null == type) {
 				throw new antlr.SemanticException("Cannot resolve type: " + name, getFilename(), getMarkLine(), getMarkColumn());
 				}
@@ -1368,7 +1368,7 @@ public TefkatParser(ParserSharedInputState state) {
 			if ( inputState.guessing==0 ) {
 				
 				String name = fqid.getText();
-				type = Util.findClassifierByName(trackingMap, name);
+				type = ModelUtils.findClassifierByName(trackingMap, name);
 				if (null == type) {
 				throw new antlr.SemanticException("Cannot resolve type: " + name, getFilename(), getMarkLine(), getMarkColumn());
 				}
@@ -1402,14 +1402,14 @@ public TefkatParser(ParserSharedInputState state) {
 		
 		map_pair(dataMap);
 		{
-		_loop98:
+		_loop2718:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
 				map_pair(dataMap);
 			}
 			else {
-				break _loop98;
+				break _loop2718;
 			}
 			
 		} while (true);
@@ -1603,7 +1603,7 @@ public TefkatParser(ParserSharedInputState state) {
 		}
 		}
 		{
-		_loop132:
+		_loop2752:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
@@ -1649,7 +1649,7 @@ public TefkatParser(ParserSharedInputState state) {
 				}
 			}
 			else {
-				break _loop132;
+				break _loop2752;
 			}
 			
 		} while (true);
@@ -1674,7 +1674,7 @@ public TefkatParser(ParserSharedInputState state) {
 			
 		}
 		{
-		_loop144:
+		_loop2764:
 		do {
 			if ((LA(1)==LITERAL_AND)) {
 				match(LITERAL_AND);
@@ -1688,7 +1688,7 @@ public TefkatParser(ParserSharedInputState state) {
 				}
 			}
 			else {
-				break _loop144;
+				break _loop2764;
 			}
 			
 		} while (true);
@@ -1826,14 +1826,14 @@ public TefkatParser(ParserSharedInputState state) {
 		}
 		related(trule, xflag, sflag);
 		{
-		_loop123:
+		_loop2743:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
 				related(trule, xflag, sflag);
 			}
 			else {
-				break _loop123;
+				break _loop2743;
 			}
 			
 		} while (true);
@@ -1847,14 +1847,14 @@ public TefkatParser(ParserSharedInputState state) {
 		
 		make(scope, tgtExtent, tgts, params);
 		{
-		_loop176:
+		_loop2796:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
 				make(scope, tgtExtent, tgts, params);
 			}
 			else {
-				break _loop176;
+				break _loop2796;
 			}
 			
 		} while (true);
@@ -1868,14 +1868,14 @@ public TefkatParser(ParserSharedInputState state) {
 		
 		setting(scope, tgtExtent, tgts, params);
 		{
-		_loop188:
+		_loop2808:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
 				setting(scope, tgtExtent, tgts, params);
 			}
 			else {
-				break _loop188;
+				break _loop2808;
 			}
 			
 		} while (true);
@@ -1899,7 +1899,7 @@ public TefkatParser(ParserSharedInputState state) {
 			
 		}
 		{
-		_loop196:
+		_loop2816:
 		do {
 			if ((LA(1)==LITERAL_LINKING)) {
 				use=trackingUse(scope, terms);
@@ -1912,7 +1912,7 @@ public TefkatParser(ParserSharedInputState state) {
 				}
 			}
 			else {
-				break _loop196;
+				break _loop2816;
 			}
 			
 		} while (true);
@@ -1947,7 +1947,7 @@ public TefkatParser(ParserSharedInputState state) {
 				
 			}
 			{
-			_loop127:
+			_loop2747:
 			do {
 				if ((LA(1)==COMMA)) {
 					match(COMMA);
@@ -1959,7 +1959,7 @@ public TefkatParser(ParserSharedInputState state) {
 					}
 				}
 				else {
-					break _loop127;
+					break _loop2747;
 				}
 				
 			} while (true);
@@ -2137,16 +2137,16 @@ public TefkatParser(ParserSharedInputState state) {
 		
 		match(LBRACE);
 		{
-		_loop251:
+		_loop2871:
 		do {
 			if ((LA(1)==ID||LA(1)==DOLLAR)) {
 				feature=feature(scope, terms);
 				match(COLON);
 				{
-				boolean synPredMatched250 = false;
+				boolean synPredMatched2870 = false;
 				if (((LA(1)==LSQUARE))) {
-					int _m250 = mark();
-					synPredMatched250 = true;
+					int _m2870 = mark();
+					synPredMatched2870 = true;
 					inputState.guessing++;
 					try {
 						{
@@ -2154,12 +2154,12 @@ public TefkatParser(ParserSharedInputState state) {
 						}
 					}
 					catch (RecognitionException pe) {
-						synPredMatched250 = false;
+						synPredMatched2870 = false;
 					}
-					rewind(_m250);
+					rewind(_m2870);
 inputState.guessing--;
 				}
-				if ( synPredMatched250 ) {
+				if ( synPredMatched2870 ) {
 					match(LSQUARE);
 					featureVals(scope, var, isExactly, terms, params, feature);
 					match(RSQUARE);
@@ -2175,7 +2175,7 @@ inputState.guessing--;
 				match(SEMI);
 			}
 			else {
-				break _loop251;
+				break _loop2871;
 			}
 			
 		} while (true);
@@ -2325,10 +2325,10 @@ inputState.guessing--;
 				match(RBRACK);
 			}
 			else {
-				boolean synPredMatched215 = false;
+				boolean synPredMatched2835 = false;
 				if (((_tokenSet_3.member(LA(1))))) {
-					int _m215 = mark();
-					synPredMatched215 = true;
+					int _m2835 = mark();
+					synPredMatched2835 = true;
 					inputState.guessing++;
 					try {
 						{
@@ -2374,19 +2374,19 @@ inputState.guessing--;
 						}
 					}
 					catch (RecognitionException pe) {
-						synPredMatched215 = false;
+						synPredMatched2835 = false;
 					}
-					rewind(_m215);
+					rewind(_m2835);
 inputState.guessing--;
 				}
-				if ( synPredMatched215 ) {
+				if ( synPredMatched2835 ) {
 					expr=path(scope, terms);
 				}
 				else {
-					boolean synPredMatched217 = false;
+					boolean synPredMatched2837 = false;
 					if (((LA(1)==ID))) {
-						int _m217 = mark();
-						synPredMatched217 = true;
+						int _m2837 = mark();
+						synPredMatched2837 = true;
 						inputState.guessing++;
 						try {
 							{
@@ -2395,12 +2395,12 @@ inputState.guessing--;
 							}
 						}
 						catch (RecognitionException pe) {
-							synPredMatched217 = false;
+							synPredMatched2837 = false;
 						}
-						rewind(_m217);
+						rewind(_m2837);
 inputState.guessing--;
 					}
-					if ( synPredMatched217 ) {
+					if ( synPredMatched2837 ) {
 						expr=functionCall(scope, terms);
 					}
 					else if ((LA(1)==UNDERSCORE||LA(1)==ID||LA(1)==ANON_ID)) {
@@ -2476,7 +2476,7 @@ inputState.guessing--;
 		}
 		term=relation(scope, oTerms);
 		{
-		_loop147:
+		_loop2767:
 		do {
 			if ((LA(1)==LITERAL_OR)) {
 				match(LITERAL_OR);
@@ -2517,7 +2517,7 @@ inputState.guessing--;
 				}
 			}
 			else {
-				break _loop147;
+				break _loop2767;
 			}
 			
 		} while (true);
@@ -2656,10 +2656,10 @@ inputState.guessing--;
 					match(RBRACK);
 				}
 				else {
-					boolean synPredMatched162 = false;
+					boolean synPredMatched2782 = false;
 					if (((_tokenSet_4.member(LA(1))))) {
-						int _m162 = mark();
-						synPredMatched162 = true;
+						int _m2782 = mark();
+						synPredMatched2782 = true;
 						inputState.guessing++;
 						try {
 							{
@@ -2740,12 +2740,12 @@ inputState.guessing--;
 							}
 						}
 						catch (RecognitionException pe) {
-							synPredMatched162 = false;
+							synPredMatched2782 = false;
 						}
-						rewind(_m162);
+						rewind(_m2782);
 inputState.guessing--;
 					}
-					if ( synPredMatched162 ) {
+					if ( synPredMatched2782 ) {
 						term=range(scope, null, false, terms);
 						if ( inputState.guessing==0 ) {
 							
@@ -2786,10 +2786,10 @@ inputState.guessing--;
 						}
 					}
 					else {
-						boolean synPredMatched166 = false;
+						boolean synPredMatched2786 = false;
 						if (((LA(1)==ID))) {
-							int _m166 = mark();
-							synPredMatched166 = true;
+							int _m2786 = mark();
+							synPredMatched2786 = true;
 							inputState.guessing++;
 							try {
 								{
@@ -2798,19 +2798,19 @@ inputState.guessing--;
 								}
 							}
 							catch (RecognitionException pe) {
-								synPredMatched166 = false;
+								synPredMatched2786 = false;
 							}
-							rewind(_m166);
+							rewind(_m2786);
 inputState.guessing--;
 						}
-						if ( synPredMatched166 ) {
+						if ( synPredMatched2786 ) {
 							term=patternUse(scope, terms);
 						}
 						else {
-							boolean synPredMatched168 = false;
+							boolean synPredMatched2788 = false;
 							if (((LA(1)==ID))) {
-								int _m168 = mark();
-								synPredMatched168 = true;
+								int _m2788 = mark();
+								synPredMatched2788 = true;
 								inputState.guessing++;
 								try {
 									{
@@ -2819,12 +2819,12 @@ inputState.guessing--;
 									}
 								}
 								catch (RecognitionException pe) {
-									synPredMatched168 = false;
+									synPredMatched2788 = false;
 								}
-								rewind(_m168);
+								rewind(_m2788);
 inputState.guessing--;
 							}
-							if ( synPredMatched168 ) {
+							if ( synPredMatched2788 ) {
 								term=links(scope, terms);
 							}
 							else if ((_tokenSet_5.member(LA(1)))) {
@@ -3277,7 +3277,7 @@ inputState.guessing--;
 			
 			use = TefkatFactory.eINSTANCE.createTrackingUse();
 			use.setTrackingName(tname);
-			EClassifier tracking = Util.findClassifierByName(trackingMap, tname);
+			EClassifier tracking = ModelUtils.findClassifierByName(trackingMap, tname);
 			if (null == tracking) {
 			reportWarning("Undefined tracking class: " + tname, getMarkLine(), getMarkColumn());
 			}
@@ -3410,8 +3410,8 @@ inputState.guessing--;
 		}
 		}
 		{
-		int _cnt229=0;
-		_loop229:
+		int _cnt2849=0;
+		_loop2849:
 		do {
 			if ((LA(1)==PERIOD||LA(1)==ARROW)) {
 				{
@@ -3494,10 +3494,10 @@ inputState.guessing--;
 				}
 			}
 			else {
-				if ( _cnt229>=1 ) { break _loop229; } else {throw new NoViableAltException(LT(1), getFilename());}
+				if ( _cnt2849>=1 ) { break _loop2849; } else {throw new NoViableAltException(LT(1), getFilename());}
 			}
 			
-			_cnt229++;
+			_cnt2849++;
 		} while (true);
 		}
 		return expr;
@@ -3551,10 +3551,10 @@ inputState.guessing--;
 	) throws RecognitionException, TokenStreamException {
 		
 		
-		boolean synPredMatched179 = false;
+		boolean synPredMatched2799 = false;
 		if (((LA(1)==ID))) {
-			int _m179 = mark();
-			synPredMatched179 = true;
+			int _m2799 = mark();
+			synPredMatched2799 = true;
 			inputState.guessing++;
 			try {
 				{
@@ -3563,12 +3563,12 @@ inputState.guessing--;
 				}
 			}
 			catch (RecognitionException pe) {
-				synPredMatched179 = false;
+				synPredMatched2799 = false;
 			}
-			rewind(_m179);
+			rewind(_m2799);
 inputState.guessing--;
 		}
-		if ( synPredMatched179 ) {
+		if ( synPredMatched2799 ) {
 			templateUse(scope, tgtExtent, tgts);
 		}
 		else if ((_tokenSet_4.member(LA(1)))) {
@@ -3995,7 +3995,7 @@ inputState.guessing--;
 			
 			use = TefkatFactory.eINSTANCE.createTrackingUse();
 			use.setTrackingName(tname);
-			EClassifier tracking = Util.findClassifierByName(trackingMap, tname);
+			EClassifier tracking = ModelUtils.findClassifierByName(trackingMap, tname);
 			if (null == tracking) {
 			reportWarning("Undefined tracking class: " + tname, getMarkLine(), getMarkColumn());
 			}
@@ -4024,14 +4024,14 @@ inputState.guessing--;
 		
 		featureMap(scope, featureMap, terms);
 		{
-		_loop200:
+		_loop2820:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
 				featureMap(scope, featureMap, terms);
 			}
 			else {
-				break _loop200;
+				break _loop2820;
 			}
 			
 		} while (true);
@@ -4091,7 +4091,7 @@ inputState.guessing--;
 			
 		}
 		{
-		_loop205:
+		_loop2825:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
@@ -4105,7 +4105,7 @@ inputState.guessing--;
 				}
 			}
 			else {
-				break _loop205;
+				break _loop2825;
 			}
 			
 		} while (true);
@@ -4460,14 +4460,14 @@ inputState.guessing--;
 		
 		featureVal(scope, var, isExactly, terms, params, feature);
 		{
-		_loop254:
+		_loop2874:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
 				featureVal(scope, var, isExactly, terms, params, feature.copy());
 			}
 			else {
-				break _loop254;
+				break _loop2874;
 			}
 			
 		} while (true);
@@ -4485,10 +4485,10 @@ inputState.guessing--;
 		
 		
 		{
-		boolean synPredMatched261 = false;
+		boolean synPredMatched2881 = false;
 		if (((_tokenSet_4.member(LA(1))))) {
-			int _m261 = mark();
-			synPredMatched261 = true;
+			int _m2881 = mark();
+			synPredMatched2881 = true;
 			inputState.guessing++;
 			try {
 				{
@@ -4569,12 +4569,12 @@ inputState.guessing--;
 				}
 			}
 			catch (RecognitionException pe) {
-				synPredMatched261 = false;
+				synPredMatched2881 = false;
 			}
-			rewind(_m261);
+			rewind(_m2881);
 inputState.guessing--;
 		}
-		if ( synPredMatched261 ) {
+		if ( synPredMatched2881 ) {
 			objVar=makeObject(scope, null, isExactly, terms, params);
 			if ( inputState.guessing==0 ) {
 				
