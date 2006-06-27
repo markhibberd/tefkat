@@ -140,6 +140,8 @@ public class Stratifier extends TefkatSwitch {
         if (negated) {
             map = neg_readers;
         } else {
+            // FIXME - need to handle TEMPLATEs specially -- "construct"
+            // transitive call patterns to propagate direct dependencies.
             map = readers;
         }
         store(map, key);
