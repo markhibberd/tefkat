@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import tefkat.model.*;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 
 
 import java.math.BigDecimal;
@@ -48,43 +48,6 @@ import java.util.Map;
  *  @author michael lawley, Aug 2003 -- modified for QVT model
  */
 class SourceResolver extends AbstractResolver {
-    
-    private static final class NegatedResultListener implements TreeListener {
-        private final Collection goal;
-
-        private final Tree tree;
-
-        private final Tree tree2;
-
-        private final Node node;
-
-        private final Term literal;
-
-        private NegatedResultListener(Collection goal, Tree tree, Tree tree2, Node node, Term literal) {
-            super();
-            this.goal = goal;
-            this.tree = tree;
-            this.tree2 = tree2;
-            this.node = node;
-            this.literal = literal;
-        }
-
-        public void solution(Binding answer) {
-        }
-
-        public void completed(Tree theTree) {
-            if (theTree.isSuccess()) {
-            	tree2.removeTreeListener(this);
-            	tree.failure(node);
-            } else {
-            	// Negation tree finitely failed, regard as true.
-            	//
-            	List newGoal = new ArrayList(goal);
-            	newGoal.remove(literal);
-            	tree.createBranch(node, null, newGoal);
-            }
-        }
-    }
 
     private static final class HandleNewTrackingInstance implements TrackingCallback {
         private final Tree tree;
@@ -290,7 +253,7 @@ class SourceResolver extends AbstractResolver {
         String className;
         if (typeObj instanceof EClassifier) {
             theClass = (EClassifier) typeObj;
-            className = Util.getFullyQualifiedName(theClass);
+            className = ModelUtils.getFullyQualifiedName(theClass);
         } else if (typeObj instanceof WrappedVar) {
             throw new ResolutionException(
                     node,
@@ -298,7 +261,7 @@ class SourceResolver extends AbstractResolver {
         } else {
             className = String.valueOf(typeObj);
             if (!"_".equals(className)) {
-                theClass = Util.findClassifierByName(getNameMap(), className);
+                theClass = ModelUtils.findClassifierByName(getNameMap(), className);
                 if (null == theClass) {
                     ruleEval.fireWarning("Could not find class named: " + className);
                     return false;
@@ -628,30 +591,52 @@ class SourceResolver extends AbstractResolver {
      * @return
      * @throws ResolutionException
      */
-    private void evalNegatedGoal(final Tree tree, final Node node, final Collection goal, final Term literal, Collection negGoal) throws ResolutionException {
+    private void evalNegatedGoal(final Tree tree, final Node node, final Collection goal, final NotTerm literal, Collection negGoal) throws ResolutionException {
         Binding context = new Binding(node.getBindings());
-        // cannot pass node as parent here or delayed terms will get pushed into the "NOT"
+        // cannot pass node as context here or delayed terms will get pushed into the "NOT"
         // leading to possible spurious flounderings -- see also resolveIfTerm 
         Node newRoot = new Node(negGoal, context);
-        final Tree newTree = new Tree(tree.getTransformation(), newRoot, tree.getContext(), tree.getTrackingExtent(), true);
+        final Tree newTree = new Tree(tree.getTransformation(), tree, node, newRoot, tree.getContext(), tree.getTrackingExtent(), true);
         newTree.setLevel(tree.getLevel() - 1);
 
         if (ruleEval.INCREMENTAL) {
-            newTree.addTreeListener(new NegatedResultListener(goal, tree, newTree, node, literal));
+            newTree.addTreeListener(new TreeListener() {
+
+                public void solution(Binding answer) {
+                }
+
+                public void completed(Tree theTree) {
+                    if (theTree.isSuccess()) {
+                    	newTree.removeTreeListener(this);
+                    	tree.failure(node);
+                    } else {
+                    	// Negation tree finitely failed, regard as true.
+                    	//
+                    	List newGoal = new ArrayList(goal);
+                    	newGoal.remove(literal);
+                    	tree.createBranch(node, null, newGoal);
+                    }
+                }
+
+                public void floundered(Tree theTree) {
+                }
+                
+            });
+
             ruleEval.addUnresolvedTree(newTree);
         } else {
-        	// Any success nodes in the negation tree?
-        	//
-        	ruleEval.resolveNode(newTree);
-        	if (newTree.isSuccess()) {
-        		tree.failure(node);
-        	} else {
-        		// Negation tree finitely failed, regard as true.
-        		//
-        		List newGoal = new ArrayList(goal);
-        		newGoal.remove(literal);
-        		tree.createBranch(node, null, newGoal);
-        	}
+            // Any success nodes in the negation tree?
+            //
+            ruleEval.resolveNode(newTree);
+            if (newTree.isSuccess()) {
+                tree.failure(node);
+            } else {
+                // Negation tree finitely failed, regard as true.
+                //
+                List newGoal = new ArrayList(goal);
+                newGoal.remove(literal);
+                tree.createBranch(node, null, newGoal);
+            }
         }
         
     }
@@ -710,7 +695,7 @@ class SourceResolver extends AbstractResolver {
                     featureRef = ((EStructuralFeature) featureRef).getName();
                 }
                 
-                Object values = exprEval.fetchFeature(node, (String) featureRef, instance);
+                Object values = exprEval.fetchFeature(node.getBindings(), (String) featureRef, instance);
                 if (!(values instanceof List)) {
                     throw new ResolutionException(node, "The feature " + featureRef + " of " + instance + " did not return an ordered collection.");
                 }

@@ -41,12 +41,12 @@ import tefkat.model.TrackingUse;
 import tefkat.model.Transformation;
 
 /**
+ * Some generic functions for interacting with Tefkat transformations and models.
+ * 
  * @author lawley
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
  */
-public abstract class Util {
+public abstract class ModelUtils {
     
     public final static String getFullyQualifiedName(Class klass) {
         return klass.getName();
@@ -155,7 +155,7 @@ public abstract class Util {
             if (obj instanceof EClassifier) {
                 EClassifier eClassifier = (EClassifier) obj;
                 
-                String fqName = Util.getFullyQualifiedName(eClassifier);
+                String fqName = ModelUtils.getFullyQualifiedName(eClassifier);
                 addToMap(nameMap, fqName, eClassifier);
                 
                 String name = eClassifier.getName();

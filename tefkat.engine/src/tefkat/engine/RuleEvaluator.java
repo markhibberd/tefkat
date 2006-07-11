@@ -48,7 +48,7 @@ import tefkat.model.TefkatException;
 import tefkat.model.TefkatFactory;
 import tefkat.model.Term;
 import tefkat.model.Transformation;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 
 
 public class RuleEvaluator {
@@ -110,7 +110,7 @@ public class RuleEvaluator {
 
         // Get all the transitively referenced Resources
         allResources = findAllResources(allResources);
-        nameMap = Util.buildNameMaps(allResources);
+        nameMap = ModelUtils.buildNameMaps(allResources);
 
         exprEval = new Evaluator(this);
         srcResolver = new SourceResolver(this, listeners);
@@ -223,7 +223,7 @@ public class RuleEvaluator {
                 //
                 Tree tree;
                 if (ONE_TREE) {
-                    tree = new Tree(transformation, null, _context, trackingExtent, false);
+                    tree = new Tree(transformation, null, null, null, _context, trackingExtent, false);
                     tree.setLevel(level);
                     
                     addUnresolvedTree(tree);
@@ -237,7 +237,7 @@ public class RuleEvaluator {
                         
                         if (!tRule.isAbstract()) {
                             if (!ONE_TREE) {
-                                tree = new Tree(transformation, null, _context, trackingExtent, false);
+                                tree = new Tree(transformation, null, null, null, _context, trackingExtent, false);
                                 tree.setLevel(level);
                                 
                                 addUnresolvedTree(tree);
@@ -385,14 +385,18 @@ public class RuleEvaluator {
                 public void solution(Binding answer) throws ResolutionException {
                 }
 
-                public void completed(Tree tree) {
-                    if (tree.isSuccess()) {
+                public void completed(Tree theTree) {
+                    if (theTree.isSuccess()) {
                         fireInfo("TRule: " + trule.getName() + " completed.");
                     } else {
                         fireInfo("TRule: " + trule.getName() + " matched nothing.");
                     }
                 }
 
+                public void floundered(Tree theTree) {
+                    // floundering of top-level tree is handled in the
+                    // resolve/resolveNode loop
+                }
             
             });
         }
@@ -677,7 +681,7 @@ public class RuleEvaluator {
             //            System.out.println(trule.getName() + ": C " + ruleContext);
 
             Node root = new Node(goal, ruleContext);
-            Tree tree = new Tree(trule.getTransformation(), root, context, trackingExtent, false);
+            Tree tree = new Tree(trule.getTransformation(), null, null, root, context, trackingExtent, false);
 
             resolveNode(tree);
 
@@ -730,7 +734,25 @@ public class RuleEvaluator {
 
                     if (null == node.getDelayed() || node.getDelayed().isEmpty()) {
                         tree.success(node);
+                    } else if (tree.getParentTree() != null) {
+                        // Trees created for IFs or PATTERNs/TEMPLATEs should
+                        // be delayed -- only Trees for TRules should flounder
+                        
+                        // Don't continue with this tree - it's obsolete
+                        unresolvedTrees.remove(tree);
+                        // Tell any listeners so they can clean up
+                        tree.floundered();
+                        
+                        // Delay the node that originally created this tree
+                        Tree parentTree = tree.getParentTree();
+                        Node parentNode = tree.getParentNode();
+                        
+                        parentNode.delay();
+                        parentTree.addUnresolvedNode(parentNode);
+                        fireDelayTerm(parentNode);
                     } else {
+                        // FIXME - Trees created for IFs or PATTERNs/TEMPLATEs should
+                        // be delayed -- only Trees for TRules should flounder
                         throw new ResolutionException(node,
                                 "Floundered - all terms are delayed: "
                                 + node.getDelayed() + "\t"
@@ -1394,7 +1416,7 @@ public class RuleEvaluator {
                 final Map.Entry iEntry = (Map.Entry) iItr.next();
                 final EObject inst = (EObject) iEntry.getKey();
                 final PartialOrder partialOrder = (PartialOrder) iEntry.getValue();
-                final EStructuralFeature feature = Util.getFeature(inst.eClass(), feat);
+                final EStructuralFeature feature = ModelUtils.getFeature(inst.eClass(), feat);
                 final Object val = inst.eGet(feature);
                 
                 if (!(val instanceof List)) {

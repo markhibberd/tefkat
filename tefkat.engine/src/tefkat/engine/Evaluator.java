@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 
 import tefkat.data.DataMap;
 import tefkat.model.*;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 
 
 /**
@@ -47,6 +47,8 @@ import tefkat.model.internal.Util;
  *
  */
 class Evaluator {
+
+    private static final String NULL_TYPE = "null";
 
     private static final class IdentityFunction implements Function {
         final public Object call(Object[] params) {
@@ -249,73 +251,58 @@ class Evaluator {
     }
 
     private void initFunctionMap() {
-        funcMap.put("identity", new IdentityFunction());
-
-        funcMap.put("collect", new CollectFunction());
+        addFunction("identity", new IdentityFunction());
+        addFunction("collect", new CollectFunction());
+        addFunction("append", new AppendFunction());
+        addFunction("elementAt", new ElementAt());
+        addFunction("subList", new SubList());
+        addFunction("join", new JoinStrings());
+        addFunction("split", new SplitString());
+        addFunction("stripSuffix", new StripSuffix());
+        addFunction("int", new CastInt());
+        addFunction("long", new CastLong());
+        addFunction("float", new CastFloat());
+        addFunction("double", new CastDouble());
+        addFunction("+", new Add());
+        addFunction("-", new Subtract());
+        addFunction("*", new Multiply());
+        addFunction("/", new Divide());
         
-        funcMap.put("funmap", new Function() {
+        addFunction("funmap", new Function() {
             public Object call(Object[] params) throws ResolutionException {
-                final Node node = (Node) funcMap.get(CONTEXT_KEY);
+                final Binding context = (Binding) funcMap.get(CONTEXT_KEY);
                 final Collection list = (Collection) params[0];
                 final String feature = (String) params[1];
                 final List result = new ArrayList();
                 
                 for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
                     Object obj = itr.next();
-                    result.add(fetchFeature(node, feature, obj));
+                    result.add(fetchFeature(context, feature, obj));
                 }
 
                 return result;
             }
         });
-
-        funcMap.put("append", new AppendFunction());
-        
-        funcMap.put("elementAt", new ElementAt());
-        
-        funcMap.put("subList", new SubList());
-        
-        funcMap.put("join", new JoinStrings());
-        
-        funcMap.put("split", new SplitString());
-        
-        funcMap.put("stripSuffix", new StripSuffix());
-
-        funcMap.put("int", new CastInt());
-
-        funcMap.put("long", new CastLong());
-
-        funcMap.put("float", new CastFloat());
-
-        funcMap.put("double", new CastDouble());
-
-        funcMap.put("+", new Add());
-
-        funcMap.put("-", new Subtract());
-
-        funcMap.put("*", new Multiply());
-
-        funcMap.put("/", new Divide());
         
         // FIXME rename this function to dataMap or something (see tefkat.g)
-        funcMap.put("map", new Function() {
-            final public Object call(Object[] params) {
+        addFunction("map", new Function() {
+            final public Object call(Object[] params) throws ResolutionException {
                 DataMap dataMap = (DataMap) params[0];
                 String key = String.valueOf(params[1]);
                 Object result = dataMap.getValue().get(key);
                 if (result instanceof Expression) {
-                    Node node = (Node) funcMap.get(CONTEXT_KEY);
+                    Binding context = (Binding) funcMap.get(CONTEXT_KEY);
                     try {
-                        List vals = eval(node, (Expression) result);
+                        List vals = eval(context, (Expression) result);
                         if (vals.size() == 1) {
                             result = vals.get(0);
                         } else {
                             result = vals;
                         }
                     } catch (ResolutionException e) {
-                        throw new RuntimeException("Map expression '" + result + "' evaluation failed", e);
+                        throw new ResolutionException(null, "Map expression '" + result + "' evaluation failed", e);
                     } catch (NotGroundException e) {
-                        throw new RuntimeException("Map expression '" + result + "' should not contain variable(s)", e);
+                        throw new ResolutionException(null, "Map expression '" + result + "' should not contain variable(s)", e);
                     }
                 }
                 return result;
@@ -343,7 +330,24 @@ class Evaluator {
         
         try {
             ExtentUtil.highlightNode(expr, ExtentUtil.TERM_ENTER);
-            List result = doEval(node, expr);
+            List result = doEval(node.getBindings(), expr);
+            ExtentUtil.highlightNode(expr, ExtentUtil.TERM_EXIT);
+            return result;
+        } catch (ResolutionException e) {
+            e.setNode(node);
+            throw e;
+        } catch (NotGroundException e) {
+            ExtentUtil.highlightNode(expr, ExtentUtil.TERM_DELAY);
+            throw e;
+        }
+    }
+
+    private List eval(Binding context, Expression expr)
+    throws ResolutionException, NotGroundException {
+    
+        try {
+            ExtentUtil.highlightNode(expr, ExtentUtil.TERM_ENTER);
+            List result = doEval(context, expr);
             ExtentUtil.highlightNode(expr, ExtentUtil.TERM_EXIT);
             return result;
         } catch (NotGroundException e) {
@@ -352,7 +356,7 @@ class Evaluator {
         }
     }
     
-    List expand(WrappedVar wVar, Expression expr) throws NotGroundException {
+    List expand(WrappedVar wVar) throws NotGroundException {
         if (null == wVar.getExtent()) {
             throw new NotGroundException("Unsupported mode: unbound extent for" + wVar);
         }
@@ -363,7 +367,7 @@ class Evaluator {
         return wVar.getExtent().getObjectsByClass(wVar.getType(), wVar.isExact());
     }
     
-    private List doEval(Node node, Expression expr)
+    private List doEval(Binding context, Expression expr)
         throws ResolutionException, NotGroundException {
 
         List values;
@@ -372,40 +376,42 @@ class Evaluator {
             values = new ArrayList();
             values.add(evalSimpleExpr(expr));
         } else if (expr instanceof EnumConstant) {
-            values = evalEnumExpr(node, expr);
+            values = evalEnumExpr(context, expr);
         } else if (expr instanceof VarUse) {
             values = new ArrayList();
             AbstractVar var = ((VarUse) expr).getVar();
-            Object value = node.lookup(var);
+            Object value = context.lookup(var);
             if (null == value) {
                 values.add(new WrappedVar(var));
             } else {
                 values.add(value);
             }
         } else if (expr instanceof FeatureExpr) {
-            values = evalFeatureExpr(node, expr);
+            values = evalFeatureExpr(context, expr);
         } else if (expr instanceof FunctionExpr) {
-            values = evalFunctionExpr(node, expr);
+            values = evalFunctionExpr(context, expr);
         } else if (expr instanceof InstanceRef) {
             values = new ArrayList();
             InstanceRef ref = (InstanceRef) expr;
             values.add(ref.getObject());
         } else if (expr instanceof CollectionExpr) {
-            values = evalCollectionExpr(node, expr);
+            values = evalCollectionExpr(context, expr);
         } else {
             throw new ResolutionException(
-                node,
+                null,
                 expr.eClass().getName() + " Expressions are not yet supported: " + expr);
         }
 
         return values;
     }
 
-    private List evalCollectionExpr(Node node, Expression expr) throws ResolutionException, NotGroundException {
+    private List evalCollectionExpr(Binding context, Expression expr) throws ResolutionException, NotGroundException {
         // FIXME - Yikes, the semantiocs of these is complicated
         //
         // Should X = [1, Y.foo] where Y.foo returns the collection [2, 3]
         // bind X to 1, 2, and 3 or to [1, 2, 3] or to [1, 2] and [1, 3] ?
+        //
+        // What about X = [1, Y.foo{}]?
         //
         // For the moment, we'll make X = [expr_1, ..., expr_k] equivalent
         // to X = union(expr_1, ..., expr_k) i.e., for the example above,
@@ -415,57 +421,54 @@ class Evaluator {
         CollectionExpr collection = (CollectionExpr) expr;
         List args = collection.getArg();
         Function identity = (Function) funcMap.get("collect");
-        List values = new ArrayList(args.size());
-        List items = new ArrayList(args.size());
+        List results = new ArrayList(args.size());
+        List items = evalAll(context, args);
         
-        for (final Iterator itr = args.iterator(); itr.hasNext(); ) {
-            Expression elementExpr = (Expression) itr.next();
-            List elementVals = eval(node, elementExpr);
-//            System.out.println(elementVals);
-            items.add(elementVals);
-        }
-        accumulate(identity, items, values);
+        accumulate(identity, items, results, true);
         
-        return values;
+        return results;
     }
 
-    private List evalFunctionExpr(Node node, Expression expr) throws ResolutionException, NotGroundException {
+    private List evalFunctionExpr(Binding context, Expression expr) throws ResolutionException, NotGroundException {
         List values = new ArrayList();
         FunctionExpr funcExpr = (FunctionExpr) expr;
         String op = funcExpr.getFunction();
         List args = funcExpr.getArg();
-        List params = evalAll(node, args);  // FIXME - handle BindingPairs etc
         Function f = (Function) funcMap.get(op);
         try {
             if (null != f) {
-                funcMap.put(CONTEXT_KEY, node);
-                if (params.size() > 0) {
-                    accumulate(f, params, values);
+                funcMap.put(CONTEXT_KEY, context);
+                if (args.size() > 0) {
+                    List params = evalAll(context, args);  // FIXME - handle BindingPairs etc
+                    accumulate(f, params, values, false);
                 } else {
-                    values.add(f.call(params.toArray()));
+                    values.add(f.call(args.toArray()));
                 }
+                funcMap.remove(CONTEXT_KEY);
             } else if ("collect".equals(op)) {
-                values.addAll(params);
+                List params = evalAll(context, args);  // FIXME - handle BindingPairs etc
+                Function identity = (Function) funcMap.get("collect");
+                accumulate(identity, params, values, true);
             } else {
-                throw new ResolutionException(node, "Unknown function: " + op);
+                throw new ResolutionException(null, "Unknown function: " + op);
             }
         } catch (ClassCastException e) {
             e.printStackTrace();
-            throw new ResolutionException(node, "Badly typed parameter(s) to function: " + op, e);
+            throw new ResolutionException(null, "Badly typed parameter(s) to function: " + op, e);
         } catch (RuntimeException e) {
-            throw new ResolutionException(node, "Function evaluation failed: " + op, e);
+            throw new ResolutionException(null, "Function evaluation failed: " + op, e);
         }
         return values;
     }
 
-    private List evalFeatureExpr(Node node, Expression expr)
+    private List evalFeatureExpr(Binding context, Expression expr)
     throws ResolutionException, NotGroundException {
         List values = new ArrayList();
         FeatureExpr featExpr = (FeatureExpr) expr;
-        Collection featureNames = eval(node, featExpr.getFeature());
+        Collection featureNames = eval(context, featExpr.getFeature());
         List args = featExpr.getArg();
-        List objs = eval(node, (Expression) args.get(0));
-        Binding context = null;
+        List objs = eval(context, (Expression) args.get(0));
+        Binding featureContext = null;
         
         for (final Iterator fItr = featureNames.iterator(); fItr.hasNext(); ) {
             Object fObj = fItr.next();
@@ -474,11 +477,11 @@ class Evaluator {
                 throw new NotGroundException(
                     "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featExpr.getFeature());
             } else if (fObj instanceof BindingPair) {
-                if (null == context) {
-                    context = (Binding) fObj;
+                if (null == featureContext) {
+                    featureContext = (Binding) fObj;
                 } else {
-                    context = new Binding(context);
-                    context.composeLeft((Binding) fObj);
+                    featureContext = new Binding(featureContext);
+                    featureContext.composeLeft((Binding) fObj);
                 }
                 fObj = ((BindingPair) fObj).getValue();
             }
@@ -487,7 +490,7 @@ class Evaluator {
                 // TODO FIXME this is a HACK
                 fObj = ((EStructuralFeature) fObj).getName();
             } else if (!(fObj instanceof String)) {
-                throw new ResolutionException(node, "The Feature Expression " + featExpr + " must evaluate to a feature name of type String, not " + fObj.getClass());
+                throw new ResolutionException(null, "The Feature Expression " + featExpr + " must evaluate to a feature name of type String, not " + fObj.getClass());
             }
             String featureName = (String) fObj;
             
@@ -496,7 +499,7 @@ class Evaluator {
             AbstractVar var = null;
             if (objs.size() == 1 && objs.get(0) instanceof WrappedVar) {
                 WrappedVar wVar = (WrappedVar) objs.get(0);
-                objs = expand(wVar, expr);
+                objs = expand(wVar);
                 var = wVar.getVar();
             }
             
@@ -504,11 +507,11 @@ class Evaluator {
                 Object obj = objItr.next();
                 
                 if (obj instanceof BindingPair) {
-                    if (null == context) {
-                        context = (Binding) obj;
+                    if (null == featureContext) {
+                        featureContext = (Binding) obj;
                     } else {
-                        context = new Binding(context);
-                        context.composeLeft((Binding) obj);
+                        featureContext = new Binding(featureContext);
+                        featureContext.composeLeft((Binding) obj);
                     }
                     obj = ((BindingPair) obj).getValue();
                 }
@@ -519,25 +522,25 @@ class Evaluator {
                 // can distinguish unbound _variables_ from _objects_.
 
                 if (featExpr.isOperation()) {
-                    Collection valuesObject = callOperation(node, featureName, obj, args.subList(1, args.size()), featExpr.isCollect());
+                    Collection valuesObject = callOperation(context, featureName, obj, args.subList(1, args.size()), featExpr.isCollect());
                     if (null != var) {
                         for (final Iterator itr = valuesObject.iterator(); itr.hasNext(); ) {
                             Object val = itr.next();
-                            Binding unifier = new BindingPair(context, val);
+                            Binding unifier = new BindingPair(featureContext, val);
                             unifier.add(var, obj);
                             values.add(unifier);
                         }
-                    } else if (null != context) {
+                    } else if (null != featureContext) {
                         for (final Iterator itr = valuesObject.iterator(); itr.hasNext(); ) {
                             Object val = itr.next();
-                            Binding unifier = new BindingPair(context, val);
+                            Binding unifier = new BindingPair(featureContext, val);
                             values.add(unifier);
                         }
                     } else {
                         values.addAll(valuesObject);
                     }
                 } else {
-                    Object valuesObject = fetchFeature(node, featureName, obj);
+                    Object valuesObject = fetchFeature(context, featureName, obj);
                     
                     if (null != valuesObject && valuesObject.getClass().isArray()) {
                         valuesObject = wrapArray(valuesObject);
@@ -546,11 +549,11 @@ class Evaluator {
                     if (valuesObject instanceof Collection) {
                         if (featExpr.isCollect()) {
                             if (null != var) {
-                                Binding unifier = new BindingPair(context, valuesObject);
+                                Binding unifier = new BindingPair(featureContext, valuesObject);
                                 unifier.add(var, obj);
                                 values.add(unifier);
-                            } else if (null != context) {
-                                Binding unifier = new BindingPair(context, valuesObject);
+                            } else if (null != featureContext) {
+                                Binding unifier = new BindingPair(featureContext, valuesObject);
                                 values.add(unifier);
                             } else {
                                 values.add(valuesObject);
@@ -559,14 +562,14 @@ class Evaluator {
                             if (null != var) {
                                 for (final Iterator itr = ((Collection) valuesObject).iterator(); itr.hasNext(); ) {
                                     Object val = itr.next();
-                                    Binding unifier = new BindingPair(context, val);
+                                    Binding unifier = new BindingPair(featureContext, val);
                                     unifier.add(var, obj);
                                     values.add(unifier);
                                 }
-                            } else if (null != context) {
+                            } else if (null != featureContext) {
                                 for (final Iterator itr = ((Collection) valuesObject).iterator(); itr.hasNext(); ) {
                                     Object val = itr.next();
-                                    Binding unifier = new BindingPair(context, val);
+                                    Binding unifier = new BindingPair(featureContext, val);
                                     values.add(unifier);
                                 }
                             } else {
@@ -578,22 +581,22 @@ class Evaluator {
                             List l = new ArrayList(1);
                             l.add(valuesObject);
                             if (null != var) {
-                                Binding unifier = new BindingPair(context, l);
+                                Binding unifier = new BindingPair(featureContext, l);
                                 unifier.add(var, obj);
                                 values.add(unifier);
-                            } else if (null != context) {
-                                Binding unifier = new BindingPair(context, l);
+                            } else if (null != featureContext) {
+                                Binding unifier = new BindingPair(featureContext, l);
                                 values.add(unifier);
                             } else {
                                 values.add(l);
                             }
                         } else {
                             if (null != var) {
-                                Binding unifier = new BindingPair(context, valuesObject);
+                                Binding unifier = new BindingPair(featureContext, valuesObject);
                                 unifier.add(var, obj);
                                 values.add(unifier);
-                            } else if (null != context) {
-                                Binding unifier = new BindingPair(context, valuesObject);
+                            } else if (null != featureContext) {
+                                Binding unifier = new BindingPair(featureContext, valuesObject);
                                 values.add(unifier);
                             } else {
                                 values.add(valuesObject);
@@ -645,20 +648,20 @@ class Evaluator {
         return value;
     }
     
-    private List evalEnumExpr(Node node, Expression expr)
+    private List evalEnumExpr(Binding context, Expression expr)
     throws ResolutionException, NotGroundException {
         List values = new ArrayList();
         List args = ((EnumConstant) expr).getArg();
         Expression enumExpr = (Expression) args.get(0);
         Expression literalExpr = (Expression) args.get(1);
-        List enumObjs = eval(node, enumExpr);
-        List literalObjs = eval(node, literalExpr);
+        List enumObjs = eval(context, enumExpr);
+        List literalObjs = eval(context, literalExpr);
 
         for (final Iterator eItr = enumObjs.iterator(); eItr.hasNext(); ) {
             Object eObj = eItr.next();
             EEnum enumeration = null;
             if (eObj instanceof String) {
-                eObj = Util.findClassifierByName(ruleEval.nameMap, (String) eObj);
+                eObj = ModelUtils.findClassifierByName(ruleEval.nameMap, (String) eObj);
             }
             if (eObj instanceof EEnum) {
                 enumeration = (EEnum) eObj;
@@ -680,31 +683,70 @@ class Evaluator {
     }
 
     /**
-     * @param node
+     * @param context
      * @param args
      * @return
      * @throws ResolutionException
      * @throws NotGroundException
      */
+    
+//    
+//    The change below and the expandParams functions appear to be addressing a different
+//    albeit related problem to the rest of the changes to Tree, TreeListener, *Resolver etc
+//    Those changes are dealing with delays propagating out of sub-Trees -- see the FIXME below
+    
+    List evalAll(Node node, List args) throws ResolutionException, NotGroundException {
+        try {
+            return evalAll(node.getBindings(), args);
+        } catch (ResolutionException e) {
+            e.setNode(node);
+            throw e;
+        }
+    }
+
     // FIXME Handle BindingPairs
-    private List evalAll(Node node, List args) throws ResolutionException, NotGroundException {
+    private List evalAll(Binding context, List args) throws ResolutionException, NotGroundException {
         List results = new ArrayList(args.size());
         for (Iterator itr = args.iterator(); itr.hasNext(); ) {
             Expression arg = (Expression) itr.next();
-            List vals = eval(node, arg);
-            if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
-                AbstractVar var = ((WrappedVar) vals.get(0)).getVar();
-                throw new NotGroundException(var.getName() + " is not bound.");
-            }
+            List vals = eval(context, arg);
+            // if the result is a WrappedVar, then we need to expand it later
+//            if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
+//                AbstractVar var = ((WrappedVar) vals.get(0)).getVar();
+//                throw new NotGroundException(var.getName() + " is not bound.");
+//            }
             results.add(vals);
         }
         return results;
-    }
+     }
     
     private Map methodCache = new HashMap();
     
     private Method resolveMethod(Object instance, String name, Object[] params) {
+        Map methodCache = getMethodCache(instance, name);
         Method method = null;
+        
+        // Deal with zero-arity method first
+        if (null == params || params.length == 0) {
+            Class cls = instance.getClass();
+            method = (Method) methodCache.get(NULL_TYPE);
+            if (null == method) {
+                try {
+                    Method[] ms = cls.getMethods();
+                    for (int i = 0; null == method && i < ms.length; i++) {
+                        if (name.equals(ms[i].getName()) && ms[i].getParameterTypes().length == 0) {
+                            method = ms[i];
+                        }
+                    }
+                } catch (SecurityException e) {
+                }
+            }
+            if (null != method) {
+                // Cache the result
+                methodCache.put(NULL_TYPE, method);
+            }
+            return method;
+        }
         
         Class[] rawTypes = new Class[params.length];
         boolean hasBoxedTypes = false;
@@ -716,22 +758,7 @@ class Evaluator {
             }
         }
         
-        Map namesToTypes = (Map) methodCache.get(instance.getClass());
-        Map typesToMethods;
-        if (null != namesToTypes) {
-            typesToMethods = (Map) namesToTypes.get(name);
-            if (null != typesToMethods) {
-                method = (Method) typesToMethods.get(Arrays.asList(rawTypes));
-            } else {
-                typesToMethods = new HashMap();
-                namesToTypes.put(name, typesToMethods);
-            }
-        } else {
-            namesToTypes = new HashMap();
-            typesToMethods = new HashMap();
-            methodCache.put(instance.getClass(), namesToTypes);
-            namesToTypes.put(name, typesToMethods);
-        }
+        method = (Method) methodCache.get(Arrays.asList(rawTypes));
         
         if (null == method) {
             Class[] unboxedTypes = null;
@@ -758,7 +785,7 @@ class Evaluator {
             
             if (null != method) {
                 // Cache the result
-                typesToMethods.put(Arrays.asList(rawTypes), method);
+                methodCache.put(Arrays.asList(rawTypes), method);
             }
         }
 
@@ -767,7 +794,7 @@ class Evaluator {
     
     /**
      * Beware, this will find the first method (they are in an arbitrary order) that matches subject to
-     * auto-unboxing...eg, teh choice between foo(int) and foo(Integer) is arbitrary
+     * auto-unboxing...eg, the choice between foo(int) and foo(Integer) is arbitrary
      * 
      * @param instance
      * @param name
@@ -799,6 +826,24 @@ class Evaluator {
 
         return method;
     }
+    
+    private Map getMethodCache(Object instance, String name) {
+        Map namesToTypes = (Map) methodCache.get(instance.getClass());
+        Map typesToMethods;
+        if (null != namesToTypes) {
+            typesToMethods = (Map) namesToTypes.get(name);
+            if (null == typesToMethods) {
+                typesToMethods = new HashMap();
+                namesToTypes.put(name, typesToMethods);
+            }
+        } else {
+            namesToTypes = new HashMap();
+            typesToMethods = new HashMap();
+            methodCache.put(instance.getClass(), namesToTypes);
+            namesToTypes.put(name, typesToMethods);
+        }
+        return typesToMethods;
+    }
 
     private void invokeOperation(Object instance, String methodName, List ls, int i, Object[] params, Collection results, boolean collect)
     throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
@@ -812,6 +857,9 @@ class Evaluator {
             for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
                 params[i] = itr.next();
                 
+                // In the general case the param types could all be different and
+                // thus invoke different methods so we cannot cache/lift this
+                // method resolution call
                 Method method = resolveMethod(instance, methodName, params);
 
                 if (null == method) {
@@ -833,15 +881,15 @@ class Evaluator {
     private void warnNoMethod(Object instance, String methodName) {
         String message = "No such operation: ";
         if (instance instanceof EObject) {
-            message += Util.getFullyQualifiedName(((EObject) instance).eClass()) + "." + methodName;
+            message += ModelUtils.getFullyQualifiedName(((EObject) instance).eClass()) + "." + methodName;
         } else {
-            message += Util.getFullyQualifiedName(instance.getClass()) + "." + methodName;
+            message += ModelUtils.getFullyQualifiedName(instance.getClass()) + "." + methodName;
         }
 //        System.err.println(message);
         ruleEval.fireWarning(message);
     }
     
-    private List callOperation(Node node, String operationName, Object instance, List args, boolean collect)
+    private List callOperation(Binding context, String operationName, Object instance, List args, boolean collect)
     throws ResolutionException, NotGroundException {
         List results = new ArrayList();
 
@@ -849,23 +897,21 @@ class Evaluator {
         // for now, use Java reflection :(
 
         try {
-            List params = evalAll(node, args);
-            if (params.size() > 0) {
+            if (args.size() > 0) {
+                List params = evalAll(context, args);
                 try {
                     invokeOperation(instance, operationName, params, 0, new Object[params.size()], results, collect);
                 } catch (Exception e) {
                     e.printStackTrace();
                     ruleEval.fireWarning(e);
-                    throw new ResolutionException(node, "Operation invocation "+ operationName + " failed", e);
+                    throw new ResolutionException(null, "Operation invocation "+ operationName + " failed", e);
                 }
             } else {
-                Object[] paramArray = params.toArray();
-
-                Method method = resolveMethod(instance, operationName, paramArray);
+                Method method = resolveMethod(instance, operationName, null);
                 if (null == method) {
                     warnNoMethod(instance, operationName);
                 } else {
-                    Object result = method.invoke(instance, paramArray);
+                    Object result = method.invoke(instance, null);
                     if (null != result) {
                         if (!collect && result instanceof Collection) { 
                             results.addAll((Collection) result);
@@ -921,19 +967,19 @@ class Evaluator {
 //        return null;
 //    }
 
-    Object fetchFeature(Node node, String featureName, Object obj) throws ResolutionException {
+    Object fetchFeature(Binding context, String featureName, Object obj) {
         Object valuesObject = null;
         try {
             if (obj instanceof EObject) {
                 EObject instance = (EObject) obj;
                 try {
-                    EStructuralFeature eFeature = AbstractResolver.getFeature(node, instance.eClass(), featureName);
+                    EStructuralFeature eFeature = AbstractResolver.getFeature(null, instance.eClass(), featureName);
                     valuesObject = instance.eGet(eFeature);
 
                     if (valuesObject != null || instance.eIsSet(eFeature) || !eFeature.isRequired()) {
                         ExtentUtil.highlightEdge(instance, valuesObject, ExtentUtil.FEATURE_LOOKUP);
                     } else {
-                        ruleEval.fireWarning(Util.getFullyQualifiedName(eFeature) + " is not set and no default value");
+                        ruleEval.fireWarning(ModelUtils.getFullyQualifiedName(eFeature) + " is not set and no default value");
                     }
                     return valuesObject;    // This was a valid feature - don't want to fall through
                 } catch (ResolutionException e) {
@@ -959,7 +1005,7 @@ class Evaluator {
                     }
                 }
             } catch (Exception e) {
-                throw new ResolutionException(node, "Could not find a source of values for '" + featureName + "' in '" + obj + "'", e);
+                throw new ResolutionException(null, "Could not find a source of values for '" + featureName + "' in '" + obj + "'", e);
             }
         } catch (ResolutionException e) {
             ruleEval.fireWarning(e);
@@ -968,23 +1014,53 @@ class Evaluator {
         return valuesObject;
     }
     
-    private void accumulate(Function f, List ls, Collection results) throws ResolutionException {
-        accumulate(f, ls, 0, new Object[ls.size()], results);
+    private void accumulate(Function f, List ls, Collection results, boolean collect) throws ResolutionException {
+        accumulate(f, ls, 0, new Object[ls.size()], results, collect);
     }
     
-    private void accumulate(Function f, List ls, int i, Object[] params, Collection results) throws ResolutionException {
+    private void accumulate(Function f, List ls, int i, Object[] params, Collection results, boolean collect) throws ResolutionException {
         Collection l = (Collection) ls.get(i);
         if (i < ls.size()-1) {
             for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
                 params[i] = itr.next();
-                accumulate(f, ls, i+1, params, results);
+                accumulate(f, ls, i+1, params, results, collect);
             }
         } else {
             for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
                 params[i] = itr.next();
-                results.add(f.call(params));
+                Object result = f.call(params);
+                if (null != result) {
+                    if (!collect && result instanceof Collection) { 
+                        results.addAll((Collection) result);
+                    } else {
+                        results.add(result);
+                    }
+                } else {
+                    ruleEval.fireWarning("Function call returned null: " + f + "(" + params + ")");
+                }
             }
         }
-    }   
+    }
+    
+    private void expandParams(Object[] params) throws NotGroundException {
+        for (int i = 0; i < params.length; i++) {
+        }
+    }
+    
+    private void expandParams(Function f, Binding context, Object[] params, Object[] actuals, int i) throws NotGroundException, ResolutionException {
+        if (params[i] instanceof WrappedVar) {
+            WrappedVar wvar = (WrappedVar) params[i];
+            Collection objs = expand(wvar);
+            for (Iterator itr = objs.iterator(); itr.hasNext(); ) {
+                actuals[i] = itr.next();
+                context.add(wvar.getVar(), actuals[i]);
+                if (i < actuals.length-1) {
+                    expandParams(f, context, params, actuals, i + 1);
+                } else {
+                    f.call(actuals);
+                }
+            }
+        }
+    }
 
 }

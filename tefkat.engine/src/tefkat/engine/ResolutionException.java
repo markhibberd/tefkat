@@ -25,17 +25,33 @@ public class ResolutionException extends TefkatException {
     transient private Node node;
 
     public ResolutionException(Node node, String message, Exception exception) {
-        super(message + (null == node ? "" : " -- " + node), exception);
+        super(message, exception);
         this.node = node;
     }
 
     public ResolutionException(Node node, String message) {
-        super(message + (null == node ? "" : " -- " + node));
+        super(message);
         this.node = node;
     }
 
+    public void setNode(Node node) {
+        if (null == this.node) {
+            this.node = node;
+        } else {
+            throw new Error("Cannot change Node reference", this);
+        }
+    }
+    
     public Node getNode() {
         return node;
+    }
+    
+    public String getMessage() {
+        return super.getMessage() + (null == node ? "" : " -- " + node);
+    }
+    
+    public String getLocalizedMessage() {
+        return super.getLocalizedMessage() + (null == node ? "" : " -- " + node);
     }
 }
 

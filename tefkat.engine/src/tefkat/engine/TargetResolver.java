@@ -32,7 +32,7 @@ import tefkat.engine.trace.TraceFactory;
 import tefkat.engine.trace.TracePackage;
 import tefkat.engine.trace.impl.TracePackageImpl;
 import tefkat.model.*;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 
 
 import java.math.BigDecimal;
@@ -137,7 +137,7 @@ class TargetResolver extends AbstractResolver {
             List vals = exprEval.eval(node, expr);
             if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
                 WrappedVar wVar = (WrappedVar) vals.get(0);
-                Collection instances = exprEval.expand(wVar, expr);
+                Collection instances = exprEval.expand(wVar);
                 List pairs = new ArrayList(instances.size());
                 for (Iterator instItr = instances.iterator(); instItr.hasNext(); ) {
                     Object o = instItr.next();
@@ -302,7 +302,7 @@ class TargetResolver extends AbstractResolver {
         // TODO fixme - should probably use DynamicObjects for tracking instances
         EPackage trackingPackage = trackingClass.getEPackage();
         if (null == trackingPackage) {
-            throw new ResolutionException(node, "Malformed class: " + Util.getFullyQualifiedName(trackingClass) + " not contained in a package.");
+            throw new ResolutionException(node, "Malformed class: " + ModelUtils.getFullyQualifiedName(trackingClass) + " not contained in a package.");
         }
         EFactory trackingFactory = trackingPackage.getEFactoryInstance();
         trackingInstance = trackingFactory.create(trackingClass);
@@ -393,7 +393,7 @@ class TargetResolver extends AbstractResolver {
 		    if (!"_".equals(typeObj)) {
 			Map nameMap = getNameMap();
 			String typeName = (String) typeObj;
-			EClassifier eClassifier = Util.findClassifierByName(nameMap, typeName);
+			EClassifier eClassifier = ModelUtils.findClassifierByName(nameMap, typeName);
 			if (null == eClassifier) {
 //			    for (final Iterator nItr = nameMap.keySet().iterator(); nItr.hasNext(); ) {
 //			        Object entry =  nItr.next();
@@ -626,10 +626,10 @@ class TargetResolver extends AbstractResolver {
                         } catch (ArrayStoreException e) {
                             throw new ResolutionException(
                                 node,
-                                "Couldn't add values to feature (type mismatch?): " + Util.getFullyQualifiedName(eFeature) + " <- " + newVals, e);
+                                "Couldn't add values to feature (type mismatch?): " + ModelUtils.getFullyQualifiedName(eFeature) + " <- " + newVals, e);
                         }
                     } else if (vals.size() > 1) {
-                        throw new ResolutionException(node, "Too many values for, " + Util.getFullyQualifiedName(eFeature));
+                        throw new ResolutionException(node, "Too many values for, " + ModelUtils.getFullyQualifiedName(eFeature));
                     } else if (vals.size() == 1) {
                         Object newVal = coerceType(vals.get(0), eFeature);
                         if (instance.eIsSet(eFeature)) {
@@ -641,7 +641,7 @@ class TargetResolver extends AbstractResolver {
                             } else if (!curVal.equals(newVal)) {
                                 throw new ResolutionException(
                                     node,
-                                    "Conflicting value: " + newVal + " found for feature, " + Util.getFullyQualifiedName(eFeature) + ", which is already set to: " + curVal);
+                                    "Conflicting value: " + newVal + " found for feature, " + ModelUtils.getFullyQualifiedName(eFeature) + ", which is already set to: " + curVal);
                             }
                         } else {
                             //System.err.println("Setting " + eFeature + " to " + newVal);
@@ -664,9 +664,9 @@ class TargetResolver extends AbstractResolver {
                         if (eFeature.getLowerBound() > 0) {
                             throw new ResolutionException(
                                 node,
-                                "No value for " + Util.getFullyQualifiedName(eFeature) + " but lower bound is " + eFeature.getLowerBound());
+                                "No value for " + ModelUtils.getFullyQualifiedName(eFeature) + " but lower bound is " + eFeature.getLowerBound());
                         }
-                        ruleEval.fireWarning("No value for " + Util.getFullyQualifiedName(eFeature));
+                        ruleEval.fireWarning("No value for " + ModelUtils.getFullyQualifiedName(eFeature));
                     }
                     
                     Collection newGoal = new ArrayList(goal);

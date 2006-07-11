@@ -15,7 +15,6 @@
 package tefkat.plugin;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
@@ -34,11 +33,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
@@ -61,14 +58,11 @@ import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceImpl;
 
-import tefkat.engine.ResolutionException;
 import tefkat.model.StratificationException;
-import tefkat.model.TefkatException;
 import tefkat.model.Transformation;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 import tefkat.model.parser.ParserEvent;
 import tefkat.model.parser.ParserListener;
 
@@ -401,7 +395,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                 final Transformation transformation = parser.transformation();
                 res.save(out, SERIALIZATION_OPTIONS);
 
-                Util.resolveTrackingClassNames(transformation, parser.trackingMap);
+                ModelUtils.resolveTrackingClassNames(transformation, parser.trackingMap);
                 printStrata(sb, transformation.getStrata());
                 
             } catch (final RecognitionException e) {

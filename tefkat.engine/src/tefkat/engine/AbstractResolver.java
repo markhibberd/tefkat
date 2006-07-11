@@ -22,13 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import tefkat.model.*;
 import tefkat.model.internal.IntMap;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 
 
 /**
@@ -36,70 +34,6 @@ import tefkat.model.internal.Util;
  * 
  */
 abstract class AbstractResolver {
-
-    private static final class IfConditionResultListener implements TreeListener {
-        private final IfTerm literal;
-
-        private final Node node;
-
-        private final List goal;
-
-        private final Tree tree;
-
-        private IfConditionResultListener(IfTerm literal, Node node, List goal, Tree tree) {
-            super();
-            this.literal = literal;
-            this.node = node;
-            this.goal = goal;
-            this.tree = tree;
-        }
-
-        public void solution(Binding answer) {
-            Binding sContext = new Binding(answer);
-            goal.add(0, literal.getTerm().get(1));
-            tree.createBranch(node, sContext, goal);
-        }
-
-        public void completed(Tree theTree) {
-            if (!theTree.isSuccess()) {
-                goal.add(0, literal.getTerm().get(2));
-                tree.createBranch(node, null, goal);
-            }
-        }
-    }
-
-    private static final class NewPatternSolutionsListener implements TreeListener {
-        private final Collection goal;
-
-        private final Node node;
-
-        private final Tree tree;
-
-        private final List vars;
-
-        private final List args;
-
-        private NewPatternSolutionsListener(Collection goal, Node node, Tree tree, List vars, List args) {
-            super();
-            this.goal = goal;
-            this.node = node;
-            this.tree = tree;
-            this.vars = vars;
-            this.args = args;
-        }
-
-        public void solution(Binding answer) throws ResolutionException {
-            Binding unifier = createOutputBinding(node, vars, args, answer);
-        
-            tree.createBranch(node, unifier, goal);
-        }
-
-        public void completed(Tree theTree) {
-            if (!theTree.isSuccess()) {
-                tree.failure(node);
-            }
-        }
-    }
 
     final IntMap elapsedTime = new IntMap();
     final IntMap callCount = new IntMap();
@@ -302,8 +236,6 @@ abstract class AbstractResolver {
         List args = literal.getArg();
 
         if (null == pDefn) { // TODO fix this println hack
-        //            System.err.println("PAT: println " + ((VarUse)args.get(0)).getVar().getName());
-        //            System.err.println(node.getAllBindings());
             String mesg = "";
             for (int i = 0; i < args.size(); i++) {
                 String str;
@@ -324,7 +256,6 @@ abstract class AbstractResolver {
                 mesg += (i > 0 ? " " : "") + str;
             }
             ruleEval.fireInfo(mesg);
-//            System.out.println(mesg);
 
             Collection newGoal = new ArrayList(goal);
             newGoal.remove(literal);
@@ -332,7 +263,6 @@ abstract class AbstractResolver {
             return;
         }
 
-        //        System.err.println("PAT: " + pDefn.getName());	// TODO delete
         List pDefVars = pDefn.getParameterVar();
 
         // Check that the sizes of formals and actuals matches, then add the bound variables, pairwise,
@@ -342,34 +272,8 @@ abstract class AbstractResolver {
                     + pDefn.getName() + ": " + args.size());
         }
         
-        // Eval all the input Expressions
-        
-        // FIXME handle BindingPairs
-        List actuals = new ArrayList();
-        for (Iterator itr = args.iterator(); itr.hasNext(); ) {
-            Expression actualExpr = (Expression) itr.next();
-            actuals.add(exprEval.eval(node, actualExpr));
-        }
-
-        Collection bindings = new ArrayList();
-        createBindings(tree.getContext(), actuals, pDefVars, bindings);
-
-        ruleEval.pushPattern(pDefn);
-
-        if (bindings.size() > 0) {
-            for (Iterator itr = bindings.iterator(); itr.hasNext();) {
-                if (ruleEval.INCREMENTAL) {
-                    incrementalResolvePatternDefn(tree, node,
-                            goal, literal, pDefVars, args, pDefn,
-                            (Binding) itr.next(), isNegation);
-                } else {
-                    resolvePatternDefn(tree, node,
-                            goal, literal, pDefVars, args, pDefn,
-                            (Binding) itr.next(), isNegation);
-                }
-            }
-        } else if (pDefVars.size() == 0) {
-            // Only call with empty bindings if it's a arity-zero pattern
+        // handle arity-zero (no args) pattern
+        if (pDefVars.size() == 0) {
             if (ruleEval.INCREMENTAL) {
                 incrementalResolvePatternDefn(tree, node, goal,
                         literal, pDefVars, args, pDefn, new Binding(), isNegation);
@@ -378,21 +282,39 @@ abstract class AbstractResolver {
                         literal, pDefVars, args, pDefn, new Binding(), isNegation);
             }
         } else {
-            tree.failure(node);
-        }
+            // Eval all the input Expressions
+            // FIXME handle BindingPairs
+            List actuals = exprEval.evalAll(node, args);
 
-        ruleEval.popPattern();
+            Collection bindings = EngineUtils.createBindings(tree.getContext(), actuals, pDefVars);
+
+            if (null != bindings && bindings.size() > 0) {
+                for (Iterator itr = bindings.iterator(); itr.hasNext();) {
+                    if (ruleEval.INCREMENTAL) {
+                        incrementalResolvePatternDefn(tree, node,
+                                goal, literal, pDefVars, args, pDefn,
+                                (Binding) itr.next(), isNegation);
+                    } else {
+                        resolvePatternDefn(tree, node,
+                                goal, literal, pDefVars, args, pDefn,
+                                (Binding) itr.next(), isNegation);
+                    }
+                }
+            } else {
+                tree.failure(node);
+            }
+        }
     }
 
     private void incrementalResolvePatternDefn(final Tree tree,
             final Node node, Collection goal, PatternUse literal, final List pDefVars, final List args,
-            PatternDefn pDefn, Binding newContext, boolean isNegation)
+            PatternDefn pDefn, final Binding newContext, boolean isNegation)
             throws ResolutionException {
 
         final Collection newGoal = new ArrayList(goal);
         newGoal.remove(literal);
 
-        Map cache = ruleEval.getPatternCache(pDefn);
+        final Map cache = ruleEval.getPatternCache(pDefn);
         Tree resultTree = (Tree) cache.get(newContext);
         
         if (null == resultTree) {
@@ -403,7 +325,7 @@ abstract class AbstractResolver {
 //            System.err.println("resolving " + patGoal + "\n  " + newContext);      // TODO delete
             Node patternNode = new Node(patGoal, newContext);
         
-            resultTree = new Tree(tree.getTransformation(), patternNode, tree.getContext(), tree.getTrackingExtent(), isNegation);
+            resultTree = new Tree(tree.getTransformation(), tree, node, patternNode, tree.getContext(), tree.getTrackingExtent(), isNegation);
             resultTree.setLevel(tree.getLevel());
             
             ruleEval.addUnresolvedTree(resultTree);
@@ -414,7 +336,25 @@ abstract class AbstractResolver {
         if (!resultTree.isCompleted()) {
             // Register listener for any new solutions
             
-            resultTree.addTreeListener(new NewPatternSolutionsListener(newGoal, node, tree, pDefVars, args));
+            resultTree.addTreeListener(new TreeListener() {
+
+                public void solution(Binding answer) throws ResolutionException {
+                    Binding unifier = createOutputBinding(node, pDefVars, args, answer);
+
+                    tree.createBranch(node, unifier, newGoal);
+                }
+
+                public void completed(Tree theTree) {
+                    if (!theTree.isSuccess()) {
+                        tree.failure(node);
+                    }
+                }
+
+                public void floundered(Tree theTree) {
+                    cache.remove(newContext);
+                }
+                
+            });
         }
         
         //System.err.println("\t" + resultTree.isSuccess());      // TODO delete
@@ -435,41 +375,46 @@ abstract class AbstractResolver {
             final Node node, Collection goal, PatternUse literal, final List pDefVars, final List args,
             PatternDefn pDefn, Binding newContext, boolean isNegation)
             throws ResolutionException {
-        Tree resultTree = null;
-
-        Map cache = ruleEval.getPatternCache(pDefn);
-        resultTree = (Tree) cache.get(newContext);
-        
-        if (null == resultTree) {
-            Collection patGoal = new ArrayList();
-            Term pDefTerm = pDefn.getTerm();
-            patGoal.add(pDefTerm);
-
-//            System.err.println("resolving " + patGoal + "\n  " + newContext);      // TODO delete
-            Node patternNode = new Node(patGoal, newContext);
-        
-            resultTree = new Tree(tree.getTransformation(), patternNode, tree.getContext(), tree.getTrackingExtent(), isNegation);
-            resultTree.setLevel(tree.getLevel());
-
-            ruleEval.resolveNode(resultTree);
-
-            cache.put(newContext, resultTree);
-        }
-        
-        //System.err.println("\t" + resultTree.isSuccess());      // TODO delete
-        if (resultTree.isSuccess()) {
-            Collection solutions = solutions(resultTree, pDefVars);
-            for (Iterator itr = solutions.iterator(); itr.hasNext(); ) {
-                Binding currentSolution = (Binding) itr.next();
-                Binding unifier = createOutputBinding(node, pDefVars, args, currentSolution);
-
-                // System.err.println("  u " + unifier); // TODO delete
-                Collection newGoal = new ArrayList(goal);
-                newGoal.remove(literal);
-                tree.createBranch(node, unifier, newGoal);
+        try {
+            ruleEval.pushPattern(pDefn);
+            Tree resultTree = null;
+            
+            Map cache = ruleEval.getPatternCache(pDefn);
+            resultTree = (Tree) cache.get(newContext);
+            
+            if (null == resultTree) {
+                Collection patGoal = new ArrayList();
+                Term pDefTerm = pDefn.getTerm();
+                patGoal.add(pDefTerm);
+                
+//              System.err.println("resolving " + patGoal + "\n  " + newContext);      // TODO delete
+                Node patternNode = new Node(patGoal, newContext);
+                
+                resultTree = new Tree(tree.getTransformation(), tree, node, patternNode, tree.getContext(), tree.getTrackingExtent(), isNegation);
+                resultTree.setLevel(tree.getLevel());
+                
+                ruleEval.resolveNode(resultTree);
+                
+                cache.put(newContext, resultTree);
             }
-        } else {
-            tree.failure(node);
+            
+            //System.err.println("\t" + resultTree.isSuccess());      // TODO delete
+            if (resultTree.isSuccess()) {
+                final Collection newGoal = new ArrayList(goal);
+                newGoal.remove(literal);
+
+                Collection solutions = solutions(resultTree, pDefVars);
+                for (Iterator itr = solutions.iterator(); itr.hasNext(); ) {
+                    Binding currentSolution = (Binding) itr.next();
+                    Binding unifier = createOutputBinding(node, pDefVars, args, currentSolution);
+
+                    tree.createBranch(node, unifier, newGoal);
+                }
+            } else {
+                tree.failure(node);
+            }
+        } finally {        
+            ruleEval.popPattern();
         }
     }
 
@@ -496,56 +441,6 @@ abstract class AbstractResolver {
         }
         return unifier;
     }
-
-    /**
-     * Create a Binding for each combination of values in the List of Lists ls.
-     * 
-     * @param context
-     * @param actualsList
-     * @param formals
-     * @param bindings
-     * @throws ResolutionException
-     */
-    private void createBindings(Binding context, List actualsList,
-            List formals, Collection bindings) throws ResolutionException {
-        if (actualsList.size() > 0) {
-            createBindings(context, actualsList, formals, bindings, 0,
-                    new Object[actualsList.size()]);
-        }
-    }
-
-    private void createBindings(Binding context, List actualsList,
-            List formals, Collection bindings, int i, Object[] params)
-            throws ResolutionException {
-        Collection actuals = (Collection) actualsList.get(i);
-        if (i < actualsList.size() - 1) {
-            for (Iterator itr = actuals.iterator(); itr.hasNext();) {
-                params[i] = itr.next();
-                createBindings(context, actualsList, formals, bindings, i + 1, params);
-            }
-        } else {
-            for (Iterator itr = actuals.iterator(); itr.hasNext();) {
-                params[i] = itr.next();
-
-                Binding newContext = new Binding(context);
-                for (int j = 0; j < params.length; j++) {
-                    // only values are passed in, not references (i.e., Vars)
-                    // since we get WrappedVars for unbound inputs as well as for
-                    // vars bound to other vars
-                    // FIXME - the above is bogus (I think) at least need to
-                    // propagate var bindings when calculating the actualsList
-                    // to handle, for example, p(X, X) and also p(X.foo, X.bar)
-                    // -- the latter involves BindingPairs
-                    if (true || !(params[j] instanceof WrappedVar)) {
-                        newContext.add((PatternVar) formals.get(j), params[j]);
-                    }
-                }
-
-                bindings.add(newContext);
-            }
-        }
-    }
-    
 
     /**
      *  Choose a literal from the goal of the given node.
@@ -613,7 +508,7 @@ abstract class AbstractResolver {
     static protected EStructuralFeature getFeature(Node node, EClass klass, String featureName)
         throws ResolutionException {
         try {
-            return Util.getFeature(klass, featureName);
+            return ModelUtils.getFeature(klass, featureName);
         } catch (RuntimeException e) {
             throw new ResolutionException(node, e.getMessage());
         }
@@ -633,31 +528,51 @@ abstract class AbstractResolver {
         Binding context = new Binding(node.getBindings());
         List condGoal = new ArrayList();
         condGoal.add(literal.getTerm().get(0));
-        Node newRoot = new Node(condGoal, context); // cannot pass node as parent here -- see evalNegatedGoal()
-        Tree newTree = new Tree(tree.getTransformation(), newRoot, tree.getContext(), tree.getTrackingExtent(), false);
+        Node newRoot = new Node(condGoal, context); // cannot pass node as node-context here -- see evalNegatedGoal()
+        Tree newTree = new Tree(tree.getTransformation(), tree, node, newRoot, tree.getContext(), tree.getTrackingExtent(), false);
 	newTree.setLevel(tree.getLevel() - 1);
 
         if (ruleEval.INCREMENTAL) {
             final List newGoal = new ArrayList(goal);
             newGoal.remove(literal);
+            // Add THEN Term to beginning of new goal
+            newGoal.add(0, literal.getTerm().get(1));
             
-            newTree.addTreeListener(new IfConditionResultListener(literal, node, newGoal, tree));
+            newTree.addTreeListener(new TreeListener() {
+
+                public void solution(Binding answer) {
+                    Binding sContext = new Binding(answer);
+                    tree.createBranch(node, sContext, newGoal);
+                }
+
+                public void completed(Tree theTree) {
+                    if (!theTree.isSuccess()) {
+                        // Replace THEN Term with the ELSE Term
+                        newGoal.set(0, literal.getTerm().get(2));
+                        tree.createBranch(node, null, newGoal);
+                    }
+                }
+
+                public void floundered(Tree theTree) {
+                }
+                
+            });
+
 	    ruleEval.addUnresolvedTree(newTree);
         } else {
             ruleEval.resolveNode(newTree);
             
+            List newGoal = new ArrayList(goal);
+            newGoal.remove(literal);
+
             if (newTree.isSuccess()) {
+                newGoal.add(0, literal.getTerm().get(1));
                 for (final Iterator itr = newTree.getAnswers().iterator(); itr.hasNext(); ) {
                     Binding answer = (Binding) itr.next();
                     Binding sContext = new Binding(answer);
-                    List newGoal = new ArrayList(goal);
-                    newGoal.remove(literal);
-                    newGoal.add(0, literal.getTerm().get(1));
                     tree.createBranch(node, sContext, newGoal);
                 }
             } else {
-                List newGoal = new ArrayList(goal);
-                newGoal.remove(literal);
                 newGoal.add(0, literal.getTerm().get(2));
                 tree.createBranch(node, null, newGoal);
             }

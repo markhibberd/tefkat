@@ -86,7 +86,7 @@ public class Main {
 
     private static void usage(String message) {
         System.err.println(message);
-        System.err.println("usage: tefkat [-quiet] [-debug] [-force] [-fixpoint] [-save] [-layout] [-vis mtsT] [-mapURI from to]*");
+        System.err.println("usage: tefkat [-quiet] [-debug] [-force] [-fixpoint] [-statistics] [-save] [-layout] [-vis mtsT] [-mapURI from to]*");
         System.err.println("\t[-conf configURI | -transformation mappingURI");
         System.err.println("\t[-source srcURI]* [-target targetURI]* [-trace traceURI]]");
         System.exit(1);
@@ -143,6 +143,8 @@ public class Main {
                 quiet = true;
             } else if (args[i].equals("-fixpoint")) {
                 engine.setIncremental(false);
+            } else if (args[i].equals("-statistics")) {
+                engine.setPrintingStats(true);
             } else if (args[i].equals("-save")) {
                 saveResult = true;
             } else if (args[i].equals("-vis")) {

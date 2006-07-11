@@ -35,7 +35,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
 import tefkat.config.TefkatConfig.ExecutionMode;
 import tefkat.config.TefkatConfig.Model;
@@ -48,7 +51,8 @@ import tefkat.model.TefkatFactory;
 import tefkat.model.Transformation;
 import tefkat.model.impl.TefkatPackageImpl;
 import tefkat.model.internal.IntMap;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
+import tefkat.model.parser.TefkatResourceFactory;
 
 
 /**
@@ -74,7 +78,11 @@ public class Tefkat {
 
     private final List engineListeners = new ArrayList();
 
-    private final Resource.Factory xmiFactory;
+    private final Resource.Factory XMI_RESOURCE_FACTORY = new XMIResourceFactoryImpl();
+    private final Resource.Factory TEFKAT_RESOURCE_FACTORY = new TefkatResourceFactory();
+    private final Resource.Factory XSD_RESOURCE_FACTORY = new XSDResourceFactoryImpl();
+    private final Resource.Factory ECORE_RESOURCE_FACTORY = new EcoreResourceFactoryImpl();
+    private final Resource.Factory XML_RESOURCE_FACTORY = new GenericXMLResourceFactoryImpl();
     
     private final Map functions = new HashMap();
 
@@ -82,6 +90,7 @@ public class Tefkat {
 
     private RuleEvaluator ruleEvaluator;
     private boolean isIncremental = true;
+    private boolean printingStats = false;
 
     private boolean paused;
 
@@ -111,9 +120,13 @@ public class Tefkat {
         SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData(_resourceSet.getPackageRegistry()));
         _resourceSet.getLoadOptions().putAll(SERIALIZATION_OPTIONS);
         
-        registerFactory("ecore", xmiFactory);
-        registerFactory("xmi", xmiFactory);
-        registerFactory("tefkat", xmiFactory);
+        registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
+        registerFactory("xsd", XSD_RESOURCE_FACTORY);
+        registerFactory("wsdl", XSD_RESOURCE_FACTORY);
+        registerFactory("xmi", XMI_RESOURCE_FACTORY);
+        registerFactory("tefkat", XMI_RESOURCE_FACTORY);
+        registerFactory("ecore", ECORE_RESOURCE_FACTORY);
+        registerFactory("xml", XML_RESOURCE_FACTORY);
         
         _resourceSet.eAdapters().add(resourceLoadingListener);
     }
@@ -133,7 +146,10 @@ public class Tefkat {
     }
 
     public Tefkat() {
-        xmiFactory = new XMIResourceFactoryImpl();
+    }
+    
+    public boolean isIncremental() {
+        return isIncremental;
     }
     
     public void setIncremental(boolean isIncremental) {
@@ -143,10 +159,14 @@ public class Tefkat {
         }
     }
     
-    public boolean isIncremental() {
-        return this.isIncremental;
+    public boolean isPrintingStats() {
+        return printingStats;
     }
-    
+
+    public void setPrintingStats(boolean printingStats) {
+        this.printingStats = printingStats;
+    }
+
     public void addFunction(String name, Function function) {
         functions.put(name, function);
     }
@@ -299,23 +319,26 @@ public class Tefkat {
                     ruleEvaluator.runTransformation(t, force);
                     long endTime = System.currentTimeMillis();
 
-                    fireInfo(DynamicObject.counter + " Dynamic Objects");
-                    fireInfo(Tree.counter + " Trees");
-                    fireInfo(Node.counter + " Nodes");
-                    fireInfo(Binding.counter + " Bindings");
-                    fireInfo("Binding/Node Ratio: " + Binding.counter / (float) Node.counter);
+                    if (printingStats) {
+                        fireInfo(DynamicObject.counter + " Dynamic Objects");
+                        fireInfo(Tree.counter + " Trees");
+                        fireInfo(Node.counter + " Nodes");
+                        fireInfo(Binding.counter + " Bindings");
+                        fireInfo("Binding/Node Ratio: " + Binding.counter / (float) Node.counter);
+                        
+                        timings("Source", ruleEvaluator.srcResolver);
+                        timings("Target", ruleEvaluator.tgtResolver);
                     
-                    timings("Source", ruleEvaluator.srcResolver);
-                    timings("Target", ruleEvaluator.tgtResolver);
-                    
-//                    fireInfo(ruleEvaluator.tgtResolver.counter + "\t" +
+//                    fireInfo("TrackingUse breakdown: " + 
+//                            ruleEvaluator.tgtResolver.counter + "\t" +
 //                            ruleEvaluator.tgtResolver.elapsed[0] + "\t" +
 //                            ruleEvaluator.tgtResolver.elapsed[1] + "\t" +
 //                            ruleEvaluator.tgtResolver.elapsed[2] + "\t" +
 //                            ruleEvaluator.tgtResolver.elapsed[3]
 //                            );
                     
-                    fireInfo("Transformation time: " + (endTime - startTime) / 1000.0 + "s");
+                        fireInfo("Transformation time: " + (endTime - startTime) / 1000.0 + "s");
+                    }
                     
                     fireTransformationFinished();
                 }
@@ -349,7 +372,7 @@ public class Tefkat {
         List importedResources = getImportedResources(t);
         ruleEvaluator = new RuleEvaluator(context, trackingExtent, importedResources, engineListeners);
         try {
-            Util.resolveTrackingClassNames(t, ruleEvaluator.nameMap);
+            ModelUtils.resolveTrackingClassNames(t, ruleEvaluator.nameMap);
         } catch (TefkatException e) {
             throw new ResolutionException(null, "Could not resolve tracking class references", e);
         }
@@ -480,6 +503,10 @@ public class Tefkat {
             String incremental = (String) task.getProperties().get("incremental");
             if (null != incremental) {
                 setIncremental(Boolean.valueOf(incremental).booleanValue());
+            }
+            String statistics = (String) task.getProperties().get("statistics");
+            if (null != statistics) {
+                setPrintingStats(Boolean.valueOf(statistics).booleanValue());
             }
             
             Resource transformationR = null;
