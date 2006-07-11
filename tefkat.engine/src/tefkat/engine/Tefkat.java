@@ -496,7 +496,9 @@ public class Tefkat {
 //            	}
 //            }
 
-            setResourceSet(task.eResource().getResourceSet());
+            if (null != task.eResource()) {
+                setResourceSet(task.eResource().getResourceSet());
+            }
         
             List uriMaps = task.getUriMap();
         
