@@ -17,6 +17,7 @@ package tefkat.engine;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -229,11 +230,11 @@ abstract class AbstractResolver {
      * 
      * TODO Cache PatternUse calls to trap infinite recursion.
      */
-    protected void resolvePatternUse(Tree tree, Node node, Collection goal,
-            PatternUse literal, boolean isNegation) throws ResolutionException, NotGroundException {
+    protected void resolvePatternUse(final Tree tree, final Node node, final Collection goal,
+            final PatternUse literal, final boolean isNegation) throws ResolutionException, NotGroundException {
 
-        PatternDefn pDefn = literal.getDefn();
-        List args = literal.getArg();
+        final PatternDefn pDefn = literal.getDefn();
+        final List args = literal.getArg();
 
         if (null == pDefn) { // TODO fix this println hack
             String mesg = "";
@@ -263,7 +264,7 @@ abstract class AbstractResolver {
             return;
         }
 
-        List pDefVars = pDefn.getParameterVar();
+        final List pDefVars = pDefn.getParameterVar();
 
         // Check that the sizes of formals and actuals matches, then add the bound variables, pairwise,
         // to the initial binding to be passed to the tree resolution of the pattern.
@@ -282,27 +283,52 @@ abstract class AbstractResolver {
                         literal, pDefVars, args, pDefn, new Binding(), isNegation);
             }
         } else {
-            // Eval all the input Expressions
-            // FIXME handle BindingPairs
-            List actuals = exprEval.evalAll(node, args);
+//            final Binding context = tree.getContext();
+            Function resolver;
+            if (ruleEval.INCREMENTAL) {
+                resolver = new Function2() {
+                    public Object call(Object[] params) {
+                        throw new Error("Internal error: this method should not be called");
+                    }
 
-            Collection bindings = EngineUtils.createBindings(tree.getContext(), actuals, pDefVars);
+                    public Object call(Binding context, Object[] params) throws ResolutionException {
+                        Binding newContext = new Binding(context);
 
-            if (null != bindings && bindings.size() > 0) {
-                for (Iterator itr = bindings.iterator(); itr.hasNext();) {
-                    if (ruleEval.INCREMENTAL) {
+                        for (int i = 0; i < params.length; i++) {
+                            newContext.add((PatternVar) pDefVars.get(i), params[i]);
+                        }
+
                         incrementalResolvePatternDefn(tree, node,
                                 goal, literal, pDefVars, args, pDefn,
-                                (Binding) itr.next(), isNegation);
-                    } else {
+                                newContext, isNegation);
+                        
+                        return Collections.EMPTY_LIST;
+                    }
+                };
+            } else {
+                resolver = new Function2() {
+                    public Object call(Object[] params) {
+                        throw new Error("Internal error: this method should not be called");
+                    }
+
+                    public Object call(Binding context, Object[] params) throws ResolutionException {
+                        Binding newContext = new Binding(context);
+
+                        for (int i = 0; i < params.length; i++) {
+                            newContext.add((PatternVar) pDefVars.get(i), params[i]);
+                        }
+
                         resolvePatternDefn(tree, node,
                                 goal, literal, pDefVars, args, pDefn,
-                                (Binding) itr.next(), isNegation);
+                                newContext, isNegation);
+
+                        return Collections.EMPTY_LIST;
                     }
-                }
-            } else {
-                tree.failure(node);
+                };
             }
+            
+            exprEval.evalAll(node, node.getBindings(), args, resolver);
+
         }
     }
 
@@ -435,6 +461,11 @@ abstract class AbstractResolver {
                     unifier.add(((WrappedVar) val).getVar(),
                             solution.lookup((PatternVar) formals.get(j)));
                 } else if (!val.equals(solution.lookup((PatternVar) formals.get(j)))) {
+                    System.err.println("Arg:\t" + argExpr);
+                    System.err.println("actual:\t" + val);
+                    System.err.println("formal:\t" + formals.get(j));
+                    System.err.println("result:\t" + solution.lookup((PatternVar) formals.get(j)));
+                    
                     throw new ResolutionException(node, "conflicting pattern arg and result: " + val + "\t" + solution.lookup((PatternVar) formals.get(j)));
                 }
             }

@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -420,17 +421,16 @@ class Evaluator {
         
         CollectionExpr collection = (CollectionExpr) expr;
         List args = collection.getArg();
-        Function identity = (Function) funcMap.get("collect");
-        List results = new ArrayList(args.size());
-        List items = evalAll(context, args);
+        Function f = (Function) funcMap.get("collect");
         
-        accumulate(identity, items, results, true);
+        Expander expander = new Expander(f, context, args, true);
+        List results = expander.getResults();
         
         return results;
     }
 
     private List evalFunctionExpr(Binding context, Expression expr) throws ResolutionException, NotGroundException {
-        List values = new ArrayList();
+        List values;
         FunctionExpr funcExpr = (FunctionExpr) expr;
         String op = funcExpr.getFunction();
         List args = funcExpr.getArg();
@@ -439,16 +439,17 @@ class Evaluator {
             if (null != f) {
                 funcMap.put(CONTEXT_KEY, context);
                 if (args.size() > 0) {
-                    List params = evalAll(context, args);  // FIXME - handle BindingPairs etc
-                    accumulate(f, params, values, false);
+                    Expander expander = new Expander(f, context, args, false);
+                    values = expander.getResults();
                 } else {
+                    values = new ArrayList();
                     values.add(f.call(args.toArray()));
                 }
                 funcMap.remove(CONTEXT_KEY);
             } else if ("collect".equals(op)) {
-                List params = evalAll(context, args);  // FIXME - handle BindingPairs etc
-                Function identity = (Function) funcMap.get("collect");
-                accumulate(identity, params, values, true);
+                f = (Function) funcMap.get("collect");
+                Expander expander = new Expander(f, context, args, true);
+                values = expander.getResults();
             } else {
                 throw new ResolutionException(null, "Unknown function: " + op);
             }
@@ -695,30 +696,14 @@ class Evaluator {
 //    albeit related problem to the rest of the changes to Tree, TreeListener, *Resolver etc
 //    Those changes are dealing with delays propagating out of sub-Trees -- see the FIXME below
     
-    List evalAll(Node node, List args) throws ResolutionException, NotGroundException {
+    void evalAll(Node node, Binding context, List args, Function function) throws ResolutionException, NotGroundException {
         try {
-            return evalAll(node.getBindings(), args);
+            new Expander(function, context, args, false);
         } catch (ResolutionException e) {
             e.setNode(node);
             throw e;
         }
     }
-
-    // FIXME Handle BindingPairs
-    private List evalAll(Binding context, List args) throws ResolutionException, NotGroundException {
-        List results = new ArrayList(args.size());
-        for (Iterator itr = args.iterator(); itr.hasNext(); ) {
-            Expression arg = (Expression) itr.next();
-            List vals = eval(context, arg);
-            // if the result is a WrappedVar, then we need to expand it later
-//            if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
-//                AbstractVar var = ((WrappedVar) vals.get(0)).getVar();
-//                throw new NotGroundException(var.getName() + " is not bound.");
-//            }
-            results.add(vals);
-        }
-        return results;
-     }
     
     private Map methodCache = new HashMap();
     
@@ -845,39 +830,6 @@ class Evaluator {
         return typesToMethods;
     }
 
-    private void invokeOperation(Object instance, String methodName, List ls, int i, Object[] params, Collection results, boolean collect)
-    throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        Collection l = (Collection) ls.get(i);
-        if (i < ls.size()-1) {
-            for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
-                params[i] = itr.next();
-                invokeOperation(instance, methodName, ls, i+1, params, results, collect);
-            }
-        } else {
-            for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
-                params[i] = itr.next();
-                
-                // In the general case the param types could all be different and
-                // thus invoke different methods so we cannot cache/lift this
-                // method resolution call
-                Method method = resolveMethod(instance, methodName, params);
-
-                if (null == method) {
-                    warnNoMethod(instance, methodName);
-                } else {
-                    Object result = method.invoke(instance, params);
-                    if (null != result) {
-                        if (!collect && result instanceof Collection) { 
-                            results.addAll((Collection) result);
-                        } else {
-                            results.add(result);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private void warnNoMethod(Object instance, String methodName) {
         String message = "No such operation: ";
         if (instance instanceof EObject) {
@@ -889,57 +841,62 @@ class Evaluator {
         ruleEval.fireWarning(message);
     }
     
-    private List callOperation(Binding context, String operationName, Object instance, List args, boolean collect)
+    private List callOperation(Binding context, final String operationName, final Object instance, List args, boolean collect)
     throws ResolutionException, NotGroundException {
-        List results = new ArrayList();
+        Function methodCall = new Function() {
+            public Object call(Object[] params) throws ResolutionException {
+                Object result = null;
+                
+                // In the general case the param types could all be different and
+                // thus invoke different methods so we cannot cache/lift this
+                // method resolution call
+                Method method = resolveMethod(instance, operationName, params);
 
-        // TODO check EMF reflective calling of operations
-        // for now, use Java reflection :(
-
-        try {
-            if (args.size() > 0) {
-                List params = evalAll(context, args);
-                try {
-                    invokeOperation(instance, operationName, params, 0, new Object[params.size()], results, collect);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    ruleEval.fireWarning(e);
-                    throw new ResolutionException(null, "Operation invocation "+ operationName + " failed", e);
-                }
-            } else {
-                Method method = resolveMethod(instance, operationName, null);
                 if (null == method) {
                     warnNoMethod(instance, operationName);
+                    result = Collections.EMPTY_LIST;
                 } else {
-                    Object result = method.invoke(instance, null);
-                    if (null != result) {
-                        if (!collect && result instanceof Collection) { 
-                            results.addAll((Collection) result);
-                        } else {
-                            results.add(result);
-                        }
+                    try {
+                        result = method.invoke(instance, params);
+                    } catch (SecurityException e) {
+                        ruleEval.fireWarning(e);
+                    } catch (IllegalArgumentException e) {
+                        ruleEval.fireWarning(e);
+                    } catch (IllegalAccessException e) {
+                        ruleEval.fireWarning(e);
+                    } catch (InvocationTargetException e) {
+                        ruleEval.fireWarning(e);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+//                        ruleEval.fireError(e);
+                        throw new ResolutionException(null, "Operation invocation "+ operationName + " failed", e);
+                    }
+                    if (null == result) {
+                        result = Collections.EMPTY_LIST;
                     }
                 }
+                return result;
             }
-            // System.out.println("\t" + operationName + "(...) = " + results);   // TODO delete
-        } catch (SecurityException e) {
-            e.printStackTrace();
-            ruleEval.fireWarning(e);
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//            ruleEval.fireWarning(e);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-//            System.err.println(method);        // TODO delete
-//            System.err.println("  " + args);
-            ruleEval.fireWarning(e);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            ruleEval.fireWarning(e);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            ruleEval.fireWarning(e);
+            
+        };
+
+        List results;
+
+        if (args.size() > 0) {
+            Expander expander = new Expander(methodCall, context, args, collect);
+            results = expander.getResults();
+        } else {
+            results = new ArrayList();
+            Object result = methodCall.call(null);
+            if (null != result) {
+                if (!collect && result instanceof Collection) { 
+                    results.addAll((Collection) result);
+                } else {
+                    results.add(result);
+                }
+            }
         }
+        // System.out.println("\t" + operationName + "(...) = " + results);   // TODO delete
         
         return results;
     }
@@ -1014,21 +971,107 @@ class Evaluator {
         return valuesObject;
     }
     
-    private void accumulate(Function f, List ls, Collection results, boolean collect) throws ResolutionException {
-        accumulate(f, ls, 0, new Object[ls.size()], results, collect);
-    }
+//    private void accumulate(Function f, List itemsCollections, Collection results, boolean collect) throws ResolutionException {
+//        accumulate(f, itemsCollections, 0, new Object[itemsCollections.size()], results, collect);
+//    }
+//    
+//    private void accumulate(Function f, List itemsCollections, int i, Object[] params, Collection results, boolean collect) throws ResolutionException {
+//        Collection items = (Collection) itemsCollections.get(i);
+//        if (i < itemsCollections.size()-1) {
+//            for (final Iterator itr = items.iterator(); itr.hasNext(); ) {
+//                params[i] = itr.next();
+//                accumulate(f, itemsCollections, i+1, params, results, collect);
+//            }
+//        } else {
+//            for (final Iterator itr = items.iterator(); itr.hasNext(); ) {
+//                params[i] = itr.next();
+//                Object result = f.call(params);
+//                if (null != result) {
+//                    if (!collect && result instanceof Collection) { 
+//                        results.addAll((Collection) result);
+//                    } else {
+//                        results.add(result);
+//                    }
+//                } else {
+//                    ruleEval.fireWarning("Function call returned null: " + f + "(" + params + ")");
+//                }
+//            }
+//        }
+//    }
     
-    private void accumulate(Function f, List ls, int i, Object[] params, Collection results, boolean collect) throws ResolutionException {
-        Collection l = (Collection) ls.get(i);
-        if (i < ls.size()-1) {
-            for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
-                params[i] = itr.next();
-                accumulate(f, ls, i+1, params, results, collect);
-            }
-        } else {
-            for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
-                params[i] = itr.next();
-                Object result = f.call(params);
+//    /**
+//     * 
+//     * @param f Function to call for each set of actual parameter values
+//     * @param context outer Binding context for the calls
+//     * @param actuals List of Expressions to evaluate to obtain the parameter values
+//     * @param params array of actual parameter values
+//     * @param i number of valid values in the params array
+//     * @param results collection of results from the calls
+//     * @param collect true means preserve nesting of result values
+//     * @throws NotGroundException
+//     * @throws ResolutionException
+//     */
+//    private void expandParams(Function f, Binding context, List actuals, Object[] params, int i, Collection results, boolean collect)
+//    throws NotGroundException, ResolutionException {
+//        if (i == params.length) {
+//            Object result = f.call(params);
+//            if (null != result) {
+//                if (!collect && result instanceof Collection) { 
+//                    results.addAll((Collection) result);
+//                } else {
+//                    results.add(result);
+//                }
+//            } else {
+//                ruleEval.fireWarning("Function call returned null: " + f + "(" + params + ")");
+//            }
+//        } else {
+//            List values = eval(context, (Expression) actuals.get(i));
+//            for (final Iterator itr = values.iterator(); itr.hasNext(); ) {
+//                Object obj = itr.next();
+//                Binding newContext;
+//                if (obj instanceof BindingPair) {
+//                    newContext = null;
+//                } else {
+//                    newContext = context;
+//                }
+//                params[i] = obj;
+//                expandParams(f, newContext, actuals, params, i+1, results, collect);
+//            }
+//        }
+//    }
+
+    final class Expander {
+
+        final private List results = new ArrayList();
+        final private Function f;
+        final private List actuals;
+        final private Object[] params;
+        final private boolean collect;
+        
+        /**
+         * 
+         * @param function Function to call for each set of actual parameter values
+         * @param context outer Binding context for the calls
+         * @param actuals List of Expressions to evaluate to obtain the parameter values
+         * @param collect true means preserve nesting of result values
+         * @throws NotGroundException
+         * @throws ResolutionException
+         */
+        Expander(Function function, Binding context, List actuals, boolean collect)
+        throws NotGroundException, ResolutionException {
+            this.f = function;
+            this.actuals = actuals;
+            this.collect = collect;
+            
+            params = new Object[actuals.size()];
+
+            expandParams(context, 0);
+        }
+        
+        private void expandParams(Binding context, int i)
+        throws NotGroundException, ResolutionException {
+            if (i == params.length) {
+                Object result = (f instanceof Function2) ? ((Function2) f).call(context, params) : f.call(params);
                 if (null != result) {
                     if (!collect && result instanceof Collection) { 
                         results.addAll((Collection) result);
@@ -1038,29 +1081,29 @@ class Evaluator {
                 } else {
                     ruleEval.fireWarning("Function call returned null: " + f + "(" + params + ")");
                 }
-            }
-        }
-    }
-    
-    private void expandParams(Object[] params) throws NotGroundException {
-        for (int i = 0; i < params.length; i++) {
-        }
-    }
-    
-    private void expandParams(Function f, Binding context, Object[] params, Object[] actuals, int i) throws NotGroundException, ResolutionException {
-        if (params[i] instanceof WrappedVar) {
-            WrappedVar wvar = (WrappedVar) params[i];
-            Collection objs = expand(wvar);
-            for (Iterator itr = objs.iterator(); itr.hasNext(); ) {
-                actuals[i] = itr.next();
-                context.add(wvar.getVar(), actuals[i]);
-                if (i < actuals.length-1) {
-                    expandParams(f, context, params, actuals, i + 1);
-                } else {
-                    f.call(actuals);
+            } else {
+                List values = eval(context, (Expression) actuals.get(i));
+                for (final Iterator itr = values.iterator(); itr.hasNext(); ) {
+                    Object obj = itr.next();
+                    Binding newContext;
+                    if (obj instanceof BindingPair) {
+                        newContext = new Binding(context);
+                        newContext.composeLeft((BindingPair) obj);
+                        
+                        System.err.println(params[i] + " = " + obj);
+                        System.err.println(context);
+                        System.err.println(newContext);
+                    } else {
+                        newContext = context;
+                    }
+                    params[i] = obj;
+                    expandParams(newContext, i+1);
                 }
             }
         }
+        
+        List getResults() {
+            return results;
+        }
     }
-
 }
