@@ -727,8 +727,7 @@ public class RuleEvaluator {
 
                 //  Is the goal already a success?
                 //
-                Collection goal = node.goal();
-                if (goal.isEmpty()) {
+                if (node.goal().isEmpty()) {
 
                     fireEnterTerm(node);
 
@@ -766,7 +765,7 @@ public class RuleEvaluator {
                     Term literal = selectLiteral(node);
                     if (literal == null) {
                         throw new ResolutionException(node,
-                                "Could not select a valid literal from goal: " + goal);
+                                "Could not select a valid literal from goal: " + node.goal());
                     }
 
                     try {
@@ -784,9 +783,9 @@ public class RuleEvaluator {
                         // appropriate resolver.
                         //
                         if (isTarget(literal)) {
-                            tgtResolver.doResolveNode(tree, node, goal, literal, false);
+                            tgtResolver.doResolveNode(tree, node, literal, false);
                         } else {
-                            srcResolver.doResolveNode(tree, node, goal, literal, false);
+                            srcResolver.doResolveNode(tree, node, literal, false);
                         }
 
                         fireExitTerm(node);
@@ -831,7 +830,7 @@ public class RuleEvaluator {
      * @return True iff this node or one of its (transitive) children is a
      *         success node.
      */
-    protected void resolveNode(Tree tree) throws ResolutionException {
+    protected void resolveNode(final Tree tree) throws ResolutionException {
 
         try {
             depth++;
@@ -846,8 +845,7 @@ public class RuleEvaluator {
 
                 //  Is the goal already a success?
                 //
-                Collection goal = node.goal();
-                if (goal.isEmpty()) {
+                if (node.goal().isEmpty()) {
 
 //                    if (stepMode) {
 //                        waitStep();
@@ -871,7 +869,7 @@ public class RuleEvaluator {
                     Term literal = selectLiteral(node);
                     if (literal == null) {
                         throw new ResolutionException(node,
-                                "Could not select a valid literal from goal: " + goal);
+                                "Could not select a valid literal from goal: " + node.goal());
                     }
 
                     try {
@@ -889,9 +887,9 @@ public class RuleEvaluator {
                         // appropriate resolver.
                         //
                         if (isTarget(literal)) {
-                            tgtResolver.doResolveNode(tree, node, goal, literal, false);
+                            tgtResolver.doResolveNode(tree, node, literal, false);
                         } else {
-                            srcResolver.doResolveNode(tree, node, goal, literal, false);
+                            srcResolver.doResolveNode(tree, node, literal, false);
                         }
 
                         fireExitTerm(node);

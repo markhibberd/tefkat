@@ -27,7 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -1088,7 +1087,8 @@ class Evaluator {
                     Binding newContext;
                     if (obj instanceof BindingPair) {
                         newContext = new Binding(context);
-                        newContext.composeLeft((BindingPair) obj);
+                        newContext.composeRight((BindingPair) obj);
+                        obj = ((BindingPair) obj).getValue();
                         
                         System.err.println(params[i] + " = " + obj);
                         System.err.println(context);

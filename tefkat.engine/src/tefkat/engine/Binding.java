@@ -421,24 +421,27 @@ public class Binding {
         EClass eClass = wVar.getType();
         if (null != eClass) {
             if (val instanceof WrappedVar) {
-                EClass eClass2 = ((WrappedVar) val).getType();
-                if (null == eClass2) {
+                WrappedVar wVar2 = (WrappedVar) val;
+                AbstractVar var2 = wVar2.getVar();
+                EClass eClass2 = wVar2.getType();
+                boolean isExact2 = wVar2.isExact();
+                
+                if (null != eClass2) {
+                    if (wVar.setType(eClass2, isExact2)) {
+                        if (null == unifier) {
+                            unifier = new Binding();
+                        }
+                        unifier.add(var, wVar);
+                        unifier.add(var2, wVar);
+                    } else {    // type mismatch
+                        unifier = null;
+                    }
+                } else {
                     if (null == unifier) {
                         unifier = new Binding();
                     }
-                    unifier.add(var, val);
-                } else if (eClass.isSuperTypeOf(eClass2)) {
-                    if (null == unifier) {
-                        unifier = new Binding();
-                    }
-                    unifier.add(var, val);
-                } else if (eClass2.isSuperTypeOf(eClass)) {
-                    if (null == unifier) {
-                        unifier = new Binding();
-                    }
-                    unifier.add(((WrappedVar) val).getVar(), wVar);
-                } else {    // type mismatch
-                    unifier = null;
+                    unifier.add(var, wVar);
+                    unifier.add(var2, wVar);
                 }
             } else if (val instanceof EObject) {
                 if (eClass.isSuperTypeOf(((EObject) val).eClass())) {

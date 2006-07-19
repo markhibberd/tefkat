@@ -61,7 +61,6 @@ class SourceResolver extends AbstractResolver {
         private final Node node;
 
         private HandleNewTrackingInstance(Tree tree, EClass class1, Collection goal, Object[][] map, Node node) {
-            super();
             this.tree = tree;
             this.class1 = class1;
             this.goal = goal;
@@ -187,9 +186,8 @@ class SourceResolver extends AbstractResolver {
     protected void resolveTrackingUse(
         final Tree tree,
         final Node node,
-        Collection goal,
-        TrackingUse literal)
-        throws ResolutionException, NotGroundException {
+        final TrackingUse literal)
+    throws ResolutionException, NotGroundException {
 
         // Get the properties of the TrackingUse
         
@@ -212,7 +210,7 @@ class SourceResolver extends AbstractResolver {
             i++;
         }
 
-        final Collection newGoal = new ArrayList(goal);
+        final Collection newGoal = new ArrayList(node.goal());
         newGoal.remove(literal);
      
         TrackingCallback callback = new HandleNewTrackingInstance(tree, trackingClass, newGoal, featureMap, node);
@@ -234,11 +232,10 @@ class SourceResolver extends AbstractResolver {
     }
 
     protected boolean resolveMofInstance(
-        Tree tree,
-        Node node,
-        Collection goal,
-        MofInstance literal)
-        throws ResolutionException, NotGroundException {
+        final Tree tree,
+        final Node node,
+        final MofInstance literal)
+    throws ResolutionException, NotGroundException {
         /**
          * Find all instances of the specified class in the (context) extent
          */
@@ -317,7 +314,7 @@ class SourceResolver extends AbstractResolver {
                              * Create a new branch of the tree, and continue 
                              * resolution from the newly created node.
                              */
-                            Collection newGoal = new ArrayList(goal);
+                            Collection newGoal = new ArrayList(node.goal());
                             newGoal.remove(literal);
                             tree.createBranch(node, unifier, newGoal);
                         }
@@ -333,7 +330,7 @@ class SourceResolver extends AbstractResolver {
                     if ("_".equals(className)) {
                         // Any type will do, isExact in this context is meaningless
                         // hence, no need to call setType on the WrappedVar
-                        Collection newGoal = new ArrayList(goal);
+                        Collection newGoal = new ArrayList(node.goal());
                         newGoal.remove(literal);
 
                         Binding unifier = new Binding();
@@ -342,7 +339,7 @@ class SourceResolver extends AbstractResolver {
                     } else if (!(theClass instanceof EClass)) {
                         ruleEval.fireWarning("Could not find class named: " + className);
                     } else if (wVar.setType((EClass) theClass, literal.isExact())) {
-                        Collection newGoal = new ArrayList(goal);
+                        Collection newGoal = new ArrayList(node.goal());
                         newGoal.remove(literal);
 
                         Binding unifier = new Binding();
@@ -365,7 +362,7 @@ class SourceResolver extends AbstractResolver {
                     if (isOfType) {
                         success = true;
                     
-                        Collection newGoal = new ArrayList(goal);
+                        Collection newGoal = new ArrayList(node.goal());
                         newGoal.remove(literal);
                         /**
                          * Create a new branch of the tree, and continue 
@@ -389,11 +386,10 @@ class SourceResolver extends AbstractResolver {
     final private static List relOpList = Arrays.asList(relOpArray);
    
     protected void resolveCondition(
-        Tree tree,
-        Node node,
-        Collection goal,
-        Condition term)
-        throws ResolutionException, NotGroundException {
+        final Tree tree,
+        final Node node,
+        final Condition term)
+    throws ResolutionException, NotGroundException {
         boolean result = false;
 
         String relation = term.getRelation();
@@ -416,7 +412,7 @@ class SourceResolver extends AbstractResolver {
 
                     if (null != unifier) {
                         result = true;
-                        Collection newGoal = new ArrayList(goal);
+                        Collection newGoal = new ArrayList(node.goal());
                         newGoal.remove(term);
                         tree.createBranch(node, unifier, newGoal);
                     }
@@ -449,7 +445,7 @@ class SourceResolver extends AbstractResolver {
                         }
                         if (compare(node, relation, val1, val2)) {
                             result = true;
-                            Collection newGoal = new ArrayList(goal);
+                            Collection newGoal = new ArrayList(node.goal());
                             newGoal.remove(term);
                             tree.createBranch(node, unifier, newGoal);
                         } else {
@@ -492,12 +488,12 @@ class SourceResolver extends AbstractResolver {
             if (result) {
                 if (bindings.size() > 0) {
                     for (Iterator itr = bindings.iterator(); itr.hasNext(); ) {
-                        Collection newGoal = new ArrayList(goal);
+                        Collection newGoal = new ArrayList(node.goal());
                         newGoal.remove(term);
                         tree.createBranch(node, (Binding) itr.next(), newGoal);
                     }
                 } else {
-                    Collection newGoal = new ArrayList(goal);
+                    Collection newGoal = new ArrayList(node.goal());
                     newGoal.remove(term);
                     tree.createBranch(node, new Binding(), newGoal);
                 }
@@ -534,7 +530,7 @@ class SourceResolver extends AbstractResolver {
                 long lval2 = ((Number) val2).longValue();
                 cmp = lval1 - lval2;
             }
-        } else if (val1 instanceof Comparable) {    // TODO check semantics wrt Java 1.5 and Comparable<T>
+        } else if (val1 instanceof Comparable) {
             try {
                 cmp = ((Comparable) val1).compareTo(val2);
             } catch (ClassCastException e) {
@@ -560,10 +556,9 @@ class SourceResolver extends AbstractResolver {
     }
 
     protected void resolveNotTerm(
-        Tree tree,
-        Node node,
-        Collection goal,
-        NotTerm literal)
+        final Tree tree,
+        final Node node,
+        final NotTerm literal)
         throws ResolutionException, NotGroundException {
         
         // Ensure that all non-local variables are already bound
@@ -579,19 +574,19 @@ class SourceResolver extends AbstractResolver {
         //
         Collection negGoal = new ArrayList(literal.getTerm());
         
-        evalNegatedGoal(tree, node, goal, literal, negGoal);
+        evalNegatedGoal(tree, node, literal, negGoal);
     }
 
     /**
      * @param tree
      * @param node
-     * @param goal
      * @param literal
      * @param negGoal
      * @return
      * @throws ResolutionException
      */
-    private void evalNegatedGoal(final Tree tree, final Node node, final Collection goal, final NotTerm literal, Collection negGoal) throws ResolutionException {
+    private void evalNegatedGoal(final Tree tree, final Node node, final NotTerm literal, final Collection negGoal)
+    throws ResolutionException {
         Binding context = new Binding(node.getBindings());
         // cannot pass node as context here or delayed terms will get pushed into the "NOT"
         // leading to possible spurious flounderings -- see also resolveIfTerm 
@@ -612,7 +607,7 @@ class SourceResolver extends AbstractResolver {
                     } else {
                     	// Negation tree finitely failed, regard as true.
                     	//
-                    	List newGoal = new ArrayList(goal);
+                    	List newGoal = new ArrayList(node.goal());
                     	newGoal.remove(literal);
                     	tree.createBranch(node, null, newGoal);
                     }
@@ -633,7 +628,7 @@ class SourceResolver extends AbstractResolver {
             } else {
                 // Negation tree finitely failed, regard as true.
                 //
-                List newGoal = new ArrayList(goal);
+                List newGoal = new ArrayList(node.goal());
                 newGoal.remove(literal);
                 tree.createBranch(node, null, newGoal);
             }
@@ -642,10 +637,9 @@ class SourceResolver extends AbstractResolver {
     }
 
     protected void resolveOrTerm(
-        Tree tree,
-        Node node,
-        Collection goal,
-        OrTerm literal)
+        final Tree tree,
+        final Node node,
+        final OrTerm literal)
         throws ResolutionException {
         /**
          *  Create a node for each disjunct, distributing them into
@@ -657,23 +651,24 @@ class SourceResolver extends AbstractResolver {
         }
 
         for (Iterator itr = terms.iterator(); itr.hasNext(); ) {
-            List newGoal = new ArrayList(goal);
+            List newGoal = new ArrayList(node.goal());
             newGoal.remove(literal);
             newGoal.add(0, itr.next());
             tree.createBranch(node, null, newGoal);
         }
     }
 
-    protected Term selectLiteral(Node node) {
+    protected Term selectLiteral(final Node node) {
         Term t = doSelectLiteral(node);
         return t;
     }
 
-    protected Term doSelectLiteral(Node node) {
+    protected Term doSelectLiteral(final Node node) {
         return super.selectLiteral(node);
     }
     
-    protected void resolveMofOrder(Tree tree, Node node, Collection goal, MofOrder term) throws ResolutionException, NotGroundException {
+    protected void resolveMofOrder(final Tree tree, final Node node, final MofOrder term)
+    throws ResolutionException, NotGroundException {
         List instances = exprEval.eval(node, term.getInstance());
         List features = exprEval.eval(node, term.getFeature());
         List lesserObjects = exprEval.eval(node, term.getLesser());
@@ -706,18 +701,20 @@ class SourceResolver extends AbstractResolver {
                     
                     if (lesser instanceof WrappedVar) {
                         for (int i = 0; i < valueList.size(); i++) {
-                            processGreaterObjects(tree, node, goal, term, greaterObjects, valueList, i);
+                            processGreaterObjects(tree, node, term, greaterObjects, valueList, i);
                         }
                     } else {
                         int index = valueList.indexOf(lesser);
-                        processGreaterObjects(tree, node, goal, term, greaterObjects, valueList, index);
+                        processGreaterObjects(tree, node, term, greaterObjects, valueList, index);
                     }
                 }
             }
         }
     }
 
-    private void processGreaterObjects(Tree tree, Node node, Collection goal, MofOrder term, List greaterObjects, List valueList, int lindex) throws ResolutionException {
+    private void processGreaterObjects(final Tree tree, final Node node, final MofOrder term,
+            final List greaterObjects, final List valueList, final int lindex)
+    throws ResolutionException {
         for (Iterator gItr = greaterObjects.iterator(); gItr.hasNext(); ) {
             Object greater = gItr.next();
         
@@ -728,12 +725,12 @@ class SourceResolver extends AbstractResolver {
                     Binding unifier = new Binding();
                     unifier.add(((WrappedVar) greater).getVar(), val);
                     
-                    Collection newGoal = new ArrayList(goal);
+                    Collection newGoal = new ArrayList(node.goal());
                     newGoal.remove(term);
                     tree.createBranch(node, unifier, newGoal);
                 }
             } else if (lindex < valueList.indexOf(greater)) {
-                Collection newGoal = new ArrayList(goal);
+                Collection newGoal = new ArrayList(node.goal());
                 newGoal.remove(term);
                 tree.createBranch(node, null, newGoal);
             }

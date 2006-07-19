@@ -77,12 +77,12 @@ class TargetResolver extends AbstractResolver {
     	super(evaluator);
     }
 
-    protected void doResolveNode(Tree tree, Node node, Collection goal,
-            Term literal, boolean isNegation) throws ResolutionException, NotGroundException {
+    protected void doResolveNode(final Tree tree, final Node node, final Term literal, final boolean isNegation)
+    throws ResolutionException, NotGroundException {
         if (literal instanceof Injection) {
-            resolveInjection(tree, node, goal, (Injection) literal);
+            resolveInjection(tree, node, (Injection) literal);
         } else {
-            super.doResolveNode(tree, node, goal, literal, isNegation);
+            super.doResolveNode(tree, node, literal, isNegation);
         }
     }
     
@@ -124,10 +124,10 @@ class TargetResolver extends AbstractResolver {
     }
     
     protected boolean resolveInjection(
-            Tree tree,
-            Node node,
-            Collection goal,
-            Injection literal) throws ResolutionException, NotGroundException {
+            final Tree tree,
+            final Node node,
+            final Injection literal)
+    throws ResolutionException, NotGroundException {
         List keySet = new ArrayList();
         
         List sources = literal.getSources();
@@ -178,7 +178,7 @@ class TargetResolver extends AbstractResolver {
                 throw new ResolutionException(node, "Incompatible values for variable: " + targetVarUse.getVar());
             }
         
-            Collection newGoal = new ArrayList(goal);
+            Collection newGoal = new ArrayList(node.goal());
             newGoal.remove(literal);
             tree.createBranch(node, unifier, newGoal);
         }
@@ -212,11 +212,10 @@ class TargetResolver extends AbstractResolver {
      * @param literal
      */
     protected void resolveTrackingUse(
-        Tree tree,
-        Node node,
-        Collection goal,
-        TrackingUse literal)
-        throws ResolutionException, NotGroundException {
+            final Tree tree,
+            final Node node,
+            final TrackingUse literal)
+    throws ResolutionException, NotGroundException {
 
         long t1 = System.currentTimeMillis();
         
@@ -288,7 +287,7 @@ class TargetResolver extends AbstractResolver {
         elapsed[1] += t3-t2;
         elapsed[2] += t4-t3;
         
-        Collection newGoal = new ArrayList(goal);
+        Collection newGoal = new ArrayList(node.goal());
         newGoal.remove(literal);
         tree.createBranch(node, null, newGoal);
     }
@@ -358,11 +357,10 @@ class TargetResolver extends AbstractResolver {
     }
 
     protected boolean resolveMofInstance(
-        Tree tree,
-        Node node,
-        Collection goal,
-        MofInstance literal)
-        throws ResolutionException, NotGroundException {
+            final Tree tree,
+            final Node node,
+            final MofInstance literal)
+    throws ResolutionException, NotGroundException {
 
         Expression instanceExpr = literal.getInstance();
         Collection instances = exprEval.eval(node, instanceExpr);
@@ -444,7 +442,7 @@ class TargetResolver extends AbstractResolver {
             }
         }
         
-        Collection newGoal = new ArrayList(goal);
+        Collection newGoal = new ArrayList(node.goal());
         newGoal.remove(literal);
         tree.createBranch(node, unifier, newGoal);
 
@@ -485,17 +483,17 @@ class TargetResolver extends AbstractResolver {
         return result;
     }
 
-    protected void resolveCondition(Tree tree, Node node, Collection goal,
-            Condition literal) throws ResolutionException, NotGroundException {
+    protected void resolveCondition(final Tree tree, final Node node, final Condition literal)
+    throws ResolutionException, NotGroundException {
 
         Condition term = (Condition) literal;
 
         String relation = term.getRelation();
 
         if (relation.equals("=")) {
-            handleBindingCondition(tree, node, goal, term);
+            handleBindingCondition(tree, node, term);
         } else if (relation.equals("boolean")) {
-            handleBooleanCondition(tree, node, goal, term);
+            handleBooleanCondition(tree, node, term);
         } else {
             throw new ResolutionException(node, "Target condition containing "
                     + relation + " is Not Yet Implemented");
@@ -510,7 +508,8 @@ class TargetResolver extends AbstractResolver {
      * @throws ResolutionException
      * @throws NotGroundException
      */
-    private void handleBooleanCondition(Tree tree, Node node, Collection goal, Condition term) throws ResolutionException, NotGroundException {
+    private void handleBooleanCondition(final Tree tree, final Node node, final Condition term)
+    throws ResolutionException, NotGroundException {
         List args = term.getArg();
         Collection vals = exprEval.eval(node, (Expression) args.get(0));
         for (Iterator itr = vals.iterator(); itr.hasNext(); ) {
@@ -528,7 +527,7 @@ class TargetResolver extends AbstractResolver {
 
         // This is outside the loop since there's no point in creating
         // multiple branches for the same (new) goal and empty Binding.
-        Collection newGoal = new ArrayList(goal);
+        Collection newGoal = new ArrayList(node.goal());
         newGoal.remove(term);
         tree.createBranch(node, null, newGoal);
     }
@@ -541,7 +540,8 @@ class TargetResolver extends AbstractResolver {
      * @throws ResolutionException
      * @throws NotGroundException
      */
-    private void handleBindingCondition(Tree tree, Node node, Collection goal, Condition term) throws ResolutionException, NotGroundException {
+    private void handleBindingCondition(final Tree tree, final Node node, final Condition term)
+    throws ResolutionException, NotGroundException {
         List args = term.getArg();
 
         // The following possibilities exist:
@@ -669,7 +669,7 @@ class TargetResolver extends AbstractResolver {
                         ruleEval.fireWarning("No value for " + ModelUtils.getFullyQualifiedName(eFeature));
                     }
                     
-                    Collection newGoal = new ArrayList(goal);
+                    Collection newGoal = new ArrayList(node.goal());
                     newGoal.remove(term);
                     tree.createBranch(node, unifier, newGoal);
                 }
@@ -727,83 +727,30 @@ class TargetResolver extends AbstractResolver {
         return cl;
     }
 
+    /**
+     * @throws ResolutionException NotTerms on the target side are not supported
+     */
     protected void resolveNotTerm(
-        Tree tree,
-        Node node,
-        Collection goal,
-        NotTerm literal)
-        throws ResolutionException {
-            throw new ResolutionException(node, "NotTerm not supported in target term");
-        //      /**
-        //       *  Create a new subtree attached to this node, and mark
-        //       *  that tree as a negative tree.
-        //       */
-        //      List terms = ((NotTerm) literal).getTerm();
-        //      
-        //      if (null == terms || terms.size() != 1) {
-        //          throw new ResolutionException(node, "Malformed NotTerm - must contain exactly one term.");
-        //      }
-        //      Term newTerm = (Term) terms.get(0);
-        //      Collection newGoal;
-        //      if (newTerm instanceof AndTerm) {
-        //          newGoal = ((AndTerm) newTerm).getTerm();
-        //      } else {
-        //          newGoal = new ArrayList(1);
-        //          newGoal.add(newTerm);
-        //      }
-        //
-        //      Tree newTree = new Tree(newGoal, node.getAllBindings());
-        //      node.setNegationTree(newTree);
-        //
-        //      /**
-        //       *  Any success nodes in the negation tree?
-        //       */
-        //      boolean success = resolveNode(newTree, newTree.root(), true);
-        //      if (newTree.isSuccess()) {
-        //          tree.failure(node);
-        //          return false;
-        //      } else {
-        //          /**
-        //           *  Negation tree finitely failed, regard as true.
-        //           */
-        //          newGoal = new ArrayList(goal);
-        //          newGoal.remove(literal);
-        //          createBranch(node, null, newGoal);
-        //      }
-//        return true;
+            final Tree tree,
+            final Node node,
+            final NotTerm literal)
+    throws ResolutionException {
+        throw new ResolutionException(node, "NotTerm not supported in target term");
     }
-
+    
+    /**
+     * @throws ResolutionException OrTerms on the target side are not supported (since they lead to nondeterminism)
+     */
     protected void resolveOrTerm(
-        Tree tree,
-        Node node,
-        Collection goal,
-        OrTerm literal)
-        throws ResolutionException {
-        /**
-         * Throw a ResolutionException - OrTerms on the target side give us nasty nondeterminism
-         */
+            final Tree tree,
+            final Node node,
+            final OrTerm literal)
+    throws ResolutionException {
         throw new ResolutionException(node, "OrTerm not supported in target term");
-        //      /**
-        //       *  Create a node for each disjunct, distributing them into
-        //       *  the remaining conjuncts of the goal.
-        //       */
-        //      Collection terms = ((OrTerm) literal).getTerm();
-        //      if (null == terms || terms.isEmpty()) {
-        //          throw new ResolutionException(node, "Malformed (empty) OrTerm");
-        //      }
-        //
-        //      Iterator itr = terms.iterator();
-        //      Collection newGoal;
-        //
-        //      while (itr.hasNext()) {
-        //          newGoal = new ArrayList(goal);
-        //          newGoal.remove(literal);
-        //          newGoal.add(itr.next());
-        //          createBranch(node, null, newGoal);
-        //      }
     }
 
-    protected void resolveMofOrder(Tree tree, Node node, Collection goal, MofOrder term) throws ResolutionException, NotGroundException {
+    protected void resolveMofOrder(final Tree tree, final Node node, final MofOrder term)
+    throws ResolutionException, NotGroundException {
         List featVals = exprEval.eval(node, term.getFeature());
         List instVals = exprEval.eval(node, term.getInstance());
         List lesserVals = exprEval.eval(node, term.getLesser());
@@ -867,7 +814,7 @@ class TargetResolver extends AbstractResolver {
 
                         ruleEval.addPartialOrder(inst, feat, lesser, greater);
 
-                        Collection newGoal = new ArrayList(goal);
+                        Collection newGoal = new ArrayList(node.goal());
                         newGoal.remove(term);
                         tree.createBranch(node, gUnifier, newGoal);
                     }
