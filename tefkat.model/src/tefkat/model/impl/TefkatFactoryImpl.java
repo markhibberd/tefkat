@@ -21,7 +21,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import tefkat.model.*;
 
@@ -38,6 +42,25 @@ public class TefkatFactoryImpl extends EFactoryImpl implements TefkatFactory {
      * @generated
      */
     public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+
+    /**
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public static TefkatFactory init() {
+        try {
+            TefkatFactory theTefkatFactory = (TefkatFactory)EPackage.Registry.INSTANCE.getEFactory("http:///TefkatModel-2.5.ecore"); 
+            if (theTefkatFactory != null) {
+                return theTefkatFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new TefkatFactoryImpl();
+    }
 
     /**
      * Creates an instance of the factory.
@@ -87,6 +110,7 @@ public class TefkatFactoryImpl extends EFactoryImpl implements TefkatFactory {
             case TefkatPackage.BOOLEAN_CONSTANT: return createBooleanConstant();
             case TefkatPackage.ENUM_CONSTANT: return createEnumConstant();
             case TefkatPackage.INJECTION: return createInjection();
+            case TefkatPackage.NAMESPACE_DECLARATION: return createNamespaceDeclaration();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -440,6 +464,16 @@ public class TefkatFactoryImpl extends EFactoryImpl implements TefkatFactory {
     public Injection createInjection() {
         InjectionImpl injection = new InjectionImpl();
         return injection;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NamespaceDeclaration createNamespaceDeclaration() {
+        NamespaceDeclarationImpl namespaceDeclaration = new NamespaceDeclarationImpl();
+        return namespaceDeclaration;
     }
 
     /**

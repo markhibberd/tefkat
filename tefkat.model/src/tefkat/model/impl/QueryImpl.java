@@ -91,7 +91,7 @@ public class QueryImpl extends PatternScopeImpl implements Query {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getQuery();
+        return TefkatPackage.Literals.QUERY;
     }
 
     /**
@@ -154,24 +154,14 @@ public class QueryImpl extends PatternScopeImpl implements Query {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.QUERY__VARS:
-                    return ((InternalEList)getVars()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.QUERY__PATTERN_DEFN:
-                    return ((InternalEList)getPatternDefn()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.QUERY__TERM:
-                    if (term != null)
-                        msgs = ((InternalEObject)term).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TefkatPackage.QUERY__TERM, null, msgs);
-                    return basicSetTerm((Term)otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.QUERY__TERM:
+                if (term != null)
+                    msgs = ((InternalEObject)term).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TefkatPackage.QUERY__TERM, null, msgs);
+                return basicSetTerm((Term)otherEnd, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
@@ -179,20 +169,12 @@ public class QueryImpl extends PatternScopeImpl implements Query {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.QUERY__VARS:
-                    return ((InternalEList)getVars()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.QUERY__PATTERN_DEFN:
-                    return ((InternalEList)getPatternDefn()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.QUERY__TERM:
-                    return basicSetTerm(null, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.QUERY__TERM:
+                return basicSetTerm(null, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -200,22 +182,14 @@ public class QueryImpl extends PatternScopeImpl implements Query {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.QUERY__VARS:
-                return getVars();
-            case TefkatPackage.QUERY__NAME:
-                return getName();
-            case TefkatPackage.QUERY__COMMENTS:
-                return getComments();
-            case TefkatPackage.QUERY__PATTERN_DEFN:
-                return getPatternDefn();
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.QUERY__TERM:
                 return getTerm();
             case TefkatPackage.QUERY__PARAMETER_VAR:
                 return getParameterVar();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -223,23 +197,8 @@ public class QueryImpl extends PatternScopeImpl implements Query {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.QUERY__VARS:
-                getVars().clear();
-                getVars().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.QUERY__NAME:
-                setName((String)newValue);
-                return;
-            case TefkatPackage.QUERY__COMMENTS:
-                getComments().clear();
-                getComments().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.QUERY__PATTERN_DEFN:
-                getPatternDefn().clear();
-                getPatternDefn().addAll((Collection)newValue);
-                return;
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.QUERY__TERM:
                 setTerm((Term)newValue);
                 return;
@@ -248,7 +207,7 @@ public class QueryImpl extends PatternScopeImpl implements Query {
                 getParameterVar().addAll((Collection)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -256,20 +215,8 @@ public class QueryImpl extends PatternScopeImpl implements Query {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.QUERY__VARS:
-                getVars().clear();
-                return;
-            case TefkatPackage.QUERY__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case TefkatPackage.QUERY__COMMENTS:
-                getComments().clear();
-                return;
-            case TefkatPackage.QUERY__PATTERN_DEFN:
-                getPatternDefn().clear();
-                return;
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.QUERY__TERM:
                 setTerm((Term)null);
                 return;
@@ -277,7 +224,7 @@ public class QueryImpl extends PatternScopeImpl implements Query {
                 getParameterVar().clear();
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -285,22 +232,14 @@ public class QueryImpl extends PatternScopeImpl implements Query {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.QUERY__VARS:
-                return vars != null && !vars.isEmpty();
-            case TefkatPackage.QUERY__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case TefkatPackage.QUERY__COMMENTS:
-                return comments != null && !comments.isEmpty();
-            case TefkatPackage.QUERY__PATTERN_DEFN:
-                return patternDefn != null && !patternDefn.isEmpty();
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.QUERY__TERM:
                 return term != null;
             case TefkatPackage.QUERY__PARAMETER_VAR:
                 return parameterVar != null && !parameterVar.isEmpty();
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
 } //QueryImpl

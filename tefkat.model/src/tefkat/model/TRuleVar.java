@@ -34,7 +34,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface TRuleVar extends AbstractVar{
+public interface TRuleVar extends AbstractVar {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

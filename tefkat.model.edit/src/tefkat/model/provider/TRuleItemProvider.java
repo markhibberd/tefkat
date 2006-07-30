@@ -56,7 +56,7 @@ public class TRuleItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -98,8 +98,10 @@ public class TRuleItemProvider
                  getResourceLocator(),
                  getString("_UI_TRule_extended_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TRule_extended_feature", "_UI_TRule_type"),
-                 TefkatPackage.eINSTANCE.getTRule_Extended(),
+                 TefkatPackage.Literals.TRULE__EXTENDED,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -118,8 +120,10 @@ public class TRuleItemProvider
                  getResourceLocator(),
                  getString("_UI_TRule_superseded_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TRule_superseded_feature", "_UI_TRule_type"),
-                 TefkatPackage.eINSTANCE.getTRule_Superseded(),
+                 TefkatPackage.Literals.TRULE__SUPERSEDED,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -138,8 +142,10 @@ public class TRuleItemProvider
                  getResourceLocator(),
                  getString("_UI_TRule_abstract_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TRule_abstract_feature", "_UI_TRule_type"),
-                 TefkatPackage.eINSTANCE.getTRule_Abstract(),
+                 TefkatPackage.Literals.TRULE__ABSTRACT,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
                  null,
                  null));
@@ -156,8 +162,8 @@ public class TRuleItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getTRule_Src());
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getTRule_Tgt());
+            childrenFeatures.add(TefkatPackage.Literals.TRULE__SRC);
+            childrenFeatures.add(TefkatPackage.Literals.TRULE__TGT);
         }
         return childrenFeatures;
     }
@@ -181,7 +187,7 @@ public class TRuleItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/TRule");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/TRule"));
     }
 
     /**
@@ -231,87 +237,87 @@ public class TRuleItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Src(),
+                (TefkatPackage.Literals.TRULE__SRC,
                  TefkatFactory.eINSTANCE.createAndTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Src(),
+                (TefkatPackage.Literals.TRULE__SRC,
                  TefkatFactory.eINSTANCE.createOrTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Src(),
+                (TefkatPackage.Literals.TRULE__SRC,
                  TefkatFactory.eINSTANCE.createNotTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Src(),
+                (TefkatPackage.Literals.TRULE__SRC,
                  TefkatFactory.eINSTANCE.createIfTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Src(),
+                (TefkatPackage.Literals.TRULE__SRC,
                  TefkatFactory.eINSTANCE.createTrackingUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Src(),
+                (TefkatPackage.Literals.TRULE__SRC,
                  TefkatFactory.eINSTANCE.createPatternUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Src(),
+                (TefkatPackage.Literals.TRULE__SRC,
                  TefkatFactory.eINSTANCE.createCondition()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Src(),
+                (TefkatPackage.Literals.TRULE__SRC,
                  TefkatFactory.eINSTANCE.createMofInstance()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Src(),
+                (TefkatPackage.Literals.TRULE__SRC,
                  TefkatFactory.eINSTANCE.createMofOrder()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Tgt(),
+                (TefkatPackage.Literals.TRULE__TGT,
                  TefkatFactory.eINSTANCE.createAndTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Tgt(),
+                (TefkatPackage.Literals.TRULE__TGT,
                  TefkatFactory.eINSTANCE.createIfTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Tgt(),
+                (TefkatPackage.Literals.TRULE__TGT,
                  TefkatFactory.eINSTANCE.createTrackingUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Tgt(),
+                (TefkatPackage.Literals.TRULE__TGT,
                  TefkatFactory.eINSTANCE.createPatternUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Tgt(),
+                (TefkatPackage.Literals.TRULE__TGT,
                  TefkatFactory.eINSTANCE.createCondition()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Tgt(),
+                (TefkatPackage.Literals.TRULE__TGT,
                  TefkatFactory.eINSTANCE.createMofInstance()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Tgt(),
+                (TefkatPackage.Literals.TRULE__TGT,
                  TefkatFactory.eINSTANCE.createMofOrder()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTRule_Tgt(),
+                (TefkatPackage.Literals.TRULE__TGT,
                  TefkatFactory.eINSTANCE.createInjection()));
     }
 
@@ -326,8 +332,8 @@ public class TRuleItemProvider
         Object childObject = child;
 
         boolean qualify =
-            childFeature == TefkatPackage.eINSTANCE.getTRule_Src() ||
-            childFeature == TefkatPackage.eINSTANCE.getTRule_Tgt();
+            childFeature == TefkatPackage.Literals.TRULE__SRC ||
+            childFeature == TefkatPackage.Literals.TRULE__TGT;
 
         if (qualify) {
             return getString

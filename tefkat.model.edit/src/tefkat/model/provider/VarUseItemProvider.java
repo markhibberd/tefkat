@@ -43,7 +43,7 @@ public class VarUseItemProvider
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+	public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -83,8 +83,10 @@ public class VarUseItemProvider
                  getResourceLocator(),
                  getString("_UI_VarUse_var_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_VarUse_var_feature", "_UI_VarUse_type"),
-                 TefkatPackage.eINSTANCE.getVarUse_Var(),
+                 TefkatPackage.Literals.VAR_USE__VAR,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -97,7 +99,7 @@ public class VarUseItemProvider
      * @generated
      */
 	public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/VarUse");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/VarUse"));
     }
 
     /**

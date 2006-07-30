@@ -125,11 +125,11 @@ public abstract class ModelUtils {
      * @param resources
      * @return
      */
-    public final static Map buildNameMaps(Collection resources) {
-        return buildNameMaps(resources, new HashMap());
+    public final static Map buildNameMaps(Collection resources, String namespace) {
+        return buildNameMaps(resources, new HashMap(), namespace);
     }
     
-    public final static Map buildNameMaps(Collection resources, Map nameMap) {
+    public final static Map buildNameMaps(Collection resources, Map nameMap, String namespace) {
         XSDEcoreBuilder xsdEcoreBuilder = null;
         for (Iterator itr = resources.iterator(); itr.hasNext();) {
             Resource res = (Resource) itr.next();
@@ -137,19 +137,19 @@ public abstract class ModelUtils {
             // non-EPackage since only EPackages can (transitively) contain
             // EClassifiers
             TreeIterator treeItr = res.getAllContents();
-            xsdEcoreBuilder = buildNameMaps(treeItr, nameMap, res.getResourceSet(), xsdEcoreBuilder);
+            xsdEcoreBuilder = buildNameMaps(treeItr, nameMap, namespace, res.getResourceSet(), xsdEcoreBuilder);
         }
         if (null != xsdEcoreBuilder) {
             for (Iterator itr = xsdEcoreBuilder.getTargetNamespaceToEPackageMap().values().iterator(); itr.hasNext();) {
                 EPackage pkg = (EPackage) itr.next();
-                xsdEcoreBuilder = buildNameMaps(pkg.eAllContents(), nameMap, null, xsdEcoreBuilder);
+                xsdEcoreBuilder = buildNameMaps(pkg.eAllContents(), nameMap, namespace, null, xsdEcoreBuilder);
             }
         }
         
         return nameMap;
     }
     
-    private static XSDEcoreBuilder buildNameMaps(TreeIterator treeItr, Map nameMap, final ResourceSet resourceSet, XSDEcoreBuilder xsdEcoreBuilder) {
+    private static XSDEcoreBuilder buildNameMaps(TreeIterator treeItr, Map nameMap, String namespace, final ResourceSet resourceSet, XSDEcoreBuilder xsdEcoreBuilder) {
         while (treeItr.hasNext()) {
             EObject obj = (EObject) treeItr.next();
             if (obj instanceof EClassifier) {
@@ -160,6 +160,11 @@ public abstract class ModelUtils {
                 
                 String name = eClassifier.getName();
                 addToMap(nameMap, name, eClassifier);
+                
+                if (null != namespace) {
+                    addToMap(nameMap, '^' + namespace + fqName, eClassifier);
+                    addToMap(nameMap, namespace + '^' + name, eClassifier);
+                }
                 
 //              if (obj instanceof EEnum) {
 //              EEnum eEnum = (EEnum) obj;

@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface Expression extends EObject{
+public interface Expression extends EObject {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -76,7 +76,7 @@ public abstract class PatternScopeImpl extends VarScopeImpl implements PatternSc
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getPatternScope();
+        return TefkatPackage.Literals.PATTERN_SCOPE;
     }
 
     /**
@@ -96,20 +96,12 @@ public abstract class PatternScopeImpl extends VarScopeImpl implements PatternSc
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.PATTERN_SCOPE__VARS:
-                    return ((InternalEList)getVars()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.PATTERN_SCOPE__PATTERN_DEFN:
-                    return ((InternalEList)getPatternDefn()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.PATTERN_SCOPE__PATTERN_DEFN:
+                return ((InternalEList)getPatternDefn()).basicAdd(otherEnd, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
@@ -117,18 +109,12 @@ public abstract class PatternScopeImpl extends VarScopeImpl implements PatternSc
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.PATTERN_SCOPE__VARS:
-                    return ((InternalEList)getVars()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.PATTERN_SCOPE__PATTERN_DEFN:
-                    return ((InternalEList)getPatternDefn()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.PATTERN_SCOPE__PATTERN_DEFN:
+                return ((InternalEList)getPatternDefn()).basicRemove(otherEnd, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -136,18 +122,12 @@ public abstract class PatternScopeImpl extends VarScopeImpl implements PatternSc
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.PATTERN_SCOPE__VARS:
-                return getVars();
-            case TefkatPackage.PATTERN_SCOPE__NAME:
-                return getName();
-            case TefkatPackage.PATTERN_SCOPE__COMMENTS:
-                return getComments();
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.PATTERN_SCOPE__PATTERN_DEFN:
                 return getPatternDefn();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -155,25 +135,14 @@ public abstract class PatternScopeImpl extends VarScopeImpl implements PatternSc
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.PATTERN_SCOPE__VARS:
-                getVars().clear();
-                getVars().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.PATTERN_SCOPE__NAME:
-                setName((String)newValue);
-                return;
-            case TefkatPackage.PATTERN_SCOPE__COMMENTS:
-                getComments().clear();
-                getComments().addAll((Collection)newValue);
-                return;
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.PATTERN_SCOPE__PATTERN_DEFN:
                 getPatternDefn().clear();
                 getPatternDefn().addAll((Collection)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -181,22 +150,13 @@ public abstract class PatternScopeImpl extends VarScopeImpl implements PatternSc
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.PATTERN_SCOPE__VARS:
-                getVars().clear();
-                return;
-            case TefkatPackage.PATTERN_SCOPE__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case TefkatPackage.PATTERN_SCOPE__COMMENTS:
-                getComments().clear();
-                return;
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.PATTERN_SCOPE__PATTERN_DEFN:
                 getPatternDefn().clear();
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -204,18 +164,12 @@ public abstract class PatternScopeImpl extends VarScopeImpl implements PatternSc
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.PATTERN_SCOPE__VARS:
-                return vars != null && !vars.isEmpty();
-            case TefkatPackage.PATTERN_SCOPE__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case TefkatPackage.PATTERN_SCOPE__COMMENTS:
-                return comments != null && !comments.isEmpty();
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.PATTERN_SCOPE__PATTERN_DEFN:
                 return patternDefn != null && !patternDefn.isEmpty();
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
 } //PatternScopeImpl

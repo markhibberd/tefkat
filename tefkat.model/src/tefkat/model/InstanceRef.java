@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface InstanceRef extends Expression{
+public interface InstanceRef extends Expression {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

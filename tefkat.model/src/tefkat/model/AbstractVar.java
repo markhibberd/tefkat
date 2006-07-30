@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface AbstractVar extends EObject{
+public interface AbstractVar extends EObject {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

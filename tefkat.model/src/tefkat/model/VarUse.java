@@ -30,7 +30,7 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface VarUse extends Expression{
+public interface VarUse extends Expression {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -24,7 +24,7 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface EnumConstant extends CompoundExpr{
+public interface EnumConstant extends CompoundExpr {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

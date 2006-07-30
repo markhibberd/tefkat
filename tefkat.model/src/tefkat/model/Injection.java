@@ -33,7 +33,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Injection extends TargetTerm{
+public interface Injection extends TargetTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

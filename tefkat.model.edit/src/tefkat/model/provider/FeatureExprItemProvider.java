@@ -54,7 +54,7 @@ public class FeatureExprItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -95,8 +95,10 @@ public class FeatureExprItemProvider
                  getResourceLocator(),
                  getString("_UI_FeatureExpr_operation_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_FeatureExpr_operation_feature", "_UI_FeatureExpr_type"),
-                 TefkatPackage.eINSTANCE.getFeatureExpr_Operation(),
+                 TefkatPackage.Literals.FEATURE_EXPR__OPERATION,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
                  null,
                  null));
@@ -115,8 +117,10 @@ public class FeatureExprItemProvider
                  getResourceLocator(),
                  getString("_UI_FeatureExpr_collect_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_FeatureExpr_collect_feature", "_UI_FeatureExpr_type"),
-                 TefkatPackage.eINSTANCE.getFeatureExpr_Collect(),
+                 TefkatPackage.Literals.FEATURE_EXPR__COLLECT,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
                  null,
                  null));
@@ -133,7 +137,7 @@ public class FeatureExprItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getFeatureExpr_Feature());
+            childrenFeatures.add(TefkatPackage.Literals.FEATURE_EXPR__FEATURE);
         }
         return childrenFeatures;
     }
@@ -145,7 +149,7 @@ public class FeatureExprItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/FeatureExpr");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/FeatureExpr"));
     }
 
     /**
@@ -193,52 +197,52 @@ public class FeatureExprItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureExpr_Feature(),
+                (TefkatPackage.Literals.FEATURE_EXPR__FEATURE,
                  TefkatFactory.eINSTANCE.createInstanceRef()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureExpr_Feature(),
+                (TefkatPackage.Literals.FEATURE_EXPR__FEATURE,
                  TefkatFactory.eINSTANCE.createVarUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureExpr_Feature(),
+                (TefkatPackage.Literals.FEATURE_EXPR__FEATURE,
                  TefkatFactory.eINSTANCE.createCollectionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureExpr_Feature(),
+                (TefkatPackage.Literals.FEATURE_EXPR__FEATURE,
                  TefkatFactory.eINSTANCE.createFunctionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureExpr_Feature(),
+                (TefkatPackage.Literals.FEATURE_EXPR__FEATURE,
                  TefkatFactory.eINSTANCE.createFeatureExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureExpr_Feature(),
+                (TefkatPackage.Literals.FEATURE_EXPR__FEATURE,
                  TefkatFactory.eINSTANCE.createStringConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureExpr_Feature(),
+                (TefkatPackage.Literals.FEATURE_EXPR__FEATURE,
                  TefkatFactory.eINSTANCE.createIntConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureExpr_Feature(),
+                (TefkatPackage.Literals.FEATURE_EXPR__FEATURE,
                  TefkatFactory.eINSTANCE.createRealConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureExpr_Feature(),
+                (TefkatPackage.Literals.FEATURE_EXPR__FEATURE,
                  TefkatFactory.eINSTANCE.createBooleanConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureExpr_Feature(),
+                (TefkatPackage.Literals.FEATURE_EXPR__FEATURE,
                  TefkatFactory.eINSTANCE.createEnumConstant()));
     }
 
@@ -253,8 +257,8 @@ public class FeatureExprItemProvider
         Object childObject = child;
 
         boolean qualify =
-            childFeature == TefkatPackage.eINSTANCE.getCompoundExpr_Arg() ||
-            childFeature == TefkatPackage.eINSTANCE.getFeatureExpr_Feature();
+            childFeature == TefkatPackage.Literals.COMPOUND_EXPR__ARG ||
+            childFeature == TefkatPackage.Literals.FEATURE_EXPR__FEATURE;
 
         if (qualify) {
             return getString

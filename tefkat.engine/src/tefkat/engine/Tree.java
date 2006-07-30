@@ -61,9 +61,9 @@ public class Tree {
         this.trackingExtent = trackingExtent;
         this.isNegation = isNegation;
         
-	if (null != node) {
-	    unresolvedNodes.add(node);
-	}
+        if (null != node) {
+            unresolvedNodes.add(node);
+        }
     }
     
     Tree getParentTree() {
@@ -126,13 +126,13 @@ public class Tree {
      *  @param unifier  The unifier of the parent's selected literal.
      */
     void createBranch(Node parent, Binding unifier, Collection childGoal) {
-	if (null != parent) {
-	    if (null == unifier) {
-		unifier = parent.getBindings(); // Inherit bindings from parent
-	    } else {
-		unifier.composeLeft(parent.getBindings());
-	    }
-	}
+        if (null != parent) {
+            if (null == unifier) {
+                unifier = parent.getBindings(); // Inherit bindings from parent
+            } else {
+                unifier.composeLeft(parent.getBindings());
+            }
+        }
         Node child = new Node(childGoal, unifier, parent);
         addUnresolvedNode(child);
     }
@@ -158,12 +158,12 @@ public class Tree {
         
         Binding answer = node.getBindings();
         if (!answers.contains(answer)) {
-        	answers.add(answer);
-        
-        	for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
-        		TreeListener listener = (TreeListener) itr.next();
-        		listener.solution(answer);
-        	}
+            answers.add(answer);
+
+            for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
+                TreeListener listener = (TreeListener) itr.next();
+                listener.solution(answer);
+            }
         }
         
         if (isNegation) {

@@ -53,7 +53,7 @@ public class PatternUseItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -93,8 +93,10 @@ public class PatternUseItemProvider
                  getResourceLocator(),
                  getString("_UI_PatternUse_defn_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_PatternUse_defn_feature", "_UI_PatternUse_type"),
-                 TefkatPackage.eINSTANCE.getPatternUse_Defn(),
+                 TefkatPackage.Literals.PATTERN_USE__DEFN,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -111,7 +113,7 @@ public class PatternUseItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getPatternUse_Arg());
+            childrenFeatures.add(TefkatPackage.Literals.PATTERN_USE__ARG);
         }
         return childrenFeatures;
     }
@@ -123,7 +125,7 @@ public class PatternUseItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/PatternUse");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/PatternUse"));
     }
 
     /**
@@ -166,52 +168,52 @@ public class PatternUseItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternUse_Arg(),
+                (TefkatPackage.Literals.PATTERN_USE__ARG,
                  TefkatFactory.eINSTANCE.createInstanceRef()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternUse_Arg(),
+                (TefkatPackage.Literals.PATTERN_USE__ARG,
                  TefkatFactory.eINSTANCE.createVarUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternUse_Arg(),
+                (TefkatPackage.Literals.PATTERN_USE__ARG,
                  TefkatFactory.eINSTANCE.createCollectionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternUse_Arg(),
+                (TefkatPackage.Literals.PATTERN_USE__ARG,
                  TefkatFactory.eINSTANCE.createFunctionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternUse_Arg(),
+                (TefkatPackage.Literals.PATTERN_USE__ARG,
                  TefkatFactory.eINSTANCE.createFeatureExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternUse_Arg(),
+                (TefkatPackage.Literals.PATTERN_USE__ARG,
                  TefkatFactory.eINSTANCE.createStringConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternUse_Arg(),
+                (TefkatPackage.Literals.PATTERN_USE__ARG,
                  TefkatFactory.eINSTANCE.createIntConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternUse_Arg(),
+                (TefkatPackage.Literals.PATTERN_USE__ARG,
                  TefkatFactory.eINSTANCE.createRealConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternUse_Arg(),
+                (TefkatPackage.Literals.PATTERN_USE__ARG,
                  TefkatFactory.eINSTANCE.createBooleanConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternUse_Arg(),
+                (TefkatPackage.Literals.PATTERN_USE__ARG,
                  TefkatFactory.eINSTANCE.createEnumConstant()));
     }
 

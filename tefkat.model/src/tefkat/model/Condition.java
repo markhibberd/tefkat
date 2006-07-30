@@ -32,7 +32,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Condition extends SimpleTerm{
+public interface Condition extends SimpleTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

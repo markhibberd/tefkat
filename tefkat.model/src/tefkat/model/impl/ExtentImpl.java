@@ -59,7 +59,7 @@ public abstract class ExtentImpl extends EObjectImpl implements Extent {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getExtent();
+        return TefkatPackage.Literals.EXTENT;
     }
 
     /**

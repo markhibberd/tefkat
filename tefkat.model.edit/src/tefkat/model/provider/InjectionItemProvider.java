@@ -53,7 +53,7 @@ public class InjectionItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -95,8 +95,10 @@ public class InjectionItemProvider
                  getResourceLocator(),
                  getString("_UI_Injection_name_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Injection_name_feature", "_UI_Injection_type"),
-                 TefkatPackage.eINSTANCE.getInjection_Name(),
+                 TefkatPackage.Literals.INJECTION__NAME,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -115,8 +117,10 @@ public class InjectionItemProvider
                  getResourceLocator(),
                  getString("_UI_Injection_sources_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Injection_sources_feature", "_UI_Injection_type"),
-                 TefkatPackage.eINSTANCE.getInjection_Sources(),
+                 TefkatPackage.Literals.INJECTION__SOURCES,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -135,8 +139,10 @@ public class InjectionItemProvider
                  getResourceLocator(),
                  getString("_UI_Injection_target_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Injection_target_feature", "_UI_Injection_type"),
-                 TefkatPackage.eINSTANCE.getInjection_Target(),
+                 TefkatPackage.Literals.INJECTION__TARGET,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -149,7 +155,7 @@ public class InjectionItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/Injection");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/Injection"));
     }
 
     /**

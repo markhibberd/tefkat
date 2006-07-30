@@ -73,7 +73,7 @@ public class AndTermImpl extends CompoundTermImpl implements AndTerm {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getAndTerm();
+        return TefkatPackage.Literals.AND_TERM;
     }
 
     /**
@@ -83,7 +83,17 @@ public class AndTermImpl extends CompoundTermImpl implements AndTerm {
      */
     public TRule getTRuleTgt() {
         if (eContainerFeatureID != TefkatPackage.AND_TERM__TRULE_TGT) return null;
-        return (TRule)eContainer;
+        return (TRule)eContainer();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetTRuleTgt(TRule newTRuleTgt, NotificationChain msgs) {
+        msgs = eBasicSetContainer((InternalEObject)newTRuleTgt, TefkatPackage.AND_TERM__TRULE_TGT, msgs);
+        return msgs;
     }
 
     /**
@@ -92,15 +102,15 @@ public class AndTermImpl extends CompoundTermImpl implements AndTerm {
      * @generated
      */
     public void setTRuleTgt(TRule newTRuleTgt) {
-        if (newTRuleTgt != eContainer || (eContainerFeatureID != TefkatPackage.AND_TERM__TRULE_TGT && newTRuleTgt != null)) {
+        if (newTRuleTgt != eInternalContainer() || (eContainerFeatureID != TefkatPackage.AND_TERM__TRULE_TGT && newTRuleTgt != null)) {
             if (EcoreUtil.isAncestor(this, newTRuleTgt))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
-            if (eContainer != null)
+            if (eInternalContainer() != null)
                 msgs = eBasicRemoveFromContainer(msgs);
             if (newTRuleTgt != null)
                 msgs = ((InternalEObject)newTRuleTgt).eInverseAdd(this, TefkatPackage.TRULE__TGT, TRule.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newTRuleTgt, TefkatPackage.AND_TERM__TRULE_TGT, msgs);
+            msgs = basicSetTRuleTgt(newTRuleTgt, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
@@ -112,38 +122,14 @@ public class AndTermImpl extends CompoundTermImpl implements AndTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.AND_TERM__PATTERN_DEFN:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.AND_TERM__PATTERN_DEFN, msgs);
-                case TefkatPackage.AND_TERM__QUERY:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.AND_TERM__QUERY, msgs);
-                case TefkatPackage.AND_TERM__COMPOUND_TERM:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.AND_TERM__COMPOUND_TERM, msgs);
-                case TefkatPackage.AND_TERM__TRULE_SRC:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.AND_TERM__TRULE_SRC, msgs);
-                case TefkatPackage.AND_TERM__TERM:
-                    return ((InternalEList)getTerm()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.AND_TERM__TRULE_TGT:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.AND_TERM__TRULE_TGT, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.AND_TERM__TRULE_TGT:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetTRuleTgt((TRule)otherEnd, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
@@ -151,26 +137,12 @@ public class AndTermImpl extends CompoundTermImpl implements AndTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.AND_TERM__PATTERN_DEFN:
-                    return eBasicSetContainer(null, TefkatPackage.AND_TERM__PATTERN_DEFN, msgs);
-                case TefkatPackage.AND_TERM__QUERY:
-                    return eBasicSetContainer(null, TefkatPackage.AND_TERM__QUERY, msgs);
-                case TefkatPackage.AND_TERM__COMPOUND_TERM:
-                    return eBasicSetContainer(null, TefkatPackage.AND_TERM__COMPOUND_TERM, msgs);
-                case TefkatPackage.AND_TERM__TRULE_SRC:
-                    return eBasicSetContainer(null, TefkatPackage.AND_TERM__TRULE_SRC, msgs);
-                case TefkatPackage.AND_TERM__TERM:
-                    return ((InternalEList)getTerm()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.AND_TERM__TRULE_TGT:
-                    return eBasicSetContainer(null, TefkatPackage.AND_TERM__TRULE_TGT, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.AND_TERM__TRULE_TGT:
+                return basicSetTRuleTgt(null, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -178,24 +150,12 @@ public class AndTermImpl extends CompoundTermImpl implements AndTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.AND_TERM__PATTERN_DEFN:
-                    return eContainer.eInverseRemove(this, TefkatPackage.PATTERN_DEFN__TERM, PatternDefn.class, msgs);
-                case TefkatPackage.AND_TERM__QUERY:
-                    return eContainer.eInverseRemove(this, TefkatPackage.QUERY__TERM, Query.class, msgs);
-                case TefkatPackage.AND_TERM__COMPOUND_TERM:
-                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_TERM__TERM, CompoundTerm.class, msgs);
-                case TefkatPackage.AND_TERM__TRULE_SRC:
-                    return eContainer.eInverseRemove(this, TefkatPackage.TRULE__SRC, TRule.class, msgs);
-                case TefkatPackage.AND_TERM__TRULE_TGT:
-                    return eContainer.eInverseRemove(this, TefkatPackage.TRULE__TGT, TRule.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
+    public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+        switch (eContainerFeatureID) {
+            case TefkatPackage.AND_TERM__TRULE_TGT:
+                return eInternalContainer().eInverseRemove(this, TefkatPackage.TRULE__TGT, TRule.class, msgs);
         }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return super.eBasicRemoveFromContainerFeature(msgs);
     }
 
     /**
@@ -203,25 +163,12 @@ public class AndTermImpl extends CompoundTermImpl implements AndTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.AND_TERM__PATTERN_DEFN:
-                return getPatternDefn();
-            case TefkatPackage.AND_TERM__QUERY:
-                return getQuery();
-            case TefkatPackage.AND_TERM__COMPOUND_TERM:
-                return getCompoundTerm();
-            case TefkatPackage.AND_TERM__CONTEXT:
-                if (resolve) return getContext();
-                return basicGetContext();
-            case TefkatPackage.AND_TERM__TRULE_SRC:
-                return getTRuleSrc();
-            case TefkatPackage.AND_TERM__TERM:
-                return getTerm();
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.AND_TERM__TRULE_TGT:
                 return getTRuleTgt();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -229,32 +176,13 @@ public class AndTermImpl extends CompoundTermImpl implements AndTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.AND_TERM__PATTERN_DEFN:
-                setPatternDefn((PatternDefn)newValue);
-                return;
-            case TefkatPackage.AND_TERM__QUERY:
-                setQuery((Query)newValue);
-                return;
-            case TefkatPackage.AND_TERM__COMPOUND_TERM:
-                setCompoundTerm((CompoundTerm)newValue);
-                return;
-            case TefkatPackage.AND_TERM__CONTEXT:
-                setContext((ExtentVar)newValue);
-                return;
-            case TefkatPackage.AND_TERM__TRULE_SRC:
-                setTRuleSrc((TRule)newValue);
-                return;
-            case TefkatPackage.AND_TERM__TERM:
-                getTerm().clear();
-                getTerm().addAll((Collection)newValue);
-                return;
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.AND_TERM__TRULE_TGT:
                 setTRuleTgt((TRule)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -262,31 +190,13 @@ public class AndTermImpl extends CompoundTermImpl implements AndTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.AND_TERM__PATTERN_DEFN:
-                setPatternDefn((PatternDefn)null);
-                return;
-            case TefkatPackage.AND_TERM__QUERY:
-                setQuery((Query)null);
-                return;
-            case TefkatPackage.AND_TERM__COMPOUND_TERM:
-                setCompoundTerm((CompoundTerm)null);
-                return;
-            case TefkatPackage.AND_TERM__CONTEXT:
-                setContext((ExtentVar)null);
-                return;
-            case TefkatPackage.AND_TERM__TRULE_SRC:
-                setTRuleSrc((TRule)null);
-                return;
-            case TefkatPackage.AND_TERM__TERM:
-                getTerm().clear();
-                return;
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.AND_TERM__TRULE_TGT:
                 setTRuleTgt((TRule)null);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -294,24 +204,12 @@ public class AndTermImpl extends CompoundTermImpl implements AndTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.AND_TERM__PATTERN_DEFN:
-                return getPatternDefn() != null;
-            case TefkatPackage.AND_TERM__QUERY:
-                return getQuery() != null;
-            case TefkatPackage.AND_TERM__COMPOUND_TERM:
-                return getCompoundTerm() != null;
-            case TefkatPackage.AND_TERM__CONTEXT:
-                return context != null;
-            case TefkatPackage.AND_TERM__TRULE_SRC:
-                return getTRuleSrc() != null;
-            case TefkatPackage.AND_TERM__TERM:
-                return term != null && !term.isEmpty();
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.AND_TERM__TRULE_TGT:
                 return getTRuleTgt() != null;
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

@@ -82,7 +82,7 @@ public abstract class TermImpl extends EObjectImpl implements Term {
      * @generated
      */
 	protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getTerm();
+        return TefkatPackage.Literals.TERM;
     }
 
     /**
@@ -92,7 +92,17 @@ public abstract class TermImpl extends EObjectImpl implements Term {
      */
 	public PatternDefn getPatternDefn() {
         if (eContainerFeatureID != TefkatPackage.TERM__PATTERN_DEFN) return null;
-        return (PatternDefn)eContainer;
+        return (PatternDefn)eContainer();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetPatternDefn(PatternDefn newPatternDefn, NotificationChain msgs) {
+        msgs = eBasicSetContainer((InternalEObject)newPatternDefn, TefkatPackage.TERM__PATTERN_DEFN, msgs);
+        return msgs;
     }
 
     /**
@@ -101,15 +111,15 @@ public abstract class TermImpl extends EObjectImpl implements Term {
      * @generated
      */
 	public void setPatternDefn(PatternDefn newPatternDefn) {
-        if (newPatternDefn != eContainer || (eContainerFeatureID != TefkatPackage.TERM__PATTERN_DEFN && newPatternDefn != null)) {
+        if (newPatternDefn != eInternalContainer() || (eContainerFeatureID != TefkatPackage.TERM__PATTERN_DEFN && newPatternDefn != null)) {
             if (EcoreUtil.isAncestor(this, newPatternDefn))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
-            if (eContainer != null)
+            if (eInternalContainer() != null)
                 msgs = eBasicRemoveFromContainer(msgs);
             if (newPatternDefn != null)
                 msgs = ((InternalEObject)newPatternDefn).eInverseAdd(this, TefkatPackage.PATTERN_DEFN__TERM, PatternDefn.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newPatternDefn, TefkatPackage.TERM__PATTERN_DEFN, msgs);
+            msgs = basicSetPatternDefn(newPatternDefn, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
@@ -123,7 +133,17 @@ public abstract class TermImpl extends EObjectImpl implements Term {
      */
 	public Query getQuery() {
         if (eContainerFeatureID != TefkatPackage.TERM__QUERY) return null;
-        return (Query)eContainer;
+        return (Query)eContainer();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetQuery(Query newQuery, NotificationChain msgs) {
+        msgs = eBasicSetContainer((InternalEObject)newQuery, TefkatPackage.TERM__QUERY, msgs);
+        return msgs;
     }
 
     /**
@@ -132,15 +152,15 @@ public abstract class TermImpl extends EObjectImpl implements Term {
      * @generated
      */
 	public void setQuery(Query newQuery) {
-        if (newQuery != eContainer || (eContainerFeatureID != TefkatPackage.TERM__QUERY && newQuery != null)) {
+        if (newQuery != eInternalContainer() || (eContainerFeatureID != TefkatPackage.TERM__QUERY && newQuery != null)) {
             if (EcoreUtil.isAncestor(this, newQuery))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
-            if (eContainer != null)
+            if (eInternalContainer() != null)
                 msgs = eBasicRemoveFromContainer(msgs);
             if (newQuery != null)
                 msgs = ((InternalEObject)newQuery).eInverseAdd(this, TefkatPackage.QUERY__TERM, Query.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newQuery, TefkatPackage.TERM__QUERY, msgs);
+            msgs = basicSetQuery(newQuery, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
@@ -154,7 +174,17 @@ public abstract class TermImpl extends EObjectImpl implements Term {
      */
 	public CompoundTerm getCompoundTerm() {
         if (eContainerFeatureID != TefkatPackage.TERM__COMPOUND_TERM) return null;
-        return (CompoundTerm)eContainer;
+        return (CompoundTerm)eContainer();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetCompoundTerm(CompoundTerm newCompoundTerm, NotificationChain msgs) {
+        msgs = eBasicSetContainer((InternalEObject)newCompoundTerm, TefkatPackage.TERM__COMPOUND_TERM, msgs);
+        return msgs;
     }
 
     /**
@@ -163,15 +193,15 @@ public abstract class TermImpl extends EObjectImpl implements Term {
      * @generated
      */
 	public void setCompoundTerm(CompoundTerm newCompoundTerm) {
-        if (newCompoundTerm != eContainer || (eContainerFeatureID != TefkatPackage.TERM__COMPOUND_TERM && newCompoundTerm != null)) {
+        if (newCompoundTerm != eInternalContainer() || (eContainerFeatureID != TefkatPackage.TERM__COMPOUND_TERM && newCompoundTerm != null)) {
             if (EcoreUtil.isAncestor(this, newCompoundTerm))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
-            if (eContainer != null)
+            if (eInternalContainer() != null)
                 msgs = eBasicRemoveFromContainer(msgs);
             if (newCompoundTerm != null)
                 msgs = ((InternalEObject)newCompoundTerm).eInverseAdd(this, TefkatPackage.COMPOUND_TERM__TERM, CompoundTerm.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newCompoundTerm, TefkatPackage.TERM__COMPOUND_TERM, msgs);
+            msgs = basicSetCompoundTerm(newCompoundTerm, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
@@ -185,8 +215,8 @@ public abstract class TermImpl extends EObjectImpl implements Term {
      */
 	public ExtentVar getContext() {
         if (context != null && context.eIsProxy()) {
-            ExtentVar oldContext = context;
-            context = (ExtentVar)eResolveProxy((InternalEObject)context);
+            InternalEObject oldContext = (InternalEObject)context;
+            context = (ExtentVar)eResolveProxy(oldContext);
             if (context != oldContext) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, TefkatPackage.TERM__CONTEXT, oldContext, context));
@@ -274,82 +304,68 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.TERM__PATTERN_DEFN:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.TERM__PATTERN_DEFN, msgs);
-                case TefkatPackage.TERM__QUERY:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.TERM__QUERY, msgs);
-                case TefkatPackage.TERM__COMPOUND_TERM:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.TERM__COMPOUND_TERM, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.TERM__PATTERN_DEFN:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetPatternDefn((PatternDefn)otherEnd, msgs);
+            case TefkatPackage.TERM__QUERY:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetQuery((Query)otherEnd, msgs);
+            case TefkatPackage.TERM__COMPOUND_TERM:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetCompoundTerm((CompoundTerm)otherEnd, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.TERM__PATTERN_DEFN:
-                    return eBasicSetContainer(null, TefkatPackage.TERM__PATTERN_DEFN, msgs);
-                case TefkatPackage.TERM__QUERY:
-                    return eBasicSetContainer(null, TefkatPackage.TERM__QUERY, msgs);
-                case TefkatPackage.TERM__COMPOUND_TERM:
-                    return eBasicSetContainer(null, TefkatPackage.TERM__COMPOUND_TERM, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.TERM__PATTERN_DEFN:
+                return basicSetPatternDefn(null, msgs);
+            case TefkatPackage.TERM__QUERY:
+                return basicSetQuery(null, msgs);
+            case TefkatPackage.TERM__COMPOUND_TERM:
+                return basicSetCompoundTerm(null, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.TERM__PATTERN_DEFN:
-                    return eContainer.eInverseRemove(this, TefkatPackage.PATTERN_DEFN__TERM, PatternDefn.class, msgs);
-                case TefkatPackage.TERM__QUERY:
-                    return eContainer.eInverseRemove(this, TefkatPackage.QUERY__TERM, Query.class, msgs);
-                case TefkatPackage.TERM__COMPOUND_TERM:
-                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_TERM__TERM, CompoundTerm.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
+    public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+        switch (eContainerFeatureID) {
+            case TefkatPackage.TERM__PATTERN_DEFN:
+                return eInternalContainer().eInverseRemove(this, TefkatPackage.PATTERN_DEFN__TERM, PatternDefn.class, msgs);
+            case TefkatPackage.TERM__QUERY:
+                return eInternalContainer().eInverseRemove(this, TefkatPackage.QUERY__TERM, Query.class, msgs);
+            case TefkatPackage.TERM__COMPOUND_TERM:
+                return eInternalContainer().eInverseRemove(this, TefkatPackage.COMPOUND_TERM__TERM, CompoundTerm.class, msgs);
         }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return super.eBasicRemoveFromContainerFeature(msgs);
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.TERM__PATTERN_DEFN:
                 return getPatternDefn();
             case TefkatPackage.TERM__QUERY:
@@ -360,16 +376,16 @@ public abstract class TermImpl extends EObjectImpl implements Term {
                 if (resolve) return getContext();
                 return basicGetContext();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.TERM__PATTERN_DEFN:
                 setPatternDefn((PatternDefn)newValue);
                 return;
@@ -383,16 +399,16 @@ public abstract class TermImpl extends EObjectImpl implements Term {
                 setContext((ExtentVar)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.TERM__PATTERN_DEFN:
                 setPatternDefn((PatternDefn)null);
                 return;
@@ -406,16 +422,16 @@ public abstract class TermImpl extends EObjectImpl implements Term {
                 setContext((ExtentVar)null);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.TERM__PATTERN_DEFN:
                 return getPatternDefn() != null;
             case TefkatPackage.TERM__QUERY:
@@ -425,7 +441,7 @@ public abstract class TermImpl extends EObjectImpl implements Term {
             case TefkatPackage.TERM__CONTEXT:
                 return context != null;
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
 } //TermImpl

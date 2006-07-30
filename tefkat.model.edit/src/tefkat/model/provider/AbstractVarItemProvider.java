@@ -54,7 +54,7 @@ public class AbstractVarItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -77,6 +77,7 @@ public class AbstractVarItemProvider
             super.getPropertyDescriptors(object);
 
             addNamePropertyDescriptor(object);
+            addUsagesPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -94,9 +95,33 @@ public class AbstractVarItemProvider
                  getResourceLocator(),
                  getString("_UI_AbstractVar_name_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_AbstractVar_name_feature", "_UI_AbstractVar_type"),
-                 TefkatPackage.eINSTANCE.getAbstractVar_Name(),
+                 TefkatPackage.Literals.ABSTRACT_VAR__NAME,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+                 null,
+                 null));
+    }
+
+    /**
+     * This adds a property descriptor for the Usages feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addUsagesPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_AbstractVar_usages_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_AbstractVar_usages_feature", "_UI_AbstractVar_type"),
+                 TefkatPackage.Literals.ABSTRACT_VAR__USAGES,
+                 false,
+                 false,
+                 false,
+                 null,
                  null,
                  null));
     }
@@ -108,7 +133,7 @@ public class AbstractVarItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/AbstractVar");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/AbstractVar"));
     }
 
     /**

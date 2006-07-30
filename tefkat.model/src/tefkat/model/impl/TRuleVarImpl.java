@@ -109,7 +109,7 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getTRuleVar();
+        return TefkatPackage.Literals.TRULE_VAR;
     }
 
     /**
@@ -165,30 +165,18 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.TRULE_VAR__SCOPE:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.TRULE_VAR__SCOPE, msgs);
-                case TefkatPackage.TRULE_VAR__USAGES:
-                    return ((InternalEList)getUsages()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.TRULE_VAR__EXTENDER:
-                    return ((InternalEList)getExtender()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.TRULE_VAR__EXTENDED:
-                    return ((InternalEList)getExtended()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.TRULE_VAR__SUPERSEDER:
-                    return ((InternalEList)getSuperseder()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.TRULE_VAR__SUPERSEDED:
-                    return ((InternalEList)getSuperseded()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.TRULE_VAR__EXTENDER:
+                return ((InternalEList)getExtender()).basicAdd(otherEnd, msgs);
+            case TefkatPackage.TRULE_VAR__EXTENDED:
+                return ((InternalEList)getExtended()).basicAdd(otherEnd, msgs);
+            case TefkatPackage.TRULE_VAR__SUPERSEDER:
+                return ((InternalEList)getSuperseder()).basicAdd(otherEnd, msgs);
+            case TefkatPackage.TRULE_VAR__SUPERSEDED:
+                return ((InternalEList)getSuperseded()).basicAdd(otherEnd, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
@@ -196,26 +184,18 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.TRULE_VAR__SCOPE:
-                    return eBasicSetContainer(null, TefkatPackage.TRULE_VAR__SCOPE, msgs);
-                case TefkatPackage.TRULE_VAR__USAGES:
-                    return ((InternalEList)getUsages()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.TRULE_VAR__EXTENDER:
-                    return ((InternalEList)getExtender()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.TRULE_VAR__EXTENDED:
-                    return ((InternalEList)getExtended()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.TRULE_VAR__SUPERSEDER:
-                    return ((InternalEList)getSuperseder()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.TRULE_VAR__SUPERSEDED:
-                    return ((InternalEList)getSuperseded()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.TRULE_VAR__EXTENDER:
+                return ((InternalEList)getExtender()).basicRemove(otherEnd, msgs);
+            case TefkatPackage.TRULE_VAR__EXTENDED:
+                return ((InternalEList)getExtended()).basicRemove(otherEnd, msgs);
+            case TefkatPackage.TRULE_VAR__SUPERSEDER:
+                return ((InternalEList)getSuperseder()).basicRemove(otherEnd, msgs);
+            case TefkatPackage.TRULE_VAR__SUPERSEDED:
+                return ((InternalEList)getSuperseded()).basicRemove(otherEnd, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -223,31 +203,8 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.TRULE_VAR__SCOPE:
-                    return eContainer.eInverseRemove(this, TefkatPackage.VAR_SCOPE__VARS, VarScope.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE_VAR__SCOPE:
-                return getScope();
-            case TefkatPackage.TRULE_VAR__NAME:
-                return getName();
-            case TefkatPackage.TRULE_VAR__USAGES:
-                return getUsages();
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.TRULE_VAR__EXTENDER:
                 return getExtender();
             case TefkatPackage.TRULE_VAR__EXTENDED:
@@ -257,7 +214,7 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
             case TefkatPackage.TRULE_VAR__SUPERSEDED:
                 return getSuperseded();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -265,14 +222,8 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE_VAR__SCOPE:
-                setScope((VarScope)newValue);
-                return;
-            case TefkatPackage.TRULE_VAR__NAME:
-                setName((String)newValue);
-                return;
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.TRULE_VAR__EXTENDER:
                 getExtender().clear();
                 getExtender().addAll((Collection)newValue);
@@ -290,7 +241,7 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
                 getSuperseded().addAll((Collection)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -298,14 +249,8 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE_VAR__SCOPE:
-                setScope((VarScope)null);
-                return;
-            case TefkatPackage.TRULE_VAR__NAME:
-                setName(NAME_EDEFAULT);
-                return;
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.TRULE_VAR__EXTENDER:
                 getExtender().clear();
                 return;
@@ -319,7 +264,7 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
                 getSuperseded().clear();
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -327,14 +272,8 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE_VAR__SCOPE:
-                return getScope() != null;
-            case TefkatPackage.TRULE_VAR__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case TefkatPackage.TRULE_VAR__USAGES:
-                return usages != null && !usages.isEmpty();
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.TRULE_VAR__EXTENDER:
                 return extender != null && !extender.isEmpty();
             case TefkatPackage.TRULE_VAR__EXTENDED:
@@ -344,7 +283,7 @@ public class TRuleVarImpl extends AbstractVarImpl implements TRuleVar {
             case TefkatPackage.TRULE_VAR__SUPERSEDED:
                 return superseded != null && !superseded.isEmpty();
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
 } //TRuleVarImpl

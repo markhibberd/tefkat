@@ -215,6 +215,9 @@ public class TefkatAdapterFactory extends AdapterFactoryImpl {
             public Object caseInjection(Injection object) {
                 return createInjectionAdapter();
             }
+            public Object caseNamespaceDeclaration(NamespaceDeclaration object) {
+                return createNamespaceDeclarationAdapter();
+            }
             public Object defaultCase(EObject object) {
                 return createEObjectAdapter();
             }
@@ -832,6 +835,20 @@ public class TefkatAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createInjectionAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link tefkat.model.NamespaceDeclaration <em>Namespace Declaration</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see tefkat.model.NamespaceDeclaration
+     * @generated
+     */
+    public Adapter createNamespaceDeclarationAdapter() {
         return null;
     }
 

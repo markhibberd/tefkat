@@ -78,7 +78,7 @@ public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getReferenceExtent();
+        return TefkatPackage.Literals.REFERENCE_EXTENT;
     }
 
     /**
@@ -223,12 +223,12 @@ public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
                 return getResources();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -236,14 +236,14 @@ public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
                 getResources().clear();
                 getResources().addAll((Collection)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -251,13 +251,13 @@ public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
                 getResources().clear();
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -265,12 +265,12 @@ public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
                 return resources != null && !resources.isEmpty();
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

@@ -24,7 +24,7 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface OrTerm extends CompoundTerm{
+public interface OrTerm extends CompoundTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -16,6 +16,7 @@ package tefkat.plugin.debug;
 import java.util.List;
 
 import org.eclipse.debug.core.DebugException;
+import org.eclipse.debug.core.model.IRegister;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;

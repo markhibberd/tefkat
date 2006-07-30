@@ -56,7 +56,7 @@ public class MofInstanceItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -96,8 +96,10 @@ public class MofInstanceItemProvider
                  getResourceLocator(),
                  getString("_UI_MofInstance_exact_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_MofInstance_exact_feature", "_UI_MofInstance_type"),
-                 TefkatPackage.eINSTANCE.getMofInstance_Exact(),
+                 TefkatPackage.Literals.MOF_INSTANCE__EXACT,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
                  null,
                  null));
@@ -114,8 +116,8 @@ public class MofInstanceItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getMofInstance_TypeName());
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getMofInstance_Instance());
+            childrenFeatures.add(TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME);
+            childrenFeatures.add(TefkatPackage.Literals.MOF_INSTANCE__INSTANCE);
         }
         return childrenFeatures;
     }
@@ -139,7 +141,7 @@ public class MofInstanceItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/MofInstance");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/MofInstance"));
     }
 
     /**
@@ -187,102 +189,102 @@ public class MofInstanceItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_TypeName(),
+                (TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME,
                  TefkatFactory.eINSTANCE.createInstanceRef()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_TypeName(),
+                (TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME,
                  TefkatFactory.eINSTANCE.createVarUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_TypeName(),
+                (TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME,
                  TefkatFactory.eINSTANCE.createCollectionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_TypeName(),
+                (TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME,
                  TefkatFactory.eINSTANCE.createFunctionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_TypeName(),
+                (TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME,
                  TefkatFactory.eINSTANCE.createFeatureExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_TypeName(),
+                (TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME,
                  TefkatFactory.eINSTANCE.createStringConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_TypeName(),
+                (TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME,
                  TefkatFactory.eINSTANCE.createIntConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_TypeName(),
+                (TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME,
                  TefkatFactory.eINSTANCE.createRealConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_TypeName(),
+                (TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME,
                  TefkatFactory.eINSTANCE.createBooleanConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_TypeName(),
+                (TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME,
                  TefkatFactory.eINSTANCE.createEnumConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_Instance(),
+                (TefkatPackage.Literals.MOF_INSTANCE__INSTANCE,
                  TefkatFactory.eINSTANCE.createInstanceRef()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_Instance(),
+                (TefkatPackage.Literals.MOF_INSTANCE__INSTANCE,
                  TefkatFactory.eINSTANCE.createVarUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_Instance(),
+                (TefkatPackage.Literals.MOF_INSTANCE__INSTANCE,
                  TefkatFactory.eINSTANCE.createCollectionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_Instance(),
+                (TefkatPackage.Literals.MOF_INSTANCE__INSTANCE,
                  TefkatFactory.eINSTANCE.createFunctionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_Instance(),
+                (TefkatPackage.Literals.MOF_INSTANCE__INSTANCE,
                  TefkatFactory.eINSTANCE.createFeatureExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_Instance(),
+                (TefkatPackage.Literals.MOF_INSTANCE__INSTANCE,
                  TefkatFactory.eINSTANCE.createStringConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_Instance(),
+                (TefkatPackage.Literals.MOF_INSTANCE__INSTANCE,
                  TefkatFactory.eINSTANCE.createIntConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_Instance(),
+                (TefkatPackage.Literals.MOF_INSTANCE__INSTANCE,
                  TefkatFactory.eINSTANCE.createRealConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_Instance(),
+                (TefkatPackage.Literals.MOF_INSTANCE__INSTANCE,
                  TefkatFactory.eINSTANCE.createBooleanConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getMofInstance_Instance(),
+                (TefkatPackage.Literals.MOF_INSTANCE__INSTANCE,
                  TefkatFactory.eINSTANCE.createEnumConstant()));
     }
 
@@ -297,8 +299,8 @@ public class MofInstanceItemProvider
         Object childObject = child;
 
         boolean qualify =
-            childFeature == TefkatPackage.eINSTANCE.getMofInstance_TypeName() ||
-            childFeature == TefkatPackage.eINSTANCE.getMofInstance_Instance();
+            childFeature == TefkatPackage.Literals.MOF_INSTANCE__TYPE_NAME ||
+            childFeature == TefkatPackage.Literals.MOF_INSTANCE__INSTANCE;
 
         if (qualify) {
             return getString

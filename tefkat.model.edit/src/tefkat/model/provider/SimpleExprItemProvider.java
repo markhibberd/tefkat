@@ -53,7 +53,7 @@ public class SimpleExprItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -93,8 +93,10 @@ public class SimpleExprItemProvider
                  getResourceLocator(),
                  getString("_UI_SimpleExpr_representation_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_SimpleExpr_representation_feature", "_UI_SimpleExpr_type"),
-                 TefkatPackage.eINSTANCE.getSimpleExpr_Representation(),
+                 TefkatPackage.Literals.SIMPLE_EXPR__REPRESENTATION,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -107,7 +109,7 @@ public class SimpleExprItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/SimpleExpr");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/SimpleExpr"));
     }
 
     /**

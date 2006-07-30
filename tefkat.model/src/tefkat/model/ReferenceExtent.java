@@ -31,7 +31,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface ReferenceExtent extends Extent{
+public interface ReferenceExtent extends Extent {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

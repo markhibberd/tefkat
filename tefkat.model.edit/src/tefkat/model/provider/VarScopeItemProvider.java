@@ -55,7 +55,7 @@ public class VarScopeItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -96,8 +96,10 @@ public class VarScopeItemProvider
                  getResourceLocator(),
                  getString("_UI_VarScope_name_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_VarScope_name_feature", "_UI_VarScope_type"),
-                 TefkatPackage.eINSTANCE.getVarScope_Name(),
+                 TefkatPackage.Literals.VAR_SCOPE__NAME,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -116,8 +118,10 @@ public class VarScopeItemProvider
                  getResourceLocator(),
                  getString("_UI_VarScope_comments_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_VarScope_comments_feature", "_UI_VarScope_type"),
-                 TefkatPackage.eINSTANCE.getVarScope_Comments(),
+                 TefkatPackage.Literals.VAR_SCOPE__COMMENTS,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -134,7 +138,7 @@ public class VarScopeItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getVarScope_Vars());
+            childrenFeatures.add(TefkatPackage.Literals.VAR_SCOPE__VARS);
         }
         return childrenFeatures;
     }
@@ -146,7 +150,7 @@ public class VarScopeItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/VarScope");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/VarScope"));
     }
 
     /**
@@ -196,17 +200,17 @@ public class VarScopeItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getVarScope_Vars(),
+                (TefkatPackage.Literals.VAR_SCOPE__VARS,
                  TefkatFactory.eINSTANCE.createPatternVar()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getVarScope_Vars(),
+                (TefkatPackage.Literals.VAR_SCOPE__VARS,
                  TefkatFactory.eINSTANCE.createTRuleVar()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getVarScope_Vars(),
+                (TefkatPackage.Literals.VAR_SCOPE__VARS,
                  TefkatFactory.eINSTANCE.createExtentVar()));
     }
 

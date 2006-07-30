@@ -52,7 +52,7 @@ public class CompoundTermItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -89,7 +89,7 @@ public class CompoundTermItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getCompoundTerm_Term());
+            childrenFeatures.add(TefkatPackage.Literals.COMPOUND_TERM__TERM);
         }
         return childrenFeatures;
     }
@@ -101,7 +101,7 @@ public class CompoundTermItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/CompoundTerm");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/CompoundTerm"));
     }
 
     /**
@@ -144,52 +144,52 @@ public class CompoundTermItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundTerm_Term(),
+                (TefkatPackage.Literals.COMPOUND_TERM__TERM,
                  TefkatFactory.eINSTANCE.createAndTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundTerm_Term(),
+                (TefkatPackage.Literals.COMPOUND_TERM__TERM,
                  TefkatFactory.eINSTANCE.createOrTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundTerm_Term(),
+                (TefkatPackage.Literals.COMPOUND_TERM__TERM,
                  TefkatFactory.eINSTANCE.createNotTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundTerm_Term(),
+                (TefkatPackage.Literals.COMPOUND_TERM__TERM,
                  TefkatFactory.eINSTANCE.createIfTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundTerm_Term(),
+                (TefkatPackage.Literals.COMPOUND_TERM__TERM,
                  TefkatFactory.eINSTANCE.createTrackingUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundTerm_Term(),
+                (TefkatPackage.Literals.COMPOUND_TERM__TERM,
                  TefkatFactory.eINSTANCE.createPatternUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundTerm_Term(),
+                (TefkatPackage.Literals.COMPOUND_TERM__TERM,
                  TefkatFactory.eINSTANCE.createCondition()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundTerm_Term(),
+                (TefkatPackage.Literals.COMPOUND_TERM__TERM,
                  TefkatFactory.eINSTANCE.createMofInstance()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundTerm_Term(),
+                (TefkatPackage.Literals.COMPOUND_TERM__TERM,
                  TefkatFactory.eINSTANCE.createMofOrder()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundTerm_Term(),
+                (TefkatPackage.Literals.COMPOUND_TERM__TERM,
                  TefkatFactory.eINSTANCE.createInjection()));
     }
 

@@ -22,6 +22,8 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -54,7 +56,7 @@ public class TransformationItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -94,8 +96,10 @@ public class TransformationItemProvider
                  getResourceLocator(),
                  getString("_UI_Transformation_importedPackages_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Transformation_importedPackages_feature", "_UI_Transformation_type"),
-                 TefkatPackage.eINSTANCE.getTransformation_ImportedPackages(),
+                 TefkatPackage.Literals.TRANSFORMATION__IMPORTED_PACKAGES,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -112,9 +116,22 @@ public class TransformationItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getTransformation_TRule());
+            childrenFeatures.add(TefkatPackage.Literals.TRANSFORMATION__TRULE);
+            childrenFeatures.add(TefkatPackage.Literals.TRANSFORMATION__NAMESPACE_DECLARATIONS);
         }
         return childrenFeatures;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected EStructuralFeature getChildFeature(Object object, Object child) {
+        // Check the type of the specified child object and return the proper feature to use for
+        // adding (see {@link AddCommand}) it as a child.
+
+        return super.getChildFeature(object, child);
     }
 
     /**
@@ -124,7 +141,7 @@ public class TransformationItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/Transformation");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/Transformation"));
     }
 
     /**
@@ -152,6 +169,7 @@ public class TransformationItemProvider
 
         switch (notification.getFeatureID(Transformation.class)) {
             case TefkatPackage.TRANSFORMATION__TRULE:
+            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
                 return;
         }
@@ -170,8 +188,13 @@ public class TransformationItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTransformation_TRule(),
+                (TefkatPackage.Literals.TRANSFORMATION__TRULE,
                  TefkatFactory.eINSTANCE.createTRule()));
+
+        newChildDescriptors.add
+            (createChildParameter
+                (TefkatPackage.Literals.TRANSFORMATION__NAMESPACE_DECLARATIONS,
+                 TefkatFactory.eINSTANCE.createNamespaceDeclaration()));
     }
 
     /**

@@ -22,6 +22,7 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 
+import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
@@ -64,7 +65,7 @@ public class TefkatActionBarContributor
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This keeps track of the active editor.
@@ -164,8 +165,10 @@ public class TefkatActionBarContributor
      * @generated
      */
     public TefkatActionBarContributor() {
+        super(ADDITIONS_LAST_STYLE);
         loadResourceAction = new LoadResourceAction();
         validateAction = new ValidateAction();
+        controlAction = new ControlAction();
     }
 
     /**
@@ -395,11 +398,11 @@ public class TefkatActionBarContributor
 
         submenuManager = new MenuManager(TefkatModelEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
         populateManager(submenuManager, createChildActions, null);
-        menuManager.insertBefore("additions", submenuManager);
+        menuManager.insertBefore("edit", submenuManager);
 
         submenuManager = new MenuManager(TefkatModelEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
         populateManager(submenuManager, createSiblingActions, null);
-        menuManager.insertBefore("additions", submenuManager);
+        menuManager.insertBefore("edit", submenuManager);
     }
 
     /**
@@ -416,6 +419,16 @@ public class TefkatActionBarContributor
         menuManager.insertAfter("ui-actions", refreshViewerAction);
 
         super.addGlobalActions(menuManager);
+    }
+
+    /**
+     * This ensures that a delete action will clean up all references to deleted objects.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected boolean removeAllReferencesOnDelete() {
+        return true;
     }
 
 }

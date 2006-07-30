@@ -53,7 +53,7 @@ public class ReferenceExtentItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -93,8 +93,10 @@ public class ReferenceExtentItemProvider
                  getResourceLocator(),
                  getString("_UI_ReferenceExtent_resources_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_ReferenceExtent_resources_feature", "_UI_ReferenceExtent_type"),
-                 TefkatPackage.eINSTANCE.getReferenceExtent_Resources(),
+                 TefkatPackage.Literals.REFERENCE_EXTENT__RESOURCES,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -107,7 +109,7 @@ public class ReferenceExtentItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/ReferenceExtent");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/ReferenceExtent"));
     }
 
     /**

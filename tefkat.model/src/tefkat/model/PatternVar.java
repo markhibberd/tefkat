@@ -24,7 +24,7 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface PatternVar extends AbstractVar{
+public interface PatternVar extends AbstractVar {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

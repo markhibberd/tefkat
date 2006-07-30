@@ -31,7 +31,7 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface CollectionExpr extends CompoundExpr{
+public interface CollectionExpr extends CompoundExpr {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

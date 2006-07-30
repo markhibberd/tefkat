@@ -102,6 +102,9 @@ public class Binding {
         if (frozen) {
             throw new BindingError("Cannot modify a frozen Binding");
         }
+        if (null == val) {
+            throw new BindingError("Attempting to bind " + var + " to null");
+        }
         varToTerm.put(var, val);
     }
     
@@ -134,6 +137,9 @@ public class Binding {
     public void add(AbstractVar var, Object val) throws ResolutionException {
         if (frozen) {
             throw new BindingError("Cannot modify a frozen Binding");
+        }
+        if (null == val) {
+            throw new BindingError("Attempting to bind " + var + " to null");
         }
 
         for (Iterator i = varToTerm.entrySet().iterator(); i.hasNext(); ) {
@@ -258,11 +264,11 @@ public class Binding {
             Object uVal = vt.getValue();
             // check precondition
             if (true &&
-            		keys().contains(uKey) &&
-            		// uKey != uVal &&   // Vars can be bound to themselves
-            		!uVal.equals(lookup(uKey)) // Can be bound to the same thing
-                        && !(uVal instanceof WrappedVar)
-                    ) {
+                    keys().contains(uKey) &&
+                    // uKey != uVal &&   // Vars can be bound to themselves
+                    !uVal.equals(lookup(uKey)) // Can be bound to the same thing
+                    && !(uVal instanceof WrappedVar)
+            ) {
 //                System.err.println(this);
 //                System.err.println(u);
                 if (uVal instanceof DynamicObject) {
@@ -335,12 +341,10 @@ public class Binding {
     }
     
     public static class BindingError extends Error {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 6575697896092447618L;
 
-		public BindingError(String message) {
+        private static final long serialVersionUID = 6575697896092447618L;
+
+        public BindingError(String message) {
             super(message);
         }
     }

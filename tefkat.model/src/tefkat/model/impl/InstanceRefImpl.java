@@ -75,7 +75,7 @@ public class InstanceRefImpl extends ExpressionImpl implements InstanceRef {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getInstanceRef();
+        return TefkatPackage.Literals.INSTANCE_REF;
     }
 
     /**
@@ -85,8 +85,8 @@ public class InstanceRefImpl extends ExpressionImpl implements InstanceRef {
      */
     public EObject getObject() {
         if (object != null && object.eIsProxy()) {
-            EObject oldObject = object;
-            object = (EObject)eResolveProxy((InternalEObject)object);
+            InternalEObject oldObject = (InternalEObject)object;
+            object = eResolveProxy(oldObject);
             if (object != oldObject) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, TefkatPackage.INSTANCE_REF__OBJECT, oldObject, object));
@@ -118,6 +118,61 @@ public class InstanceRefImpl extends ExpressionImpl implements InstanceRef {
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case TefkatPackage.INSTANCE_REF__OBJECT:
+                if (resolve) return getObject();
+                return basicGetObject();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+            case TefkatPackage.INSTANCE_REF__OBJECT:
+                setObject((EObject)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eUnset(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.INSTANCE_REF__OBJECT:
+                setObject((EObject)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.INSTANCE_REF__OBJECT:
+                return object != null;
+        }
+        return super.eIsSet(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
      * Create a (deep) copy of this instance.
      * Contained EObjects are also copied while referenced EObjects are not.
      * <!-- end-user-doc -->
@@ -126,126 +181,6 @@ public class InstanceRefImpl extends ExpressionImpl implements InstanceRef {
         InstanceRef copy = TefkatFactory.eINSTANCE.createInstanceRef();
         copy.setObject(getObject());
         return copy;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.INSTANCE_REF__EXPR:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.INSTANCE_REF__EXPR, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.INSTANCE_REF__EXPR:
-                    return eBasicSetContainer(null, TefkatPackage.INSTANCE_REF__EXPR, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.INSTANCE_REF__EXPR:
-                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.INSTANCE_REF__EXPR:
-                return getExpr();
-            case TefkatPackage.INSTANCE_REF__OBJECT:
-                if (resolve) return getObject();
-                return basicGetObject();
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.INSTANCE_REF__EXPR:
-                setExpr((CompoundExpr)newValue);
-                return;
-            case TefkatPackage.INSTANCE_REF__OBJECT:
-                setObject((EObject)newValue);
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.INSTANCE_REF__EXPR:
-                setExpr((CompoundExpr)null);
-                return;
-            case TefkatPackage.INSTANCE_REF__OBJECT:
-                setObject((EObject)null);
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.INSTANCE_REF__EXPR:
-                return getExpr() != null;
-            case TefkatPackage.INSTANCE_REF__OBJECT:
-                return object != null;
-        }
-        return eDynamicIsSet(eFeature);
     }
 
 } //InstanceRefImpl

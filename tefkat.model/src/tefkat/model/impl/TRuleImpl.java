@@ -201,7 +201,7 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getTRule();
+        return TefkatPackage.Literals.TRULE;
     }
 
     /**
@@ -211,7 +211,17 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
      */
     public Transformation getTransformation() {
         if (eContainerFeatureID != TefkatPackage.TRULE__TRANSFORMATION) return null;
-        return (Transformation)eContainer;
+        return (Transformation)eContainer();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetTransformation(Transformation newTransformation, NotificationChain msgs) {
+        msgs = eBasicSetContainer((InternalEObject)newTransformation, TefkatPackage.TRULE__TRANSFORMATION, msgs);
+        return msgs;
     }
 
     /**
@@ -220,15 +230,15 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
      * @generated
      */
     public void setTransformation(Transformation newTransformation) {
-        if (newTransformation != eContainer || (eContainerFeatureID != TefkatPackage.TRULE__TRANSFORMATION && newTransformation != null)) {
+        if (newTransformation != eInternalContainer() || (eContainerFeatureID != TefkatPackage.TRULE__TRANSFORMATION && newTransformation != null)) {
             if (EcoreUtil.isAncestor(this, newTransformation))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
-            if (eContainer != null)
+            if (eInternalContainer() != null)
                 msgs = eBasicRemoveFromContainer(msgs);
             if (newTransformation != null)
                 msgs = ((InternalEObject)newTransformation).eInverseAdd(this, TefkatPackage.TRANSFORMATION__TRULE, Transformation.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newTransformation, TefkatPackage.TRULE__TRANSFORMATION, msgs);
+            msgs = basicSetTransformation(newTransformation, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
@@ -432,28 +442,20 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.TRULE__VARS:
-                    return ((InternalEList)getVars()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.TRULE__TRANSFORMATION:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.TRULE__TRANSFORMATION, msgs);
-                case TefkatPackage.TRULE__SRC:
-                    if (src != null)
-                        msgs = ((InternalEObject)src).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TefkatPackage.TRULE__SRC, null, msgs);
-                    return basicSetSrc((SourceTerm)otherEnd, msgs);
-                case TefkatPackage.TRULE__TGT:
-                    return ((InternalEList)getTgt()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.TRULE__TRANSFORMATION:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetTransformation((Transformation)otherEnd, msgs);
+            case TefkatPackage.TRULE__SRC:
+                if (src != null)
+                    msgs = ((InternalEObject)src).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TefkatPackage.TRULE__SRC, null, msgs);
+                return basicSetSrc((SourceTerm)otherEnd, msgs);
+            case TefkatPackage.TRULE__TGT:
+                return ((InternalEList)getTgt()).basicAdd(otherEnd, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
@@ -461,22 +463,16 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.TRULE__VARS:
-                    return ((InternalEList)getVars()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.TRULE__TRANSFORMATION:
-                    return eBasicSetContainer(null, TefkatPackage.TRULE__TRANSFORMATION, msgs);
-                case TefkatPackage.TRULE__SRC:
-                    return basicSetSrc(null, msgs);
-                case TefkatPackage.TRULE__TGT:
-                    return ((InternalEList)getTgt()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.TRULE__TRANSFORMATION:
+                return basicSetTransformation(null, msgs);
+            case TefkatPackage.TRULE__SRC:
+                return basicSetSrc(null, msgs);
+            case TefkatPackage.TRULE__TGT:
+                return ((InternalEList)getTgt()).basicRemove(otherEnd, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -484,16 +480,12 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.TRULE__TRANSFORMATION:
-                    return eContainer.eInverseRemove(this, TefkatPackage.TRANSFORMATION__TRULE, Transformation.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
+    public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+        switch (eContainerFeatureID) {
+            case TefkatPackage.TRULE__TRANSFORMATION:
+                return eInternalContainer().eInverseRemove(this, TefkatPackage.TRANSFORMATION__TRULE, Transformation.class, msgs);
         }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return super.eBasicRemoveFromContainerFeature(msgs);
     }
 
     /**
@@ -501,14 +493,8 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE__VARS:
-                return getVars();
-            case TefkatPackage.TRULE__NAME:
-                return getName();
-            case TefkatPackage.TRULE__COMMENTS:
-                return getComments();
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.TRULE__TRANSFORMATION:
                 return getTransformation();
             case TefkatPackage.TRULE__SRC:
@@ -522,7 +508,7 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
             case TefkatPackage.TRULE__ABSTRACT:
                 return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -530,19 +516,8 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE__VARS:
-                getVars().clear();
-                getVars().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRULE__NAME:
-                setName((String)newValue);
-                return;
-            case TefkatPackage.TRULE__COMMENTS:
-                getComments().clear();
-                getComments().addAll((Collection)newValue);
-                return;
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.TRULE__TRANSFORMATION:
                 setTransformation((Transformation)newValue);
                 return;
@@ -565,7 +540,7 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
                 setAbstract(((Boolean)newValue).booleanValue());
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -573,17 +548,8 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE__VARS:
-                getVars().clear();
-                return;
-            case TefkatPackage.TRULE__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case TefkatPackage.TRULE__COMMENTS:
-                getComments().clear();
-                return;
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.TRULE__TRANSFORMATION:
                 setTransformation((Transformation)null);
                 return;
@@ -603,7 +569,7 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
                 setAbstract(ABSTRACT_EDEFAULT);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -611,14 +577,8 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRULE__VARS:
-                return vars != null && !vars.isEmpty();
-            case TefkatPackage.TRULE__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case TefkatPackage.TRULE__COMMENTS:
-                return comments != null && !comments.isEmpty();
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.TRULE__TRANSFORMATION:
                 return getTransformation() != null;
             case TefkatPackage.TRULE__SRC:
@@ -632,7 +592,7 @@ public class TRuleImpl extends VarScopeImpl implements TRule {
             case TefkatPackage.TRULE__ABSTRACT:
                 return abstract_ != ABSTRACT_EDEFAULT;
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

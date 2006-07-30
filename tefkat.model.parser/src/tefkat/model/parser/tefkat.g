@@ -103,7 +103,7 @@ protected
 DIGIT        :       ( '0'..'9' )
         ;
 protected
-SCHEME        :       ('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '0'..'9' | '+' | '-' | '.')* ':'
+SCHEME       :       ('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '0'..'9' | '+' | '-' | '.')* ':'
         ;
 
 protected
@@ -151,11 +151,11 @@ ID_OR_IMPORT_OR_OBJREF
                         ID { $setType(ID); }
                 )
         ;
-
+		
 FQID
 options {
         paraphrase = "a fully qualified identifier";
-}        :       ("::" ID)+
+}       :       ("::" ID)+
         ;
 
 STRING
@@ -193,6 +193,10 @@ REAL_OR_INT
         |        INT { $setType(INT); }
         ;
 
+CARET
+options {
+	paraphrase = "a caret symbol '^'";
+}        :       '^'       ;
 AT
 options {
     paraphrase = "an @ symbol";
@@ -486,7 +490,7 @@ options {
         l.add(vars);
     }
     
-    private void definePackage(Transformation t, String uriString) throws antlr.SemanticException {
+    private void definePackage(Transformation t, String namespace, String uriString) throws antlr.SemanticException {
         URI uri = URI.createURI(uriString);
         ResourceSet resourceSet = t.eResource().getResourceSet();
         Resource resource = null;
@@ -515,7 +519,7 @@ options {
 //        Set resources = ModelUtils.findAllResources(packages);
         List resources = new ArrayList(1);
         resources.add(resource);
-        ModelUtils.buildNameMaps(resources, trackingMap);
+        ModelUtils.buildNameMaps(resources, trackingMap, namespace);
     }
     
     /**
@@ -736,6 +740,7 @@ transformation returns [Transformation t = null;] {
                         tgtExtent = (ExtentVar) vars.get(1);
                         srcExtents = Collections.singletonList(srcExtent);
                         tgtExtents = Collections.singletonList(tgtExtent);
+                        reportWarning("bracket syntax is deprecated", getMarkLine(), getMarkColumn());
                     }
                 |
                     COLON
@@ -747,6 +752,7 @@ transformation returns [Transformation t = null;] {
                             tgtExtent = (ExtentVar) tgtExtents.get(0);
                     }
                 )
+                ("EXTENDS" transformationExtends[t])?
                 (
                     body[t, srcExtent, tgtExtent] {
                             if (!singletonVars.isEmpty()) {
@@ -853,6 +859,27 @@ transformation returns [Transformation t = null;] {
             reportError(ex);
         }
 
+/*
+    Need to allow equation of ExtentVars
+    
+    TRANSFORMATION foo: a -> b
+    EXTENDS uri (a = in, c = out),
+            uri2 (out = x, b = y)
+
+    or
+
+    TRANSFORMATION foo: a -> b
+    EXTENDS uri (a, c),
+            uri2 (c, b)
+*/
+transformationExtends[Transformation t] {
+        List vars = null;
+}       :       uri: URITOK
+                LBRACK vars = vardecls[t, TefkatPackage.eINSTANCE.getExtentVar()] RBRACK {
+                }
+                (COMMA transformationExtends[t])?
+        ;
+
 formals[VarScope vs, EClass varClass]
         :       LBRACK 
                 ( vardecls[vs, varClass] )?
@@ -861,11 +888,12 @@ formals[VarScope vs, EClass varClass]
 
 body[Transformation t, ExtentVar srcExtent, ExtentVar tgtExtent]
         :       importDecl[t]
-        |        classDecl[t]
-        |        map
-        |        patternDefn[t, srcExtent]
-        |        templateDefn[t, tgtExtent]
-        |        trule[t, srcExtent, tgtExtent]
+        |       namespaceDecl[t]
+        |       classDecl[t]
+        |       map
+        |       patternDefn[t, srcExtent]
+        |       templateDefn[t, tgtExtent]
+        |       trule[t, srcExtent, tgtExtent]
         ;
         exception
         catch [RecognitionException ex] {
@@ -1003,9 +1031,27 @@ map_value returns [Object obj = null] {
 
 importDecl[Transformation t]
         :       "IMPORT" uri:URITOK {
-                        String uriStr = uri.getText();
-                        t.getImportedPackages().add(uriStr);
-                        definePackage(t, uriStr);
+                    String uriStr = uri.getText();
+                    NamespaceDeclaration nsd = TefkatFactory.eINSTANCE.createNamespaceDeclaration();
+                    nsd.setURI(uri.getText());
+                    t.getNamespaceDeclarations().add(nsd);
+
+                    definePackage(t, null, uriStr);
+                    reportWarning("IMPORT is deprecated, use NAMESPACE instead", getMarkLine(), getMarkColumn());
+                }
+        ;
+
+namespaceDecl[Transformation t] {
+        String name = null;
+}
+        :       "NAMESPACE" (id:ID {name = id.getText();})? uri:URITOK {
+                    String uriStr = uri.getText();
+                    NamespaceDeclaration nsd = TefkatFactory.eINSTANCE.createNamespaceDeclaration();
+                    nsd.setPrefix(name);
+                    nsd.setURI(uri.getText());
+                    t.getNamespaceDeclarations().add(nsd);
+
+                    definePackage(t, name, uriStr);
                 }
         ;
 
@@ -1325,9 +1371,12 @@ typeName[VarScope scope, List terms] returns [Expression expr = null] {
                 (
                         UNDERSCORE { name = "_"; }
                 |
-                        id: ID { name = id.getText(); }
+                        id1: ID { name = id1.getText(); }
+                        (CARET id2: ID { name += '^' + id2.getText(); })?
                 |
-                        fqid: FQID { name = fqid.getText(); }
+                        (CARET qual: ID { name = '^' + qual.getText(); })?
+                        fqid: FQID { name = (null == name) ? fqid.getText()
+                        	                               : name + fqid.getText(); }
                 ) {
                         StringConstant sc = TefkatFactory.eINSTANCE.createStringConstant();
                         sc.setRepresentation(name);
@@ -1338,26 +1387,29 @@ typeName[VarScope scope, List terms] returns [Expression expr = null] {
 
 simpleTypeLiteral returns [EClassifier type = null] {
         EObject obj;
+        String name = "";
 }
-        :       id: ID {
-                        String name = id.getText();
-                            type = ModelUtils.findClassifierByName(trackingMap, name);
-                        if (null == type) {
-                                throw new antlr.SemanticException("Cannot resolve type: " + name, getFilename(), getMarkLine(), getMarkColumn());
-                        }
+        :       id1: ID { name = id1.getText(); }
+                (CARET id2: ID { name += '^' + id2.getText(); })?
+                {
+                    type = ModelUtils.findClassifierByName(trackingMap, name);
+                    if (null == type) {
+                        throw new antlr.SemanticException("Cannot resolve type: " + name, getFilename(), getMarkLine(), getMarkColumn());
+                    }
                 }
         |
+                (CARET qual: ID { name = qual.getText() + '^'; })?
                 fqid: FQID {
-                            String name = fqid.getText();
-                            type = ModelUtils.findClassifierByName(trackingMap, name);
-                        if (null == type) {
-                               throw new antlr.SemanticException("Cannot resolve type: " + name, getFilename(), getMarkLine(), getMarkColumn());
-                        }
+                    name += fqid.getText();
+                    type = ModelUtils.findClassifierByName(trackingMap, name);
+                    if (null == type) {
+                        throw new antlr.SemanticException("Cannot resolve type: " + name, getFilename(), getMarkLine(), getMarkColumn());
+                    }
                 }
         |
                 obj = objectlit {
-                        type = (EClassifier) obj;
-                        // objectlit throws an exception rather than return null
+                    type = (EClassifier) obj;
+                    // objectlit throws an exception rather than return null
                 }
         ;
 
@@ -1627,7 +1679,7 @@ relation[VarScope scope, List terms] returns [Term term = null] {
                 }
                 conjunct[scope, aTerm.getTerm()]
                 RBRACK
-        |        (("EXACT"|"DYNAMIC")? (DOLLAR|UNDERSCORE|FQID|ID) (AT ID)? vname) =>
+        |        (("EXACT"|"DYNAMIC")? (DOLLAR|UNDERSCORE|CARET|FQID|ID) (AT ID)? vname) =>
                 term = range[scope, null, false, terms] {
                         MofInstance inst = (MofInstance) term;
                         var = ((VarUse) inst.getInstance()).getVar();
@@ -1759,22 +1811,22 @@ makeObject[VarScope scope, ExtentVar tgtExtent, boolean isExactly, List tgts, Li
                 |
                     // YES, this really should be an IDENTITY (==/!=) test and not an equals() test!
                     {Collections.EMPTY_LIST != params}? {
-                            if (null != params) {
+                        if (null != params) {
                             Injection injection = TefkatFactory.eINSTANCE.createInjection();
 
                             String varName = null;
-                                if (null != targetVar) {        // Skip this if we're continuing after a parse error
+                            if (null != targetVar) {        // Skip this if we're continuing after a parse error
                                 varName = targetVar.getName();
                                 if (null == varName) {
                                     varName = String.valueOf(targetVar.hashCode());
                                 }
-                                }
+                            }
                             injection.setName(scope.getName() + " " + varName);
                         
                             List sources = injection.getSources();
                             for (Iterator itr = params.iterator(); itr.hasNext(); ) {
                                 Expression expr = (Expression) itr.next();
-                                    sources.add(expr.copy());
+                                sources.add(expr.copy());
                             }
                             VarUse varUse = TefkatFactory.eINSTANCE.createVarUse();
                             varUse.setVar(targetVar);
@@ -1783,7 +1835,7 @@ makeObject[VarScope scope, ExtentVar tgtExtent, boolean isExactly, List tgts, Li
 
                             eChar = getCharIndex();
                             reportMatch(injection, sChar, eChar);
-                            }
+                        }
                     }
                 )
                 (objectBody[scope, targetVar, isExactly, tgts, params])?
@@ -2063,7 +2115,7 @@ factor[VarScope scope, List terms] returns [Expression expr = null] {
         :
         (        expr = literal[scope, terms]
         |        LBRACK expr = expr[scope, terms] RBRACK
-        |        ((vname | LANGLE URITOK) (PERIOD|ARROW)) => expr = path[scope, terms]
+        |        ((vname | LANGLE URITOK RANGLE) (PERIOD|ARROW)) => expr = path[scope, terms]
         |        (fname LBRACK) => expr = functionCall[scope, terms]
 //        |        (ID (ID | DOLLAR)) => expr = objectlit
         |        vname = vname {
@@ -2303,7 +2355,7 @@ literal[VarScope scope, List terms] returns [Expression expr = null] {
         ;
 
 objectlit returns [EObject obj = null] {
-}        :       LANGLE
+}        :      LANGLE
                 tok:URITOK {
                     URI uri = URI.createURI(tok.getText());
                     obj = resource.getResourceSet().getEObject(uri, true);
@@ -2388,7 +2440,7 @@ featureVal[VarScope scope, AbstractVar var, boolean isExactly, List terms, List 
 }
         :
             (
-                (("EXACT"|"DYNAMIC")? (DOLLAR|UNDERSCORE|FQID|ID) (AT ID)? vname) =>
+                (("EXACT"|"DYNAMIC")? (DOLLAR|UNDERSCORE|CARET|FQID|ID) (AT ID)? vname) =>
                 objVar = makeObject[scope, null, isExactly, terms, params] {
                     VarUse varUse = TefkatFactory.eINSTANCE.createVarUse();
                     varUse.setVar(objVar);

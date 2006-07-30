@@ -54,7 +54,7 @@ public class ConditionItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -94,8 +94,10 @@ public class ConditionItemProvider
                  getResourceLocator(),
                  getString("_UI_Condition_relation_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Condition_relation_feature", "_UI_Condition_type"),
-                 TefkatPackage.eINSTANCE.getCondition_Relation(),
+                 TefkatPackage.Literals.CONDITION__RELATION,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -112,7 +114,7 @@ public class ConditionItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getCondition_Arg());
+            childrenFeatures.add(TefkatPackage.Literals.CONDITION__ARG);
         }
         return childrenFeatures;
     }
@@ -124,7 +126,7 @@ public class ConditionItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/Condition");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/Condition"));
     }
 
     /**
@@ -173,52 +175,52 @@ public class ConditionItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCondition_Arg(),
+                (TefkatPackage.Literals.CONDITION__ARG,
                  TefkatFactory.eINSTANCE.createInstanceRef()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCondition_Arg(),
+                (TefkatPackage.Literals.CONDITION__ARG,
                  TefkatFactory.eINSTANCE.createVarUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCondition_Arg(),
+                (TefkatPackage.Literals.CONDITION__ARG,
                  TefkatFactory.eINSTANCE.createCollectionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCondition_Arg(),
+                (TefkatPackage.Literals.CONDITION__ARG,
                  TefkatFactory.eINSTANCE.createFunctionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCondition_Arg(),
+                (TefkatPackage.Literals.CONDITION__ARG,
                  TefkatFactory.eINSTANCE.createFeatureExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCondition_Arg(),
+                (TefkatPackage.Literals.CONDITION__ARG,
                  TefkatFactory.eINSTANCE.createStringConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCondition_Arg(),
+                (TefkatPackage.Literals.CONDITION__ARG,
                  TefkatFactory.eINSTANCE.createIntConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCondition_Arg(),
+                (TefkatPackage.Literals.CONDITION__ARG,
                  TefkatFactory.eINSTANCE.createRealConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCondition_Arg(),
+                (TefkatPackage.Literals.CONDITION__ARG,
                  TefkatFactory.eINSTANCE.createBooleanConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCondition_Arg(),
+                (TefkatPackage.Literals.CONDITION__ARG,
                  TefkatFactory.eINSTANCE.createEnumConstant()));
     }
 

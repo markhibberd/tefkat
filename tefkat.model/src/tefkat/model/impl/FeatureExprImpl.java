@@ -123,7 +123,7 @@ public class FeatureExprImpl extends CompoundExprImpl implements FeatureExpr {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getFeatureExpr();
+        return TefkatPackage.Literals.FEATURE_EXPR;
     }
 
     /**
@@ -213,6 +213,93 @@ public class FeatureExprImpl extends CompoundExprImpl implements FeatureExpr {
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_EXPR__FEATURE:
+                return basicSetFeature(null, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_EXPR__OPERATION:
+                return isOperation() ? Boolean.TRUE : Boolean.FALSE;
+            case TefkatPackage.FEATURE_EXPR__COLLECT:
+                return isCollect() ? Boolean.TRUE : Boolean.FALSE;
+            case TefkatPackage.FEATURE_EXPR__FEATURE:
+                return getFeature();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_EXPR__OPERATION:
+                setOperation(((Boolean)newValue).booleanValue());
+                return;
+            case TefkatPackage.FEATURE_EXPR__COLLECT:
+                setCollect(((Boolean)newValue).booleanValue());
+                return;
+            case TefkatPackage.FEATURE_EXPR__FEATURE:
+                setFeature((Expression)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eUnset(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_EXPR__OPERATION:
+                setOperation(OPERATION_EDEFAULT);
+                return;
+            case TefkatPackage.FEATURE_EXPR__COLLECT:
+                setCollect(COLLECT_EDEFAULT);
+                return;
+            case TefkatPackage.FEATURE_EXPR__FEATURE:
+                setFeature((Expression)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_EXPR__OPERATION:
+                return operation != OPERATION_EDEFAULT;
+            case TefkatPackage.FEATURE_EXPR__COLLECT:
+                return collect != COLLECT_EDEFAULT;
+            case TefkatPackage.FEATURE_EXPR__FEATURE:
+                return feature != null;
+        }
+        return super.eIsSet(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
      * Create a (deep) copy of this instance.
      * Contained EObjects are also copied while referenced EObjects are not.
      * <!-- end-user-doc -->
@@ -227,162 +314,6 @@ public class FeatureExprImpl extends CompoundExprImpl implements FeatureExpr {
             args.add(((Expression) itr.next()).copy());
         }
         return copy;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.FEATURE_EXPR__EXPR:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.FEATURE_EXPR__EXPR, msgs);
-                case TefkatPackage.FEATURE_EXPR__ARG:
-                    return ((InternalEList)getArg()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.FEATURE_EXPR__EXPR:
-                    return eBasicSetContainer(null, TefkatPackage.FEATURE_EXPR__EXPR, msgs);
-                case TefkatPackage.FEATURE_EXPR__ARG:
-                    return ((InternalEList)getArg()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.FEATURE_EXPR__FEATURE:
-                    return basicSetFeature(null, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.FEATURE_EXPR__EXPR:
-                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.FEATURE_EXPR__EXPR:
-                return getExpr();
-            case TefkatPackage.FEATURE_EXPR__ARG:
-                return getArg();
-            case TefkatPackage.FEATURE_EXPR__OPERATION:
-                return isOperation() ? Boolean.TRUE : Boolean.FALSE;
-            case TefkatPackage.FEATURE_EXPR__COLLECT:
-                return isCollect() ? Boolean.TRUE : Boolean.FALSE;
-            case TefkatPackage.FEATURE_EXPR__FEATURE:
-                return getFeature();
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.FEATURE_EXPR__EXPR:
-                setExpr((CompoundExpr)newValue);
-                return;
-            case TefkatPackage.FEATURE_EXPR__ARG:
-                getArg().clear();
-                getArg().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.FEATURE_EXPR__OPERATION:
-                setOperation(((Boolean)newValue).booleanValue());
-                return;
-            case TefkatPackage.FEATURE_EXPR__COLLECT:
-                setCollect(((Boolean)newValue).booleanValue());
-                return;
-            case TefkatPackage.FEATURE_EXPR__FEATURE:
-                setFeature((Expression)newValue);
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.FEATURE_EXPR__EXPR:
-                setExpr((CompoundExpr)null);
-                return;
-            case TefkatPackage.FEATURE_EXPR__ARG:
-                getArg().clear();
-                return;
-            case TefkatPackage.FEATURE_EXPR__OPERATION:
-                setOperation(OPERATION_EDEFAULT);
-                return;
-            case TefkatPackage.FEATURE_EXPR__COLLECT:
-                setCollect(COLLECT_EDEFAULT);
-                return;
-            case TefkatPackage.FEATURE_EXPR__FEATURE:
-                setFeature((Expression)null);
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.FEATURE_EXPR__EXPR:
-                return getExpr() != null;
-            case TefkatPackage.FEATURE_EXPR__ARG:
-                return arg != null && !arg.isEmpty();
-            case TefkatPackage.FEATURE_EXPR__OPERATION:
-                return operation != OPERATION_EDEFAULT;
-            case TefkatPackage.FEATURE_EXPR__COLLECT:
-                return collect != COLLECT_EDEFAULT;
-            case TefkatPackage.FEATURE_EXPR__FEATURE:
-                return feature != null;
-        }
-        return eDynamicIsSet(eFeature);
     }
 
     /**

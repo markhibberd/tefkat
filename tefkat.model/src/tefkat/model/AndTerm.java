@@ -24,7 +24,7 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface AndTerm extends CompoundTerm, TargetTerm{
+public interface AndTerm extends CompoundTerm, TargetTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

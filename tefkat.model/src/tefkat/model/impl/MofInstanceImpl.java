@@ -109,7 +109,7 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getMofInstance();
+        return TefkatPackage.Literals.MOF_INSTANCE;
     }
 
     /**
@@ -224,36 +224,14 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.MOF_INSTANCE__PATTERN_DEFN:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.MOF_INSTANCE__PATTERN_DEFN, msgs);
-                case TefkatPackage.MOF_INSTANCE__QUERY:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.MOF_INSTANCE__QUERY, msgs);
-                case TefkatPackage.MOF_INSTANCE__COMPOUND_TERM:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.MOF_INSTANCE__COMPOUND_TERM, msgs);
-                case TefkatPackage.MOF_INSTANCE__TRULE_SRC:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.MOF_INSTANCE__TRULE_SRC, msgs);
-                case TefkatPackage.MOF_INSTANCE__TRULE_TGT:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.MOF_INSTANCE__TRULE_TGT, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.MOF_INSTANCE__TYPE_NAME:
+                return basicSetTypeName(null, msgs);
+            case TefkatPackage.MOF_INSTANCE__INSTANCE:
+                return basicSetInstance(null, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -261,75 +239,8 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.MOF_INSTANCE__PATTERN_DEFN:
-                    return eBasicSetContainer(null, TefkatPackage.MOF_INSTANCE__PATTERN_DEFN, msgs);
-                case TefkatPackage.MOF_INSTANCE__QUERY:
-                    return eBasicSetContainer(null, TefkatPackage.MOF_INSTANCE__QUERY, msgs);
-                case TefkatPackage.MOF_INSTANCE__COMPOUND_TERM:
-                    return eBasicSetContainer(null, TefkatPackage.MOF_INSTANCE__COMPOUND_TERM, msgs);
-                case TefkatPackage.MOF_INSTANCE__TRULE_SRC:
-                    return eBasicSetContainer(null, TefkatPackage.MOF_INSTANCE__TRULE_SRC, msgs);
-                case TefkatPackage.MOF_INSTANCE__TRULE_TGT:
-                    return eBasicSetContainer(null, TefkatPackage.MOF_INSTANCE__TRULE_TGT, msgs);
-                case TefkatPackage.MOF_INSTANCE__TYPE_NAME:
-                    return basicSetTypeName(null, msgs);
-                case TefkatPackage.MOF_INSTANCE__INSTANCE:
-                    return basicSetInstance(null, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.MOF_INSTANCE__PATTERN_DEFN:
-                    return eContainer.eInverseRemove(this, TefkatPackage.PATTERN_DEFN__TERM, PatternDefn.class, msgs);
-                case TefkatPackage.MOF_INSTANCE__QUERY:
-                    return eContainer.eInverseRemove(this, TefkatPackage.QUERY__TERM, Query.class, msgs);
-                case TefkatPackage.MOF_INSTANCE__COMPOUND_TERM:
-                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_TERM__TERM, CompoundTerm.class, msgs);
-                case TefkatPackage.MOF_INSTANCE__TRULE_SRC:
-                    return eContainer.eInverseRemove(this, TefkatPackage.TRULE__SRC, TRule.class, msgs);
-                case TefkatPackage.MOF_INSTANCE__TRULE_TGT:
-                    return eContainer.eInverseRemove(this, TefkatPackage.TRULE__TGT, TRule.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.MOF_INSTANCE__PATTERN_DEFN:
-                return getPatternDefn();
-            case TefkatPackage.MOF_INSTANCE__QUERY:
-                return getQuery();
-            case TefkatPackage.MOF_INSTANCE__COMPOUND_TERM:
-                return getCompoundTerm();
-            case TefkatPackage.MOF_INSTANCE__CONTEXT:
-                if (resolve) return getContext();
-                return basicGetContext();
-            case TefkatPackage.MOF_INSTANCE__TRULE_SRC:
-                return getTRuleSrc();
-            case TefkatPackage.MOF_INSTANCE__TRULE_TGT:
-                return getTRuleTgt();
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.MOF_INSTANCE__TYPE_NAME:
                 return getTypeName();
             case TefkatPackage.MOF_INSTANCE__INSTANCE:
@@ -337,7 +248,7 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
             case TefkatPackage.MOF_INSTANCE__EXACT:
                 return isExact() ? Boolean.TRUE : Boolean.FALSE;
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -345,26 +256,8 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.MOF_INSTANCE__PATTERN_DEFN:
-                setPatternDefn((PatternDefn)newValue);
-                return;
-            case TefkatPackage.MOF_INSTANCE__QUERY:
-                setQuery((Query)newValue);
-                return;
-            case TefkatPackage.MOF_INSTANCE__COMPOUND_TERM:
-                setCompoundTerm((CompoundTerm)newValue);
-                return;
-            case TefkatPackage.MOF_INSTANCE__CONTEXT:
-                setContext((ExtentVar)newValue);
-                return;
-            case TefkatPackage.MOF_INSTANCE__TRULE_SRC:
-                setTRuleSrc((TRule)newValue);
-                return;
-            case TefkatPackage.MOF_INSTANCE__TRULE_TGT:
-                setTRuleTgt((TRule)newValue);
-                return;
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.MOF_INSTANCE__TYPE_NAME:
                 setTypeName((Expression)newValue);
                 return;
@@ -375,7 +268,7 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
                 setExact(((Boolean)newValue).booleanValue());
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -383,26 +276,8 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.MOF_INSTANCE__PATTERN_DEFN:
-                setPatternDefn((PatternDefn)null);
-                return;
-            case TefkatPackage.MOF_INSTANCE__QUERY:
-                setQuery((Query)null);
-                return;
-            case TefkatPackage.MOF_INSTANCE__COMPOUND_TERM:
-                setCompoundTerm((CompoundTerm)null);
-                return;
-            case TefkatPackage.MOF_INSTANCE__CONTEXT:
-                setContext((ExtentVar)null);
-                return;
-            case TefkatPackage.MOF_INSTANCE__TRULE_SRC:
-                setTRuleSrc((TRule)null);
-                return;
-            case TefkatPackage.MOF_INSTANCE__TRULE_TGT:
-                setTRuleTgt((TRule)null);
-                return;
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.MOF_INSTANCE__TYPE_NAME:
                 setTypeName((Expression)null);
                 return;
@@ -413,7 +288,7 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
                 setExact(EXACT_EDEFAULT);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -421,20 +296,8 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.MOF_INSTANCE__PATTERN_DEFN:
-                return getPatternDefn() != null;
-            case TefkatPackage.MOF_INSTANCE__QUERY:
-                return getQuery() != null;
-            case TefkatPackage.MOF_INSTANCE__COMPOUND_TERM:
-                return getCompoundTerm() != null;
-            case TefkatPackage.MOF_INSTANCE__CONTEXT:
-                return context != null;
-            case TefkatPackage.MOF_INSTANCE__TRULE_SRC:
-                return getTRuleSrc() != null;
-            case TefkatPackage.MOF_INSTANCE__TRULE_TGT:
-                return getTRuleTgt() != null;
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.MOF_INSTANCE__TYPE_NAME:
                 return typeName != null;
             case TefkatPackage.MOF_INSTANCE__INSTANCE:
@@ -442,7 +305,7 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
             case TefkatPackage.MOF_INSTANCE__EXACT:
                 return exact != EXACT_EDEFAULT;
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

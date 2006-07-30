@@ -82,7 +82,7 @@ public abstract class SimpleExprImpl extends ExpressionImpl implements SimpleExp
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getSimpleExpr();
+        return TefkatPackage.Literals.SIMPLE_EXPR;
     }
 
     /**
@@ -111,69 +111,12 @@ public abstract class SimpleExprImpl extends ExpressionImpl implements SimpleExp
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.SIMPLE_EXPR__EXPR:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.SIMPLE_EXPR__EXPR, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.SIMPLE_EXPR__EXPR:
-                    return eBasicSetContainer(null, TefkatPackage.SIMPLE_EXPR__EXPR, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.SIMPLE_EXPR__EXPR:
-                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.SIMPLE_EXPR__EXPR:
-                return getExpr();
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
                 return getRepresentation();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -181,16 +124,13 @@ public abstract class SimpleExprImpl extends ExpressionImpl implements SimpleExp
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.SIMPLE_EXPR__EXPR:
-                setExpr((CompoundExpr)newValue);
-                return;
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
                 setRepresentation((String)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -198,16 +138,13 @@ public abstract class SimpleExprImpl extends ExpressionImpl implements SimpleExp
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.SIMPLE_EXPR__EXPR:
-                setExpr((CompoundExpr)null);
-                return;
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
                 setRepresentation(REPRESENTATION_EDEFAULT);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -215,14 +152,12 @@ public abstract class SimpleExprImpl extends ExpressionImpl implements SimpleExp
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.SIMPLE_EXPR__EXPR:
-                return getExpr() != null;
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
                 return REPRESENTATION_EDEFAULT == null ? representation != null : !REPRESENTATION_EDEFAULT.equals(representation);
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

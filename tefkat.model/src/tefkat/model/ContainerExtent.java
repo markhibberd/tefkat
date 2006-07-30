@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  * @model
  * @generated
  */
-public interface ContainerExtent extends Extent{
+public interface ContainerExtent extends Extent {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

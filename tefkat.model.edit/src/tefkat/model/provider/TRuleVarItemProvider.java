@@ -44,7 +44,7 @@ public class TRuleVarItemProvider
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+	public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -87,8 +87,10 @@ public class TRuleVarItemProvider
                  getResourceLocator(),
                  getString("_UI_TRuleVar_extender_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TRuleVar_extender_feature", "_UI_TRuleVar_type"),
-                 TefkatPackage.eINSTANCE.getTRuleVar_Extender(),
+                 TefkatPackage.Literals.TRULE_VAR__EXTENDER,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -107,8 +109,10 @@ public class TRuleVarItemProvider
                  getResourceLocator(),
                  getString("_UI_TRuleVar_extended_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TRuleVar_extended_feature", "_UI_TRuleVar_type"),
-                 TefkatPackage.eINSTANCE.getTRuleVar_Extended(),
+                 TefkatPackage.Literals.TRULE_VAR__EXTENDED,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -127,8 +131,10 @@ public class TRuleVarItemProvider
                  getResourceLocator(),
                  getString("_UI_TRuleVar_superseder_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TRuleVar_superseder_feature", "_UI_TRuleVar_type"),
-                 TefkatPackage.eINSTANCE.getTRuleVar_Superseder(),
+                 TefkatPackage.Literals.TRULE_VAR__SUPERSEDER,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -147,8 +153,10 @@ public class TRuleVarItemProvider
                  getResourceLocator(),
                  getString("_UI_TRuleVar_superseded_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TRuleVar_superseded_feature", "_UI_TRuleVar_type"),
-                 TefkatPackage.eINSTANCE.getTRuleVar_Superseded(),
+                 TefkatPackage.Literals.TRULE_VAR__SUPERSEDED,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -161,7 +169,7 @@ public class TRuleVarItemProvider
      * @generated
      */
 	public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/TRuleVar");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/TRuleVar"));
     }
 
     /**

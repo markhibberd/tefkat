@@ -32,7 +32,7 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface FeatureExpr extends CompoundExpr{
+public interface FeatureExpr extends CompoundExpr {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

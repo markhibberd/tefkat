@@ -26,7 +26,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface NotTerm extends CompoundTerm{
+public interface NotTerm extends CompoundTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

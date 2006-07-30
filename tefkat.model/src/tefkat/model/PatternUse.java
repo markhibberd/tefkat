@@ -32,7 +32,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface PatternUse extends SimpleTerm{
+public interface PatternUse extends SimpleTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

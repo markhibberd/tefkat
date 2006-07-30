@@ -51,7 +51,7 @@ public class TermItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -91,8 +91,10 @@ public class TermItemProvider
                  getResourceLocator(),
                  getString("_UI_Term_context_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Term_context_feature", "_UI_Term_type"),
-                 TefkatPackage.eINSTANCE.getTerm_Context(),
+                 TefkatPackage.Literals.TERM__CONTEXT,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -105,7 +107,7 @@ public class TermItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/Term");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/Term"));
     }
 
     /**

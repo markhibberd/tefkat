@@ -104,7 +104,7 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getAbstractVar();
+        return TefkatPackage.Literals.ABSTRACT_VAR;
     }
 
     /**
@@ -114,7 +114,17 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      */
     public VarScope getScope() {
         if (eContainerFeatureID != TefkatPackage.ABSTRACT_VAR__SCOPE) return null;
-        return (VarScope)eContainer;
+        return (VarScope)eContainer();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetScope(VarScope newScope, NotificationChain msgs) {
+        msgs = eBasicSetContainer((InternalEObject)newScope, TefkatPackage.ABSTRACT_VAR__SCOPE, msgs);
+        return msgs;
     }
 
     /**
@@ -123,15 +133,15 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * @generated
      */
     public void setScope(VarScope newScope) {
-        if (newScope != eContainer || (eContainerFeatureID != TefkatPackage.ABSTRACT_VAR__SCOPE && newScope != null)) {
+        if (newScope != eInternalContainer() || (eContainerFeatureID != TefkatPackage.ABSTRACT_VAR__SCOPE && newScope != null)) {
             if (EcoreUtil.isAncestor(this, newScope))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
-            if (eContainer != null)
+            if (eInternalContainer() != null)
                 msgs = eBasicRemoveFromContainer(msgs);
             if (newScope != null)
                 msgs = ((InternalEObject)newScope).eInverseAdd(this, TefkatPackage.VAR_SCOPE__VARS, VarScope.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newScope, TefkatPackage.ABSTRACT_VAR__SCOPE, msgs);
+            msgs = basicSetScope(newScope, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
@@ -176,22 +186,16 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.ABSTRACT_VAR__SCOPE:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.ABSTRACT_VAR__SCOPE, msgs);
-                case TefkatPackage.ABSTRACT_VAR__USAGES:
-                    return ((InternalEList)getUsages()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.ABSTRACT_VAR__SCOPE:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetScope((VarScope)otherEnd, msgs);
+            case TefkatPackage.ABSTRACT_VAR__USAGES:
+                return ((InternalEList)getUsages()).basicAdd(otherEnd, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
@@ -199,18 +203,14 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.ABSTRACT_VAR__SCOPE:
-                    return eBasicSetContainer(null, TefkatPackage.ABSTRACT_VAR__SCOPE, msgs);
-                case TefkatPackage.ABSTRACT_VAR__USAGES:
-                    return ((InternalEList)getUsages()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.ABSTRACT_VAR__SCOPE:
+                return basicSetScope(null, msgs);
+            case TefkatPackage.ABSTRACT_VAR__USAGES:
+                return ((InternalEList)getUsages()).basicRemove(otherEnd, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -218,16 +218,12 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.ABSTRACT_VAR__SCOPE:
-                    return eContainer.eInverseRemove(this, TefkatPackage.VAR_SCOPE__VARS, VarScope.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
+    public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+        switch (eContainerFeatureID) {
+            case TefkatPackage.ABSTRACT_VAR__SCOPE:
+                return eInternalContainer().eInverseRemove(this, TefkatPackage.VAR_SCOPE__VARS, VarScope.class, msgs);
         }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return super.eBasicRemoveFromContainerFeature(msgs);
     }
 
     /**
@@ -235,8 +231,8 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.ABSTRACT_VAR__SCOPE:
                 return getScope();
             case TefkatPackage.ABSTRACT_VAR__NAME:
@@ -244,7 +240,7 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
             case TefkatPackage.ABSTRACT_VAR__USAGES:
                 return getUsages();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -252,8 +248,8 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.ABSTRACT_VAR__SCOPE:
                 setScope((VarScope)newValue);
                 return;
@@ -261,7 +257,7 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
                 setName((String)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -269,8 +265,8 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.ABSTRACT_VAR__SCOPE:
                 setScope((VarScope)null);
                 return;
@@ -278,7 +274,7 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
                 setName(NAME_EDEFAULT);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -286,8 +282,8 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.ABSTRACT_VAR__SCOPE:
                 return getScope() != null;
             case TefkatPackage.ABSTRACT_VAR__NAME:
@@ -295,7 +291,7 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
             case TefkatPackage.ABSTRACT_VAR__USAGES:
                 return usages != null && !usages.isEmpty();
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

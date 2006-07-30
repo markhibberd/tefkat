@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.EClass;
  * @model
  * @generated
  */
-public interface TrackingUse extends SimpleTerm{
+public interface TrackingUse extends SimpleTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

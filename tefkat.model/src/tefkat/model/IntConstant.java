@@ -24,7 +24,7 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface IntConstant extends SimpleExpr{
+public interface IntConstant extends SimpleExpr {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

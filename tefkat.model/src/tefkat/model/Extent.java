@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface Extent extends EObject{
+public interface Extent extends EObject {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

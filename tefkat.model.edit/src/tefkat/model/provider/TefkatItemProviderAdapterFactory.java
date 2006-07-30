@@ -48,7 +48,7 @@ public class TefkatItemProviderAdapterFactory extends TefkatAdapterFactory imple
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This keeps track of the root adapter factory that delegates to this adapter factory.
@@ -768,6 +768,28 @@ public class TefkatItemProviderAdapterFactory extends TefkatAdapterFactory imple
         }
 
         return injectionItemProvider;
+    }
+
+    /**
+     * This keeps track of the one adapter used for all {@link tefkat.model.NamespaceDeclaration} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected NamespaceDeclarationItemProvider namespaceDeclarationItemProvider;
+
+    /**
+     * This creates an adapter for a {@link tefkat.model.NamespaceDeclaration}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Adapter createNamespaceDeclarationAdapter() {
+        if (namespaceDeclarationItemProvider == null) {
+            namespaceDeclarationItemProvider = new NamespaceDeclarationItemProvider(this);
+        }
+
+        return namespaceDeclarationItemProvider;
     }
 
     /**

@@ -53,7 +53,7 @@ public class CollectionExprItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -94,8 +94,10 @@ public class CollectionExprItemProvider
                  getResourceLocator(),
                  getString("_UI_CollectionExpr_unique_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_CollectionExpr_unique_feature", "_UI_CollectionExpr_type"),
-                 TefkatPackage.eINSTANCE.getCollectionExpr_Unique(),
+                 TefkatPackage.Literals.COLLECTION_EXPR__UNIQUE,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
                  null,
                  null));
@@ -114,8 +116,10 @@ public class CollectionExprItemProvider
                  getResourceLocator(),
                  getString("_UI_CollectionExpr_ordered_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_CollectionExpr_ordered_feature", "_UI_CollectionExpr_type"),
-                 TefkatPackage.eINSTANCE.getCollectionExpr_Ordered(),
+                 TefkatPackage.Literals.COLLECTION_EXPR__ORDERED,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
                  null,
                  null));
@@ -128,7 +132,7 @@ public class CollectionExprItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/CollectionExpr");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/CollectionExpr"));
     }
 
     /**

@@ -246,7 +246,7 @@ class Evaluator {
     private final RuleEvaluator ruleEval;
 
     Evaluator(RuleEvaluator evaluator) {
-    	ruleEval = evaluator;
+        ruleEval = evaluator;
         initFunctionMap();
     }
 
@@ -790,6 +790,7 @@ class Evaluator {
         Method method = null;
         Class cls = instance.getClass();
         
+        // FIXME: This will fail for private Classes implementing public Interfaces
         Method[] ms = cls.getMethods();
         for (int i = 0; null == method && i < ms.length; i++) {
             if (name.equals(ms[i].getName())) {

@@ -38,7 +38,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface TRule extends VarScope{
+public interface TRule extends VarScope {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

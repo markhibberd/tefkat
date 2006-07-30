@@ -52,7 +52,7 @@ public class CompoundExprItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -89,7 +89,7 @@ public class CompoundExprItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getCompoundExpr_Arg());
+            childrenFeatures.add(TefkatPackage.Literals.COMPOUND_EXPR__ARG);
         }
         return childrenFeatures;
     }
@@ -101,7 +101,7 @@ public class CompoundExprItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/CompoundExpr");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/CompoundExpr"));
     }
 
     /**
@@ -144,52 +144,52 @@ public class CompoundExprItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundExpr_Arg(),
+                (TefkatPackage.Literals.COMPOUND_EXPR__ARG,
                  TefkatFactory.eINSTANCE.createInstanceRef()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundExpr_Arg(),
+                (TefkatPackage.Literals.COMPOUND_EXPR__ARG,
                  TefkatFactory.eINSTANCE.createVarUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundExpr_Arg(),
+                (TefkatPackage.Literals.COMPOUND_EXPR__ARG,
                  TefkatFactory.eINSTANCE.createCollectionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundExpr_Arg(),
+                (TefkatPackage.Literals.COMPOUND_EXPR__ARG,
                  TefkatFactory.eINSTANCE.createFunctionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundExpr_Arg(),
+                (TefkatPackage.Literals.COMPOUND_EXPR__ARG,
                  TefkatFactory.eINSTANCE.createFeatureExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundExpr_Arg(),
+                (TefkatPackage.Literals.COMPOUND_EXPR__ARG,
                  TefkatFactory.eINSTANCE.createStringConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundExpr_Arg(),
+                (TefkatPackage.Literals.COMPOUND_EXPR__ARG,
                  TefkatFactory.eINSTANCE.createIntConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundExpr_Arg(),
+                (TefkatPackage.Literals.COMPOUND_EXPR__ARG,
                  TefkatFactory.eINSTANCE.createRealConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundExpr_Arg(),
+                (TefkatPackage.Literals.COMPOUND_EXPR__ARG,
                  TefkatFactory.eINSTANCE.createBooleanConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getCompoundExpr_Arg(),
+                (TefkatPackage.Literals.COMPOUND_EXPR__ARG,
                  TefkatFactory.eINSTANCE.createEnumConstant()));
     }
 

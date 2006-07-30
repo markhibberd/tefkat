@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EFactory;
  * @see tefkat.model.TefkatPackage
  * @generated
  */
-public interface TefkatFactory extends EFactory{
+public interface TefkatFactory extends EFactory {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -37,7 +37,7 @@ public interface TefkatFactory extends EFactory{
      * <!-- end-user-doc -->
      * @generated
      */
-    TefkatFactory eINSTANCE = new tefkat.model.impl.TefkatFactoryImpl();
+    TefkatFactory eINSTANCE = tefkat.model.impl.TefkatFactoryImpl.init();
 
     /**
      * Returns a new object of class '<em>Container Extent</em>'.
@@ -308,6 +308,15 @@ public interface TefkatFactory extends EFactory{
      * @generated
      */
     Injection createInjection();
+
+    /**
+     * Returns a new object of class '<em>Namespace Declaration</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Namespace Declaration</em>'.
+     * @generated
+     */
+    NamespaceDeclaration createNamespaceDeclaration();
 
     /**
      * Returns the package supported by this factory.

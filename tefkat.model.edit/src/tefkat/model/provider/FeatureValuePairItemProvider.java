@@ -55,7 +55,7 @@ public class FeatureValuePairItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -95,8 +95,10 @@ public class FeatureValuePairItemProvider
                  getResourceLocator(),
                  getString("_UI_FeatureValuePair_key_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_FeatureValuePair_key_feature", "_UI_FeatureValuePair_type"),
-                 TefkatPackage.eINSTANCE.getFeatureValuePair_Key(),
+                 TefkatPackage.Literals.FEATURE_VALUE_PAIR__KEY,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -113,7 +115,7 @@ public class FeatureValuePairItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getFeatureValuePair_Value());
+            childrenFeatures.add(TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE);
         }
         return childrenFeatures;
     }
@@ -125,7 +127,7 @@ public class FeatureValuePairItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/FeatureValuePair");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/FeatureValuePair"));
     }
 
     /**
@@ -172,52 +174,52 @@ public class FeatureValuePairItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureValuePair_Value(),
+                (TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE,
                  TefkatFactory.eINSTANCE.createInstanceRef()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureValuePair_Value(),
+                (TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE,
                  TefkatFactory.eINSTANCE.createVarUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureValuePair_Value(),
+                (TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE,
                  TefkatFactory.eINSTANCE.createCollectionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureValuePair_Value(),
+                (TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE,
                  TefkatFactory.eINSTANCE.createFunctionExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureValuePair_Value(),
+                (TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE,
                  TefkatFactory.eINSTANCE.createFeatureExpr()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureValuePair_Value(),
+                (TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE,
                  TefkatFactory.eINSTANCE.createStringConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureValuePair_Value(),
+                (TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE,
                  TefkatFactory.eINSTANCE.createIntConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureValuePair_Value(),
+                (TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE,
                  TefkatFactory.eINSTANCE.createRealConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureValuePair_Value(),
+                (TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE,
                  TefkatFactory.eINSTANCE.createBooleanConstant()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getFeatureValuePair_Value(),
+                (TefkatPackage.Literals.FEATURE_VALUE_PAIR__VALUE,
                  TefkatFactory.eINSTANCE.createEnumConstant()));
     }
 

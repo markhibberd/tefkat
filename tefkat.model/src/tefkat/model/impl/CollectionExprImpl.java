@@ -111,7 +111,7 @@ public class CollectionExprImpl extends CompoundExprImpl implements CollectionEx
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getCollectionExpr();
+        return TefkatPackage.Literals.COLLECTION_EXPR;
     }
 
     /**
@@ -158,6 +158,70 @@ public class CollectionExprImpl extends CompoundExprImpl implements CollectionEx
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case TefkatPackage.COLLECTION_EXPR__UNIQUE:
+                return isUnique() ? Boolean.TRUE : Boolean.FALSE;
+            case TefkatPackage.COLLECTION_EXPR__ORDERED:
+                return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+            case TefkatPackage.COLLECTION_EXPR__UNIQUE:
+                setUnique(((Boolean)newValue).booleanValue());
+                return;
+            case TefkatPackage.COLLECTION_EXPR__ORDERED:
+                setOrdered(((Boolean)newValue).booleanValue());
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eUnset(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.COLLECTION_EXPR__UNIQUE:
+                setUnique(UNIQUE_EDEFAULT);
+                return;
+            case TefkatPackage.COLLECTION_EXPR__ORDERED:
+                setOrdered(ORDERED_EDEFAULT);
+                return;
+        }
+        super.eUnset(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.COLLECTION_EXPR__UNIQUE:
+                return unique != UNIQUE_EDEFAULT;
+            case TefkatPackage.COLLECTION_EXPR__ORDERED:
+                return ordered != ORDERED_EDEFAULT;
+        }
+        return super.eIsSet(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
      * Create a (deep) copy of this instance.
      * Contained EObjects are also copied while referenced EObjects are not.
      * <!-- end-user-doc -->
@@ -171,150 +235,6 @@ public class CollectionExprImpl extends CompoundExprImpl implements CollectionEx
             args.add(((Expression) itr.next()).copy());
         }
         return copy;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.COLLECTION_EXPR__EXPR:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.COLLECTION_EXPR__EXPR, msgs);
-                case TefkatPackage.COLLECTION_EXPR__ARG:
-                    return ((InternalEList)getArg()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.COLLECTION_EXPR__EXPR:
-                    return eBasicSetContainer(null, TefkatPackage.COLLECTION_EXPR__EXPR, msgs);
-                case TefkatPackage.COLLECTION_EXPR__ARG:
-                    return ((InternalEList)getArg()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.COLLECTION_EXPR__EXPR:
-                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.COLLECTION_EXPR__EXPR:
-                return getExpr();
-            case TefkatPackage.COLLECTION_EXPR__ARG:
-                return getArg();
-            case TefkatPackage.COLLECTION_EXPR__UNIQUE:
-                return isUnique() ? Boolean.TRUE : Boolean.FALSE;
-            case TefkatPackage.COLLECTION_EXPR__ORDERED:
-                return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.COLLECTION_EXPR__EXPR:
-                setExpr((CompoundExpr)newValue);
-                return;
-            case TefkatPackage.COLLECTION_EXPR__ARG:
-                getArg().clear();
-                getArg().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.COLLECTION_EXPR__UNIQUE:
-                setUnique(((Boolean)newValue).booleanValue());
-                return;
-            case TefkatPackage.COLLECTION_EXPR__ORDERED:
-                setOrdered(((Boolean)newValue).booleanValue());
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.COLLECTION_EXPR__EXPR:
-                setExpr((CompoundExpr)null);
-                return;
-            case TefkatPackage.COLLECTION_EXPR__ARG:
-                getArg().clear();
-                return;
-            case TefkatPackage.COLLECTION_EXPR__UNIQUE:
-                setUnique(UNIQUE_EDEFAULT);
-                return;
-            case TefkatPackage.COLLECTION_EXPR__ORDERED:
-                setOrdered(ORDERED_EDEFAULT);
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.COLLECTION_EXPR__EXPR:
-                return getExpr() != null;
-            case TefkatPackage.COLLECTION_EXPR__ARG:
-                return arg != null && !arg.isEmpty();
-            case TefkatPackage.COLLECTION_EXPR__UNIQUE:
-                return unique != UNIQUE_EDEFAULT;
-            case TefkatPackage.COLLECTION_EXPR__ORDERED:
-                return ordered != ORDERED_EDEFAULT;
-        }
-        return eDynamicIsSet(eFeature);
     }
 
     /**

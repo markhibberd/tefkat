@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link tefkat.model.Transformation#getTRule <em>TRule</em>}</li>
  *   <li>{@link tefkat.model.Transformation#getImportedPackages <em>Imported Packages</em>}</li>
+ *   <li>{@link tefkat.model.Transformation#getNamespaceDeclarations <em>Namespace Declarations</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,9 +79,25 @@ public interface Transformation extends PatternScope{
     EList getImportedPackages();
 
     /**
+     * Returns the value of the '<em><b>Namespace Declarations</b></em>' containment reference list.
+     * The list contents are of type {@link tefkat.model.NamespaceDeclaration}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Namespace Declarations</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Namespace Declarations</em>' containment reference list.
+     * @see tefkat.model.TefkatPackage#getTransformation_NamespaceDeclarations()
+     * @model type="tefkat.model.NamespaceDeclaration" containment="true"
+     * @generated
+     */
+    EList getNamespaceDeclarations();
+
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @model kind="operation" dataType="tefkat.model.ListArray"
+     * @model kind="operation" dataType="tefkat.model.ListArray" exceptions="tefkat.model.TefkatException"
      * @generated
      */
     List[] getStrata() throws TefkatException;

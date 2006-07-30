@@ -52,7 +52,7 @@ public class PatternScopeItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -89,7 +89,7 @@ public class PatternScopeItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getPatternScope_PatternDefn());
+            childrenFeatures.add(TefkatPackage.Literals.PATTERN_SCOPE__PATTERN_DEFN);
         }
         return childrenFeatures;
     }
@@ -101,7 +101,7 @@ public class PatternScopeItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/PatternScope");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/PatternScope"));
     }
 
     /**
@@ -147,7 +147,7 @@ public class PatternScopeItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternScope_PatternDefn(),
+                (TefkatPackage.Literals.PATTERN_SCOPE__PATTERN_DEFN,
                  TefkatFactory.eINSTANCE.createPatternDefn()));
     }
 

@@ -54,7 +54,7 @@ public class TrackingUseItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -95,8 +95,10 @@ public class TrackingUseItemProvider
                  getResourceLocator(),
                  getString("_UI_TrackingUse_tracking_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TrackingUse_tracking_feature", "_UI_TrackingUse_type"),
-                 TefkatPackage.eINSTANCE.getTrackingUse_Tracking(),
+                 TefkatPackage.Literals.TRACKING_USE__TRACKING,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -115,8 +117,10 @@ public class TrackingUseItemProvider
                  getResourceLocator(),
                  getString("_UI_TrackingUse_trackingName_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TrackingUse_trackingName_feature", "_UI_TrackingUse_type"),
-                 TefkatPackage.eINSTANCE.getTrackingUse_TrackingName(),
+                 TefkatPackage.Literals.TRACKING_USE__TRACKING_NAME,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -133,7 +137,7 @@ public class TrackingUseItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getTrackingUse_Features());
+            childrenFeatures.add(TefkatPackage.Literals.TRACKING_USE__FEATURES);
         }
         return childrenFeatures;
     }
@@ -145,7 +149,7 @@ public class TrackingUseItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/TrackingUse");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/TrackingUse"));
     }
 
     /**
@@ -194,8 +198,8 @@ public class TrackingUseItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getTrackingUse_Features(),
-                 TefkatFactory.eINSTANCE.create(TefkatPackage.eINSTANCE.getFeatureValuePair())));
+                (TefkatPackage.Literals.TRACKING_USE__FEATURES,
+                 TefkatFactory.eINSTANCE.create(TefkatPackage.Literals.FEATURE_VALUE_PAIR)));
     }
 
     /**

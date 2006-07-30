@@ -80,7 +80,7 @@ public abstract class CompoundTermImpl extends SourceTermImpl implements Compoun
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getCompoundTerm();
+        return TefkatPackage.Literals.COMPOUND_TERM;
     }
 
     /**
@@ -100,34 +100,12 @@ public abstract class CompoundTermImpl extends SourceTermImpl implements Compoun
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.COMPOUND_TERM__PATTERN_DEFN:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.COMPOUND_TERM__PATTERN_DEFN, msgs);
-                case TefkatPackage.COMPOUND_TERM__QUERY:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.COMPOUND_TERM__QUERY, msgs);
-                case TefkatPackage.COMPOUND_TERM__COMPOUND_TERM:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.COMPOUND_TERM__COMPOUND_TERM, msgs);
-                case TefkatPackage.COMPOUND_TERM__TRULE_SRC:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.COMPOUND_TERM__TRULE_SRC, msgs);
-                case TefkatPackage.COMPOUND_TERM__TERM:
-                    return ((InternalEList)getTerm()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.COMPOUND_TERM__TERM:
+                return ((InternalEList)getTerm()).basicAdd(otherEnd, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
@@ -135,24 +113,12 @@ public abstract class CompoundTermImpl extends SourceTermImpl implements Compoun
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.COMPOUND_TERM__PATTERN_DEFN:
-                    return eBasicSetContainer(null, TefkatPackage.COMPOUND_TERM__PATTERN_DEFN, msgs);
-                case TefkatPackage.COMPOUND_TERM__QUERY:
-                    return eBasicSetContainer(null, TefkatPackage.COMPOUND_TERM__QUERY, msgs);
-                case TefkatPackage.COMPOUND_TERM__COMPOUND_TERM:
-                    return eBasicSetContainer(null, TefkatPackage.COMPOUND_TERM__COMPOUND_TERM, msgs);
-                case TefkatPackage.COMPOUND_TERM__TRULE_SRC:
-                    return eBasicSetContainer(null, TefkatPackage.COMPOUND_TERM__TRULE_SRC, msgs);
-                case TefkatPackage.COMPOUND_TERM__TERM:
-                    return ((InternalEList)getTerm()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.COMPOUND_TERM__TERM:
+                return ((InternalEList)getTerm()).basicRemove(otherEnd, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -160,46 +126,12 @@ public abstract class CompoundTermImpl extends SourceTermImpl implements Compoun
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.COMPOUND_TERM__PATTERN_DEFN:
-                    return eContainer.eInverseRemove(this, TefkatPackage.PATTERN_DEFN__TERM, PatternDefn.class, msgs);
-                case TefkatPackage.COMPOUND_TERM__QUERY:
-                    return eContainer.eInverseRemove(this, TefkatPackage.QUERY__TERM, Query.class, msgs);
-                case TefkatPackage.COMPOUND_TERM__COMPOUND_TERM:
-                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_TERM__TERM, CompoundTerm.class, msgs);
-                case TefkatPackage.COMPOUND_TERM__TRULE_SRC:
-                    return eContainer.eInverseRemove(this, TefkatPackage.TRULE__SRC, TRule.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.COMPOUND_TERM__PATTERN_DEFN:
-                return getPatternDefn();
-            case TefkatPackage.COMPOUND_TERM__QUERY:
-                return getQuery();
-            case TefkatPackage.COMPOUND_TERM__COMPOUND_TERM:
-                return getCompoundTerm();
-            case TefkatPackage.COMPOUND_TERM__CONTEXT:
-                if (resolve) return getContext();
-                return basicGetContext();
-            case TefkatPackage.COMPOUND_TERM__TRULE_SRC:
-                return getTRuleSrc();
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.COMPOUND_TERM__TERM:
                 return getTerm();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -207,29 +139,14 @@ public abstract class CompoundTermImpl extends SourceTermImpl implements Compoun
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.COMPOUND_TERM__PATTERN_DEFN:
-                setPatternDefn((PatternDefn)newValue);
-                return;
-            case TefkatPackage.COMPOUND_TERM__QUERY:
-                setQuery((Query)newValue);
-                return;
-            case TefkatPackage.COMPOUND_TERM__COMPOUND_TERM:
-                setCompoundTerm((CompoundTerm)newValue);
-                return;
-            case TefkatPackage.COMPOUND_TERM__CONTEXT:
-                setContext((ExtentVar)newValue);
-                return;
-            case TefkatPackage.COMPOUND_TERM__TRULE_SRC:
-                setTRuleSrc((TRule)newValue);
-                return;
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.COMPOUND_TERM__TERM:
                 getTerm().clear();
                 getTerm().addAll((Collection)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -237,28 +154,13 @@ public abstract class CompoundTermImpl extends SourceTermImpl implements Compoun
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.COMPOUND_TERM__PATTERN_DEFN:
-                setPatternDefn((PatternDefn)null);
-                return;
-            case TefkatPackage.COMPOUND_TERM__QUERY:
-                setQuery((Query)null);
-                return;
-            case TefkatPackage.COMPOUND_TERM__COMPOUND_TERM:
-                setCompoundTerm((CompoundTerm)null);
-                return;
-            case TefkatPackage.COMPOUND_TERM__CONTEXT:
-                setContext((ExtentVar)null);
-                return;
-            case TefkatPackage.COMPOUND_TERM__TRULE_SRC:
-                setTRuleSrc((TRule)null);
-                return;
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.COMPOUND_TERM__TERM:
                 getTerm().clear();
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -266,22 +168,12 @@ public abstract class CompoundTermImpl extends SourceTermImpl implements Compoun
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.COMPOUND_TERM__PATTERN_DEFN:
-                return getPatternDefn() != null;
-            case TefkatPackage.COMPOUND_TERM__QUERY:
-                return getQuery() != null;
-            case TefkatPackage.COMPOUND_TERM__COMPOUND_TERM:
-                return getCompoundTerm() != null;
-            case TefkatPackage.COMPOUND_TERM__CONTEXT:
-                return context != null;
-            case TefkatPackage.COMPOUND_TERM__TRULE_SRC:
-                return getTRuleSrc() != null;
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.COMPOUND_TERM__TERM:
                 return term != null && !term.isEmpty();
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
 } //CompoundTermImpl

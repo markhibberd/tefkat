@@ -93,7 +93,7 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getContainerExtent();
+        return TefkatPackage.Literals.CONTAINER_EXTENT;
     }
 
     /**
@@ -251,12 +251,12 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
                 return getResource();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -264,13 +264,13 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
                 setResource((Resource)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -278,13 +278,13 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
                 setResource(RESOURCE_EDEFAULT);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -292,12 +292,12 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.CONTAINER_EXTENT__RESOURCE:
                 return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

@@ -97,7 +97,7 @@ public class FeatureValuePairImpl extends EObjectImpl implements BasicEMap.Entry
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getFeatureValuePair();
+        return TefkatPackage.Literals.FEATURE_VALUE_PAIR;
     }
 
     /**
@@ -169,16 +169,12 @@ public class FeatureValuePairImpl extends EObjectImpl implements BasicEMap.Entry
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
-                    return basicSetTypedValue(null, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
+                return basicSetTypedValue(null, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -186,14 +182,14 @@ public class FeatureValuePairImpl extends EObjectImpl implements BasicEMap.Entry
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
                 return getTypedValue();
             case TefkatPackage.FEATURE_VALUE_PAIR__KEY:
                 return getTypedKey();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -201,8 +197,8 @@ public class FeatureValuePairImpl extends EObjectImpl implements BasicEMap.Entry
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
                 setTypedValue((Expression)newValue);
                 return;
@@ -210,7 +206,7 @@ public class FeatureValuePairImpl extends EObjectImpl implements BasicEMap.Entry
                 setTypedKey((String)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -218,8 +214,8 @@ public class FeatureValuePairImpl extends EObjectImpl implements BasicEMap.Entry
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
                 setTypedValue((Expression)null);
                 return;
@@ -227,7 +223,7 @@ public class FeatureValuePairImpl extends EObjectImpl implements BasicEMap.Entry
                 setTypedKey(KEY_EDEFAULT);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -235,14 +231,14 @@ public class FeatureValuePairImpl extends EObjectImpl implements BasicEMap.Entry
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
                 return value != null;
             case TefkatPackage.FEATURE_VALUE_PAIR__KEY:
                 return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

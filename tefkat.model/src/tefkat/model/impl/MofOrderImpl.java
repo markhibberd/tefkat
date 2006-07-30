@@ -110,7 +110,7 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getMofOrder();
+        return TefkatPackage.Literals.MOF_ORDER;
     }
 
     /**
@@ -290,36 +290,18 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.MOF_ORDER__PATTERN_DEFN:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.MOF_ORDER__PATTERN_DEFN, msgs);
-                case TefkatPackage.MOF_ORDER__QUERY:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.MOF_ORDER__QUERY, msgs);
-                case TefkatPackage.MOF_ORDER__COMPOUND_TERM:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.MOF_ORDER__COMPOUND_TERM, msgs);
-                case TefkatPackage.MOF_ORDER__TRULE_SRC:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.MOF_ORDER__TRULE_SRC, msgs);
-                case TefkatPackage.MOF_ORDER__TRULE_TGT:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.MOF_ORDER__TRULE_TGT, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.MOF_ORDER__LESSER:
+                return basicSetLesser(null, msgs);
+            case TefkatPackage.MOF_ORDER__GREATER:
+                return basicSetGreater(null, msgs);
+            case TefkatPackage.MOF_ORDER__INSTANCE:
+                return basicSetInstance(null, msgs);
+            case TefkatPackage.MOF_ORDER__FEATURE:
+                return basicSetFeature(null, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -327,79 +309,8 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.MOF_ORDER__PATTERN_DEFN:
-                    return eBasicSetContainer(null, TefkatPackage.MOF_ORDER__PATTERN_DEFN, msgs);
-                case TefkatPackage.MOF_ORDER__QUERY:
-                    return eBasicSetContainer(null, TefkatPackage.MOF_ORDER__QUERY, msgs);
-                case TefkatPackage.MOF_ORDER__COMPOUND_TERM:
-                    return eBasicSetContainer(null, TefkatPackage.MOF_ORDER__COMPOUND_TERM, msgs);
-                case TefkatPackage.MOF_ORDER__TRULE_SRC:
-                    return eBasicSetContainer(null, TefkatPackage.MOF_ORDER__TRULE_SRC, msgs);
-                case TefkatPackage.MOF_ORDER__TRULE_TGT:
-                    return eBasicSetContainer(null, TefkatPackage.MOF_ORDER__TRULE_TGT, msgs);
-                case TefkatPackage.MOF_ORDER__LESSER:
-                    return basicSetLesser(null, msgs);
-                case TefkatPackage.MOF_ORDER__GREATER:
-                    return basicSetGreater(null, msgs);
-                case TefkatPackage.MOF_ORDER__INSTANCE:
-                    return basicSetInstance(null, msgs);
-                case TefkatPackage.MOF_ORDER__FEATURE:
-                    return basicSetFeature(null, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.MOF_ORDER__PATTERN_DEFN:
-                    return eContainer.eInverseRemove(this, TefkatPackage.PATTERN_DEFN__TERM, PatternDefn.class, msgs);
-                case TefkatPackage.MOF_ORDER__QUERY:
-                    return eContainer.eInverseRemove(this, TefkatPackage.QUERY__TERM, Query.class, msgs);
-                case TefkatPackage.MOF_ORDER__COMPOUND_TERM:
-                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_TERM__TERM, CompoundTerm.class, msgs);
-                case TefkatPackage.MOF_ORDER__TRULE_SRC:
-                    return eContainer.eInverseRemove(this, TefkatPackage.TRULE__SRC, TRule.class, msgs);
-                case TefkatPackage.MOF_ORDER__TRULE_TGT:
-                    return eContainer.eInverseRemove(this, TefkatPackage.TRULE__TGT, TRule.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.MOF_ORDER__PATTERN_DEFN:
-                return getPatternDefn();
-            case TefkatPackage.MOF_ORDER__QUERY:
-                return getQuery();
-            case TefkatPackage.MOF_ORDER__COMPOUND_TERM:
-                return getCompoundTerm();
-            case TefkatPackage.MOF_ORDER__CONTEXT:
-                if (resolve) return getContext();
-                return basicGetContext();
-            case TefkatPackage.MOF_ORDER__TRULE_SRC:
-                return getTRuleSrc();
-            case TefkatPackage.MOF_ORDER__TRULE_TGT:
-                return getTRuleTgt();
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.MOF_ORDER__LESSER:
                 return getLesser();
             case TefkatPackage.MOF_ORDER__GREATER:
@@ -409,7 +320,7 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
             case TefkatPackage.MOF_ORDER__FEATURE:
                 return getFeature();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -417,26 +328,8 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.MOF_ORDER__PATTERN_DEFN:
-                setPatternDefn((PatternDefn)newValue);
-                return;
-            case TefkatPackage.MOF_ORDER__QUERY:
-                setQuery((Query)newValue);
-                return;
-            case TefkatPackage.MOF_ORDER__COMPOUND_TERM:
-                setCompoundTerm((CompoundTerm)newValue);
-                return;
-            case TefkatPackage.MOF_ORDER__CONTEXT:
-                setContext((ExtentVar)newValue);
-                return;
-            case TefkatPackage.MOF_ORDER__TRULE_SRC:
-                setTRuleSrc((TRule)newValue);
-                return;
-            case TefkatPackage.MOF_ORDER__TRULE_TGT:
-                setTRuleTgt((TRule)newValue);
-                return;
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.MOF_ORDER__LESSER:
                 setLesser((Expression)newValue);
                 return;
@@ -450,7 +343,7 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
                 setFeature((Expression)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -458,26 +351,8 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.MOF_ORDER__PATTERN_DEFN:
-                setPatternDefn((PatternDefn)null);
-                return;
-            case TefkatPackage.MOF_ORDER__QUERY:
-                setQuery((Query)null);
-                return;
-            case TefkatPackage.MOF_ORDER__COMPOUND_TERM:
-                setCompoundTerm((CompoundTerm)null);
-                return;
-            case TefkatPackage.MOF_ORDER__CONTEXT:
-                setContext((ExtentVar)null);
-                return;
-            case TefkatPackage.MOF_ORDER__TRULE_SRC:
-                setTRuleSrc((TRule)null);
-                return;
-            case TefkatPackage.MOF_ORDER__TRULE_TGT:
-                setTRuleTgt((TRule)null);
-                return;
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.MOF_ORDER__LESSER:
                 setLesser((Expression)null);
                 return;
@@ -491,7 +366,7 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
                 setFeature((Expression)null);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -499,20 +374,8 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.MOF_ORDER__PATTERN_DEFN:
-                return getPatternDefn() != null;
-            case TefkatPackage.MOF_ORDER__QUERY:
-                return getQuery() != null;
-            case TefkatPackage.MOF_ORDER__COMPOUND_TERM:
-                return getCompoundTerm() != null;
-            case TefkatPackage.MOF_ORDER__CONTEXT:
-                return context != null;
-            case TefkatPackage.MOF_ORDER__TRULE_SRC:
-                return getTRuleSrc() != null;
-            case TefkatPackage.MOF_ORDER__TRULE_TGT:
-                return getTRuleTgt() != null;
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.MOF_ORDER__LESSER:
                 return lesser != null;
             case TefkatPackage.MOF_ORDER__GREATER:
@@ -522,7 +385,7 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
             case TefkatPackage.MOF_ORDER__FEATURE:
                 return feature != null;
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
 } //MofOrderImpl

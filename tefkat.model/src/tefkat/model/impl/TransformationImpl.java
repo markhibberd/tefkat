@@ -31,9 +31,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import tefkat.model.NamespaceDeclaration;
 import tefkat.model.PatternDefn;
 import tefkat.model.StratificationException;
 import tefkat.model.TRule;
@@ -54,6 +56,7 @@ import tefkat.model.internal.Stratifier;
  * <ul>
  *   <li>{@link tefkat.model.impl.TransformationImpl#getTRule <em>TRule</em>}</li>
  *   <li>{@link tefkat.model.impl.TransformationImpl#getImportedPackages <em>Imported Packages</em>}</li>
+ *   <li>{@link tefkat.model.impl.TransformationImpl#getNamespaceDeclarations <em>Namespace Declarations</em>}</li>
  * </ul>
  * </p>
  *
@@ -87,6 +90,16 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
      */
     protected EList importedPackages = null;
     
+    /**
+     * The cached value of the '{@link #getNamespaceDeclarations() <em>Namespace Declarations</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getNamespaceDeclarations()
+     * @generated
+     * @ordered
+     */
+    protected EList namespaceDeclarations = null;
+
     /**
      * Maps from a TRule to a Collection of the TRules that supersede it
      * with respect to <em>this</em> Transformation.
@@ -144,8 +157,113 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
      * <!-- end-user-doc -->
      * @generated
      */
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.TRANSFORMATION__TRULE:
+                return ((InternalEList)getTRule()).basicAdd(otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.TRANSFORMATION__TRULE:
+                return ((InternalEList)getTRule()).basicRemove(otherEnd, msgs);
+            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
+                return ((InternalEList)getNamespaceDeclarations()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case TefkatPackage.TRANSFORMATION__TRULE:
+                return getTRule();
+            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
+                return getImportedPackages();
+            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
+                return getNamespaceDeclarations();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+            case TefkatPackage.TRANSFORMATION__TRULE:
+                getTRule().clear();
+                getTRule().addAll((Collection)newValue);
+                return;
+            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
+                getImportedPackages().clear();
+                getImportedPackages().addAll((Collection)newValue);
+                return;
+            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
+                getNamespaceDeclarations().clear();
+                getNamespaceDeclarations().addAll((Collection)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eUnset(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.TRANSFORMATION__TRULE:
+                getTRule().clear();
+                return;
+            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
+                getImportedPackages().clear();
+                return;
+            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
+                getNamespaceDeclarations().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.TRANSFORMATION__TRULE:
+                return tRule != null && !tRule.isEmpty();
+            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
+                return importedPackages != null && !importedPackages.isEmpty();
+            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
+                return namespaceDeclarations != null && !namespaceDeclarations.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getTransformation();
+        return TefkatPackage.Literals.TRANSFORMATION;
     }
 
     /**
@@ -170,6 +288,18 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
             importedPackages = new EDataTypeUniqueEList(String.class, this, TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES);
         }
         return importedPackages;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList getNamespaceDeclarations() {
+        if (namespaceDeclarations == null) {
+            namespaceDeclarations = new EObjectContainmentEList(NamespaceDeclaration.class, this, TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS);
+        }
+        return namespaceDeclarations;
     }
 
     /**
@@ -359,159 +489,6 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
         } else {
             return String.valueOf(obj);
         }
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.TRANSFORMATION__VARS:
-                    return ((InternalEList)getVars()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.TRANSFORMATION__PATTERN_DEFN:
-                    return ((InternalEList)getPatternDefn()).basicAdd(otherEnd, msgs);
-                case TefkatPackage.TRANSFORMATION__TRULE:
-                    return ((InternalEList)getTRule()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.TRANSFORMATION__VARS:
-                    return ((InternalEList)getVars()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.TRANSFORMATION__PATTERN_DEFN:
-                    return ((InternalEList)getPatternDefn()).basicRemove(otherEnd, msgs);
-                case TefkatPackage.TRANSFORMATION__TRULE:
-                    return ((InternalEList)getTRule()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRANSFORMATION__VARS:
-                return getVars();
-            case TefkatPackage.TRANSFORMATION__NAME:
-                return getName();
-            case TefkatPackage.TRANSFORMATION__COMMENTS:
-                return getComments();
-            case TefkatPackage.TRANSFORMATION__PATTERN_DEFN:
-                return getPatternDefn();
-            case TefkatPackage.TRANSFORMATION__TRULE:
-                return getTRule();
-            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
-                return getImportedPackages();
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRANSFORMATION__VARS:
-                getVars().clear();
-                getVars().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRANSFORMATION__NAME:
-                setName((String)newValue);
-                return;
-            case TefkatPackage.TRANSFORMATION__COMMENTS:
-                getComments().clear();
-                getComments().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRANSFORMATION__PATTERN_DEFN:
-                getPatternDefn().clear();
-                getPatternDefn().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRANSFORMATION__TRULE:
-                getTRule().clear();
-                getTRule().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
-                getImportedPackages().clear();
-                getImportedPackages().addAll((Collection)newValue);
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRANSFORMATION__VARS:
-                getVars().clear();
-                return;
-            case TefkatPackage.TRANSFORMATION__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case TefkatPackage.TRANSFORMATION__COMMENTS:
-                getComments().clear();
-                return;
-            case TefkatPackage.TRANSFORMATION__PATTERN_DEFN:
-                getPatternDefn().clear();
-                return;
-            case TefkatPackage.TRANSFORMATION__TRULE:
-                getTRule().clear();
-                return;
-            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
-                getImportedPackages().clear();
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatPackage.TRANSFORMATION__VARS:
-                return vars != null && !vars.isEmpty();
-            case TefkatPackage.TRANSFORMATION__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case TefkatPackage.TRANSFORMATION__COMMENTS:
-                return comments != null && !comments.isEmpty();
-            case TefkatPackage.TRANSFORMATION__PATTERN_DEFN:
-                return patternDefn != null && !patternDefn.isEmpty();
-            case TefkatPackage.TRANSFORMATION__TRULE:
-                return tRule != null && !tRule.isEmpty();
-            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
-                return importedPackages != null && !importedPackages.isEmpty();
-        }
-        return eDynamicIsSet(eFeature);
     }
 
     /**

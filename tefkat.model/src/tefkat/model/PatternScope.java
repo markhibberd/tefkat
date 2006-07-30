@@ -31,7 +31,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface PatternScope extends VarScope{
+public interface PatternScope extends VarScope {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

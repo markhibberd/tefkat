@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import tefkat.model.AbstractVar;
 import tefkat.model.CompoundTerm;
@@ -99,18 +98,15 @@ public class RuleEvaluator {
     /**
      *  
      */
-    public RuleEvaluator(Binding context, Extent trackingExtent,
-            Collection allResources, List listeners) {
+    RuleEvaluator(Binding context, Extent trackingExtent,
+            Map nameMap, List listeners) {
 
         // TODO check for null target model, either here or in the engine
 
         this.trackingExtent = trackingExtent;
         this.listeners = listeners;
         this._context = context;
-
-        // Get all the transitively referenced Resources
-        allResources = findAllResources(allResources);
-        nameMap = ModelUtils.buildNameMaps(allResources);
+        this.nameMap = nameMap;
 
         exprEval = new Evaluator(this);
         srcResolver = new SourceResolver(this, listeners);
@@ -372,15 +368,15 @@ public class RuleEvaluator {
         Collection goal = trule.getGoal();
         Collection ruleContexts = generateContexts(trule, _context);
 
-	// FIXME - no rule caching any more
+        // FIXME - no rule caching any more
         final Collection truleSolutions = new HashSet();
         
         for (Iterator itr = ruleContexts.iterator(); itr.hasNext();) {
             final Binding ruleContext = (Binding) itr.next();
 
-	    tree.createBranch(null, ruleContext, goal);
+            tree.createBranch(null, ruleContext, goal);
             
-	    tree.addTreeListener(new TreeListener() {
+            tree.addTreeListener(new TreeListener() {
 
                 public void solution(Binding answer) throws ResolutionException {
                 }
@@ -809,9 +805,9 @@ public class RuleEvaluator {
                     // waitStep();
                 }
 
-		if (tree.isCompleted()) {
-		    removeUnresolvedTree(tree);
-		}
+                if (tree.isCompleted()) {
+                    removeUnresolvedTree(tree);
+                }
 
                 fireExitTree(tree);
                 depth--;
@@ -1274,8 +1270,7 @@ public class RuleEvaluator {
             r4.getTgt().add(mi(v4, "Tgt4"));
             r4.getExtended().add(r3);
 
-            RuleEvaluator re = new RuleEvaluator(null, null, new ArrayList(),
-                    new ArrayList());
+            RuleEvaluator re = new RuleEvaluator(null, null, Collections.EMPTY_MAP, Collections.EMPTY_LIST);
 
             re.buildMaps(t);
 
@@ -1371,8 +1366,8 @@ public class RuleEvaluator {
      */
     void trackingCreate(EClass trackingClass, EObject instance) throws ResolutionException, NotGroundException {
         if (INCREMENTAL) {
-	    // FIXME do this for all superclasses as well!
-	    //
+            // FIXME do this for all superclasses as well!
+            //
             List callbacks = (List) trackingQueryMap.get(trackingClass);
             if (null != callbacks) {
                 for (Iterator itr = callbacks.iterator(); itr.hasNext(); ) {
@@ -1553,38 +1548,6 @@ public class RuleEvaluator {
         }
     }
     
-    /**
-     * Given a list of Resources, transitively load all resources that contain referenced stuff.
-     * 
-     * @param resources
-     * @return
-     */
-    public final Set findAllResources(Collection resources) {
-        Set result = new HashSet(resources);
-        
-        while (resources.size() > 0) {
-            Set newResources = new HashSet();
-            for (Iterator itr = resources.iterator(); itr.hasNext(); ) {
-                Resource res = (Resource) itr.next();
-                Map refs = EcoreUtil.ExternalCrossReferencer.find(res);
-                for (Iterator refItr = refs.keySet().iterator(); refItr.hasNext(); ) {
-                    EObject o = (EObject) refItr.next();
-                    Resource newRes = o.eResource();
-                    // ignore things we've already seen
-                    if (newRes != null && !result.contains(newRes)) {
-                        newResources.add(newRes);
-//                        fireResourceLoaded(newRes);
-                    }
-                }
-            }
-//            newResources.removeAll(result); // ignore things we've already seen
-            result.addAll(newResources);    // remember everything for result
-            resources = newResources;       // get ready to iterate over the new things
-        }
-        
-        return result;
-    }
-
     private static class TestSort {
         public static void main(String[] args) {
             EClass inst = EcoreFactory.eINSTANCE.createEClass();
@@ -1602,7 +1565,7 @@ public class RuleEvaluator {
             a[4].setName("four");
             inst.getEStructuralFeatures().addAll(Arrays.asList(a));
             
-            RuleEvaluator re = new RuleEvaluator(null, null, Collections.EMPTY_LIST, Collections.EMPTY_LIST);
+            RuleEvaluator re = new RuleEvaluator(null, null, Collections.EMPTY_MAP, Collections.EMPTY_LIST);
             
             re.addPartialOrder(inst, feat, a[4], a[3]);
             re.addPartialOrder(inst, feat, a[3], a[2]);

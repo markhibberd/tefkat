@@ -53,7 +53,7 @@ public class QueryItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -93,8 +93,10 @@ public class QueryItemProvider
                  getResourceLocator(),
                  getString("_UI_Query_parameterVar_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Query_parameterVar_feature", "_UI_Query_type"),
-                 TefkatPackage.eINSTANCE.getQuery_ParameterVar(),
+                 TefkatPackage.Literals.QUERY__PARAMETER_VAR,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -111,7 +113,7 @@ public class QueryItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getQuery_Term());
+            childrenFeatures.add(TefkatPackage.Literals.QUERY__TERM);
         }
         return childrenFeatures;
     }
@@ -123,7 +125,7 @@ public class QueryItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/Query");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/Query"));
     }
 
     /**
@@ -169,52 +171,52 @@ public class QueryItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getQuery_Term(),
+                (TefkatPackage.Literals.QUERY__TERM,
                  TefkatFactory.eINSTANCE.createAndTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getQuery_Term(),
+                (TefkatPackage.Literals.QUERY__TERM,
                  TefkatFactory.eINSTANCE.createOrTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getQuery_Term(),
+                (TefkatPackage.Literals.QUERY__TERM,
                  TefkatFactory.eINSTANCE.createNotTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getQuery_Term(),
+                (TefkatPackage.Literals.QUERY__TERM,
                  TefkatFactory.eINSTANCE.createIfTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getQuery_Term(),
+                (TefkatPackage.Literals.QUERY__TERM,
                  TefkatFactory.eINSTANCE.createTrackingUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getQuery_Term(),
+                (TefkatPackage.Literals.QUERY__TERM,
                  TefkatFactory.eINSTANCE.createPatternUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getQuery_Term(),
+                (TefkatPackage.Literals.QUERY__TERM,
                  TefkatFactory.eINSTANCE.createCondition()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getQuery_Term(),
+                (TefkatPackage.Literals.QUERY__TERM,
                  TefkatFactory.eINSTANCE.createMofInstance()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getQuery_Term(),
+                (TefkatPackage.Literals.QUERY__TERM,
                  TefkatFactory.eINSTANCE.createMofOrder()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getQuery_Term(),
+                (TefkatPackage.Literals.QUERY__TERM,
                  TefkatFactory.eINSTANCE.createInjection()));
     }
 

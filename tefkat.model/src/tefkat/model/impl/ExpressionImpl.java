@@ -65,7 +65,7 @@ public abstract class ExpressionImpl extends EObjectImpl implements Expression {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.eINSTANCE.getExpression();
+        return TefkatPackage.Literals.EXPRESSION;
     }
 
     /**
@@ -75,7 +75,17 @@ public abstract class ExpressionImpl extends EObjectImpl implements Expression {
      */
     public CompoundExpr getExpr() {
         if (eContainerFeatureID != TefkatPackage.EXPRESSION__EXPR) return null;
-        return (CompoundExpr)eContainer;
+        return (CompoundExpr)eContainer();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetExpr(CompoundExpr newExpr, NotificationChain msgs) {
+        msgs = eBasicSetContainer((InternalEObject)newExpr, TefkatPackage.EXPRESSION__EXPR, msgs);
+        return msgs;
     }
 
     /**
@@ -84,15 +94,15 @@ public abstract class ExpressionImpl extends EObjectImpl implements Expression {
      * @generated
      */
     public void setExpr(CompoundExpr newExpr) {
-        if (newExpr != eContainer || (eContainerFeatureID != TefkatPackage.EXPRESSION__EXPR && newExpr != null)) {
+        if (newExpr != eInternalContainer() || (eContainerFeatureID != TefkatPackage.EXPRESSION__EXPR && newExpr != null)) {
             if (EcoreUtil.isAncestor(this, newExpr))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
-            if (eContainer != null)
+            if (eInternalContainer() != null)
                 msgs = eBasicRemoveFromContainer(msgs);
             if (newExpr != null)
                 msgs = ((InternalEObject)newExpr).eInverseAdd(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newExpr, TefkatPackage.EXPRESSION__EXPR, msgs);
+            msgs = basicSetExpr(newExpr, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
@@ -115,20 +125,14 @@ public abstract class ExpressionImpl extends EObjectImpl implements Expression {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.EXPRESSION__EXPR:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, TefkatPackage.EXPRESSION__EXPR, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.EXPRESSION__EXPR:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetExpr((CompoundExpr)otherEnd, msgs);
         }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
+        return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
@@ -136,16 +140,12 @@ public abstract class ExpressionImpl extends EObjectImpl implements Expression {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatPackage.EXPRESSION__EXPR:
-                    return eBasicSetContainer(null, TefkatPackage.EXPRESSION__EXPR, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.EXPRESSION__EXPR:
+                return basicSetExpr(null, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -153,16 +153,12 @@ public abstract class ExpressionImpl extends EObjectImpl implements Expression {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case TefkatPackage.EXPRESSION__EXPR:
-                    return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
+    public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+        switch (eContainerFeatureID) {
+            case TefkatPackage.EXPRESSION__EXPR:
+                return eInternalContainer().eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
         }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return super.eBasicRemoveFromContainerFeature(msgs);
     }
 
     /**
@@ -170,12 +166,12 @@ public abstract class ExpressionImpl extends EObjectImpl implements Expression {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatPackage.EXPRESSION__EXPR:
                 return getExpr();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -183,13 +179,13 @@ public abstract class ExpressionImpl extends EObjectImpl implements Expression {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatPackage.EXPRESSION__EXPR:
                 setExpr((CompoundExpr)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -197,13 +193,13 @@ public abstract class ExpressionImpl extends EObjectImpl implements Expression {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatPackage.EXPRESSION__EXPR:
                 setExpr((CompoundExpr)null);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -211,12 +207,12 @@ public abstract class ExpressionImpl extends EObjectImpl implements Expression {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatPackage.EXPRESSION__EXPR:
                 return getExpr() != null;
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
 } //ExpressionImpl

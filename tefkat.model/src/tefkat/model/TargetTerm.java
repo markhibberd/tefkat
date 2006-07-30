@@ -30,7 +30,7 @@ package tefkat.model;
  * @model abstract="true"
  * @generated
  */
-public interface TargetTerm extends Term{
+public interface TargetTerm extends Term {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

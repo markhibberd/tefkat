@@ -24,7 +24,7 @@ package tefkat.model;
  * @model abstract="true"
  * @generated
  */
-public interface SimpleTerm extends SourceTerm, TargetTerm{
+public interface SimpleTerm extends SourceTerm, TargetTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

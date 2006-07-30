@@ -30,7 +30,7 @@ package tefkat.model;
  * @model abstract="true"
  * @generated
  */
-public interface SimpleExpr extends Expression{
+public interface SimpleExpr extends Expression {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -33,7 +33,7 @@ package tefkat.model;
  * @model
  * @generated
  */
-public interface MofOrder extends MofTerm{
+public interface MofOrder extends MofTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

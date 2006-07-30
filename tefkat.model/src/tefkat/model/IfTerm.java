@@ -26,7 +26,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface IfTerm extends CompoundTerm, TargetTerm{
+public interface IfTerm extends CompoundTerm, TargetTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

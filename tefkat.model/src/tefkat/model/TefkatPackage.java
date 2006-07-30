@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface TefkatPackage extends EPackage{
+public interface TefkatPackage extends EPackage {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -85,7 +85,7 @@ public interface TefkatPackage extends EPackage{
     int EXTENT = 0;
 
     /**
-     * The number of structural features of the the '<em>Extent</em>' class.
+     * The number of structural features of the '<em>Extent</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -113,7 +113,7 @@ public interface TefkatPackage extends EPackage{
     int CONTAINER_EXTENT__RESOURCE = EXTENT_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Container Extent</em>' class.
+     * The number of structural features of the '<em>Container Extent</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -141,7 +141,7 @@ public interface TefkatPackage extends EPackage{
     int REFERENCE_EXTENT__RESOURCES = EXTENT_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Reference Extent</em>' class.
+     * The number of structural features of the '<em>Reference Extent</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -187,7 +187,7 @@ public interface TefkatPackage extends EPackage{
     int ABSTRACT_VAR__USAGES = 2;
 
     /**
-     * The number of structural features of the the '<em>Abstract Var</em>' class.
+     * The number of structural features of the '<em>Abstract Var</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -233,7 +233,7 @@ public interface TefkatPackage extends EPackage{
     int PATTERN_VAR__USAGES = ABSTRACT_VAR__USAGES;
 
     /**
-     * The number of structural features of the the '<em>Pattern Var</em>' class.
+     * The number of structural features of the '<em>Pattern Var</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -315,7 +315,7 @@ public interface TefkatPackage extends EPackage{
     int TRULE_VAR__SUPERSEDED = ABSTRACT_VAR_FEATURE_COUNT + 3;
 
     /**
-     * The number of structural features of the the '<em>TRule Var</em>' class.
+     * The number of structural features of the '<em>TRule Var</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -361,7 +361,7 @@ public interface TefkatPackage extends EPackage{
     int EXTENT_VAR__USAGES = ABSTRACT_VAR__USAGES;
 
     /**
-     * The number of structural features of the the '<em>Extent Var</em>' class.
+     * The number of structural features of the '<em>Extent Var</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -407,7 +407,7 @@ public interface TefkatPackage extends EPackage{
     int VAR_SCOPE__COMMENTS = 2;
 
     /**
-     * The number of structural features of the the '<em>Var Scope</em>' class.
+     * The number of structural features of the '<em>Var Scope</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -462,7 +462,7 @@ public interface TefkatPackage extends EPackage{
     int PATTERN_SCOPE__PATTERN_DEFN = VAR_SCOPE_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Pattern Scope</em>' class.
+     * The number of structural features of the '<em>Pattern Scope</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -562,7 +562,7 @@ public interface TefkatPackage extends EPackage{
     int TRULE__ABSTRACT = VAR_SCOPE_FEATURE_COUNT + 5;
 
     /**
-     * The number of structural features of the the '<em>TRule</em>' class.
+     * The number of structural features of the '<em>TRule</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -635,13 +635,22 @@ public interface TefkatPackage extends EPackage{
     int TRANSFORMATION__IMPORTED_PACKAGES = PATTERN_SCOPE_FEATURE_COUNT + 1;
 
     /**
-     * The number of structural features of the the '<em>Transformation</em>' class.
+     * The feature id for the '<em><b>Namespace Declarations</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int TRANSFORMATION_FEATURE_COUNT = PATTERN_SCOPE_FEATURE_COUNT + 2;
+    int TRANSFORMATION__NAMESPACE_DECLARATIONS = PATTERN_SCOPE_FEATURE_COUNT + 2;
+
+    /**
+     * The number of structural features of the '<em>Transformation</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TRANSFORMATION_FEATURE_COUNT = PATTERN_SCOPE_FEATURE_COUNT + 3;
 
     /**
      * The meta object id for the '{@link tefkat.model.impl.PatternDefnImpl <em>Pattern Defn</em>}' class.
@@ -717,7 +726,7 @@ public interface TefkatPackage extends EPackage{
     int PATTERN_DEFN__SOURCE = VAR_SCOPE_FEATURE_COUNT + 3;
 
     /**
-     * The number of structural features of the the '<em>Pattern Defn</em>' class.
+     * The number of structural features of the '<em>Pattern Defn</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -790,7 +799,7 @@ public interface TefkatPackage extends EPackage{
     int QUERY__PARAMETER_VAR = PATTERN_SCOPE_FEATURE_COUNT + 1;
 
     /**
-     * The number of structural features of the the '<em>Query</em>' class.
+     * The number of structural features of the '<em>Query</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -845,7 +854,7 @@ public interface TefkatPackage extends EPackage{
     int TERM__CONTEXT = 3;
 
     /**
-     * The number of structural features of the the '<em>Term</em>' class.
+     * The number of structural features of the '<em>Term</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -909,7 +918,7 @@ public interface TefkatPackage extends EPackage{
     int SOURCE_TERM__TRULE_SRC = TERM_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Source Term</em>' class.
+     * The number of structural features of the '<em>Source Term</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -973,7 +982,7 @@ public interface TefkatPackage extends EPackage{
     int TARGET_TERM__TRULE_TGT = TERM_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Target Term</em>' class.
+     * The number of structural features of the '<em>Target Term</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1046,7 +1055,7 @@ public interface TefkatPackage extends EPackage{
     int COMPOUND_TERM__TERM = SOURCE_TERM_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Compound Term</em>' class.
+     * The number of structural features of the '<em>Compound Term</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1119,7 +1128,7 @@ public interface TefkatPackage extends EPackage{
     int SIMPLE_TERM__TRULE_TGT = SOURCE_TERM_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Simple Term</em>' class.
+     * The number of structural features of the '<em>Simple Term</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1147,7 +1156,7 @@ public interface TefkatPackage extends EPackage{
     int EXPRESSION__EXPR = 0;
 
     /**
-     * The number of structural features of the the '<em>Expression</em>' class.
+     * The number of structural features of the '<em>Expression</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1184,7 +1193,7 @@ public interface TefkatPackage extends EPackage{
     int INSTANCE_REF__OBJECT = EXPRESSION_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Instance Ref</em>' class.
+     * The number of structural features of the '<em>Instance Ref</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1266,7 +1275,7 @@ public interface TefkatPackage extends EPackage{
     int AND_TERM__TRULE_TGT = COMPOUND_TERM_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>And Term</em>' class.
+     * The number of structural features of the '<em>And Term</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1339,7 +1348,7 @@ public interface TefkatPackage extends EPackage{
     int OR_TERM__TERM = COMPOUND_TERM__TERM;
 
     /**
-     * The number of structural features of the the '<em>Or Term</em>' class.
+     * The number of structural features of the '<em>Or Term</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1412,7 +1421,7 @@ public interface TefkatPackage extends EPackage{
     int NOT_TERM__TERM = COMPOUND_TERM__TERM;
 
     /**
-     * The number of structural features of the the '<em>Not Term</em>' class.
+     * The number of structural features of the '<em>Not Term</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1494,7 +1503,7 @@ public interface TefkatPackage extends EPackage{
     int IF_TERM__TRULE_TGT = COMPOUND_TERM_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>If Term</em>' class.
+     * The number of structural features of the '<em>If Term</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1594,7 +1603,7 @@ public interface TefkatPackage extends EPackage{
     int TRACKING_USE__TRACKING_NAME = SIMPLE_TERM_FEATURE_COUNT + 2;
 
     /**
-     * The number of structural features of the the '<em>Tracking Use</em>' class.
+     * The number of structural features of the '<em>Tracking Use</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1631,7 +1640,7 @@ public interface TefkatPackage extends EPackage{
     int FEATURE_VALUE_PAIR__KEY = 1;
 
     /**
-     * The number of structural features of the the '<em>Feature Value Pair</em>' class.
+     * The number of structural features of the '<em>Feature Value Pair</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1722,7 +1731,7 @@ public interface TefkatPackage extends EPackage{
     int PATTERN_USE__ARG = SIMPLE_TERM_FEATURE_COUNT + 1;
 
     /**
-     * The number of structural features of the the '<em>Pattern Use</em>' class.
+     * The number of structural features of the '<em>Pattern Use</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1795,7 +1804,7 @@ public interface TefkatPackage extends EPackage{
     int MOF_TERM__TRULE_TGT = SIMPLE_TERM__TRULE_TGT;
 
     /**
-     * The number of structural features of the the '<em>Mof Term</em>' class.
+     * The number of structural features of the '<em>Mof Term</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1886,7 +1895,7 @@ public interface TefkatPackage extends EPackage{
     int CONDITION__RELATION = SIMPLE_TERM_FEATURE_COUNT + 1;
 
     /**
-     * The number of structural features of the the '<em>Condition</em>' class.
+     * The number of structural features of the '<em>Condition</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1986,7 +1995,7 @@ public interface TefkatPackage extends EPackage{
     int MOF_INSTANCE__EXACT = MOF_TERM_FEATURE_COUNT + 2;
 
     /**
-     * The number of structural features of the the '<em>Mof Instance</em>' class.
+     * The number of structural features of the '<em>Mof Instance</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2095,7 +2104,7 @@ public interface TefkatPackage extends EPackage{
     int MOF_ORDER__FEATURE = MOF_TERM_FEATURE_COUNT + 3;
 
     /**
-     * The number of structural features of the the '<em>Mof Order</em>' class.
+     * The number of structural features of the '<em>Mof Order</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2132,7 +2141,7 @@ public interface TefkatPackage extends EPackage{
     int COMPOUND_EXPR__ARG = EXPRESSION_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Compound Expr</em>' class.
+     * The number of structural features of the '<em>Compound Expr</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2169,7 +2178,7 @@ public interface TefkatPackage extends EPackage{
     int SIMPLE_EXPR__REPRESENTATION = EXPRESSION_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Simple Expr</em>' class.
+     * The number of structural features of the '<em>Simple Expr</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2206,7 +2215,7 @@ public interface TefkatPackage extends EPackage{
     int VAR_USE__VAR = EXPRESSION_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Var Use</em>' class.
+     * The number of structural features of the '<em>Var Use</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2261,7 +2270,7 @@ public interface TefkatPackage extends EPackage{
     int COLLECTION_EXPR__ORDERED = COMPOUND_EXPR_FEATURE_COUNT + 1;
 
     /**
-     * The number of structural features of the the '<em>Collection Expr</em>' class.
+     * The number of structural features of the '<em>Collection Expr</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2307,7 +2316,7 @@ public interface TefkatPackage extends EPackage{
     int FUNCTION_EXPR__FUNCTION = COMPOUND_EXPR_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Function Expr</em>' class.
+     * The number of structural features of the '<em>Function Expr</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2371,7 +2380,7 @@ public interface TefkatPackage extends EPackage{
     int FEATURE_EXPR__FEATURE = COMPOUND_EXPR_FEATURE_COUNT + 2;
 
     /**
-     * The number of structural features of the the '<em>Feature Expr</em>' class.
+     * The number of structural features of the '<em>Feature Expr</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2408,7 +2417,7 @@ public interface TefkatPackage extends EPackage{
     int STRING_CONSTANT__REPRESENTATION = SIMPLE_EXPR__REPRESENTATION;
 
     /**
-     * The number of structural features of the the '<em>String Constant</em>' class.
+     * The number of structural features of the '<em>String Constant</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2445,7 +2454,7 @@ public interface TefkatPackage extends EPackage{
     int INT_CONSTANT__REPRESENTATION = SIMPLE_EXPR__REPRESENTATION;
 
     /**
-     * The number of structural features of the the '<em>Int Constant</em>' class.
+     * The number of structural features of the '<em>Int Constant</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2482,7 +2491,7 @@ public interface TefkatPackage extends EPackage{
     int REAL_CONSTANT__REPRESENTATION = SIMPLE_EXPR__REPRESENTATION;
 
     /**
-     * The number of structural features of the the '<em>Real Constant</em>' class.
+     * The number of structural features of the '<em>Real Constant</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2519,7 +2528,7 @@ public interface TefkatPackage extends EPackage{
     int BOOLEAN_CONSTANT__REPRESENTATION = SIMPLE_EXPR__REPRESENTATION;
 
     /**
-     * The number of structural features of the the '<em>Boolean Constant</em>' class.
+     * The number of structural features of the '<em>Boolean Constant</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2556,7 +2565,7 @@ public interface TefkatPackage extends EPackage{
     int ENUM_CONSTANT__ARG = COMPOUND_EXPR__ARG;
 
     /**
-     * The number of structural features of the the '<em>Enum Constant</em>' class.
+     * The number of structural features of the '<em>Enum Constant</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2647,13 +2656,50 @@ public interface TefkatPackage extends EPackage{
     int INJECTION__TARGET = TARGET_TERM_FEATURE_COUNT + 2;
 
     /**
-     * The number of structural features of the the '<em>Injection</em>' class.
+     * The number of structural features of the '<em>Injection</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
     int INJECTION_FEATURE_COUNT = TARGET_TERM_FEATURE_COUNT + 3;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.NamespaceDeclarationImpl <em>Namespace Declaration</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.NamespaceDeclarationImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getNamespaceDeclaration()
+     * @generated
+     */
+    int NAMESPACE_DECLARATION = 43;
+
+    /**
+     * The feature id for the '<em><b>Prefix</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int NAMESPACE_DECLARATION__PREFIX = 0;
+
+    /**
+     * The feature id for the '<em><b>URI</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int NAMESPACE_DECLARATION__URI = 1;
+
+    /**
+     * The number of structural features of the '<em>Namespace Declaration</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int NAMESPACE_DECLARATION_FEATURE_COUNT = 2;
 
     /**
      * The meta object id for the '<em>Collection</em>' data type.
@@ -2663,7 +2709,7 @@ public interface TefkatPackage extends EPackage{
      * @see tefkat.model.impl.TefkatPackageImpl#getCollection()
      * @generated
      */
-    int COLLECTION = 43;
+    int COLLECTION = 44;
 
     /**
      * The meta object id for the '<em>List</em>' data type.
@@ -2673,7 +2719,7 @@ public interface TefkatPackage extends EPackage{
      * @see tefkat.model.impl.TefkatPackageImpl#getList()
      * @generated
      */
-    int LIST = 44;
+    int LIST = 45;
 
     /**
      * The meta object id for the '<em>List Array</em>' data type.
@@ -2682,7 +2728,7 @@ public interface TefkatPackage extends EPackage{
      * @see tefkat.model.impl.TefkatPackageImpl#getListArray()
      * @generated
      */
-    int LIST_ARRAY = 45;
+    int LIST_ARRAY = 46;
 
     /**
      * The meta object id for the '<em>Exception</em>' data type.
@@ -2692,7 +2738,7 @@ public interface TefkatPackage extends EPackage{
      * @see tefkat.model.impl.TefkatPackageImpl#getTefkatException()
      * @generated
      */
-    int TEFKAT_EXCEPTION = 46;
+    int TEFKAT_EXCEPTION = 47;
 
 
     /**
@@ -3035,6 +3081,17 @@ public interface TefkatPackage extends EPackage{
      * @generated
      */
     EAttribute getTransformation_ImportedPackages();
+
+    /**
+     * Returns the meta object for the containment reference list '{@link tefkat.model.Transformation#getNamespaceDeclarations <em>Namespace Declarations</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Namespace Declarations</em>'.
+     * @see tefkat.model.Transformation#getNamespaceDeclarations()
+     * @see #getTransformation()
+     * @generated
+     */
+    EReference getTransformation_NamespaceDeclarations();
 
     /**
      * Returns the meta object for class '{@link tefkat.model.PatternDefn <em>Pattern Defn</em>}'.
@@ -3833,6 +3890,38 @@ public interface TefkatPackage extends EPackage{
     EReference getInjection_Target();
 
     /**
+     * Returns the meta object for class '{@link tefkat.model.NamespaceDeclaration <em>Namespace Declaration</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Namespace Declaration</em>'.
+     * @see tefkat.model.NamespaceDeclaration
+     * @generated
+     */
+    EClass getNamespaceDeclaration();
+
+    /**
+     * Returns the meta object for the attribute '{@link tefkat.model.NamespaceDeclaration#getPrefix <em>Prefix</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Prefix</em>'.
+     * @see tefkat.model.NamespaceDeclaration#getPrefix()
+     * @see #getNamespaceDeclaration()
+     * @generated
+     */
+    EAttribute getNamespaceDeclaration_Prefix();
+
+    /**
+     * Returns the meta object for the attribute '{@link tefkat.model.NamespaceDeclaration#getURI <em>URI</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>URI</em>'.
+     * @see tefkat.model.NamespaceDeclaration#getURI()
+     * @see #getNamespaceDeclaration()
+     * @generated
+     */
+    EAttribute getNamespaceDeclaration_URI();
+
+    /**
      * Returns the meta object for data type '{@link java.util.Collection <em>Collection</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3883,5 +3972,1035 @@ public interface TefkatPackage extends EPackage{
      * @generated
      */
     TefkatFactory getTefkatFactory();
+
+    /**
+     * <!-- begin-user-doc -->
+     * Defines literals for the meta objects that represent
+     * <ul>
+     *   <li>each class,</li>
+     *   <li>each feature of each class,</li>
+     *   <li>each enum,</li>
+     *   <li>and each data type</li>
+     * </ul>
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    interface Literals {
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.ExtentImpl <em>Extent</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.ExtentImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getExtent()
+         * @generated
+         */
+        EClass EXTENT = eINSTANCE.getExtent();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.ContainerExtentImpl <em>Container Extent</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.ContainerExtentImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getContainerExtent()
+         * @generated
+         */
+        EClass CONTAINER_EXTENT = eINSTANCE.getContainerExtent();
+
+        /**
+         * The meta object literal for the '<em><b>Resource</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute CONTAINER_EXTENT__RESOURCE = eINSTANCE.getContainerExtent_Resource();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.ReferenceExtentImpl <em>Reference Extent</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.ReferenceExtentImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getReferenceExtent()
+         * @generated
+         */
+        EClass REFERENCE_EXTENT = eINSTANCE.getReferenceExtent();
+
+        /**
+         * The meta object literal for the '<em><b>Resources</b></em>' attribute list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute REFERENCE_EXTENT__RESOURCES = eINSTANCE.getReferenceExtent_Resources();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.AbstractVarImpl <em>Abstract Var</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.AbstractVarImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getAbstractVar()
+         * @generated
+         */
+        EClass ABSTRACT_VAR = eINSTANCE.getAbstractVar();
+
+        /**
+         * The meta object literal for the '<em><b>Scope</b></em>' container reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference ABSTRACT_VAR__SCOPE = eINSTANCE.getAbstractVar_Scope();
+
+        /**
+         * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute ABSTRACT_VAR__NAME = eINSTANCE.getAbstractVar_Name();
+
+        /**
+         * The meta object literal for the '<em><b>Usages</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference ABSTRACT_VAR__USAGES = eINSTANCE.getAbstractVar_Usages();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.PatternVarImpl <em>Pattern Var</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.PatternVarImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getPatternVar()
+         * @generated
+         */
+        EClass PATTERN_VAR = eINSTANCE.getPatternVar();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.TRuleVarImpl <em>TRule Var</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.TRuleVarImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getTRuleVar()
+         * @generated
+         */
+        EClass TRULE_VAR = eINSTANCE.getTRuleVar();
+
+        /**
+         * The meta object literal for the '<em><b>Extender</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRULE_VAR__EXTENDER = eINSTANCE.getTRuleVar_Extender();
+
+        /**
+         * The meta object literal for the '<em><b>Extended</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRULE_VAR__EXTENDED = eINSTANCE.getTRuleVar_Extended();
+
+        /**
+         * The meta object literal for the '<em><b>Superseder</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRULE_VAR__SUPERSEDER = eINSTANCE.getTRuleVar_Superseder();
+
+        /**
+         * The meta object literal for the '<em><b>Superseded</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRULE_VAR__SUPERSEDED = eINSTANCE.getTRuleVar_Superseded();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.ExtentVarImpl <em>Extent Var</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.ExtentVarImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getExtentVar()
+         * @generated
+         */
+        EClass EXTENT_VAR = eINSTANCE.getExtentVar();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.VarScopeImpl <em>Var Scope</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.VarScopeImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getVarScope()
+         * @generated
+         */
+        EClass VAR_SCOPE = eINSTANCE.getVarScope();
+
+        /**
+         * The meta object literal for the '<em><b>Vars</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference VAR_SCOPE__VARS = eINSTANCE.getVarScope_Vars();
+
+        /**
+         * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute VAR_SCOPE__NAME = eINSTANCE.getVarScope_Name();
+
+        /**
+         * The meta object literal for the '<em><b>Comments</b></em>' attribute list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute VAR_SCOPE__COMMENTS = eINSTANCE.getVarScope_Comments();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.PatternScopeImpl <em>Pattern Scope</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.PatternScopeImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getPatternScope()
+         * @generated
+         */
+        EClass PATTERN_SCOPE = eINSTANCE.getPatternScope();
+
+        /**
+         * The meta object literal for the '<em><b>Pattern Defn</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PATTERN_SCOPE__PATTERN_DEFN = eINSTANCE.getPatternScope_PatternDefn();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.TRuleImpl <em>TRule</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.TRuleImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getTRule()
+         * @generated
+         */
+        EClass TRULE = eINSTANCE.getTRule();
+
+        /**
+         * The meta object literal for the '<em><b>Transformation</b></em>' container reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRULE__TRANSFORMATION = eINSTANCE.getTRule_Transformation();
+
+        /**
+         * The meta object literal for the '<em><b>Src</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRULE__SRC = eINSTANCE.getTRule_Src();
+
+        /**
+         * The meta object literal for the '<em><b>Tgt</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRULE__TGT = eINSTANCE.getTRule_Tgt();
+
+        /**
+         * The meta object literal for the '<em><b>Extended</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRULE__EXTENDED = eINSTANCE.getTRule_Extended();
+
+        /**
+         * The meta object literal for the '<em><b>Superseded</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRULE__SUPERSEDED = eINSTANCE.getTRule_Superseded();
+
+        /**
+         * The meta object literal for the '<em><b>Abstract</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute TRULE__ABSTRACT = eINSTANCE.getTRule_Abstract();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.TransformationImpl <em>Transformation</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.TransformationImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getTransformation()
+         * @generated
+         */
+        EClass TRANSFORMATION = eINSTANCE.getTransformation();
+
+        /**
+         * The meta object literal for the '<em><b>TRule</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRANSFORMATION__TRULE = eINSTANCE.getTransformation_TRule();
+
+        /**
+         * The meta object literal for the '<em><b>Imported Packages</b></em>' attribute list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute TRANSFORMATION__IMPORTED_PACKAGES = eINSTANCE.getTransformation_ImportedPackages();
+
+        /**
+         * The meta object literal for the '<em><b>Namespace Declarations</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRANSFORMATION__NAMESPACE_DECLARATIONS = eINSTANCE.getTransformation_NamespaceDeclarations();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.PatternDefnImpl <em>Pattern Defn</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.PatternDefnImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getPatternDefn()
+         * @generated
+         */
+        EClass PATTERN_DEFN = eINSTANCE.getPatternDefn();
+
+        /**
+         * The meta object literal for the '<em><b>Pattern Scope</b></em>' container reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PATTERN_DEFN__PATTERN_SCOPE = eINSTANCE.getPatternDefn_PatternScope();
+
+        /**
+         * The meta object literal for the '<em><b>Term</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PATTERN_DEFN__TERM = eINSTANCE.getPatternDefn_Term();
+
+        /**
+         * The meta object literal for the '<em><b>Parameter Var</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PATTERN_DEFN__PARAMETER_VAR = eINSTANCE.getPatternDefn_ParameterVar();
+
+        /**
+         * The meta object literal for the '<em><b>Source</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute PATTERN_DEFN__SOURCE = eINSTANCE.getPatternDefn_Source();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.QueryImpl <em>Query</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.QueryImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getQuery()
+         * @generated
+         */
+        EClass QUERY = eINSTANCE.getQuery();
+
+        /**
+         * The meta object literal for the '<em><b>Term</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference QUERY__TERM = eINSTANCE.getQuery_Term();
+
+        /**
+         * The meta object literal for the '<em><b>Parameter Var</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference QUERY__PARAMETER_VAR = eINSTANCE.getQuery_ParameterVar();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.TermImpl <em>Term</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.TermImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getTerm()
+         * @generated
+         */
+        EClass TERM = eINSTANCE.getTerm();
+
+        /**
+         * The meta object literal for the '<em><b>Pattern Defn</b></em>' container reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TERM__PATTERN_DEFN = eINSTANCE.getTerm_PatternDefn();
+
+        /**
+         * The meta object literal for the '<em><b>Query</b></em>' container reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TERM__QUERY = eINSTANCE.getTerm_Query();
+
+        /**
+         * The meta object literal for the '<em><b>Compound Term</b></em>' container reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TERM__COMPOUND_TERM = eINSTANCE.getTerm_CompoundTerm();
+
+        /**
+         * The meta object literal for the '<em><b>Context</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TERM__CONTEXT = eINSTANCE.getTerm_Context();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.SourceTermImpl <em>Source Term</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.SourceTermImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getSourceTerm()
+         * @generated
+         */
+        EClass SOURCE_TERM = eINSTANCE.getSourceTerm();
+
+        /**
+         * The meta object literal for the '<em><b>TRule Src</b></em>' container reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference SOURCE_TERM__TRULE_SRC = eINSTANCE.getSourceTerm_TRuleSrc();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.TargetTermImpl <em>Target Term</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.TargetTermImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getTargetTerm()
+         * @generated
+         */
+        EClass TARGET_TERM = eINSTANCE.getTargetTerm();
+
+        /**
+         * The meta object literal for the '<em><b>TRule Tgt</b></em>' container reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TARGET_TERM__TRULE_TGT = eINSTANCE.getTargetTerm_TRuleTgt();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.CompoundTermImpl <em>Compound Term</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.CompoundTermImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getCompoundTerm()
+         * @generated
+         */
+        EClass COMPOUND_TERM = eINSTANCE.getCompoundTerm();
+
+        /**
+         * The meta object literal for the '<em><b>Term</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference COMPOUND_TERM__TERM = eINSTANCE.getCompoundTerm_Term();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.SimpleTermImpl <em>Simple Term</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.SimpleTermImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getSimpleTerm()
+         * @generated
+         */
+        EClass SIMPLE_TERM = eINSTANCE.getSimpleTerm();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.ExpressionImpl <em>Expression</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.ExpressionImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getExpression()
+         * @generated
+         */
+        EClass EXPRESSION = eINSTANCE.getExpression();
+
+        /**
+         * The meta object literal for the '<em><b>Expr</b></em>' container reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference EXPRESSION__EXPR = eINSTANCE.getExpression_Expr();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.InstanceRefImpl <em>Instance Ref</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.InstanceRefImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getInstanceRef()
+         * @generated
+         */
+        EClass INSTANCE_REF = eINSTANCE.getInstanceRef();
+
+        /**
+         * The meta object literal for the '<em><b>Object</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference INSTANCE_REF__OBJECT = eINSTANCE.getInstanceRef_Object();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.AndTermImpl <em>And Term</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.AndTermImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getAndTerm()
+         * @generated
+         */
+        EClass AND_TERM = eINSTANCE.getAndTerm();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.OrTermImpl <em>Or Term</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.OrTermImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getOrTerm()
+         * @generated
+         */
+        EClass OR_TERM = eINSTANCE.getOrTerm();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.NotTermImpl <em>Not Term</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.NotTermImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getNotTerm()
+         * @generated
+         */
+        EClass NOT_TERM = eINSTANCE.getNotTerm();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.IfTermImpl <em>If Term</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.IfTermImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getIfTerm()
+         * @generated
+         */
+        EClass IF_TERM = eINSTANCE.getIfTerm();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.TrackingUseImpl <em>Tracking Use</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.TrackingUseImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getTrackingUse()
+         * @generated
+         */
+        EClass TRACKING_USE = eINSTANCE.getTrackingUse();
+
+        /**
+         * The meta object literal for the '<em><b>Tracking</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRACKING_USE__TRACKING = eINSTANCE.getTrackingUse_Tracking();
+
+        /**
+         * The meta object literal for the '<em><b>Features</b></em>' map feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRACKING_USE__FEATURES = eINSTANCE.getTrackingUse_Features();
+
+        /**
+         * The meta object literal for the '<em><b>Tracking Name</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute TRACKING_USE__TRACKING_NAME = eINSTANCE.getTrackingUse_TrackingName();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.FeatureValuePairImpl <em>Feature Value Pair</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.FeatureValuePairImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getFeatureValuePair()
+         * @generated
+         */
+        EClass FEATURE_VALUE_PAIR = eINSTANCE.getFeatureValuePair();
+
+        /**
+         * The meta object literal for the '<em><b>Value</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference FEATURE_VALUE_PAIR__VALUE = eINSTANCE.getFeatureValuePair_Value();
+
+        /**
+         * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute FEATURE_VALUE_PAIR__KEY = eINSTANCE.getFeatureValuePair_Key();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.PatternUseImpl <em>Pattern Use</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.PatternUseImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getPatternUse()
+         * @generated
+         */
+        EClass PATTERN_USE = eINSTANCE.getPatternUse();
+
+        /**
+         * The meta object literal for the '<em><b>Defn</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PATTERN_USE__DEFN = eINSTANCE.getPatternUse_Defn();
+
+        /**
+         * The meta object literal for the '<em><b>Arg</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PATTERN_USE__ARG = eINSTANCE.getPatternUse_Arg();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.MofTermImpl <em>Mof Term</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.MofTermImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getMofTerm()
+         * @generated
+         */
+        EClass MOF_TERM = eINSTANCE.getMofTerm();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.ConditionImpl <em>Condition</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.ConditionImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getCondition()
+         * @generated
+         */
+        EClass CONDITION = eINSTANCE.getCondition();
+
+        /**
+         * The meta object literal for the '<em><b>Arg</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference CONDITION__ARG = eINSTANCE.getCondition_Arg();
+
+        /**
+         * The meta object literal for the '<em><b>Relation</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute CONDITION__RELATION = eINSTANCE.getCondition_Relation();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.MofInstanceImpl <em>Mof Instance</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.MofInstanceImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getMofInstance()
+         * @generated
+         */
+        EClass MOF_INSTANCE = eINSTANCE.getMofInstance();
+
+        /**
+         * The meta object literal for the '<em><b>Type Name</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference MOF_INSTANCE__TYPE_NAME = eINSTANCE.getMofInstance_TypeName();
+
+        /**
+         * The meta object literal for the '<em><b>Instance</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference MOF_INSTANCE__INSTANCE = eINSTANCE.getMofInstance_Instance();
+
+        /**
+         * The meta object literal for the '<em><b>Exact</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute MOF_INSTANCE__EXACT = eINSTANCE.getMofInstance_Exact();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.MofOrderImpl <em>Mof Order</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.MofOrderImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getMofOrder()
+         * @generated
+         */
+        EClass MOF_ORDER = eINSTANCE.getMofOrder();
+
+        /**
+         * The meta object literal for the '<em><b>Lesser</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference MOF_ORDER__LESSER = eINSTANCE.getMofOrder_Lesser();
+
+        /**
+         * The meta object literal for the '<em><b>Greater</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference MOF_ORDER__GREATER = eINSTANCE.getMofOrder_Greater();
+
+        /**
+         * The meta object literal for the '<em><b>Instance</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference MOF_ORDER__INSTANCE = eINSTANCE.getMofOrder_Instance();
+
+        /**
+         * The meta object literal for the '<em><b>Feature</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference MOF_ORDER__FEATURE = eINSTANCE.getMofOrder_Feature();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.CompoundExprImpl <em>Compound Expr</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.CompoundExprImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getCompoundExpr()
+         * @generated
+         */
+        EClass COMPOUND_EXPR = eINSTANCE.getCompoundExpr();
+
+        /**
+         * The meta object literal for the '<em><b>Arg</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference COMPOUND_EXPR__ARG = eINSTANCE.getCompoundExpr_Arg();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.SimpleExprImpl <em>Simple Expr</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.SimpleExprImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getSimpleExpr()
+         * @generated
+         */
+        EClass SIMPLE_EXPR = eINSTANCE.getSimpleExpr();
+
+        /**
+         * The meta object literal for the '<em><b>Representation</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute SIMPLE_EXPR__REPRESENTATION = eINSTANCE.getSimpleExpr_Representation();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.VarUseImpl <em>Var Use</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.VarUseImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getVarUse()
+         * @generated
+         */
+        EClass VAR_USE = eINSTANCE.getVarUse();
+
+        /**
+         * The meta object literal for the '<em><b>Var</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference VAR_USE__VAR = eINSTANCE.getVarUse_Var();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.CollectionExprImpl <em>Collection Expr</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.CollectionExprImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getCollectionExpr()
+         * @generated
+         */
+        EClass COLLECTION_EXPR = eINSTANCE.getCollectionExpr();
+
+        /**
+         * The meta object literal for the '<em><b>Unique</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute COLLECTION_EXPR__UNIQUE = eINSTANCE.getCollectionExpr_Unique();
+
+        /**
+         * The meta object literal for the '<em><b>Ordered</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute COLLECTION_EXPR__ORDERED = eINSTANCE.getCollectionExpr_Ordered();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.FunctionExprImpl <em>Function Expr</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.FunctionExprImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getFunctionExpr()
+         * @generated
+         */
+        EClass FUNCTION_EXPR = eINSTANCE.getFunctionExpr();
+
+        /**
+         * The meta object literal for the '<em><b>Function</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute FUNCTION_EXPR__FUNCTION = eINSTANCE.getFunctionExpr_Function();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.FeatureExprImpl <em>Feature Expr</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.FeatureExprImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getFeatureExpr()
+         * @generated
+         */
+        EClass FEATURE_EXPR = eINSTANCE.getFeatureExpr();
+
+        /**
+         * The meta object literal for the '<em><b>Operation</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute FEATURE_EXPR__OPERATION = eINSTANCE.getFeatureExpr_Operation();
+
+        /**
+         * The meta object literal for the '<em><b>Collect</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute FEATURE_EXPR__COLLECT = eINSTANCE.getFeatureExpr_Collect();
+
+        /**
+         * The meta object literal for the '<em><b>Feature</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference FEATURE_EXPR__FEATURE = eINSTANCE.getFeatureExpr_Feature();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.StringConstantImpl <em>String Constant</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.StringConstantImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getStringConstant()
+         * @generated
+         */
+        EClass STRING_CONSTANT = eINSTANCE.getStringConstant();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.IntConstantImpl <em>Int Constant</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.IntConstantImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getIntConstant()
+         * @generated
+         */
+        EClass INT_CONSTANT = eINSTANCE.getIntConstant();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.RealConstantImpl <em>Real Constant</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.RealConstantImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getRealConstant()
+         * @generated
+         */
+        EClass REAL_CONSTANT = eINSTANCE.getRealConstant();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.BooleanConstantImpl <em>Boolean Constant</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.BooleanConstantImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getBooleanConstant()
+         * @generated
+         */
+        EClass BOOLEAN_CONSTANT = eINSTANCE.getBooleanConstant();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.EnumConstantImpl <em>Enum Constant</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.EnumConstantImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getEnumConstant()
+         * @generated
+         */
+        EClass ENUM_CONSTANT = eINSTANCE.getEnumConstant();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.InjectionImpl <em>Injection</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.InjectionImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getInjection()
+         * @generated
+         */
+        EClass INJECTION = eINSTANCE.getInjection();
+
+        /**
+         * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute INJECTION__NAME = eINSTANCE.getInjection_Name();
+
+        /**
+         * The meta object literal for the '<em><b>Sources</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference INJECTION__SOURCES = eINSTANCE.getInjection_Sources();
+
+        /**
+         * The meta object literal for the '<em><b>Target</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference INJECTION__TARGET = eINSTANCE.getInjection_Target();
+
+        /**
+         * The meta object literal for the '{@link tefkat.model.impl.NamespaceDeclarationImpl <em>Namespace Declaration</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.NamespaceDeclarationImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getNamespaceDeclaration()
+         * @generated
+         */
+        EClass NAMESPACE_DECLARATION = eINSTANCE.getNamespaceDeclaration();
+
+        /**
+         * The meta object literal for the '<em><b>Prefix</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute NAMESPACE_DECLARATION__PREFIX = eINSTANCE.getNamespaceDeclaration_Prefix();
+
+        /**
+         * The meta object literal for the '<em><b>URI</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute NAMESPACE_DECLARATION__URI = eINSTANCE.getNamespaceDeclaration_URI();
+
+        /**
+         * The meta object literal for the '<em>Collection</em>' data type.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see java.util.Collection
+         * @see tefkat.model.impl.TefkatPackageImpl#getCollection()
+         * @generated
+         */
+        EDataType COLLECTION = eINSTANCE.getCollection();
+
+        /**
+         * The meta object literal for the '<em>List</em>' data type.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see java.util.List
+         * @see tefkat.model.impl.TefkatPackageImpl#getList()
+         * @generated
+         */
+        EDataType LIST = eINSTANCE.getList();
+
+        /**
+         * The meta object literal for the '<em>List Array</em>' data type.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.impl.TefkatPackageImpl#getListArray()
+         * @generated
+         */
+        EDataType LIST_ARRAY = eINSTANCE.getListArray();
+
+        /**
+         * The meta object literal for the '<em>Exception</em>' data type.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.model.TefkatException
+         * @see tefkat.model.impl.TefkatPackageImpl#getTefkatException()
+         * @generated
+         */
+        EDataType TEFKAT_EXCEPTION = eINSTANCE.getTefkatException();
+
+    }
 
 } //TefkatPackage

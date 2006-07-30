@@ -49,7 +49,7 @@ public class BooleanConstantItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -82,7 +82,7 @@ public class BooleanConstantItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/BooleanConstant");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/BooleanConstant"));
     }
 
     /**

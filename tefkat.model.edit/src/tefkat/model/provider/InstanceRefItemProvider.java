@@ -50,7 +50,7 @@ public class InstanceRefItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -90,8 +90,10 @@ public class InstanceRefItemProvider
                  getResourceLocator(),
                  getString("_UI_InstanceRef_object_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_InstanceRef_object_feature", "_UI_InstanceRef_type"),
-                 TefkatPackage.eINSTANCE.getInstanceRef_Object(),
+                 TefkatPackage.Literals.INSTANCE_REF__OBJECT,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -104,7 +106,7 @@ public class InstanceRefItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/InstanceRef");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/InstanceRef"));
     }
 
     /**

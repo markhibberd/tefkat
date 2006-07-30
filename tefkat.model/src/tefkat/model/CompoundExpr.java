@@ -31,7 +31,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface CompoundExpr extends Expression{
+public interface CompoundExpr extends Expression {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -47,6 +47,7 @@ import tefkat.model.IntConstant;
 import tefkat.model.MofInstance;
 import tefkat.model.MofOrder;
 import tefkat.model.MofTerm;
+import tefkat.model.NamespaceDeclaration;
 import tefkat.model.NotTerm;
 import tefkat.model.OrTerm;
 import tefkat.model.PatternDefn;
@@ -386,6 +387,13 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * @generated
      */
     private EClass injectionEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass namespaceDeclarationEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -769,6 +777,15 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      */
     public EAttribute getTransformation_ImportedPackages() {
         return (EAttribute)transformationEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getTransformation_NamespaceDeclarations() {
+        return (EReference)transformationEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -1451,6 +1468,33 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getNamespaceDeclaration() {
+        return namespaceDeclarationEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getNamespaceDeclaration_Prefix() {
+        return (EAttribute)namespaceDeclarationEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getNamespaceDeclaration_URI() {
+        return (EAttribute)namespaceDeclarationEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EDataType getCollection() {
         return collectionEDataType;
     }
@@ -1552,6 +1596,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         transformationEClass = createEClass(TRANSFORMATION);
         createEReference(transformationEClass, TRANSFORMATION__TRULE);
         createEAttribute(transformationEClass, TRANSFORMATION__IMPORTED_PACKAGES);
+        createEReference(transformationEClass, TRANSFORMATION__NAMESPACE_DECLARATIONS);
 
         patternDefnEClass = createEClass(PATTERN_DEFN);
         createEReference(patternDefnEClass, PATTERN_DEFN__PATTERN_SCOPE);
@@ -1660,6 +1705,10 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         createEReference(injectionEClass, INJECTION__SOURCES);
         createEReference(injectionEClass, INJECTION__TARGET);
 
+        namespaceDeclarationEClass = createEClass(NAMESPACE_DECLARATION);
+        createEAttribute(namespaceDeclarationEClass, NAMESPACE_DECLARATION__PREFIX);
+        createEAttribute(namespaceDeclarationEClass, NAMESPACE_DECLARATION__URI);
+
         // Create data types
         collectionEDataType = createEDataType(COLLECTION);
         listEDataType = createEDataType(LIST);
@@ -1735,20 +1784,20 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         // Initialize classes and features; add operations and parameters
         initEClass(extentEClass, Extent.class, "Extent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        EOperation op = addEOperation(extentEClass, ecorePackage.getEBoolean(), "contains");
-        addEParameter(op, ecorePackage.getEObject(), "instance");
+        EOperation op = addEOperation(extentEClass, ecorePackage.getEBoolean(), "contains", 1, 1);
+        addEParameter(op, ecorePackage.getEObject(), "instance", 1, 1);
 
-        op = addEOperation(extentEClass, ecorePackage.getEObject(), "getObjectsByClass");
-        addEParameter(op, ecorePackage.getEClass(), "theClass");
-        addEParameter(op, ecorePackage.getEBoolean(), "isExactly");
+        op = addEOperation(extentEClass, ecorePackage.getEObject(), "getObjectsByClass", 0, -1);
+        addEParameter(op, ecorePackage.getEClass(), "theClass", 1, 1);
+        addEParameter(op, ecorePackage.getEBoolean(), "isExactly", 1, 1);
 
-        addEOperation(extentEClass, ecorePackage.getETreeIterator(), "getAllContents");
+        addEOperation(extentEClass, ecorePackage.getETreeIterator(), "getAllContents", 0, 1);
 
         op = addEOperation(extentEClass, null, "add");
-        addEParameter(op, ecorePackage.getEObject(), "obj");
+        addEParameter(op, ecorePackage.getEObject(), "obj", 1, 1);
 
         op = addEOperation(extentEClass, null, "remove");
-        addEParameter(op, ecorePackage.getEObject(), "obj");
+        addEParameter(op, ecorePackage.getEObject(), "obj", 1, 1);
 
         initEClass(containerExtentEClass, ContainerExtent.class, "ContainerExtent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getContainerExtent_Resource(), ecorePackage.getEResource(), "resource", null, 1, 1, ContainerExtent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1787,31 +1836,32 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         initEReference(getTRule_Superseded(), this.getTRule(), null, "superseded", null, 0, -1, TRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getTRule_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, TRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        addEOperation(tRuleEClass, this.getCollection(), "getGoal");
+        addEOperation(tRuleEClass, this.getCollection(), "getGoal", 1, 1);
 
-        addEOperation(tRuleEClass, this.getCollection(), "getSourceTerms");
+        addEOperation(tRuleEClass, this.getCollection(), "getSourceTerms", 1, 1);
 
-        addEOperation(tRuleEClass, this.getCollection(), "getOverrideTerms");
+        addEOperation(tRuleEClass, this.getCollection(), "getOverrideTerms", 1, 1);
 
-        addEOperation(tRuleEClass, this.getCollection(), "getTargetTerms");
+        addEOperation(tRuleEClass, this.getCollection(), "getTargetTerms", 1, 1);
 
         initEClass(transformationEClass, Transformation.class, "Transformation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getTransformation_TRule(), this.getTRule(), this.getTRule_Transformation(), "tRule", null, 0, -1, Transformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getTransformation_ImportedPackages(), ecorePackage.getEString(), "importedPackages", null, 0, -1, Transformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getTransformation_NamespaceDeclarations(), this.getNamespaceDeclaration(), null, "namespaceDeclarations", null, 0, -1, Transformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        op = addEOperation(transformationEClass, this.getListArray(), "getStrata");
+        op = addEOperation(transformationEClass, this.getListArray(), "getStrata", 0, 1);
         addEException(op, this.getTefkatException());
 
         op = addEOperation(transformationEClass, null, "addSupersedes");
-        addEParameter(op, this.getTRule(), "superseder");
-        addEParameter(op, this.getTRule(), "superseded");
+        addEParameter(op, this.getTRule(), "superseder", 1, 1);
+        addEParameter(op, this.getTRule(), "superseded", 1, 1);
 
         op = addEOperation(transformationEClass, null, "removeSupersedes");
-        addEParameter(op, this.getTRule(), "superseder");
-        addEParameter(op, this.getTRule(), "superseded");
+        addEParameter(op, this.getTRule(), "superseder", 1, 1);
+        addEParameter(op, this.getTRule(), "superseded", 1, 1);
 
-        op = addEOperation(transformationEClass, this.getCollection(), "getSupersedingRules");
-        addEParameter(op, this.getTRule(), "superseded");
+        op = addEOperation(transformationEClass, this.getCollection(), "getSupersedingRules", 1, 1);
+        addEParameter(op, this.getTRule(), "superseded", 1, 1);
 
         initEClass(patternDefnEClass, PatternDefn.class, "PatternDefn", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getPatternDefn_PatternScope(), this.getPatternScope(), this.getPatternScope_PatternDefn(), "patternScope", null, 1, 1, PatternDefn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1829,9 +1879,9 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         initEReference(getTerm_CompoundTerm(), this.getCompoundTerm(), this.getCompoundTerm_Term(), "compoundTerm", null, 0, 1, Term.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getTerm_Context(), this.getExtentVar(), null, "context", null, 0, 1, Term.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        addEOperation(termEClass, this.getExtentVar(), "getExtent");
+        addEOperation(termEClass, this.getExtentVar(), "getExtent", 0, 1);
 
-        addEOperation(termEClass, ecorePackage.getEBoolean(), "isTarget");
+        addEOperation(termEClass, ecorePackage.getEBoolean(), "isTarget", 1, 1);
 
         initEClass(sourceTermEClass, SourceTerm.class, "SourceTerm", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getSourceTerm_TRuleSrc(), this.getTRule(), this.getTRule_Src(), "tRuleSrc", null, 0, 1, SourceTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1847,7 +1897,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         initEClass(expressionEClass, Expression.class, "Expression", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getExpression_Expr(), this.getCompoundExpr(), this.getCompoundExpr_Arg(), "expr", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        addEOperation(expressionEClass, this.getExpression(), "copy");
+        addEOperation(expressionEClass, this.getExpression(), "copy", 0, 1);
 
         initEClass(instanceRefEClass, InstanceRef.class, "InstanceRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getInstanceRef_Object(), ecorePackage.getEObject(), null, "object", null, 1, 1, InstanceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1858,11 +1908,11 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
 
         initEClass(notTermEClass, NotTerm.class, "NotTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        addEOperation(notTermEClass, this.getAbstractVar(), "getNonLocalVars");
+        addEOperation(notTermEClass, this.getAbstractVar(), "getNonLocalVars", 0, -1);
 
         initEClass(ifTermEClass, IfTerm.class, "IfTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        addEOperation(ifTermEClass, this.getAbstractVar(), "getNonLocalVars");
+        addEOperation(ifTermEClass, this.getAbstractVar(), "getNonLocalVars", 0, -1);
 
         initEClass(trackingUseEClass, TrackingUse.class, "TrackingUse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getTrackingUse_Tracking(), ecorePackage.getEClass(), null, "tracking", null, 0, 1, TrackingUse.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1929,6 +1979,10 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         initEAttribute(getInjection_Name(), ecorePackage.getEString(), "name", null, 1, 1, Injection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getInjection_Sources(), this.getExpression(), null, "sources", null, 0, -1, Injection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getInjection_Target(), this.getVarUse(), null, "target", null, 1, 1, Injection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(namespaceDeclarationEClass, NamespaceDeclaration.class, "NamespaceDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getNamespaceDeclaration_Prefix(), ecorePackage.getEString(), "prefix", null, 0, 1, NamespaceDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getNamespaceDeclaration_URI(), ecorePackage.getEString(), "URI", null, 0, 1, NamespaceDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Initialize data types
         initEDataType(collectionEDataType, Collection.class, "Collection", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

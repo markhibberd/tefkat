@@ -47,7 +47,7 @@ public class PatternDefnItemProvider
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+	public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -88,8 +88,10 @@ public class PatternDefnItemProvider
                  getResourceLocator(),
                  getString("_UI_PatternDefn_parameterVar_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_PatternDefn_parameterVar_feature", "_UI_PatternDefn_type"),
-                 TefkatPackage.eINSTANCE.getPatternDefn_ParameterVar(),
+                 TefkatPackage.Literals.PATTERN_DEFN__PARAMETER_VAR,
                  true,
+                 false,
+                 false,
                  null,
                  null,
                  null));
@@ -108,8 +110,10 @@ public class PatternDefnItemProvider
                  getResourceLocator(),
                  getString("_UI_PatternDefn_source_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_PatternDefn_source_feature", "_UI_PatternDefn_type"),
-                 TefkatPackage.eINSTANCE.getPatternDefn_Source(),
+                 TefkatPackage.Literals.PATTERN_DEFN__SOURCE,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
                  null,
                  null));
@@ -126,7 +130,7 @@ public class PatternDefnItemProvider
 	public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatPackage.eINSTANCE.getPatternDefn_Term());
+            childrenFeatures.add(TefkatPackage.Literals.PATTERN_DEFN__TERM);
         }
         return childrenFeatures;
     }
@@ -138,7 +142,7 @@ public class PatternDefnItemProvider
      * @generated
      */
 	public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/PatternDefn");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/PatternDefn"));
     }
 
     /**
@@ -187,52 +191,52 @@ public class PatternDefnItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternDefn_Term(),
+                (TefkatPackage.Literals.PATTERN_DEFN__TERM,
                  TefkatFactory.eINSTANCE.createAndTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternDefn_Term(),
+                (TefkatPackage.Literals.PATTERN_DEFN__TERM,
                  TefkatFactory.eINSTANCE.createOrTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternDefn_Term(),
+                (TefkatPackage.Literals.PATTERN_DEFN__TERM,
                  TefkatFactory.eINSTANCE.createNotTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternDefn_Term(),
+                (TefkatPackage.Literals.PATTERN_DEFN__TERM,
                  TefkatFactory.eINSTANCE.createIfTerm()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternDefn_Term(),
+                (TefkatPackage.Literals.PATTERN_DEFN__TERM,
                  TefkatFactory.eINSTANCE.createTrackingUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternDefn_Term(),
+                (TefkatPackage.Literals.PATTERN_DEFN__TERM,
                  TefkatFactory.eINSTANCE.createPatternUse()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternDefn_Term(),
+                (TefkatPackage.Literals.PATTERN_DEFN__TERM,
                  TefkatFactory.eINSTANCE.createCondition()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternDefn_Term(),
+                (TefkatPackage.Literals.PATTERN_DEFN__TERM,
                  TefkatFactory.eINSTANCE.createMofInstance()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternDefn_Term(),
+                (TefkatPackage.Literals.PATTERN_DEFN__TERM,
                  TefkatFactory.eINSTANCE.createMofOrder()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatPackage.eINSTANCE.getPatternDefn_Term(),
+                (TefkatPackage.Literals.PATTERN_DEFN__TERM,
                  TefkatFactory.eINSTANCE.createInjection()));
     }
 

@@ -92,6 +92,12 @@
         eType="#//TRule" containment="true" eOpposite="#//TRule/transformation"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedPackages" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="namespaceDeclarations"
+        upperBound="-1" eType="#//NamespaceDeclaration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamespaceDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="URI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PatternDefn" eSuperTypes="#//VarScope">
     <eStructuralFeatures xsi:type="ecore:EReference" name="patternScope" lowerBound="1"
