@@ -552,6 +552,11 @@ options {
                 return var;
             }
         }
+        if (scope instanceof TRule) {
+        	return getVarInScope(((TRule) scope).getTransformation(), name);
+        } else if (scope instanceof PatternDefn) {
+        	return getVarInScope(((PatternDefn) scope).getPatternScope(), name);
+        }
         return null;
     }
     
