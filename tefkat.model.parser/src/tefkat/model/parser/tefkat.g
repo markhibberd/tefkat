@@ -80,6 +80,10 @@ options {
             return tok;
         }
 
+        protected String unicode(String hexSeq) {
+        	int codePoint = Integer.parseInt(hexSeq, 16);
+        	return new String(Character.toChars(codePoint));
+        }
 }
 
 protected
@@ -101,6 +105,13 @@ ALPHA        :       ( 'a'..'z' | 'A'..'Z' | ESCAPEDWS )
         ;
 protected
 DIGIT        :       ( '0'..'9' )
+        ;
+protected
+HEX          :       ( '0'..'9' | 'a'..'f' | 'A'..'F' )
+        ;
+protected
+HEX_FOUR returns [String s = null]
+             :       HEX HEX HEX HEX { s = $getText; }
         ;
 protected
 SCHEME       :       ('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '0'..'9' | '+' | '-' | '.')* ':'
@@ -165,12 +176,15 @@ options {
         ;
 
 protected
-ESCAPE        :       '\\'
-                (        'n'        { $setText("\n");        }
-                |        'r'        { $setText("\r");        }
-                |        't'        { $setText("\t");        }
-                |        '"'        { $setText("\"");        }
-                |        '\\'        { $setText("\\");        }
+ESCAPE
+{String h1;}    :       '\\'
+                (        'n'        { $setText("\n"); }
+                |        'r'        { $setText("\r"); }
+                |        't'        { $setText("\t"); }
+                |        '"'        { $setText("\""); }
+                |        '\\'       { $setText("\\"); }
+                |        'u'! h1=HEX_FOUR
+                                    { $setText(unicode(h1)); }
                 )
         ;
 
