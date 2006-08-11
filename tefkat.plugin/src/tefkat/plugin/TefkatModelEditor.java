@@ -37,11 +37,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.text.DocumentEvent;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentListener;
-import org.eclipse.jface.text.ITextInputListener;
-import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -52,6 +47,8 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.ide.IGotoMarker;
@@ -138,6 +135,13 @@ public class TefkatModelEditor extends MultiPageEditorPart {
 
     private void createEditorPage() {
         textEditor = new TefkatTextEditor();
+        textEditor.addPropertyListener(new IPropertyListener() {
+            public void propertyChanged(final Object source, final int propId) {
+                if (IWorkbenchPartConstants.PROP_DIRTY == propId && !textEditor.isDirty()) {
+                    runner.requestParse();
+                }
+            }
+        });
 
         try {
             EDITOR_PAGE = addPage(textEditor, getEditorInput());
@@ -243,43 +247,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
             super.selectAndReveal(selectionStart, selectionLength, revealStart,
                     revealLength);
         }
-        /* (non-Javadoc)
-         * @see org.eclipse.ui.IEditorPart#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
-         */
-        public void createPartControl(Composite parent) {
-            super.createPartControl(parent);
-        
-            final IDocumentListener documentListener = new IDocumentListener() {
-                public void documentAboutToBeChanged(DocumentEvent event) {
-                    // ignore
-                }
-                public void documentChanged(DocumentEvent event) {
-                    runner.requestParse();
-                }
-            };
 
-            ISourceViewer sourceViewer = getSourceViewer();
-            sourceViewer.addTextInputListener(new ITextInputListener() {
-
-                public void inputDocumentAboutToBeChanged(IDocument oldInput, IDocument newInput) {
-                    // ignore
-                }
-
-                public void inputDocumentChanged(IDocument oldInput, IDocument newInput) {
-                    if (null != oldInput) {
-                        oldInput.removeDocumentListener(documentListener);
-                    }
-                    if (null != newInput) {
-                        newInput.addDocumentListener(documentListener);
-                    }
-                }
-                
-            });
-            IDocument document = sourceViewer.getDocument();
-            if (null != document) {
-                document.addDocumentListener(documentListener);
-            }
-        }
     }
     
     class ParserThread extends Thread {
