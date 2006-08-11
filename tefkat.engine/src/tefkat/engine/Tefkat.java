@@ -401,6 +401,8 @@ public class Tefkat {
 
     private void buildNameMap(Transformation t, Map nameMap) throws ResolutionException {
         Map importedNamespaces = new HashMap();
+        importedNamespaces.put(null, new HashSet());
+
         EPackage.Registry registry = getResourceSet().getPackageRegistry();
         
         for (final Iterator itr = t.getNamespaceDeclarations().iterator(); itr.hasNext(); ) {
@@ -415,9 +417,7 @@ public class Tefkat {
             importResource(resources, registry, uriStr);
         }
         Set resources = (Set) importedNamespaces.get(null);
-        if (null == resources) {
-            resources = new HashSet();
-        }
+        resources.add(t.eResource());
         for (final Iterator itr = t.getImportedPackages().iterator(); itr.hasNext(); ) {
             String uriStr = (String) itr.next();
             importResource(resources, registry, uriStr);
