@@ -564,17 +564,20 @@ class TargetResolver extends AbstractResolver {
             
             for (Iterator fItr = featureNames.iterator(); fItr.hasNext(); ) {
                 Object fObj = fItr.next();
+		EStructuralFeature featureObj = null;
+                String featureName = null;
+
                 if (fObj instanceof WrappedVar) {
                     AbstractVar var = ((WrappedVar) fObj).getVar();
                     throw new NotGroundException(
                         "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featExpr.getFeature());
                 } else if (fObj instanceof EStructuralFeature) {
-                    // TODO FIXME this is a HACK
-                    fObj = ((EStructuralFeature) fObj).getName();
+                    featureObj = (EStructuralFeature) fObj;
                 } else if (!(fObj instanceof String)) {
                     throw new ResolutionException(node, "The Feature Expression " + featExpr + " must evaluate to a feature name of type String, not " + fObj.getClass());
-                }
-                String featureName = (String) fObj;
+                } else {
+		    featureName = (String) fObj;
+		}
                 
                 for (Iterator itr = objs.iterator(); itr.hasNext(); ) {
                     Object obj = itr.next();
@@ -591,9 +594,20 @@ class TargetResolver extends AbstractResolver {
                 
                     EObject instance = (EObject) obj;
 
-                    EStructuralFeature eFeature = getFeature(node, instance.eClass(), featureName);
+                    EStructuralFeature theFeature;
+		    if (null == featureObj) {
+			theFeature = getFeature(node, instance.eClass(), featureName);
+		    } else {
+			EClass objClass = instance.eClass();
+			EClass featureClass = featureObj.getEContainingClass();
+			if (objClass.equals(featureClass) || objClass().getEAllSuperTypes().contains(featureClass)) {
+			    theFeature = featureObj;
+			} else {
+			    throw new ResolutionException(node, "The target feature " + featureObj + " does not belong to the object " + instance);
+			}
+		    }
                     
-                    if (eFeature.isMany()) {
+                    if (theFeature.isMany()) {
                         // Adding multiple feature values: featureName = vals
                         if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
                             Object newVal = vals.get(0);
@@ -601,16 +615,16 @@ class TargetResolver extends AbstractResolver {
                             throw new NotGroundException(newVal + NOT_BOUND_MESSAGE);
                         }
                         // values are always added for multi-valued features
-                        List featureValues = (List) instance.eGet(eFeature);
-                        List newVals = coerceTypes(vals, eFeature);
+                        List featureValues = (List) instance.eGet(theFeature);
+                        List newVals = coerceTypes(vals, theFeature);
                         try {
                             // Insert at beginning so that we have a chance of preserving
                             // the order from the source model (the Node-tree traversal 
                             // would otherwise naturally invert the order).
                             
-                            if (eFeature.isUnique()) {
+                            if (theFeature.isUnique()) {
                                 // This is normally done by the EMF code, but not in the
-                                // case where the eFeature is backed by a FeatureMap.
+                                // case where the theFeature is backed by a FeatureMap.
                                 // Hence, we do it ourselves
                                 newVals.removeAll(featureValues);
                             }
@@ -620,20 +634,20 @@ class TargetResolver extends AbstractResolver {
                             for (Iterator newValsItr = newVals.iterator(); newValsItr.hasNext(); ) {
                                 Object newVal = newValsItr.next();
                                 if (newVal instanceof DynamicObject) {
-                                    ((DynamicObject) newVal).addMultiReferenceFrom(instance, eFeature);
+                                    ((DynamicObject) newVal).addMultiReferenceFrom(instance, theFeature);
                                 }
                             }
                         } catch (ArrayStoreException e) {
                             throw new ResolutionException(
                                 node,
-                                "Couldn't add values to feature (type mismatch?): " + ModelUtils.getFullyQualifiedName(eFeature) + " <- " + newVals, e);
+                                "Couldn't add values to feature (type mismatch?): " + ModelUtils.getFullyQualifiedName(theFeature) + " <- " + newVals, e);
                         }
                     } else if (vals.size() > 1) {
-                        throw new ResolutionException(node, "Too many values for, " + ModelUtils.getFullyQualifiedName(eFeature));
+                        throw new ResolutionException(node, "Too many values for, " + ModelUtils.getFullyQualifiedName(theFeature));
                     } else if (vals.size() == 1) {
-                        Object newVal = coerceType(vals.get(0), eFeature);
-                        if (instance.eIsSet(eFeature)) {
-                            Object curVal = instance.eGet(eFeature);
+                        Object newVal = coerceType(vals.get(0), theFeature);
+                        if (instance.eIsSet(theFeature)) {
+                            Object curVal = instance.eGet(theFeature);
                             if (newVal instanceof WrappedVar) {
                                 ruleEval.fireInfo(newVal + " was not bound in source term!  Attempting to bind and continue.");
                                 unifier = new Binding();
@@ -641,32 +655,32 @@ class TargetResolver extends AbstractResolver {
                             } else if (!curVal.equals(newVal)) {
                                 throw new ResolutionException(
                                     node,
-                                    "Conflicting value: " + newVal + " found for feature, " + ModelUtils.getFullyQualifiedName(eFeature) + ", which is already set to: " + curVal);
+                                    "Conflicting value: " + newVal + " found for feature, " + ModelUtils.getFullyQualifiedName(theFeature) + ", which is already set to: " + curVal);
                             }
                         } else {
-                            //System.err.println("Setting " + eFeature + " to " + newVal);
+                            //System.err.println("Setting " + theFeature + " to " + newVal);
 //                                System.err.println("O **** " + instance);
 //                                System.err.println(instance.eClass());
-//                                System.err.println("F **** " + eFeature);
-//                                System.err.println(eFeature.getEType());
+//                                System.err.println("F **** " + theFeature);
+//                                System.err.println(theFeature.getEType());
 //                                System.err.println("V **** " + newVal);
 //                                System.err.println(newVal.getClass());
                             if (newVal instanceof WrappedVar) {
                                 // ruleEval.fireInfo(newVal + DELAYING_MESSAGE);
                                 throw new NotGroundException(newVal + NOT_BOUND_MESSAGE);
                             }
-                            instance.eSet(eFeature, newVal);
+                            instance.eSet(theFeature, newVal);
                             if (newVal instanceof DynamicObject) {
-                                ((DynamicObject) newVal).addReferenceFrom(instance, eFeature);
+                                ((DynamicObject) newVal).addReferenceFrom(instance, theFeature);
                             }
                         }
                     } else {
-                        if (eFeature.getLowerBound() > 0) {
+                        if (theFeature.getLowerBound() > 0) {
                             throw new ResolutionException(
                                 node,
-                                "No value for " + ModelUtils.getFullyQualifiedName(eFeature) + " but lower bound is " + eFeature.getLowerBound());
+                                "No value for " + ModelUtils.getFullyQualifiedName(theFeature) + " but lower bound is " + theFeature.getLowerBound());
                         }
-                        ruleEval.fireWarning("No value for " + ModelUtils.getFullyQualifiedName(eFeature));
+                        ruleEval.fireWarning("No value for " + ModelUtils.getFullyQualifiedName(theFeature));
                     }
                     
                     Collection newGoal = new ArrayList(node.goal());
