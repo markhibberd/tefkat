@@ -715,14 +715,24 @@ options {
     }
     
     private int getCharIndex() throws TokenStreamException {
-            return getCharIndex(LT(0));
+        return getCharIndex(LT(0));
+    }
+    
+    private int getNextCharIndex() throws TokenStreamException {
+        int i = 1;
+        Token tok = LT(i);
+        while (WS == tok.getType() && tok.getType() >= Token.MIN_USER_TYPE) {
+            i++;
+            tok = LT(i);
+        }
+        return getCharIndex(tok);
     }
     
     private int getCharIndex(Token tok) {
-            if (tok instanceof TefkatToken) {
-                return ((TefkatToken) tok).getOffset();
-            } else {
-                return -1;
+        if (tok instanceof TefkatToken) {
+            return ((TefkatToken) tok).getOffset();
+        } else {
+            return -1;
         }
     }
     
@@ -927,10 +937,11 @@ classDecl[Transformation t] {
         Resource res = t.eResource();
         EClass eClass = null;
         EClassifier type = null;
-        int sChar = -1, eChar = -1;
+        int csChar = -1, ceChar = -1;
+        int fsChar = -1, feChar = -1;
 }
         :       c:"CLASS" id: ID {
-                    sChar = getCharIndex(c);
+                    csChar = getCharIndex(c);
                     if (null == ePackage) {
                             ePackage = EcoreFactory.eINSTANCE.createEPackage();
                             ePackage.setNsURI(String.valueOf(resource.getURI()));
@@ -946,8 +957,9 @@ classDecl[Transformation t] {
                 (
                     LBRACE
                     (
+                    	{ fsChar = getNextCharIndex(); }
                         type = simpleTypeLiteral
-                        ref:ID SEMI {
+                        ref:ID fsemi:SEMI {
                             // TODO handle attributes (strings, ints, etc)
                             // Note that string -> EString, int -> EInt, etc
                             EStructuralFeature eFeature;
@@ -959,14 +971,17 @@ classDecl[Transformation t] {
                             eFeature.setName(ref.getText());
                             eFeature.setEType(type);
                             eClass.getEStructuralFeatures().add(eFeature);
+                            
+                            feChar = getCharIndex(fsemi);
+                            reportMatch(eFeature, fsChar, feChar);
                         }
                     )*
                     RBRACE
                 )?
                 semi:SEMI
                 {
-                    eChar = getCharIndex(semi);
-                    reportMatch(eClass, sChar, eChar);
+                    ceChar = getCharIndex(semi);
+                    reportMatch(eClass, csChar, ceChar);
                 }
         ;
 
@@ -1289,7 +1304,7 @@ ranges[VarScope scope, ExtentVar context, List terms, boolean isExactly] returns
         AbstractVar var = null;
         int sChar = -1;
 }
-        :       { sChar = getCharIndex(); }
+        :       { sChar = getNextCharIndex(); }
                 range = range[scope, context, isExactly, terms] {
                     if (null != range) {
                         terms.add(range);
@@ -1305,7 +1320,7 @@ ranges[VarScope scope, ExtentVar context, List terms, boolean isExactly] returns
                 (objectBody[scope, var, isExactly, terms, null])?
                 (
                     COMMA
-                    { sChar = getCharIndex(); }
+                    { sChar = getNextCharIndex(); }
                     range = range[scope, context, isExactly, terms] {
                         if (null != range) {
                             terms.add(range);
@@ -1329,7 +1344,7 @@ range[VarScope scope, ExtentVar outerContext, boolean isExactly, List terms] ret
         AbstractVar var = null;
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getCharIndex(); }
+        :       { sChar = getNextCharIndex(); }
                 (
                     "EXACT" { isExactly = true; }
                 |
@@ -1361,7 +1376,8 @@ range[VarScope scope, ExtentVar outerContext, boolean isExactly, List terms] ret
 
 context[VarScope scope] returns [ExtentVar context = null;] {
         String name;
-}        :
+}
+        :
         (
             AT
             name = vname {
@@ -1382,24 +1398,22 @@ context[VarScope scope] returns [ExtentVar context = null;] {
 
 typeName[VarScope scope, List terms] returns [Expression expr = null] {
         String name = null;
+        EClassifier type = null;
 }
         :
         (
                 DOLLAR expr = factor[scope, terms]
         |
-                (
-                        UNDERSCORE { name = "_"; }
-                |
-                        id1: ID { name = id1.getText(); }
-                        (CARET id2: ID { name += '^' + id2.getText(); })?
-                |
-                        (CARET qual: ID { name = '^' + qual.getText(); })?
-                        fqid: FQID { name = (null == name) ? fqid.getText()
-                        	                               : name + fqid.getText(); }
-                ) {
-                        StringConstant sc = TefkatFactory.eINSTANCE.createStringConstant();
-                        sc.setRepresentation(name);
-                        expr = sc;
+                UNDERSCORE { name = "_"; } {
+                	StringConstant sc = TefkatFactory.eINSTANCE.createStringConstant();
+                	sc.setRepresentation(name);
+                	expr = sc;
+                }
+        |
+                type = simpleTypeLiteral {
+                	InstanceRef ref = TefkatFactory.eINSTANCE.createInstanceRef();
+                	ref.setObject(type);
+                	expr = ref;
                 }
         )
         ;
@@ -1408,7 +1422,7 @@ simpleTypeLiteral returns [EClassifier type = null] {
         EObject obj;
         String name = "";
 }
-        :       id1: ID { name = id1.getText(); }
+        :       id1: ID { name = id1.getText(); setMark(id1); }
                 (CARET id2: ID { name += '^' + id2.getText(); })?
                 {
                     type = ModelUtils.findClassifierByName(trackingMap, name);
@@ -1417,7 +1431,7 @@ simpleTypeLiteral returns [EClassifier type = null] {
                     }
                 }
         |
-                (CARET qual: ID { name = qual.getText() + '^'; })?
+                (CARET qual: ID { name = qual.getText() + '^'; setMark(qual); })?
                 fqid: FQID {
                     name += fqid.getText();
                     type = ModelUtils.findClassifierByName(trackingMap, name);
@@ -1472,7 +1486,7 @@ disjunct[VarScope scope, List terms] returns [Term term] {
         Term rTerm;
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getCharIndex(); }
+        :       { sChar = getNextCharIndex(); }
                 term = relation[scope, oTerms]
                 (
                         "OR" rTerm = relation[scope, oTerms] {
@@ -1513,7 +1527,7 @@ disjunct[VarScope scope, List terms] returns [Term term] {
                         eChar = getCharIndex();
                         reportMatch(oTerm, sChar, eChar);
                     } else {
-                            terms.addAll(oTerms);
+                        terms.addAll(oTerms);
                     }
                 }
         ;
@@ -1521,11 +1535,12 @@ disjunct[VarScope scope, List terms] returns [Term term] {
 s_ifthenelse[VarScope scope] returns [IfTerm term = null] {
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getCharIndex(); }
+        :       { sChar = getNextCharIndex(); }
                 "IF"
                 term = s_ite[scope]
                 "ENDIF" {
-                    eChar = getCharIndex(); reportMatch(term, sChar, eChar);
+                    eChar = getCharIndex();
+                    reportMatch(term, sChar, eChar);
                 }
         ;
 
@@ -1566,10 +1581,11 @@ s_ite[VarScope scope] returns [IfTerm term = null] {
                 }
                 )
                 (
-                { sChar = getCharIndex(); }
+                { sChar = getNextCharIndex(); }
                 "ELSEIF"
                 elseTerm = s_ite[scope] {
-                    eChar = getCharIndex(); reportMatch(term, sChar, eChar);
+                    eChar = getCharIndex();
+                    reportMatch(term, sChar, eChar);
                 }
                 |
                 "ELSE"
@@ -1599,11 +1615,12 @@ s_ite[VarScope scope] returns [IfTerm term = null] {
 t_ifthenelse[VarScope scope, ExtentVar tgtExtent, List params] returns [IfTerm term = null] {
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getCharIndex(); }
+        :       { sChar = getNextCharIndex(); }
                 "IF"
                 term = t_ite[scope, tgtExtent, params]
                 "ENDIF" {
-                    eChar = getCharIndex(); reportMatch(term, sChar, eChar);
+                    eChar = getCharIndex();
+                    reportMatch(term, sChar, eChar);
                 }
         ;
 
@@ -1644,10 +1661,11 @@ t_ite[VarScope scope, ExtentVar tgtExtent, List params] returns [IfTerm term = n
                 }
                 )
                 (
-                { sChar = getCharIndex(); }
+                { sChar = getNextCharIndex(); }
                 "ELSEIF"
                 elseTerm = t_ite[scope, tgtExtent, params] {
-                    eChar = getCharIndex(); reportMatch(term, sChar, eChar);
+                    eChar = getCharIndex();
+                    reportMatch(term, sChar, eChar);
                 }
                 |
                 "ELSE"
@@ -1691,7 +1709,7 @@ relation[VarScope scope, List terms] returns [Term term = null] {
         Token relop = null;
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getCharIndex(); }
+        :       { sChar = getNextCharIndex(); }
         (       LBRACK {
                         aTerm = TefkatFactory.eINSTANCE.createAndTerm();
                         term = aTerm;
@@ -1701,6 +1719,7 @@ relation[VarScope scope, List terms] returns [Term term = null] {
         |        (("EXACT"|"DYNAMIC")? (DOLLAR|UNDERSCORE|CARET|FQID|ID) (AT ID)? vname) =>
                 term = range[scope, null, false, terms] {
                         MofInstance inst = (MofInstance) term;
+                	// NPE triggred here if range[] has failed to match
                         var = ((VarUse) inst.getInstance()).getVar();
                         ExtentVar extVar = inst.getContext();
                         if (null != extVar && tgtExtents.contains(extVar)) {
@@ -1818,7 +1837,7 @@ makeObject[VarScope scope, ExtentVar tgtExtent, boolean isExactly, List tgts, Li
         MofInstance makeTerm;
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getCharIndex(); }
+        :       { sChar = getNextCharIndex(); }
                 makeTerm = range[scope, tgtExtent, isExactly, tgts] {
                     if (null != makeTerm) {
                         tgts.add(makeTerm);
@@ -1879,7 +1898,7 @@ unique[VarScope scope, ExtentVar outerContext, List tgts, AbstractVar targetVar]
         String name;
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getCharIndex(); }
+        :       { sChar = getNextCharIndex(); }
                 "FROM"
                 name = uname
                 params = actuals[scope, tgts] {
@@ -1935,7 +1954,7 @@ setting_stmt[VarScope scope, List tgts] {
         Term term = null;
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getCharIndex(); }
+        :       { sChar = getNextCharIndex(); }
                 lhs = expr[scope, tgts]
                 (
                     "BEFORE"
@@ -2023,7 +2042,7 @@ trackingUse[VarScope scope, List terms] returns [TrackingUse use = null] {
         Map featureMap = null;
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getCharIndex(); }
+        :       { sChar = getNextCharIndex(); }
                 "LINKING" tname = tname "WITH" {
                         use = TefkatFactory.eINSTANCE.createTrackingUse();
                         use.setTrackingName(tname);
