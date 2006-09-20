@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: tefkat.config.editor; singleton:=true
-Bundle-Version: 2.1.0.1
+Bundle-Version: 2.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: tefkat.config.TefkatConfig.presentation.TefkatConfigEditorPlugin$Implementation
 Bundle-Vendor: %providerName
