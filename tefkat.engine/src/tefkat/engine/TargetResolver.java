@@ -600,7 +600,7 @@ class TargetResolver extends AbstractResolver {
 		    } else {
 			EClass objClass = instance.eClass();
 			EClass featureClass = featureObj.getEContainingClass();
-			if (objClass.equals(featureClass) || objClass().getEAllSuperTypes().contains(featureClass)) {
+			if (objClass.equals(featureClass) || objClass.getEAllSuperTypes().contains(featureClass)) {
 			    theFeature = featureObj;
 			} else {
 			    throw new ResolutionException(node, "The target feature " + featureObj + " does not belong to the object " + instance);
