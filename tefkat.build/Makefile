@@ -2,6 +2,7 @@
 default: build
 
 init:
+	/bin/rm -rf ~/eclipse.build
 	mkdir -p ~/eclipse.build/plugins
 	mkdir -p ~/eclipse.build/features
 
