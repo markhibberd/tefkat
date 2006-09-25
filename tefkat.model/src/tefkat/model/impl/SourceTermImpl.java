@@ -17,17 +17,12 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import tefkat.model.CompoundTerm;
-import tefkat.model.ExtentVar;
-import tefkat.model.PatternDefn;
-import tefkat.model.Query;
 import tefkat.model.SourceTerm;
 import tefkat.model.TRule;
 import tefkat.model.TefkatPackage;

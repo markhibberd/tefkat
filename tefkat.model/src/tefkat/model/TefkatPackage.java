@@ -187,114 +187,13 @@ public interface TefkatPackage extends EPackage {
     int ABSTRACT_VAR__USAGES = 2;
 
     /**
-     * The number of structural features of the '<em>Abstract Var</em>' class.
+     * The feature id for the '<em><b>Superseded</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ABSTRACT_VAR_FEATURE_COUNT = 3;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.PatternVarImpl <em>Pattern Var</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.PatternVarImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getPatternVar()
-     * @generated
-     */
-    int PATTERN_VAR = 4;
-
-    /**
-     * The feature id for the '<em><b>Scope</b></em>' container reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PATTERN_VAR__SCOPE = ABSTRACT_VAR__SCOPE;
-
-    /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PATTERN_VAR__NAME = ABSTRACT_VAR__NAME;
-
-    /**
-     * The feature id for the '<em><b>Usages</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PATTERN_VAR__USAGES = ABSTRACT_VAR__USAGES;
-
-    /**
-     * The number of structural features of the '<em>Pattern Var</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PATTERN_VAR_FEATURE_COUNT = ABSTRACT_VAR_FEATURE_COUNT + 0;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.TRuleVarImpl <em>TRule Var</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.TRuleVarImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getTRuleVar()
-     * @generated
-     */
-    int TRULE_VAR = 5;
-
-    /**
-     * The feature id for the '<em><b>Scope</b></em>' container reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TRULE_VAR__SCOPE = ABSTRACT_VAR__SCOPE;
-
-    /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TRULE_VAR__NAME = ABSTRACT_VAR__NAME;
-
-    /**
-     * The feature id for the '<em><b>Usages</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TRULE_VAR__USAGES = ABSTRACT_VAR__USAGES;
-
-    /**
-     * The feature id for the '<em><b>Extender</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TRULE_VAR__EXTENDER = ABSTRACT_VAR_FEATURE_COUNT + 0;
-
-    /**
-     * The feature id for the '<em><b>Extended</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TRULE_VAR__EXTENDED = ABSTRACT_VAR_FEATURE_COUNT + 1;
+    int ABSTRACT_VAR__SUPERSEDED = 3;
 
     /**
      * The feature id for the '<em><b>Superseder</b></em>' reference list.
@@ -303,71 +202,34 @@ public interface TefkatPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int TRULE_VAR__SUPERSEDER = ABSTRACT_VAR_FEATURE_COUNT + 2;
+    int ABSTRACT_VAR__SUPERSEDER = 4;
 
     /**
-     * The feature id for the '<em><b>Superseded</b></em>' reference list.
+     * The feature id for the '<em><b>Extended</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int TRULE_VAR__SUPERSEDED = ABSTRACT_VAR_FEATURE_COUNT + 3;
+    int ABSTRACT_VAR__EXTENDED = 5;
 
     /**
-     * The number of structural features of the '<em>TRule Var</em>' class.
+     * The feature id for the '<em><b>Extender</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int TRULE_VAR_FEATURE_COUNT = ABSTRACT_VAR_FEATURE_COUNT + 4;
+    int ABSTRACT_VAR__EXTENDER = 6;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.ExtentVarImpl <em>Extent Var</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.ExtentVarImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getExtentVar()
-     * @generated
-     */
-    int EXTENT_VAR = 6;
-
-    /**
-     * The feature id for the '<em><b>Scope</b></em>' container reference.
+     * The number of structural features of the '<em>Abstract Var</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int EXTENT_VAR__SCOPE = ABSTRACT_VAR__SCOPE;
-
-    /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int EXTENT_VAR__NAME = ABSTRACT_VAR__NAME;
-
-    /**
-     * The feature id for the '<em><b>Usages</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int EXTENT_VAR__USAGES = ABSTRACT_VAR__USAGES;
-
-    /**
-     * The number of structural features of the '<em>Extent Var</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int EXTENT_VAR_FEATURE_COUNT = ABSTRACT_VAR_FEATURE_COUNT + 0;
+    int ABSTRACT_VAR_FEATURE_COUNT = 7;
 
     /**
      * The meta object id for the '{@link tefkat.model.impl.VarScopeImpl <em>Var Scope</em>}' class.
@@ -377,7 +239,7 @@ public interface TefkatPackage extends EPackage {
      * @see tefkat.model.impl.TefkatPackageImpl#getVarScope()
      * @generated
      */
-    int VAR_SCOPE = 7;
+    int VAR_SCOPE = 4;
 
     /**
      * The feature id for the '<em><b>Vars</b></em>' containment reference list.
@@ -423,7 +285,7 @@ public interface TefkatPackage extends EPackage {
      * @see tefkat.model.impl.TefkatPackageImpl#getPatternScope()
      * @generated
      */
-    int PATTERN_SCOPE = 8;
+    int PATTERN_SCOPE = 5;
 
     /**
      * The feature id for the '<em><b>Vars</b></em>' containment reference list.
@@ -478,7 +340,7 @@ public interface TefkatPackage extends EPackage {
      * @see tefkat.model.impl.TefkatPackageImpl#getTRule()
      * @generated
      */
-    int TRULE = 9;
+    int TRULE = 6;
 
     /**
      * The feature id for the '<em><b>Vars</b></em>' containment reference list.
@@ -578,7 +440,7 @@ public interface TefkatPackage extends EPackage {
      * @see tefkat.model.impl.TefkatPackageImpl#getTransformation()
      * @generated
      */
-    int TRANSFORMATION = 10;
+    int TRANSFORMATION = 7;
 
     /**
      * The feature id for the '<em><b>Vars</b></em>' containment reference list.
@@ -660,7 +522,354 @@ public interface TefkatPackage extends EPackage {
      * @see tefkat.model.impl.TefkatPackageImpl#getPatternDefn()
      * @generated
      */
-    int PATTERN_DEFN = 11;
+    int PATTERN_DEFN = 9;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.QueryImpl <em>Query</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.QueryImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getQuery()
+     * @generated
+     */
+    int QUERY = 10;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.TermImpl <em>Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.TermImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getTerm()
+     * @generated
+     */
+    int TERM = 11;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.SourceTermImpl <em>Source Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.SourceTermImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getSourceTerm()
+     * @generated
+     */
+    int SOURCE_TERM = 12;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.TargetTermImpl <em>Target Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.TargetTermImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getTargetTerm()
+     * @generated
+     */
+    int TARGET_TERM = 13;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.CompoundTermImpl <em>Compound Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.CompoundTermImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getCompoundTerm()
+     * @generated
+     */
+    int COMPOUND_TERM = 14;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.SimpleTermImpl <em>Simple Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.SimpleTermImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getSimpleTerm()
+     * @generated
+     */
+    int SIMPLE_TERM = 15;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.ExpressionImpl <em>Expression</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.ExpressionImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getExpression()
+     * @generated
+     */
+    int EXPRESSION = 16;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.InstanceRefImpl <em>Instance Ref</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.InstanceRefImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getInstanceRef()
+     * @generated
+     */
+    int INSTANCE_REF = 17;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.AndTermImpl <em>And Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.AndTermImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getAndTerm()
+     * @generated
+     */
+    int AND_TERM = 18;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.OrTermImpl <em>Or Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.OrTermImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getOrTerm()
+     * @generated
+     */
+    int OR_TERM = 19;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.NotTermImpl <em>Not Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.NotTermImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getNotTerm()
+     * @generated
+     */
+    int NOT_TERM = 20;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.IfTermImpl <em>If Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.IfTermImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getIfTerm()
+     * @generated
+     */
+    int IF_TERM = 21;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.TrackingUseImpl <em>Tracking Use</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.TrackingUseImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getTrackingUse()
+     * @generated
+     */
+    int TRACKING_USE = 22;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.FeatureValuePairImpl <em>Feature Value Pair</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.FeatureValuePairImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getFeatureValuePair()
+     * @generated
+     */
+    int FEATURE_VALUE_PAIR = 23;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.PatternUseImpl <em>Pattern Use</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.PatternUseImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getPatternUse()
+     * @generated
+     */
+    int PATTERN_USE = 24;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.MofTermImpl <em>Mof Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.MofTermImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getMofTerm()
+     * @generated
+     */
+    int MOF_TERM = 25;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.ConditionImpl <em>Condition</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.ConditionImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getCondition()
+     * @generated
+     */
+    int CONDITION = 26;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.MofInstanceImpl <em>Mof Instance</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.MofInstanceImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getMofInstance()
+     * @generated
+     */
+    int MOF_INSTANCE = 27;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.MofOrderImpl <em>Mof Order</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.MofOrderImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getMofOrder()
+     * @generated
+     */
+    int MOF_ORDER = 28;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.CompoundExprImpl <em>Compound Expr</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.CompoundExprImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getCompoundExpr()
+     * @generated
+     */
+    int COMPOUND_EXPR = 29;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.SimpleExprImpl <em>Simple Expr</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.SimpleExprImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getSimpleExpr()
+     * @generated
+     */
+    int SIMPLE_EXPR = 30;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.VarUseImpl <em>Var Use</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.VarUseImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getVarUse()
+     * @generated
+     */
+    int VAR_USE = 31;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.CollectionExprImpl <em>Collection Expr</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.CollectionExprImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getCollectionExpr()
+     * @generated
+     */
+    int COLLECTION_EXPR = 32;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.FunctionExprImpl <em>Function Expr</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.FunctionExprImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getFunctionExpr()
+     * @generated
+     */
+    int FUNCTION_EXPR = 33;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.FeatureExprImpl <em>Feature Expr</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.FeatureExprImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getFeatureExpr()
+     * @generated
+     */
+    int FEATURE_EXPR = 34;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.StringConstantImpl <em>String Constant</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.StringConstantImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getStringConstant()
+     * @generated
+     */
+    int STRING_CONSTANT = 35;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.IntConstantImpl <em>Int Constant</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.IntConstantImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getIntConstant()
+     * @generated
+     */
+    int INT_CONSTANT = 36;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.RealConstantImpl <em>Real Constant</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.RealConstantImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getRealConstant()
+     * @generated
+     */
+    int REAL_CONSTANT = 37;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.BooleanConstantImpl <em>Boolean Constant</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.BooleanConstantImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getBooleanConstant()
+     * @generated
+     */
+    int BOOLEAN_CONSTANT = 38;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.EnumConstantImpl <em>Enum Constant</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.EnumConstantImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getEnumConstant()
+     * @generated
+     */
+    int ENUM_CONSTANT = 39;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.InjectionImpl <em>Injection</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.InjectionImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getInjection()
+     * @generated
+     */
+    int INJECTION = 40;
+
+    /**
+     * The meta object id for the '{@link tefkat.model.impl.NamespaceDeclarationImpl <em>Namespace Declaration</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.model.impl.NamespaceDeclarationImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getNamespaceDeclaration()
+     * @generated
+     */
+    int NAMESPACE_DECLARATION = 8;
+
+    /**
+     * The feature id for the '<em><b>Prefix</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int NAMESPACE_DECLARATION__PREFIX = 0;
+
+    /**
+     * The feature id for the '<em><b>URI</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int NAMESPACE_DECLARATION__URI = 1;
+
+    /**
+     * The number of structural features of the '<em>Namespace Declaration</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int NAMESPACE_DECLARATION_FEATURE_COUNT = 2;
 
     /**
      * The feature id for the '<em><b>Vars</b></em>' containment reference list.
@@ -735,16 +944,6 @@ public interface TefkatPackage extends EPackage {
     int PATTERN_DEFN_FEATURE_COUNT = VAR_SCOPE_FEATURE_COUNT + 4;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.QueryImpl <em>Query</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.QueryImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getQuery()
-     * @generated
-     */
-    int QUERY = 12;
-
-    /**
      * The feature id for the '<em><b>Vars</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -808,16 +1007,6 @@ public interface TefkatPackage extends EPackage {
     int QUERY_FEATURE_COUNT = PATTERN_SCOPE_FEATURE_COUNT + 2;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.TermImpl <em>Term</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.TermImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getTerm()
-     * @generated
-     */
-    int TERM = 13;
-
-    /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -861,16 +1050,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int TERM_FEATURE_COUNT = 4;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.SourceTermImpl <em>Source Term</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.SourceTermImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getSourceTerm()
-     * @generated
-     */
-    int SOURCE_TERM = 14;
 
     /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
@@ -927,16 +1106,6 @@ public interface TefkatPackage extends EPackage {
     int SOURCE_TERM_FEATURE_COUNT = TERM_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.TargetTermImpl <em>Target Term</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.TargetTermImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getTargetTerm()
-     * @generated
-     */
-    int TARGET_TERM = 15;
-
-    /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -989,16 +1158,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int TARGET_TERM_FEATURE_COUNT = TERM_FEATURE_COUNT + 1;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.CompoundTermImpl <em>Compound Term</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.CompoundTermImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getCompoundTerm()
-     * @generated
-     */
-    int COMPOUND_TERM = 16;
 
     /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
@@ -1064,16 +1223,6 @@ public interface TefkatPackage extends EPackage {
     int COMPOUND_TERM_FEATURE_COUNT = SOURCE_TERM_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.SimpleTermImpl <em>Simple Term</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.SimpleTermImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getSimpleTerm()
-     * @generated
-     */
-    int SIMPLE_TERM = 17;
-
-    /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1137,16 +1286,6 @@ public interface TefkatPackage extends EPackage {
     int SIMPLE_TERM_FEATURE_COUNT = SOURCE_TERM_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.ExpressionImpl <em>Expression</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.ExpressionImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getExpression()
-     * @generated
-     */
-    int EXPRESSION = 18;
-
-    /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1163,16 +1302,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int EXPRESSION_FEATURE_COUNT = 1;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.InstanceRefImpl <em>Instance Ref</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.InstanceRefImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getInstanceRef()
-     * @generated
-     */
-    int INSTANCE_REF = 19;
 
     /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
@@ -1200,16 +1329,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int INSTANCE_REF_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.AndTermImpl <em>And Term</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.AndTermImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getAndTerm()
-     * @generated
-     */
-    int AND_TERM = 20;
 
     /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
@@ -1284,16 +1403,6 @@ public interface TefkatPackage extends EPackage {
     int AND_TERM_FEATURE_COUNT = COMPOUND_TERM_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.OrTermImpl <em>Or Term</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.OrTermImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getOrTerm()
-     * @generated
-     */
-    int OR_TERM = 21;
-
-    /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1357,16 +1466,6 @@ public interface TefkatPackage extends EPackage {
     int OR_TERM_FEATURE_COUNT = COMPOUND_TERM_FEATURE_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.NotTermImpl <em>Not Term</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.NotTermImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getNotTerm()
-     * @generated
-     */
-    int NOT_TERM = 22;
-
-    /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1428,16 +1527,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int NOT_TERM_FEATURE_COUNT = COMPOUND_TERM_FEATURE_COUNT + 0;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.IfTermImpl <em>If Term</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.IfTermImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getIfTerm()
-     * @generated
-     */
-    int IF_TERM = 23;
 
     /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
@@ -1510,16 +1599,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int IF_TERM_FEATURE_COUNT = COMPOUND_TERM_FEATURE_COUNT + 1;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.TrackingUseImpl <em>Tracking Use</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.TrackingUseImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getTrackingUse()
-     * @generated
-     */
-    int TRACKING_USE = 24;
 
     /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
@@ -1612,16 +1691,6 @@ public interface TefkatPackage extends EPackage {
     int TRACKING_USE_FEATURE_COUNT = SIMPLE_TERM_FEATURE_COUNT + 3;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.FeatureValuePairImpl <em>Feature Value Pair</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.FeatureValuePairImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getFeatureValuePair()
-     * @generated
-     */
-    int FEATURE_VALUE_PAIR = 25;
-
-    /**
      * The feature id for the '<em><b>Value</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1647,16 +1716,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int FEATURE_VALUE_PAIR_FEATURE_COUNT = 2;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.PatternUseImpl <em>Pattern Use</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.PatternUseImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getPatternUse()
-     * @generated
-     */
-    int PATTERN_USE = 26;
 
     /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
@@ -1740,16 +1799,6 @@ public interface TefkatPackage extends EPackage {
     int PATTERN_USE_FEATURE_COUNT = SIMPLE_TERM_FEATURE_COUNT + 2;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.MofTermImpl <em>Mof Term</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.MofTermImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getMofTerm()
-     * @generated
-     */
-    int MOF_TERM = 27;
-
-    /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1811,16 +1860,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int MOF_TERM_FEATURE_COUNT = SIMPLE_TERM_FEATURE_COUNT + 0;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.ConditionImpl <em>Condition</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.ConditionImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getCondition()
-     * @generated
-     */
-    int CONDITION = 28;
 
     /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
@@ -1902,16 +1941,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int CONDITION_FEATURE_COUNT = SIMPLE_TERM_FEATURE_COUNT + 2;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.MofInstanceImpl <em>Mof Instance</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.MofInstanceImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getMofInstance()
-     * @generated
-     */
-    int MOF_INSTANCE = 29;
 
     /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
@@ -2002,16 +2031,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int MOF_INSTANCE_FEATURE_COUNT = MOF_TERM_FEATURE_COUNT + 3;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.MofOrderImpl <em>Mof Order</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.MofOrderImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getMofOrder()
-     * @generated
-     */
-    int MOF_ORDER = 30;
 
     /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
@@ -2113,16 +2132,6 @@ public interface TefkatPackage extends EPackage {
     int MOF_ORDER_FEATURE_COUNT = MOF_TERM_FEATURE_COUNT + 4;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.CompoundExprImpl <em>Compound Expr</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.CompoundExprImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getCompoundExpr()
-     * @generated
-     */
-    int COMPOUND_EXPR = 31;
-
-    /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2148,16 +2157,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int COMPOUND_EXPR_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.SimpleExprImpl <em>Simple Expr</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.SimpleExprImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getSimpleExpr()
-     * @generated
-     */
-    int SIMPLE_EXPR = 32;
 
     /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
@@ -2187,16 +2186,6 @@ public interface TefkatPackage extends EPackage {
     int SIMPLE_EXPR_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.VarUseImpl <em>Var Use</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.VarUseImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getVarUse()
-     * @generated
-     */
-    int VAR_USE = 33;
-
-    /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2222,16 +2211,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int VAR_USE_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.CollectionExprImpl <em>Collection Expr</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.CollectionExprImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getCollectionExpr()
-     * @generated
-     */
-    int COLLECTION_EXPR = 34;
 
     /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
@@ -2279,16 +2258,6 @@ public interface TefkatPackage extends EPackage {
     int COLLECTION_EXPR_FEATURE_COUNT = COMPOUND_EXPR_FEATURE_COUNT + 2;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.FunctionExprImpl <em>Function Expr</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.FunctionExprImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getFunctionExpr()
-     * @generated
-     */
-    int FUNCTION_EXPR = 35;
-
-    /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2323,16 +2292,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int FUNCTION_EXPR_FEATURE_COUNT = COMPOUND_EXPR_FEATURE_COUNT + 1;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.FeatureExprImpl <em>Feature Expr</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.FeatureExprImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getFeatureExpr()
-     * @generated
-     */
-    int FEATURE_EXPR = 36;
 
     /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
@@ -2389,16 +2348,6 @@ public interface TefkatPackage extends EPackage {
     int FEATURE_EXPR_FEATURE_COUNT = COMPOUND_EXPR_FEATURE_COUNT + 3;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.StringConstantImpl <em>String Constant</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.StringConstantImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getStringConstant()
-     * @generated
-     */
-    int STRING_CONSTANT = 37;
-
-    /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2424,16 +2373,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int STRING_CONSTANT_FEATURE_COUNT = SIMPLE_EXPR_FEATURE_COUNT + 0;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.IntConstantImpl <em>Int Constant</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.IntConstantImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getIntConstant()
-     * @generated
-     */
-    int INT_CONSTANT = 38;
 
     /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
@@ -2463,16 +2402,6 @@ public interface TefkatPackage extends EPackage {
     int INT_CONSTANT_FEATURE_COUNT = SIMPLE_EXPR_FEATURE_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.RealConstantImpl <em>Real Constant</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.RealConstantImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getRealConstant()
-     * @generated
-     */
-    int REAL_CONSTANT = 39;
-
-    /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2498,16 +2427,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int REAL_CONSTANT_FEATURE_COUNT = SIMPLE_EXPR_FEATURE_COUNT + 0;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.BooleanConstantImpl <em>Boolean Constant</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.BooleanConstantImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getBooleanConstant()
-     * @generated
-     */
-    int BOOLEAN_CONSTANT = 40;
 
     /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
@@ -2537,16 +2456,6 @@ public interface TefkatPackage extends EPackage {
     int BOOLEAN_CONSTANT_FEATURE_COUNT = SIMPLE_EXPR_FEATURE_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.EnumConstantImpl <em>Enum Constant</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.EnumConstantImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getEnumConstant()
-     * @generated
-     */
-    int ENUM_CONSTANT = 41;
-
-    /**
      * The feature id for the '<em><b>Expr</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2572,16 +2481,6 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int ENUM_CONSTANT_FEATURE_COUNT = COMPOUND_EXPR_FEATURE_COUNT + 0;
-
-    /**
-     * The meta object id for the '{@link tefkat.model.impl.InjectionImpl <em>Injection</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.InjectionImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getInjection()
-     * @generated
-     */
-    int INJECTION = 42;
 
     /**
      * The feature id for the '<em><b>Pattern Defn</b></em>' container reference.
@@ -2665,43 +2564,6 @@ public interface TefkatPackage extends EPackage {
     int INJECTION_FEATURE_COUNT = TARGET_TERM_FEATURE_COUNT + 3;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.NamespaceDeclarationImpl <em>Namespace Declaration</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.model.impl.NamespaceDeclarationImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getNamespaceDeclaration()
-     * @generated
-     */
-    int NAMESPACE_DECLARATION = 43;
-
-    /**
-     * The feature id for the '<em><b>Prefix</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int NAMESPACE_DECLARATION__PREFIX = 0;
-
-    /**
-     * The feature id for the '<em><b>URI</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int NAMESPACE_DECLARATION__URI = 1;
-
-    /**
-     * The number of structural features of the '<em>Namespace Declaration</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int NAMESPACE_DECLARATION_FEATURE_COUNT = 2;
-
-    /**
      * The meta object id for the '<em>Collection</em>' data type.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2709,7 +2571,7 @@ public interface TefkatPackage extends EPackage {
      * @see tefkat.model.impl.TefkatPackageImpl#getCollection()
      * @generated
      */
-    int COLLECTION = 44;
+    int COLLECTION = 41;
 
     /**
      * The meta object id for the '<em>List</em>' data type.
@@ -2719,7 +2581,7 @@ public interface TefkatPackage extends EPackage {
      * @see tefkat.model.impl.TefkatPackageImpl#getList()
      * @generated
      */
-    int LIST = 45;
+    int LIST = 42;
 
     /**
      * The meta object id for the '<em>List Array</em>' data type.
@@ -2728,7 +2590,7 @@ public interface TefkatPackage extends EPackage {
      * @see tefkat.model.impl.TefkatPackageImpl#getListArray()
      * @generated
      */
-    int LIST_ARRAY = 46;
+    int LIST_ARRAY = 43;
 
     /**
      * The meta object id for the '<em>Exception</em>' data type.
@@ -2738,7 +2600,7 @@ public interface TefkatPackage extends EPackage {
      * @see tefkat.model.impl.TefkatPackageImpl#getTefkatException()
      * @generated
      */
-    int TEFKAT_EXCEPTION = 47;
+    int TEFKAT_EXCEPTION = 44;
 
 
     /**
@@ -2837,78 +2699,48 @@ public interface TefkatPackage extends EPackage {
     EReference getAbstractVar_Usages();
 
     /**
-     * Returns the meta object for class '{@link tefkat.model.PatternVar <em>Pattern Var</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Pattern Var</em>'.
-     * @see tefkat.model.PatternVar
-     * @generated
-     */
-    EClass getPatternVar();
-
-    /**
-     * Returns the meta object for class '{@link tefkat.model.TRuleVar <em>TRule Var</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>TRule Var</em>'.
-     * @see tefkat.model.TRuleVar
-     * @generated
-     */
-    EClass getTRuleVar();
-
-    /**
-     * Returns the meta object for the reference list '{@link tefkat.model.TRuleVar#getExtender <em>Extender</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Extender</em>'.
-     * @see tefkat.model.TRuleVar#getExtender()
-     * @see #getTRuleVar()
-     * @generated
-     */
-    EReference getTRuleVar_Extender();
-
-    /**
-     * Returns the meta object for the reference list '{@link tefkat.model.TRuleVar#getExtended <em>Extended</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Extended</em>'.
-     * @see tefkat.model.TRuleVar#getExtended()
-     * @see #getTRuleVar()
-     * @generated
-     */
-    EReference getTRuleVar_Extended();
-
-    /**
-     * Returns the meta object for the reference list '{@link tefkat.model.TRuleVar#getSuperseder <em>Superseder</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Superseder</em>'.
-     * @see tefkat.model.TRuleVar#getSuperseder()
-     * @see #getTRuleVar()
-     * @generated
-     */
-    EReference getTRuleVar_Superseder();
-
-    /**
-     * Returns the meta object for the reference list '{@link tefkat.model.TRuleVar#getSuperseded <em>Superseded</em>}'.
+     * Returns the meta object for the reference list '{@link tefkat.model.AbstractVar#getSuperseded <em>Superseded</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Superseded</em>'.
-     * @see tefkat.model.TRuleVar#getSuperseded()
-     * @see #getTRuleVar()
+     * @see tefkat.model.AbstractVar#getSuperseded()
+     * @see #getAbstractVar()
      * @generated
      */
-    EReference getTRuleVar_Superseded();
+    EReference getAbstractVar_Superseded();
 
     /**
-     * Returns the meta object for class '{@link tefkat.model.ExtentVar <em>Extent Var</em>}'.
+     * Returns the meta object for the reference list '{@link tefkat.model.AbstractVar#getSuperseder <em>Superseder</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Extent Var</em>'.
-     * @see tefkat.model.ExtentVar
+     * @return the meta object for the reference list '<em>Superseder</em>'.
+     * @see tefkat.model.AbstractVar#getSuperseder()
+     * @see #getAbstractVar()
      * @generated
      */
-    EClass getExtentVar();
+    EReference getAbstractVar_Superseder();
+
+    /**
+     * Returns the meta object for the reference list '{@link tefkat.model.AbstractVar#getExtended <em>Extended</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Extended</em>'.
+     * @see tefkat.model.AbstractVar#getExtended()
+     * @see #getAbstractVar()
+     * @generated
+     */
+    EReference getAbstractVar_Extended();
+
+    /**
+     * Returns the meta object for the reference list '{@link tefkat.model.AbstractVar#getExtender <em>Extender</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Extender</em>'.
+     * @see tefkat.model.AbstractVar#getExtender()
+     * @see #getAbstractVar()
+     * @generated
+     */
+    EReference getAbstractVar_Extender();
 
     /**
      * Returns the meta object for class '{@link tefkat.model.VarScope <em>Var Scope</em>}'.
@@ -3985,7 +3817,7 @@ public interface TefkatPackage extends EPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    interface Literals {
+    interface Literals  {
         /**
          * The meta object literal for the '{@link tefkat.model.impl.ExtentImpl <em>Extent</em>}' class.
          * <!-- begin-user-doc -->
@@ -4067,40 +3899,12 @@ public interface TefkatPackage extends EPackage {
         EReference ABSTRACT_VAR__USAGES = eINSTANCE.getAbstractVar_Usages();
 
         /**
-         * The meta object literal for the '{@link tefkat.model.impl.PatternVarImpl <em>Pattern Var</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see tefkat.model.impl.PatternVarImpl
-         * @see tefkat.model.impl.TefkatPackageImpl#getPatternVar()
-         * @generated
-         */
-        EClass PATTERN_VAR = eINSTANCE.getPatternVar();
-
-        /**
-         * The meta object literal for the '{@link tefkat.model.impl.TRuleVarImpl <em>TRule Var</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see tefkat.model.impl.TRuleVarImpl
-         * @see tefkat.model.impl.TefkatPackageImpl#getTRuleVar()
-         * @generated
-         */
-        EClass TRULE_VAR = eINSTANCE.getTRuleVar();
-
-        /**
-         * The meta object literal for the '<em><b>Extender</b></em>' reference list feature.
+         * The meta object literal for the '<em><b>Superseded</b></em>' reference list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference TRULE_VAR__EXTENDER = eINSTANCE.getTRuleVar_Extender();
-
-        /**
-         * The meta object literal for the '<em><b>Extended</b></em>' reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference TRULE_VAR__EXTENDED = eINSTANCE.getTRuleVar_Extended();
+        EReference ABSTRACT_VAR__SUPERSEDED = eINSTANCE.getAbstractVar_Superseded();
 
         /**
          * The meta object literal for the '<em><b>Superseder</b></em>' reference list feature.
@@ -4108,25 +3912,23 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference TRULE_VAR__SUPERSEDER = eINSTANCE.getTRuleVar_Superseder();
+        EReference ABSTRACT_VAR__SUPERSEDER = eINSTANCE.getAbstractVar_Superseder();
 
         /**
-         * The meta object literal for the '<em><b>Superseded</b></em>' reference list feature.
+         * The meta object literal for the '<em><b>Extended</b></em>' reference list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference TRULE_VAR__SUPERSEDED = eINSTANCE.getTRuleVar_Superseded();
+        EReference ABSTRACT_VAR__EXTENDED = eINSTANCE.getAbstractVar_Extended();
 
         /**
-         * The meta object literal for the '{@link tefkat.model.impl.ExtentVarImpl <em>Extent Var</em>}' class.
+         * The meta object literal for the '<em><b>Extender</b></em>' reference list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see tefkat.model.impl.ExtentVarImpl
-         * @see tefkat.model.impl.TefkatPackageImpl#getExtentVar()
          * @generated
          */
-        EClass EXTENT_VAR = eINSTANCE.getExtentVar();
+        EReference ABSTRACT_VAR__EXTENDER = eINSTANCE.getAbstractVar_Extender();
 
         /**
          * The meta object literal for the '{@link tefkat.model.impl.VarScopeImpl <em>Var Scope</em>}' class.

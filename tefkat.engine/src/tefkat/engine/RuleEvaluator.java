@@ -41,7 +41,6 @@ import tefkat.model.MofInstance;
 import tefkat.model.NotTerm;
 import tefkat.model.PatternDefn;
 import tefkat.model.TRule;
-import tefkat.model.TRuleVar;
 import tefkat.model.TargetTerm;
 import tefkat.model.TefkatException;
 import tefkat.model.TefkatFactory;
@@ -1130,9 +1129,9 @@ public class RuleEvaluator {
     private void buildExtBindings(List vars, Binding binding)
             throws ResolutionException {
         for (Iterator itr = vars.iterator(); itr.hasNext();) {
-            TRuleVar var = (TRuleVar) itr.next();
+            AbstractVar var = (AbstractVar) itr.next();
             for (Iterator extItr = var.getExtended().iterator(); extItr.hasNext();) {
-                TRuleVar extVar = (TRuleVar) extItr.next();
+                AbstractVar extVar = (AbstractVar) extItr.next();
                 linkVars(binding, var, extVar);
             }
         }
@@ -1141,15 +1140,15 @@ public class RuleEvaluator {
     private void buildSupBindings(List vars, Binding binding)
             throws ResolutionException {
         for (Iterator itr = vars.iterator(); itr.hasNext();) {
-            TRuleVar var = (TRuleVar) itr.next();
+            AbstractVar var = (AbstractVar) itr.next();
             for (Iterator supItr = var.getSuperseded().iterator(); supItr.hasNext();) {
-                TRuleVar supVar = (TRuleVar) supItr.next();
+                AbstractVar supVar = (AbstractVar) supItr.next();
                 linkVars(binding, var, supVar);
             }
         }
     }
 
-    private Object lookup(Binding binding, TRuleVar var) {
+    private Object lookup(Binding binding, AbstractVar var) {
         Object obj = binding.lookup(var);
         if (null == obj) {
             return new WrappedVar(var);
@@ -1157,7 +1156,7 @@ public class RuleEvaluator {
         return obj;
     }
 
-    private void linkVars(Binding binding, TRuleVar lhVar, TRuleVar rhVar)
+    private void linkVars(Binding binding, AbstractVar lhVar, AbstractVar rhVar)
             throws ResolutionException {
         Object lhObj = lookup(binding, lhVar);
         Object rhObj = lookup(binding, rhVar);
@@ -1165,7 +1164,7 @@ public class RuleEvaluator {
             AbstractVar var = ((WrappedVar) lhObj).getVar();
             binding.add(var, rhObj);
         } else {
-            binding.add((TRuleVar) lhObj, rhObj);
+            binding.add((AbstractVar) lhObj, rhObj);
         }
     }
 
@@ -1231,7 +1230,7 @@ public class RuleEvaluator {
             TRule r1 = TefkatFactory.eINSTANCE.createTRule();
             r1.setTransformation(t);
             r1.setName("R1");
-            AbstractVar v1 = TefkatFactory.eINSTANCE.createTRuleVar();
+            AbstractVar v1 = TefkatFactory.eINSTANCE.createAbstractVar();
             v1.setScope(r1);
             v1.setName("v1");
             r1.setSrc(mi(v1, "Src1"));
@@ -1240,7 +1239,7 @@ public class RuleEvaluator {
             TRule r2 = TefkatFactory.eINSTANCE.createTRule();
             r2.setTransformation(t);
             r2.setName("R2");
-            TRuleVar v2 = TefkatFactory.eINSTANCE.createTRuleVar();
+            AbstractVar v2 = TefkatFactory.eINSTANCE.createAbstractVar();
             v2.setScope(r2);
             v2.setName("v2");
             v2.getExtended().add(v1);
@@ -1251,7 +1250,7 @@ public class RuleEvaluator {
             TRule r3 = TefkatFactory.eINSTANCE.createTRule();
             r3.setTransformation(t);
             r3.setName("R3");
-            TRuleVar v3 = TefkatFactory.eINSTANCE.createTRuleVar();
+            AbstractVar v3 = TefkatFactory.eINSTANCE.createAbstractVar();
             v3.setScope(r3);
             v3.setName("v3");
             v3.getSuperseded().add(v1);
@@ -1262,7 +1261,7 @@ public class RuleEvaluator {
             TRule r4 = TefkatFactory.eINSTANCE.createTRule();
             r4.setTransformation(t);
             r4.setName("R4");
-            TRuleVar v4 = TefkatFactory.eINSTANCE.createTRuleVar();
+            AbstractVar v4 = TefkatFactory.eINSTANCE.createAbstractVar();
             v4.setScope(r4);
             v4.setName("v4");
             v4.getExtended().add(v3);

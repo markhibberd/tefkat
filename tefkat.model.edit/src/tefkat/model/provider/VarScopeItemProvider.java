@@ -201,17 +201,7 @@ public class VarScopeItemProvider
         newChildDescriptors.add
             (createChildParameter
                 (TefkatPackage.Literals.VAR_SCOPE__VARS,
-                 TefkatFactory.eINSTANCE.createPatternVar()));
-
-        newChildDescriptors.add
-            (createChildParameter
-                (TefkatPackage.Literals.VAR_SCOPE__VARS,
-                 TefkatFactory.eINSTANCE.createTRuleVar()));
-
-        newChildDescriptors.add
-            (createChildParameter
-                (TefkatPackage.Literals.VAR_SCOPE__VARS,
-                 TefkatFactory.eINSTANCE.createExtentVar()));
+                 TefkatFactory.eINSTANCE.createAbstractVar()));
     }
 
     /**

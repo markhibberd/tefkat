@@ -70,7 +70,7 @@ public interface Query extends PatternScope {
 
     /**
      * Returns the value of the '<em><b>Parameter Var</b></em>' reference list.
-     * The list contents are of type {@link tefkat.model.PatternVar}.
+     * The list contents are of type {@link tefkat.model.AbstractVar}.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Parameter Var</em>' reference list isn't clear,
@@ -79,7 +79,7 @@ public interface Query extends PatternScope {
      * <!-- end-user-doc -->
      * @return the value of the '<em>Parameter Var</em>' reference list.
      * @see tefkat.model.TefkatPackage#getQuery_ParameterVar()
-     * @model type="tefkat.model.PatternVar"
+     * @model type="tefkat.model.AbstractVar"
      * @generated
      */
     EList getParameterVar();

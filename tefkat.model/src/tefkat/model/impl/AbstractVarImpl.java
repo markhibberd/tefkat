@@ -13,6 +13,8 @@
 package tefkat.model.impl;
 
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -46,12 +48,16 @@ import tefkat.model.VarUse;
  *   <li>{@link tefkat.model.impl.AbstractVarImpl#getScope <em>Scope</em>}</li>
  *   <li>{@link tefkat.model.impl.AbstractVarImpl#getName <em>Name</em>}</li>
  *   <li>{@link tefkat.model.impl.AbstractVarImpl#getUsages <em>Usages</em>}</li>
+ *   <li>{@link tefkat.model.impl.AbstractVarImpl#getSuperseded <em>Superseded</em>}</li>
+ *   <li>{@link tefkat.model.impl.AbstractVarImpl#getSuperseder <em>Superseder</em>}</li>
+ *   <li>{@link tefkat.model.impl.AbstractVarImpl#getExtended <em>Extended</em>}</li>
+ *   <li>{@link tefkat.model.impl.AbstractVarImpl#getExtender <em>Extender</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar {
+public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -88,6 +94,46 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * @ordered
      */
     protected EList usages = null;
+
+    /**
+     * The cached value of the '{@link #getSuperseded() <em>Superseded</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getSuperseded()
+     * @generated
+     * @ordered
+     */
+    protected EList superseded = null;
+
+    /**
+     * The cached value of the '{@link #getSuperseder() <em>Superseder</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getSuperseder()
+     * @generated
+     * @ordered
+     */
+    protected EList superseder = null;
+
+    /**
+     * The cached value of the '{@link #getExtended() <em>Extended</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getExtended()
+     * @generated
+     * @ordered
+     */
+    protected EList extended = null;
+
+    /**
+     * The cached value of the '{@link #getExtender() <em>Extender</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getExtender()
+     * @generated
+     * @ordered
+     */
+    protected EList extender = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -186,6 +232,54 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
      * <!-- end-user-doc -->
      * @generated
      */
+    public EList getSuperseded() {
+        if (superseded == null) {
+            superseded = new EObjectWithInverseResolvingEList.ManyInverse(AbstractVar.class, this, TefkatPackage.ABSTRACT_VAR__SUPERSEDED, TefkatPackage.ABSTRACT_VAR__SUPERSEDER);
+        }
+        return superseded;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList getSuperseder() {
+        if (superseder == null) {
+            superseder = new EObjectWithInverseResolvingEList.ManyInverse(AbstractVar.class, this, TefkatPackage.ABSTRACT_VAR__SUPERSEDER, TefkatPackage.ABSTRACT_VAR__SUPERSEDED);
+        }
+        return superseder;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList getExtended() {
+        if (extended == null) {
+            extended = new EObjectWithInverseResolvingEList.ManyInverse(AbstractVar.class, this, TefkatPackage.ABSTRACT_VAR__EXTENDED, TefkatPackage.ABSTRACT_VAR__EXTENDER);
+        }
+        return extended;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList getExtender() {
+        if (extender == null) {
+            extender = new EObjectWithInverseResolvingEList.ManyInverse(AbstractVar.class, this, TefkatPackage.ABSTRACT_VAR__EXTENDER, TefkatPackage.ABSTRACT_VAR__EXTENDED);
+        }
+        return extender;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case TefkatPackage.ABSTRACT_VAR__SCOPE:
@@ -194,6 +288,14 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
                 return basicSetScope((VarScope)otherEnd, msgs);
             case TefkatPackage.ABSTRACT_VAR__USAGES:
                 return ((InternalEList)getUsages()).basicAdd(otherEnd, msgs);
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+                return ((InternalEList)getSuperseded()).basicAdd(otherEnd, msgs);
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+                return ((InternalEList)getSuperseder()).basicAdd(otherEnd, msgs);
+            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+                return ((InternalEList)getExtended()).basicAdd(otherEnd, msgs);
+            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+                return ((InternalEList)getExtender()).basicAdd(otherEnd, msgs);
         }
         return super.eInverseAdd(otherEnd, featureID, msgs);
     }
@@ -209,6 +311,14 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
                 return basicSetScope(null, msgs);
             case TefkatPackage.ABSTRACT_VAR__USAGES:
                 return ((InternalEList)getUsages()).basicRemove(otherEnd, msgs);
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+                return ((InternalEList)getSuperseded()).basicRemove(otherEnd, msgs);
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+                return ((InternalEList)getSuperseder()).basicRemove(otherEnd, msgs);
+            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+                return ((InternalEList)getExtended()).basicRemove(otherEnd, msgs);
+            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+                return ((InternalEList)getExtender()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -239,6 +349,14 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
                 return getName();
             case TefkatPackage.ABSTRACT_VAR__USAGES:
                 return getUsages();
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+                return getSuperseded();
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+                return getSuperseder();
+            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+                return getExtended();
+            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+                return getExtender();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -255,6 +373,22 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
                 return;
             case TefkatPackage.ABSTRACT_VAR__NAME:
                 setName((String)newValue);
+                return;
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+                getSuperseded().clear();
+                getSuperseded().addAll((Collection)newValue);
+                return;
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+                getSuperseder().clear();
+                getSuperseder().addAll((Collection)newValue);
+                return;
+            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+                getExtended().clear();
+                getExtended().addAll((Collection)newValue);
+                return;
+            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+                getExtender().clear();
+                getExtender().addAll((Collection)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -273,6 +407,18 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
             case TefkatPackage.ABSTRACT_VAR__NAME:
                 setName(NAME_EDEFAULT);
                 return;
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+                getSuperseded().clear();
+                return;
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+                getSuperseder().clear();
+                return;
+            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+                getExtended().clear();
+                return;
+            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+                getExtender().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -290,6 +436,14 @@ public abstract class AbstractVarImpl extends EObjectImpl implements AbstractVar
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case TefkatPackage.ABSTRACT_VAR__USAGES:
                 return usages != null && !usages.isEmpty();
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+                return superseded != null && !superseded.isEmpty();
+            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+                return superseder != null && !superseder.isEmpty();
+            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+                return extended != null && !extended.isEmpty();
+            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+                return extender != null && !extender.isEmpty();
         }
         return super.eIsSet(featureID);
     }

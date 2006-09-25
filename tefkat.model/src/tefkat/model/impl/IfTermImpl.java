@@ -13,7 +13,6 @@
 package tefkat.model.impl;
 
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -25,20 +24,14 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import tefkat.model.AbstractVar;
-import tefkat.model.CompoundTerm;
-import tefkat.model.ExtentVar;
 import tefkat.model.IfTerm;
-import tefkat.model.PatternDefn;
-import tefkat.model.Query;
 import tefkat.model.TRule;
 import tefkat.model.TargetTerm;
 import tefkat.model.TefkatPackage;

@@ -39,15 +39,11 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/scope"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatModel.ecore#//AbstractVar/name"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/usages"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/superseded"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/superseder"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/extended"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/extender"/>
     </genClasses>
-    <genClasses ecoreClass="TefkatModel.ecore#//PatternVar"/>
-    <genClasses ecoreClass="TefkatModel.ecore#//TRuleVar">
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//TRuleVar/extender"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//TRuleVar/extended"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//TRuleVar/superseder"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//TRuleVar/superseded"/>
-    </genClasses>
-    <genClasses ecoreClass="TefkatModel.ecore#//ExtentVar"/>
     <genClasses ecoreClass="TefkatModel.ecore#//VarScope">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//VarScope/vars"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatModel.ecore#//VarScope/name"/>
@@ -71,6 +67,7 @@
     <genClasses ecoreClass="TefkatModel.ecore#//Transformation">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//Transformation/tRule"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EAttribute TefkatModel.ecore#//Transformation/importedPackages"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//Transformation/namespaceDeclarations"/>
       <genOperations ecoreOperation="TefkatModel.ecore#//Transformation/getStrata"/>
       <genOperations ecoreOperation="TefkatModel.ecore#//Transformation/addSupersedes">
         <genParameters ecoreParameter="TefkatModel.ecore#//Transformation/addSupersedes/superseder"/>
@@ -83,6 +80,10 @@
       <genOperations ecoreOperation="TefkatModel.ecore#//Transformation/getSupersedingRules">
         <genParameters ecoreParameter="TefkatModel.ecore#//Transformation/getSupersedingRules/superseded"/>
       </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="TefkatModel.ecore#//NamespaceDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatModel.ecore#//NamespaceDeclaration/prefix"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatModel.ecore#//NamespaceDeclaration/URI"/>
     </genClasses>
     <genClasses ecoreClass="TefkatModel.ecore#//PatternDefn">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//PatternDefn/patternScope"/>
@@ -121,7 +122,9 @@
     </genClasses>
     <genClasses ecoreClass="TefkatModel.ecore#//AndTerm"/>
     <genClasses ecoreClass="TefkatModel.ecore#//OrTerm"/>
-    <genClasses ecoreClass="TefkatModel.ecore#//NotTerm"/>
+    <genClasses ecoreClass="TefkatModel.ecore#//NotTerm">
+      <genOperations ecoreOperation="TefkatModel.ecore#//NotTerm/getNonLocalVars"/>
+    </genClasses>
     <genClasses ecoreClass="TefkatModel.ecore#//IfTerm">
       <genOperations ecoreOperation="TefkatModel.ecore#//IfTerm/getNonLocalVars"/>
     </genClasses>

@@ -27,25 +27,21 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resources" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AbstractVar" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractVar">
     <eStructuralFeatures xsi:type="ecore:EReference" name="scope" eType="#//VarScope"
         eOpposite="#//VarScope/vars"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="usages" ordered="false"
         upperBound="-1" eType="#//VarUse" changeable="false" eOpposite="#//VarUse/var"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PatternVar" eSuperTypes="#//AbstractVar"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TRuleVar" eSuperTypes="#//AbstractVar">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extender" upperBound="-1"
-        eType="#//TRuleVar" eOpposite="#//TRuleVar/extended"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extended" upperBound="-1"
-        eType="#//TRuleVar" eOpposite="#//TRuleVar/extender"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="superseder" upperBound="-1"
-        eType="#//TRuleVar" eOpposite="#//TRuleVar/superseded"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="superseded" upperBound="-1"
-        eType="#//TRuleVar" eOpposite="#//TRuleVar/superseder"/>
+        eType="#//AbstractVar" eOpposite="#//AbstractVar/superseder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superseder" upperBound="-1"
+        eType="#//AbstractVar" eOpposite="#//AbstractVar/superseded"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extended" upperBound="-1"
+        eType="#//AbstractVar" eOpposite="#//AbstractVar/extender"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extender" upperBound="-1"
+        eType="#//AbstractVar" eOpposite="#//AbstractVar/extended"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExtentVar" eSuperTypes="#//AbstractVar"/>
   <eClassifiers xsi:type="ecore:EClass" name="VarScope">
     <eStructuralFeatures xsi:type="ecore:EReference" name="vars" upperBound="-1" eType="#//AbstractVar"
         containment="true" eOpposite="#//AbstractVar/scope"/>
@@ -105,7 +101,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="term" lowerBound="1" eType="#//Term"
         containment="true" eOpposite="#//Term/patternDefn"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameterVar" upperBound="-1"
-        eType="#//PatternVar"/>
+        eType="#//AbstractVar"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
   </eClassifiers>
@@ -113,10 +109,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="term" lowerBound="1" eType="#//Term"
         containment="true" eOpposite="#//Term/query"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameterVar" upperBound="-1"
-        eType="#//PatternVar"/>
+        eType="#//AbstractVar"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Term" abstract="true">
-    <eOperations name="getExtent" eType="#//ExtentVar"/>
+    <eOperations name="getExtent" eType="#//AbstractVar"/>
     <eOperations name="isTarget" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="patternDefn" eType="#//PatternDefn"
         eOpposite="#//PatternDefn/term"/>
@@ -124,7 +120,7 @@
         eOpposite="#//Query/term"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="compoundTerm" eType="#//CompoundTerm"
         eOpposite="#//CompoundTerm/term"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="context" eType="#//ExtentVar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="context" eType="#//AbstractVar"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SourceTerm" abstract="true" eSuperTypes="#//Term">
     <eStructuralFeatures xsi:type="ecore:EReference" name="tRuleSrc" eType="#//TRule"

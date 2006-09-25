@@ -13,18 +13,9 @@
  */
 package tefkat.model.impl;
 
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 
-import tefkat.model.CompoundTerm;
-import tefkat.model.ExtentVar;
 import tefkat.model.MofTerm;
-import tefkat.model.PatternDefn;
-import tefkat.model.Query;
-import tefkat.model.TRule;
 import tefkat.model.TefkatPackage;
 
 /**

@@ -49,9 +49,9 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import tefkat.config.TefkatConfig.ExecutionMode;
 import tefkat.config.TefkatConfig.Model;
 import tefkat.config.TefkatConfig.TransformationTask;
+import tefkat.model.AbstractVar;
 import tefkat.model.ContainerExtent;
 import tefkat.model.Extent;
-import tefkat.model.ExtentVar;
 import tefkat.model.NamespaceDeclaration;
 import tefkat.model.TefkatException;
 import tefkat.model.TefkatFactory;
@@ -303,7 +303,7 @@ public class Tefkat {
                         throw new ResolutionException(null, "Wrong number of parameters.  Expected " + extentVars.size() + ", got " + (srcs.length + tgts.length));
                     }
                     for (int k = 0; k < extentVars.size(); k++) {
-                        ExtentVar extentVar = (ExtentVar) extentVars.get(k);
+                        AbstractVar extentVar = (AbstractVar) extentVars.get(k);
                         if (k < srcs.length) {
                             context.add(extentVar, srcs[k]);
                         } else {

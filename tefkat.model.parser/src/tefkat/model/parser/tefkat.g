@@ -435,14 +435,14 @@ options {
     private Map extendsMap = new HashMap();
 
     /**
-     * Stores a map of (rule) names to a List TRuleVar instances representing
+     * Stores a map of (rule) names to a List Var instances representing
      * those explicitly exposed for extending/superseding.
      */
     private Map publicVarMap = new HashMap();
 
     /**
-     * Stores a map of (rule) names to a List of Lists of TRuleVar instances
-     * representing the set of TRuleVars that extend the TRuleVars of the rule
+     * Stores a map of (rule) names to a List of Lists of Var instances
+     * representing the set of Vars that extend the Vars of the rule
      * with the given name.
      */
     private Map extendsVarMap = new HashMap();
@@ -454,8 +454,8 @@ options {
     private Map supersedesMap = new HashMap();
 
     /**
-     * Stores a map of (rule) names to a List of Lists of TRuleVar instances
-     * representing the set of TRuleVars that supersede the TRuleVars of the rule
+     * Stores a map of (rule) names to a List of Lists of Var instances
+     * representing the set of Vars that supersede the Vars of the rule
      * with the given name.
      */
     private Map supersedesVarMap = new HashMap();
@@ -568,9 +568,9 @@ options {
     private AbstractVar declareVar(VarScope scope, String name, int line, int column) throws antlr.SemanticException {
         AbstractVar var = null;
         if (scope instanceof PatternDefn) {
-            var = TefkatFactory.eINSTANCE.createPatternVar();
+            var = TefkatFactory.eINSTANCE.createAbstractVar();
         } else if (scope instanceof TRule) {
-            var = TefkatFactory.eINSTANCE.createTRuleVar();
+            var = TefkatFactory.eINSTANCE.createAbstractVar();
         } else {
             throw new antlr.SemanticException("Scope for variable use " + name + " must be a PatternDefn or TRule, not: " + scope, getFilename(), line, column);
         }
@@ -612,11 +612,11 @@ options {
         }
     }
     
-    private TRuleVar getVar(TRule trule, String varName)
+    private AbstractVar getVar(TRule trule, String varName)
     throws antlr.SemanticException {
         List vars = trule.getVars();
         for (Iterator itr = vars.iterator(); itr.hasNext(); ) {
-            TRuleVar var = (TRuleVar) itr.next();
+            AbstractVar var = (AbstractVar) itr.next();
             if (varName.equals(var.getName())) {
                 return var;
             }
@@ -745,7 +745,7 @@ options {
 }
 
 transformation returns [Transformation t = null;] {
-        ExtentVar srcExtent = null, tgtExtent = null;
+        AbstractVar srcExtent = null, tgtExtent = null;
 }
         :       tok:"TRANSFORMATION" {
                         t = TefkatFactory.eINSTANCE.createTransformation();
@@ -760,25 +760,25 @@ transformation returns [Transformation t = null;] {
                 }
                 (
                     // for backwards compatability
-                    formals[t, TefkatPackage.eINSTANCE.getExtentVar()] {
+                    formals[t] {
                             List vars = t.getVars();
                             if (vars.size() != 2) {
                                 throw new antlr.SemanticException("Bracket syntax requires exactly one source extent and one target extent.  Use colon syntax for multiple source or target extents", getFilename(), getMarkLine(), getMarkColumn());
                             }
-                            srcExtent = (ExtentVar) vars.get(0);
-                        tgtExtent = (ExtentVar) vars.get(1);
+                            srcExtent = (AbstractVar) vars.get(0);
+                        tgtExtent = (AbstractVar) vars.get(1);
                         srcExtents = Collections.singletonList(srcExtent);
                         tgtExtents = Collections.singletonList(tgtExtent);
                         reportWarning("bracket syntax is deprecated", getMarkLine(), getMarkColumn());
                     }
                 |
                     COLON
-                    srcExtents = vardecls[t, TefkatPackage.eINSTANCE.getExtentVar()] {
-                            srcExtent = (ExtentVar) srcExtents.get(0);
+                    srcExtents = vardecls[t] {
+                            srcExtent = (AbstractVar) srcExtents.get(0);
                     }
                     ARROW
-                    tgtExtents = vardecls[t, TefkatPackage.eINSTANCE.getExtentVar()] {
-                            tgtExtent = (ExtentVar) tgtExtents.get(0);
+                    tgtExtents = vardecls[t] {
+                            tgtExtent = (AbstractVar) tgtExtents.get(0);
                     }
                 )
                 ("EXTENDS" transformationExtends[t])?
@@ -837,8 +837,8 @@ transformation returns [Transformation t = null;] {
                                         reportError("Size mismatch: " + vars + " and " + xvList);
                                     } else {
                                         for (int i = 0; i < vars.size(); i++) {
-                                            TRuleVar v = (TRuleVar) vars.get(i);
-                                            TRuleVar xv = (TRuleVar) xvList.get(i);
+                                            AbstractVar v = (AbstractVar) vars.get(i);
+                                            AbstractVar xv = (AbstractVar) xvList.get(i);
                                             v.getExtender().add(xv);
                                         }
                                     }
@@ -853,8 +853,8 @@ transformation returns [Transformation t = null;] {
                                         reportError("Size mismatch: " + vars + " and " + svList);
                                     } else {
                                         for (int i = 0; i < vars.size(); i++) {
-                                            TRuleVar v = (TRuleVar) vars.get(i);
-                                            TRuleVar sv = (TRuleVar) svList.get(i);
+                                            AbstractVar v = (AbstractVar) vars.get(i);
+                                            AbstractVar sv = (AbstractVar) svList.get(i);
                                             v.getSuperseder().add(sv);
                                         }
                                     }
@@ -889,7 +889,7 @@ transformation returns [Transformation t = null;] {
         }
 
 /*
-    Need to allow equation of ExtentVars
+    Need to allow equation of Extent Vars
     
     TRANSFORMATION foo: a -> b
     EXTENDS uri (a = in, c = out),
@@ -904,18 +904,18 @@ transformation returns [Transformation t = null;] {
 transformationExtends[Transformation t] {
         List vars = null;
 }       :       uri: URITOK
-                LBRACK vars = vardecls[t, TefkatPackage.eINSTANCE.getExtentVar()] RBRACK {
+                LBRACK vars = vardecls[t] RBRACK {
                 }
                 (COMMA transformationExtends[t])?
         ;
 
-formals[VarScope vs, EClass varClass]
+formals[VarScope vs]
         :       LBRACK 
-                ( vardecls[vs, varClass] )?
+                ( vardecls[vs] )?
                 RBRACK
         ;
 
-body[Transformation t, ExtentVar srcExtent, ExtentVar tgtExtent]
+body[Transformation t, AbstractVar srcExtent, AbstractVar tgtExtent]
         :       importDecl[t]
         |       namespaceDecl[t]
         |       classDecl[t]
@@ -1097,7 +1097,7 @@ tname returns [String name = null]
                 }
         ;
 
-patternDefn[Transformation t, ExtentVar srcExtent] {
+patternDefn[Transformation t, AbstractVar srcExtent] {
         PatternDefn pd = null;
         String name;
         AndTerm conjunct = null;
@@ -1115,7 +1115,7 @@ patternDefn[Transformation t, ExtentVar srcExtent] {
                         pd.setTerm(conjunct);
                 }
                 name = pname
-                formals[pd, TefkatPackage.eINSTANCE.getPatternVar()] {
+                formals[pd] {
                         // mark all Vars from the formals as parameter vars
                         pd.getParameterVar().addAll(pd.getVars());
                         String fullName = name + "/" + pd.getParameterVar().size();
@@ -1147,7 +1147,7 @@ pname returns [String name = null]
                 }
         ;
 
-templateDefn[Transformation t, ExtentVar tgtExtent] {
+templateDefn[Transformation t, AbstractVar tgtExtent] {
         PatternDefn pd = null;
         String name;
         AndTerm conjunct = null;
@@ -1167,7 +1167,7 @@ templateDefn[Transformation t, ExtentVar tgtExtent] {
                 name = pname {
                         pd.setName(name);
                 }
-                formals[pd, TefkatPackage.eINSTANCE.getPatternVar()] {
+                formals[pd] {
                         // mark all Vars from the formals as parameter vars
                         pd.getParameterVar().addAll(pd.getVars());
                         String fullName = name + "/" + pd.getParameterVar().size();
@@ -1187,7 +1187,7 @@ templateDefn[Transformation t, ExtentVar tgtExtent] {
                 }
         ;
 
-trule[Transformation t, ExtentVar srcExtent, ExtentVar tgtExtent] {
+trule[Transformation t, AbstractVar srcExtent, AbstractVar tgtExtent] {
         TRule trule = null;
         String name;
         List params = null;
@@ -1214,7 +1214,7 @@ trule[Transformation t, ExtentVar srcExtent, ExtentVar tgtExtent] {
                         ruleMap.put(name, trule);
                 }
                 (
-                        formals[trule, TefkatPackage.eINSTANCE.getTRuleVar()] {
+                        formals[trule] {
                                 publicVarMap.put(trule, new ArrayList(trule.getVars()));
                         }
                 )?
@@ -1241,7 +1241,7 @@ trule[Transformation t, ExtentVar srcExtent, ExtentVar tgtExtent] {
                 }
         ;
 
-targetClauses[VarScope scope, ExtentVar tgtExtent, List terms, List params] {
+targetClauses[VarScope scope, AbstractVar tgtExtent, List terms, List params] {
 }
         :
         ( "MAKE" making[scope, tgtExtent, terms, params] )?
@@ -1299,7 +1299,7 @@ related[TRule trule, boolean xflag, boolean sflag] {
  * Returns a List of VarUse objects.
  * Only called from source-side contexts
  */
-ranges[VarScope scope, ExtentVar context, List terms, boolean isExactly] returns [List params = new ArrayList()] {
+ranges[VarScope scope, AbstractVar context, List terms, boolean isExactly] returns [List params = new ArrayList()] {
         MofInstance range;
         AbstractVar var = null;
         int sChar = -1;
@@ -1311,7 +1311,7 @@ ranges[VarScope scope, ExtentVar context, List terms, boolean isExactly] returns
                         params.add(range.getInstance());
                         var = ((VarUse) range.getInstance()).getVar();
                         
-                        ExtentVar extVar = range.getContext();
+                        AbstractVar extVar = range.getContext();
                         if (null != extVar && tgtExtents.contains(extVar)) {
                             reportWarning("Querying a target extent, '" + scope + "', is not supported.", getMarkLine(), getMarkColumn());
                         }
@@ -1327,7 +1327,7 @@ ranges[VarScope scope, ExtentVar context, List terms, boolean isExactly] returns
                             params.add(range.getInstance());
                             var = ((VarUse) range.getInstance()).getVar();
                         
-                            ExtentVar extVar = range.getContext();
+                            AbstractVar extVar = range.getContext();
                             if (null != extVar && tgtExtents.contains(extVar)) {
                                 reportWarning("Querying a target extent, '" + scope + "', is not supported.", getMarkLine(), getMarkColumn());
                             }
@@ -1337,8 +1337,8 @@ ranges[VarScope scope, ExtentVar context, List terms, boolean isExactly] returns
                 )*
         ;
 
-range[VarScope scope, ExtentVar outerContext, boolean isExactly, List terms] returns [MofInstance i = null] {
-        ExtentVar context;
+range[VarScope scope, AbstractVar outerContext, boolean isExactly, List terms] returns [MofInstance i = null] {
+        AbstractVar context;
         Expression type;
         String name;
         AbstractVar var = null;
@@ -1374,7 +1374,7 @@ range[VarScope scope, ExtentVar outerContext, boolean isExactly, List terms] ret
             reportError(ex);
         }
 
-context[VarScope scope] returns [ExtentVar context = null;] {
+context[VarScope scope] returns [AbstractVar context = null;] {
         String name;
 }
         :
@@ -1387,11 +1387,11 @@ context[VarScope scope] returns [ExtentVar context = null;] {
                     } else if (scope instanceof PatternDefn) {
                         var = getVarInScope(((PatternDefn) scope).getPatternScope(), name);
                     }
-                if (null == var || !(var instanceof ExtentVar)) {
+                if (null == var || !(var instanceof AbstractVar)) {
                     throw new antlr.SemanticException("No extent named: " + name, getFilename(), getMarkLine(), getMarkColumn());
                 }
-                //term.setContext((ExtentVar) var);
-                context = (ExtentVar) var;
+                //term.setContext((AbstractVar) var);
+                context = (AbstractVar) var;
             }
         )?
         ;
@@ -1612,7 +1612,7 @@ s_ite[VarScope scope] returns [IfTerm term = null] {
                 }
         ;
 
-t_ifthenelse[VarScope scope, ExtentVar tgtExtent, List params] returns [IfTerm term = null] {
+t_ifthenelse[VarScope scope, AbstractVar tgtExtent, List params] returns [IfTerm term = null] {
         int sChar = -1, eChar = -1;
 }
         :       { sChar = getNextCharIndex(); }
@@ -1624,7 +1624,7 @@ t_ifthenelse[VarScope scope, ExtentVar tgtExtent, List params] returns [IfTerm t
                 }
         ;
 
-t_ite[VarScope scope, ExtentVar tgtExtent, List params] returns [IfTerm term = null] {
+t_ite[VarScope scope, AbstractVar tgtExtent, List params] returns [IfTerm term = null] {
         Term condTerm = null, thenTerm = null, elseTerm = null;
         List termList = new ArrayList();
         int sChar = -1, eChar = -1;
@@ -1721,7 +1721,7 @@ relation[VarScope scope, List terms] returns [Term term = null] {
                         MofInstance inst = (MofInstance) term;
                 	// NPE triggred here if range[] has failed to match
                         var = ((VarUse) inst.getInstance()).getVar();
-                        ExtentVar extVar = inst.getContext();
+                        AbstractVar extVar = inst.getContext();
                         if (null != extVar && tgtExtents.contains(extVar)) {
                             reportWarning("Querying a target extent, '" + scope + "', is not supported.", getMarkLine(), getMarkColumn());
                         }
@@ -1748,10 +1748,8 @@ relation[VarScope scope, List terms] returns [Term term = null] {
                         term = cond;
                 }
         |        "UNDEF" lhs = factor[scope, terms] {
-                        if (scope instanceof PatternDefn) {
-                            var = (AbstractVar) TefkatFactory.eINSTANCE.createPatternVar();
-                        } else if (scope instanceof TRule) {
-                            var = (AbstractVar) TefkatFactory.eINSTANCE.createTRuleVar();
+                        if (scope instanceof TRule || scope instanceof PatternDefn) {
+                            var = (AbstractVar) TefkatFactory.eINSTANCE.createAbstractVar();
                         } else {
                             throw new antlr.SemanticException("Invalid scope for UNDEF; must be a PatternDefn or TRule, not: " + scope, getFilename(), getMarkLine(), getMarkColumn());
                         }
@@ -1819,21 +1817,21 @@ relop returns [Token relop = null]
         |        tok3:RANGLE {relop = tok3;}
         ;
 
-making[VarScope scope, ExtentVar tgtExtent, List tgts, List params]
+making[VarScope scope, AbstractVar tgtExtent, List tgts, List params]
         :       make[scope, tgtExtent, tgts, params]
                 (
                     COMMA make[scope, tgtExtent, tgts, params]
                 )*
         ;
 
-make[VarScope scope, ExtentVar tgtExtent, List tgts, List params]
+make[VarScope scope, AbstractVar tgtExtent, List tgts, List params]
         :       (pname LBRACK) => templateUse[scope, tgtExtent, tgts]
         |        makeObject[scope, tgtExtent, true, tgts, params]
         ;
 
 // ((null == params) => source side) => no unique and no Injection
 // EMPTY_LIST == params => TEMPLATE => unique required
-makeObject[VarScope scope, ExtentVar tgtExtent, boolean isExactly, List tgts, List params] returns [AbstractVar targetVar = null] {
+makeObject[VarScope scope, AbstractVar tgtExtent, boolean isExactly, List tgts, List params] returns [AbstractVar targetVar = null] {
         MofInstance makeTerm;
         int sChar = -1, eChar = -1;
 }
@@ -1883,7 +1881,7 @@ makeObject[VarScope scope, ExtentVar tgtExtent, boolean isExactly, List tgts, Li
                 }
         ;
 
-templateUse[VarScope scope, ExtentVar outerContext, List tgts] {
+templateUse[VarScope scope, AbstractVar outerContext, List tgts] {
         PatternUse useTerm;
 }
         :       useTerm = patternUse[scope, tgts] {
@@ -1894,7 +1892,7 @@ templateUse[VarScope scope, ExtentVar outerContext, List tgts] {
         ;
 
 
-unique[VarScope scope, ExtentVar outerContext, List tgts, AbstractVar targetVar] returns [List params] {
+unique[VarScope scope, AbstractVar outerContext, List tgts, AbstractVar targetVar] returns [List params] {
         String name;
         int sChar = -1, eChar = -1;
 }
@@ -1921,14 +1919,14 @@ uname returns [String name = null]
                 }
         ;
 
-settings[VarScope scope, ExtentVar tgtExtent, List tgts, List params]
+settings[VarScope scope, AbstractVar tgtExtent, List tgts, List params]
         :       setting[scope, tgtExtent, tgts, params]
                 (
                         COMMA setting[scope, tgtExtent, tgts, params]
                 )*
         ;
 
-setting[VarScope scope, ExtentVar tgtExtent, List tgts, List params] {
+setting[VarScope scope, AbstractVar tgtExtent, List tgts, List params] {
         Term term = null;
 }
         :       setting_stmt[scope, tgts]
@@ -2317,22 +2315,22 @@ feature[VarScope scope, List terms] returns [Expression expr = null]
                 )
         ;
 
-vardecls[VarScope vs, EClass varClass] returns [List vars = new ArrayList()] {
+vardecls[VarScope vs] returns [List vars = new ArrayList()] {
         AbstractVar var;
 }
-        :       var = vardecl[vs, varClass] {
+        :       var = vardecl[vs] {
                     vars.add(var);
                 }
                 (
-                    COMMA var = vardecl[vs, varClass] {
+                    COMMA var = vardecl[vs] {
                         vars.add(var);
                     }
                 )*
         ;
 
-vardecl[VarScope vs, EClass varClass]  returns [AbstractVar var = null]
+vardecl[VarScope vs]  returns [AbstractVar var = null]
         :       name:ID {
-                        var = (AbstractVar) TefkatFactory.eINSTANCE.create(varClass);
+                        var = TefkatFactory.eINSTANCE.createAbstractVar();
                         var.setName(name.getText());
                         var.setScope(vs);
                 }

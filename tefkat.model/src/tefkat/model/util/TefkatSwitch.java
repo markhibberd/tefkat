@@ -128,27 +128,6 @@ public class TefkatSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case TefkatPackage.PATTERN_VAR: {
-                PatternVar patternVar = (PatternVar)theEObject;
-                Object result = casePatternVar(patternVar);
-                if (result == null) result = caseAbstractVar(patternVar);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case TefkatPackage.TRULE_VAR: {
-                TRuleVar tRuleVar = (TRuleVar)theEObject;
-                Object result = caseTRuleVar(tRuleVar);
-                if (result == null) result = caseAbstractVar(tRuleVar);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case TefkatPackage.EXTENT_VAR: {
-                ExtentVar extentVar = (ExtentVar)theEObject;
-                Object result = caseExtentVar(extentVar);
-                if (result == null) result = caseAbstractVar(extentVar);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
             case TefkatPackage.VAR_SCOPE: {
                 VarScope varScope = (VarScope)theEObject;
                 Object result = caseVarScope(varScope);
@@ -174,6 +153,12 @@ public class TefkatSwitch {
                 Object result = caseTransformation(transformation);
                 if (result == null) result = casePatternScope(transformation);
                 if (result == null) result = caseVarScope(transformation);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case TefkatPackage.NAMESPACE_DECLARATION: {
+                NamespaceDeclaration namespaceDeclaration = (NamespaceDeclaration)theEObject;
+                Object result = caseNamespaceDeclaration(namespaceDeclaration);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -441,12 +426,6 @@ public class TefkatSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case TefkatPackage.NAMESPACE_DECLARATION: {
-                NamespaceDeclaration namespaceDeclaration = (NamespaceDeclaration)theEObject;
-                Object result = caseNamespaceDeclaration(namespaceDeclaration);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
             default: return defaultCase(theEObject);
         }
     }
@@ -508,51 +487,6 @@ public class TefkatSwitch {
      * @generated
      */
     public Object caseAbstractVar(AbstractVar object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Pattern Var</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Pattern Var</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object casePatternVar(PatternVar object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>TRule Var</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>TRule Var</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object caseTRuleVar(TRuleVar object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Extent Var</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Extent Var</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object caseExtentVar(ExtentVar object) {
         return null;
     }
 

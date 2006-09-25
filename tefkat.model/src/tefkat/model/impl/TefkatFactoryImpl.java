@@ -81,12 +81,11 @@ public class TefkatFactoryImpl extends EFactoryImpl implements TefkatFactory {
         switch (eClass.getClassifierID()) {
             case TefkatPackage.CONTAINER_EXTENT: return createContainerExtent();
             case TefkatPackage.REFERENCE_EXTENT: return createReferenceExtent();
-            case TefkatPackage.PATTERN_VAR: return createPatternVar();
-            case TefkatPackage.TRULE_VAR: return createTRuleVar();
-            case TefkatPackage.EXTENT_VAR: return createExtentVar();
+            case TefkatPackage.ABSTRACT_VAR: return createAbstractVar();
             case TefkatPackage.VAR_SCOPE: return createVarScope();
             case TefkatPackage.TRULE: return createTRule();
             case TefkatPackage.TRANSFORMATION: return createTransformation();
+            case TefkatPackage.NAMESPACE_DECLARATION: return createNamespaceDeclaration();
             case TefkatPackage.PATTERN_DEFN: return createPatternDefn();
             case TefkatPackage.QUERY: return createQuery();
             case TefkatPackage.INSTANCE_REF: return createInstanceRef();
@@ -110,7 +109,6 @@ public class TefkatFactoryImpl extends EFactoryImpl implements TefkatFactory {
             case TefkatPackage.BOOLEAN_CONSTANT: return createBooleanConstant();
             case TefkatPackage.ENUM_CONSTANT: return createEnumConstant();
             case TefkatPackage.INJECTION: return createInjection();
-            case TefkatPackage.NAMESPACE_DECLARATION: return createNamespaceDeclaration();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -181,29 +179,9 @@ public class TefkatFactoryImpl extends EFactoryImpl implements TefkatFactory {
      * <!-- end-user-doc -->
      * @generated
      */
-    public PatternVar createPatternVar() {
-        PatternVarImpl patternVar = new PatternVarImpl();
-        return patternVar;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public TRuleVar createTRuleVar() {
-        TRuleVarImpl tRuleVar = new TRuleVarImpl();
-        return tRuleVar;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public ExtentVar createExtentVar() {
-        ExtentVarImpl extentVar = new ExtentVarImpl();
-        return extentVar;
+    public AbstractVar createAbstractVar() {
+        AbstractVarImpl abstractVar = new AbstractVarImpl();
+        return abstractVar;
     }
 
     /**

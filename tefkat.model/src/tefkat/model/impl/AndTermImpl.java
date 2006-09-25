@@ -13,26 +13,19 @@
 package tefkat.model.impl;
 
 
-import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import tefkat.model.AndTerm;
-import tefkat.model.CompoundTerm;
-import tefkat.model.ExtentVar;
-import tefkat.model.PatternDefn;
-import tefkat.model.Query;
 import tefkat.model.TRule;
 import tefkat.model.TargetTerm;
 import tefkat.model.TefkatPackage;

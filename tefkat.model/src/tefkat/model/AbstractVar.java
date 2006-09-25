@@ -28,11 +28,15 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link tefkat.model.AbstractVar#getScope <em>Scope</em>}</li>
  *   <li>{@link tefkat.model.AbstractVar#getName <em>Name</em>}</li>
  *   <li>{@link tefkat.model.AbstractVar#getUsages <em>Usages</em>}</li>
+ *   <li>{@link tefkat.model.AbstractVar#getSuperseded <em>Superseded</em>}</li>
+ *   <li>{@link tefkat.model.AbstractVar#getSuperseder <em>Superseder</em>}</li>
+ *   <li>{@link tefkat.model.AbstractVar#getExtended <em>Extended</em>}</li>
+ *   <li>{@link tefkat.model.AbstractVar#getExtender <em>Extender</em>}</li>
  * </ul>
  * </p>
  *
  * @see tefkat.model.TefkatPackage#getAbstractVar()
- * @model abstract="true"
+ * @model
  * @generated
  */
 public interface AbstractVar extends EObject {
@@ -114,5 +118,77 @@ public interface AbstractVar extends EObject {
      * @generated
      */
     EList getUsages();
+
+    /**
+     * Returns the value of the '<em><b>Superseded</b></em>' reference list.
+     * The list contents are of type {@link tefkat.model.AbstractVar}.
+     * It is bidirectional and its opposite is '{@link tefkat.model.AbstractVar#getSuperseder <em>Superseder</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Superseded</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Superseded</em>' reference list.
+     * @see tefkat.model.TefkatPackage#getAbstractVar_Superseded()
+     * @see tefkat.model.AbstractVar#getSuperseder
+     * @model type="tefkat.model.AbstractVar" opposite="superseder"
+     * @generated
+     */
+    EList getSuperseded();
+
+    /**
+     * Returns the value of the '<em><b>Superseder</b></em>' reference list.
+     * The list contents are of type {@link tefkat.model.AbstractVar}.
+     * It is bidirectional and its opposite is '{@link tefkat.model.AbstractVar#getSuperseded <em>Superseded</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Superseder</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Superseder</em>' reference list.
+     * @see tefkat.model.TefkatPackage#getAbstractVar_Superseder()
+     * @see tefkat.model.AbstractVar#getSuperseded
+     * @model type="tefkat.model.AbstractVar" opposite="superseded"
+     * @generated
+     */
+    EList getSuperseder();
+
+    /**
+     * Returns the value of the '<em><b>Extended</b></em>' reference list.
+     * The list contents are of type {@link tefkat.model.AbstractVar}.
+     * It is bidirectional and its opposite is '{@link tefkat.model.AbstractVar#getExtender <em>Extender</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Extended</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Extended</em>' reference list.
+     * @see tefkat.model.TefkatPackage#getAbstractVar_Extended()
+     * @see tefkat.model.AbstractVar#getExtender
+     * @model type="tefkat.model.AbstractVar" opposite="extender"
+     * @generated
+     */
+    EList getExtended();
+
+    /**
+     * Returns the value of the '<em><b>Extender</b></em>' reference list.
+     * The list contents are of type {@link tefkat.model.AbstractVar}.
+     * It is bidirectional and its opposite is '{@link tefkat.model.AbstractVar#getExtended <em>Extended</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Extender</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Extender</em>' reference list.
+     * @see tefkat.model.TefkatPackage#getAbstractVar_Extender()
+     * @see tefkat.model.AbstractVar#getExtended
+     * @model type="tefkat.model.AbstractVar" opposite="extended"
+     * @generated
+     */
+    EList getExtender();
 
 } // AbstractVar

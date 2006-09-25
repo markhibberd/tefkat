@@ -133,69 +133,25 @@ public class TefkatItemProviderAdapterFactory extends TefkatAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link tefkat.model.PatternVar} instances.
+     * This keeps track of the one adapter used for all {@link tefkat.model.AbstractVar} instances.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected PatternVarItemProvider patternVarItemProvider;
+    protected AbstractVarItemProvider abstractVarItemProvider;
 
     /**
-     * This creates an adapter for a {@link tefkat.model.PatternVar}.
+     * This creates an adapter for a {@link tefkat.model.AbstractVar}.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    public Adapter createPatternVarAdapter() {
-        if (patternVarItemProvider == null) {
-            patternVarItemProvider = new PatternVarItemProvider(this);
+    public Adapter createAbstractVarAdapter() {
+        if (abstractVarItemProvider == null) {
+            abstractVarItemProvider = new AbstractVarItemProvider(this);
         }
 
-        return patternVarItemProvider;
-    }
-
-    /**
-     * This keeps track of the one adapter used for all {@link tefkat.model.TRuleVar} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected TRuleVarItemProvider tRuleVarItemProvider;
-
-    /**
-     * This creates an adapter for a {@link tefkat.model.TRuleVar}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Adapter createTRuleVarAdapter() {
-        if (tRuleVarItemProvider == null) {
-            tRuleVarItemProvider = new TRuleVarItemProvider(this);
-        }
-
-        return tRuleVarItemProvider;
-    }
-
-    /**
-     * This keeps track of the one adapter used for all {@link tefkat.model.ExtentVar} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected ExtentVarItemProvider extentVarItemProvider;
-
-    /**
-     * This creates an adapter for a {@link tefkat.model.ExtentVar}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Adapter createExtentVarAdapter() {
-        if (extentVarItemProvider == null) {
-            extentVarItemProvider = new ExtentVarItemProvider(this);
-        }
-
-        return extentVarItemProvider;
+        return abstractVarItemProvider;
     }
 
     /**

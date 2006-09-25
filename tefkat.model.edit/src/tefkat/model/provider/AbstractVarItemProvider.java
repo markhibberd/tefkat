@@ -78,6 +78,10 @@ public class AbstractVarItemProvider
 
             addNamePropertyDescriptor(object);
             addUsagesPropertyDescriptor(object);
+            addSupersededPropertyDescriptor(object);
+            addSupersederPropertyDescriptor(object);
+            addExtendedPropertyDescriptor(object);
+            addExtenderPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -121,6 +125,94 @@ public class AbstractVarItemProvider
                  false,
                  false,
                  false,
+                 null,
+                 null,
+                 null));
+    }
+
+    /**
+     * This adds a property descriptor for the Superseded feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addSupersededPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_AbstractVar_superseded_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_AbstractVar_superseded_feature", "_UI_AbstractVar_type"),
+                 TefkatPackage.Literals.ABSTRACT_VAR__SUPERSEDED,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
+    }
+
+    /**
+     * This adds a property descriptor for the Superseder feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addSupersederPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_AbstractVar_superseder_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_AbstractVar_superseder_feature", "_UI_AbstractVar_type"),
+                 TefkatPackage.Literals.ABSTRACT_VAR__SUPERSEDER,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
+    }
+
+    /**
+     * This adds a property descriptor for the Extended feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addExtendedPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_AbstractVar_extended_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_AbstractVar_extended_feature", "_UI_AbstractVar_type"),
+                 TefkatPackage.Literals.ABSTRACT_VAR__EXTENDED,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
+    }
+
+    /**
+     * This adds a property descriptor for the Extender feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addExtenderPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_AbstractVar_extender_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_AbstractVar_extender_feature", "_UI_AbstractVar_type"),
+                 TefkatPackage.Literals.ABSTRACT_VAR__EXTENDER,
+                 true,
+                 false,
+                 true,
                  null,
                  null,
                  null));

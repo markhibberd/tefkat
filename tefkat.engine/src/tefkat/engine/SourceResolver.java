@@ -239,7 +239,7 @@ class SourceResolver extends AbstractResolver {
         /**
          * Find all instances of the specified class in the (context) extent
          */
-        ExtentVar extentVar = literal.getExtent();
+        AbstractVar extentVar = literal.getExtent();
 
         List results = exprEval.eval(node, literal.getTypeName());
         if (results.size() != 1) {

@@ -36,7 +36,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Transformation extends PatternScope{
+public interface Transformation extends PatternScope {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

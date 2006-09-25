@@ -98,15 +98,6 @@ public class TefkatAdapterFactory extends AdapterFactoryImpl {
             public Object caseAbstractVar(AbstractVar object) {
                 return createAbstractVarAdapter();
             }
-            public Object casePatternVar(PatternVar object) {
-                return createPatternVarAdapter();
-            }
-            public Object caseTRuleVar(TRuleVar object) {
-                return createTRuleVarAdapter();
-            }
-            public Object caseExtentVar(ExtentVar object) {
-                return createExtentVarAdapter();
-            }
             public Object caseVarScope(VarScope object) {
                 return createVarScopeAdapter();
             }
@@ -118,6 +109,9 @@ public class TefkatAdapterFactory extends AdapterFactoryImpl {
             }
             public Object caseTransformation(Transformation object) {
                 return createTransformationAdapter();
+            }
+            public Object caseNamespaceDeclaration(NamespaceDeclaration object) {
+                return createNamespaceDeclarationAdapter();
             }
             public Object casePatternDefn(PatternDefn object) {
                 return createPatternDefnAdapter();
@@ -215,9 +209,6 @@ public class TefkatAdapterFactory extends AdapterFactoryImpl {
             public Object caseInjection(Injection object) {
                 return createInjectionAdapter();
             }
-            public Object caseNamespaceDeclaration(NamespaceDeclaration object) {
-                return createNamespaceDeclarationAdapter();
-            }
             public Object defaultCase(EObject object) {
                 return createEObjectAdapter();
             }
@@ -289,48 +280,6 @@ public class TefkatAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createAbstractVarAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link tefkat.model.PatternVar <em>Pattern Var</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see tefkat.model.PatternVar
-     * @generated
-     */
-    public Adapter createPatternVarAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link tefkat.model.TRuleVar <em>TRule Var</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see tefkat.model.TRuleVar
-     * @generated
-     */
-    public Adapter createTRuleVarAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link tefkat.model.ExtentVar <em>Extent Var</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see tefkat.model.ExtentVar
-     * @generated
-     */
-    public Adapter createExtentVarAdapter() {
         return null;
     }
 

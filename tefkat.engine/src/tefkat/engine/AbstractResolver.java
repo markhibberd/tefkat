@@ -71,7 +71,7 @@ abstract class AbstractResolver {
             //    parameterContext = {X -> 1:Foo, Y -> 2, Z -> 3}
             //
             for (int i = 0; i < actuals.length; i++) {
-                PatternVar pVar = (PatternVar) vars.get(i);
+                AbstractVar pVar = (AbstractVar) vars.get(i);
                 Object varValue;
                 if (actuals[i] instanceof WrappedVar) {
                     WrappedVar wrappedActual = (WrappedVar) actuals[i];
@@ -492,17 +492,17 @@ abstract class AbstractResolver {
                     // bound, otherwise we end up with multiple identical bindings
                     // for the same Var.
                     unifier.add(((VarUse) argExpr).getVar(),
-                            solution.lookup((PatternVar) formals.get(j)));
+                            solution.lookup((AbstractVar) formals.get(j)));
                 } else if (val instanceof WrappedVar) {
                     unifier.add(((WrappedVar) val).getVar(),
-                            solution.lookup((PatternVar) formals.get(j)));
-                } else if (!val.equals(solution.lookup((PatternVar) formals.get(j)))) {
+                            solution.lookup((AbstractVar) formals.get(j)));
+                } else if (!val.equals(solution.lookup((AbstractVar) formals.get(j)))) {
 //                    System.err.println("Arg:\t" + argExpr);
 //                    System.err.println("actual:\t" + val);
 //                    System.err.println("formal:\t" + formals.get(j));
 //                    System.err.println("result:\t" + solution.lookup((PatternVar) formals.get(j)));
                     
-                    throw new ResolutionException(node, "conflicting pattern arg and result: " + val + "\t" + solution.lookup((PatternVar) formals.get(j)));
+                    throw new ResolutionException(node, "conflicting pattern arg and result: " + val + "\t" + solution.lookup((AbstractVar) formals.get(j)));
                 }
             }
         }

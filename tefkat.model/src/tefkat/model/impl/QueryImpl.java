@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import tefkat.model.AbstractVar;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import tefkat.model.PatternVar;
@@ -144,7 +145,7 @@ public class QueryImpl extends PatternScopeImpl implements Query {
      */
     public EList getParameterVar() {
         if (parameterVar == null) {
-            parameterVar = new EObjectResolvingEList(PatternVar.class, this, TefkatPackage.QUERY__PARAMETER_VAR);
+            parameterVar = new EObjectResolvingEList(AbstractVar.class, this, TefkatPackage.QUERY__PARAMETER_VAR);
         }
         return parameterVar;
     }
