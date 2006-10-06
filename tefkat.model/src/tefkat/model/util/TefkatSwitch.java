@@ -122,7 +122,7 @@ public class TefkatSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case TefkatPackage.ABSTRACT_VAR: {
+            case TefkatPackage.VAR: {
                 Var var = (Var)theEObject;
                 Object result = caseVar(var);
                 if (result == null) result = defaultCase(theEObject);
@@ -476,13 +476,13 @@ public class TefkatSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Abstract Var</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>Var</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Abstract Var</em>'.
+     * @return the result of interpretting the object as an instance of '<em>Var</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */

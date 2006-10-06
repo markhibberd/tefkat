@@ -123,7 +123,7 @@ public class VarScopeImpl extends EObjectImpl implements VarScope {
      */
     public EList getVars() {
         if (vars == null) {
-            vars = new EObjectContainmentWithInverseEList(Var.class, this, TefkatPackage.VAR_SCOPE__VARS, TefkatPackage.ABSTRACT_VAR__SCOPE);
+            vars = new EObjectContainmentWithInverseEList(Var.class, this, TefkatPackage.VAR_SCOPE__VARS, TefkatPackage.VAR__SCOPE);
         }
         return vars;
     }

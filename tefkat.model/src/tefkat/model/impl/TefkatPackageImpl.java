@@ -111,7 +111,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass abstractVarEClass = null;
+    private EClass varEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -519,7 +519,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * @generated
      */
     public EClass getVar() {
-        return abstractVarEClass;
+        return varEClass;
     }
 
     /**
@@ -528,7 +528,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * @generated
      */
     public EReference getVar_Scope() {
-        return (EReference)abstractVarEClass.getEStructuralFeatures().get(0);
+        return (EReference)varEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -537,7 +537,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * @generated
      */
     public EAttribute getVar_Name() {
-        return (EAttribute)abstractVarEClass.getEStructuralFeatures().get(1);
+        return (EAttribute)varEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -546,7 +546,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * @generated
      */
     public EReference getVar_Usages() {
-        return (EReference)abstractVarEClass.getEStructuralFeatures().get(2);
+        return (EReference)varEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -555,7 +555,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * @generated
      */
     public EReference getVar_Superseded() {
-        return (EReference)abstractVarEClass.getEStructuralFeatures().get(3);
+        return (EReference)varEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -564,7 +564,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * @generated
      */
     public EReference getVar_Superseder() {
-        return (EReference)abstractVarEClass.getEStructuralFeatures().get(4);
+        return (EReference)varEClass.getEStructuralFeatures().get(4);
     }
 
     /**
@@ -573,7 +573,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * @generated
      */
     public EReference getVar_Extended() {
-        return (EReference)abstractVarEClass.getEStructuralFeatures().get(5);
+        return (EReference)varEClass.getEStructuralFeatures().get(5);
     }
 
     /**
@@ -582,7 +582,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * @generated
      */
     public EReference getVar_Extender() {
-        return (EReference)abstractVarEClass.getEStructuralFeatures().get(6);
+        return (EReference)varEClass.getEStructuralFeatures().get(6);
     }
 
     /**
@@ -1512,14 +1512,14 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         referenceExtentEClass = createEClass(REFERENCE_EXTENT);
         createEAttribute(referenceExtentEClass, REFERENCE_EXTENT__RESOURCES);
 
-        abstractVarEClass = createEClass(ABSTRACT_VAR);
-        createEReference(abstractVarEClass, ABSTRACT_VAR__SCOPE);
-        createEAttribute(abstractVarEClass, ABSTRACT_VAR__NAME);
-        createEReference(abstractVarEClass, ABSTRACT_VAR__USAGES);
-        createEReference(abstractVarEClass, ABSTRACT_VAR__SUPERSEDED);
-        createEReference(abstractVarEClass, ABSTRACT_VAR__SUPERSEDER);
-        createEReference(abstractVarEClass, ABSTRACT_VAR__EXTENDED);
-        createEReference(abstractVarEClass, ABSTRACT_VAR__EXTENDER);
+        varEClass = createEClass(VAR);
+        createEReference(varEClass, VAR__SCOPE);
+        createEAttribute(varEClass, VAR__NAME);
+        createEReference(varEClass, VAR__USAGES);
+        createEReference(varEClass, VAR__SUPERSEDED);
+        createEReference(varEClass, VAR__SUPERSEDER);
+        createEReference(varEClass, VAR__EXTENDED);
+        createEReference(varEClass, VAR__EXTENDER);
 
         varScopeEClass = createEClass(VAR_SCOPE);
         createEReference(varScopeEClass, VAR_SCOPE__VARS);
@@ -1746,7 +1746,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         initEClass(referenceExtentEClass, ReferenceExtent.class, "ReferenceExtent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getReferenceExtent_Resources(), ecorePackage.getEResource(), "resources", null, 0, -1, ReferenceExtent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(abstractVarEClass, Var.class, "Var", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEClass(varEClass, Var.class, "Var", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getVar_Scope(), this.getVarScope(), this.getVarScope_Vars(), "scope", null, 0, 1, Var.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getVar_Name(), ecorePackage.getEString(), "name", null, 0, 1, Var.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getVar_Usages(), this.getVarUse(), this.getVarUse_Var(), "usages", null, 0, -1, Var.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);

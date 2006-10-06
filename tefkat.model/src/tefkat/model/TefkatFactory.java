@@ -58,10 +58,10 @@ public interface TefkatFactory extends EFactory {
     ReferenceExtent createReferenceExtent();
 
     /**
-     * Returns a new object of class '<em>Abstract Var</em>'.
+     * Returns a new object of class '<em>Var</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return a new object of class '<em>Abstract Var</em>'.
+     * @return a new object of class '<em>Var</em>'.
      * @generated
      */
     Var createVar();

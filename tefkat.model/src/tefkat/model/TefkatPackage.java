@@ -150,14 +150,14 @@ public interface TefkatPackage extends EPackage {
     int REFERENCE_EXTENT_FEATURE_COUNT = EXTENT_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.VarImpl <em>Abstract Var</em>}' class.
+     * The meta object id for the '{@link tefkat.model.impl.VarImpl <em>Var</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see tefkat.model.impl.VarImpl
      * @see tefkat.model.impl.TefkatPackageImpl#getVar()
      * @generated
      */
-    int ABSTRACT_VAR = 3;
+    int VAR = 3;
 
     /**
      * The feature id for the '<em><b>Scope</b></em>' container reference.
@@ -166,7 +166,7 @@ public interface TefkatPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_VAR__SCOPE = 0;
+    int VAR__SCOPE = 0;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -175,7 +175,7 @@ public interface TefkatPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_VAR__NAME = 1;
+    int VAR__NAME = 1;
 
     /**
      * The feature id for the '<em><b>Usages</b></em>' reference list.
@@ -184,7 +184,7 @@ public interface TefkatPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_VAR__USAGES = 2;
+    int VAR__USAGES = 2;
 
     /**
      * The feature id for the '<em><b>Superseded</b></em>' reference list.
@@ -193,7 +193,7 @@ public interface TefkatPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_VAR__SUPERSEDED = 3;
+    int VAR__SUPERSEDED = 3;
 
     /**
      * The feature id for the '<em><b>Superseder</b></em>' reference list.
@@ -202,7 +202,7 @@ public interface TefkatPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_VAR__SUPERSEDER = 4;
+    int VAR__SUPERSEDER = 4;
 
     /**
      * The feature id for the '<em><b>Extended</b></em>' reference list.
@@ -211,7 +211,7 @@ public interface TefkatPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_VAR__EXTENDED = 5;
+    int VAR__EXTENDED = 5;
 
     /**
      * The feature id for the '<em><b>Extender</b></em>' reference list.
@@ -220,16 +220,16 @@ public interface TefkatPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ABSTRACT_VAR__EXTENDER = 6;
+    int VAR__EXTENDER = 6;
 
     /**
-     * The number of structural features of the '<em>Abstract Var</em>' class.
+     * The number of structural features of the '<em>Var</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ABSTRACT_VAR_FEATURE_COUNT = 7;
+    int VAR_FEATURE_COUNT = 7;
 
     /**
      * The meta object id for the '{@link tefkat.model.impl.VarScopeImpl <em>Var Scope</em>}' class.
@@ -2656,10 +2656,10 @@ public interface TefkatPackage extends EPackage {
     EAttribute getReferenceExtent_Resources();
 
     /**
-     * Returns the meta object for class '{@link tefkat.model.Var <em>Abstract Var</em>}'.
+     * Returns the meta object for class '{@link tefkat.model.Var <em>Var</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Abstract Var</em>'.
+     * @return the meta object for class '<em>Var</em>'.
      * @see tefkat.model.Var
      * @generated
      */
@@ -3865,14 +3865,14 @@ public interface TefkatPackage extends EPackage {
         EAttribute REFERENCE_EXTENT__RESOURCES = eINSTANCE.getReferenceExtent_Resources();
 
         /**
-         * The meta object literal for the '{@link tefkat.model.impl.VarImpl <em>Abstract Var</em>}' class.
+         * The meta object literal for the '{@link tefkat.model.impl.VarImpl <em>Var</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @see tefkat.model.impl.VarImpl
          * @see tefkat.model.impl.TefkatPackageImpl#getVar()
          * @generated
          */
-        EClass ABSTRACT_VAR = eINSTANCE.getVar();
+        EClass VAR = eINSTANCE.getVar();
 
         /**
          * The meta object literal for the '<em><b>Scope</b></em>' container reference feature.
@@ -3880,7 +3880,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__SCOPE = eINSTANCE.getVar_Scope();
+        EReference VAR__SCOPE = eINSTANCE.getVar_Scope();
 
         /**
          * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -3888,7 +3888,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EAttribute ABSTRACT_VAR__NAME = eINSTANCE.getVar_Name();
+        EAttribute VAR__NAME = eINSTANCE.getVar_Name();
 
         /**
          * The meta object literal for the '<em><b>Usages</b></em>' reference list feature.
@@ -3896,7 +3896,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__USAGES = eINSTANCE.getVar_Usages();
+        EReference VAR__USAGES = eINSTANCE.getVar_Usages();
 
         /**
          * The meta object literal for the '<em><b>Superseded</b></em>' reference list feature.
@@ -3904,7 +3904,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__SUPERSEDED = eINSTANCE.getVar_Superseded();
+        EReference VAR__SUPERSEDED = eINSTANCE.getVar_Superseded();
 
         /**
          * The meta object literal for the '<em><b>Superseder</b></em>' reference list feature.
@@ -3912,7 +3912,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__SUPERSEDER = eINSTANCE.getVar_Superseder();
+        EReference VAR__SUPERSEDER = eINSTANCE.getVar_Superseder();
 
         /**
          * The meta object literal for the '<em><b>Extended</b></em>' reference list feature.
@@ -3920,7 +3920,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__EXTENDED = eINSTANCE.getVar_Extended();
+        EReference VAR__EXTENDED = eINSTANCE.getVar_Extended();
 
         /**
          * The meta object literal for the '<em><b>Extender</b></em>' reference list feature.
@@ -3928,7 +3928,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__EXTENDER = eINSTANCE.getVar_Extender();
+        EReference VAR__EXTENDER = eINSTANCE.getVar_Extender();
 
         /**
          * The meta object literal for the '{@link tefkat.model.impl.VarScopeImpl <em>Var Scope</em>}' class.

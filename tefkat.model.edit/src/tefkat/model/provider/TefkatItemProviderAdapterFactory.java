@@ -138,7 +138,7 @@ public class TefkatItemProviderAdapterFactory extends TefkatAdapterFactory imple
      * <!-- end-user-doc -->
      * @generated
      */
-    protected AbstractVarItemProvider varItemProvider;
+    protected VarItemProvider varItemProvider;
 
     /**
      * This creates an adapter for a {@link tefkat.model.Var}.
@@ -148,7 +148,7 @@ public class TefkatItemProviderAdapterFactory extends TefkatAdapterFactory imple
      */
     public Adapter createVarAdapter() {
         if (varItemProvider == null) {
-            varItemProvider = new AbstractVarItemProvider(this);
+            varItemProvider = new VarItemProvider(this);
         }
 
         return varItemProvider;

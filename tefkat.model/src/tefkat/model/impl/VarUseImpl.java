@@ -128,9 +128,9 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
         if (newVar != var) {
             NotificationChain msgs = null;
             if (var != null)
-                msgs = ((InternalEObject)var).eInverseRemove(this, TefkatPackage.ABSTRACT_VAR__USAGES, Var.class, msgs);
+                msgs = ((InternalEObject)var).eInverseRemove(this, TefkatPackage.VAR__USAGES, Var.class, msgs);
             if (newVar != null)
-                msgs = ((InternalEObject)newVar).eInverseAdd(this, TefkatPackage.ABSTRACT_VAR__USAGES, Var.class, msgs);
+                msgs = ((InternalEObject)newVar).eInverseAdd(this, TefkatPackage.VAR__USAGES, Var.class, msgs);
             msgs = basicSetVar(newVar, msgs);
             if (msgs != null) msgs.dispatch();
         }
@@ -147,7 +147,7 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
         switch (featureID) {
             case TefkatPackage.VAR_USE__VAR:
                 if (var != null)
-                    msgs = ((InternalEObject)var).eInverseRemove(this, TefkatPackage.ABSTRACT_VAR__USAGES, Var.class, msgs);
+                    msgs = ((InternalEObject)var).eInverseRemove(this, TefkatPackage.VAR__USAGES, Var.class, msgs);
                 return basicSetVar((Var)otherEnd, msgs);
         }
         return super.eInverseAdd(otherEnd, featureID, msgs);

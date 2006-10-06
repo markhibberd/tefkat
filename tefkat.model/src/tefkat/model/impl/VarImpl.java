@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.TefkatPackage;
 import tefkat.model.VarScope;
 
@@ -45,19 +45,19 @@ import tefkat.model.VarUse;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link tefkat.model.impl.AbstractVarImpl#getScope <em>Scope</em>}</li>
- *   <li>{@link tefkat.model.impl.AbstractVarImpl#getName <em>Name</em>}</li>
- *   <li>{@link tefkat.model.impl.AbstractVarImpl#getUsages <em>Usages</em>}</li>
- *   <li>{@link tefkat.model.impl.AbstractVarImpl#getSuperseded <em>Superseded</em>}</li>
- *   <li>{@link tefkat.model.impl.AbstractVarImpl#getSuperseder <em>Superseder</em>}</li>
- *   <li>{@link tefkat.model.impl.AbstractVarImpl#getExtended <em>Extended</em>}</li>
- *   <li>{@link tefkat.model.impl.AbstractVarImpl#getExtender <em>Extender</em>}</li>
+ *   <li>{@link tefkat.model.impl.VarImpl#getScope <em>Scope</em>}</li>
+ *   <li>{@link tefkat.model.impl.VarImpl#getName <em>Name</em>}</li>
+ *   <li>{@link tefkat.model.impl.VarImpl#getUsages <em>Usages</em>}</li>
+ *   <li>{@link tefkat.model.impl.VarImpl#getSuperseded <em>Superseded</em>}</li>
+ *   <li>{@link tefkat.model.impl.VarImpl#getSuperseder <em>Superseder</em>}</li>
+ *   <li>{@link tefkat.model.impl.VarImpl#getExtended <em>Extended</em>}</li>
+ *   <li>{@link tefkat.model.impl.VarImpl#getExtender <em>Extender</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
+public class VarImpl extends EObjectImpl implements Var {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -140,7 +140,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      * <!-- end-user-doc -->
      * @generated
      */
-    protected AbstractVarImpl() {
+    protected VarImpl() {
         super();
     }
 
@@ -150,7 +150,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatPackage.Literals.ABSTRACT_VAR;
+        return TefkatPackage.Literals.VAR;
     }
 
     /**
@@ -159,7 +159,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      * @generated
      */
     public VarScope getScope() {
-        if (eContainerFeatureID != TefkatPackage.ABSTRACT_VAR__SCOPE) return null;
+        if (eContainerFeatureID != TefkatPackage.VAR__SCOPE) return null;
         return (VarScope)eContainer();
     }
 
@@ -169,7 +169,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      * @generated
      */
     public NotificationChain basicSetScope(VarScope newScope, NotificationChain msgs) {
-        msgs = eBasicSetContainer((InternalEObject)newScope, TefkatPackage.ABSTRACT_VAR__SCOPE, msgs);
+        msgs = eBasicSetContainer((InternalEObject)newScope, TefkatPackage.VAR__SCOPE, msgs);
         return msgs;
     }
 
@@ -179,7 +179,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      * @generated
      */
     public void setScope(VarScope newScope) {
-        if (newScope != eInternalContainer() || (eContainerFeatureID != TefkatPackage.ABSTRACT_VAR__SCOPE && newScope != null)) {
+        if (newScope != eInternalContainer() || (eContainerFeatureID != TefkatPackage.VAR__SCOPE && newScope != null)) {
             if (EcoreUtil.isAncestor(this, newScope))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
@@ -191,7 +191,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.ABSTRACT_VAR__SCOPE, newScope, newScope));
+            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.VAR__SCOPE, newScope, newScope));
     }
 
     /**
@@ -212,7 +212,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
         String oldName = name;
         name = newName;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.ABSTRACT_VAR__NAME, oldName, name));
+            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.VAR__NAME, oldName, name));
     }
 
     /**
@@ -222,7 +222,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public EList getUsages() {
         if (usages == null) {
-            usages = new EObjectWithInverseResolvingEList(VarUse.class, this, TefkatPackage.ABSTRACT_VAR__USAGES, TefkatPackage.VAR_USE__VAR);
+            usages = new EObjectWithInverseResolvingEList(VarUse.class, this, TefkatPackage.VAR__USAGES, TefkatPackage.VAR_USE__VAR);
         }
         return usages;
     }
@@ -234,7 +234,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public EList getSuperseded() {
         if (superseded == null) {
-            superseded = new EObjectWithInverseResolvingEList.ManyInverse(AbstractVar.class, this, TefkatPackage.ABSTRACT_VAR__SUPERSEDED, TefkatPackage.ABSTRACT_VAR__SUPERSEDER);
+            superseded = new EObjectWithInverseResolvingEList.ManyInverse(Var.class, this, TefkatPackage.VAR__SUPERSEDED, TefkatPackage.VAR__SUPERSEDER);
         }
         return superseded;
     }
@@ -246,7 +246,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public EList getSuperseder() {
         if (superseder == null) {
-            superseder = new EObjectWithInverseResolvingEList.ManyInverse(AbstractVar.class, this, TefkatPackage.ABSTRACT_VAR__SUPERSEDER, TefkatPackage.ABSTRACT_VAR__SUPERSEDED);
+            superseder = new EObjectWithInverseResolvingEList.ManyInverse(Var.class, this, TefkatPackage.VAR__SUPERSEDER, TefkatPackage.VAR__SUPERSEDED);
         }
         return superseder;
     }
@@ -258,7 +258,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public EList getExtended() {
         if (extended == null) {
-            extended = new EObjectWithInverseResolvingEList.ManyInverse(AbstractVar.class, this, TefkatPackage.ABSTRACT_VAR__EXTENDED, TefkatPackage.ABSTRACT_VAR__EXTENDER);
+            extended = new EObjectWithInverseResolvingEList.ManyInverse(Var.class, this, TefkatPackage.VAR__EXTENDED, TefkatPackage.VAR__EXTENDER);
         }
         return extended;
     }
@@ -270,7 +270,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public EList getExtender() {
         if (extender == null) {
-            extender = new EObjectWithInverseResolvingEList.ManyInverse(AbstractVar.class, this, TefkatPackage.ABSTRACT_VAR__EXTENDER, TefkatPackage.ABSTRACT_VAR__EXTENDED);
+            extender = new EObjectWithInverseResolvingEList.ManyInverse(Var.class, this, TefkatPackage.VAR__EXTENDER, TefkatPackage.VAR__EXTENDED);
         }
         return extender;
     }
@@ -282,19 +282,19 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
-            case TefkatPackage.ABSTRACT_VAR__SCOPE:
+            case TefkatPackage.VAR__SCOPE:
                 if (eInternalContainer() != null)
                     msgs = eBasicRemoveFromContainer(msgs);
                 return basicSetScope((VarScope)otherEnd, msgs);
-            case TefkatPackage.ABSTRACT_VAR__USAGES:
+            case TefkatPackage.VAR__USAGES:
                 return ((InternalEList)getUsages()).basicAdd(otherEnd, msgs);
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+            case TefkatPackage.VAR__SUPERSEDED:
                 return ((InternalEList)getSuperseded()).basicAdd(otherEnd, msgs);
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+            case TefkatPackage.VAR__SUPERSEDER:
                 return ((InternalEList)getSuperseder()).basicAdd(otherEnd, msgs);
-            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+            case TefkatPackage.VAR__EXTENDED:
                 return ((InternalEList)getExtended()).basicAdd(otherEnd, msgs);
-            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+            case TefkatPackage.VAR__EXTENDER:
                 return ((InternalEList)getExtender()).basicAdd(otherEnd, msgs);
         }
         return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -307,17 +307,17 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
-            case TefkatPackage.ABSTRACT_VAR__SCOPE:
+            case TefkatPackage.VAR__SCOPE:
                 return basicSetScope(null, msgs);
-            case TefkatPackage.ABSTRACT_VAR__USAGES:
+            case TefkatPackage.VAR__USAGES:
                 return ((InternalEList)getUsages()).basicRemove(otherEnd, msgs);
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+            case TefkatPackage.VAR__SUPERSEDED:
                 return ((InternalEList)getSuperseded()).basicRemove(otherEnd, msgs);
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+            case TefkatPackage.VAR__SUPERSEDER:
                 return ((InternalEList)getSuperseder()).basicRemove(otherEnd, msgs);
-            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+            case TefkatPackage.VAR__EXTENDED:
                 return ((InternalEList)getExtended()).basicRemove(otherEnd, msgs);
-            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+            case TefkatPackage.VAR__EXTENDER:
                 return ((InternalEList)getExtender()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -330,7 +330,7 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
         switch (eContainerFeatureID) {
-            case TefkatPackage.ABSTRACT_VAR__SCOPE:
+            case TefkatPackage.VAR__SCOPE:
                 return eInternalContainer().eInverseRemove(this, TefkatPackage.VAR_SCOPE__VARS, VarScope.class, msgs);
         }
         return super.eBasicRemoveFromContainerFeature(msgs);
@@ -343,19 +343,19 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case TefkatPackage.ABSTRACT_VAR__SCOPE:
+            case TefkatPackage.VAR__SCOPE:
                 return getScope();
-            case TefkatPackage.ABSTRACT_VAR__NAME:
+            case TefkatPackage.VAR__NAME:
                 return getName();
-            case TefkatPackage.ABSTRACT_VAR__USAGES:
+            case TefkatPackage.VAR__USAGES:
                 return getUsages();
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+            case TefkatPackage.VAR__SUPERSEDED:
                 return getSuperseded();
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+            case TefkatPackage.VAR__SUPERSEDER:
                 return getSuperseder();
-            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+            case TefkatPackage.VAR__EXTENDED:
                 return getExtended();
-            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+            case TefkatPackage.VAR__EXTENDER:
                 return getExtender();
         }
         return super.eGet(featureID, resolve, coreType);
@@ -368,25 +368,25 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case TefkatPackage.ABSTRACT_VAR__SCOPE:
+            case TefkatPackage.VAR__SCOPE:
                 setScope((VarScope)newValue);
                 return;
-            case TefkatPackage.ABSTRACT_VAR__NAME:
+            case TefkatPackage.VAR__NAME:
                 setName((String)newValue);
                 return;
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+            case TefkatPackage.VAR__SUPERSEDED:
                 getSuperseded().clear();
                 getSuperseded().addAll((Collection)newValue);
                 return;
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+            case TefkatPackage.VAR__SUPERSEDER:
                 getSuperseder().clear();
                 getSuperseder().addAll((Collection)newValue);
                 return;
-            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+            case TefkatPackage.VAR__EXTENDED:
                 getExtended().clear();
                 getExtended().addAll((Collection)newValue);
                 return;
-            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+            case TefkatPackage.VAR__EXTENDER:
                 getExtender().clear();
                 getExtender().addAll((Collection)newValue);
                 return;
@@ -401,22 +401,22 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public void eUnset(int featureID) {
         switch (featureID) {
-            case TefkatPackage.ABSTRACT_VAR__SCOPE:
+            case TefkatPackage.VAR__SCOPE:
                 setScope((VarScope)null);
                 return;
-            case TefkatPackage.ABSTRACT_VAR__NAME:
+            case TefkatPackage.VAR__NAME:
                 setName(NAME_EDEFAULT);
                 return;
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+            case TefkatPackage.VAR__SUPERSEDED:
                 getSuperseded().clear();
                 return;
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+            case TefkatPackage.VAR__SUPERSEDER:
                 getSuperseder().clear();
                 return;
-            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+            case TefkatPackage.VAR__EXTENDED:
                 getExtended().clear();
                 return;
-            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+            case TefkatPackage.VAR__EXTENDER:
                 getExtender().clear();
                 return;
         }
@@ -430,19 +430,19 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
      */
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case TefkatPackage.ABSTRACT_VAR__SCOPE:
+            case TefkatPackage.VAR__SCOPE:
                 return getScope() != null;
-            case TefkatPackage.ABSTRACT_VAR__NAME:
+            case TefkatPackage.VAR__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case TefkatPackage.ABSTRACT_VAR__USAGES:
+            case TefkatPackage.VAR__USAGES:
                 return usages != null && !usages.isEmpty();
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDED:
+            case TefkatPackage.VAR__SUPERSEDED:
                 return superseded != null && !superseded.isEmpty();
-            case TefkatPackage.ABSTRACT_VAR__SUPERSEDER:
+            case TefkatPackage.VAR__SUPERSEDER:
                 return superseder != null && !superseder.isEmpty();
-            case TefkatPackage.ABSTRACT_VAR__EXTENDED:
+            case TefkatPackage.VAR__EXTENDED:
                 return extended != null && !extended.isEmpty();
-            case TefkatPackage.ABSTRACT_VAR__EXTENDER:
+            case TefkatPackage.VAR__EXTENDER:
                 return extender != null && !extender.isEmpty();
         }
         return super.eIsSet(featureID);
@@ -459,4 +459,4 @@ public class AbstractVarImpl extends EObjectImpl implements AbstractVar {
         return getScope().getName() + "::" + name;
     }
 
-} //AbstractVarImpl
+} //VarImpl

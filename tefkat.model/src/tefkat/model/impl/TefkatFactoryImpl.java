@@ -81,7 +81,7 @@ public class TefkatFactoryImpl extends EFactoryImpl implements TefkatFactory {
         switch (eClass.getClassifierID()) {
             case TefkatPackage.CONTAINER_EXTENT: return createContainerExtent();
             case TefkatPackage.REFERENCE_EXTENT: return createReferenceExtent();
-            case TefkatPackage.ABSTRACT_VAR: return createVar();
+            case TefkatPackage.VAR: return createVar();
             case TefkatPackage.VAR_SCOPE: return createVarScope();
             case TefkatPackage.TRULE: return createTRule();
             case TefkatPackage.TRANSFORMATION: return createTransformation();
@@ -180,8 +180,8 @@ public class TefkatFactoryImpl extends EFactoryImpl implements TefkatFactory {
      * @generated
      */
     public Var createVar() {
-        VarImpl abstractVar = new VarImpl();
-        return abstractVar;
+        VarImpl var = new VarImpl();
+        return var;
     }
 
     /**
