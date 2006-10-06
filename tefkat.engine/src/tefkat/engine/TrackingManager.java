@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.internal.ModelUtils;
 
 
@@ -148,7 +148,7 @@ class TrackingManager {
             for (Iterator fvItr = vars.iterator(); fvItr.hasNext(); ) {
                 Object[] fv = (Object[]) fvItr.next();
                 EStructuralFeature feature = (EStructuralFeature) fv[0];
-                AbstractVar var = (AbstractVar) fv[1];
+                Var var = (Var) fv[1];
                 Object value = instance.eGet(feature);
                 List newBindings = null;
 

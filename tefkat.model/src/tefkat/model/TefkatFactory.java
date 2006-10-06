@@ -64,7 +64,7 @@ public interface TefkatFactory extends EFactory {
      * @return a new object of class '<em>Abstract Var</em>'.
      * @generated
      */
-    AbstractVar createAbstractVar();
+    Var createVar();
 
     /**
      * Returns a new object of class '<em>Var Scope</em>'.

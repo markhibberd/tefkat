@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.AndTerm;
 import tefkat.model.BooleanConstant;
 import tefkat.model.CollectionExpr;
@@ -518,7 +518,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getAbstractVar() {
+    public EClass getVar() {
         return abstractVarEClass;
     }
 
@@ -527,7 +527,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getAbstractVar_Scope() {
+    public EReference getVar_Scope() {
         return (EReference)abstractVarEClass.getEStructuralFeatures().get(0);
     }
 
@@ -536,7 +536,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getAbstractVar_Name() {
+    public EAttribute getVar_Name() {
         return (EAttribute)abstractVarEClass.getEStructuralFeatures().get(1);
     }
 
@@ -545,7 +545,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getAbstractVar_Usages() {
+    public EReference getVar_Usages() {
         return (EReference)abstractVarEClass.getEStructuralFeatures().get(2);
     }
 
@@ -554,7 +554,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getAbstractVar_Superseded() {
+    public EReference getVar_Superseded() {
         return (EReference)abstractVarEClass.getEStructuralFeatures().get(3);
     }
 
@@ -563,7 +563,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getAbstractVar_Superseder() {
+    public EReference getVar_Superseder() {
         return (EReference)abstractVarEClass.getEStructuralFeatures().get(4);
     }
 
@@ -572,7 +572,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getAbstractVar_Extended() {
+    public EReference getVar_Extended() {
         return (EReference)abstractVarEClass.getEStructuralFeatures().get(5);
     }
 
@@ -581,7 +581,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getAbstractVar_Extender() {
+    public EReference getVar_Extender() {
         return (EReference)abstractVarEClass.getEStructuralFeatures().get(6);
     }
 
@@ -1746,17 +1746,17 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         initEClass(referenceExtentEClass, ReferenceExtent.class, "ReferenceExtent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getReferenceExtent_Resources(), ecorePackage.getEResource(), "resources", null, 0, -1, ReferenceExtent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(abstractVarEClass, AbstractVar.class, "AbstractVar", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getAbstractVar_Scope(), this.getVarScope(), this.getVarScope_Vars(), "scope", null, 0, 1, AbstractVar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getAbstractVar_Name(), ecorePackage.getEString(), "name", null, 0, 1, AbstractVar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getAbstractVar_Usages(), this.getVarUse(), this.getVarUse_Var(), "usages", null, 0, -1, AbstractVar.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-        initEReference(getAbstractVar_Superseded(), this.getAbstractVar(), this.getAbstractVar_Superseder(), "superseded", null, 0, -1, AbstractVar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getAbstractVar_Superseder(), this.getAbstractVar(), this.getAbstractVar_Superseded(), "superseder", null, 0, -1, AbstractVar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getAbstractVar_Extended(), this.getAbstractVar(), this.getAbstractVar_Extender(), "extended", null, 0, -1, AbstractVar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getAbstractVar_Extender(), this.getAbstractVar(), this.getAbstractVar_Extended(), "extender", null, 0, -1, AbstractVar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(abstractVarEClass, Var.class, "Var", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getVar_Scope(), this.getVarScope(), this.getVarScope_Vars(), "scope", null, 0, 1, Var.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVar_Name(), ecorePackage.getEString(), "name", null, 0, 1, Var.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVar_Usages(), this.getVarUse(), this.getVarUse_Var(), "usages", null, 0, -1, Var.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+        initEReference(getVar_Superseded(), this.getVar(), this.getVar_Superseder(), "superseded", null, 0, -1, Var.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVar_Superseder(), this.getVar(), this.getVar_Superseded(), "superseder", null, 0, -1, Var.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVar_Extended(), this.getVar(), this.getVar_Extender(), "extended", null, 0, -1, Var.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVar_Extender(), this.getVar(), this.getVar_Extended(), "extender", null, 0, -1, Var.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(varScopeEClass, VarScope.class, "VarScope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getVarScope_Vars(), this.getAbstractVar(), this.getAbstractVar_Scope(), "vars", null, 0, -1, VarScope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVarScope_Vars(), this.getVar(), this.getVar_Scope(), "vars", null, 0, -1, VarScope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getVarScope_Name(), ecorePackage.getEString(), "name", null, 0, 1, VarScope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getVarScope_Comments(), ecorePackage.getEString(), "comments", null, 0, -1, VarScope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1805,20 +1805,20 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         initEClass(patternDefnEClass, PatternDefn.class, "PatternDefn", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getPatternDefn_PatternScope(), this.getPatternScope(), this.getPatternScope_PatternDefn(), "patternScope", null, 1, 1, PatternDefn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getPatternDefn_Term(), this.getTerm(), this.getTerm_PatternDefn(), "term", null, 1, 1, PatternDefn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPatternDefn_ParameterVar(), this.getAbstractVar(), null, "parameterVar", null, 0, -1, PatternDefn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getPatternDefn_ParameterVar(), this.getVar(), null, "parameterVar", null, 0, -1, PatternDefn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getPatternDefn_Source(), ecorePackage.getEBoolean(), "source", "true", 0, 1, PatternDefn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(queryEClass, Query.class, "Query", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getQuery_Term(), this.getTerm(), this.getTerm_Query(), "term", null, 1, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getQuery_ParameterVar(), this.getAbstractVar(), null, "parameterVar", null, 0, -1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getQuery_ParameterVar(), this.getVar(), null, "parameterVar", null, 0, -1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(termEClass, Term.class, "Term", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getTerm_PatternDefn(), this.getPatternDefn(), this.getPatternDefn_Term(), "patternDefn", null, 0, 1, Term.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getTerm_Query(), this.getQuery(), this.getQuery_Term(), "query", null, 0, 1, Term.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getTerm_CompoundTerm(), this.getCompoundTerm(), this.getCompoundTerm_Term(), "compoundTerm", null, 0, 1, Term.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getTerm_Context(), this.getAbstractVar(), null, "context", null, 0, 1, Term.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getTerm_Context(), this.getVar(), null, "context", null, 0, 1, Term.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        addEOperation(termEClass, this.getAbstractVar(), "getExtent", 0, 1);
+        addEOperation(termEClass, this.getVar(), "getExtent", 0, 1);
 
         addEOperation(termEClass, ecorePackage.getEBoolean(), "isTarget", 1, 1);
 
@@ -1847,11 +1847,11 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
 
         initEClass(notTermEClass, NotTerm.class, "NotTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        addEOperation(notTermEClass, this.getAbstractVar(), "getNonLocalVars", 0, -1);
+        addEOperation(notTermEClass, this.getVar(), "getNonLocalVars", 0, -1);
 
         initEClass(ifTermEClass, IfTerm.class, "IfTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        addEOperation(ifTermEClass, this.getAbstractVar(), "getNonLocalVars", 0, -1);
+        addEOperation(ifTermEClass, this.getVar(), "getNonLocalVars", 0, -1);
 
         initEClass(trackingUseEClass, TrackingUse.class, "TrackingUse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getTrackingUse_Tracking(), ecorePackage.getEClass(), null, "tracking", null, 0, 1, TrackingUse.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1890,7 +1890,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         initEAttribute(getSimpleExpr_Representation(), ecorePackage.getEString(), "representation", null, 1, 1, SimpleExpr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(varUseEClass, VarUse.class, "VarUse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getVarUse_Var(), this.getAbstractVar(), this.getAbstractVar_Usages(), "var", null, 1, 1, VarUse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVarUse_Var(), this.getVar(), this.getVar_Usages(), "var", null, 1, 1, VarUse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(collectionExprEClass, CollectionExpr.class, "CollectionExpr", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getCollectionExpr_Unique(), ecorePackage.getEBoolean(), "unique", null, 1, 1, CollectionExpr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

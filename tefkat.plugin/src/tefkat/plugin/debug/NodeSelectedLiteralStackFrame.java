@@ -23,7 +23,7 @@ import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.emf.ecore.EObject;
 
 import tefkat.engine.Node;
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.VarScope;
 
 
@@ -59,7 +59,7 @@ public class NodeSelectedLiteralStackFrame extends AbstractStackFrame {
             List vars = ((VarScope) parent).getVars();
             variables = new IVariable[NUM_REGISTERS+vars.size()];
             for (int i = 0; i < vars.size(); i++) {
-                AbstractVar key = (AbstractVar) vars.get(i);
+                Var key = (Var) vars.get(i);
                 variables[NUM_REGISTERS+i] = new DebugVariable(this, key, null);
             }
         }
@@ -118,8 +118,8 @@ public class NodeSelectedLiteralStackFrame extends AbstractStackFrame {
 //	} else 
         if (DELAY.equals(key)) {
 	    return new DebugValue(this, node.getDelayed());
-        } else if (key instanceof AbstractVar) {
-            Object val = node.lookup((AbstractVar) key);
+        } else if (key instanceof Var) {
+            Object val = node.lookup((Var) key);
             return new DebugValue(this, val);
         } else {
             return null;

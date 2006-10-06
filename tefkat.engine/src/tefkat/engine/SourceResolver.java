@@ -98,7 +98,7 @@ class SourceResolver extends AbstractResolver {
                         isMatch = false;
                     } else if (featureValues.size() == 1 && featureValues.get(0) instanceof WrappedVar) {
                         // UNIFY
-                        AbstractVar var = ((WrappedVar) featureValues.get(0)).getVar();
+                        Var var = ((WrappedVar) featureValues.get(0)).getVar();
                         newBindings = new ArrayList();
                         for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
                             Binding oldUnifier = (Binding) bindingItr.next();
@@ -126,7 +126,7 @@ class SourceResolver extends AbstractResolver {
                     Object featureValue = featureValues.get(0);
                     if (featureValue instanceof WrappedVar) {
                         // UNIFY
-                        AbstractVar var = ((WrappedVar) featureValue).getVar();
+                        Var var = ((WrappedVar) featureValue).getVar();
                         newBindings = new ArrayList();
                         for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
                             Binding oldUnifier = (Binding) bindingItr.next();
@@ -239,7 +239,7 @@ class SourceResolver extends AbstractResolver {
         /**
          * Find all instances of the specified class in the (context) extent
          */
-        AbstractVar extentVar = literal.getExtent();
+        Var extentVar = literal.getExtent();
 
         List results = exprEval.eval(node, literal.getTypeName());
         if (results.size() != 1) {
@@ -304,7 +304,7 @@ class SourceResolver extends AbstractResolver {
                         /**
                          * Create an edge for each unifier.
                          */
-                        AbstractVar var = ((WrappedVar) instance).getVar();
+                        Var var = ((WrappedVar) instance).getVar();
                         for (final Iterator i = objects.iterator(); i.hasNext(); ) {
                             Object result = i.next();
                             Binding unifier = new Binding();
@@ -563,7 +563,7 @@ class SourceResolver extends AbstractResolver {
         
         // Ensure that all non-local variables are already bound
         for (Iterator itr = literal.getNonLocalVars().iterator(); itr.hasNext(); ) {
-            AbstractVar var = (AbstractVar) itr.next();
+            Var var = (Var) itr.next();
             if (null == node.lookup(var)) {
                 throw new NotGroundException("Non-local variable " + var + " is not bound.");
             }

@@ -123,8 +123,8 @@ public class TefkatSwitch {
                 return result;
             }
             case TefkatPackage.ABSTRACT_VAR: {
-                AbstractVar abstractVar = (AbstractVar)theEObject;
-                Object result = caseAbstractVar(abstractVar);
+                Var var = (Var)theEObject;
+                Object result = caseVar(var);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -486,7 +486,7 @@ public class TefkatSwitch {
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseAbstractVar(AbstractVar object) {
+    public Object caseVar(Var object) {
         return null;
     }
 

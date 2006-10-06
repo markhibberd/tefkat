@@ -360,7 +360,7 @@ class Evaluator {
         if (null == wVar.getExtent()) {
             throw new NotGroundException("Unsupported mode: unbound extent for" + wVar);
         }
-//        AbstractVar var = wVar.getVar();
+//        Var var = wVar.getVar();
 //        EClassifier type = wVar.getType();
 //        System.out.println("Expanding " + wVar);   // TODO delete
 //        System.out.println("\t" + wVar.getExtent().getObjectsByClass(wVar.getType(), wVar.isExact()));
@@ -379,7 +379,7 @@ class Evaluator {
             values = evalEnumExpr(context, expr);
         } else if (expr instanceof VarUse) {
             values = new ArrayList();
-            AbstractVar var = ((VarUse) expr).getVar();
+            Var var = ((VarUse) expr).getVar();
             Object value = context.lookup(var);
             if (null == value) {
                 values.add(new WrappedVar(var));
@@ -473,7 +473,7 @@ class Evaluator {
         for (final Iterator fItr = featureNames.iterator(); fItr.hasNext(); ) {
             Object fObj = fItr.next();
             if (fObj instanceof WrappedVar) {
-                AbstractVar var = ((WrappedVar) fObj).getVar();
+                Var var = ((WrappedVar) fObj).getVar();
                 throw new NotGroundException(
                     "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featExpr.getFeature());
             } else if (fObj instanceof BindingPair) {
@@ -496,7 +496,7 @@ class Evaluator {
             
             // Expand a typed variable if possible
             //
-            AbstractVar var = null;
+            Var var = null;
             if (objs.size() == 1 && objs.get(0) instanceof WrappedVar) {
                 WrappedVar wVar = (WrappedVar) objs.get(0);
                 objs = expand(wVar);

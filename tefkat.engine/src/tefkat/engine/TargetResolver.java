@@ -568,7 +568,7 @@ class TargetResolver extends AbstractResolver {
                 String featureName = null;
 
                 if (fObj instanceof WrappedVar) {
-                    AbstractVar var = ((WrappedVar) fObj).getVar();
+                    Var var = ((WrappedVar) fObj).getVar();
                     throw new NotGroundException(
                         "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featExpr.getFeature());
                 } else if (fObj instanceof EStructuralFeature) {
@@ -583,7 +583,7 @@ class TargetResolver extends AbstractResolver {
                     Object obj = itr.next();
                 
                     if (obj instanceof WrappedVar) {
-                        AbstractVar var = ((WrappedVar) obj).getVar();
+                        Var var = ((WrappedVar) obj).getVar();
                         throw new NotGroundException(
                             "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featureName);
                     } else if (!(obj instanceof EObject)) {
@@ -774,7 +774,7 @@ class TargetResolver extends AbstractResolver {
             Object feat = fItr.next();
             Binding fUnifier = null;
             if (feat instanceof WrappedVar) {
-                AbstractVar var = ((WrappedVar) feat).getVar();
+                Var var = ((WrappedVar) feat).getVar();
                 throw new NotGroundException("Unsupported mode (unbound '" + var.getName() + "') for MofOrder: " + term);
             } else if (feat instanceof BindingPair) {
                 fUnifier = (BindingPair) feat;
@@ -784,7 +784,7 @@ class TargetResolver extends AbstractResolver {
                 Object inst = iItr.next();
                 Binding iUnifier = fUnifier;
                 if (inst instanceof WrappedVar) {
-                    AbstractVar var = ((WrappedVar) inst).getVar();
+                    Var var = ((WrappedVar) inst).getVar();
                     throw new NotGroundException("Unsupported mode (unbound '" + var.getName() + "') for MofOrder: " + term);
                 } else if (inst instanceof BindingPair) {
                     if (null == iUnifier) {
@@ -799,7 +799,7 @@ class TargetResolver extends AbstractResolver {
                     Object lesser = lItr.next();
                     Binding lUnifier = iUnifier;
                     if (lesser instanceof WrappedVar) {
-                        AbstractVar var = ((WrappedVar) lesser).getVar();
+                        Var var = ((WrappedVar) lesser).getVar();
                         throw new NotGroundException("Unsupported mode (unbound '" + var.getName() + "') for MofOrder: " + term);
                     } else if (lesser instanceof BindingPair) {
                         if (null == lUnifier) {
@@ -814,7 +814,7 @@ class TargetResolver extends AbstractResolver {
                         Object greater = gItr.next();
                         Binding gUnifier = lUnifier;
                         if (greater instanceof WrappedVar) {
-                            AbstractVar var = ((WrappedVar) greater).getVar();
+                            Var var = ((WrappedVar) greater).getVar();
                             throw new NotGroundException("Unsupported mode (unbound '" + var.getName() + "') for MofOrder: " + term);
                         } else if (greater instanceof BindingPair) {
                             if (null == gUnifier) {

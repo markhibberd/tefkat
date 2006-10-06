@@ -21,7 +21,7 @@ import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.emf.ecore.EObject;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.TRule;
 
 
@@ -47,7 +47,7 @@ public class RuleStackFrame extends AbstractStackFrame {
         List vars = rule.getVars();
         variables = new IVariable[vars.size()];
         for (int i = 0; i < vars.size(); i++) {
-            AbstractVar key = (AbstractVar) vars.get(i);
+            Var key = (Var) vars.get(i);
             variables[i] = new DebugVariable(this, key, null);
         }
     }

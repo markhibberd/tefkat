@@ -1,16 +1,16 @@
 TRANSFORMATION test: src -> tgt
 
-IMPORT platform:/resource/test/My.ecore
+IMPORT platform:/resource/tefkat.antTask/test/My.ecore
 
 ABSTRACT
 RULE testObjectLiterals
-  WHERE println(<platform:/resource/test/My.ecore#//Foo>)
-    AND println(<platform:/resource/test/My.ecore#/>)
-    AND println(<platform:/resource/test/My.ecore#//pkg1/Foo>)
-    AND println(<platform:/resource/test/My.ecore#//pkg1/pkg2/Foo>)
-    AND println(<platform:/resource/test/My.ecore#//pkg1/pkg2/pkg3/Foo>)
-    AND println(<platform:/resource/test/My.ecore#//pkg1/pkg2/pkg3/pkg4/Foo>)
-    AND println(<platform:/resource/test/My.ecore#//pkg1/pkg2/pkg3/pkg4>)
+  WHERE println(<platform:/resource/tefkat.antTask/test/My.ecore#//Foo>)
+    AND println(<platform:/resource/tefkat.antTask/test/My.ecore#/>)
+    AND println(<platform:/resource/tefkat.antTask/test/My.ecore#//pkg1/Foo>)
+    AND println(<platform:/resource/tefkat.antTask/test/My.ecore#//pkg1/pkg2/Foo>)
+    AND println(<platform:/resource/tefkat.antTask/test/My.ecore#//pkg1/pkg2/pkg3/Foo>)
+    AND println(<platform:/resource/tefkat.antTask/test/My.ecore#//pkg1/pkg2/pkg3/pkg4/Foo>)
+    AND println(<platform:/resource/tefkat.antTask/test/My.ecore#//pkg1/pkg2/pkg3/pkg4>)
 ;
 
 //ABSTRACT

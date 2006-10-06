@@ -35,14 +35,14 @@
     <genClasses ecoreClass="TefkatModel.ecore#//ReferenceExtent">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatModel.ecore#//ReferenceExtent/resources"/>
     </genClasses>
-    <genClasses ecoreClass="TefkatModel.ecore#//AbstractVar">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/scope"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatModel.ecore#//AbstractVar/name"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/usages"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/superseded"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/superseder"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/extended"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//AbstractVar/extender"/>
+    <genClasses ecoreClass="TefkatModel.ecore#//Var">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//Var/scope"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatModel.ecore#//Var/name"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatModel.ecore#//Var/usages"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//Var/superseded"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//Var/superseder"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//Var/extended"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//Var/extender"/>
     </genClasses>
     <genClasses ecoreClass="TefkatModel.ecore#//VarScope">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatModel.ecore#//VarScope/vars"/>

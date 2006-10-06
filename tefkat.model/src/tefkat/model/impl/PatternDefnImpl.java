@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import tefkat.model.PatternDefn;
@@ -211,7 +211,7 @@ public class PatternDefnImpl extends VarScopeImpl implements PatternDefn {
      */
     public EList getParameterVar() {
         if (parameterVar == null) {
-            parameterVar = new EObjectResolvingEList(AbstractVar.class, this, TefkatPackage.PATTERN_DEFN__PARAMETER_VAR);
+            parameterVar = new EObjectResolvingEList(Var.class, this, TefkatPackage.PATTERN_DEFN__PARAMETER_VAR);
         }
         return parameterVar;
     }

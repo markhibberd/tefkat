@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.VarUse;
 
 
@@ -49,7 +49,7 @@ public class Binding {
     static int counter = 0;
 
     private boolean frozen = false;
-    final private Map varToTerm;    // Each entry is a AbstractVar -> Object
+    final private Map varToTerm;    // Each entry is a Var -> Object
                                     // Note, Object may be a WrappedVar...
 
     /**
@@ -98,7 +98,7 @@ public class Binding {
      *  @param var   The variable to bind.
      *  @param val  The value to bind the variable to.
      */
-    public void put(AbstractVar var, Object val) {
+    public void put(Var var, Object val) {
         if (frozen) {
             throw new BindingError("Cannot modify a frozen Binding");
         }
@@ -110,7 +110,7 @@ public class Binding {
     
 
     /**
-     *  Adds the binding from the var referenced by varUse to val into this unifier @see #add(AbstractVar, Object).
+     *  Adds the binding from the var referenced by varUse to val into this unifier @see #add(Var, Object).
      *
      *  Precondition:  
      *      !(varToTerm.keySet().contains(var))
@@ -134,7 +134,7 @@ public class Binding {
      *  @param var  The variable to bind.
      *  @param val  The value to bind the variable to.
      */
-    public void add(AbstractVar var, Object val) throws ResolutionException {
+    public void add(Var var, Object val) throws ResolutionException {
         if (frozen) {
             throw new BindingError("Cannot modify a frozen Binding");
         }
@@ -161,7 +161,7 @@ public class Binding {
      *  @param var  The variable to query.
      *  @return  The value of the variable in this unifier.
      */
-    public Object lookup(AbstractVar var) {
+    public Object lookup(Var var) {
         Object obj = varToTerm.get(var);
         if (obj instanceof DynamicObject && ((DynamicObject) obj).hasStaticInstance()) {
             obj = ((DynamicObject) obj).getStaticInstance();
@@ -260,7 +260,7 @@ public class Binding {
         Iterator i = u.varToTerm.entrySet().iterator();
         while (i.hasNext()) {
             Map.Entry vt = (Map.Entry) i.next();
-            AbstractVar uKey = (AbstractVar) vt.getKey();
+            Var uKey = (Var) vt.getKey();
             Object uVal = vt.getValue();
             // check precondition
             if (true &&
@@ -305,7 +305,7 @@ public class Binding {
         String s = null;
 
         for (Iterator i = varToTerm.keySet().iterator(); i.hasNext(); ) {
-            AbstractVar var = (AbstractVar) i.next();
+            Var var = (Var) i.next();
             Object subs = lookup(var);
             
             if (null == subs) {
@@ -323,7 +323,7 @@ public class Binding {
         return "{" + (s == null ? "" : s) + "}";
     }
     
-    private String formatVar(AbstractVar var) {
+    private String formatVar(Var var) {
         return var.getScope().getName() + "::"
             + (null == var.getName() ? "_V" + var.hashCode() : var.getName());
     }
@@ -421,12 +421,12 @@ public class Binding {
     }
 
     static private Binding bindWrappedVar(Binding unifier, WrappedVar wVar, Object val) throws ResolutionException {
-        AbstractVar var = wVar.getVar();
+        Var var = wVar.getVar();
         EClass eClass = wVar.getType();
         if (null != eClass) {
             if (val instanceof WrappedVar) {
                 WrappedVar wVar2 = (WrappedVar) val;
-                AbstractVar var2 = wVar2.getVar();
+                Var var2 = wVar2.getVar();
                 EClass eClass2 = wVar2.getType();
                 boolean isExact2 = wVar2.isExact();
                 

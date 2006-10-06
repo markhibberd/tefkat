@@ -3,10 +3,11 @@
 <project name="TefkatTaskExample" default="main" basedir=".">
     <taskdef name="tefkat"
              classname="tefkat.antTask.TefkatTask"
-             classpath="../runtime:../../tefkat.config/runtime:../../tefkat.model/bin:../../tefkat.engine/bin:/Applications/eclipse-SDK-3.1/plugins/org.eclipse.emf.ecore_2.1.0.jar:/Applications/eclipse-SDK-3.1/plugins/org.eclipse.emf.common_2.1.0.jar:/Applications/eclipse-SDK-3.1/plugins/org.eclipse.emf.ecore.xmi_2.1.0.jar"/>
+             classpath="../runtime:../../tefkat.config/runtime:../../tefkat.model/bin:../../tefkat.engine/bin:../../tefkat.model.parser/bin:/Applications/eclipse-SDK-3.1/plugins/org.antlr_2.7.6/antlr.jar:/Applications/eclipse-SDK-3.1/plugins/org.eclipse.emf.ecore_2.1.0.jar:/Applications/eclipse-SDK-3.1/plugins/org.eclipse.emf.common_2.1.0.jar:/Applications/eclipse-SDK-3.1/plugins/org.eclipse.emf.ecore.xmi_2.1.0.jar"/>
 
     <target name="main">
-      <tefkat transformation="file:test.qvt">
+      <tefkat transformation="file:/Users/lawley/src/Tefkat-svn/tefkat.antTask/test/test.qvt">
+	<!-- need to add a map for platform:/resource/ -->
         <src uri="file:test.qvt"/>
         <tgt uri="file:target.xmi"/>
       </tefkat>

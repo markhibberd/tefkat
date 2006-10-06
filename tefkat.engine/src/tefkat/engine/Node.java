@@ -87,7 +87,7 @@ public class Node {
      * @param var   The var to lookup in this context
      * @return      The value that var is bound to in the context of this node or null
      */
-    public Object lookup(AbstractVar var) {
+    public Object lookup(Var var) {
         return getBindings().lookup(var);
     }
 

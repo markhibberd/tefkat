@@ -37,7 +37,7 @@ public interface IfTerm extends CompoundTerm, TargetTerm {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @model kind="operation" type="tefkat.model.AbstractVar"
+     * @model kind="operation" type="tefkat.model.Var"
      * @generated
      */
     EList getNonLocalVars();

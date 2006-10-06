@@ -14,7 +14,7 @@
 
 package tefkat.model.parser.tests;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
@@ -35,7 +35,7 @@ public class AbstractRuleTest extends ParserTestCase {
     public void testAbstractRule() {
         TefkatParser parser = setupParser("ABSTRACT RULE foo ;");
         try {
-            parser.trule(t, (AbstractVar) t.getVars().get(0), (AbstractVar) t.getVars().get(1));
+            parser.trule(t, (Var) t.getVars().get(0), (Var) t.getVars().get(1));
         } catch (RecognitionException e) {
             fail(e.toString());
         } catch (TokenStreamException e) {

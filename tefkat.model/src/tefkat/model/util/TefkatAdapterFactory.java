@@ -95,8 +95,8 @@ public class TefkatAdapterFactory extends AdapterFactoryImpl {
             public Object caseReferenceExtent(ReferenceExtent object) {
                 return createReferenceExtentAdapter();
             }
-            public Object caseAbstractVar(AbstractVar object) {
-                return createAbstractVarAdapter();
+            public Object caseVar(Var object) {
+                return createVarAdapter();
             }
             public Object caseVarScope(VarScope object) {
                 return createVarScopeAdapter();
@@ -270,16 +270,16 @@ public class TefkatAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link tefkat.model.AbstractVar <em>Abstract Var</em>}'.
+     * Creates a new adapter for an object of class '{@link tefkat.model.Var <em>Abstract Var</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see tefkat.model.AbstractVar
+     * @see tefkat.model.Var
      * @generated
      */
-    public Adapter createAbstractVarAdapter() {
+    public Adapter createVarAdapter() {
         return null;
     }
 

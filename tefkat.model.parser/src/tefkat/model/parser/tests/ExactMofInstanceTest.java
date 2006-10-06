@@ -13,7 +13,7 @@
 
 package tefkat.model.parser.tests;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.MofInstance;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
@@ -37,7 +37,7 @@ public class ExactMofInstanceTest extends ParserTestCase {
     public void testExactKeyword() {
         TefkatParser parser = setupParser("EXACT ClassName verName");
         try {
-            MofInstance mi = parser.range(tr, (AbstractVar) t.getVars().get(0), false, null);
+            MofInstance mi = parser.range(tr, (Var) t.getVars().get(0), false, null);
             assertTrue("MofInstance should be EXACT", mi.isExact());
         } catch (RecognitionException e) {
             fail(e.toString());
@@ -49,7 +49,7 @@ public class ExactMofInstanceTest extends ParserTestCase {
     public void testDynamicKeyword() {
         TefkatParser parser = setupParser("DYNAMIC ClassName verName");
         try {
-            MofInstance mi = parser.range(tr, (AbstractVar) t.getVars().get(0), false, null);
+            MofInstance mi = parser.range(tr, (Var) t.getVars().get(0), false, null);
             assertFalse("MofInstance should not be EXACT", mi.isExact());
         } catch (RecognitionException e) {
             fail(e.toString());
@@ -61,7 +61,7 @@ public class ExactMofInstanceTest extends ParserTestCase {
     public void testNoExactKeywordDefaultFalse() {
         TefkatParser parser = setupParser("ClassName verName");
         try {
-            MofInstance mi = parser.range(tr, (AbstractVar) t.getVars().get(0), false, null);
+            MofInstance mi = parser.range(tr, (Var) t.getVars().get(0), false, null);
             assertFalse("MofInstance should not be EXACT", mi.isExact());
         } catch (RecognitionException e) {
             fail(e.toString());
@@ -73,7 +73,7 @@ public class ExactMofInstanceTest extends ParserTestCase {
     public void testNoExactKeywordDefaultTrue() {
         TefkatParser parser = setupParser("ClassName verName");
         try {
-            MofInstance mi = parser.range(tr, (AbstractVar) t.getVars().get(0), true, null);
+            MofInstance mi = parser.range(tr, (Var) t.getVars().get(0), true, null);
             assertTrue("MofInstance should be EXACT", mi.isExact());
         } catch (RecognitionException e) {
             fail(e.toString());

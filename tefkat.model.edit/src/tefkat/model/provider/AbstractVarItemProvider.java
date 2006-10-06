@@ -32,11 +32,11 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.TefkatPackage;
 
 /**
- * This is the item provider adapter for a {@link tefkat.model.AbstractVar} object.
+ * This is the item provider adapter for a {@link tefkat.model.Var} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -219,13 +219,13 @@ public class AbstractVarItemProvider
     }
 
     /**
-     * This returns AbstractVar.gif.
+     * This returns Var.gif.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/AbstractVar"));
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/Var"));
     }
 
     /**
@@ -235,7 +235,7 @@ public class AbstractVarItemProvider
      * @generated
      */
     public String getText(Object object) {
-        String label = ((AbstractVar)object).getName();
+        String label = ((Var)object).getName();
         return label == null || label.length() == 0 ?
             getString("_UI_AbstractVar_type") :
             getString("_UI_AbstractVar_type") + " " + label;
@@ -251,7 +251,7 @@ public class AbstractVarItemProvider
     public void notifyChanged(Notification notification) {
         updateChildren(notification);
 
-        switch (notification.getFeatureID(AbstractVar.class)) {
+        switch (notification.getFeatureID(Var.class)) {
             case TefkatPackage.ABSTRACT_VAR__NAME:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
                 return;

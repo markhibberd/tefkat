@@ -133,25 +133,25 @@ public class TefkatItemProviderAdapterFactory extends TefkatAdapterFactory imple
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link tefkat.model.AbstractVar} instances.
+     * This keeps track of the one adapter used for all {@link tefkat.model.Var} instances.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected AbstractVarItemProvider abstractVarItemProvider;
+    protected AbstractVarItemProvider varItemProvider;
 
     /**
-     * This creates an adapter for a {@link tefkat.model.AbstractVar}.
+     * This creates an adapter for a {@link tefkat.model.Var}.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    public Adapter createAbstractVarAdapter() {
-        if (abstractVarItemProvider == null) {
-            abstractVarItemProvider = new AbstractVarItemProvider(this);
+    public Adapter createVarAdapter() {
+        if (varItemProvider == null) {
+            varItemProvider = new AbstractVarItemProvider(this);
         }
 
-        return abstractVarItemProvider;
+        return varItemProvider;
     }
 
     /**

@@ -135,12 +135,12 @@ public interface Term extends EObject {
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Context</em>' reference.
-     * @see #setContext(AbstractVar)
+     * @see #setContext(Var)
      * @see tefkat.model.TefkatPackage#getTerm_Context()
      * @model
      * @generated
      */
-    AbstractVar getContext();
+    Var getContext();
 
     /**
      * Sets the value of the '{@link tefkat.model.Term#getContext <em>Context</em>}' reference.
@@ -150,7 +150,7 @@ public interface Term extends EObject {
      * @see #getContext()
      * @generated
      */
-    void setContext(AbstractVar value);
+    void setContext(Var value);
 
     /**
      * <!-- begin-user-doc -->
@@ -158,7 +158,7 @@ public interface Term extends EObject {
      * @model kind="operation"
      * @generated
      */
-    AbstractVar getExtent();
+    Var getExtent();
 
     /**
      * <!-- begin-user-doc -->

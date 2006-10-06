@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.CompoundTerm;
 import tefkat.model.Extent;
 import tefkat.model.IfTerm;
@@ -1000,14 +1000,14 @@ public class RuleEvaluator {
     //        String s = "";
     //        for (Iterator itr = solution.entrySet().iterator(); itr.hasNext();) {
     //            Map.Entry es = (Map.Entry) itr.next();
-    //            AbstractVar k = (AbstractVar) es.getKey();
+    //            Var k = (Var) es.getKey();
     //            s += "\n\t" + k.getScope().getName() + "." + k.getName() + " -> ";
     //            Object v = es.getValue();
-    //            if (v instanceof AbstractVar) {
-    //                AbstractVar av = (AbstractVar) v;
+    //            if (v instanceof Var) {
+    //                Var av = (Var) v;
     //                s += av.getScope().getName() + "." + av.getName();
     //            } else if (v instanceof WrappedVar) {
-    //                AbstractVar av = ((WrappedVar) v).getVar();
+    //                Var av = ((WrappedVar) v).getVar();
     //                s += "W(" + av.getScope().getName() + "." + av.getName() + ")";
     //            } else {
     //                s += v;
@@ -1129,9 +1129,9 @@ public class RuleEvaluator {
     private void buildExtBindings(List vars, Binding binding)
             throws ResolutionException {
         for (Iterator itr = vars.iterator(); itr.hasNext();) {
-            AbstractVar var = (AbstractVar) itr.next();
+            Var var = (Var) itr.next();
             for (Iterator extItr = var.getExtended().iterator(); extItr.hasNext();) {
-                AbstractVar extVar = (AbstractVar) extItr.next();
+                Var extVar = (Var) extItr.next();
                 linkVars(binding, var, extVar);
             }
         }
@@ -1140,15 +1140,15 @@ public class RuleEvaluator {
     private void buildSupBindings(List vars, Binding binding)
             throws ResolutionException {
         for (Iterator itr = vars.iterator(); itr.hasNext();) {
-            AbstractVar var = (AbstractVar) itr.next();
+            Var var = (Var) itr.next();
             for (Iterator supItr = var.getSuperseded().iterator(); supItr.hasNext();) {
-                AbstractVar supVar = (AbstractVar) supItr.next();
+                Var supVar = (Var) supItr.next();
                 linkVars(binding, var, supVar);
             }
         }
     }
 
-    private Object lookup(Binding binding, AbstractVar var) {
+    private Object lookup(Binding binding, Var var) {
         Object obj = binding.lookup(var);
         if (null == obj) {
             return new WrappedVar(var);
@@ -1156,15 +1156,15 @@ public class RuleEvaluator {
         return obj;
     }
 
-    private void linkVars(Binding binding, AbstractVar lhVar, AbstractVar rhVar)
+    private void linkVars(Binding binding, Var lhVar, Var rhVar)
             throws ResolutionException {
         Object lhObj = lookup(binding, lhVar);
         Object rhObj = lookup(binding, rhVar);
         if (lhObj instanceof WrappedVar) {
-            AbstractVar var = ((WrappedVar) lhObj).getVar();
+            Var var = ((WrappedVar) lhObj).getVar();
             binding.add(var, rhObj);
         } else {
-            binding.add((AbstractVar) lhObj, rhObj);
+            binding.add((Var) lhObj, rhObj);
         }
     }
 
@@ -1230,7 +1230,7 @@ public class RuleEvaluator {
             TRule r1 = TefkatFactory.eINSTANCE.createTRule();
             r1.setTransformation(t);
             r1.setName("R1");
-            AbstractVar v1 = TefkatFactory.eINSTANCE.createAbstractVar();
+            Var v1 = TefkatFactory.eINSTANCE.createVar();
             v1.setScope(r1);
             v1.setName("v1");
             r1.setSrc(mi(v1, "Src1"));
@@ -1239,7 +1239,7 @@ public class RuleEvaluator {
             TRule r2 = TefkatFactory.eINSTANCE.createTRule();
             r2.setTransformation(t);
             r2.setName("R2");
-            AbstractVar v2 = TefkatFactory.eINSTANCE.createAbstractVar();
+            Var v2 = TefkatFactory.eINSTANCE.createVar();
             v2.setScope(r2);
             v2.setName("v2");
             v2.getExtended().add(v1);
@@ -1250,7 +1250,7 @@ public class RuleEvaluator {
             TRule r3 = TefkatFactory.eINSTANCE.createTRule();
             r3.setTransformation(t);
             r3.setName("R3");
-            AbstractVar v3 = TefkatFactory.eINSTANCE.createAbstractVar();
+            Var v3 = TefkatFactory.eINSTANCE.createVar();
             v3.setScope(r3);
             v3.setName("v3");
             v3.getSuperseded().add(v1);
@@ -1261,7 +1261,7 @@ public class RuleEvaluator {
             TRule r4 = TefkatFactory.eINSTANCE.createTRule();
             r4.setTransformation(t);
             r4.setName("R4");
-            AbstractVar v4 = TefkatFactory.eINSTANCE.createAbstractVar();
+            Var v4 = TefkatFactory.eINSTANCE.createVar();
             v4.setScope(r4);
             v4.setName("v4");
             v4.getExtended().add(v3);
@@ -1316,7 +1316,7 @@ public class RuleEvaluator {
                                                  // + re.overBinding(r4));
         }
 
-        private static MofInstance mi(AbstractVar v, String type) {
+        private static MofInstance mi(Var v, String type) {
             MofInstance mi = TefkatFactory.eINSTANCE.createMofInstance();
             tefkat.model.StringConstant t = TefkatFactory.eINSTANCE
                     .createStringConstant();

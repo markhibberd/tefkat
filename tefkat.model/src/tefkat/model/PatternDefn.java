@@ -100,7 +100,7 @@ public interface PatternDefn extends VarScope {
 
     /**
      * Returns the value of the '<em><b>Parameter Var</b></em>' reference list.
-     * The list contents are of type {@link tefkat.model.AbstractVar}.
+     * The list contents are of type {@link tefkat.model.Var}.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Parameter Var</em>' reference list isn't clear,
@@ -109,7 +109,7 @@ public interface PatternDefn extends VarScope {
      * <!-- end-user-doc -->
      * @return the value of the '<em>Parameter Var</em>' reference list.
      * @see tefkat.model.TefkatPackage#getPatternDefn_ParameterVar()
-     * @model type="tefkat.model.AbstractVar"
+     * @model type="tefkat.model.Var"
      * @generated
      */
     EList getParameterVar();

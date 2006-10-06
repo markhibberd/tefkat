@@ -71,11 +71,11 @@ abstract class AbstractResolver {
             //    parameterContext = {X -> 1:Foo, Y -> 2, Z -> 3}
             //
             for (int i = 0; i < actuals.length; i++) {
-                AbstractVar pVar = (AbstractVar) vars.get(i);
+                Var pVar = (Var) vars.get(i);
                 Object varValue;
                 if (actuals[i] instanceof WrappedVar) {
                     WrappedVar wrappedActual = (WrappedVar) actuals[i];
-                    AbstractVar var = wrappedActual.getVar();
+                    Var var = wrappedActual.getVar();
                     varValue = callContext.lookup(var);
                     if (null == varValue) {
                         WrappedVar wvar = new WrappedVar(pVar);
@@ -146,7 +146,7 @@ abstract class AbstractResolver {
 //
 //        Iterator i = goalVars.iterator();
 //        while (i.hasNext()) {
-//            AbstractVar v = (AbstractVar) i.next();
+//            Var v = (Var) i.next();
 //            init.put(v, v);
 //        }
 //
@@ -492,17 +492,17 @@ abstract class AbstractResolver {
                     // bound, otherwise we end up with multiple identical bindings
                     // for the same Var.
                     unifier.add(((VarUse) argExpr).getVar(),
-                            solution.lookup((AbstractVar) formals.get(j)));
+                            solution.lookup((Var) formals.get(j)));
                 } else if (val instanceof WrappedVar) {
                     unifier.add(((WrappedVar) val).getVar(),
-                            solution.lookup((AbstractVar) formals.get(j)));
-                } else if (!val.equals(solution.lookup((AbstractVar) formals.get(j)))) {
+                            solution.lookup((Var) formals.get(j)));
+                } else if (!val.equals(solution.lookup((Var) formals.get(j)))) {
 //                    System.err.println("Arg:\t" + argExpr);
 //                    System.err.println("actual:\t" + val);
 //                    System.err.println("formal:\t" + formals.get(j));
 //                    System.err.println("result:\t" + solution.lookup((PatternVar) formals.get(j)));
                     
-                    throw new ResolutionException(node, "conflicting pattern arg and result: " + val + "\t" + solution.lookup((AbstractVar) formals.get(j)));
+                    throw new ResolutionException(node, "conflicting pattern arg and result: " + val + "\t" + solution.lookup((Var) formals.get(j)));
                 }
             }
         }
@@ -586,7 +586,7 @@ abstract class AbstractResolver {
         
         // Ensure that all non-local variables are already bound
         for (Iterator itr = literal.getNonLocalVars().iterator(); itr.hasNext(); ) {
-            AbstractVar var = (AbstractVar) itr.next();
+            Var var = (Var) itr.next();
             if (null == node.lookup(var)) {
                 throw new NotGroundException("Non-local variable " + var + " is not bound.");
             }

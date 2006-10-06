@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.CompoundTerm;
 import tefkat.model.IfTerm;
 import tefkat.model.PatternDefn;
@@ -65,7 +65,7 @@ public abstract class TermImpl extends EObjectImpl implements Term {
      * @generated
      * @ordered
      */
-	protected AbstractVar context = null;
+	protected Var context = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -213,10 +213,10 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public AbstractVar getContext() {
+	public Var getContext() {
         if (context != null && context.eIsProxy()) {
             InternalEObject oldContext = (InternalEObject)context;
-            context = (AbstractVar)eResolveProxy(oldContext);
+            context = (Var)eResolveProxy(oldContext);
             if (context != oldContext) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, TefkatPackage.TERM__CONTEXT, oldContext, context));
@@ -230,7 +230,7 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public AbstractVar basicGetContext() {
+	public Var basicGetContext() {
         return context;
     }
 
@@ -239,8 +239,8 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public void setContext(AbstractVar newContext) {
-        AbstractVar oldContext = context;
+	public void setContext(Var newContext) {
+        Var oldContext = context;
         context = newContext;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.TERM__CONTEXT, oldContext, context));
@@ -251,8 +251,8 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public AbstractVar getExtent() {
-        AbstractVar extent = getContext();
+	public Var getExtent() {
+        Var extent = getContext();
         if (null == extent && getCompoundTerm() != null) {
                 extent = getCompoundTerm().getExtent();
         }
@@ -396,7 +396,7 @@ public abstract class TermImpl extends EObjectImpl implements Term {
                 setCompoundTerm((CompoundTerm)newValue);
                 return;
             case TefkatPackage.TERM__CONTEXT:
-                setContext((AbstractVar)newValue);
+                setContext((Var)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -419,7 +419,7 @@ public abstract class TermImpl extends EObjectImpl implements Term {
                 setCompoundTerm((CompoundTerm)null);
                 return;
             case TefkatPackage.TERM__CONTEXT:
-                setContext((AbstractVar)null);
+                setContext((Var)null);
                 return;
         }
         super.eUnset(featureID);

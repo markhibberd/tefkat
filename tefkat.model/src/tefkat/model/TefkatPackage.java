@@ -150,11 +150,11 @@ public interface TefkatPackage extends EPackage {
     int REFERENCE_EXTENT_FEATURE_COUNT = EXTENT_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link tefkat.model.impl.AbstractVarImpl <em>Abstract Var</em>}' class.
+     * The meta object id for the '{@link tefkat.model.impl.VarImpl <em>Abstract Var</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see tefkat.model.impl.AbstractVarImpl
-     * @see tefkat.model.impl.TefkatPackageImpl#getAbstractVar()
+     * @see tefkat.model.impl.VarImpl
+     * @see tefkat.model.impl.TefkatPackageImpl#getVar()
      * @generated
      */
     int ABSTRACT_VAR = 3;
@@ -2656,91 +2656,91 @@ public interface TefkatPackage extends EPackage {
     EAttribute getReferenceExtent_Resources();
 
     /**
-     * Returns the meta object for class '{@link tefkat.model.AbstractVar <em>Abstract Var</em>}'.
+     * Returns the meta object for class '{@link tefkat.model.Var <em>Abstract Var</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Abstract Var</em>'.
-     * @see tefkat.model.AbstractVar
+     * @see tefkat.model.Var
      * @generated
      */
-    EClass getAbstractVar();
+    EClass getVar();
 
     /**
-     * Returns the meta object for the container reference '{@link tefkat.model.AbstractVar#getScope <em>Scope</em>}'.
+     * Returns the meta object for the container reference '{@link tefkat.model.Var#getScope <em>Scope</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the container reference '<em>Scope</em>'.
-     * @see tefkat.model.AbstractVar#getScope()
-     * @see #getAbstractVar()
+     * @see tefkat.model.Var#getScope()
+     * @see #getVar()
      * @generated
      */
-    EReference getAbstractVar_Scope();
+    EReference getVar_Scope();
 
     /**
-     * Returns the meta object for the attribute '{@link tefkat.model.AbstractVar#getName <em>Name</em>}'.
+     * Returns the meta object for the attribute '{@link tefkat.model.Var#getName <em>Name</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Name</em>'.
-     * @see tefkat.model.AbstractVar#getName()
-     * @see #getAbstractVar()
+     * @see tefkat.model.Var#getName()
+     * @see #getVar()
      * @generated
      */
-    EAttribute getAbstractVar_Name();
+    EAttribute getVar_Name();
 
     /**
-     * Returns the meta object for the reference list '{@link tefkat.model.AbstractVar#getUsages <em>Usages</em>}'.
+     * Returns the meta object for the reference list '{@link tefkat.model.Var#getUsages <em>Usages</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Usages</em>'.
-     * @see tefkat.model.AbstractVar#getUsages()
-     * @see #getAbstractVar()
+     * @see tefkat.model.Var#getUsages()
+     * @see #getVar()
      * @generated
      */
-    EReference getAbstractVar_Usages();
+    EReference getVar_Usages();
 
     /**
-     * Returns the meta object for the reference list '{@link tefkat.model.AbstractVar#getSuperseded <em>Superseded</em>}'.
+     * Returns the meta object for the reference list '{@link tefkat.model.Var#getSuperseded <em>Superseded</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Superseded</em>'.
-     * @see tefkat.model.AbstractVar#getSuperseded()
-     * @see #getAbstractVar()
+     * @see tefkat.model.Var#getSuperseded()
+     * @see #getVar()
      * @generated
      */
-    EReference getAbstractVar_Superseded();
+    EReference getVar_Superseded();
 
     /**
-     * Returns the meta object for the reference list '{@link tefkat.model.AbstractVar#getSuperseder <em>Superseder</em>}'.
+     * Returns the meta object for the reference list '{@link tefkat.model.Var#getSuperseder <em>Superseder</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Superseder</em>'.
-     * @see tefkat.model.AbstractVar#getSuperseder()
-     * @see #getAbstractVar()
+     * @see tefkat.model.Var#getSuperseder()
+     * @see #getVar()
      * @generated
      */
-    EReference getAbstractVar_Superseder();
+    EReference getVar_Superseder();
 
     /**
-     * Returns the meta object for the reference list '{@link tefkat.model.AbstractVar#getExtended <em>Extended</em>}'.
+     * Returns the meta object for the reference list '{@link tefkat.model.Var#getExtended <em>Extended</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Extended</em>'.
-     * @see tefkat.model.AbstractVar#getExtended()
-     * @see #getAbstractVar()
+     * @see tefkat.model.Var#getExtended()
+     * @see #getVar()
      * @generated
      */
-    EReference getAbstractVar_Extended();
+    EReference getVar_Extended();
 
     /**
-     * Returns the meta object for the reference list '{@link tefkat.model.AbstractVar#getExtender <em>Extender</em>}'.
+     * Returns the meta object for the reference list '{@link tefkat.model.Var#getExtender <em>Extender</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Extender</em>'.
-     * @see tefkat.model.AbstractVar#getExtender()
-     * @see #getAbstractVar()
+     * @see tefkat.model.Var#getExtender()
+     * @see #getVar()
      * @generated
      */
-    EReference getAbstractVar_Extender();
+    EReference getVar_Extender();
 
     /**
      * Returns the meta object for class '{@link tefkat.model.VarScope <em>Var Scope</em>}'.
@@ -3865,14 +3865,14 @@ public interface TefkatPackage extends EPackage {
         EAttribute REFERENCE_EXTENT__RESOURCES = eINSTANCE.getReferenceExtent_Resources();
 
         /**
-         * The meta object literal for the '{@link tefkat.model.impl.AbstractVarImpl <em>Abstract Var</em>}' class.
+         * The meta object literal for the '{@link tefkat.model.impl.VarImpl <em>Abstract Var</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see tefkat.model.impl.AbstractVarImpl
-         * @see tefkat.model.impl.TefkatPackageImpl#getAbstractVar()
+         * @see tefkat.model.impl.VarImpl
+         * @see tefkat.model.impl.TefkatPackageImpl#getVar()
          * @generated
          */
-        EClass ABSTRACT_VAR = eINSTANCE.getAbstractVar();
+        EClass ABSTRACT_VAR = eINSTANCE.getVar();
 
         /**
          * The meta object literal for the '<em><b>Scope</b></em>' container reference feature.
@@ -3880,7 +3880,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__SCOPE = eINSTANCE.getAbstractVar_Scope();
+        EReference ABSTRACT_VAR__SCOPE = eINSTANCE.getVar_Scope();
 
         /**
          * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -3888,7 +3888,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EAttribute ABSTRACT_VAR__NAME = eINSTANCE.getAbstractVar_Name();
+        EAttribute ABSTRACT_VAR__NAME = eINSTANCE.getVar_Name();
 
         /**
          * The meta object literal for the '<em><b>Usages</b></em>' reference list feature.
@@ -3896,7 +3896,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__USAGES = eINSTANCE.getAbstractVar_Usages();
+        EReference ABSTRACT_VAR__USAGES = eINSTANCE.getVar_Usages();
 
         /**
          * The meta object literal for the '<em><b>Superseded</b></em>' reference list feature.
@@ -3904,7 +3904,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__SUPERSEDED = eINSTANCE.getAbstractVar_Superseded();
+        EReference ABSTRACT_VAR__SUPERSEDED = eINSTANCE.getVar_Superseded();
 
         /**
          * The meta object literal for the '<em><b>Superseder</b></em>' reference list feature.
@@ -3912,7 +3912,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__SUPERSEDER = eINSTANCE.getAbstractVar_Superseder();
+        EReference ABSTRACT_VAR__SUPERSEDER = eINSTANCE.getVar_Superseder();
 
         /**
          * The meta object literal for the '<em><b>Extended</b></em>' reference list feature.
@@ -3920,7 +3920,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__EXTENDED = eINSTANCE.getAbstractVar_Extended();
+        EReference ABSTRACT_VAR__EXTENDED = eINSTANCE.getVar_Extended();
 
         /**
          * The meta object literal for the '<em><b>Extender</b></em>' reference list feature.
@@ -3928,7 +3928,7 @@ public interface TefkatPackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference ABSTRACT_VAR__EXTENDER = eINSTANCE.getAbstractVar_Extender();
+        EReference ABSTRACT_VAR__EXTENDER = eINSTANCE.getVar_Extender();
 
         /**
          * The meta object literal for the '{@link tefkat.model.impl.VarScopeImpl <em>Var Scope</em>}' class.

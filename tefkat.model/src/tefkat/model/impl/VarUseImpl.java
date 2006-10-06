@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.CompoundExpr;
 import tefkat.model.Expression;
 import tefkat.model.TefkatFactory;
@@ -58,7 +58,7 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
      * @generated
      * @ordered
      */
-    protected AbstractVar var = null;
+    protected Var var = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -83,10 +83,10 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
      * <!-- end-user-doc -->
      * @generated
      */
-    public AbstractVar getVar() {
+    public Var getVar() {
         if (var != null && var.eIsProxy()) {
             InternalEObject oldVar = (InternalEObject)var;
-            var = (AbstractVar)eResolveProxy(oldVar);
+            var = (Var)eResolveProxy(oldVar);
             if (var != oldVar) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, TefkatPackage.VAR_USE__VAR, oldVar, var));
@@ -100,7 +100,7 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
      * <!-- end-user-doc -->
      * @generated
      */
-    public AbstractVar basicGetVar() {
+    public Var basicGetVar() {
         return var;
     }
 
@@ -109,8 +109,8 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetVar(AbstractVar newVar, NotificationChain msgs) {
-        AbstractVar oldVar = var;
+    public NotificationChain basicSetVar(Var newVar, NotificationChain msgs) {
+        Var oldVar = var;
         var = newVar;
         if (eNotificationRequired()) {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TefkatPackage.VAR_USE__VAR, oldVar, newVar);
@@ -124,13 +124,13 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setVar(AbstractVar newVar) {
+    public void setVar(Var newVar) {
         if (newVar != var) {
             NotificationChain msgs = null;
             if (var != null)
-                msgs = ((InternalEObject)var).eInverseRemove(this, TefkatPackage.ABSTRACT_VAR__USAGES, AbstractVar.class, msgs);
+                msgs = ((InternalEObject)var).eInverseRemove(this, TefkatPackage.ABSTRACT_VAR__USAGES, Var.class, msgs);
             if (newVar != null)
-                msgs = ((InternalEObject)newVar).eInverseAdd(this, TefkatPackage.ABSTRACT_VAR__USAGES, AbstractVar.class, msgs);
+                msgs = ((InternalEObject)newVar).eInverseAdd(this, TefkatPackage.ABSTRACT_VAR__USAGES, Var.class, msgs);
             msgs = basicSetVar(newVar, msgs);
             if (msgs != null) msgs.dispatch();
         }
@@ -147,8 +147,8 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
         switch (featureID) {
             case TefkatPackage.VAR_USE__VAR:
                 if (var != null)
-                    msgs = ((InternalEObject)var).eInverseRemove(this, TefkatPackage.ABSTRACT_VAR__USAGES, AbstractVar.class, msgs);
-                return basicSetVar((AbstractVar)otherEnd, msgs);
+                    msgs = ((InternalEObject)var).eInverseRemove(this, TefkatPackage.ABSTRACT_VAR__USAGES, Var.class, msgs);
+                return basicSetVar((Var)otherEnd, msgs);
         }
         return super.eInverseAdd(otherEnd, featureID, msgs);
     }
@@ -188,7 +188,7 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case TefkatPackage.VAR_USE__VAR:
-                setVar((AbstractVar)newValue);
+                setVar((Var)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -202,7 +202,7 @@ public class VarUseImpl extends ExpressionImpl implements VarUse {
     public void eUnset(int featureID) {
         switch (featureID) {
             case TefkatPackage.VAR_USE__VAR:
-                setVar((AbstractVar)null);
+                setVar((Var)null);
                 return;
         }
         super.eUnset(featureID);

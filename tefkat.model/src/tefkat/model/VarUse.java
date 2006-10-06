@@ -40,7 +40,7 @@ public interface VarUse extends Expression {
 
     /**
      * Returns the value of the '<em><b>Var</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link tefkat.model.AbstractVar#getUsages <em>Usages</em>}'.
+     * It is bidirectional and its opposite is '{@link tefkat.model.Var#getUsages <em>Usages</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Var</em>' reference isn't clear,
@@ -48,13 +48,13 @@ public interface VarUse extends Expression {
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Var</em>' reference.
-     * @see #setVar(AbstractVar)
+     * @see #setVar(Var)
      * @see tefkat.model.TefkatPackage#getVarUse_Var()
-     * @see tefkat.model.AbstractVar#getUsages
+     * @see tefkat.model.Var#getUsages
      * @model opposite="usages" required="true"
      * @generated
      */
-    AbstractVar getVar();
+    Var getVar();
 
     /**
      * Sets the value of the '{@link tefkat.model.VarUse#getVar <em>Var</em>}' reference.
@@ -64,6 +64,6 @@ public interface VarUse extends Expression {
      * @see #getVar()
      * @generated
      */
-    void setVar(AbstractVar value);
+    void setVar(Var value);
 
 } // VarUse

@@ -20,6 +20,7 @@ import tefkat.config.TefkatConfig.TefkatConfigFactory;
 import tefkat.config.TefkatConfig.TransformationTask;
 import tefkat.engine.Tefkat;
 import tefkat.model.TefkatException;
+import tefkat.model.parser.TefkatResourceFactory;
 
 /**
  * This class implements an Ant task for running Tefkat.
@@ -54,11 +55,13 @@ public class TefkatTask extends Task {
 //        super.execute();
         Tefkat engine = new Tefkat();
         try {
-            engine.createTempResource("dummy", ".xmi").getContents().add(task);
+            engine.registerFactory("qvt", new TefkatResourceFactory());
             engine.transform(task, save, force);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new BuildException(e);
         } catch (TefkatException e) {
+            e.printStackTrace();
             throw new BuildException(e);
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -67,13 +70,8 @@ public class TefkatTask extends Task {
     }
     
     public void init() {
-//        ResourceSet rs = new ResourceSetImpl();
-//        System.err.println(rs);
-//        Resource res = rs.createResource(URI.createFileURI("dummy.xml"));
-//        System.err.println(res);
         task = TefkatConfigFactory.eINSTANCE.createTransformationTask();
         task.setEnabled(true);
-//        res.getContents().add(task);
     }
     
     public void setSave(boolean doSave) {

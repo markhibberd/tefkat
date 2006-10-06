@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.TefkatPackage;
 import tefkat.model.VarScope;
 
@@ -123,7 +123,7 @@ public class VarScopeImpl extends EObjectImpl implements VarScope {
      */
     public EList getVars() {
         if (vars == null) {
-            vars = new EObjectContainmentWithInverseEList(AbstractVar.class, this, TefkatPackage.VAR_SCOPE__VARS, TefkatPackage.ABSTRACT_VAR__SCOPE);
+            vars = new EObjectContainmentWithInverseEList(Var.class, this, TefkatPackage.VAR_SCOPE__VARS, TefkatPackage.ABSTRACT_VAR__SCOPE);
         }
         return vars;
     }

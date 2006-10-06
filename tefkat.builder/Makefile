@@ -1,4 +1,18 @@
 
+ifndef BRANCH
+BRANCH=lawley
+endif
+
+ifdef REVISION
+ifneq (${REVISION},HEAD)
+COMP_FLAGS=-DforceContextQualifier=${BRANCH}${REVISION} -DbuildLabel=${BRANCH}${REVISION} -DbuildId=${BRANCH}${REVISION}
+endif
+else
+REVISION=HEAD
+endif
+
+BOOTCLASSPATH=-Dbootclasspath=/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/charsets.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/dt.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/jce.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/jconsole.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/jsse.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/laf.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/ui.jar
+
 default: build
 
 init:
@@ -25,16 +39,16 @@ runAntlr:
 build: init source compile
 
 compile:
-	java -cp /Applications/eclipse-SDK-3.2/startup.jar org.eclipse.core.launcher.Main -application org.eclipse.pde.build.Build -Dbase=/Applications/eclipse-SDK-3.2 -DbaseLocation=/Applications/eclipse-SDK-3.2 -Dbootclasspath=/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/charsets.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/dt.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/jce.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/jconsole.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/jsse.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/laf.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/../Classes/ui.jar
+	java -cp /Applications/eclipse-SDK-3.2/startup.jar org.eclipse.core.launcher.Main -application org.eclipse.pde.build.Build -Dbase=/Applications/eclipse-SDK-3.2 -DbaseLocation=/Applications/eclipse-SDK-3.2 ${BOOTCLASSPATH} ${COMP_FLAGS}
 
 vcompile:
-	java -cp /Applications/eclipse-SDK-3.2/startup.jar org.eclipse.core.launcher.Main -application org.eclipse.pde.build.Build -Dbase=/Applications/eclipse-SDK-3.2 -DbaseLocation=/Applications/eclipse-SDK-3.2 -verbose
+	java -cp /Applications/eclipse-SDK-3.2/startup.jar org.eclipse.core.launcher.Main -application org.eclipse.pde.build.Build -Dbase=/Applications/eclipse-SDK-3.2 -DbaseLocation=/Applications/eclipse-SDK-3.2 ${BOOTCLASSPATH} -verbose ${COMP_FLAGS}
 
 plugins/tefkat.%: ../tefkat.%
 	/bin/rm -rf ~/eclipse.build/$@
-	svn export -rHEAD $< ~/eclipse.build/$@
+	svn export -r${REVISION} $< ~/eclipse.build/$@
 
 features/tefkat.%: ../tefkat.%
 	/bin/rm -rf ~/eclipse.build/$@
-	svn export -rHEAD $< ~/eclipse.build/$@
+	svn export -r${REVISION} $< ~/eclipse.build/$@
 

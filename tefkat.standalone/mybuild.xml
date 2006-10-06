@@ -21,6 +21,28 @@
 
   </target>
 
+  <target name="package2">
+    <zip destfile="tefkat_complete${tefkat.version}.jar">
+      <fileset dir="../tefkat.config/runtime"/>
+      <fileset dir="../tefkat.model/bin"/>
+      <fileset dir="../tefkat.model.parser/bin"/>
+      <fileset dir="../tefkat.engine/bin"/>
+      <zipfileset src="../tefkat.engine/jgraph.jar" includes="**/*.class"/>
+      <zipfileset src="${eclipse.plugins}/org.antlr_2.7.6/antlr.jar" includes="**/*.class"/>
+      <zipfileset src="${eclipse.plugins}/org.eclipse.emf.ecore_2.1.0.jar" includes="**/*.class"/>
+      <zipfileset src="${eclipse.plugins}/org.eclipse.emf.ecore.xmi_2.1.0.jar" includes="**/*.class"/>
+      <zipfileset src="${eclipse.plugins}/org.eclipse.emf.common_2.1.0.jar" includes="**/*.class"/>
+      <zipfileset src="${eclipse.plugins}/org.eclipse.xsd_2.1.1.jar" includes="**/*.class"/>
+    </zip>
+
+    <jar destfile="tefkat_complete${tefkat.version}.jar" update="true">
+      <manifest>
+        <attribute name="Main-Class" value="tefkat.engine.Main"/>
+        <attribute name="Built-By" value="${user.name}"/>
+      </manifest>
+    </jar>
+  </target>
+
   <target name="package">
 
     <mkdir dir="main"/>

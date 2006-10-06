@@ -22,7 +22,7 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.NotTerm;
 import tefkat.model.TefkatPackage;
 import tefkat.model.VarUse;
@@ -84,7 +84,7 @@ public class NotTermImpl extends CompoundTermImpl implements NotTerm {
         
         // Find just those Vars that are NOT only referenced in the NOT
         for (Iterator varItr = notVars.iterator(); varItr.hasNext(); ) {
-            AbstractVar var = (AbstractVar) varItr.next();
+            Var var = (Var) varItr.next();
             if (!usages.containsAll(var.getUsages())) {
                 nonLocalVars.add(var);
             }

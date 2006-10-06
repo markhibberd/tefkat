@@ -64,8 +64,8 @@ public abstract class ParserTestCase extends TestCase {
         Resource res = rs.createResource(URI.createURI("tmp.xmi"));
         t = TefkatFactory.eINSTANCE.createTransformation();
         t.setName("defaultTransformation");
-        t.getVars().add(TefkatFactory.eINSTANCE.createAbstractVar());
-        t.getVars().add(TefkatFactory.eINSTANCE.createAbstractVar());
+        t.getVars().add(TefkatFactory.eINSTANCE.createVar());
+        t.getVars().add(TefkatFactory.eINSTANCE.createVar());
         tr = TefkatFactory.eINSTANCE.createTRule();
         tr.setName("defaultRule");
         tr.setTransformation(t);

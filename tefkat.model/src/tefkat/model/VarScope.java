@@ -45,8 +45,8 @@ public interface VarScope extends EObject {
 
     /**
      * Returns the value of the '<em><b>Vars</b></em>' containment reference list.
-     * The list contents are of type {@link tefkat.model.AbstractVar}.
-     * It is bidirectional and its opposite is '{@link tefkat.model.AbstractVar#getScope <em>Scope</em>}'.
+     * The list contents are of type {@link tefkat.model.Var}.
+     * It is bidirectional and its opposite is '{@link tefkat.model.Var#getScope <em>Scope</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Vars</em>' containment reference list isn't clear,
@@ -55,8 +55,8 @@ public interface VarScope extends EObject {
      * <!-- end-user-doc -->
      * @return the value of the '<em>Vars</em>' containment reference list.
      * @see tefkat.model.TefkatPackage#getVarScope_Vars()
-     * @see tefkat.model.AbstractVar#getScope
-     * @model type="tefkat.model.AbstractVar" opposite="scope" containment="true"
+     * @see tefkat.model.Var#getScope
+     * @model type="tefkat.model.Var" opposite="scope" containment="true"
      * @generated
      */
     EList getVars();
