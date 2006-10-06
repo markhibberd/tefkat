@@ -22,4 +22,4 @@ Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  tefkat.config,
  tefkat.model,
  tefkat.model.parser
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

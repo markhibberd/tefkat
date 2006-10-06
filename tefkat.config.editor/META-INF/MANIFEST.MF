@@ -15,4 +15,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide;visibility:=reexport,
  tefkat.config,
  tefkat.config.edit
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

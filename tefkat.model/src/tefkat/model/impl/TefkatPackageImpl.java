@@ -52,7 +52,6 @@ import tefkat.model.OrTerm;
 import tefkat.model.PatternDefn;
 import tefkat.model.PatternScope;
 import tefkat.model.PatternUse;
-import tefkat.model.PatternVar;
 import tefkat.model.Query;
 import tefkat.model.RealConstant;
 import tefkat.model.ReferenceExtent;

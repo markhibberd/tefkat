@@ -929,6 +929,9 @@ class Evaluator {
         try {
             if (obj instanceof EObject) {
                 EObject instance = (EObject) obj;
+                // If instance is a DynamicObject or it's containing eResource is a target Extent
+                // then we're querying a target object which is an error (until we update the stratification
+                // as outlined by David Hearnden)
                 try {
                     EStructuralFeature eFeature = AbstractResolver.getFeature(null, instance.eClass(), featureName);
                     valuesObject = instance.eGet(eFeature);

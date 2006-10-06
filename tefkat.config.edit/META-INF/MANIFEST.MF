@@ -11,4 +11,4 @@ Export-Package: tefkat.config.TefkatConfig.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.edit;visibility:=reexport,
  tefkat.config
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true
