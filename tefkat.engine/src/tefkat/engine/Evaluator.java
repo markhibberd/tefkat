@@ -50,20 +50,60 @@ class Evaluator {
 
     private static final String NULL_TYPE = "null";
 
+    private final class DataMapLookup implements Function {
+        public Object call(Object[] params) throws ResolutionException {
+            DataMap dataMap = (DataMap) params[0];
+            String key = String.valueOf(params[1]);
+            Object result = dataMap.getValue().get(key);
+            if (result instanceof Expression) {
+                Binding context = (Binding) funcMap.get(CONTEXT_KEY);
+                try {
+                    List vals = eval(context, (Expression) result);
+                    if (vals.size() == 1) {
+                        result = vals.get(0);
+                    } else {
+                        result = vals;
+                    }
+                } catch (ResolutionException e) {
+                    throw new ResolutionException(null, "Map expression '" + result + "' evaluation failed", e);
+                } catch (NotGroundException e) {
+                    throw new ResolutionException(null, "Map expression '" + result + "' should not contain variable(s)", e);
+                }
+            }
+            return result;
+        }
+    }
+
+    private final class MapFeature implements Function {
+        public Object call(Object[] params) throws ResolutionException {
+            final Binding context = (Binding) funcMap.get(CONTEXT_KEY);
+            final Collection list = (Collection) params[0];
+            final String feature = (String) params[1];
+            final List result = new ArrayList();
+            
+            for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
+                Object obj = itr.next();
+                result.add(fetchFeature(context, feature, obj));
+            }
+        
+            return result;
+        }
+    }
+
     private static final class IdentityFunction implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             return params[0];
         }
     }
 
     private static final class CollectFunction implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             return Arrays.asList(params);
         }
     }
 
     private static final class AppendFunction implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < params.length; i++) {
                 sb.append(params[i]);
@@ -99,7 +139,7 @@ class Evaluator {
          * @params[0]   separator
          * @params[1..n]    the list of strings
          */
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             String separator = String.valueOf(params[0]);
             StringBuffer b = new StringBuffer();
             if (params.length == 2 && params[1] instanceof Collection) {
@@ -120,7 +160,7 @@ class Evaluator {
     }
 
     private static final class SplitString implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             String string = String.valueOf(params[0]);
             String regex = String.valueOf(params[1]);
             return Arrays.asList(string.split(regex));
@@ -128,7 +168,7 @@ class Evaluator {
     }
 
     private static final class StripSuffix implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             String str = (String) params[0];
             String suffix = (String) params[1];
             String result = str;
@@ -140,31 +180,31 @@ class Evaluator {
     }
 
     private static final class CastInt implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             return Integer.decode(String.valueOf(params[0]));
         }
     }
 
     private static final class CastLong implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             return Long.decode(String.valueOf(params[0]));
         }
     }
 
     private static final class CastFloat implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             return Float.valueOf(String.valueOf(params[0]));
         }
     }
 
     private static final class CastDouble implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             return Double.valueOf(String.valueOf(params[0]));
         }
     }
 
     private static final class Add implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             Number lhs = (Number) params[0];
             Number rhs = (Number) params[1];
             if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
@@ -190,7 +230,7 @@ class Evaluator {
     }
 
     private static final class Subtract implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             Number lhs = (Number) params[0];
             Number rhs = (Number) params[1];
             if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
@@ -206,7 +246,7 @@ class Evaluator {
     }
 
     private static final class Multiply implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             Number lhs = (Number) params[0];
             Number rhs = (Number) params[1];
             if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
@@ -222,7 +262,7 @@ class Evaluator {
     }
 
     private static final class Divide implements Function {
-        final public Object call(Object[] params) {
+        public Object call(Object[] params) {
             Number lhs = (Number) params[0];
             Number rhs = (Number) params[1];
             if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
@@ -268,49 +308,13 @@ class Evaluator {
         addFunction("*", new Multiply());
         addFunction("/", new Divide());
         
-        addFunction("funmap", new Function() {
-            public Object call(Object[] params) throws ResolutionException {
-                final Binding context = (Binding) funcMap.get(CONTEXT_KEY);
-                final Collection list = (Collection) params[0];
-                final String feature = (String) params[1];
-                final List result = new ArrayList();
-                
-                for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
-                    Object obj = itr.next();
-                    result.add(fetchFeature(context, feature, obj));
-                }
-
-                return result;
-            }
-        });
+        addFunction("funmap", new MapFeature());
         
         // FIXME rename this function to dataMap or something (see tefkat.g)
-        addFunction("map", new Function() {
-            final public Object call(Object[] params) throws ResolutionException {
-                DataMap dataMap = (DataMap) params[0];
-                String key = String.valueOf(params[1]);
-                Object result = dataMap.getValue().get(key);
-                if (result instanceof Expression) {
-                    Binding context = (Binding) funcMap.get(CONTEXT_KEY);
-                    try {
-                        List vals = eval(context, (Expression) result);
-                        if (vals.size() == 1) {
-                            result = vals.get(0);
-                        } else {
-                            result = vals;
-                        }
-                    } catch (ResolutionException e) {
-                        throw new ResolutionException(null, "Map expression '" + result + "' evaluation failed", e);
-                    } catch (NotGroundException e) {
-                        throw new ResolutionException(null, "Map expression '" + result + "' should not contain variable(s)", e);
-                    }
-                }
-                return result;
-            }
-        });
+        addFunction("map", new DataMapLookup());
     }
 
-    void addFunction(String name, Function function) {
+    final void addFunction(String name, Function function) {
         if (funcMap.containsKey(name)) {
             throw new IllegalArgumentException("A Function with named " + name + " is already registered.");
         }
@@ -704,7 +708,7 @@ class Evaluator {
         }
     }
     
-    private Map methodCache = new HashMap();
+    final private Map methodCache = new HashMap();
     
     private Method resolveMethod(Object instance, String name, Object[] params) {
         Map methodCache = getMethodCache(instance, name);

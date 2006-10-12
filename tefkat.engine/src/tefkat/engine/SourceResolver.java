@@ -60,7 +60,7 @@ class SourceResolver extends AbstractResolver {
 
         private final Node node;
 
-        private HandleNewTrackingInstance(Tree tree, EClass class1, Collection goal, Object[][] map, Node node) {
+        HandleNewTrackingInstance(Tree tree, EClass class1, Collection goal, Object[][] map, Node node) {
             this.tree = tree;
             this.class1 = class1;
             this.goal = goal;
@@ -164,7 +164,7 @@ class SourceResolver extends AbstractResolver {
         }
     }
 
-    SourceResolver(RuleEvaluator evaluator, List listeners) {
+    SourceResolver(RuleEvaluator evaluator) {
     	super(evaluator);
     }
 
@@ -280,72 +280,32 @@ class SourceResolver extends AbstractResolver {
             
             if (instance instanceof WrappedVar) {
                 // handle the ??- mode
-                if (false) {
-                    // This branch does eager expansion of the tree.
-                    if (null == extent) {
-                        throw new NotGroundException("Unbound ExtentUtil for " + literal);
-                    }
-                    Collection objects = null;
-                    if ("_".equals(className)) {
-                        objects = new ArrayList();
-                        for (Iterator objItr = extent.getAllContents(); objItr.hasNext(); ) {
-                            objects.add(objItr.next());
-                        }
-                        ExtentUtil.highlightNodes(objects, ExtentUtil.OBJECT_LOOKUP);
-                    } else if (theClass instanceof EClass) {
-                        objects = extent.getObjectsByClass((EClass) theClass, literal.isExact());
-                        ExtentUtil.highlightNodes(objects, ExtentUtil.CLASS_NAME_LOOKUP);
-                    } else {
-                        ruleEval.fireWarning("Could not find class named: " + className);
-                        objects = Collections.EMPTY_LIST;
-                    }
-                    if (objects.size() > 0) {
-                        success = true;
-                        /**
-                         * Create an edge for each unifier.
-                         */
-                        Var var = ((WrappedVar) instance).getVar();
-                        for (final Iterator i = objects.iterator(); i.hasNext(); ) {
-                            Object result = i.next();
-                            Binding unifier = new Binding();
-                            unifier.add(var, result);
+                //
+                // does lazy expansion of the tree.
+                // This will cause relatively untested code (and broken?) to be used in
+                // other parts of Abstract/Source/TargetResolver and Evaluator
+                // FIXME make this stuff work
+                // FIXME I think it works, but some Unit tests would make me more comfortable
+                WrappedVar wVar = (WrappedVar) instance;
+                wVar.setExtent(extent);
+                if ("_".equals(className)) {
+                    // Any type will do, isExact in this context is meaningless
+                    // hence, no need to call setType on the WrappedVar
+                    Collection newGoal = new ArrayList(node.goal());
+                    newGoal.remove(literal);
 
-                            /**
-                             * Create a new branch of the tree, and continue 
-                             * resolution from the newly created node.
-                             */
-                            Collection newGoal = new ArrayList(node.goal());
-                            newGoal.remove(literal);
-                            tree.createBranch(node, unifier, newGoal);
-                        }
-                    }
-                } else {
-                    // This branch does lazy expansion of the tree.
-                    // This will cause relatively untested code (and broken?) to be used in
-                    // other parts of Abstract/Source/TargetResolver and Evaluator
-                	// FIXME make this stuff work
-                        // FIXME I think it works, but some Unit tests would make me more comfortable
-                    WrappedVar wVar = (WrappedVar) instance;
-                    wVar.setExtent(extent);
-                    if ("_".equals(className)) {
-                        // Any type will do, isExact in this context is meaningless
-                        // hence, no need to call setType on the WrappedVar
-                        Collection newGoal = new ArrayList(node.goal());
-                        newGoal.remove(literal);
+                    Binding unifier = new Binding();
+                    unifier.add(wVar.getVar(), wVar);
+                    tree.createBranch(node, unifier, newGoal);
+                } else if (!(theClass instanceof EClass)) {
+                    ruleEval.fireWarning("Could not find class named: " + className);
+                } else if (wVar.setType((EClass) theClass, literal.isExact())) {
+                    Collection newGoal = new ArrayList(node.goal());
+                    newGoal.remove(literal);
 
-                        Binding unifier = new Binding();
-                        unifier.add(wVar.getVar(), wVar);
-                        tree.createBranch(node, unifier, newGoal);
-                    } else if (!(theClass instanceof EClass)) {
-                        ruleEval.fireWarning("Could not find class named: " + className);
-                    } else if (wVar.setType((EClass) theClass, literal.isExact())) {
-                        Collection newGoal = new ArrayList(node.goal());
-                        newGoal.remove(literal);
-
-                        Binding unifier = new Binding();
-                        unifier.add(wVar.getVar(), wVar);
-                        tree.createBranch(node, unifier, newGoal);
-                    }
+                    Binding unifier = new Binding();
+                    unifier.add(wVar.getVar(), wVar);
+                    tree.createBranch(node, unifier, newGoal);
                 }
             } else {
                 // handle the ??+ mode
@@ -395,7 +355,7 @@ class SourceResolver extends AbstractResolver {
         String relation = term.getRelation();
         List args = term.getArg();
 
-        if (relation.equals("=")) {
+        if ("=".equals(relation)) {
             List vals1 = exprEval.eval(node, (Expression) args.get(0));
             List vals2 = exprEval.eval(node, (Expression) args.get(1));
             
@@ -448,7 +408,7 @@ class SourceResolver extends AbstractResolver {
                             Collection newGoal = new ArrayList(node.goal());
                             newGoal.remove(term);
                             tree.createBranch(node, unifier, newGoal);
-                        } else {
+//                        } else {
                             // no match - result unchanged
                         }
                     }

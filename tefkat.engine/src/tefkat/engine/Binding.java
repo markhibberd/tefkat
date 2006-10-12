@@ -64,7 +64,7 @@ public class Binding {
      *  @param unifier  The unifier to duplicate.
      */
     public Binding(Binding unifier) {
-        counter++;
+        incrementCounter();
         if (null == unifier) {
             varToTerm = new HashMap();
         } else {
@@ -72,6 +72,9 @@ public class Binding {
         }
     }
     
+    private static void incrementCounter() {
+        counter++;
+    }
     
     /**
      * Removes all bindings to leave an empty unifier.
@@ -421,6 +424,7 @@ public class Binding {
     }
 
     static private Binding bindWrappedVar(Binding unifier, WrappedVar wVar, Object val) throws ResolutionException {
+        final Binding result;
         Var var = wVar.getVar();
         EClass eClass = wVar.getType();
         if (null != eClass) {
@@ -432,53 +436,43 @@ public class Binding {
                 
                 if (null != eClass2) {
                     if (wVar.setType(eClass2, isExact2)) {
-                        if (null == unifier) {
-                            unifier = new Binding();
-                        }
-                        unifier.add(var, wVar);
-                        unifier.add(var2, wVar);
+                        result = (null == unifier) ? new Binding() : unifier;
+                        result.add(var, wVar);
+                        result.add(var2, wVar);
                     } else {    // type mismatch
-                        unifier = null;
+                        result = null;
                     }
                 } else {
-                    if (null == unifier) {
-                        unifier = new Binding();
-                    }
-                    unifier.add(var, wVar);
-                    unifier.add(var2, wVar);
+                    result = (null == unifier) ? new Binding() : unifier;
+                    result.add(var, wVar);
+                    result.add(var2, wVar);
                 }
             } else if (val instanceof EObject) {
                 if (eClass.isSuperTypeOf(((EObject) val).eClass())) {
-                    if (null == unifier) {
-                        unifier = new Binding();
-                    }
-                    unifier.add(var, val);
+                    result = (null == unifier) ? new Binding() : unifier;
+                    result.add(var, val);
                 } else {
-                    unifier = null;
+                    result = null;
                 }
             } else {
                 Class cls = eClass.getInstanceClass();
                 if (null != cls) {
                     if (cls.isAssignableFrom(val.getClass())) {
-                        if (null == unifier) {
-                            unifier = new Binding();
-                        }
-                        unifier.add(var, val);
+                        result = (null == unifier) ? new Binding() : unifier;
+                        result.add(var, val);
                     } else {
-                        unifier = null;
+                        result = null;
                     }
                 } else {
-                    unifier = null;
+                    result = null;
                 }
             }
         } else {
-            if (null == unifier) {
-                unifier = new Binding();
-            }
-            unifier.add(var, val);
+            result = (null == unifier) ? new Binding() : unifier;
+            result.add(var, val);
         }
         
-        return unifier;
+        return result;
     }
 
 }

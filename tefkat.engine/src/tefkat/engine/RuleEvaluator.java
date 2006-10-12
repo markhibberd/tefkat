@@ -15,7 +15,6 @@
 package tefkat.engine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,7 +28,6 @@ import java.util.Stack;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import tefkat.model.Var;
@@ -86,13 +84,13 @@ public class RuleEvaluator {
     // Used to manage simple coarse-grain fix-point evaluation
     private TRule currentRule;
 
-    private Map trackingQueryMap = new HashMap();
+    final private Map trackingQueryMap = new HashMap();
 
-    private Set trackingUpdateSet = new HashSet();
+    final private Set trackingUpdateSet = new HashSet();
 
-    private Set breakpoints = new HashSet();
+    final private Set breakpoints = new HashSet();
     
-    private final List unresolvedTrees = new ArrayList();
+    final private List unresolvedTrees = new ArrayList();
 
     /**
      *  
@@ -108,7 +106,7 @@ public class RuleEvaluator {
         this.nameMap = nameMap;
 
         exprEval = new Evaluator(this);
-        srcResolver = new SourceResolver(this, listeners);
+        srcResolver = new SourceResolver(this);
         tgtResolver = new TargetResolver(this, null, listeners);
         evalCache = new HashMap();
         patternCache = new HashMap();
@@ -378,6 +376,7 @@ public class RuleEvaluator {
             tree.addTreeListener(new TreeListener() {
 
                 public void solution(Binding answer) throws ResolutionException {
+                    // nothing to do in this case
                 }
 
                 public void completed(Tree theTree) {
@@ -409,7 +408,7 @@ public class RuleEvaluator {
     final protected void step() {
         synchronized (unresolvedTrees) {
             step++;
-            unresolvedTrees.notify();
+            unresolvedTrees.notifyAll();
         }
     }
     
@@ -423,7 +422,7 @@ public class RuleEvaluator {
     final protected void resume() {
         synchronized (unresolvedTrees) {
             stepMode = false;
-            unresolvedTrees.notify();
+            unresolvedTrees.notifyAll();
         }
     }
     
@@ -1379,7 +1378,7 @@ public class RuleEvaluator {
         }
     }
 
-    private Map featureOrderings = new HashMap();
+    final private Map featureOrderings = new HashMap();
 
     void addPartialOrder(Object inst, Object feat, Object lesser, Object greater) {
         Map instanceOrderings = (Map) featureOrderings.get(feat);
@@ -1422,10 +1421,10 @@ public class RuleEvaluator {
     }
 
     static class PartialOrder {
-        private String context;
+        final private String context;
         
-        private Map instanceOrderings = new HashMap();
-        private Map instanceCounters = new HashMap();
+        final private Map instanceOrderings = new HashMap();
+        final private Map instanceCounters = new HashMap();
 
         PartialOrder(String context) {
             this.context = context;
@@ -1531,6 +1530,7 @@ public class RuleEvaluator {
             int val = 0;
             
             Counter() {
+                // no init required
             }
 
             void increment() {
@@ -1547,48 +1547,48 @@ public class RuleEvaluator {
         }
     }
     
-    private static class TestSort {
-        public static void main(String[] args) {
-            EClass inst = EcoreFactory.eINSTANCE.createEClass();
-            String feat = "eStructuralFeatures";
-            EStructuralFeature[] a = {EcoreFactory.eINSTANCE.createEReference(),
-                              EcoreFactory.eINSTANCE.createEReference(),
-                              EcoreFactory.eINSTANCE.createEAttribute(),
-                              EcoreFactory.eINSTANCE.createEAttribute(),
-                              EcoreFactory.eINSTANCE.createEAttribute(),
-            };
-            a[0].setName("zero");
-            a[1].setName("one");
-            a[2].setName("two");
-            a[3].setName("three");
-            a[4].setName("four");
-            inst.getEStructuralFeatures().addAll(Arrays.asList(a));
-            
-            RuleEvaluator re = new RuleEvaluator(null, null, Collections.EMPTY_MAP, Collections.EMPTY_LIST);
-            
-            re.addPartialOrder(inst, feat, a[4], a[3]);
-            re.addPartialOrder(inst, feat, a[3], a[2]);
-            re.addPartialOrder(inst, feat, a[2], a[1]);
-            re.addPartialOrder(inst, feat, a[1], a[0]);
+//    private static class TestSort {
+//        public static void main(String[] args) {
+//            EClass inst = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEClass();
+//            String feat = "eStructuralFeatures";
+//            EStructuralFeature[] a = {org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEReference(),
+//                              org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEReference(),
+//                              org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEAttribute(),
+//                              org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEAttribute(),
+//                              org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEAttribute(),
+//            };
+//            a[0].setName("zero");
+//            a[1].setName("one");
+//            a[2].setName("two");
+//            a[3].setName("three");
+//            a[4].setName("four");
+//            inst.getEStructuralFeatures().addAll(java.util.Arrays.asList(a));
+//            
+//            RuleEvaluator re = new RuleEvaluator(null, null, Collections.EMPTY_MAP, Collections.EMPTY_LIST);
+//            
+//            re.addPartialOrder(inst, feat, a[4], a[3]);
+//            re.addPartialOrder(inst, feat, a[3], a[2]);
+//            re.addPartialOrder(inst, feat, a[2], a[1]);
+//            re.addPartialOrder(inst, feat, a[1], a[0]);
+//
+//            re.addPartialOrder(inst, feat, a[4], "foo");    // Should cause a resolution exception below
+//
+//            try {
+//                for (final Iterator itr = inst.getEStructuralFeatures().iterator(); itr.hasNext(); ) {
+//                    System.out.println(((EStructuralFeature) itr.next()).getName());
+//                }
+//                re.topologicalSort();
+//                System.out.println("-----------------");
+//                for (final Iterator itr = inst.getEStructuralFeatures().iterator(); itr.hasNext(); ) {
+//                    System.out.println(((EStructuralFeature) itr.next()).getName());
+//                }
+//            } catch (ResolutionException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-            re.addPartialOrder(inst, feat, a[4], "foo");    // Should cause a resolution exception below
-
-            try {
-                for (final Iterator itr = inst.getEStructuralFeatures().iterator(); itr.hasNext(); ) {
-                    System.out.println(((EStructuralFeature) itr.next()).getName());
-                }
-                re.topologicalSort();
-                System.out.println("-----------------");
-                for (final Iterator itr = inst.getEStructuralFeatures().iterator(); itr.hasNext(); ) {
-                    System.out.println(((EStructuralFeature) itr.next()).getName());
-                }
-            } catch (ResolutionException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private Stack patternStack = new Stack();
+    final private Stack patternStack = new Stack();
     
     /**
      * @param defn

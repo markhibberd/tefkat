@@ -316,8 +316,8 @@ public class Main {
 
         } catch (Throwable t) {
             t.printStackTrace();
-        } finally {
-            // System.exit(0);
+//        } finally {
+//             System.exit(0);
         }
 
     }
@@ -337,9 +337,10 @@ public class Main {
             public void suspended() {
                 try {
                     int c;
-                    while ((c = System.in.read()) >= 0 && c != '\n') {
-                        // do nothing
-                    }
+                    do {
+                        c = System.in.read();
+                    } while (c >= 0 && c != '\n');
+                        
                     if (c < 0) {
                         engine.setInterrupted(true);
                     }
@@ -532,12 +533,12 @@ public class Main {
 
         private final RadialTreeLayoutAlgorithm layoutAlg;
 
-        private LayoutThread(Properties props, RadialTreeLayoutAlgorithm layoutAlg) {
+        LayoutThread(Properties props, RadialTreeLayoutAlgorithm layoutAlg) {
             this.props = props;
             this.layoutAlg = layoutAlg;
         }
 
-        synchronized final public void requestLayout() {
+        synchronized public void requestLayout() {
             layoutRequested = true;
             if (!isAlive()) {
                 System.err.println("launch");

@@ -40,7 +40,7 @@ abstract class AbstractResolver {
         implements Function2 {
         private final List vars;
 
-        private PatternCall(List vars) {
+        PatternCall(List vars) {
             this.vars = vars;
         }
 
@@ -539,10 +539,9 @@ abstract class AbstractResolver {
 
         // Delay selection of "println"
         for (int i = 0; i < literals.length; i++) {
-            if ((literals[i] instanceof PatternUse)) {
-                if (((PatternUse) literals[i]).getDefn() == null) {
-                    continue;
-                }
+            if ((literals[i] instanceof PatternUse) &&
+                    null == ((PatternUse) literals[i]).getDefn()) {
+                continue;
             }
             node.selectLiteral(literals[i]);
             return literals[i];
@@ -577,7 +576,7 @@ abstract class AbstractResolver {
         try {
             return ModelUtils.getFeature(klass, featureName);
         } catch (RuntimeException e) {
-            throw new ResolutionException(node, e.getMessage());
+            throw new ResolutionException(node, e.getMessage(), e);
         }
     }
 
@@ -621,6 +620,7 @@ abstract class AbstractResolver {
                 }
 
                 public void floundered(Tree theTree) {
+                    // nothing to do in this case
                 }
                 
             });

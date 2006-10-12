@@ -38,8 +38,12 @@ final public class DynamicObject extends EObjectImpl {
     }
     
     public DynamicObject(EClass eClass) {
-        counter++;
+        incrementCounter();
         eSetClass(eClass);
+    }
+
+    private static void incrementCounter() {
+        counter++;
     }
     
     public boolean hasStaticInstance() {
@@ -143,7 +147,7 @@ final public class DynamicObject extends EObjectImpl {
 
         private final EObject instance;
 
-        private AddMultiValuedReferenceAction(EStructuralFeature feature, DynamicObject dynObj, EObject instance) {
+        AddMultiValuedReferenceAction(EStructuralFeature feature, DynamicObject dynObj, EObject instance) {
             super();
             this.feature = feature;
             this.dynObj = dynObj;
@@ -168,7 +172,7 @@ final public class DynamicObject extends EObjectImpl {
         
         private final EStructuralFeature feature;
         
-        private AddSingleValuedReferenceAction(EObject instance, EStructuralFeature feature) {
+        AddSingleValuedReferenceAction(EObject instance, EStructuralFeature feature) {
             super();
             this.instance = instance;
             this.feature = feature;

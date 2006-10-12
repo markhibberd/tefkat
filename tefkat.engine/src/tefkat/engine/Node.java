@@ -36,7 +36,7 @@ public class Node {
     private boolean isFailure;
     
     public Node(Collection goal, Binding binding, Node parent) {
-        counter++;
+        incrementCounter();
         
         binding.freeze();
         
@@ -48,6 +48,10 @@ public class Node {
         if (null != parent && null != parent.getDelayed()) {
             goal.addAll(parent.getDelayed());
         }
+    }
+
+    private static void incrementCounter() {
+        counter++;
     }
     
     public Node(Collection goal, Binding binding) {
