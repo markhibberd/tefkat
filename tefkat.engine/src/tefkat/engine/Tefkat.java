@@ -53,9 +53,11 @@ import tefkat.model.Var;
 import tefkat.model.ContainerExtent;
 import tefkat.model.Extent;
 import tefkat.model.NamespaceDeclaration;
+import tefkat.model.TefkatException;
 import tefkat.model.TefkatFactory;
 import tefkat.model.Transformation;
 import tefkat.model.impl.TefkatPackageImpl;
+import tefkat.model.internal.IntMap;
 import tefkat.model.internal.ModelUtils;
 import tefkat.model.parser.TefkatResourceFactory;
 
@@ -222,31 +224,31 @@ public class Tefkat {
     }
 
     public void transform(Resource transformation, Resource src, Resource tgt)
-            throws ResolutionException {
+            throws TefkatException {
         Resource[] srcs = { src };
         Resource[] tgts = { tgt };
         transform(transformation, srcs, tgts);
     }
 
     public void transform(Resource transformation, Resource src, Resource tgt,
-            Resource tracking) throws ResolutionException {
+            Resource tracking) throws TefkatException {
         Resource[] srcs = { src };
         Resource[] tgts = { tgt };
         transform(transformation, srcs, tgts, tracking);
     }
 
     public void transform(Resource transformation, Resource[] srcs, Resource[] tgts)
-            throws ResolutionException {
+            throws TefkatException {
         transform(transformation, srcs, tgts, null);
     }
 
     public void transform(Resource transformation, Resource[] srcs, Resource[] tgts,
-            Resource tracking) throws ResolutionException {
+            Resource tracking) throws TefkatException {
         transform(transformation, srcs, tgts, tracking, false);
     }
     
     public void transform(Resource transformation, Resource[] srcs, Resource[] tgts,
-            Resource tracking, boolean force) throws ResolutionException {
+            Resource tracking, boolean force) throws TefkatException {
         
         setResourceSet(transformation.getResourceSet());
 
@@ -284,7 +286,7 @@ public class Tefkat {
     }
     
     void transform(Resource transformation, Extent[] srcs, Extent[] tgts,
-            Extent trackingExtent, boolean force) throws ResolutionException {
+            Extent trackingExtent, boolean force) throws TefkatException {
         
         setResourceSet(transformation.getResourceSet());
 
@@ -500,11 +502,11 @@ public class Tefkat {
      * Takes a TefkatConfig.TransformationTask and performs the described
      * transformation.
      * 
-     * @throws ResolutionException
      * @throws IOException
+     * @throws TefkatException 
      */
     public void transform(TransformationTask task, boolean save, boolean force)
-    throws ResolutionException, IOException {
+    throws IOException, TefkatException {
         try {
 //            String classpathList = (String) task.getProperties().get("classpaths");
 //            ClassLoader loader;

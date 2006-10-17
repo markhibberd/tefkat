@@ -21,12 +21,12 @@ package tefkat.engine;
 interface TreeListener {
     
     /**
-     * Called as each new successful leaf Node is found.
+     * Called as each new (unique) successful Binding is found.
      * 
-     * @param node
+     * @param answer
      * @throws ResolutionException
      */
-    public void solution(Node node) throws ResolutionException;
+    public void solution(Binding answer) throws ResolutionException;
     
     /**
      * Called once when the Tree has finished being expanded.

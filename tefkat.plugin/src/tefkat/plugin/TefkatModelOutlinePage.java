@@ -14,6 +14,9 @@
 
 package tefkat.plugin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -37,6 +40,7 @@ import tefkat.model.Var;
 import tefkat.model.AndTerm;
 import tefkat.model.MofInstance;
 import tefkat.model.OrTerm;
+import tefkat.model.TefkatException;
 import tefkat.model.Term;
 import tefkat.model.Transformation;
 import tefkat.model.VarScope;
@@ -176,6 +180,8 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                     return ((ETypedElement) obj).getName() + ": " + ((ETypedElement) obj).getEType().getName();
                 } else if (obj instanceof EPackage) {
                     return ((EPackage) obj).getName() + " <" + ((EPackage) obj).getNsURI() + ">";
+                } else if (obj instanceof Collection) {
+                    return "stratum";
                 } else {
                     return String.valueOf(obj);
                 }
@@ -221,11 +227,7 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                 Object element = objMap.get(elementID); // map from String id to Object
                 if (element instanceof Resource) {
                     Object[] children = ((Resource) element).getContents().toArray();
-                    if (element instanceof Term) {
-                        return getIDs(children, ((Term) element).getContext());
-                    } else {
-                        return getIDs(children);
-                    }
+                    return getIDs(children);
                 } else {
 //                    System.out.println("************* Root element must be a Resource: " + element);
                     return null;

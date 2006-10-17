@@ -38,15 +38,13 @@ import tefkat.model.Injection;
 import tefkat.model.MofInstance;
 import tefkat.model.NotTerm;
 import tefkat.model.PatternDefn;
-import tefkat.model.PatternUse;
 import tefkat.model.TRule;
 import tefkat.model.TargetTerm;
+import tefkat.model.TefkatException;
 import tefkat.model.TefkatFactory;
 import tefkat.model.Term;
-import tefkat.model.TrackingUse;
 import tefkat.model.Transformation;
 import tefkat.model.internal.ModelUtils;
-import tefkat.model.util.TefkatSwitch;
 
 
 public class RuleEvaluator {
@@ -159,7 +157,7 @@ public class RuleEvaluator {
     }
 
     public void runTransformation(Transformation transformation, boolean force)
-            throws ResolutionException {
+            throws TefkatException {
         if (INCREMENTAL) {
             runIncrementalTransformation(transformation, force);
         } else {
@@ -168,12 +166,14 @@ public class RuleEvaluator {
     }
     
     public void runFixpointTransformation(Transformation transformation, boolean force)
-            throws ResolutionException {
+            throws TefkatException {
 
         try {
             buildMaps(transformation);
             
-            List[] strata = stratify(transformation.getTRule(), transformation.getPatternDefn());
+            fireInfo("Constructing stratification...");
+            List[] strata = transformation.getStrata();
+            fireInfo("... " + strata.length + " levels.");
 
             for (int i = 0; i < strata.length; i++) {
                 fireInfo("Stratum " + i + " : " + strata[i]);
@@ -199,7 +199,7 @@ public class RuleEvaluator {
     }
     
     public void runIncrementalTransformation(Transformation transformation, boolean force)
-            throws ResolutionException {
+            throws TefkatException {
 
         try {
             buildMaps(transformation);
@@ -243,9 +243,9 @@ public class RuleEvaluator {
                 while (unresolvedTrees.size() > 0) {
                     try {
                         resolve();
-//			System.err.println("completing trees...");
-			int minLevel = Integer.MAX_VALUE;
-			List done = new ArrayList();
+//                      System.err.println("completing trees...");
+                        int minLevel = Integer.MAX_VALUE;
+                        List done = new ArrayList();
                         for (int j = 0; j < unresolvedTrees.size(); j++) {
                             Tree cTree = (Tree) unresolvedTrees.get(j);
                             if (cTree.getLevel() < minLevel) {
@@ -341,330 +341,6 @@ public class RuleEvaluator {
         }
     }
 
-    // FIXME handle inheritance of tracking classes
-    private List[] stratify(List rules, List patterns) throws ResolutionException {
-        fireInfo("Constructing stratification...");
-        
-        final IntMap levelMapping = new IntMap(2 * (rules.size() + patterns.size()) + 1);
-
-        final Stratifier stratifier = new Stratifier();
-        
-        for (final Iterator ruleItr = rules.iterator(); ruleItr.hasNext(); ) {
-            TRule rule = (TRule) ruleItr.next();
-            Collection goal = getGoal(rule);
-            
-            levelMapping.put(rule, 0);
-            
-            for (final Iterator termItr = goal.iterator(); termItr.hasNext(); ) {
-                Term term = (Term) termItr.next();
-                stratifier.check(rule, term);
-            }
-        }
-        
-        for (final Iterator patternItr = patterns.iterator(); patternItr.hasNext(); ) {
-            PatternDefn pattern = (PatternDefn) patternItr.next();
-
-            levelMapping.put(pattern, 0);
-            
-            stratifier.check(pattern, pattern.getTerm());
-        }
-        
-        List less = new ArrayList();
-        List lesseq = new ArrayList();
-
-//        fireInfo("    finding dependencies...");
-        
-        // FIXME - handle subtyping and stratification
-        
-        for (final Iterator itr = stratifier.readers.entrySet().iterator(); itr.hasNext(); ) {
-            Map.Entry entry = (Map.Entry) itr.next();
-            Object tc = entry.getKey();
-            Set set = (Set) entry.getValue();
-            for (final Iterator sItr = set.iterator(); sItr.hasNext(); ) {
-                Object scope = sItr.next();
-                lesseq.add(new Object[] {tc, scope});
-//                System.out.println(tc + " <= " + scope);
-            }
-        }
-
-        for (final Iterator itr = stratifier.writers.entrySet().iterator(); itr.hasNext(); ) {
-            Map.Entry entry = (Map.Entry) itr.next();
-            Object tc = entry.getKey();
-            Set set = (Set) entry.getValue();
-            for (final Iterator sItr = set.iterator(); sItr.hasNext(); ) {
-                Object scope = sItr.next();
-                lesseq.add(new Object[] {scope, tc});
-//                System.out.println(scope + " <= " + tc);
-            }
-        }
-
-        for (final Iterator itr = stratifier.neg_readers.entrySet().iterator(); itr.hasNext(); ) {
-            Map.Entry entry = (Map.Entry) itr.next();
-            Object tc = entry.getKey();
-            Set set = (Set) entry.getValue();
-            for (final Iterator sItr = set.iterator(); sItr.hasNext(); ) {
-                Object scope = sItr.next();
-                less.add(new Object[] {tc, scope});
-//                System.out.println(tc + " < " + scope);
-            }
-        }
-
-        for (final Iterator itr = stratifier.neg_writers.entrySet().iterator(); itr.hasNext(); ) {
-            Map.Entry entry = (Map.Entry) itr.next();
-            Object tc = entry.getKey();
-            Set set = (Set) entry.getValue();
-            for (final Iterator sItr = set.iterator(); sItr.hasNext(); ) {
-                Object scope = sItr.next();
-                less.add(new Object[] {tc, scope});
-//                System.out.println(tc + " < " + scope);
-            }
-        }
-
-//        fireInfo("    populating strata...");
-
-        boolean done = false;
-        
-        int maxLevel = 0;
-        for (boolean acyclic = true; !done && acyclic && maxLevel <= levelMapping.size(); ) {
-            done = true;
-            acyclic = false;
-            for (final Iterator lItr = less.iterator(); lItr.hasNext(); ) {
-                Object[] pair = (Object[]) lItr.next();
-                int lidx = levelMapping.get(pair[0]);
-                int gidx = levelMapping.get(pair[1]);
-                if (lidx >= gidx) {
-//                    System.out.println("fix " + getName(pair[0]) + " >= " + getName(pair[1]) + ": " + lidx + " " + gidx + " -> " + (lidx + 1));
-                    levelMapping.put(pair[1], lidx + 1);
-                    if (lidx >= maxLevel) {
-                        maxLevel = lidx + 1;
-                    }
-//                    levelMapping.put(pair[1], maxLevel);
-                    done = false;
-                }
-                acyclic |= (0 == lidx);
-            }
-            
-            for (final Iterator lItr = lesseq.iterator(); lItr.hasNext(); ) {
-                Object[] pair = (Object[]) lItr.next();
-                int lidx = levelMapping.get(pair[0]);
-                int gidx = levelMapping.get(pair[1]);
-                if (lidx > gidx) {
-//                    System.out.println("fix " + getName(pair[0]) + " > " + getName(pair[1]) + ": " + lidx + " " + gidx + " -> " + lidx);
-                    levelMapping.put(pair[1], lidx);
-                    if (lidx > maxLevel) {
-                        maxLevel = lidx;
-                    }
-//                    levelMapping.put(pair[1], maxLevel);
-                    done = false;
-                }
-                acyclic |= (0 == lidx);
-            }
-        }
-        
-        if (!done) {
-            String s = orderString(levelMapping, less, lesseq);
-            throw new ResolutionException(null, "Rules are not stratifiable: max level = " + maxLevel + s);
-        }
-        
-        List[] strata = new List[maxLevel + 1];
-        for (int level = 0; level < strata.length; level++) {
-            strata[level] = new ArrayList();
-        }
-        
-        for (final Iterator itr = rules.iterator(); itr.hasNext(); ) {
-            Object scope = itr.next();
-            int level = levelMapping.get(scope);
-//            System.out.println(level + ": " + scope);
-            strata[level].add(scope);
-        }
-        
-        for (final Iterator itr = patterns.iterator(); itr.hasNext(); ) {
-            Object scope = itr.next();
-            int level = levelMapping.get(scope);
-//            System.out.println(level + ": " + scope);
-            strata[level].add(scope);
-        }
-
-        fireInfo("... " + strata.length + " levels.");
-        
-        return strata;
-    }
-    
-    private String orderString(final IntMap levelMapping, List less, List lesseq) {
-        StringBuffer sb = new StringBuffer();
-        for (final Iterator lItr = less.iterator(); lItr.hasNext(); ) {
-            Object[] pair = (Object[]) lItr.next();
-            int lidx = levelMapping.get(pair[0]);
-            int gidx = levelMapping.get(pair[1]);
-            if (true || lidx >= gidx) {
-                sb.append(", ");
-                sb.append(getName(pair[0]));
-                sb.append(" < ");
-                sb.append(getName(pair[1]));
-            }
-        }
-        for (final Iterator lItr = lesseq.iterator(); lItr.hasNext(); ) {
-            Object[] pair = (Object[]) lItr.next();
-            int lidx = levelMapping.get(pair[0]);
-            int gidx = levelMapping.get(pair[1]);
-            if (true || lidx > gidx) {
-                sb.append(", ");
-                sb.append(getName(pair[0]));
-                sb.append(" <= ");
-                sb.append(getName(pair[1]));
-            }
-        }
-        return sb.toString();
-    }
-    
-    private String getName(Object obj) {
-        if (obj instanceof EClass) {
-            return ((EClass) obj).getName();
-        } else if (obj instanceof VarScope) {
-            return ((VarScope) obj).getName();
-        } else {
-            return String.valueOf(obj);
-        }
-    }
-
-    static class Stratifier extends TefkatSwitch {
-        final Map readers = new HashMap();
-        final Map writers = new HashMap();
-        final Map neg_readers = new HashMap();
-        final Map neg_writers = new HashMap();
-        
-        boolean negated = false;
-        VarScope scope;
-        
-        public void check(VarScope scope, Term term) {
-            this.negated = false;
-            this.scope = scope;
-            
-            check(term);
-        }
-        
-        /* (non-Javadoc)
-         * @see tefkat.model.util.TefkatSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
-         */
-//        public Object doSwitch(EObject theEObject) {
-//            System.out.println(theEObject);
-//            return super.doSwitch(theEObject);
-//        }
-
-        private void store(Map map, Object key) {
-            if (!map.containsKey(key)) {
-                map.put(key, new HashSet());
-            }
-            Set set = (Set) map.get(key);
-            set.add(scope);
-        }
-        
-        private Object check(Term term, boolean newNegated) {
-            boolean oldNegated = negated;
-            negated = newNegated;
-            Object result = check(term);
-            negated = oldNegated;
-            return result;
-        }
-
-        private Object check(Term term) {
-            return doSwitch(term);
-        }
-
-        /* (non-Javadoc)
-         * @see tefkat.model.util.TefkatSwitch#caseNotTerm(tefkat.model.NotTerm)
-         */
-        public Object caseNotTerm(NotTerm object) {
-            return check((Term) object.getTerm().get(0), true);
-        }
-        
-        /* (non-Javadoc)
-         * @see tefkat.model.util.TefkatSwitch#caseIfTerm(tefkat.model.IfTerm)
-         */
-        public Object caseIfTerm(IfTerm object) {
-            check((Term) object.getTerm().get(1));
-            check((Term) object.getTerm().get(2));
-            return check((Term) object.getTerm().get(0), true);
-        }
-        
-        /**
-         * Return the Set of dependency items to add the current scope (TRule or PatternDefn) to.
-         * 
-         * @see tefkat.model.util.TefkatSwitch#caseTrackingUse(tefkat.model.TrackingUse)
-         */
-        public Object caseTrackingUse(TrackingUse object) {
-            EClass key = object.getTracking();
-            List keys = null;
-            Map map;
-            if (negated) {
-                if (isTarget(object)) {
-                    map = neg_writers;
-                    // Affects all subclasses as well
-                } else {
-                    map = neg_readers;
-                    // Affected by all superclasses as well
-                    keys = key.getEAllSuperTypes();
-                }
-            } else {
-                if (isTarget(object)) {
-                    map = writers;
-                    // Affects all subclasses as well
-                } else {
-                    map = readers;
-                    // Affected by all superclasses as well
-                    keys = key.getEAllSuperTypes();
-                }
-            }
-            store(map, key);
-            if (null != keys) {
-                for (Iterator itr = keys.iterator(); itr.hasNext(); ) {
-                    store(map, itr.next());
-                }
-            }
-            return this;
-        }
-        
-        /* (non-Javadoc)
-         * @see tefkat.model.util.TefkatSwitch#casePatternUse(tefkat.model.PatternUse)
-         */
-        public Object casePatternUse(PatternUse object) {
-            PatternDefn key = object.getDefn();
-            if (null == key) {
-                // special case for "println"
-                return null;
-            }
-            Map map;
-            if (negated) {
-                if (isTarget(object)) {
-                    map = neg_writers;
-                } else {
-                    map = neg_readers;
-                }
-            } else {
-                if (isTarget(object)) {
-                    map = writers;
-                } else {
-                    map = readers;
-                }
-            }
-            store(map, key);
-            return this;
-        }
-        
-        /* (non-Javadoc)
-         * @see tefkat.model.util.TefkatSwitch#caseCompoundTerm(tefkat.model.CompoundTerm)
-         */
-        public Object caseCompoundTerm(CompoundTerm object) {
-            List terms = object.getTerm();
-            for (final Iterator termItr = terms.iterator(); termItr.hasNext(); ) {
-                Term term = (Term) termItr.next();
-                check(term);
-            }
-            return null;
-        }
-        
-    }
-
     private void evaluate(TRule trule) throws ResolutionException {
         // Only evaluate rules once
         if (evalCache.containsKey(trule)) {
@@ -686,7 +362,7 @@ public class RuleEvaluator {
         }
         fireEvaluateRule(trule, _context, false);
 
-        Collection goal = getGoal(trule);
+        Collection goal = trule.getGoal();
         Collection ruleContexts = generateContexts(trule, _context);
 
         // FIXME - no rule caching any more
@@ -699,7 +375,7 @@ public class RuleEvaluator {
             
             tree.addTreeListener(new TreeListener() {
 
-                public void solution(Node node) throws ResolutionException {
+                public void solution(Binding answer) throws ResolutionException {
                     // nothing to do in this case
                 }
 
@@ -978,22 +654,12 @@ public class RuleEvaluator {
     //            ((TefkatListener) itr.next()).evaluateTarget(rule, context);
     //        }
     //    }
-
-    private Collection getGoal(TRule trule) throws ResolutionException {
-        Collection goal = new ArrayList();
-
-        goal.addAll(getSourceTerms(trule));
-        goal.addAll(getOverrideTerms(trule));
-        goal.addAll(getTargetTerms(trule));
-        
-        return goal;
-    }
     
     private void doEvaluate(TRule trule, Binding context)
             throws ResolutionException {
         Collection truleSolutions = new HashSet();
 
-        Collection goal = getGoal(trule);
+        Collection goal = trule.getGoal();
 
         //        System.out.println(trule.getName() + ": S " + getSourceTerms(trule));
         //        System.out.println(trule.getName() + ": O " +
@@ -1267,7 +933,7 @@ public class RuleEvaluator {
         //    + select anything else (target terms) last
         //
         for (int i = 0; i < literals.length; i++) {
-            if (!(isTarget(literals[i]) || literals[i] instanceof NotTerm || literals[i] instanceof OverrideTerm)) {
+            if (!(isTarget(literals[i]) || literals[i] instanceof NotTerm)) {
                 node.selectLiteral(literals[i]);
                 return literals[i];
             }
@@ -1318,7 +984,7 @@ public class RuleEvaluator {
      * @param term
      * @return
      */
-    private static boolean isTarget(Term term) {
+    static boolean isTarget(Term term) {
         CompoundTerm parent = term.getCompoundTerm();
         return (term instanceof TargetTerm)
                 && (((TargetTerm) term).getTRuleTgt() != null
@@ -1364,40 +1030,6 @@ public class RuleEvaluator {
      */
     private Map invertedSupMap;
 
-    private final Map sourceTermMap = new HashMap();
-
-    /**
-     * Returns all the source Terms in the transitive closure of the extends and
-     * supersedes relationship of the TRule.
-     * 
-     * @param rule
-     * @return
-     */
-    private List getSourceTerms(TRule rule) throws ResolutionException {
-        List sources = (List) sourceTermMap.get(rule);
-        if (null == sources) {
-            sources = new ArrayList();
-
-            Term srcTerm = rule.getSrc();
-            if (null != srcTerm) {
-                sources.add(srcTerm);
-            }
-
-            for (Iterator itr = rule.getExtended().iterator(); itr.hasNext();) {
-                TRule extRule = (TRule) itr.next();
-                sources.addAll(getSourceTerms(extRule));
-            }
-
-            for (Iterator itr = rule.getSuperseded().iterator(); itr.hasNext();) {
-                TRule supRule = (TRule) itr.next();
-                sources.addAll(getSourceTerms(supRule));
-            }
-
-            sourceTermMap.put(rule, sources);
-        }
-        return sources;
-    }
-
     private final Map extendsBindingMap = new HashMap();
 
     /**
@@ -1429,58 +1061,6 @@ public class RuleEvaluator {
             extendsBindingMap.put(rule, binding);
         }
         return binding;
-    }
-
-    private final Map targetTermMap = new HashMap();
-
-    /**
-     * Returns all the target Terms in the transitive closure of the extends
-     * relationship of the TRule.
-     * 
-     * @param rule
-     * @return
-     */
-    private List getTargetTerms(TRule rule) {
-        List targets = (List) targetTermMap.get(rule);
-        if (null == targets) {
-            targets = new ArrayList();
-
-            targets.addAll(rule.getTgt());
-
-            for (Iterator itr = rule.getExtended().iterator(); itr.hasNext();) {
-                TRule extRule = (TRule) itr.next();
-                targets.addAll(getTargetTerms(extRule));
-            }
-
-            targetTermMap.put(rule, targets);
-        }
-        return targets;
-    }
-
-    private final Map overrideTermMap = new HashMap();
-
-    private List getOverrideTerms(TRule rule) throws ResolutionException {
-        List overs = (List) overrideTermMap.get(rule);
-        if (null == overs) {
-            overs = new ArrayList();
-
-            List supersedingRules = getList(invertedSupMap, rule);
-            for (Iterator itr = supersedingRules.iterator(); itr.hasNext();) {
-                TRule supersedingRule = (TRule) itr.next();
-
-                OverrideTerm override = new OverrideTerm();
-                override.getNegatedTerms().addAll(
-                        getSourceTerms(supersedingRule));
-                overs.add(override);
-            }
-
-            for (Iterator itr = rule.getExtended().iterator(); itr.hasNext();) {
-                TRule extRule = (TRule) itr.next();
-                overs.addAll(getOverrideTerms(extRule));
-            }
-        }
-
-        return overs;
     }
 
     private final Map overrideBindingMap = new HashMap();
@@ -1642,7 +1222,7 @@ public class RuleEvaluator {
         return contextSet;
     }
 
-    static class TestBulidMaps {
+    static class TestBuildMaps {
         public static void main(String[] args) throws ResolutionException {
             Transformation t = TefkatFactory.eINSTANCE.createTransformation();
 
@@ -1692,25 +1272,25 @@ public class RuleEvaluator {
 
             re.buildMaps(t);
 
-            System.out.println("s1prime: " + re.getSourceTerms(r1));
-            System.out.println("t1prime: " + re.getTargetTerms(r1));
-            System.out.println("over1  : " + re.getOverrideTerms(r1));
-            System.out.println();
-
-            System.out.println("s2prime: " + re.getSourceTerms(r2));
-            System.out.println("t2prime: " + re.getTargetTerms(r2));
-            System.out.println("over2  : " + re.getOverrideTerms(r2));
-            System.out.println();
-
-            System.out.println("s3prime: " + re.getSourceTerms(r3));
-            System.out.println("t3prime: " + re.getTargetTerms(r3));
-            System.out.println("over3  : " + re.getOverrideTerms(r3));
-            System.out.println();
-
-            System.out.println("s4prime: " + re.getSourceTerms(r4));
-            System.out.println("t4prime: " + re.getTargetTerms(r4));
-            System.out.println("over4  : " + re.getOverrideTerms(r4));
-            System.out.println();
+//            System.out.println("s1prime: " + re.getSourceTerms(r1));
+//            System.out.println("t1prime: " + re.getTargetTerms(r1));
+//            System.out.println("over1  : " + re.getOverrideTerms(r1));
+//            System.out.println();
+//
+//            System.out.println("s2prime: " + re.getSourceTerms(r2));
+//            System.out.println("t2prime: " + re.getTargetTerms(r2));
+//            System.out.println("over2  : " + re.getOverrideTerms(r2));
+//            System.out.println();
+//
+//            System.out.println("s3prime: " + re.getSourceTerms(r3));
+//            System.out.println("t3prime: " + re.getTargetTerms(r3));
+//            System.out.println("over3  : " + re.getOverrideTerms(r3));
+//            System.out.println();
+//
+//            System.out.println("s4prime: " + re.getSourceTerms(r4));
+//            System.out.println("t4prime: " + re.getTargetTerms(r4));
+//            System.out.println("over4  : " + re.getOverrideTerms(r4));
+//            System.out.println();
 
             Binding b1 = new Binding(re.getExtendsBinding(r1));
             b1.composeRight(re.getOverrideBinding(r1));

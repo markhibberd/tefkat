@@ -537,23 +537,6 @@ class SourceResolver extends AbstractResolver {
         evalNegatedGoal(tree, node, literal, negGoal);
     }
 
-
-    protected void resolveOverrideTerm(
-        Tree tree,
-        Node node,
-        Collection goal,
-        OverrideTerm literal)
-        throws ResolutionException {
-        /**
-         *  Create a new subtree attached to this node, and mark
-         *  that tree as a negative tree.
-         */
-        OverrideTerm term = (OverrideTerm) literal;
-        Collection negGoal = new ArrayList(term.getNegatedTerms());
-        
-        evalNegatedGoal(tree, node, goal, literal, negGoal);
-    }
-
     /**
      * @param tree
      * @param node
@@ -569,18 +552,18 @@ class SourceResolver extends AbstractResolver {
         // leading to possible spurious flounderings -- see also resolveIfTerm 
         Node newRoot = new Node(negGoal, context);
         final Tree newTree = new Tree(tree.getTransformation(), tree, node, newRoot, tree.getContext(), tree.getTrackingExtent(), true);
-	newTree.setLevel(tree.getLevel() - 1);
+        newTree.setLevel(tree.getLevel() - 1);
 
-	if (ruleEval.INCREMENTAL) {
+        if (ruleEval.INCREMENTAL) {
             newTree.addTreeListener(new TreeListener() {
 
-                public void solution(Node sNode) {
+                public void solution(Binding answer) {
                 }
 
                 public void completed(Tree theTree) {
                     if (theTree.isSuccess()) {
-			newTree.removeTreeListener(this);
-			tree.failure(node);
+                    	newTree.removeTreeListener(this);
+                    	tree.failure(node);
                     } else {
                     	// Negation tree finitely failed, regard as true.
                     	//

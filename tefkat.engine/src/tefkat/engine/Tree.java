@@ -155,7 +155,6 @@ public class Tree {
 
     public void success(Node node) throws ResolutionException {
         node.setIsSuccess(true);
-        successes.add(node);
         
         Binding answer = node.getBindings();
         if (!answers.contains(answer)) {
@@ -176,12 +175,12 @@ public class Tree {
         node.setIsFailure(true);
     }
 
-    public Collection successes() {
-        return successes;
+    public Collection getAnswers() {
+        return answers;
     }
 
     public boolean isSuccess() {
-        return (successes.size() > 0);
+        return (answers.size() > 0);
     }
     
     public boolean isCompleted() {

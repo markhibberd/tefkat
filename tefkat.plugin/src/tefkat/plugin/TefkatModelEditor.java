@@ -19,6 +19,8 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IMarker;
@@ -55,6 +57,8 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.xsd.util.XSDResourceImpl;
 
+import tefkat.model.StratificationException;
+import tefkat.model.Transformation;
 import tefkat.model.internal.ModelUtils;
 import tefkat.model.parser.ParserEvent;
 import tefkat.model.parser.ParserListener;
@@ -88,9 +92,13 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         SERIALIZATION_OPTIONS.put(XSDResourceImpl.XSD_TRACK_LOCATION, Boolean.TRUE);
 
     }
-    
-    private StyledText text;
+    private int EDITOR_PAGE = -1;
+    private int XMI_PAGE = -1;
+    private int STRATIFICATION_PAGE = -1;
+
     private TextEditor textEditor;
+    private StyledText xmiText;
+    private StyledText stratificationText;
     
     private TefkatModelOutlinePage outline = null;
 
@@ -116,15 +124,16 @@ public class TefkatModelEditor extends MultiPageEditorPart {
      * @see org.eclipse.ui.part.MultiPageEditorPart#createPages()
      */
     protected void createPages() {
-        createPage0();
-        createPage1();
+        createEditorPage();
+        createXMIPage();
+        createStratificationPage();
 //        IActionBars actionBars = getEditorSite().getActionBars();
 //        System.out.println(actionBars.getGlobalActionHandler(ActionFactory.PRINT.getId()));
 //        System.out.println(ActionFactory.PRINT);
 //        actionBars.setGlobalActionHandler(ActionFactory.PRINT.getId(), ActionFactory.PRINT.create(getEditorSite().getWorkbenchWindow()));
     }
 
-    private void createPage0() {
+    private void createEditorPage() {
         textEditor = new TefkatTextEditor();
         textEditor.addPropertyListener(new IPropertyListener() {
             public void propertyChanged(final Object source, final int propId) {
@@ -135,9 +144,9 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         });
 
         try {
-            int index = addPage(textEditor, getEditorInput());
+            EDITOR_PAGE = addPage(textEditor, getEditorInput());
             setPartName(getEditorInput().getName());
-            setPageText(index, "Transformation");
+            setPageText(EDITOR_PAGE, "Transformation");
         } catch (PartInitException e) {
             ErrorDialog.openError(
                            getSite().getShell(),
@@ -147,21 +156,34 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         }
     }
 
-    private void createPage1() {
+    private void createXMIPage() {
         Composite composite = new Composite(getContainer(), SWT.NONE);
         FillLayout layout = new FillLayout();
         composite.setLayout(layout);
-        text = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
-        text.setEditable(false);
+        xmiText = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
+        xmiText.setEditable(false);
         
-        int index = addPage(composite);
-        setPageText(index, "XMI Preview");
+        XMI_PAGE = addPage(composite);
+        setPageText(XMI_PAGE, "XMI Preview");
         runner.requestParse();
+    }
+
+    private void createStratificationPage() {
+        Composite composite = new Composite(getContainer(), SWT.NONE);
+        FillLayout layout = new FillLayout();
+        composite.setLayout(layout);
+        stratificationText = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
+        stratificationText.setEditable(false);
+        
+        STRATIFICATION_PAGE = addPage(composite);
+        setPageText(STRATIFICATION_PAGE, "Stratification");
     }
 
     protected void pageChange(int newPageIndex) {
         super.pageChange(newPageIndex);
-        if (newPageIndex == 1) {
+        if (newPageIndex == XMI_PAGE) {
+            runner.requestParse();
+        } else if (newPageIndex == STRATIFICATION_PAGE) {
             runner.requestParse();
         }
     }
@@ -170,7 +192,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
      * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
      */
     public void doSave(IProgressMonitor monitor) {
-        getEditor(0).doSave(monitor);
+        getEditor(EDITOR_PAGE).doSave(monitor);
     }
 
     /* (non-Javadoc)
@@ -179,7 +201,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     public void doSaveAs() {
         IEditorPart editor = getEditor(0);
         editor.doSaveAs();
-        setPageText(0, editor.getTitle());
+        setPageText(EDITOR_PAGE, editor.getTitle());
         setInput(editor.getEditorInput());
     }
 
@@ -187,7 +209,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
      * @see org.eclipse.ui.part.EditorPart#gotoMarker(org.eclipse.core.resources.IMarker)
      */
     public void gotoMarker(IMarker marker) {
-        setActivePage(0);
+        setActivePage(EDITOR_PAGE);
         IGotoMarker gotoMarker = (IGotoMarker) getEditor(0).getAdapter(IGotoMarker.class);
         if (gotoMarker != null) {
             gotoMarker.gotoMarker(marker);
@@ -221,7 +243,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
          */
         protected void selectAndReveal(int selectionStart, int selectionLength,
                 int revealStart, int revealLength) {
-            pageChange(0);
+            pageChange(EDITOR_PAGE);
             super.selectAndReveal(selectionStart, selectionLength, revealStart,
                     revealLength);
         }
@@ -334,6 +356,8 @@ public class TefkatModelEditor extends MultiPageEditorPart {
             URI uri = URI.createPlatformResourceURI(resource.getFullPath().toString());
             final Resource res = resourceSet.createResource(uri);
         
+            final OutputStream out = new ByteArrayOutputStream();
+            final StringBuffer sb = new StringBuffer();
             try {
                 parser.setResource(res);
                 final Transformation transformation = parser.transformation();
@@ -361,16 +385,22 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                         if (null != outline) {
                             outline.setResource(res);
                         }
-                        text.setText(xmi);
+                        xmiText.setText(out.toString());
+                        stratificationText.setText(sb.toString());
                     }
                 });
-            } catch (final RecognitionException e) {
-                createErrorMarker(resource, e.toString(), e.getLine());
-            } catch (final ANTLRException e) {
-                createErrorMarker(resource, e.toString(), lexer.getLine());
-            } catch (final Exception e) {
-                e.printStackTrace();
-                createErrorMarker(resource, e.toString(), lexer.getLine());
+            }
+        }
+
+        private void printStrata(final StringBuffer sb, final List[] strata) {
+            for (int i = 0; i < strata.length; i++) {
+                if (strata[i].size() > 0) {
+                    sb.append("Stratum: ").append(i).append("\n");
+                    for (Iterator itr = strata[i].iterator(); itr.hasNext(); ) {
+                        Object scope = itr.next();
+                        sb.append("\t").append(scope).append("\n");
+                    }
+                }
             }
         }
 
@@ -379,7 +409,6 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     private void createErrorMarker(final IResource resource, final String message, final int line) {
     Display.getDefault().asyncExec(new Runnable() {
         public void run() {
-        text.setText(message);
         try {
             Map map = new HashMap(3);
             map.put(IMarker.LINE_NUMBER, new Integer(line));
@@ -397,7 +426,6 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     private void createWarningMarker(final IResource resource, final String message, final int line) {
 	Display.getDefault().asyncExec(new Runnable() {
 	    public void run() {
-		text.setText(message);
 		try {
 		    Map map = new HashMap(3);
 		    map.put(IMarker.LINE_NUMBER, new Integer(line));
@@ -432,14 +460,17 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                     public void selectionChanged(SelectionChangedEvent event) {
                         ISelection selection = event.getSelection();
                         if (!selection.isEmpty()) {
-                            EObject obj = (EObject) ((IStructuredSelection) selection).getFirstElement();
-                            Integer startChar = getStartChar(obj);
-                            Integer endChar = getEndChar(obj);
-                            if (null != startChar && null != endChar) {
-                                int start = startChar.intValue();
-                                int length = endChar.intValue() - start;
-                                textEditor.setHighlightRange(start, length, true);
-                                return;
+                            Object selectionElement = ((IStructuredSelection) selection).getFirstElement();
+                            if (selectionElement instanceof EObject) {
+                                EObject obj = (EObject) selectionElement;
+                                Integer startChar = getStartChar(obj);
+                                Integer endChar = getEndChar(obj);
+                                if (null != startChar && null != endChar) {
+                                    int start = startChar.intValue();
+                                    int length = endChar.intValue() - start;
+                                    textEditor.setHighlightRange(start, length, true);
+                                    return;
+                                }
                             }
                         }
 

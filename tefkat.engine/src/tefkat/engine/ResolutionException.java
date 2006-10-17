@@ -14,7 +14,9 @@
 
 package tefkat.engine;
 
-public class ResolutionException extends Exception {
+import tefkat.model.TefkatException;
+
+public class ResolutionException extends TefkatException {
     /**
      * 
      */

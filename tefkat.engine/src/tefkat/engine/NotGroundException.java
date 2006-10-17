@@ -14,11 +14,13 @@
 
 package tefkat.engine;
 
+import tefkat.model.TefkatException;
+
 /**
  * @author lawley
  *
  */
-public class NotGroundException extends Exception {
+public class NotGroundException extends TefkatException {
 
     /**
      * 

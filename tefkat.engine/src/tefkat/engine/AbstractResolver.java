@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import tefkat.model.*;
+import tefkat.model.internal.IntMap;
 import tefkat.model.internal.ModelUtils;
 
 
@@ -124,7 +125,7 @@ abstract class AbstractResolver {
     /**
      *  Collect the unifiers that describe the solutions to the goal.
      *  If the goal was not successful, throws a RuntimeExpcetion.
-     *  @see #getSucceeded
+     *  
      *  @return A collection of unifiers, each unifier containing only the set
      *          or variables in the goal, and mapping each variable to a term.
      */
@@ -136,9 +137,9 @@ abstract class AbstractResolver {
         
         Collection unifiers = new ArrayList();
       
-        for (Iterator itr = tree.successes().iterator(); itr.hasNext(); ) {
-            Node node = (Node) itr.next();
-            unifiers.add(node.getBindings());
+        for (Iterator itr = tree.getAnswers().iterator(); itr.hasNext(); ) {
+            Binding answer = (Binding) itr.next();
+            unifiers.add(answer);
         }
 
 //        Binding init = new Binding();
@@ -214,11 +215,7 @@ abstract class AbstractResolver {
             break;
             
         default:
-            if (literal instanceof OverrideTerm) {
-                resolveOverrideTerm(tree, node, goal, (OverrideTerm) literal);
-            } else {
-            	throw new ResolutionException(node, "Unrecognised term type: " + literal);
-            }
+            throw new ResolutionException(node, "Unrecognised term type: " + literal);
         }
         
         long end = System.currentTimeMillis();
@@ -279,12 +276,6 @@ abstract class AbstractResolver {
      */
     protected abstract void resolveNotTerm(Tree tree, Node node,
             NotTerm literal) throws ResolutionException, NotGroundException;
-
-
-    protected void resolveOverrideTerm(Tree tree, Node node, Collection goal,
-        OverrideTerm literal) throws ResolutionException {
-        // Overridden in subtypes
-    }
     
     /**
      * Resolve the PatternDefn passing in a set of bindings for the vars.
@@ -381,7 +372,6 @@ abstract class AbstractResolver {
             final List pDefVars, final List args, final PatternDefn pDefn,
             final Binding callContext, final Binding parameterContext, final boolean isNegation)
     throws ResolutionException {
-        Tree resultTree = null;
 
         final Collection newGoal = new ArrayList(node.goal());
         newGoal.remove(literal);
@@ -398,7 +388,7 @@ abstract class AbstractResolver {
             Node patternNode = new Node(patGoal, parameterContext);
         
             resultTree = new Tree(tree.getTransformation(), tree, node, patternNode, tree.getContext(), tree.getTrackingExtent(), isNegation);
-	    resultTree.setLevel(tree.getLevel());
+            resultTree.setLevel(tree.getLevel());
             
             ruleEval.addUnresolvedTree(resultTree);
 
@@ -410,10 +400,9 @@ abstract class AbstractResolver {
             
             resultTree.addTreeListener(new TreeListener() {
 
-                public void solution(Node sNode) throws ResolutionException {
+                public void solution(Binding answer) throws ResolutionException {
                     Binding unifier = createOutputBinding(node, callContext, pDefVars, args, answer);
 
-                    // System.err.println("  u " + unifier); // TODO delete
                     tree.createBranch(node, unifier, newGoal);
                 }
 
@@ -436,9 +425,9 @@ abstract class AbstractResolver {
             
             Collection solutions = solutions(resultTree, pDefVars);
             for (Iterator itr = solutions.iterator(); itr.hasNext();) {
+                Binding answer = (Binding) itr.next();
                 Binding unifier = createOutputBinding(node, callContext, pDefVars, args, answer);
 
-                // System.err.println("  u " + unifier); // TODO delete
                 tree.createBranch(node, unifier, newGoal);
             }
         }
@@ -617,8 +606,8 @@ abstract class AbstractResolver {
             
             newTree.addTreeListener(new TreeListener() {
 
-                public void solution(Node sNode) {
-                    Binding sContext = new Binding(sNode.getBindings());
+                public void solution(Binding answer) {
+                    Binding sContext = new Binding(answer);
                     tree.createBranch(node, sContext, newGoal);
                 }
 

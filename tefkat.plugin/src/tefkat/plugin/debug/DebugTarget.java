@@ -37,7 +37,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import tefkat.engine.Binding;
 import tefkat.engine.Node;
-import tefkat.engine.OverrideTerm;
 import tefkat.engine.Tefkat;
 import tefkat.engine.TefkatListener;
 import tefkat.engine.TefkatListener2;
@@ -415,11 +414,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
                 return pos.intValue();
             }
             // not found so go to parent
-            if (obj instanceof OverrideTerm) {
-                obj = (EObject) ((OverrideTerm) obj).getNegatedTerms().get(0);
-            } else {
-                obj = obj.eContainer();
-            }
+            obj = obj.eContainer();
         }
         return -1;
     }
@@ -432,11 +427,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
                 return pos.intValue();
             }
             // not found so go to parent
-            if (obj instanceof OverrideTerm) {
-                obj = (EObject) ((OverrideTerm) obj).getNegatedTerms().get(0);
-            } else {
-                obj = obj.eContainer();
-            }
+            obj = obj.eContainer();
         }
         return -1;
     }
