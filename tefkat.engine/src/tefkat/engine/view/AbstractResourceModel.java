@@ -41,13 +41,13 @@ public abstract class AbstractResourceModel extends DefaultGraphModel {
 
     protected Map cellMap;
 
-    protected static final float[] DASH_PATTERN = { 2f, 4f };
+    static final float[] DASH_PATTERN = { 2f, 4f };
 
-    protected static int width = 80;
+    static int width = 80;
 
-    protected static int height = 40;
+    static int height = 40;
 
-    protected static int gap = 5;
+    static int gap = 5;
     
     protected boolean includeRefs = false;
 

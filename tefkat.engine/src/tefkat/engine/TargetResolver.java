@@ -32,7 +32,7 @@ import tefkat.engine.trace.TraceFactory;
 import tefkat.engine.trace.TracePackage;
 import tefkat.engine.trace.impl.TracePackageImpl;
 import tefkat.model.*;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 
 
 import java.math.BigDecimal;
@@ -77,12 +77,12 @@ class TargetResolver extends AbstractResolver {
     	super(evaluator);
     }
 
-    protected void doResolveNode(Tree tree, Node node, Collection goal,
-            Term literal, boolean isNegation) throws ResolutionException, NotGroundException {
+    protected void doResolveNode(final Tree tree, final Node node, final Term literal, final boolean isNegation)
+    throws ResolutionException, NotGroundException {
         if (literal instanceof Injection) {
-            resolveInjection(tree, node, goal, (Injection) literal);
+            resolveInjection(tree, node, (Injection) literal);
         } else {
-            super.doResolveNode(tree, node, goal, literal, isNegation);
+            super.doResolveNode(tree, node, literal, isNegation);
         }
     }
     
@@ -124,10 +124,10 @@ class TargetResolver extends AbstractResolver {
     }
     
     protected boolean resolveInjection(
-            Tree tree,
-            Node node,
-            Collection goal,
-            Injection literal) throws ResolutionException, NotGroundException {
+            final Tree tree,
+            final Node node,
+            final Injection literal)
+    throws ResolutionException, NotGroundException {
         List keySet = new ArrayList();
         
         List sources = literal.getSources();
@@ -137,7 +137,7 @@ class TargetResolver extends AbstractResolver {
             List vals = exprEval.eval(node, expr);
             if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
                 WrappedVar wVar = (WrappedVar) vals.get(0);
-                Collection instances = exprEval.expand(wVar, expr);
+                Collection instances = exprEval.expand(wVar);
                 List pairs = new ArrayList(instances.size());
                 for (Iterator instItr = instances.iterator(); instItr.hasNext(); ) {
                     Object o = instItr.next();
@@ -178,7 +178,7 @@ class TargetResolver extends AbstractResolver {
                 throw new ResolutionException(node, "Incompatible values for variable: " + targetVarUse.getVar());
             }
         
-            Collection newGoal = new ArrayList(goal);
+            Collection newGoal = new ArrayList(node.goal());
             newGoal.remove(literal);
             tree.createBranch(node, unifier, newGoal);
         }
@@ -212,18 +212,16 @@ class TargetResolver extends AbstractResolver {
      * @param literal
      */
     protected void resolveTrackingUse(
-        Tree tree,
-        Node node,
-        Collection goal,
-        Term literal)
-        throws ResolutionException, NotGroundException {
+            final Tree tree,
+            final Node node,
+            final TrackingUse literal)
+    throws ResolutionException, NotGroundException {
 
         long t1 = System.currentTimeMillis();
         
         // Get the properties of the TrackingUse
-        TrackingUse term = (TrackingUse) literal;
         
-        EClass trackingClass = term.getTracking();
+        EClass trackingClass = literal.getTracking();
         if (trackingClass.eIsProxy()) {
             // If it's still a proxy after the getTracking() call, the cross-document reference proxy has
             // not been resolved, meaning the reference was dodgy, i.e. to a non-existent class or something
@@ -232,7 +230,7 @@ class TargetResolver extends AbstractResolver {
         }
 
         Map featureVal = new HashMap();
-        List featureList = term.getFeatures();
+        List featureList = literal.getFeatures();
         
         for (Iterator itr = featureList.iterator(); itr.hasNext(); ) {
             Map.Entry keyEntry = (Map.Entry) itr.next();
@@ -289,7 +287,7 @@ class TargetResolver extends AbstractResolver {
         elapsed[1] += t3-t2;
         elapsed[2] += t4-t3;
         
-        Collection newGoal = new ArrayList(goal);
+        Collection newGoal = new ArrayList(node.goal());
         newGoal.remove(literal);
         tree.createBranch(node, null, newGoal);
     }
@@ -303,7 +301,7 @@ class TargetResolver extends AbstractResolver {
         // TODO fixme - should probably use DynamicObjects for tracking instances
         EPackage trackingPackage = trackingClass.getEPackage();
         if (null == trackingPackage) {
-            throw new ResolutionException(node, "Malformed class: " + Util.getFullyQualifiedName(trackingClass) + " not contained in a package.");
+            throw new ResolutionException(node, "Malformed class: " + ModelUtils.getFullyQualifiedName(trackingClass) + " not contained in a package.");
         }
         EFactory trackingFactory = trackingPackage.getEFactoryInstance();
         trackingInstance = trackingFactory.create(trackingClass);
@@ -359,18 +357,16 @@ class TargetResolver extends AbstractResolver {
     }
 
     protected boolean resolveMofInstance(
-        Tree tree,
-        Node node,
-        Collection goal,
-        Term literal)
-        throws ResolutionException, NotGroundException {
+            final Tree tree,
+            final Node node,
+            final MofInstance literal)
+    throws ResolutionException, NotGroundException {
 
-        MofInstance term = (MofInstance) literal;
-        Expression instanceExpr = term.getInstance();
+        Expression instanceExpr = literal.getInstance();
         Collection instances = exprEval.eval(node, instanceExpr);
 
         // deal with type
-        List results = exprEval.eval(node, term.getTypeName());
+        List results = exprEval.eval(node, literal.getTypeName());
         if (results.size() != 1) {
             throw new ResolutionException(node, "Expected only a single type name, got: " + results);
         }
@@ -395,22 +391,18 @@ class TargetResolver extends AbstractResolver {
 		    if (!"_".equals(typeObj)) {
 			Map nameMap = getNameMap();
 			String typeName = (String) typeObj;
-			EClassifier eClassifier = Util.findClassifierByName(nameMap, typeName);
-                        if (null == eClassifier) {
-                            for (final Iterator nItr = nameMap.keySet().iterator(); nItr.hasNext(); ) {
-                                Object entry =  nItr.next();
-                                System.out.println(entry);
-                            }
-                            throw new ResolutionException(node, "Expected an EClass called: " + typeName + ", but found nothing");
+			EClassifier eClassifier = ModelUtils.findClassifierByName(nameMap, typeName);
+			if (null == eClassifier) {
+//			    for (final Iterator nItr = nameMap.keySet().iterator(); nItr.hasNext(); ) {
+//			        Object entry =  nItr.next();
+//			        System.out.println(entry);
+//			    }
+			    throw new ResolutionException(node, "Expected an EClass called: " + typeName + ", but found nothing");
 			} else if (!(eClassifier instanceof EClass)) {
 			    throw new ResolutionException(node, "Expected an EClass called: " + typeName + ", but found an EDataType or EEnum");
 			}
 			EClass subCls = (EClass) eClassifier;
                         
-			if (null == subCls) {
-			    throw new ResolutionException(node, "Cannot find class named: " + typeName);
-			}
-
 			boolean result = conformToType(eObj, subCls);
 			if (!result) {
 			    throw new ResolutionException(node, "Type mismatch, " + typeName + " not compatible with " + eObj.eClass());
@@ -426,7 +418,7 @@ class TargetResolver extends AbstractResolver {
                     throw new ResolutionException(node, "Invalid Expression type for MofInstance.typeName: " + typeObj);
                 }
                 
-                if (term.isExact() && eObj instanceof DynamicObject) {
+                if (literal.isExact() && eObj instanceof DynamicObject) {
                     if (eObj.eResource() != null) {
                         eObj.eResource().getContents().remove(eObj);
 //                      System.err.println("  ...removed: " + eObj.hashCode());
@@ -435,7 +427,7 @@ class TargetResolver extends AbstractResolver {
                 }
                 
                 // deal with extent
-                Extent extentObj = (Extent) node.lookup(term.getExtent());
+                Extent extentObj = (Extent) node.lookup(literal.getExtent());
                 if (null != extentObj) {
                     // Extents are optional, but dangling objects may be created that
                     // should cause errors when the Resource is saved, but only if there
@@ -450,8 +442,8 @@ class TargetResolver extends AbstractResolver {
             }
         }
         
-        Collection newGoal = new ArrayList(goal);
-        newGoal.remove(term);
+        Collection newGoal = new ArrayList(node.goal());
+        newGoal.remove(literal);
         tree.createBranch(node, unifier, newGoal);
 
         return true;
@@ -491,17 +483,17 @@ class TargetResolver extends AbstractResolver {
         return result;
     }
 
-    protected void resolveCondition(Tree tree, Node node, Collection goal,
-            Condition literal) throws ResolutionException, NotGroundException {
+    protected void resolveCondition(final Tree tree, final Node node, final Condition literal)
+    throws ResolutionException, NotGroundException {
 
         Condition term = (Condition) literal;
 
         String relation = term.getRelation();
 
         if (relation.equals("=")) {
-            handleBindingCondition(tree, node, goal, term);
+            handleBindingCondition(tree, node, term);
         } else if (relation.equals("boolean")) {
-            handleBooleanCondition(tree, node, goal, term);
+            handleBooleanCondition(tree, node, term);
         } else {
             throw new ResolutionException(node, "Target condition containing "
                     + relation + " is Not Yet Implemented");
@@ -516,7 +508,8 @@ class TargetResolver extends AbstractResolver {
      * @throws ResolutionException
      * @throws NotGroundException
      */
-    private void handleBooleanCondition(Tree tree, Node node, Collection goal, Condition term) throws ResolutionException, NotGroundException {
+    private void handleBooleanCondition(final Tree tree, final Node node, final Condition term)
+    throws ResolutionException, NotGroundException {
         List args = term.getArg();
         Collection vals = exprEval.eval(node, (Expression) args.get(0));
         for (Iterator itr = vals.iterator(); itr.hasNext(); ) {
@@ -534,7 +527,7 @@ class TargetResolver extends AbstractResolver {
 
         // This is outside the loop since there's no point in creating
         // multiple branches for the same (new) goal and empty Binding.
-        Collection newGoal = new ArrayList(goal);
+        Collection newGoal = new ArrayList(node.goal());
         newGoal.remove(term);
         tree.createBranch(node, null, newGoal);
     }
@@ -547,7 +540,8 @@ class TargetResolver extends AbstractResolver {
      * @throws ResolutionException
      * @throws NotGroundException
      */
-    private void handleBindingCondition(Tree tree, Node node, Collection goal, Condition term) throws ResolutionException, NotGroundException {
+    private void handleBindingCondition(final Tree tree, final Node node, final Condition term)
+    throws ResolutionException, NotGroundException {
         List args = term.getArg();
 
         // The following possibilities exist:
@@ -570,23 +564,26 @@ class TargetResolver extends AbstractResolver {
             
             for (Iterator fItr = featureNames.iterator(); fItr.hasNext(); ) {
                 Object fObj = fItr.next();
+		EStructuralFeature featureObj = null;
+                String featureName = null;
+
                 if (fObj instanceof WrappedVar) {
-                    AbstractVar var = ((WrappedVar) fObj).getVar();
+                    Var var = ((WrappedVar) fObj).getVar();
                     throw new NotGroundException(
                         "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featExpr.getFeature());
                 } else if (fObj instanceof EStructuralFeature) {
-                    // TODO FIXME this is a HACK
-                    fObj = ((EStructuralFeature) fObj).getName();
+                    featureObj = (EStructuralFeature) fObj;
                 } else if (!(fObj instanceof String)) {
                     throw new ResolutionException(node, "The Feature Expression " + featExpr + " must evaluate to a feature name of type String, not " + fObj.getClass());
-                }
-                String featureName = (String) fObj;
+                } else {
+		    featureName = (String) fObj;
+		}
                 
                 for (Iterator itr = objs.iterator(); itr.hasNext(); ) {
                     Object obj = itr.next();
                 
                     if (obj instanceof WrappedVar) {
-                        AbstractVar var = ((WrappedVar) obj).getVar();
+                        Var var = ((WrappedVar) obj).getVar();
                         throw new NotGroundException(
                             "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featureName);
                     } else if (!(obj instanceof EObject)) {
@@ -597,9 +594,20 @@ class TargetResolver extends AbstractResolver {
                 
                     EObject instance = (EObject) obj;
 
-                    EStructuralFeature eFeature = getFeature(node, instance.eClass(), featureName);
+                    EStructuralFeature theFeature;
+		    if (null == featureObj) {
+			theFeature = getFeature(node, instance.eClass(), featureName);
+		    } else {
+			EClass objClass = instance.eClass();
+			EClass featureClass = featureObj.getEContainingClass();
+			if (objClass.equals(featureClass) || objClass.getEAllSuperTypes().contains(featureClass)) {
+			    theFeature = featureObj;
+			} else {
+			    throw new ResolutionException(node, "The target feature " + featureObj + " does not belong to the object " + instance);
+			}
+		    }
                     
-                    if (eFeature.isMany()) {
+                    if (theFeature.isMany()) {
                         // Adding multiple feature values: featureName = vals
                         if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
                             Object newVal = vals.get(0);
@@ -607,16 +615,16 @@ class TargetResolver extends AbstractResolver {
                             throw new NotGroundException(newVal + NOT_BOUND_MESSAGE);
                         }
                         // values are always added for multi-valued features
-                        List featureValues = (List) instance.eGet(eFeature);
-                        List newVals = coerceTypes(vals, eFeature);
+                        List featureValues = (List) instance.eGet(theFeature);
+                        List newVals = coerceTypes(vals, theFeature);
                         try {
                             // Insert at beginning so that we have a chance of preserving
                             // the order from the source model (the Node-tree traversal 
                             // would otherwise naturally invert the order).
                             
-                            if (eFeature.isUnique()) {
+                            if (theFeature.isUnique()) {
                                 // This is normally done by the EMF code, but not in the
-                                // case where the eFeature is backed by a FeatureMap.
+                                // case where the theFeature is backed by a FeatureMap.
                                 // Hence, we do it ourselves
                                 newVals.removeAll(featureValues);
                             }
@@ -626,20 +634,20 @@ class TargetResolver extends AbstractResolver {
                             for (Iterator newValsItr = newVals.iterator(); newValsItr.hasNext(); ) {
                                 Object newVal = newValsItr.next();
                                 if (newVal instanceof DynamicObject) {
-                                    ((DynamicObject) newVal).addMultiReferenceFrom(instance, eFeature);
+                                    ((DynamicObject) newVal).addMultiReferenceFrom(instance, theFeature);
                                 }
                             }
                         } catch (ArrayStoreException e) {
                             throw new ResolutionException(
                                 node,
-                                "Couldn't add values to feature (type mismatch?): " + Util.getFullyQualifiedName(eFeature) + " <- " + newVals, e);
+                                "Couldn't add values to feature (type mismatch?): " + ModelUtils.getFullyQualifiedName(theFeature) + " <- " + newVals, e);
                         }
                     } else if (vals.size() > 1) {
-                        throw new ResolutionException(node, "Too many values for, " + Util.getFullyQualifiedName(eFeature));
+                        throw new ResolutionException(node, "Too many values for, " + ModelUtils.getFullyQualifiedName(theFeature));
                     } else if (vals.size() == 1) {
-                        Object newVal = coerceType(vals.get(0), eFeature);
-                        if (instance.eIsSet(eFeature)) {
-                            Object curVal = instance.eGet(eFeature);
+                        Object newVal = coerceType(vals.get(0), theFeature);
+                        if (instance.eIsSet(theFeature)) {
+                            Object curVal = instance.eGet(theFeature);
                             if (newVal instanceof WrappedVar) {
                                 ruleEval.fireInfo(newVal + " was not bound in source term!  Attempting to bind and continue.");
                                 unifier = new Binding();
@@ -647,35 +655,35 @@ class TargetResolver extends AbstractResolver {
                             } else if (!curVal.equals(newVal)) {
                                 throw new ResolutionException(
                                     node,
-                                    "Conflicting value: " + newVal + " found for feature, " + Util.getFullyQualifiedName(eFeature) + ", which is already set to: " + curVal);
+                                    "Conflicting value: " + newVal + " found for feature, " + ModelUtils.getFullyQualifiedName(theFeature) + ", which is already set to: " + curVal);
                             }
                         } else {
-                            //System.err.println("Setting " + eFeature + " to " + newVal);
+                            //System.err.println("Setting " + theFeature + " to " + newVal);
 //                                System.err.println("O **** " + instance);
 //                                System.err.println(instance.eClass());
-//                                System.err.println("F **** " + eFeature);
-//                                System.err.println(eFeature.getEType());
+//                                System.err.println("F **** " + theFeature);
+//                                System.err.println(theFeature.getEType());
 //                                System.err.println("V **** " + newVal);
 //                                System.err.println(newVal.getClass());
                             if (newVal instanceof WrappedVar) {
                                 // ruleEval.fireInfo(newVal + DELAYING_MESSAGE);
                                 throw new NotGroundException(newVal + NOT_BOUND_MESSAGE);
                             }
-                            instance.eSet(eFeature, newVal);
+                            instance.eSet(theFeature, newVal);
                             if (newVal instanceof DynamicObject) {
-                                ((DynamicObject) newVal).addReferenceFrom(instance, eFeature);
+                                ((DynamicObject) newVal).addReferenceFrom(instance, theFeature);
                             }
                         }
                     } else {
-                        if (eFeature.getLowerBound() > 0) {
+                        if (theFeature.getLowerBound() > 0) {
                             throw new ResolutionException(
                                 node,
-                                "No value for " + Util.getFullyQualifiedName(eFeature) + " but lower bound is " + eFeature.getLowerBound());
+                                "No value for " + ModelUtils.getFullyQualifiedName(theFeature) + " but lower bound is " + theFeature.getLowerBound());
                         }
-                        ruleEval.fireWarning("No value for " + Util.getFullyQualifiedName(eFeature));
+                        ruleEval.fireWarning("No value for " + ModelUtils.getFullyQualifiedName(theFeature));
                     }
                     
-                    Collection newGoal = new ArrayList(goal);
+                    Collection newGoal = new ArrayList(node.goal());
                     newGoal.remove(term);
                     tree.createBranch(node, unifier, newGoal);
                 }
@@ -733,83 +741,30 @@ class TargetResolver extends AbstractResolver {
         return cl;
     }
 
+    /**
+     * @throws ResolutionException NotTerms on the target side are not supported
+     */
     protected void resolveNotTerm(
-        Tree tree,
-        Node node,
-        Collection goal,
-        Term literal)
-        throws ResolutionException {
-            throw new ResolutionException(node, "NotTerm is Not Yet Implemented");
-        //      /**
-        //       *  Create a new subtree attached to this node, and mark
-        //       *  that tree as a negative tree.
-        //       */
-        //      List terms = ((NotTerm) literal).getTerm();
-        //      
-        //      if (null == terms || terms.size() != 1) {
-        //          throw new ResolutionException(node, "Malformed NotTerm - must contain exactly one term.");
-        //      }
-        //      Term newTerm = (Term) terms.get(0);
-        //      Collection newGoal;
-        //      if (newTerm instanceof AndTerm) {
-        //          newGoal = ((AndTerm) newTerm).getTerm();
-        //      } else {
-        //          newGoal = new ArrayList(1);
-        //          newGoal.add(newTerm);
-        //      }
-        //
-        //      Tree newTree = new Tree(newGoal, node.getAllBindings());
-        //      node.setNegationTree(newTree);
-        //
-        //      /**
-        //       *  Any success nodes in the negation tree?
-        //       */
-        //      boolean success = resolveNode(newTree, newTree.root(), true);
-        //      if (newTree.isSuccess()) {
-        //          tree.failure(node);
-        //          return false;
-        //      } else {
-        //          /**
-        //           *  Negation tree finitely failed, regard as true.
-        //           */
-        //          newGoal = new ArrayList(goal);
-        //          newGoal.remove(literal);
-        //          createBranch(node, null, newGoal);
-        //      }
-//        return true;
+            final Tree tree,
+            final Node node,
+            final NotTerm literal)
+    throws ResolutionException {
+        throw new ResolutionException(node, "NotTerm not supported in target term");
     }
-
+    
+    /**
+     * @throws ResolutionException OrTerms on the target side are not supported (since they lead to nondeterminism)
+     */
     protected void resolveOrTerm(
-        Tree tree,
-        Node node,
-        Collection goal,
-        Term literal)
-        throws ResolutionException {
-        /**
-         * Throw a ResolutionException - OrTerms on the target side give us nasty nondeterminism
-         */
+            final Tree tree,
+            final Node node,
+            final OrTerm literal)
+    throws ResolutionException {
         throw new ResolutionException(node, "OrTerm not supported in target term");
-        //      /**
-        //       *  Create a node for each disjunct, distributing them into
-        //       *  the remaining conjuncts of the goal.
-        //       */
-        //      Collection terms = ((OrTerm) literal).getTerm();
-        //      if (null == terms || terms.isEmpty()) {
-        //          throw new ResolutionException(node, "Malformed (empty) OrTerm");
-        //      }
-        //
-        //      Iterator itr = terms.iterator();
-        //      Collection newGoal;
-        //
-        //      while (itr.hasNext()) {
-        //          newGoal = new ArrayList(goal);
-        //          newGoal.remove(literal);
-        //          newGoal.add(itr.next());
-        //          createBranch(node, null, newGoal);
-        //      }
     }
 
-    protected void resolveMofOrder(Tree tree, Node node, Collection goal, MofOrder term) throws ResolutionException, NotGroundException {
+    protected void resolveMofOrder(final Tree tree, final Node node, final MofOrder term)
+    throws ResolutionException, NotGroundException {
         List featVals = exprEval.eval(node, term.getFeature());
         List instVals = exprEval.eval(node, term.getInstance());
         List lesserVals = exprEval.eval(node, term.getLesser());
@@ -819,7 +774,7 @@ class TargetResolver extends AbstractResolver {
             Object feat = fItr.next();
             Binding fUnifier = null;
             if (feat instanceof WrappedVar) {
-                AbstractVar var = ((WrappedVar) feat).getVar();
+                Var var = ((WrappedVar) feat).getVar();
                 throw new NotGroundException("Unsupported mode (unbound '" + var.getName() + "') for MofOrder: " + term);
             } else if (feat instanceof BindingPair) {
                 fUnifier = (BindingPair) feat;
@@ -829,7 +784,7 @@ class TargetResolver extends AbstractResolver {
                 Object inst = iItr.next();
                 Binding iUnifier = fUnifier;
                 if (inst instanceof WrappedVar) {
-                    AbstractVar var = ((WrappedVar) inst).getVar();
+                    Var var = ((WrappedVar) inst).getVar();
                     throw new NotGroundException("Unsupported mode (unbound '" + var.getName() + "') for MofOrder: " + term);
                 } else if (inst instanceof BindingPair) {
                     if (null == iUnifier) {
@@ -844,7 +799,7 @@ class TargetResolver extends AbstractResolver {
                     Object lesser = lItr.next();
                     Binding lUnifier = iUnifier;
                     if (lesser instanceof WrappedVar) {
-                        AbstractVar var = ((WrappedVar) lesser).getVar();
+                        Var var = ((WrappedVar) lesser).getVar();
                         throw new NotGroundException("Unsupported mode (unbound '" + var.getName() + "') for MofOrder: " + term);
                     } else if (lesser instanceof BindingPair) {
                         if (null == lUnifier) {
@@ -859,7 +814,7 @@ class TargetResolver extends AbstractResolver {
                         Object greater = gItr.next();
                         Binding gUnifier = lUnifier;
                         if (greater instanceof WrappedVar) {
-                            AbstractVar var = ((WrappedVar) greater).getVar();
+                            Var var = ((WrappedVar) greater).getVar();
                             throw new NotGroundException("Unsupported mode (unbound '" + var.getName() + "') for MofOrder: " + term);
                         } else if (greater instanceof BindingPair) {
                             if (null == gUnifier) {
@@ -873,7 +828,7 @@ class TargetResolver extends AbstractResolver {
 
                         ruleEval.addPartialOrder(inst, feat, lesser, greater);
 
-                        Collection newGoal = new ArrayList(goal);
+                        Collection newGoal = new ArrayList(node.goal());
                         newGoal.remove(term);
                         tree.createBranch(node, gUnifier, newGoal);
                     }
@@ -895,7 +850,7 @@ class TargetResolver extends AbstractResolver {
     }
 
     protected  Term doSelectLiteral(Node node) {
-        Term[] literals = (Term[]) node.goal().toArray(new Term[0]);
+        Term[] literals = (Term[]) node.goal().toArray(new Term[node.goal().size()]);
         
         /**
          * Expand:

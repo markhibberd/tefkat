@@ -33,7 +33,7 @@ public class ImportStmtTest extends ParserTestCase {
     }
 
     public void testFileImport() {
-        TefkatParser parser = setupParser("IMPORT file://home/lawley/workspace/QVTModelParser/tests/UMLRelationalTracking.ecore;");
+        TefkatParser parser = setupParser("IMPORT http://tefkat.sourceforge.net/tutorial1/relational.ecore");
         try {
             parser.importDecl(t);
         } catch (RecognitionException e) {
@@ -45,11 +45,11 @@ public class ImportStmtTest extends ParserTestCase {
     }
 
     public void testFileImportFailure() {
-        TefkatParser parser = setupParser("IMPORT file://home/lawley/workspace/QVTModelParser/tests/DoesNotExist.ecore;");
+        TefkatParser parser = setupParser("IMPORT http://tefkat.sourceforge.net/tutorial1/DoesNotExist.ecore");
         try {
             parser.importDecl(t);
         } catch (RecognitionException e) {
-            assertTrue(e.getMessage().startsWith("Unable to load tracking package from URI:"));
+            assertTrue("Message is " + e.getMessage(), e.getMessage().startsWith("Unable to load model from URI:"));
             return;
         } catch (TokenStreamException e) {
             fail(e.toString());

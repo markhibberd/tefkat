@@ -38,6 +38,46 @@ import org.jgraph.graph.VertexView;
  */
 public class ResourceView extends JGraph {
 
+    private static final class ResourceVertexView extends VertexView {
+
+        private static final long serialVersionUID = 1650125773511030753L;
+
+        private ResourceVertexView(Object arg0, JGraph arg1, CellMapper arg2) {
+            super(arg0, arg1, arg2);
+        }
+
+        // Returns Perimeter Point for Ellipses
+        public Point getPerimeterPoint(Point source, Point p) {
+            // Compute relative bounds
+            Rectangle r = getBounds();
+            int x = r.x;
+            int y = r.y;
+            int a = (r.width+1)/2;
+            int b = (r.height+1)/2;
+        
+            // Get center
+            int xCenter = (int) (x + a);
+            int yCenter = (int) (y + b);
+        
+            // Compute angle
+            int dx = p.x - xCenter;
+            int dy = p.y - yCenter;
+            double t = Math.atan2(dy, dx);
+        
+            // Compute Perimeter Point
+            int xout = xCenter+(int) (a*Math.cos(t))-1;
+            int yout = yCenter+(int) (b*Math.sin(t))-1;
+        
+            // Return perimeter point
+            return new Point (xout, yout);
+        }
+
+        // Returns the Renderer for this View
+        public CellViewRenderer getRenderer() {
+            return ResourceView.renderer;
+        }
+    }
+
     /**
      * 
      */
@@ -108,43 +148,7 @@ public class ResourceView extends JGraph {
      * @see org.jgraph.JGraph#createVertexView(java.lang.Object, org.jgraph.graph.CellMapper)
      */
     protected VertexView createVertexView(Object v, CellMapper cm) {
-        return new VertexView(v, this, cm) {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1650125773511030753L;
-
-			// Returns Perimeter Point for Ellipses
-            public Point getPerimeterPoint(Point source, Point p) {
-                // Compute relative bounds
-                Rectangle r = getBounds();
-                int x = r.x;
-                int y = r.y;
-                int a = (r.width+1)/2;
-                int b = (r.height+1)/2;
-
-                // Get center
-                int xCenter = (int) (x + a);
-                int yCenter = (int) (y + b);
-
-                // Compute angle
-                int dx = p.x - xCenter;
-                int dy = p.y - yCenter;
-                double t = Math.atan2(dy, dx);
-
-                // Compute Perimeter Point
-                int xout = xCenter+(int) (a*Math.cos(t))-1;
-                int yout = yCenter+(int) (b*Math.sin(t))-1;
-
-                // Return perimeter point
-                return new Point (xout, yout);
-            }
-
-            // Returns the Renderer for this View
-            public CellViewRenderer getRenderer() {
-                return ResourceView.renderer;
-            }
-        };
+        return new ResourceVertexView(v, this, cm);
     }
 
 }

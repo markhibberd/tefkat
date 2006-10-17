@@ -27,26 +27,24 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resources" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AbstractVar" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Var">
     <eStructuralFeatures xsi:type="ecore:EReference" name="scope" eType="#//VarScope"
         eOpposite="#//VarScope/vars"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PatternVar" eSuperTypes="#//AbstractVar"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TRuleVar" eSuperTypes="#//AbstractVar">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extender" upperBound="-1"
-        eType="#//TRuleVar" eOpposite="#//TRuleVar/extended"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extended" upperBound="-1"
-        eType="#//TRuleVar" eOpposite="#//TRuleVar/extender"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="superseder" upperBound="-1"
-        eType="#//TRuleVar" eOpposite="#//TRuleVar/superseded"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usages" ordered="false"
+        upperBound="-1" eType="#//VarUse" changeable="false" eOpposite="#//VarUse/var"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="superseded" upperBound="-1"
-        eType="#//TRuleVar" eOpposite="#//TRuleVar/superseder"/>
+        eType="#//Var" eOpposite="#//Var/superseder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superseder" upperBound="-1"
+        eType="#//Var" eOpposite="#//Var/superseded"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extended" upperBound="-1"
+        eType="#//Var" eOpposite="#//Var/extender"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extender" upperBound="-1"
+        eType="#//Var" eOpposite="#//Var/extended"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExtentVar" eSuperTypes="#//AbstractVar"/>
   <eClassifiers xsi:type="ecore:EClass" name="VarScope">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="vars" upperBound="-1" eType="#//AbstractVar"
-        containment="true" eOpposite="#//AbstractVar/scope"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vars" upperBound="-1" eType="#//Var"
+        containment="true" eOpposite="#//Var/scope"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comments" unique="false"
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -57,6 +55,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TRule" eSuperTypes="#//VarScope">
     <eAnnotations source="22July2004 - Added abstract attribute and removed opposite ends for extended/superseded"/>
+    <eOperations name="getGoal" lowerBound="1" eType="#//Collection"/>
+    <eOperations name="getSourceTerms" lowerBound="1" eType="#//Collection"/>
+    <eOperations name="getOverrideTerms" lowerBound="1" eType="#//Collection"/>
+    <eOperations name="getTargetTerms" lowerBound="1" eType="#//Collection"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="transformation" lowerBound="1"
         eType="#//Transformation" eOpposite="#//Transformation/tRule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="src" eType="#//SourceTerm"
@@ -70,10 +72,28 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Transformation" eSuperTypes="#//PatternScope">
+    <eOperations name="getStrata" eType="#//ListArray" eExceptions="#//TefkatException"/>
+    <eOperations name="addSupersedes">
+      <eParameters name="superseder" lowerBound="1" eType="#//TRule"/>
+      <eParameters name="superseded" lowerBound="1" eType="#//TRule"/>
+    </eOperations>
+    <eOperations name="removeSupersedes">
+      <eParameters name="superseder" lowerBound="1" eType="#//TRule"/>
+      <eParameters name="superseded" lowerBound="1" eType="#//TRule"/>
+    </eOperations>
+    <eOperations name="getSupersedingRules" lowerBound="1" eType="#//Collection">
+      <eParameters name="superseded" lowerBound="1" eType="#//TRule"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tRule" upperBound="-1"
         eType="#//TRule" containment="true" eOpposite="#//TRule/transformation"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedPackages" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="namespaceDeclarations"
+        upperBound="-1" eType="#//NamespaceDeclaration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamespaceDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="URI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PatternDefn" eSuperTypes="#//VarScope">
     <eStructuralFeatures xsi:type="ecore:EReference" name="patternScope" lowerBound="1"
@@ -81,7 +101,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="term" lowerBound="1" eType="#//Term"
         containment="true" eOpposite="#//Term/patternDefn"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameterVar" upperBound="-1"
-        eType="#//PatternVar"/>
+        eType="#//Var"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
   </eClassifiers>
@@ -89,17 +109,18 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="term" lowerBound="1" eType="#//Term"
         containment="true" eOpposite="#//Term/query"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameterVar" upperBound="-1"
-        eType="#//PatternVar"/>
+        eType="#//Var"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Term" abstract="true">
-    <eOperations name="getExtent" eType="#//ExtentVar"/>
+    <eOperations name="getExtent" eType="#//Var"/>
+    <eOperations name="isTarget" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="patternDefn" eType="#//PatternDefn"
         eOpposite="#//PatternDefn/term"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
         eOpposite="#//Query/term"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="compoundTerm" eType="#//CompoundTerm"
         eOpposite="#//CompoundTerm/term"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="context" eType="#//ExtentVar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="context" eType="#//Var"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SourceTerm" abstract="true" eSuperTypes="#//Term">
     <eStructuralFeatures xsi:type="ecore:EReference" name="tRuleSrc" eType="#//TRule"
@@ -125,13 +146,19 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AndTerm" eSuperTypes="#//CompoundTerm #//TargetTerm"/>
   <eClassifiers xsi:type="ecore:EClass" name="OrTerm" eSuperTypes="#//CompoundTerm"/>
-  <eClassifiers xsi:type="ecore:EClass" name="NotTerm" eSuperTypes="#//CompoundTerm"/>
-  <eClassifiers xsi:type="ecore:EClass" name="IfTerm" eSuperTypes="#//CompoundTerm #//TargetTerm"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NotTerm" eSuperTypes="#//CompoundTerm">
+    <eOperations name="getNonLocalVars" upperBound="-1" eType="#//Var"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IfTerm" eSuperTypes="#//CompoundTerm #//TargetTerm">
+    <eOperations name="getNonLocalVars" upperBound="-1" eType="#//Var"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TrackingUse" eSuperTypes="#//SimpleTerm">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="tracking" lowerBound="1"
-        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracking" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"
+        transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
         eType="#//FeatureValuePair" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trackingName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FeatureValuePair" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Expression"
@@ -175,7 +202,8 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VarUse" eSuperTypes="#//Expression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="var" lowerBound="1" eType="#//AbstractVar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="var" lowerBound="1" eType="#//Var"
+        eOpposite="#//Var/usages"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CollectionExpr" eSuperTypes="#//CompoundExpr">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" lowerBound="1"
@@ -207,4 +235,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
         eType="#//VarUse" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Collection" instanceClassName="java.util.Collection"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="List" instanceClassName="java.util.List"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ListArray" instanceClassName="java.util.List[]"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="TefkatException" instanceClassName="tefkat.model.TefkatException"/>
 </ecore:EPackage>

@@ -45,205 +45,201 @@ import tefkat.model.TefkatPackage;
  * @generated
  */
 public class FeatureValuePairImpl extends EObjectImpl implements BasicEMap.Entry {
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+     * @generated
+     */
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
-	/**
-	 * The cached value of the '{@link #getTypedValue() <em>Value</em>}' containment reference.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getTypedValue() <em>Value</em>}' containment reference.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getTypedValue()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getTypedValue()
+     * @generated
+     * @ordered
+     */
     protected Expression value = null;
 
-	/**
-	 * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getTypedKey()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getTypedKey()
+     * @generated
+     * @ordered
+     */
     protected static final String KEY_EDEFAULT = null;
 
-	/**
-	 * The cached value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getTypedKey()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getTypedKey()
+     * @generated
+     * @ordered
+     */
     protected String key = KEY_EDEFAULT;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected FeatureValuePairImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return TefkatPackage.eINSTANCE.getFeatureValuePair();
-	}
+        return TefkatPackage.Literals.FEATURE_VALUE_PAIR;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Expression getTypedValue() {
-		return value;
-	}
+        return value;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NotificationChain basicSetTypedValue(Expression newValue, NotificationChain msgs) {
-		Expression oldValue = value;
-		value = newValue;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TefkatPackage.FEATURE_VALUE_PAIR__VALUE, oldValue, newValue);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
+        Expression oldValue = value;
+        value = newValue;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TefkatPackage.FEATURE_VALUE_PAIR__VALUE, oldValue, newValue);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setTypedValue(Expression newValue) {
-		if (newValue != value) {
-			NotificationChain msgs = null;
-			if (value != null)
-				msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TefkatPackage.FEATURE_VALUE_PAIR__VALUE, null, msgs);
-			if (newValue != null)
-				msgs = ((InternalEObject)newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TefkatPackage.FEATURE_VALUE_PAIR__VALUE, null, msgs);
-			msgs = basicSetTypedValue(newValue, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.FEATURE_VALUE_PAIR__VALUE, newValue, newValue));
-	}
+        if (newValue != value) {
+            NotificationChain msgs = null;
+            if (value != null)
+                msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TefkatPackage.FEATURE_VALUE_PAIR__VALUE, null, msgs);
+            if (newValue != null)
+                msgs = ((InternalEObject)newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TefkatPackage.FEATURE_VALUE_PAIR__VALUE, null, msgs);
+            msgs = basicSetTypedValue(newValue, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.FEATURE_VALUE_PAIR__VALUE, newValue, newValue));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String getTypedKey() {
-		return key;
-	}
+        return key;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setTypedKey(String newKey) {
-		String oldKey = key;
-		key = newKey;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.FEATURE_VALUE_PAIR__KEY, oldKey, key));
-	}
+        String oldKey = key;
+        key = newKey;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.FEATURE_VALUE_PAIR__KEY, oldKey, key));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
-					return basicSetTypedValue(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
+     * @generated
+     */
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
+                return basicSetTypedValue(null, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
-				return getTypedValue();
-			case TefkatPackage.FEATURE_VALUE_PAIR__KEY:
-				return getTypedKey();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
+     * @generated
+     */
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
+                return getTypedValue();
+            case TefkatPackage.FEATURE_VALUE_PAIR__KEY:
+                return getTypedKey();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
-				setTypedValue((Expression)newValue);
-				return;
-			case TefkatPackage.FEATURE_VALUE_PAIR__KEY:
-				setTypedKey((String)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
+     * @generated
+     */
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
+                setTypedValue((Expression)newValue);
+                return;
+            case TefkatPackage.FEATURE_VALUE_PAIR__KEY:
+                setTypedKey((String)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
-				setTypedValue((Expression)null);
-				return;
-			case TefkatPackage.FEATURE_VALUE_PAIR__KEY:
-				setTypedKey(KEY_EDEFAULT);
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
+     * @generated
+     */
+    public void eUnset(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
+                setTypedValue((Expression)null);
+                return;
+            case TefkatPackage.FEATURE_VALUE_PAIR__KEY:
+                setTypedKey(KEY_EDEFAULT);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
-				return value != null;
-			case TefkatPackage.FEATURE_VALUE_PAIR__KEY:
-				return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
-		}
-		return eDynamicIsSet(eFeature);
-	}
+     * @generated
+     */
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.FEATURE_VALUE_PAIR__VALUE:
+                return value != null;
+            case TefkatPackage.FEATURE_VALUE_PAIR__KEY:
+                return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
+        }
+        return super.eIsSet(featureID);
+    }
 
     /**
      * <!-- begin-user-doc -->
@@ -256,81 +252,81 @@ public class FeatureValuePairImpl extends EObjectImpl implements BasicEMap.Entry
         return key + "->" + value;
     }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected int hash = -1;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public int getHash() {
-		if (hash == -1) {
-			Object theKey = getKey();
-			hash = (theKey == null ? 0 : theKey.hashCode());
-		}
-		return hash;
-	}
+        if (hash == -1) {
+            Object theKey = getKey();
+            hash = (theKey == null ? 0 : theKey.hashCode());
+        }
+        return hash;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setHash(int hash) {
-		this.hash = hash;
-	}
+        this.hash = hash;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Object getKey() {
-		return getTypedKey();
-	}
+        return getTypedKey();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setKey(Object key) {
-		setTypedKey((String)key);
-	}
+        setTypedKey((String)key);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Object getValue() {
-		return getTypedValue();
-	}
+        return getTypedValue();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Object setValue(Object value) {
-		Object oldValue = getValue();
-		setTypedValue((Expression)value);
-		return oldValue;
-	}
+        Object oldValue = getValue();
+        setTypedValue((Expression)value);
+        return oldValue;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public EMap getEMap() {
-		EObject container = eContainer();
-		return container == null ? null : (EMap)container.eGet(eContainmentFeature());
-	}
+        EObject container = eContainer();
+        return container == null ? null : (EMap)container.eGet(eContainmentFeature());
+    }
 
 } //FeatureValuePairImpl

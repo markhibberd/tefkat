@@ -53,7 +53,7 @@ public abstract class ParserTestCase extends TestCase {
     boolean ignoreError;
 
     public void setUp() {
-//        System.err.println("setUp " + getName());
+        System.err.println("setUp " + getName());
         ignoreError = false;
         ResourceSet rs = new ResourceSetImpl();
         Map map = rs.getResourceFactoryRegistry()
@@ -64,8 +64,8 @@ public abstract class ParserTestCase extends TestCase {
         Resource res = rs.createResource(URI.createURI("tmp.xmi"));
         t = TefkatFactory.eINSTANCE.createTransformation();
         t.setName("defaultTransformation");
-        t.getVars().add(TefkatFactory.eINSTANCE.createExtentVar());
-        t.getVars().add(TefkatFactory.eINSTANCE.createExtentVar());
+        t.getVars().add(TefkatFactory.eINSTANCE.createVar());
+        t.getVars().add(TefkatFactory.eINSTANCE.createVar());
         tr = TefkatFactory.eINSTANCE.createTRule();
         tr.setName("defaultRule");
         tr.setTransformation(t);
@@ -79,6 +79,7 @@ public abstract class ParserTestCase extends TestCase {
         TokenStreamHiddenTokenFilter filter = new TokenStreamHiddenTokenFilter(lexer);
         filter.hide(TefkatParser.WS);
         TefkatParser parser = new TefkatParser(filter);
+        parser.setResource(t.eResource());
         parser.addMessageListener(new MessageListener() {
 
             public void reportError(MessageEvent event) {

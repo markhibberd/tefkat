@@ -81,7 +81,8 @@ public class TefkatResourceImpl extends XMIResourceImpl {
                     parser.addParserListener((ParserListener) parserListeners.get(i));
                 }
             }
-            parser.transformation(this);
+            parser.setResource(this);
+            parser.transformation();
         } catch (RecognitionException e) {
             throw new IOException(e.toString());
         } catch (TokenStreamException e) {

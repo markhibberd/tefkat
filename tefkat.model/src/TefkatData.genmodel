@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright michael lawley Pty Ltd 2005"
-    modelDirectory="/tefkat.model/src" editDirectory="/tefkat.model/edit/src" editorDirectory="/tefkat.model/editor/src"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright michael lawley 2005"
+    modelDirectory="/tefkat.model/src" editDirectory="/tefkat.model.edit/src" editorDirectory="/tefkat.model.editor/src"
     modelPluginID="tefkat.model" templateDirectory="/tefkat.model/templates" runtimeJar="true"
-    dynamicTemplates="true" modelName="TefkatData" editPluginClass="data.provider.TefkatDataEditPlugin"
-    editorPluginClass="data.presentation.TefkatDataEditorPlugin" testSuiteClass="tefkat.data.tests.TefkatDataAllTests"
+    dynamicTemplates="true" modelName="TefkatData" editPluginClass="tefkat.data.provider.TefkatDataEditPlugin"
+    editorPluginClass="tefkat.data.presentation.TefkatDataEditorPlugin" testSuiteClass="tefkat.data.tests.TefkatDataAllTests"
     importerID="org.eclipse.emf.importer.ecore" usedGenPackages="TefkatModel.genmodel#//model">
   <foreignModel>TefkatData.ecore</foreignModel>
   <genPackages prefix="Data" basePackage="tefkat" ecorePackage="TefkatData.ecore#/">

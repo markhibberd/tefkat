@@ -38,8 +38,12 @@ final public class DynamicObject extends EObjectImpl {
     }
     
     public DynamicObject(EClass eClass) {
-        counter++;
+        incrementCounter();
         eSetClass(eClass);
+    }
+
+    private static void incrementCounter() {
+        counter++;
     }
     
     public boolean hasStaticInstance() {
@@ -121,35 +125,11 @@ final public class DynamicObject extends EObjectImpl {
     List actions = new ArrayList();
     
     protected void addReferenceFrom(final EObject instance, final EStructuralFeature feature) {
-        actions.add(new Action() {
-            public void doIt(EObject obj) {
-                EObject referringInstance =
-                    (instance instanceof DynamicObject && ((DynamicObject) instance).hasStaticInstance())
-                        ? ((DynamicObject) instance).getStaticInstance()
-                        : instance;
-                        
-                referringInstance.eSet(feature, obj);
-//                System.out.println("    R: " + feature.getName());
-            }
-        });
+        actions.add(new AddSingleValuedReferenceAction(instance, feature));
     }
     
     protected void addMultiReferenceFrom(final EObject instance, final EStructuralFeature feature) {
-        final Object dynObj = this;
-        
-        actions.add(new Action() {
-            public void doIt(EObject obj) {
-                EObject referringInstance =
-                    (instance instanceof DynamicObject && ((DynamicObject) instance).hasStaticInstance())
-                        ? ((DynamicObject) instance).getStaticInstance()
-                        : instance;
-                        
-                List featureValues = (List) referringInstance.eGet(feature);
-                int index = featureValues.indexOf(dynObj);
-                featureValues.set(index, obj);
-//                System.out.println("    M: " + feature.getName());
-            }
-        });
+        actions.add(new AddMultiValuedReferenceAction(feature, this, instance));
     }
 
     public String toString() {
@@ -159,4 +139,54 @@ final public class DynamicObject extends EObjectImpl {
     static interface Action {
         public void doIt(EObject obj);
     }
+    
+    private static final class AddMultiValuedReferenceAction implements Action {
+        private final EStructuralFeature feature;
+
+        private final DynamicObject dynObj;
+
+        private final EObject instance;
+
+        AddMultiValuedReferenceAction(EStructuralFeature feature, DynamicObject dynObj, EObject instance) {
+            super();
+            this.feature = feature;
+            this.dynObj = dynObj;
+            this.instance = instance;
+        }
+
+        public void doIt(EObject obj) {
+            EObject referringInstance =
+                (instance instanceof DynamicObject && ((DynamicObject) instance).hasStaticInstance())
+                ? ((DynamicObject) instance).getStaticInstance()
+                        : instance;
+                
+                List featureValues = (List) referringInstance.eGet(feature);
+                int index = featureValues.indexOf(dynObj);
+                featureValues.set(index, obj);
+                //                System.out.println("    M: " + feature.getName());
+        }
+    }
+
+    private static final class AddSingleValuedReferenceAction implements Action {
+        private final EObject instance;
+        
+        private final EStructuralFeature feature;
+        
+        AddSingleValuedReferenceAction(EObject instance, EStructuralFeature feature) {
+            super();
+            this.instance = instance;
+            this.feature = feature;
+        }
+        
+        public void doIt(EObject obj) {
+            EObject referringInstance =
+                (instance instanceof DynamicObject && ((DynamicObject) instance).hasStaticInstance())
+                ? ((DynamicObject) instance).getStaticInstance()
+                        : instance;
+                
+                referringInstance.eSet(feature, obj);
+                //                System.out.println("    R: " + feature.getName());
+        }
+    }
+
 }

@@ -43,52 +43,39 @@ public class ExtentUtil {
     private ExtentUtil() {
     }
     
-    private static List listeners = null;
-    private static List getListeners() {
-        if (null == listeners) {
-            listeners = new ArrayList();
-        }
-        return listeners;
-    }
+    final private static List listeners = new ArrayList();
     
     public static void addExtentListener(ExtentListener listener) {
-        getListeners().add(listener);
+        listeners.add(listener);
     }
 
     public static void highlightEdge(Object src, Object dst, int reason) {
-        if (null != listeners) {
-            for (Iterator itr = getListeners().iterator(); itr.hasNext(); ) {
-                ExtentListener listener = (ExtentListener) itr.next();
-                listener.highlightEdge(src, dst, reason);
-            }
+        for (Iterator itr = listeners.iterator(); itr.hasNext(); ) {
+            ExtentListener listener = (ExtentListener) itr.next();
+            listener.highlightEdge(src, dst, reason);
         }
     }
 
     public static void highlightNode(Object object, int reason) {
-        if (null != listeners) {
-            for (Iterator itr = getListeners().iterator(); itr.hasNext(); ) {
-                ExtentListener listener = (ExtentListener) itr.next();
-                listener.highlightNode(object, reason);
-            }
+        for (Iterator itr = listeners.iterator(); itr.hasNext(); ) {
+            ExtentListener listener = (ExtentListener) itr.next();
+            listener.highlightNode(object, reason);
         }
     }
 
     public static void highlightNodes(Collection objects, int reason) {
-        if (null != listeners) {
-            for (Iterator itr = getListeners().iterator(); itr.hasNext(); ) {
-                ExtentListener listener = (ExtentListener) itr.next();
-                listener.highlightNodes(objects, reason);
-            }
+        for (Iterator itr = listeners.iterator(); itr.hasNext(); ) {
+            ExtentListener listener = (ExtentListener) itr.next();
+            listener.highlightNodes(objects, reason);
         }
     }
 
     public static void highlightNodes(Binding binding, int reason) {
-        if (null != listeners) {
-            for (Iterator itr = getListeners().iterator(); itr.hasNext(); ) {
-                ExtentListener listener = (ExtentListener) itr.next();
-                listener.highlightNodes(binding, reason);
-            }
+        for (Iterator itr = listeners.iterator(); itr.hasNext(); ) {
+            ExtentListener listener = (ExtentListener) itr.next();
+            listener.highlightNodes(binding, reason);
         }
     }
+    
 }
 

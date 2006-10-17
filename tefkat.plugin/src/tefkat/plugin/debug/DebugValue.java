@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import tefkat.engine.Binding;
 import tefkat.engine.DynamicObject;
+import tefkat.model.Term;
 
 
 /**
@@ -60,6 +61,9 @@ public class DebugValue extends AbstractDebugElement implements IValue {
      */
     public String getValueString() throws DebugException {
         String result;
+        if (val instanceof Term) {
+            result = String.valueOf(val);
+        } else
         if (val instanceof DynamicObject) {
             EObjectImpl eVal = (EObjectImpl) val;
             result = "_" + eVal.hashCode() + ":?" + eVal.eClass().getName();

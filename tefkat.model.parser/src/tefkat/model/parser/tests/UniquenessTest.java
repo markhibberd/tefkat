@@ -13,7 +13,7 @@
 
 package tefkat.model.parser.tests;
 
-import tefkat.model.ExtentVar;
+import tefkat.model.Var;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
@@ -36,7 +36,7 @@ public class UniquenessTest extends ParserTestCase {
     public void testInstanceRef() {
         TefkatParser parser = setupParser("RULE foo MAKE bar b FROM p(x+3);");
         try {
-            parser.trule(t, (ExtentVar) t.getVars().get(0), (ExtentVar) t.getVars().get(1));
+            parser.trule(t, (Var) t.getVars().get(0), (Var) t.getVars().get(1));
         } catch (RecognitionException e) {
             fail(e.toString());
         } catch (TokenStreamException e) {
@@ -49,7 +49,7 @@ public class UniquenessTest extends ParserTestCase {
     public void testNoInstanceRef() {
         TefkatParser parser = setupParser("RULE foo MAKE bar b;");
         try {
-            parser.trule(t, (ExtentVar) t.getVars().get(0), (ExtentVar) t.getVars().get(1));
+            parser.trule(t, (Var) t.getVars().get(0), (Var) t.getVars().get(1));
         } catch (RecognitionException e) {
             fail(e.toString());
         } catch (TokenStreamException e) {

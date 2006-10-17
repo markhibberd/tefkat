@@ -15,7 +15,6 @@
 package tefkat.engine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,11 +28,9 @@ import java.util.Stack;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.CompoundTerm;
 import tefkat.model.Extent;
 import tefkat.model.IfTerm;
@@ -43,18 +40,18 @@ import tefkat.model.NotTerm;
 import tefkat.model.PatternDefn;
 import tefkat.model.PatternUse;
 import tefkat.model.TRule;
-import tefkat.model.TRuleVar;
 import tefkat.model.TargetTerm;
 import tefkat.model.TefkatFactory;
 import tefkat.model.Term;
 import tefkat.model.TrackingUse;
 import tefkat.model.Transformation;
-import tefkat.model.VarScope;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 import tefkat.model.util.TefkatSwitch;
 
 
 public class RuleEvaluator {
+
+    private static final boolean ONE_TREE = true;
 
     private final Evaluator exprEval;
 
@@ -76,45 +73,42 @@ public class RuleEvaluator {
 
     boolean INCREMENTAL = false;
 
-    private transient boolean isInterrupted = false;
+    private volatile boolean isInterrupted = false;
 
-    private transient boolean stepMode = false;
+    private volatile boolean stepMode = false;
 
-    private transient int returnMode = 0;
+    private volatile int returnMode = 0;
 
-    private transient int step = 0;
+    private volatile int step = 0;
     
     private int depth = 0;
 
     // Used to manage simple coarse-grain fix-point evaluation
     private TRule currentRule;
 
-    private Map trackingQueryMap = new HashMap();
+    final private Map trackingQueryMap = new HashMap();
 
-    private Set trackingUpdateSet = new HashSet();
+    final private Set trackingUpdateSet = new HashSet();
 
-    private Set breakpoints = new HashSet();
+    final private Set breakpoints = new HashSet();
     
-    private final List unresolvedTrees = new ArrayList();
+    final private List unresolvedTrees = new ArrayList();
 
     /**
      *  
      */
-    public RuleEvaluator(Binding context, Extent trackingExtent,
-            Collection allResources, List listeners) {
+    RuleEvaluator(Binding context, Extent trackingExtent,
+            Map nameMap, List listeners) {
 
         // TODO check for null target model, either here or in the engine
 
         this.trackingExtent = trackingExtent;
         this.listeners = listeners;
         this._context = context;
-
-        // Get all the transitively referenced Resources
-        allResources = findAllResources(allResources);
-        nameMap = Util.buildNameMaps(allResources);
+        this.nameMap = nameMap;
 
         exprEval = new Evaluator(this);
-        srcResolver = new SourceResolver(this, listeners);
+        srcResolver = new SourceResolver(this);
         tgtResolver = new TargetResolver(this, null, listeners);
         evalCache = new HashMap();
         patternCache = new HashMap();
@@ -133,6 +127,12 @@ public class RuleEvaluator {
         // This means we perform a depth-first traversal which will
         // make debugging more intuitive.
         unresolvedTrees.add(0, tree);
+        fireTreeAdded(tree);
+    }
+    
+    void removeUnresolvedTree(Tree tree) {
+        unresolvedTrees.remove(tree);
+        fireTreeRemoved(tree);
     }
     
     protected void addBreakpoint(Term t) {
@@ -204,31 +204,42 @@ public class RuleEvaluator {
         try {
             buildMaps(transformation);
             
-            List[] strata = stratify(transformation.getTRule(), transformation.getPatternDefn());
-
+            fireInfo("Constructing stratification...");
+            List[] strata = transformation.getStrata();
+            fireInfo("... " + strata.length + " levels.");
+            
             for (int level = 0; level < strata.length; level++) {
                 fireInfo("Stratum " + level + " : " + strata[level]);
-
+                
                 // Currently, we use a single Tree per stratum which means
                 // that it's really a forest with one root Node per TRule
                 //
-		Tree tree = new Tree(transformation, null, _context, trackingExtent, false);
-		tree.setLevel(level);
-
-		addUnresolvedTree(tree);
-
+                Tree tree;
+                if (ONE_TREE) {
+                    tree = new Tree(transformation, null, null, null, _context, trackingExtent, false);
+                    tree.setLevel(level);
+                    
+                    addUnresolvedTree(tree);
+                }
+                
                 for (final Iterator itr = strata[level].iterator(); itr.hasNext(); ) {
                     Object scope = itr.next();
-
+                    
                     if (scope instanceof TRule) {
                         TRule tRule = (TRule) scope;
-
+                        
                         if (!tRule.isAbstract()) {
-			    incrementalEvaluate(tRule, tree);
+                            if (!ONE_TREE) {
+                                tree = new Tree(transformation, null, null, null, _context, trackingExtent, false);
+                                tree.setLevel(level);
+                                
+                                addUnresolvedTree(tree);
+                            }
+                            incrementalEvaluate(tRule, tree);
                         }
                     }
                 }
-
+                
                 while (unresolvedTrees.size() > 0) {
                     try {
                         resolve();
@@ -237,39 +248,36 @@ public class RuleEvaluator {
 			List done = new ArrayList();
                         for (int j = 0; j < unresolvedTrees.size(); j++) {
                             Tree cTree = (Tree) unresolvedTrees.get(j);
-			    if (cTree.getLevel() < minLevel) {
-				done.clear();
-				done.add(cTree);
-				minLevel = cTree.getLevel();
-			    } else if (cTree.getLevel() == minLevel) {
-				done.add(cTree);
-			    }
-			}
-
+                            if (cTree.getLevel() < minLevel) {
+                                done.clear();
+                                done.add(cTree);
+                                minLevel = cTree.getLevel();
+                            } else if (cTree.getLevel() == minLevel) {
+                                done.add(cTree);
+                            }
+                        }
+                        
                         if (done.size() == 0) {
                             // I don't think we should ever reach here...
-                            // TODO check this out
-                            Tree cTree = (Tree) unresolvedTrees.remove(0);
-                            System.err.print(cTree + "\t" + cTree.getLevel() + " - FORCED");
-                            cTree.completed();
+                            throw new TefkatException("Internal Error.  Please file a bug report.");
                         } else {
-//			    System.err.println("Min level: " + minLevel);
-			    for (Iterator itr = done.iterator(); itr.hasNext(); ) {
-				Tree cTree = (Tree) itr.next();
-//				System.err.println(cTree + " " + cTree.isNegation() + "\t" + cTree.getLevel());
-				unresolvedTrees.remove(cTree);
-				cTree.completed();
-			    }
-			}
-//                        System.err.println(" #trees = " + unresolvedTrees.size());
-		    } catch (ResolutionException e) {
-			if (force) {
-			    fireError(e);
-			} else {
-			    throw e;
-			}
-		    }
-		}
+//                          System.err.println("Min level: " + minLevel);
+                            for (Iterator itr = done.iterator(); itr.hasNext(); ) {
+                                Tree cTree = (Tree) itr.next();
+//                              System.err.println(cTree + " " + cTree.isNegation() + "\t" + cTree.getLevel());
+                                removeUnresolvedTree(cTree);
+                                cTree.completed();
+                            }
+                        }
+//                      System.err.println(" #trees = " + unresolvedTrees.size());
+                    } catch (ResolutionException e) {
+                        if (force) {
+                            fireError(e);
+                        } else {
+                            throw e;
+                        }
+                    }
+                }
 
             }
 
@@ -681,27 +689,32 @@ public class RuleEvaluator {
         Collection goal = getGoal(trule);
         Collection ruleContexts = generateContexts(trule, _context);
 
-	// FIXME - no rule caching any more
+        // FIXME - no rule caching any more
         final Collection truleSolutions = new HashSet();
         
         for (Iterator itr = ruleContexts.iterator(); itr.hasNext();) {
             final Binding ruleContext = (Binding) itr.next();
 
-	    tree.createBranch(null, ruleContext, goal);
+            tree.createBranch(null, ruleContext, goal);
             
             tree.addTreeListener(new TreeListener() {
 
                 public void solution(Node node) throws ResolutionException {
+                    // nothing to do in this case
                 }
 
-                public void completed(Tree tree) {
-                    if (tree.isSuccess()) {
+                public void completed(Tree theTree) {
+                    if (theTree.isSuccess()) {
                         fireInfo("TRule: " + trule.getName() + " completed.");
                     } else {
                         fireInfo("TRule: " + trule.getName() + " matched nothing.");
                     }
                 }
 
+                public void floundered(Tree theTree) {
+                    // floundering of top-level tree is handled in the
+                    // resolve/resolveNode loop
+                }
             
             });
         }
@@ -710,50 +723,62 @@ public class RuleEvaluator {
         evalCache.put(trule, truleSolutions);
     }
 
-    synchronized final protected void pause() {
-        stepMode = true;
-    }
-
-    synchronized final protected void step() {
-        step++;
-        notify();
-    }
-
-    synchronized final protected void stepReturn() {
-        returnMode = depth;
-        resume();
-    }
-
-    synchronized final protected void resume() {
-        stepMode = false;
-        notify();
-    }
-
-    synchronized final private void breakpoint(Term t) {
-        pause();
-        fireBreakpoint(t);
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    final protected void pause() {
+        synchronized (unresolvedTrees) {
+            stepMode = true;
         }
     }
-
-    synchronized final private void waitStep() {
-        while (stepMode && step < 1) {
+    
+    final protected void step() {
+        synchronized (unresolvedTrees) {
+            step++;
+            unresolvedTrees.notifyAll();
+        }
+    }
+    
+    final protected void stepReturn() {
+        synchronized (unresolvedTrees) {
+            returnMode = depth;
+            resume();
+        }
+    }
+    
+    final protected void resume() {
+        synchronized (unresolvedTrees) {
+            stepMode = false;
+            unresolvedTrees.notifyAll();
+        }
+    }
+    
+    final private void breakpoint(Term t) {
+        synchronized (unresolvedTrees) {
+            pause();
+            fireBreakpoint(t);
             try {
-                fireSuspend();
-                if (step < 1) {
-                    wait();
-                }
+                unresolvedTrees.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        if (stepMode && step > 0) {
-            step--;
+    }
+    
+    final private void waitStep() {
+        synchronized (unresolvedTrees) {
+            while (stepMode && step < 1) {
+                try {
+                    fireSuspend();
+                    if (step < 1) {
+                        unresolvedTrees.wait();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (stepMode && step > 0) {
+                step--;
+            }
+            fireResume();
         }
-        fireResume();
     }
 
     protected void fireBreakpoint(Term t) {
@@ -848,6 +873,32 @@ public class RuleEvaluator {
         for (Iterator itr = listeners.iterator(); itr.hasNext();) {
             try {
                 ((TefkatListener) itr.next()).resourceLoaded(res);
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void fireTreeAdded(Tree tree) {
+        for (Iterator itr = listeners.iterator(); itr.hasNext();) {
+            try {
+                Object listener = itr.next();
+                if (listener instanceof TefkatListener2) {
+                    ((TefkatListener2) listener).treeAdded(tree);
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void fireTreeRemoved(Tree tree) {
+        for (Iterator itr = listeners.iterator(); itr.hasNext();) {
+            try {
+                Object listener = itr.next();
+                if (listener instanceof TefkatListener2) {
+                    ((TefkatListener2) listener).treeRemoved(tree);
+                }
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -958,7 +1009,7 @@ public class RuleEvaluator {
             //            System.out.println(trule.getName() + ": C " + ruleContext);
 
             Node root = new Node(goal, ruleContext);
-            Tree tree = new Tree(trule.getTransformation(), root, context, trackingExtent, false);
+            Tree tree = new Tree(trule.getTransformation(), null, null, root, context, trackingExtent, false);
 
             resolveNode(tree);
 
@@ -1004,14 +1055,31 @@ public class RuleEvaluator {
 
                 //  Is the goal already a success?
                 //
-                Collection goal = node.goal();
-                if (goal.isEmpty()) {
+                if (node.goal().isEmpty()) {
 
                     fireEnterTerm(node);
 
                     if (null == node.getDelayed() || node.getDelayed().isEmpty()) {
                         tree.success(node);
+                    } else if (tree.getParentTree() != null) {
+                        // Trees created for IFs or PATTERNs/TEMPLATEs should
+                        // be delayed -- only Trees for TRules should flounder
+                        
+                        // Don't continue with this tree - it's obsolete
+                        unresolvedTrees.remove(tree);
+                        // Tell any listeners so they can clean up
+                        tree.floundered();
+                        
+                        // Delay the node that originally created this tree
+                        Tree parentTree = tree.getParentTree();
+                        Node parentNode = tree.getParentNode();
+                        
+                        parentNode.delay();
+                        parentTree.addUnresolvedNode(parentNode);
+                        fireDelayTerm(parentNode);
                     } else {
+                        // FIXME - Trees created for IFs or PATTERNs/TEMPLATEs should
+                        // be delayed -- only Trees for TRules should flounder
                         throw new ResolutionException(node,
                                 "Floundered - all terms are delayed: "
                                 + node.getDelayed() + "\t"
@@ -1025,7 +1093,7 @@ public class RuleEvaluator {
                     Term literal = selectLiteral(node);
                     if (literal == null) {
                         throw new ResolutionException(node,
-                                "Could not select a valid literal from goal: " + goal);
+                                "Could not select a valid literal from goal: " + node.goal());
                     }
 
                     try {
@@ -1043,9 +1111,9 @@ public class RuleEvaluator {
                         // appropriate resolver.
                         //
                         if (isTarget(literal)) {
-                            tgtResolver.doResolveNode(tree, node, goal, literal, false);
+                            tgtResolver.doResolveNode(tree, node, literal, false);
                         } else {
-                            srcResolver.doResolveNode(tree, node, goal, literal, false);
+                            srcResolver.doResolveNode(tree, node, literal, false);
                         }
 
                         fireExitTerm(node);
@@ -1069,9 +1137,9 @@ public class RuleEvaluator {
                     // waitStep();
                 }
 
-		if (tree.isCompleted()) {
-		    unresolvedTrees.remove(tree);
-		}
+                if (tree.isCompleted()) {
+                    removeUnresolvedTree(tree);
+                }
 
                 fireExitTree(tree);
                 depth--;
@@ -1090,7 +1158,7 @@ public class RuleEvaluator {
      * @return True iff this node or one of its (transitive) children is a
      *         success node.
      */
-    protected void resolveNode(Tree tree) throws ResolutionException {
+    protected void resolveNode(final Tree tree) throws ResolutionException {
 
         try {
             depth++;
@@ -1105,8 +1173,7 @@ public class RuleEvaluator {
 
                 //  Is the goal already a success?
                 //
-                Collection goal = node.goal();
-                if (goal.isEmpty()) {
+                if (node.goal().isEmpty()) {
 
 //                    if (stepMode) {
 //                        waitStep();
@@ -1130,7 +1197,7 @@ public class RuleEvaluator {
                     Term literal = selectLiteral(node);
                     if (literal == null) {
                         throw new ResolutionException(node,
-                                "Could not select a valid literal from goal: " + goal);
+                                "Could not select a valid literal from goal: " + node.goal());
                     }
 
                     try {
@@ -1148,9 +1215,9 @@ public class RuleEvaluator {
                         // appropriate resolver.
                         //
                         if (isTarget(literal)) {
-                            tgtResolver.doResolveNode(tree, node, goal, literal, false);
+                            tgtResolver.doResolveNode(tree, node, literal, false);
                         } else {
-                            srcResolver.doResolveNode(tree, node, goal, literal, false);
+                            srcResolver.doResolveNode(tree, node, literal, false);
                         }
 
                         fireExitTerm(node);
@@ -1190,7 +1257,7 @@ public class RuleEvaluator {
      *         success)
      */
     private Term selectLiteral(Node node) {
-        Term[] literals = (Term[]) node.goal().toArray(new Term[0]);
+        Term[] literals = (Term[]) node.goal().toArray(new Term[node.goal().size()]);
 
         // Simple selection rule:
         //    + select non-target, non-negation terms first
@@ -1266,14 +1333,14 @@ public class RuleEvaluator {
     //        String s = "";
     //        for (Iterator itr = solution.entrySet().iterator(); itr.hasNext();) {
     //            Map.Entry es = (Map.Entry) itr.next();
-    //            AbstractVar k = (AbstractVar) es.getKey();
+    //            Var k = (Var) es.getKey();
     //            s += "\n\t" + k.getScope().getName() + "." + k.getName() + " -> ";
     //            Object v = es.getValue();
-    //            if (v instanceof AbstractVar) {
-    //                AbstractVar av = (AbstractVar) v;
+    //            if (v instanceof Var) {
+    //                Var av = (Var) v;
     //                s += av.getScope().getName() + "." + av.getName();
     //            } else if (v instanceof WrappedVar) {
-    //                AbstractVar av = ((WrappedVar) v).getVar();
+    //                Var av = ((WrappedVar) v).getVar();
     //                s += "W(" + av.getScope().getName() + "." + av.getName() + ")";
     //            } else {
     //                s += v;
@@ -1481,9 +1548,9 @@ public class RuleEvaluator {
     private void buildExtBindings(List vars, Binding binding)
             throws ResolutionException {
         for (Iterator itr = vars.iterator(); itr.hasNext();) {
-            TRuleVar var = (TRuleVar) itr.next();
+            Var var = (Var) itr.next();
             for (Iterator extItr = var.getExtended().iterator(); extItr.hasNext();) {
-                TRuleVar extVar = (TRuleVar) extItr.next();
+                Var extVar = (Var) extItr.next();
                 linkVars(binding, var, extVar);
             }
         }
@@ -1492,15 +1559,15 @@ public class RuleEvaluator {
     private void buildSupBindings(List vars, Binding binding)
             throws ResolutionException {
         for (Iterator itr = vars.iterator(); itr.hasNext();) {
-            TRuleVar var = (TRuleVar) itr.next();
+            Var var = (Var) itr.next();
             for (Iterator supItr = var.getSuperseded().iterator(); supItr.hasNext();) {
-                TRuleVar supVar = (TRuleVar) supItr.next();
+                Var supVar = (Var) supItr.next();
                 linkVars(binding, var, supVar);
             }
         }
     }
 
-    private Object lookup(Binding binding, TRuleVar var) {
+    private Object lookup(Binding binding, Var var) {
         Object obj = binding.lookup(var);
         if (null == obj) {
             return new WrappedVar(var);
@@ -1508,15 +1575,15 @@ public class RuleEvaluator {
         return obj;
     }
 
-    private void linkVars(Binding binding, TRuleVar lhVar, TRuleVar rhVar)
+    private void linkVars(Binding binding, Var lhVar, Var rhVar)
             throws ResolutionException {
         Object lhObj = lookup(binding, lhVar);
         Object rhObj = lookup(binding, rhVar);
         if (lhObj instanceof WrappedVar) {
-            AbstractVar var = ((WrappedVar) lhObj).getVar();
+            Var var = ((WrappedVar) lhObj).getVar();
             binding.add(var, rhObj);
         } else {
-            binding.add((TRuleVar) lhObj, rhObj);
+            binding.add((Var) lhObj, rhObj);
         }
     }
 
@@ -1582,7 +1649,7 @@ public class RuleEvaluator {
             TRule r1 = TefkatFactory.eINSTANCE.createTRule();
             r1.setTransformation(t);
             r1.setName("R1");
-            AbstractVar v1 = TefkatFactory.eINSTANCE.createTRuleVar();
+            Var v1 = TefkatFactory.eINSTANCE.createVar();
             v1.setScope(r1);
             v1.setName("v1");
             r1.setSrc(mi(v1, "Src1"));
@@ -1591,7 +1658,7 @@ public class RuleEvaluator {
             TRule r2 = TefkatFactory.eINSTANCE.createTRule();
             r2.setTransformation(t);
             r2.setName("R2");
-            TRuleVar v2 = TefkatFactory.eINSTANCE.createTRuleVar();
+            Var v2 = TefkatFactory.eINSTANCE.createVar();
             v2.setScope(r2);
             v2.setName("v2");
             v2.getExtended().add(v1);
@@ -1602,7 +1669,7 @@ public class RuleEvaluator {
             TRule r3 = TefkatFactory.eINSTANCE.createTRule();
             r3.setTransformation(t);
             r3.setName("R3");
-            TRuleVar v3 = TefkatFactory.eINSTANCE.createTRuleVar();
+            Var v3 = TefkatFactory.eINSTANCE.createVar();
             v3.setScope(r3);
             v3.setName("v3");
             v3.getSuperseded().add(v1);
@@ -1613,7 +1680,7 @@ public class RuleEvaluator {
             TRule r4 = TefkatFactory.eINSTANCE.createTRule();
             r4.setTransformation(t);
             r4.setName("R4");
-            TRuleVar v4 = TefkatFactory.eINSTANCE.createTRuleVar();
+            Var v4 = TefkatFactory.eINSTANCE.createVar();
             v4.setScope(r4);
             v4.setName("v4");
             v4.getExtended().add(v3);
@@ -1621,8 +1688,7 @@ public class RuleEvaluator {
             r4.getTgt().add(mi(v4, "Tgt4"));
             r4.getExtended().add(r3);
 
-            RuleEvaluator re = new RuleEvaluator(null, null, new ArrayList(),
-                    new ArrayList());
+            RuleEvaluator re = new RuleEvaluator(null, null, Collections.EMPTY_MAP, Collections.EMPTY_LIST);
 
             re.buildMaps(t);
 
@@ -1669,7 +1735,7 @@ public class RuleEvaluator {
                                                  // + re.overBinding(r4));
         }
 
-        private static MofInstance mi(AbstractVar v, String type) {
+        private static MofInstance mi(Var v, String type) {
             MofInstance mi = TefkatFactory.eINSTANCE.createMofInstance();
             tefkat.model.StringConstant t = TefkatFactory.eINSTANCE
                     .createStringConstant();
@@ -1718,8 +1784,8 @@ public class RuleEvaluator {
      */
     void trackingCreate(EClass trackingClass, EObject instance) throws ResolutionException, NotGroundException {
         if (INCREMENTAL) {
-	    // FIXME do this for all superclasses as well!
-	    //
+            // FIXME do this for all superclasses as well!
+            //
             List callbacks = (List) trackingQueryMap.get(trackingClass);
             if (null != callbacks) {
                 for (Iterator itr = callbacks.iterator(); itr.hasNext(); ) {
@@ -1732,7 +1798,7 @@ public class RuleEvaluator {
         }
     }
 
-    private Map featureOrderings = new HashMap();
+    final private Map featureOrderings = new HashMap();
 
     void addPartialOrder(Object inst, Object feat, Object lesser, Object greater) {
         Map instanceOrderings = (Map) featureOrderings.get(feat);
@@ -1761,7 +1827,7 @@ public class RuleEvaluator {
                 final Map.Entry iEntry = (Map.Entry) iItr.next();
                 final EObject inst = (EObject) iEntry.getKey();
                 final PartialOrder partialOrder = (PartialOrder) iEntry.getValue();
-                final EStructuralFeature feature = Util.getFeature(inst.eClass(), feat);
+                final EStructuralFeature feature = ModelUtils.getFeature(inst.eClass(), feat);
                 final Object val = inst.eGet(feature);
                 
                 if (!(val instanceof List)) {
@@ -1775,10 +1841,10 @@ public class RuleEvaluator {
     }
 
     static class PartialOrder {
-        private String context;
+        final private String context;
         
-        private Map instanceOrderings = new HashMap();
-        private Map instanceCounters = new HashMap();
+        final private Map instanceOrderings = new HashMap();
+        final private Map instanceCounters = new HashMap();
 
         PartialOrder(String context) {
             this.context = context;
@@ -1884,6 +1950,7 @@ public class RuleEvaluator {
             int val = 0;
             
             Counter() {
+                // no init required
             }
 
             void increment() {
@@ -1900,80 +1967,48 @@ public class RuleEvaluator {
         }
     }
     
-    /**
-     * Given a list of Resources, transitively load all resources that contain referenced stuff.
-     * 
-     * @param resources
-     * @return
-     */
-    public final Set findAllResources(Collection resources) {
-        Set result = new HashSet(resources);
-        
-        while (resources.size() > 0) {
-            Set newResources = new HashSet();
-            for (Iterator itr = resources.iterator(); itr.hasNext(); ) {
-                Resource res = (Resource) itr.next();
-                Map refs = EcoreUtil.ExternalCrossReferencer.find(res);
-                for (Iterator refItr = refs.keySet().iterator(); refItr.hasNext(); ) {
-                    EObject o = (EObject) refItr.next();
-                    Resource newRes = o.eResource();
-                    // ignore things we've already seen
-                    if (newRes != null && !result.contains(newRes)) {
-                        newResources.add(newRes);
-//                        fireResourceLoaded(newRes);
-                    }
-                }
-            }
-//            newResources.removeAll(result); // ignore things we've already seen
-            result.addAll(newResources);    // remember everything for result
-            resources = newResources;       // get ready to iterate over the new things
-        }
-        
-        return result;
-    }
+//    private static class TestSort {
+//        public static void main(String[] args) {
+//            EClass inst = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEClass();
+//            String feat = "eStructuralFeatures";
+//            EStructuralFeature[] a = {org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEReference(),
+//                              org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEReference(),
+//                              org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEAttribute(),
+//                              org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEAttribute(),
+//                              org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEAttribute(),
+//            };
+//            a[0].setName("zero");
+//            a[1].setName("one");
+//            a[2].setName("two");
+//            a[3].setName("three");
+//            a[4].setName("four");
+//            inst.getEStructuralFeatures().addAll(java.util.Arrays.asList(a));
+//            
+//            RuleEvaluator re = new RuleEvaluator(null, null, Collections.EMPTY_MAP, Collections.EMPTY_LIST);
+//            
+//            re.addPartialOrder(inst, feat, a[4], a[3]);
+//            re.addPartialOrder(inst, feat, a[3], a[2]);
+//            re.addPartialOrder(inst, feat, a[2], a[1]);
+//            re.addPartialOrder(inst, feat, a[1], a[0]);
+//
+//            re.addPartialOrder(inst, feat, a[4], "foo");    // Should cause a resolution exception below
+//
+//            try {
+//                for (final Iterator itr = inst.getEStructuralFeatures().iterator(); itr.hasNext(); ) {
+//                    System.out.println(((EStructuralFeature) itr.next()).getName());
+//                }
+//                re.topologicalSort();
+//                System.out.println("-----------------");
+//                for (final Iterator itr = inst.getEStructuralFeatures().iterator(); itr.hasNext(); ) {
+//                    System.out.println(((EStructuralFeature) itr.next()).getName());
+//                }
+//            } catch (ResolutionException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-    private static class TestSort {
-        public static void main(String[] args) {
-            EClass inst = EcoreFactory.eINSTANCE.createEClass();
-            String feat = "eStructuralFeatures";
-            EStructuralFeature[] a = {EcoreFactory.eINSTANCE.createEReference(),
-                              EcoreFactory.eINSTANCE.createEReference(),
-                              EcoreFactory.eINSTANCE.createEAttribute(),
-                              EcoreFactory.eINSTANCE.createEAttribute(),
-                              EcoreFactory.eINSTANCE.createEAttribute(),
-            };
-            a[0].setName("zero");
-            a[1].setName("one");
-            a[2].setName("two");
-            a[3].setName("three");
-            a[4].setName("four");
-            inst.getEStructuralFeatures().addAll(Arrays.asList(a));
-            
-            RuleEvaluator re = new RuleEvaluator(null, null, Collections.EMPTY_LIST, Collections.EMPTY_LIST);
-            
-            re.addPartialOrder(inst, feat, a[4], a[3]);
-            re.addPartialOrder(inst, feat, a[3], a[2]);
-            re.addPartialOrder(inst, feat, a[2], a[1]);
-            re.addPartialOrder(inst, feat, a[1], a[0]);
-
-            re.addPartialOrder(inst, feat, a[4], "foo");    // Should cause a resolution exception below
-
-            try {
-                for (final Iterator itr = inst.getEStructuralFeatures().iterator(); itr.hasNext(); ) {
-                    System.out.println(((EStructuralFeature) itr.next()).getName());
-                }
-                re.topologicalSort();
-                System.out.println("-----------------");
-                for (final Iterator itr = inst.getEStructuralFeatures().iterator(); itr.hasNext(); ) {
-                    System.out.println(((EStructuralFeature) itr.next()).getName());
-                }
-            } catch (ResolutionException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private Stack patternStack = new Stack();
+    final private Stack patternStack = new Stack();
     
     /**
      * @param defn

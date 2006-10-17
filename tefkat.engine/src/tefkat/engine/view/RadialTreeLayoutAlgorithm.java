@@ -79,7 +79,7 @@ public class RadialTreeLayoutAlgorithm {
     
     private List leaves = null;
 
-    JGraph jgraph;
+    JGraph jgraph = null;
 
     private double depth;
 

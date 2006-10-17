@@ -73,7 +73,8 @@ public abstract class Main {
             URI uri = URI.createURI(name + ".tefkat");
             Resource resource = resourceSet.createResource(uri);
             System.err.println("Enter transformation:");
-            Transformation t = parser.transformation(resource);
+            parser.setResource(resource);
+            Transformation t = parser.transformation();
             System.err.println("    " + t);
             System.err.println("vars");
             printList("\t", t.getVars());

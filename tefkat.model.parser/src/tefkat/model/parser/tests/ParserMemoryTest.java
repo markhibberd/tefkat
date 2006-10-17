@@ -187,7 +187,8 @@ public class ParserMemoryTest extends TestCase {
         assertNotNull("Couldn't create Resource", res);
     
         try {
-            parser.transformation(res);
+            parser.setResource(res);
+            parser.transformation();
             final OutputStream out = new ByteArrayOutputStream();
             res.save(out, SERIALIZATION_OPTIONS);
             

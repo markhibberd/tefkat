@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: tefkat.plugin; singleton:=true
-Bundle-Version: 2.1.0.1
+Bundle-Version: 2.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: tefkat.plugin.TefkatPlugin
 Bundle-Vendor: %providerName
@@ -25,6 +25,7 @@ Require-Bundle: org.eclipse.core.resources,
  org.eclipse.ui.ide,
  org.eclipse.ui.views,
  org.eclipse.ui.workbench.texteditor,
+ org.eclipse.xsd;visibility:=reexport,
  org.antlr;visibility:=reexport,
  tefkat.model,
  tefkat.model.edit,
@@ -34,4 +35,4 @@ Require-Bundle: org.eclipse.core.resources,
  tefkat.config.editor,
  tefkat.model.parser,
  tefkat.engine
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

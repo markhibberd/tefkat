@@ -1,0 +1,1749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.0/notation" xmi:id="_7w0fcEOeEduXq4a9udjqog" type="Ecore" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_71dH0EOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_71e9AEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_71oG8EOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_71oG8UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_71oG8kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_71oG80OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_71ouAEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_71pVEEOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_71pVEUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_71pVEkOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_71p8IEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_71p8IUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_71p8IkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_71p8I0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_71dH0UOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_71du4EOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_71du4UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_71du4kOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//Extent"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_71du40OeEduXq4a9udjqog" x="120" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_71qjMEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_71rKQEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_71sYYEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_71sYYUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_71sYYkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_71sYY0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_71s_cEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_71s_cUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_71s_ckOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_71s_c0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73M0QEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73M0QUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73M0QkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73M0Q0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_71qjMUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_71qjMkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_71qjM0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_71qjNEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//ContainerExtent"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_71qjNUOeEduXq4a9udjqog" x="55" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_73OCYEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_73PQgEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_73P3kEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73P3kUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73P3kkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73P3k0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73QeoEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73RFsEOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73RFsUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73RFskOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73RswEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73RswUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73RswkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73Rsw0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_73OCYUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_73OCYkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_73OCY0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_73OCZEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//ReferenceExtent"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_73OCZUOeEduXq4a9udjqog" x="206" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_73ST0EOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_73S64EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_73Th8EOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73Th8UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73Th8kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73Th80OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73UJAEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73UJAUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73UJAkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73UJA0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73VXIEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73VXIUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73VXIkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73VXI0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_73ST0UOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_73ST0kOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_73ST00OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_73ST1EOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//AbstractVar"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_73ST1UOeEduXq4a9udjqog" x="1206" y="920"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_73V-MEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_73XzYEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_73YacEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73YacUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73YackOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73Yac0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73ZBgEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73ZBgUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73ZBgkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73ZBg0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73ZokEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73ZokUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73ZokkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73Zok0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_73WlQEOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_73WlQUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_73WlQkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_73WlQ0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//PatternVar"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_73WlREOeEduXq4a9udjqog" x="1016" y="673"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_73a2sEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_73fvMEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_73gWQEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73gWQUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73gWQkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73gWQ0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73g9UEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73g9UUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73g9UkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73hkYEOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73iLcEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73iLcUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73iLckOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73iLc0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_73a2sUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_73a2skOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_73a2s0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_73a2tEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//TRuleVar"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_73a2tUOeEduXq4a9udjqog" x="1010" y="808"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_73iygEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_73jZkEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_73knsEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73knsUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73knskOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73kns0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73l10EOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73l10UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73l10kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73l100OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73mc4EOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73mc4UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73mc4kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73mc40OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_73iygUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_73iygkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_73iyg0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_73iyhEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//ExtentVar"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_73iyhUOeEduXq4a9udjqog" x="1210" y="808"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_73nD8EOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_73oSEEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_73o5IEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73o5IUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73o5IkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73o5I0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73pgMEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73pgMUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73pgMkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73pgM0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73qHQEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73qHQUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73qHQkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73qHQ0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_73nD8UOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_73nD8kOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_73nD80OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_73nD9EOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//VarScope"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_73nD9UOeEduXq4a9udjqog" x="374" y="673"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_73quUEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_73r8cEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_73sjgEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73sjgUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73sjgkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73sjg0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73tKkEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73tKkUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73tKkkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73tKk0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73txoEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73txoUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73txokOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73txo0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_73quUUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_73quUkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_73quU0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_73quVEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//PatternScope"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_73quVUOeEduXq4a9udjqog" x="315" y="373"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_73u_wEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_73wN4EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_73w08EOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73w08UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73w08kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73w080OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73xcAEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73xcAUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73xcAkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73xcA0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_73yDEEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_73yDEUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_73yDEkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_73yDE0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_73u_wUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_73u_wkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_73u_w0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_73u_xEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//TRule"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_73u_xUOeEduXq4a9udjqog" x="633" y="373"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_75BZMEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_75DOYEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_75FqoEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75FqoUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75FqokOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75Fqo0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75O0kEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75PboEOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75PboUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75PbokOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75TGAEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75TGAUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75TGAkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75TGA0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_75BZMUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_75BZMkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_75BZM0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_75BZNEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//Transformation"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_75BZNUOeEduXq4a9udjqog" x="291" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_75TtEEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_75bo4EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_75cP8EOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75cP8UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75cP8kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75cP80OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75deEEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75deEUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75deEkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75deE0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75eFIEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75eFIUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75eFIkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75eFI0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_75TtEUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_75TtEkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_75UUIEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_75UUIUOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//NamespaceDeclaration"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_75UUIkOeEduXq4a9udjqog" x="133" y="373"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_75fTQEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_75f6UEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_75ghYEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75ghYUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75ghYkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75ghY0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75hvgEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75hvgUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75hvgkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75hvg0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75kLwEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75kLwUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75kLwkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75kLw0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_75fTQUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_75fTQkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_75fTQ0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_75fTREOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//PatternDefn"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_75fTRUOeEduXq4a9udjqog" x="1013" y="554"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_75ky0EOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_75mA8EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_75moAEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75moAUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75moAkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75moA0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75nPEEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75nPEUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75nPEkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75nPE0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75n2IEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75n2IUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75n2IkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75n2I0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_75ky0UOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_75ky0kOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_75lZ4EOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_75lZ4UOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//Query"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_75lZ4kOeEduXq4a9udjqog" x="489" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_75pEQEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_75qSYEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_75rggEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75rggUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75rggkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75rgg0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75sHkEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75sHkUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75sHkkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75sHk0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75suoEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75suoUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75suokOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75suo0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_75pEQUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_75pEQkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_75pEQ0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_75prUEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//Term"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_75prUUOeEduXq4a9udjqog" x="1206" y="673"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_75t8wEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_75uj0EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_75vK4EOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75vK4UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75vK4kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75vK40OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75vx8EOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75vx8UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75vx8kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75vx80OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_75xAEEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75xAEUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75xAEkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75xAE0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_75t8wUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_75t8wkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_75t8w0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_75t8xEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//SourceTerm"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_75t8xUOeEduXq4a9udjqog" x="1205" y="554"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_75xnIEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_75y1QEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_75zcUEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75zcUUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75zcUkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75zcU0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_750DYEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_750DYUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_750DYkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_750DY0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_750qcEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_750qcUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_750qckOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_750qc0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_75xnIUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_75xnIkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_75xnI0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_75xnJEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//TargetTerm"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_75xnJUOeEduXq4a9udjqog" x="1399" y="554"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_7514kEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_753GsEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_753twEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_753twUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_753twkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_753tw0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_754U0EOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_754U0UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_754U0kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_754U00OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_755i8EOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_755i8UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_755i8kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_755i80OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_7514kUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_7514kkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_7514k0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_7514lEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//CompoundTerm"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7514lUOeEduXq4a9udjqog" x="1205" y="373"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_756KAEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_757YIEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_757_MEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_757_MUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_757_MkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_757_M0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_758mQEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_758mQUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_758mQkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_758mQ0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_759NUEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_759NUUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_759NUkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_759NU0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_756KAUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_756KAkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_756KA0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_756KBEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//SimpleTerm"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_756KBUOeEduXq4a9udjqog" x="1460" y="373"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_7590YEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_75_CgEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_75_pkEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_75_pkUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_75_pkkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_75_pk0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76A3sEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76A3sUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76A3skOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76A3s0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76CF0EOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76CF0UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76CF0kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76CF00OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_7590YUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_75-bcEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_75-bcUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_75-bckOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//Expression"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_75-bc0OeEduXq4a9udjqog" x="2278" y="373"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76DT8EOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76EiEEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76EiEUOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76EiEkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76EiE0OeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76EiFEOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76FwMEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76FwMUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76FwMkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76FwM0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76GXQEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76GXQUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76GXQkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76GXQ0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76DT8UOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76DT8kOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76DT80OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76DT9EOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//InstanceRef"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76DT9UOeEduXq4a9udjqog" x="2983" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76HlYEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76IzgEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76JakEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76JakUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76JakkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76Jak0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76KBoEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76KBoUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76KBokOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76KBo0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76KosEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76KosUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76KoskOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76Kos0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76HlYUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76HlYkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76HlY0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76HlZEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//AndTerm"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76HlZUOeEduXq4a9udjqog" x="1172" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76LPwEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76Md4EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76NE8EOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76NE8UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76NE8kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76NE80OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76NsAEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76NsAUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76NsAkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76NsA0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76O6IEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76O6IUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76O6IkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76O6I0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76LPwUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76LPwkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76LPw0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76LPxEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//OrTerm"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76LPxUOeEduXq4a9udjqog" x="727" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76PhMEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76QvUEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76RWYEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76RWYUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76RWYkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76RWY0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76SkgEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76SkgUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76SkgkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76Skg0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76TLkEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76TLkUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76TLkkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76TLk0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76PhMUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76PhMkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76PhM0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76PhNEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//NotTerm"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76PhNUOeEduXq4a9udjqog" x="840" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76TyoEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76VAwEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76Vn0EOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76Vn0UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76Vn0kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76Vn00OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76WO4EOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76WO4UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76WO4kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76WO40OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76XdAEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76XdAUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76XdAkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76XdA0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76TyoUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76TyokOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76Tyo0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76TypEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//IfTerm"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76TypUOeEduXq4a9udjqog" x="1006" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76YEEEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76YrIEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76ZSMEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76ZSMUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76ZSMkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76ZSM0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76eKsEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76eKsUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76eKskOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76eKs0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76exwEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76fY0EOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76fY0UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76fY0kOeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76YEEUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76YEEkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76YEE0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76YEFEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//TrackingUse"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76YEFUOeEduXq4a9udjqog" x="1227" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76f_4EOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76hOAEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76h1EEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76h1EUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76h1EkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76h1E0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76icIEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76icIUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76icIkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76icI0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76jDMEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76jDMUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76jDMkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76jDM0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76f_4UOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76f_4kOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76f_40OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76f_5EOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//FeatureValuePair"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76f_5UOeEduXq4a9udjqog" x="1313" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76kRUEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76k4YEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76lfcEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76lfcUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76mGgEOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76mGgUOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76mtkEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76mtkUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76mtkkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76mtk0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76nUoEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76nUoUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76nUokOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76nUo0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76kRUUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76kRUkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76kRU0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76kRVEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//PatternUse"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76kRVUOeEduXq4a9udjqog" x="1586" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76n7sEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76pw4EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76q_AEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76q_AUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76q_AkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76q_A0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76sNIEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76sNIUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76sNIkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76sNI0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76s0MEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76s0MUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76s0MkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76s0M0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76n7sUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76n7skOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76n7s0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76n7tEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//MofTerm"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76oiwEOeEduXq4a9udjqog" x="1467" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76tbQEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76upYEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76vQcEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76vQcUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76vQckOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76vQc0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76v3gEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76v3gUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76v3gkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76v3g0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76wekEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76wekUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76wekkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76wek0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76tbQUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76tbQkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76tbQ0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76tbREOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//Condition"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76tbRUOeEduXq4a9udjqog" x="1712" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76xFoEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76yTwEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_76y60EOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_76y60UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_76y60kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_76y600OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_76zh4EOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_760I8EOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_760I8UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_760I8kOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_760wAEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_760wAUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_760wAkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_760wA0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76xFoUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76xssEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_76xssUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76xsskOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//MofInstance"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76xss0OeEduXq4a9udjqog" x="1826" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_761-IEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_762lMEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_763MQEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_763MQUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_763MQkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_763MQ0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_763zUEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_763zUUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_763zUkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_763zU0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_764aYEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_764aYUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_764aYkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_764aY0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_761-IUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_761-IkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_761-I0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_761-JEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//MofOrder"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_761-JUOeEduXq4a9udjqog" x="2053" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_765ogEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_7662oEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_767dsEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_767dsUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_767dskOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_768EwEOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_768r0EOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_768r0UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_768r0kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_768r00OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_769S4EOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_769S4UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_769S4kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_769S40OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_765ogUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_765ogkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_765og0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_765ohEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//CompoundExpr"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_765ohUOeEduXq4a9udjqog" x="2474" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_76958EOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_76_IEEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_77cbEEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77dCIEOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77dCIUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77dCIkOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77dpMEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77dpMUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77dpMkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77dpM0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77eQQEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77eQQUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77eQQkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77eQQ0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_76958UOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_76958kOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_769580OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_76-hAEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//SimpleExpr"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_76-hAUOeEduXq4a9udjqog" x="2719" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_77feYEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_77gFcEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_77gsgEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77gsgUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77gsgkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77gsg0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77hTkEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77h6oEOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77h6oUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77h6okOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77ihsEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77ihsUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77ihskOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77ihs0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_77feYUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_77feYkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_77feY0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_77feZEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//VarUse"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_77feZUOeEduXq4a9udjqog" x="3135" y="190"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_77kW4EOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_77k98EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_77mMEEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77mMEUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77mMEkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77mME0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77mzIEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77mzIUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77mzIkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77mzI0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77naMEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77oBQEOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77oBQUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77oBQkOeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_77kW4UOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_77kW4kOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_77kW40OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_77kW5EOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//CollectionExpr"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_77kW5UOeEduXq4a9udjqog" x="2175" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_77ooUEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_77pPYEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_77p2cEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77p2cUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77p2ckOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77p2c0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77rroEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77rroUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77rrokOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77rro0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77sSsEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77s5wEOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77s5wUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77s5wkOeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_77ooUUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_77ooUkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_77ooU0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_77ooVEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//FunctionExpr"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_77ooVUOeEduXq4a9udjqog" x="2321" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_77tg0EOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_77uH4EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_77uu8EOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77uu8UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77uu8kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77uu80OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77v9EEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77v9EUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77v9EkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77v9E0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77wkIEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77wkIUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77wkIkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77wkI0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_77tg0UOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_77tg0kOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_77tg00OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_77tg1EOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//FeatureExpr"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_77tg1UOeEduXq4a9udjqog" x="2605" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_77xLMEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_77yZUEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_77zAYEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77zncEOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77zncUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77znckOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_770OgEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_7701kEOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_7701kUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_7701kkOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_771coEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_771coUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_771cokOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_771co0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_77xLMUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_77xLMkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_77xLM0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_77xLNEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//StringConstant"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_77xLNUOeEduXq4a9udjqog" x="2738" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_772DsEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_773R0EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_773R0UOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_773R0kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77344EOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77344UOeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_774f8EOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_774f8UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_774f8kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_774f80OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_775HAEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_775HAUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_775HAkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_775HA0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_772DsUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_772DskOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_772Ds0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_772DtEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//IntConstant"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_772DtUOeEduXq4a9udjqog" x="2884" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_776VIEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_777jQEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_778KUEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_778KUUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_778KUkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_778KU0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_778xYEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_778xYUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_778xYkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_778xY0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_77-mkEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_77-mkUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_77-mkkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_77-mk0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_776VIUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_776VIkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_776VI0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_776VJEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//RealConstant"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7768MEOeEduXq4a9udjqog" x="3015" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_77_NoEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_78BC0EOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_78Bp4EOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78Bp4UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78Bp4kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78Bp40OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_78CQ8EOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78CQ8UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78CQ8kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78CQ80OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_78C4AEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78C4AUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78C4AkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78C4A0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_77_NoUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_77_NokOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_77_0sEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_77_0sUOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//BooleanConstant"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_77_0skOeEduXq4a9udjqog" x="3153" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_78DfEEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_78EtMEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_78FUQEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78FUQUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78FUQkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78FUQ0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_78F7UEOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78F7UUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78F7UkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78F7U0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_78HJcEOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78HJcUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78HJckOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78HJc0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_78EGIEOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_78EGIUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_78EGIkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_78EGI0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//EnumConstant"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_78EGJEOeEduXq4a9udjqog" x="2461" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_78HwgEOeEduXq4a9udjqog" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_78JlsEOeEduXq4a9udjqog" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_78KMwEOeEduXq4a9udjqog" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78KMwUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78KMwkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78KMw0OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_78Kz0EOeEduXq4a9udjqog" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78Kz0UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78Kz0kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78Kz00OeEduXq4a9udjqog"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_78La4EOeEduXq4a9udjqog" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78La4UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78La4kOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78La40OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_78IXkEOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_78IXkUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_78IXkkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_78IXk0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EClass" href="TefkatModel.ecore#//Injection"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_78IXlEOeEduXq4a9udjqog" x="3308" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_7807IEOeEduXq4a9udjqog" type="2004">
+    <children xmi:type="notation:Node" xmi:id="_781iMEOeEduXq4a9udjqog" type="5004"/>
+    <children xmi:type="notation:Node" xmi:id="_782wUEOeEduXq4a9udjqog" type="7010">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_782wUUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_782wUkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_782wU0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_7807IUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_7807IkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_7807I0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_7807JEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EDataType" href="TefkatModel.ecore#//Collection"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7807JUOeEduXq4a9udjqog" x="571" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_783XYEOeEduXq4a9udjqog" type="2004">
+    <children xmi:type="notation:Node" xmi:id="_785MkEOeEduXq4a9udjqog" type="5004"/>
+    <children xmi:type="notation:Node" xmi:id="_785zoEOeEduXq4a9udjqog" type="7010">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_785zoUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_785zokOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_785zo0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_783-cEOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_783-cUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_783-ckOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_783-c0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EDataType" href="TefkatModel.ecore#//List"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_783-dEOeEduXq4a9udjqog" x="911" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_787BwEOeEduXq4a9udjqog" type="2004">
+    <children xmi:type="notation:Node" xmi:id="_787o0EOeEduXq4a9udjqog" type="5004"/>
+    <children xmi:type="notation:Node" xmi:id="_788P4EOeEduXq4a9udjqog" type="7010">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78828EOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78828UOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78828kOeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_787BwUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_787BwkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_787Bw0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_787BxEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EDataType" href="TefkatModel.ecore#//ListArray"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_787BxUOeEduXq4a9udjqog" x="3429" y="55"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_78-FEEOeEduXq4a9udjqog" type="2004">
+    <children xmi:type="notation:Node" xmi:id="_78_TMEOeEduXq4a9udjqog" type="5004"/>
+    <children xmi:type="notation:Node" xmi:id="_78_6QEOeEduXq4a9udjqog" type="7010">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_78_6QUOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_78_6QkOeEduXq4a9udjqog"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_78_6Q0OeEduXq4a9udjqog"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_78-FEUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_78-FEkOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_78-FE0OeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_78-FFEOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EDataType" href="TefkatModel.ecore#//TefkatException"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_78-FFUOeEduXq4a9udjqog" x="3549" y="55"/>
+  </children>
+  <styles xmi:type="notation:PageStyle" xmi:id="_7w0fcUOeEduXq4a9udjqog"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_7w0fckOeEduXq4a9udjqog"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_7w0fc0OeEduXq4a9udjqog"/>
+  <element xmi:type="ecore:EPackage" href="TefkatModel.ecore#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_8MMM0EOeEduXq4a9udjqog" type="4004" source="_71qjMEOeEduXq4a9udjqog" target="_71dH0EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8MMM0UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8MMz4EOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8MMz4UOeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8MMz4kOeEduXq4a9udjqog" points="[0, 38, -75, -121]$[75, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8MSTcEOeEduXq4a9udjqog" type="4004" source="_73OCYEOeEduXq4a9udjqog" target="_71dH0EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8MS6gEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8MS6gUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8MS6gkOeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8MS6g0OeEduXq4a9udjqog" points="[0, 38, 76, -121]$[-76, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8MXzAEOeEduXq4a9udjqog" type="4002" source="_73ST0EOeEduXq4a9udjqog" target="_77feYEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8MZoMEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8MZoMUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8MYaEEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8MYaEUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8MYaEkOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//AbstractVar/usages"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8MYaE0OeEduXq4a9udjqog" points="[0, -29, -1919, 669]$[1955, -115, 36, 583]$[1955, -516, 36, 182]$[1919, -636, 0, 62]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8MfHwEOeEduXq4a9udjqog" type="4004" source="_73V-MEOeEduXq4a9udjqog" target="_73ST0EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8MfHwUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8MfHwkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8MfHw0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8MfHxEOeEduXq4a9udjqog" points="[0, 38, -193, -201]$[121, 124, -72, -115]$[193, 210, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8MkAQEOeEduXq4a9udjqog" type="4004" source="_73a2sEOeEduXq4a9udjqog" target="_73ST0EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8MknUEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8MknUUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8MknUkOeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8MknU0OeEduXq4a9udjqog" points="[0, 26, -201, -89]$[201, 86, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8MqG4EOeEduXq4a9udjqog" type="4002" source="_73a2sEOeEduXq4a9udjqog" target="_73a2sEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8MrVAEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8MrVAUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8MqG4UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8MqG4kOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8MqG40OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//TRuleVar/extender"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8MqG5EOeEduXq4a9udjqog" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8MxboEOeEduXq4a9udjqog" type="4002" source="_73a2sEOeEduXq4a9udjqog" target="_73a2sEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8MyCsEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8MyCsUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8MxboUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8MxbokOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Mxbo0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//TRuleVar/extended"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8MxbpEOeEduXq4a9udjqog" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8NAsMEOeEduXq4a9udjqog" type="4002" source="_73a2sEOeEduXq4a9udjqog" target="_73a2sEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8NEWkEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8NEWkUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8NAsMUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8NAsMkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8NAsM0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//TRuleVar/superseder"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8NAsNEOeEduXq4a9udjqog" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8NLEQEOeEduXq4a9udjqog" type="4002" source="_73a2sEOeEduXq4a9udjqog" target="_73a2sEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8NMSYEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8NMSYUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8NLEQUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8NLEQkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8NLEQ0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//TRuleVar/superseded"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8NLEREOeEduXq4a9udjqog" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8NSZAEOeEduXq4a9udjqog" type="4004" source="_73iygEOeEduXq4a9udjqog" target="_73ST0EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8NSZAUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8NSZAkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8NSZA0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8NSZBEOeEduXq4a9udjqog" points="[0, 26, 0, -89]$[0, 86, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8NX4kEOeEduXq4a9udjqog" type="4003" source="_73nD8EOeEduXq4a9udjqog" target="_73ST0EOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8NZGsEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8NZGsUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8NX4kUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8NX4kkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8NX4k0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//VarScope/vars"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8NX4lEOeEduXq4a9udjqog" points="[0, 38, -830, -201]$[718, 124, -112, -115]$[830, 210, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8NemQEOeEduXq4a9udjqog" type="4004" source="_73quUEOeEduXq4a9udjqog" target="_73nD8EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8NemQUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8NemQkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8NemQ0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8NemREOeEduXq4a9udjqog" points="[0, 61, -58, -216]$[58, 240, 0, -37]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8NkF0EOeEduXq4a9udjqog" type="4003" source="_73quUEOeEduXq4a9udjqog" target="_75fTQEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8NlT8EOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8NlT8UOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8NkF0UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8NkF0kOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8NkF00OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//PatternScope/patternDefn"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8NkF1EOeEduXq4a9udjqog" points="[0, 61, -695, -89]$[695, 121, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8NrakEOeEduXq4a9udjqog" type="4004" source="_73u_wEOeEduXq4a9udjqog" target="_73nD8EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8NrakUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8NrakkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Nrak0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8NralEOeEduXq4a9udjqog" points="[0, 61, 447, -216]$[-447, 150, 0, -127]$[-447, 240, 0, -37]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8N1yoEOeEduXq4a9udjqog" type="4002" source="_73u_wEOeEduXq4a9udjqog" target="_73u_wEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8N3AwEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8N3AwUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8N1yoUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8N1yokOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8N1yo0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//TRule/extended"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8N1ypEOeEduXq4a9udjqog" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8N9ucEOeEduXq4a9udjqog" type="4002" source="_73u_wEOeEduXq4a9udjqog" target="_73u_wEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8N-VgEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8N-VgUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8N9ucUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8N9uckOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8N9uc0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//TRule/superseded"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8N9udEOeEduXq4a9udjqog" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8OONIEOeEduXq4a9udjqog" type="4003" source="_73u_wEOeEduXq4a9udjqog" target="_75t8wEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8OR3gEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8OR3gUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8OO0MEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8OO0MUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8OO0MkOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//TRule/src"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8OO0M0OeEduXq4a9udjqog" points="[0, 61, -383, -89]$[383, 121, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8OYlMEOeEduXq4a9udjqog" type="4003" source="_73u_wEOeEduXq4a9udjqog" target="_75xnIEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8OZzUEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8OZzUUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8OYlMUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8OYlMkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8OYlM0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//TRule/tgt"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8OYlNEOeEduXq4a9udjqog" points="[0, 61, -576, -89]$[576, 121, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8OfS4EOeEduXq4a9udjqog" type="4004" source="_75BZMEOeEduXq4a9udjqog" target="_73quUEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8OfS4UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8OfS4kOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8OfS40OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8OfS5EOeEduXq4a9udjqog" points="[0, 62, 0, -120]$[0, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8OkycEOeEduXq4a9udjqog" type="4003" source="_75BZMEOeEduXq4a9udjqog" target="_73u_wEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8OmAkEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8OmAkUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8OkycUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8OkyckOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Okyc0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//Transformation/tRule"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8OkydEOeEduXq4a9udjqog" points="[0, 62, -505, -120]$[505, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8Ot8YEOeEduXq4a9udjqog" type="4003" source="_75BZMEOeEduXq4a9udjqog" target="_75TtEEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8OvxkEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8OvxkUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8Ot8YUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8Ot8YkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Ot8Y0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//Transformation/namespaceDeclarations"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8Ot8ZEOeEduXq4a9udjqog" points="[0, 62, 159, -120]$[-159, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8O2fQEOeEduXq4a9udjqog" type="4004" source="_75fTQEOeEduXq4a9udjqog" target="_73nD8EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8O2fQUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8O2fQkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8O2fQ0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8O2fREOeEduXq4a9udjqog" points="[0, 30, 637, -97]$[-637, 90, 0, -37]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8O7-0EOeEduXq4a9udjqog" type="4002" source="_75fTQEOeEduXq4a9udjqog" target="_73V-MEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8O8l4EOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8O9M8EOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8O7-0UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8O7-0kOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8O7-00OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//PatternDefn/parameterVar"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8O7-1EOeEduXq4a9udjqog" points="[0, 30, 0, -97]$[0, 90, 0, -37]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8PDTkEOeEduXq4a9udjqog" type="4003" source="_75fTQEOeEduXq4a9udjqog" target="_75pEQEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8PEhsEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8PEhsUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8PDTkUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8PDTkkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8PDTk0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//PatternDefn/term"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8PDTlEOeEduXq4a9udjqog" points="[0, 30, -193, -97]$[193, 90, 0, -37]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8PKoUEOeEduXq4a9udjqog" type="4004" source="_75ky0EOeEduXq4a9udjqog" target="_73quUEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8PKoUUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8PKoUkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8PKoU0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8PKoVEOeEduXq4a9udjqog" points="[0, 62, 159, -120]$[-159, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8PRWAEOeEduXq4a9udjqog" type="4002" source="_75ky0EOeEduXq4a9udjqog" target="_73V-MEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8PR9EEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8PR9EUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8PRWAUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8PRWAkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8PRWA0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//Query/parameterVar"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8PRWBEOeEduXq4a9udjqog" points="[0, 62, -536, -397]$[0, 332, -536, -127]$[536, 422, 0, -37]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8PYqwEOeEduXq4a9udjqog" type="4003" source="_75ky0EOeEduXq4a9udjqog" target="_75pEQEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8PZR0EOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8PZR0UOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8PYqwUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8PYqwkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8PYqw0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//Query/term"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8PYqxEOeEduXq4a9udjqog" points="[0, 62, -729, -397]$[632, 182, -97, -277]$[632, 332, -97, -127]$[729, 422, 0, -37]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8PfYcEOeEduXq4a9udjqog" type="4002" source="_75pEQEOeEduXq4a9udjqog" target="_73iygEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8PgmkEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8PgmkUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8PfYcUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8Pf_gEOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Pf_gUOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//Term/context"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8Pf_gkOeEduXq4a9udjqog" points="[0, 38, 0, -86]$[0, 98, 0, -26]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8PmtMEOeEduXq4a9udjqog" type="4004" source="_75t8wEOeEduXq4a9udjqog" target="_75pEQEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8PmtMUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8PnUQEOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8PnUQUOeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8PnUQkOeEduXq4a9udjqog" points="[0, 30, 0, -97]$[0, 90, 0, -37]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8PrlsEOeEduXq4a9udjqog" type="4004" source="_75xnIEOeEduXq4a9udjqog" target="_75pEQEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8PrlsUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8PrlskOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Prls0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8PrltEOeEduXq4a9udjqog" points="[0, 30, 193, -97]$[-193, 90, 0, -37]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8PyTYEOeEduXq4a9udjqog" type="4004" source="_7514kEOeEduXq4a9udjqog" target="_75t8wEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8PyTYUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8PyTYkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8PyTY0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8PyTZEOeEduXq4a9udjqog" points="[0, 61, 10, -89]$[-10, 121, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8QA84EOeEduXq4a9udjqog" type="4003" source="_7514kEOeEduXq4a9udjqog" target="_75pEQEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8QCLAEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8QCLAUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8QA84UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8QA84kOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8QA840OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//CompoundTerm/term"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8QA85EOeEduXq4a9udjqog" points="[0, 61, 10, -216]$[87, 150, 97, -127]$[-10, 240, 0, -37]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8QLU8EOeEduXq4a9udjqog" type="4004" source="_756KAEOeEduXq4a9udjqog" target="_75t8wEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8QLU8UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8QLU8kOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8QLU80OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8QLU9EOeEduXq4a9udjqog" points="[0, 61, 255, -89]$[-255, 121, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8QSpsEOeEduXq4a9udjqog" type="4004" source="_756KAEOeEduXq4a9udjqog" target="_75xnIEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8QSpsUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8QSpskOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8QSps0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8QSptEOeEduXq4a9udjqog" points="[0, 61, 62, -89]$[-62, 121, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8QW7IEOeEduXq4a9udjqog" type="4004" source="_76DT8EOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8QW7IUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8QW7IkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8QW7I0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8QXiMEOeEduXq4a9udjqog" points="[0, 62, 705, -120]$[-705, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8QdBwEOeEduXq4a9udjqog" type="4004" source="_76HlYEOeEduXq4a9udjqog" target="_7514kEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8QdBwUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8QdBwkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8QdBw0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8QdBxEOeEduXq4a9udjqog" points="[0, 62, -49, -120]$[49, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8QjIYEOeEduXq4a9udjqog" type="4004" source="_76HlYEOeEduXq4a9udjqog" target="_75xnIEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8QjIYUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8QjIYkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8QjIY0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8QjIZEOeEduXq4a9udjqog" points="[0, 62, -232, -270]$[156, 182, -76, -150]$[232, 303, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8Qp2EEOeEduXq4a9udjqog" type="4004" source="_76LPwEOeEduXq4a9udjqog" target="_7514kEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8Qp2EUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8Qp2EkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Qp2E0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8Qp2FEOeEduXq4a9udjqog" points="[0, 62, -498, -120]$[498, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8QvVoEOeEduXq4a9udjqog" type="4004" source="_76PhMEOeEduXq4a9udjqog" target="_7514kEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8QvVoUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8QvVokOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8QvVo0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8QvVpEOeEduXq4a9udjqog" points="[0, 62, -358, -120]$[358, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8Q2qYEOeEduXq4a9udjqog" type="4004" source="_76TyoEOeEduXq4a9udjqog" target="_7514kEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8Q2qYUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8Q2qYkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Q2qY0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8Q2qZEOeEduXq4a9udjqog" points="[0, 62, -192, -120]$[192, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8Q8J8EOeEduXq4a9udjqog" type="4004" source="_76TyoEOeEduXq4a9udjqog" target="_75xnIEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8Q8J8UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8Q8J8kOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Q8J80OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8Q8J9EOeEduXq4a9udjqog" points="[0, 62, -375, -270]$[278, 182, -97, -150]$[375, 303, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8RBCcEOeEduXq4a9udjqog" type="4004" source="_76YEEEOeEduXq4a9udjqog" target="_756KAEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8RBCcUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8RBCckOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8RBCc0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8RBCdEOeEduXq4a9udjqog" points="[0, 38, -224, -303]$[0, 159, -224, -182]$[224, 281, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8RHwIEOeEduXq4a9udjqog" type="4003" source="_76YEEEOeEduXq4a9udjqog" target="_76f_4EOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8RI-QEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8RI-QUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8RHwIUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8RHwIkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8RHwI0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//TrackingUse/features"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8RHwJEOeEduXq4a9udjqog" points="[0, 38, -88, -121]$[88, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8RgxsEOeEduXq4a9udjqog" type="4003" source="_76f_4EOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8Rh_0EOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8Rh_0UOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8RgxsUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8RgxskOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Rgxs0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//FeatureValuePair/value"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8RgxtEOeEduXq4a9udjqog" points="[0, 62, -953, -120]$[953, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8RoGcEOeEduXq4a9udjqog" type="4004" source="_76kRUEOeEduXq4a9udjqog" target="_756KAEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8RoGcUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8RoGckOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8RoGc0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8RoGdEOeEduXq4a9udjqog" points="[0, 62, 123, -120]$[-123, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8RwpUEOeEduXq4a9udjqog" type="4002" source="_76kRUEOeEduXq4a9udjqog" target="_75fTQEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8Rx3cEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8Rx3cUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8RwpUUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8RxQYEOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8RxQYUOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//PatternUse/defn"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8RxQYkOeEduXq4a9udjqog" points="[0, 62, 571, -270]$[-220, 182, 351, -150]$[-571, 303, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8R4lIEOeEduXq4a9udjqog" type="4003" source="_76kRUEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8R5zQEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8R5zQUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8R4lIUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8R4lIkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8R4lI0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//PatternUse/arg"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8R4lJEOeEduXq4a9udjqog" points="[0, 62, -694, -120]$[694, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8R_S0EOeEduXq4a9udjqog" type="4004" source="_76n7sEOeEduXq4a9udjqog" target="_756KAEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8R_S0UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8R_54EOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8R_54UOeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8R_54kOeEduXq4a9udjqog" points="[0, 62, 0, -120]$[0, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8SEyYEOeEduXq4a9udjqog" type="4004" source="_76tbQEOeEduXq4a9udjqog" target="_756KAEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8SEyYUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8SEyYkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8SEyY0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8SEyZEOeEduXq4a9udjqog" points="[0, 62, 248, -120]$[-248, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8SK5AEOeEduXq4a9udjqog" type="4003" source="_76tbQEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8SMHIEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8SMHIUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8SK5AUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8SK5AkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8SK5A0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//Condition/arg"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8SK5BEOeEduXq4a9udjqog" points="[0, 62, -569, -120]$[569, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8SRmsEOeEduXq4a9udjqog" type="4004" source="_76xFoEOeEduXq4a9udjqog" target="_76n7sEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8SRmsUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8SRmskOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8SRms0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8SRmtEOeEduXq4a9udjqog" points="[0, 38, 367, -121]$[-367, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8SaJkEOeEduXq4a9udjqog" type="4003" source="_76xFoEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8SbXsEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8SbXsUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8SaJkUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8SaJkkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8SaJk0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//MofInstance/typeName"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8SaJlEOeEduXq4a9udjqog" points="[0, 38, -450, -303]$[124, 159, -326, -182]$[450, 281, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8Sj6kEOeEduXq4a9udjqog" type="4003" source="_76xFoEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8Snk8EOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8Snk8UOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8Sj6kUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8Sj6kkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Sj6k0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//MofInstance/instance"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8Sj6lEOeEduXq4a9udjqog" points="[0, 38, -450, -303]$[0, 159, -450, -182]$[450, 281, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8SxV8EOeEduXq4a9udjqog" type="4004" source="_761-IEOeEduXq4a9udjqog" target="_76n7sEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8SxV8UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8SxV8kOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8SxV80OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8SxV9EOeEduXq4a9udjqog" points="[0, 38, 588, -121]$[-588, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8S3ckEOeEduXq4a9udjqog" type="4003" source="_761-IEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8S4qsEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8S4qsUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8S3ckUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8S3ckkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8S3ck0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//MofOrder/lesser"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8S3clEOeEduXq4a9udjqog" points="[0, 38, -229, -303]$[318, 159, 89, -182]$[229, 281, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8S__cEOeEduXq4a9udjqog" type="4003" source="_761-IEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8TBNkEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8TBNkUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8S__cUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8TAmgEOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8TAmgUOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//MofOrder/greater"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8TAmgkOeEduXq4a9udjqog" points="[0, 38, -229, -303]$[133, 159, -96, -182]$[229, 281, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8TPQAEOeEduXq4a9udjqog" type="4003" source="_761-IEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8TRFMEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8TRFMUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8TPQAUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8TPQAkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8TPQA0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//MofOrder/instance"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8TPQBEOeEduXq4a9udjqog" points="[0, 38, -229, -303]$[27, 159, -202, -182]$[229, 281, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8TbdQEOeEduXq4a9udjqog" type="4003" source="_761-IEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8TdScEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8TdScUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8TcEUEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8TcEUUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8TcEUkOeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//MofOrder/feature"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8TcEU0OeEduXq4a9udjqog" points="[0, 38, -229, -303]$[229, 159, 0, -182]$[229, 281, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8TjZEEOeEduXq4a9udjqog" type="4004" source="_765ogEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8TkAIEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8TkAIUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8TkAIkOeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8TkAI0OeEduXq4a9udjqog" points="[0, 62, 206, -120]$[-206, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8Tr78EOeEduXq4a9udjqog" type="4003" source="_765ogEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8TtKEEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8TtxIEOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8Tr78UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8Tr78kOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Tr780OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//CompoundExpr/arg"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8Tr79EOeEduXq4a9udjqog" points="[0, 62, 206, -120]$[-206, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8TzQsEOeEduXq4a9udjqog" type="4004" source="_76958EOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8Tz3wEOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8Tz3wUOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Tz3wkOeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8Tz3w0OeEduXq4a9udjqog" points="[0, 62, 453, -120]$[-453, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8T4wQEOeEduXq4a9udjqog" type="4004" source="_77feYEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8T4wQUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8T4wQkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8T4wQ0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8T4wREOeEduXq4a9udjqog" points="[0, 62, 847, -120]$[-847, 122, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8UFkkEOeEduXq4a9udjqog" type="4002" source="_77feYEOeEduXq4a9udjqog" target="_73ST0EOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8UGysEOeEduXq4a9udjqog" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8UGysUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8UFkkUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8UFkkkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8UFkk0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//VarUse/var"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8UFklEOeEduXq4a9udjqog" points="[0, 62, 1919, -636]$[-34, 182, 1885, -516]$[-34, 583, 1885, -115]$[-1919, 669, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8UOugEOeEduXq4a9udjqog" type="4004" source="_77kW4EOeEduXq4a9udjqog" target="_765ogEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8UOugUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8UOugkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8UOug0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8UOuhEOeEduXq4a9udjqog" points="[0, 38, -301, -121]$[301, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8UtPoEOeEduXq4a9udjqog" type="4004" source="_77ooUEOeEduXq4a9udjqog" target="_765ogEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8UtPoUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8UtPokOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8UtPo0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8UtPpEOeEduXq4a9udjqog" points="[0, 38, -158, -121]$[158, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8Wc8EEOeEduXq4a9udjqog" type="4004" source="_77tg0EOeEduXq4a9udjqog" target="_765ogEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8Wc8EUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8Wc8EkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8Wc8E0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8Wc8FEOeEduXq4a9udjqog" points="[0, 38, 122, -121]$[-122, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8WpwYEOeEduXq4a9udjqog" type="4003" source="_77tg0EOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8Wq-gEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8Wq-gUOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8WpwYUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8WpwYkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8WpwY0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//FeatureExpr/feature"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8WpwZEOeEduXq4a9udjqog" points="[0, 38, 328, -303]$[0, 159, 328, -182]$[-328, 281, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8WxFIEOeEduXq4a9udjqog" type="4004" source="_77xLMEOeEduXq4a9udjqog" target="_76958EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8WxFIUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8WxFIkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8WxFI0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8WxFJEOeEduXq4a9udjqog" points="[0, 38, 15, -121]$[-15, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8W2ksEOeEduXq4a9udjqog" type="4004" source="_772DsEOeEduXq4a9udjqog" target="_76958EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8W2ksUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8W2kskOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8W2ks0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8W2ktEOeEduXq4a9udjqog" points="[0, 38, 153, -121]$[-153, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8XAVsEOeEduXq4a9udjqog" type="4004" source="_776VIEOeEduXq4a9udjqog" target="_76958EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8XAVsUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8XAVskOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8XAVs0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8XAVtEOeEduXq4a9udjqog" points="[0, 38, 288, -121]$[-288, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8XFOMEOeEduXq4a9udjqog" type="4004" source="_77_NoEOeEduXq4a9udjqog" target="_76958EOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8XFOMUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8XFOMkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8XFOM0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8XFONEOeEduXq4a9udjqog" points="[0, 38, 434, -121]$[-434, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8XPmQEOeEduXq4a9udjqog" type="4004" source="_78DfEEOeEduXq4a9udjqog" target="_765ogEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8XPmQUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8XPmQkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8XPmQ0OeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8XPmREOeEduXq4a9udjqog" points="[0, 38, -16, -121]$[16, 98, 0, -61]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8XUewEOeEduXq4a9udjqog" type="4004" source="_78HwgEOeEduXq4a9udjqog" target="_75xnIEOeEduXq4a9udjqog">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8XVF0EOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8XVF0UOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8XVF0kOeEduXq4a9udjqog"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8XVF00OeEduXq4a9udjqog" points="[0, 38, 1903, -453]$[-243, 159, 1660, -332]$[-243, 341, 1660, -150]$[-1903, 462, 0, -29]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8XalYEOeEduXq4a9udjqog" type="4003" source="_78HwgEOeEduXq4a9udjqog" target="_7590YEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8XbMcEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8XbzgEOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8XalYUOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8XalYkOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8XalY0OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//Injection/sources"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8XalZEOeEduXq4a9udjqog" points="[0, 38, 1024, -303]$[-439, 159, 585, -182]$[-1024, 281, 0, -60]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_8X8J0EOeEduXq4a9udjqog" type="4003" source="_78HwgEOeEduXq4a9udjqog" target="_77feYEOeEduXq4a9udjqog">
+    <children xmi:type="notation:Node" xmi:id="_8X_0MEOeEduXq4a9udjqog" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_8YAbQEOeEduXq4a9udjqog" y="40"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_8X8J0UOeEduXq4a9udjqog"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_8X8J0kOeEduXq4a9udjqog" fontName="Lucida Grande"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_8X8J00OeEduXq4a9udjqog"/>
+    <element xmi:type="ecore:EReference" href="TefkatModel.ecore#//Injection/target"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8X8J1EOeEduXq4a9udjqog" points="[0, 38, 177, -121]$[-177, 98, 0, -61]"/>
+  </edges>
+</notation:Diagram>

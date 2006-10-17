@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.jgraph.event.GraphModelEvent;
 import org.jgraph.event.GraphModelListener;
 
@@ -68,6 +69,8 @@ public class Main {
     private static final TefkatResourceFactory TEFKAT_RESOURCE_FACTORY = new TefkatResourceFactory();
     
     private static final Resource.Factory XMI_RESOURCE_FACTORY = new XMIResourceFactoryImpl();
+    
+    private static final Resource.Factory XSD_RESOURCE_FACTORY = new XSDResourceFactoryImpl();
 
     private static boolean quiet = false;
 
@@ -83,7 +86,7 @@ public class Main {
 
     private static void usage(String message) {
         System.err.println(message);
-        System.err.println("usage: tefkat [-quiet] [-debug] [-force] [-fixpoint] [-save] [-layout] [-vis mtsT] [-mapURI from to]*");
+        System.err.println("usage: tefkat [-quiet] [-debug] [-force] [-fixpoint] [-statistics] [-save] [-layout] [-vis mtsT] [-mapURI from to]*");
         System.err.println("\t[-conf configURI | -transformation mappingURI");
         System.err.println("\t[-source srcURI]* [-target targetURI]* [-trace traceURI]]");
         System.exit(1);
@@ -140,6 +143,8 @@ public class Main {
                 quiet = true;
             } else if (args[i].equals("-fixpoint")) {
                 engine.setIncremental(false);
+            } else if (args[i].equals("-statistics")) {
+                engine.setPrintingStats(true);
             } else if (args[i].equals("-save")) {
                 saveResult = true;
             } else if (args[i].equals("-vis")) {
@@ -193,6 +198,8 @@ public class Main {
         TefkatConfigPackageImpl.init();
         
         engine.registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
+        engine.registerFactory("xsd", XSD_RESOURCE_FACTORY);
+        engine.registerFactory("wsdl", XSD_RESOURCE_FACTORY);
         engine.registerFactory("*", XMI_RESOURCE_FACTORY);
 
         try {
@@ -309,8 +316,8 @@ public class Main {
 
         } catch (Throwable t) {
             t.printStackTrace();
-        } finally {
-            // System.exit(0);
+//        } finally {
+//             System.exit(0);
         }
 
     }
@@ -330,9 +337,10 @@ public class Main {
             public void suspended() {
                 try {
                     int c;
-                    while ((c = System.in.read()) >= 0 && c != '\n') {
-                        // do nothing
-                    }
+                    do {
+                        c = System.in.read();
+                    } while (c >= 0 && c != '\n');
+                        
                     if (c < 0) {
                         engine.setInterrupted(true);
                     }
@@ -525,12 +533,12 @@ public class Main {
 
         private final RadialTreeLayoutAlgorithm layoutAlg;
 
-        private LayoutThread(Properties props, RadialTreeLayoutAlgorithm layoutAlg) {
+        LayoutThread(Properties props, RadialTreeLayoutAlgorithm layoutAlg) {
             this.props = props;
             this.layoutAlg = layoutAlg;
         }
 
-        synchronized final public void requestLayout() {
+        synchronized public void requestLayout() {
             layoutRequested = true;
             if (!isAlive()) {
                 System.err.println("launch");

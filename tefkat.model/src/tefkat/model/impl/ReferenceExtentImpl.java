@@ -46,40 +46,40 @@ import tefkat.model.TefkatPackage;
  * @generated
  */
 public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+     * @generated
+     */
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
-	/**
-	 * The cached value of the '{@link #getResources() <em>Resources</em>}' attribute list.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getResources() <em>Resources</em>}' attribute list.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getResources()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getResources()
+     * @generated
+     * @ordered
+     */
     protected EList resources = null;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected ReferenceExtentImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return TefkatPackage.eINSTANCE.getReferenceExtent();
-	}
+        return TefkatPackage.Literals.REFERENCE_EXTENT;
+    }
 
     /**
      * <!-- begin-user-doc -->
@@ -106,24 +106,21 @@ public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
      * @param isExactly
      * @return
      */
-    private EList getAllObjectsByClass(EClass theClass, boolean isExactly) {
+    private EList getAllObjectsByClass(final EClass theClass, final boolean isExactly) {
         EList objects = new BasicEList();
         for (final Iterator resItr = getResources().iterator(); resItr.hasNext(); ) {
             Resource resource = (Resource) resItr.next();
             Iterator itr = resource.getAllContents();
             while (itr.hasNext()) {
                 EObject obj = (EObject) itr.next();
-                EClass eClass = obj.eClass();
-                if (eClass.equals(theClass)) {
+                if (null == theClass) {
+                    // null class means no type constraint -- i.e., get all instances
                     objects.add(obj);
-                } else if (!isExactly) {
-                    Iterator itr2 = eClass.getEAllSuperTypes().iterator();
-                    while (itr2.hasNext()) {
-                        EClass subClass = (EClass) itr2.next();
-                        if (theClass.equals(subClass)) {
-                            objects.add(obj);
-                            break;
-                        }
+                } else {
+                    EClass eClass = obj.eClass();
+                    if ( eClass.equals(theClass) ||
+                         (!isExactly && theClass.isSuperTypeOf(eClass)) ) {
+                        objects.add(obj);
                     }
                 }
             }
@@ -209,86 +206,86 @@ public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
         resource.getContents().remove(obj);
     }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public EList getResources() {
-		if (resources == null) {
-			resources = new EDataTypeUniqueEList(Resource.class, this, TefkatPackage.REFERENCE_EXTENT__RESOURCES);
-		}
-		return resources;
-	}
+        if (resources == null) {
+            resources = new EDataTypeUniqueEList(Resource.class, this, TefkatPackage.REFERENCE_EXTENT__RESOURCES);
+        }
+        return resources;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
-				return getResources();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
+     * @generated
+     */
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
+                return getResources();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
-				getResources().clear();
-				getResources().addAll((Collection)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
+     * @generated
+     */
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+            case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
+                getResources().clear();
+                getResources().addAll((Collection)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
-				getResources().clear();
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
+     * @generated
+     */
+    public void eUnset(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
+                getResources().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
-				return resources != null && !resources.isEmpty();
-		}
-		return eDynamicIsSet(eFeature);
-	}
+     * @generated
+     */
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.REFERENCE_EXTENT__RESOURCES:
+                return resources != null && !resources.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (resources: ");
-		result.append(resources);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (resources: ");
+        result.append(resources);
+        result.append(')');
+        return result.toString();
+    }
 
 } //ReferenceExtentImpl

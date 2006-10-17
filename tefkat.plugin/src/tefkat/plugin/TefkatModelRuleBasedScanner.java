@@ -57,6 +57,7 @@ public class TefkatModelRuleBasedScanner extends RuleBasedScanner {
 
     private static final String[] keywords = {
             "TRANSFORMATION", "IMPORT", "CLASS", "ABSTRACT", "RULE",
+            "NAMESPACE", "INCLUDE",
             "EXTENDS", "OVERRIDES",
             "PATTERN", "TEMPLATE", "FORALL", "EXACT", "DYNAMIC", "WHERE", "MAKE", "SET", "WITH", "FROM",
             // "REMEMBER", "RECALL",
@@ -96,8 +97,9 @@ public class TefkatModelRuleBasedScanner extends RuleBasedScanner {
         rules.add(new SingleLineRule("\"", "\"", stringToken, '\\'));
         rules.add(new SingleLineRule("<", ">", uriToken));
         rules.add(new EndOfLineRule("IMPORT", uriToken));
+        rules.add(new EndOfLineRule("NAMESPACE", uriToken));
+        rules.add(new EndOfLineRule("INCLUDE", uriToken));
         rules.add(new EndOfLineRule("//", commentToken));
-        rules.add(new EndOfLineRule("%", commentToken));
         rules.add(keywordRule);
         rules.add(new SingleLineRule("true", null, keywordToken));
         rules.add(new SingleLineRule("false", null, keywordToken));

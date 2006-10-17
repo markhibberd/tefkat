@@ -16,6 +16,7 @@ package tefkat.model.parser.tests;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
+import tefkat.model.parser.TefkatLexerTokenTypes;
 import tefkat.model.parser.TefkatParser;
 
 /**
@@ -32,9 +33,9 @@ public class InstanceRefTest extends ParserTestCase {
     }
 
     public void testInstanceRef() {
-        TefkatParser parser = setupParser("<file:/home/lawley/workspace/QVTModelParser/tests/UMLRelationalTracking.ecore#//TableForClass>");
+        TefkatParser parser = setupParser("<http://tefkat.sourceforge.net/tutorial1/relational.ecore#//Table>");
         try {
-            parser.factor(t, null);
+            parser.objectlit();
         } catch (RecognitionException e) {
             fail(e.toString());
         } catch (TokenStreamException e) {
@@ -46,9 +47,9 @@ public class InstanceRefTest extends ParserTestCase {
 
     public void testMissingInstanceRef() {
         ignoreError = true;
-        TefkatParser parser = setupParser("<file:/home/lawley/workspace/QVTModelParser/tests/UMLRelationalTracking.ecore#//DoesNotExist>");
+        TefkatParser parser = setupParser("<http://tefkat.sourceforge.net/tutorial1/relational.ecore#//DoesNotExist>");
         try {
-            parser.factor(t, null);
+            parser.objectlit();
         } catch (RecognitionException e) {
             assertTrue(e.getMessage(), e.getMessage().startsWith("Could not resolve instance reference: "));
             return;
@@ -59,25 +60,35 @@ public class InstanceRefTest extends ParserTestCase {
     }
 
     public void testBadSyntaxInstanceRefs() {
-        String dev = "file:";
-        String path = "/home/lawley/workspace/QVTModelParser/tests/";
-        String file = "UMLRelationalTracking.ecore";
-        String xpath = "#//TableForClass";
+        String dev = "http:";
+        String path = "/tefkat.sourceforge.net/tutorial1/";
+        String file = "relational.ecore";
+        String xpath = "#//Table";
         String[] inputs = {
-            dev + " /" + path + file + xpath,
-            dev + "/" + path + " " + file + xpath,
-            dev + "/" + path + file + " " + xpath,
+            "<" + dev + " /" + path + file + xpath + ">",
+            "<" + dev + "/" + path + " " + file + xpath + ">",
+            "<" + dev + "/" + path + file + " " + xpath + ">",
         };
 
         for (int i = 0; i < inputs.length; i++) {
             try {
                 TefkatParser parser = setupParser(inputs[i]);
-                parser.factor(t, null);
+                parser.objectlit();
+            } catch (NullPointerException e) {
+                StackTraceElement ste = e.getStackTrace()[0];
+                assertTrue("Expected NPE due to missing fragment", "getEObject".equals(ste.getMethodName()));
+                continue;
+            } catch (RuntimeException e) {
+                assertTrue(e.getMessage(), e.getMessage().startsWith("Cannot create a resource for"));
+                continue;
             } catch (TokenStreamException e) {
-                assertTrue(e.getMessage().startsWith("unexpected char"));
+                assertTrue(e.getMessage(), e.getMessage().startsWith("unexpected char"));
                 continue;
             } catch (RecognitionException e) {
-                assertTrue(e.getMessage().startsWith("unexpected token"));
+                boolean result = e.getMessage().startsWith("expecting " + TefkatParser._tokenNames[TefkatLexerTokenTypes.LANGLE]) |
+                                 e.getMessage().startsWith("expecting " + TefkatParser._tokenNames[TefkatLexerTokenTypes.URITOK]) |
+                                 e.getMessage().startsWith("expecting " + TefkatParser._tokenNames[TefkatLexerTokenTypes.RANGLE]);
+                assertTrue(e.getMessage(), result);
                 continue;
             }
             fail(inputs[i] + " should be a syntax error");

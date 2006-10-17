@@ -16,13 +16,14 @@ package tefkat.plugin.debug;
 import java.util.List;
 
 import org.eclipse.debug.core.DebugException;
+import org.eclipse.debug.core.model.IRegister;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.emf.ecore.EObject;
 
 import tefkat.engine.Node;
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.VarScope;
 
 
@@ -32,6 +33,9 @@ import tefkat.model.VarScope;
  */
 public class NodeSelectedLiteralStackFrame extends AbstractStackFrame {
 
+    private static final String DELAY = "DELAY";
+    private static final String GOAL = "GOAL";
+    private static final int NUM_REGISTERS = 2;
     private Node node;
     private IThread thread;
     private IVariable[] variables;
@@ -50,15 +54,21 @@ public class NodeSelectedLiteralStackFrame extends AbstractStackFrame {
             parent = parent.eContainer();
         }
         if (null == parent) {
-            variables = new IVariable[0];
+            variables = new IVariable[NUM_REGISTERS];
         } else {
             List vars = ((VarScope) parent).getVars();
-            variables = new IVariable[vars.size()];
+            variables = new IVariable[NUM_REGISTERS+vars.size()];
             for (int i = 0; i < vars.size(); i++) {
-                AbstractVar key = (AbstractVar) vars.get(i);
-                variables[i] = new DebugVariable(this, key, null);
+                Var key = (Var) vars.get(i);
+                variables[NUM_REGISTERS+i] = new DebugVariable(this, key, null);
             }
         }
+	addRegisters(variables);
+    }
+
+    private void addRegisters(IVariable[] variables) {
+	variables[0] = new DebugRegister(this, GOAL, node.goal());
+	variables[1] = new DebugRegister(this, DELAY, node.getDelayed());
     }
 
     /* (non-Javadoc)
@@ -102,9 +112,14 @@ public class NodeSelectedLiteralStackFrame extends AbstractStackFrame {
         return String.valueOf(node.selectedLiteral());
     }
 
-    protected IValue getVariableValue(Object var) {
-        if (var instanceof AbstractVar) {
-            Object val = node.lookup((AbstractVar) var);
+    protected IValue getVariableValue(Object key) {
+//	if (GOAL.equals(key)) {
+//	    return new DebugValue(this, node.goal());
+//	} else 
+        if (DELAY.equals(key)) {
+	    return new DebugValue(this, node.getDelayed());
+        } else if (key instanceof Var) {
+            Object val = node.lookup((Var) key);
             return new DebugValue(this, val);
         } else {
             return null;

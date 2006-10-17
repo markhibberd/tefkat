@@ -15,6 +15,8 @@
 package tefkat.plugin.debug;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -38,6 +40,7 @@ import tefkat.engine.Node;
 import tefkat.engine.OverrideTerm;
 import tefkat.engine.Tefkat;
 import tefkat.engine.TefkatListener;
+import tefkat.engine.TefkatListener2;
 import tefkat.engine.Tree;
 import tefkat.model.Extent;
 import tefkat.model.TRule;
@@ -55,6 +58,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
     
     private ILaunch launch;
     private IThread[] threads;
+    private Map treeThreadMap = new HashMap();
     
     private Tefkat engine;
     private Node currentNode = null;
@@ -77,12 +81,14 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
         this.launch = launch;
         this.engine = tefkat;
         
-        final DebugThread thread = new DebugThread(this);
-        threads = new IThread[] {thread};
+//        final DebugThread thread = new DebugThread(this);
+        threads = new IThread[] {};
         
-        engine.addTefkatListener(new TefkatListener() {
+        engine.addTefkatListener(new TefkatListener2() {
             // int depth = 0;
             boolean initial = true;
+            
+            List threadList = new ArrayList();
 
             public void started() {
 //                System.out.println("STARTED");
@@ -100,6 +106,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
             public void breakpoint(Term t) {
 //                System.out.println("BREAKPOINT");
                 suspended = true;
+                DebugThread thread = (DebugThread) treeThreadMap.get(trees.peek());
                 thread.setStepping(true);
                 fireSuspendEvent(DebugEvent.BREAKPOINT);
             }
@@ -108,6 +115,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
 //                System.out.println("SUSPENDED");
                 suspended = true;
                 suspendCount++;
+                DebugThread thread = (DebugThread) treeThreadMap.get(trees.peek());
                 thread.setStepping(true);
                 if (initial) {
                     initial = false;
@@ -119,6 +127,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
             
             public void resumed() {
                 suspended = false;
+                DebugThread thread = (DebugThread) treeThreadMap.get(trees.peek());
                 thread.setStepping(false);
                 fireResumeEvent(DebugEvent.STEP_OVER);
             }
@@ -136,6 +145,8 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
             public void transformationFinished() {}
 
             public void evaluateRule(TRule rule, Binding context, boolean cached) {
+                // This is not set correctly for incremental evaluation since we don't
+                // do one rule at a time, but jump between rules
                 currentRule = rule;
             }
 
@@ -187,6 +198,19 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
                 }
                 nodes.pop();
             }
+
+            public void treeAdded(Tree tree) {
+                DebugThread thread = new DebugThread(String.valueOf(threads.length), target, tree);
+                treeThreadMap.put(tree, thread);
+                threadList.add(thread);
+                threads = (IThread[]) threadList.toArray(threads);
+            }
+
+            public void treeRemoved(Tree tree) {
+                DebugThread thread = (DebugThread) treeThreadMap.remove(tree);
+                threadList.remove(thread);
+                threads = (IThread[]) threadList.toArray(threads);
+            }
  
         });
     }
@@ -197,16 +221,22 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
      * @return the current stack frames in the target
      * @throws DebugException if unable to perform the request
      */
-    protected IStackFrame[] getStackFrames() throws DebugException {
+    protected IStackFrame[] getStackFrames(DebugThread thread) throws DebugException {
         List frames = new ArrayList();
         
-        for (Node node = currentNode; node != null; ) {
-            frames.add(new NodeSelectedLiteralStackFrame(threads[0], node));
-            node = node.getParentNode();
+        if (thread.equals(treeThreadMap.get(trees.peek()))) {
+            for (Node node = currentNode; node != null; ) {
+                frames.add(new NodeSelectedLiteralStackFrame(thread, node));
+                node = node.getParentNode();
+            }
         }
-        frames.add(new RuleStackFrame(threads[0], currentRule));
+//        frames.add(new RuleStackFrame(thread, currentRule));
 
         return (IStackFrame[]) frames.toArray(new IStackFrame[frames.size()]);
+    }
+    
+    protected boolean isCurrentThread(DebugThread thread) {
+        return thread.equals(treeThreadMap.get(trees.peek()));
     }
 
     /* (non-Javadoc)

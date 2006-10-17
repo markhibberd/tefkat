@@ -14,19 +14,19 @@
 
 package tefkat.engine;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 
 import tefkat.data.DataMap;
 import tefkat.model.*;
-import tefkat.model.internal.Util;
+import tefkat.model.internal.ModelUtils;
 
 
 /**
@@ -48,6 +48,235 @@ import tefkat.model.internal.Util;
  */
 class Evaluator {
 
+    private static final String NULL_TYPE = "null";
+
+    private final class DataMapLookup implements Function {
+        public Object call(Object[] params) throws ResolutionException {
+            DataMap dataMap = (DataMap) params[0];
+            String key = String.valueOf(params[1]);
+            Object result = dataMap.getValue().get(key);
+            if (result instanceof Expression) {
+                Binding context = (Binding) funcMap.get(CONTEXT_KEY);
+                try {
+                    List vals = eval(context, (Expression) result);
+                    if (vals.size() == 1) {
+                        result = vals.get(0);
+                    } else {
+                        result = vals;
+                    }
+                } catch (ResolutionException e) {
+                    throw new ResolutionException(null, "Map expression '" + result + "' evaluation failed", e);
+                } catch (NotGroundException e) {
+                    throw new ResolutionException(null, "Map expression '" + result + "' should not contain variable(s)", e);
+                }
+            }
+            return result;
+        }
+    }
+
+    private final class MapFeature implements Function {
+        public Object call(Object[] params) throws ResolutionException {
+            final Binding context = (Binding) funcMap.get(CONTEXT_KEY);
+            final Collection list = (Collection) params[0];
+            final String feature = (String) params[1];
+            final List result = new ArrayList();
+            
+            for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
+                Object obj = itr.next();
+                result.add(fetchFeature(context, feature, obj));
+            }
+        
+            return result;
+        }
+    }
+
+    private static final class IdentityFunction implements Function {
+        public Object call(Object[] params) {
+            return params[0];
+        }
+    }
+
+    private static final class CollectFunction implements Function {
+        public Object call(Object[] params) {
+            return Arrays.asList(params);
+        }
+    }
+
+    private static final class AppendFunction implements Function {
+        public Object call(Object[] params) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < params.length; i++) {
+                sb.append(params[i]);
+            }
+            return sb.toString();
+        }
+    }
+
+    private static final class ElementAt implements Function {
+        public Object call(Object[] params) {
+            List list = (List) params[0];
+            Number index = (Number) params[1];
+            return list.get(index.intValue());
+        }
+    }
+
+    private static final class SubList implements Function {
+        public Object call(Object[] params) {
+            List list = (List) params[0];
+            Number start = (Number) params[1];
+            if (params.length > 2) {
+                Number end = (Number) params[2];
+                return list.subList(start.intValue(), end.intValue());
+            } else {
+                return list.subList(start.intValue(), list.size());
+            }
+        }
+    }
+
+    private static final class JoinStrings implements Function {
+        /**
+         * concatenate a list of Strings interspersed with a separator
+         * @params[0]   separator
+         * @params[1..n]    the list of strings
+         */
+        public Object call(Object[] params) {
+            String separator = String.valueOf(params[0]);
+            StringBuffer b = new StringBuffer();
+            if (params.length == 2 && params[1] instanceof Collection) {
+                for (Iterator itr = ((Collection) params[1]).iterator(); itr.hasNext(); ) {
+                    b.append(itr.next());
+                    if (itr.hasNext()) {
+                        b.append(separator);
+                    }
+                }
+            } else if (params.length > 1) {
+                b.append(params[1]);
+                for (int i = 2; i < params.length; i++) {
+                    b.append(separator).append(params[i]);
+                }
+            }
+            return b.toString();
+        }
+    }
+
+    private static final class SplitString implements Function {
+        public Object call(Object[] params) {
+            String string = String.valueOf(params[0]);
+            String regex = String.valueOf(params[1]);
+            return Arrays.asList(string.split(regex));
+        }
+    }
+
+    private static final class StripSuffix implements Function {
+        public Object call(Object[] params) {
+            String str = (String) params[0];
+            String suffix = (String) params[1];
+            String result = str;
+            if (str.endsWith(suffix)) {
+                result = str.substring(0, str.length() - suffix.length());
+            }
+            return result;
+        }
+    }
+
+    private static final class CastInt implements Function {
+        public Object call(Object[] params) {
+            return Integer.decode(String.valueOf(params[0]));
+        }
+    }
+
+    private static final class CastLong implements Function {
+        public Object call(Object[] params) {
+            return Long.decode(String.valueOf(params[0]));
+        }
+    }
+
+    private static final class CastFloat implements Function {
+        public Object call(Object[] params) {
+            return Float.valueOf(String.valueOf(params[0]));
+        }
+    }
+
+    private static final class CastDouble implements Function {
+        public Object call(Object[] params) {
+            return Double.valueOf(String.valueOf(params[0]));
+        }
+    }
+
+    private static final class Add implements Function {
+        public Object call(Object[] params) {
+            Number lhs = (Number) params[0];
+            Number rhs = (Number) params[1];
+            if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
+                double lval = lhs.doubleValue();
+                double rval = rhs.doubleValue();
+                double result = lval + rval;
+                if (result < Float.MAX_VALUE && result > Float.MIN_VALUE) {
+                    return new Float(result);
+                } else {
+                    return new Double(result);
+                }
+            } else {
+                long lval = lhs.longValue();
+                long rval = rhs.longValue();
+                long result = lval + rval;
+                if (result < Integer.MAX_VALUE && result > Integer.MIN_VALUE) {
+                    return new Integer((int) result);
+                } else {
+                    return new Long(result);
+                }
+            }
+        }
+    }
+
+    private static final class Subtract implements Function {
+        public Object call(Object[] params) {
+            Number lhs = (Number) params[0];
+            Number rhs = (Number) params[1];
+            if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
+                double lval = lhs.doubleValue();
+                double rval = rhs.doubleValue();
+                return new Double(lval - rval);
+            } else {
+                long lval = lhs.longValue();
+                long rval = rhs.longValue();
+                return new Long(lval - rval);
+            }
+        }
+    }
+
+    private static final class Multiply implements Function {
+        public Object call(Object[] params) {
+            Number lhs = (Number) params[0];
+            Number rhs = (Number) params[1];
+            if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
+                double lval = lhs.doubleValue();
+                double rval = rhs.doubleValue();
+                return new Double(lval * rval);
+            } else {
+                long lval = lhs.longValue();
+                long rval = rhs.longValue();
+                return new Long(lval * rval);
+            }
+        }
+    }
+
+    private static final class Divide implements Function {
+        public Object call(Object[] params) {
+            Number lhs = (Number) params[0];
+            Number rhs = (Number) params[1];
+            if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
+                double lval = lhs.doubleValue();
+                double rval = rhs.doubleValue();
+                return new Double(lval / rval);
+            } else {
+                long lval = lhs.longValue();
+                long rval = rhs.longValue();
+                return new Long(lval / rval);
+            }
+        }
+    }
+
     /**
      * Key for Node instance in the funcMap (yes, it's a hack)
      */
@@ -57,224 +286,35 @@ class Evaluator {
     private final RuleEvaluator ruleEval;
 
     Evaluator(RuleEvaluator evaluator) {
-    	ruleEval = evaluator;
+        ruleEval = evaluator;
         initFunctionMap();
     }
 
     private void initFunctionMap() {
-        funcMap.put("identity", new Function() {
-            final public Object call(Object[] params) {
-                return params[0];
-            }
-        });
-
-        funcMap.put("collect", new Function() {
-            final public Object call(Object[] params) {
-                return Arrays.asList(params);
-            }
-        });
-
-        funcMap.put("append", new Function() {
-            final public Object call(Object[] params) {
-                StringBuffer sb = new StringBuffer();
-                for (int i = 0; i < params.length; i++) {
-                    sb.append(params[i]);
-                }
-                return sb.toString();
-            }
-        });
+        addFunction("identity", new IdentityFunction());
+        addFunction("collect", new CollectFunction());
+        addFunction("append", new AppendFunction());
+        addFunction("elementAt", new ElementAt());
+        addFunction("subList", new SubList());
+        addFunction("join", new JoinStrings());
+        addFunction("split", new SplitString());
+        addFunction("stripSuffix", new StripSuffix());
+        addFunction("int", new CastInt());
+        addFunction("long", new CastLong());
+        addFunction("float", new CastFloat());
+        addFunction("double", new CastDouble());
+        addFunction("+", new Add());
+        addFunction("-", new Subtract());
+        addFunction("*", new Multiply());
+        addFunction("/", new Divide());
         
-        funcMap.put("elementAt", new Function() {
-            public Object call(Object[] params) {
-                List list = (List) params[0];
-                Number index = (Number) params[1];
-                return list.get(index.intValue());
-            }
-        });
+        addFunction("funmap", new MapFeature());
         
-        funcMap.put("subList", new Function() {
-            public Object call(Object[] params) {
-                List list = (List) params[0];
-                Number start = (Number) params[1];
-                if (params.length > 2) {
-                    Number end = (Number) params[2];
-                    return list.subList(start.intValue(), end.intValue());
-                } else {
-                    return list.subList(start.intValue(), list.size());
-                }
-            }
-        });
-        
-        funcMap.put("join", new Function() {
-            /**
-             * concatenate a list of Strings interspersed with a separator
-             * @params[0]   separator
-             * @params[1..n]    the list of strings
-             */
-            final public Object call(Object[] params) {
-                String separator = String.valueOf(params[0]);
-                StringBuffer b = new StringBuffer();
-                if (params.length == 2 && params[1] instanceof Collection) {
-                    for (Iterator itr = ((Collection) params[1]).iterator(); itr.hasNext(); ) {
-                        b.append(itr.next());
-                        if (itr.hasNext()) {
-                            b.append(separator);
-                        }
-                    }
-                } else if (params.length > 1) {
-                    b.append(params[1]);
-                    for (int i = 2; i < params.length; i++) {
-                        b.append(separator).append(params[i]);
-                    }
-                }
-                return b.toString();
-            }
-        });
-        
-        funcMap.put("split", new Function() {
-            final public Object call(Object[] params) {
-                String string = String.valueOf(params[0]);
-                String regex = String.valueOf(params[1]);
-                return Arrays.asList(string.split(regex));
-            }
-        });
-        
-        funcMap.put("stripSuffix", new Function() {
-            final public Object call(Object[] params) {
-                String str = (String) params[0];
-                String suffix = (String) params[1];
-                String result = str;
-                if (str.endsWith(suffix)) {
-                    result = str.substring(0, str.length() - suffix.length());
-                }
-                return result;
-            }
-        });
-
-        funcMap.put("int", new Function() {
-            final public Object call(Object[] params) {
-                return Integer.decode(String.valueOf(params[0]));
-            }
-        });
-
-        funcMap.put("long", new Function() {
-            final public Object call(Object[] params) {
-                return Long.decode(String.valueOf(params[0]));
-            }
-        });
-
-        funcMap.put("float", new Function() {
-            final public Object call(Object[] params) {
-                return Float.valueOf(String.valueOf(params[0]));
-            }
-        });
-
-        funcMap.put("double", new Function() {
-            final public Object call(Object[] params) {
-                return Double.valueOf(String.valueOf(params[0]));
-            }
-        });
-
-        funcMap.put("+", new Function() {
-            final public Object call(Object[] params) {
-                Number lhs = (Number) params[0];
-                Number rhs = (Number) params[1];
-                if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
-                    double lval = lhs.doubleValue();
-                    double rval = rhs.doubleValue();
-                    double result = lval + rval;
-                    if (result < Float.MAX_VALUE && result > Float.MIN_VALUE) {
-                        return new Float(result);
-                    } else {
-                        return new Double(result);
-                    }
-                } else {
-                    long lval = lhs.longValue();
-                    long rval = rhs.longValue();
-                    long result = lval + rval;
-                    if (result < Integer.MAX_VALUE && result > Integer.MIN_VALUE) {
-                        return new Integer((int) result);
-                    } else {
-                        return new Long(result);
-                    }
-                }
-            }
-        });
-
-        funcMap.put("-", new Function() {
-            final public Object call(Object[] params) {
-                Number lhs = (Number) params[0];
-                Number rhs = (Number) params[1];
-                if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
-                    double lval = lhs.doubleValue();
-                    double rval = rhs.doubleValue();
-                    return new Double(lval - rval);
-                } else {
-                    long lval = lhs.longValue();
-                    long rval = rhs.longValue();
-                    return new Long(lval - rval);
-                }
-            }
-        });
-
-        funcMap.put("*", new Function() {
-            final public Object call(Object[] params) {
-                Number lhs = (Number) params[0];
-                Number rhs = (Number) params[1];
-                if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
-                    double lval = lhs.doubleValue();
-                    double rval = rhs.doubleValue();
-                    return new Double(lval * rval);
-                } else {
-                    long lval = lhs.longValue();
-                    long rval = rhs.longValue();
-                    return new Long(lval * rval);
-                }
-            }
-        });
-
-        funcMap.put("/", new Function() {
-            final public Object call(Object[] params) {
-                Number lhs = (Number) params[0];
-                Number rhs = (Number) params[1];
-                if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {
-                    double lval = lhs.doubleValue();
-                    double rval = rhs.doubleValue();
-                    return new Double(lval / rval);
-                } else {
-                    long lval = lhs.longValue();
-                    long rval = rhs.longValue();
-                    return new Long(lval / rval);
-                }
-            }
-        });
-        
-        funcMap.put("map", new Function() {
-            final public Object call(Object[] params) {
-                DataMap dataMap = (DataMap) params[0];
-                String key = String.valueOf(params[1]);
-                Object result = dataMap.getValue().get(key);
-                if (result instanceof Expression) {
-                    Node node = (Node) funcMap.get(CONTEXT_KEY);
-                    try {
-                        List vals = eval(node, (Expression) result);
-                        if (vals.size() == 1) {
-                            result = vals.get(0);
-                        } else {
-                            result = vals;
-                        }
-                    } catch (ResolutionException e) {
-                        throw new RuntimeException("Map expression '" + result + "' evaluation failed", e);
-                    } catch (NotGroundException e) {
-                        throw new RuntimeException("Map expression '" + result + "' should not contain variable(s)", e);
-                    }
-                }
-                return result;
-            }
-        });
+        // FIXME rename this function to dataMap or something (see tefkat.g)
+        addFunction("map", new DataMapLookup());
     }
 
-    void addFunction(String name, Function function) {
+    final void addFunction(String name, Function function) {
         if (funcMap.containsKey(name)) {
             throw new IllegalArgumentException("A Function with named " + name + " is already registered.");
         }
@@ -294,7 +334,24 @@ class Evaluator {
         
         try {
             ExtentUtil.highlightNode(expr, ExtentUtil.TERM_ENTER);
-            List result = doEval(node, expr);
+            List result = doEval(node.getBindings(), expr);
+            ExtentUtil.highlightNode(expr, ExtentUtil.TERM_EXIT);
+            return result;
+        } catch (ResolutionException e) {
+            e.setNode(node);
+            throw e;
+        } catch (NotGroundException e) {
+            ExtentUtil.highlightNode(expr, ExtentUtil.TERM_DELAY);
+            throw e;
+        }
+    }
+
+    private List eval(Binding context, Expression expr)
+    throws ResolutionException, NotGroundException {
+    
+        try {
+            ExtentUtil.highlightNode(expr, ExtentUtil.TERM_ENTER);
+            List result = doEval(context, expr);
             ExtentUtil.highlightNode(expr, ExtentUtil.TERM_EXIT);
             return result;
         } catch (NotGroundException e) {
@@ -303,19 +360,18 @@ class Evaluator {
         }
     }
     
-    List expand(WrappedVar wVar, Expression expr) throws NotGroundException {
-        AbstractVar var = wVar.getVar();
-        EClass type = wVar.getType();
-        if (null == type) {
-            throw new NotGroundException(
-                "Unsupported mode (unbound '" + var.getName() + "') for Expression: " + expr);
+    List expand(WrappedVar wVar) throws NotGroundException {
+        if (null == wVar.getExtent()) {
+            throw new NotGroundException("Unsupported mode: unbound extent for" + wVar);
         }
-        System.out.println("Expanding " + wVar);   // TODO delete
+//        Var var = wVar.getVar();
+//        EClassifier type = wVar.getType();
+//        System.out.println("Expanding " + wVar);   // TODO delete
 //        System.out.println("\t" + wVar.getExtent().getObjectsByClass(wVar.getType(), wVar.isExact()));
         return wVar.getExtent().getObjectsByClass(wVar.getType(), wVar.isExact());
     }
     
-    private List doEval(Node node, Expression expr)
+    private List doEval(Binding context, Expression expr)
         throws ResolutionException, NotGroundException {
 
         List values;
@@ -324,40 +380,42 @@ class Evaluator {
             values = new ArrayList();
             values.add(evalSimpleExpr(expr));
         } else if (expr instanceof EnumConstant) {
-            values = evalEnumExpr(node, expr);
+            values = evalEnumExpr(context, expr);
         } else if (expr instanceof VarUse) {
             values = new ArrayList();
-            AbstractVar var = ((VarUse) expr).getVar();
-            Object value = node.lookup(var);
+            Var var = ((VarUse) expr).getVar();
+            Object value = context.lookup(var);
             if (null == value) {
                 values.add(new WrappedVar(var));
             } else {
                 values.add(value);
             }
         } else if (expr instanceof FeatureExpr) {
-            values = evalFeatureExpr(node, expr);
+            values = evalFeatureExpr(context, expr);
         } else if (expr instanceof FunctionExpr) {
-            values = evalFunctionExpr(node, expr);
+            values = evalFunctionExpr(context, expr);
         } else if (expr instanceof InstanceRef) {
             values = new ArrayList();
             InstanceRef ref = (InstanceRef) expr;
             values.add(ref.getObject());
         } else if (expr instanceof CollectionExpr) {
-            values = evalCollectionExpr(node, expr);
+            values = evalCollectionExpr(context, expr);
         } else {
             throw new ResolutionException(
-                node,
+                null,
                 expr.eClass().getName() + " Expressions are not yet supported: " + expr);
         }
 
         return values;
     }
 
-    private List evalCollectionExpr(Node node, Expression expr) throws ResolutionException, NotGroundException {
+    private List evalCollectionExpr(Binding context, Expression expr) throws ResolutionException, NotGroundException {
         // FIXME - Yikes, the semantiocs of these is complicated
         //
         // Should X = [1, Y.foo] where Y.foo returns the collection [2, 3]
         // bind X to 1, 2, and 3 or to [1, 2, 3] or to [1, 2] and [1, 3] ?
+        //
+        // What about X = [1, Y.foo{}]?
         //
         // For the moment, we'll make X = [expr_1, ..., expr_k] equivalent
         // to X = union(expr_1, ..., expr_k) i.e., for the example above,
@@ -366,71 +424,68 @@ class Evaluator {
         
         CollectionExpr collection = (CollectionExpr) expr;
         List args = collection.getArg();
-        Function identity = (Function) funcMap.get("collect");
-        List values = new ArrayList(args.size());
-        List items = new ArrayList(args.size());
+        Function f = (Function) funcMap.get("collect");
         
-        for (final Iterator itr = args.iterator(); itr.hasNext(); ) {
-            Expression elementExpr = (Expression) itr.next();
-            List elementVals = eval(node, elementExpr);
-//            System.out.println(elementVals);
-            items.add(elementVals);
-        }
-        accumulate(identity, items, values);
+        Expander expander = new Expander(f, context, args, true);
+        List results = expander.getResults();
         
-        return values;
+        return results;
     }
 
-    private List evalFunctionExpr(Node node, Expression expr) throws ResolutionException, NotGroundException {
-        List values = new ArrayList();
+    private List evalFunctionExpr(Binding context, Expression expr) throws ResolutionException, NotGroundException {
+        List values;
         FunctionExpr funcExpr = (FunctionExpr) expr;
         String op = funcExpr.getFunction();
         List args = funcExpr.getArg();
-        List params = evalAll(node, args);  // FIXME - handle BindingPairs etc
         Function f = (Function) funcMap.get(op);
         try {
             if (null != f) {
-                funcMap.put(CONTEXT_KEY, node);
-                if (params.size() > 0) {
-                    accumulate(f, params, values);
+                funcMap.put(CONTEXT_KEY, context);
+                if (args.size() > 0) {
+                    Expander expander = new Expander(f, context, args, false);
+                    values = expander.getResults();
                 } else {
-                    values.add(f.call(params.toArray()));
+                    values = new ArrayList();
+                    values.add(f.call(args.toArray()));
                 }
+                funcMap.remove(CONTEXT_KEY);
             } else if ("collect".equals(op)) {
-                values.addAll(params);
+                f = (Function) funcMap.get("collect");
+                Expander expander = new Expander(f, context, args, true);
+                values = expander.getResults();
             } else {
-                throw new ResolutionException(node, "Unknown function: " + op);
+                throw new ResolutionException(null, "Unknown function: " + op);
             }
         } catch (ClassCastException e) {
             e.printStackTrace();
-            throw new ResolutionException(node, "Badly typed parameter(s) to function: " + op, e);
+            throw new ResolutionException(null, "Badly typed parameter(s) to function: " + op, e);
         } catch (RuntimeException e) {
-            throw new ResolutionException(node, "Function eval failed", e);
+            throw new ResolutionException(null, "Function evaluation failed: " + op, e);
         }
         return values;
     }
 
-    private List evalFeatureExpr(Node node, Expression expr)
+    private List evalFeatureExpr(Binding context, Expression expr)
     throws ResolutionException, NotGroundException {
         List values = new ArrayList();
         FeatureExpr featExpr = (FeatureExpr) expr;
-        Collection featureNames = eval(node, featExpr.getFeature());
+        Collection featureNames = eval(context, featExpr.getFeature());
         List args = featExpr.getArg();
-        List objs = eval(node, (Expression) args.get(0));
-        Binding context = null;
+        List objs = eval(context, (Expression) args.get(0));
+        Binding featureContext = null;
         
         for (final Iterator fItr = featureNames.iterator(); fItr.hasNext(); ) {
             Object fObj = fItr.next();
             if (fObj instanceof WrappedVar) {
-                AbstractVar var = ((WrappedVar) fObj).getVar();
+                Var var = ((WrappedVar) fObj).getVar();
                 throw new NotGroundException(
                     "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featExpr.getFeature());
             } else if (fObj instanceof BindingPair) {
-                if (null == context) {
-                    context = (Binding) fObj;
+                if (null == featureContext) {
+                    featureContext = (Binding) fObj;
                 } else {
-                    context = new Binding(context);
-                    context.composeLeft((Binding) fObj);
+                    featureContext = new Binding(featureContext);
+                    featureContext.composeLeft((Binding) fObj);
                 }
                 fObj = ((BindingPair) fObj).getValue();
             }
@@ -439,16 +494,16 @@ class Evaluator {
                 // TODO FIXME this is a HACK
                 fObj = ((EStructuralFeature) fObj).getName();
             } else if (!(fObj instanceof String)) {
-                throw new ResolutionException(node, "The Feature Expression " + featExpr + " must evaluate to a feature name of type String, not " + fObj.getClass());
+                throw new ResolutionException(null, "The Feature Expression " + featExpr + " must evaluate to a feature name of type String, not " + fObj.getClass());
             }
             String featureName = (String) fObj;
             
             // Expand a typed variable if possible
             //
-            AbstractVar var = null;
+            Var var = null;
             if (objs.size() == 1 && objs.get(0) instanceof WrappedVar) {
                 WrappedVar wVar = (WrappedVar) objs.get(0);
-                objs = expand(wVar, expr);
+                objs = expand(wVar);
                 var = wVar.getVar();
             }
             
@@ -456,11 +511,11 @@ class Evaluator {
                 Object obj = objItr.next();
                 
                 if (obj instanceof BindingPair) {
-                    if (null == context) {
-                        context = (Binding) obj;
+                    if (null == featureContext) {
+                        featureContext = (Binding) obj;
                     } else {
-                        context = new Binding(context);
-                        context.composeLeft((Binding) obj);
+                        featureContext = new Binding(featureContext);
+                        featureContext.composeLeft((Binding) obj);
                     }
                     obj = ((BindingPair) obj).getValue();
                 }
@@ -471,34 +526,38 @@ class Evaluator {
                 // can distinguish unbound _variables_ from _objects_.
 
                 if (featExpr.isOperation()) {
-                    Collection valuesObject = callOperation(node, featureName, obj, args.subList(1, args.size()), featExpr.isCollect());
+                    Collection valuesObject = callOperation(context, featureName, obj, args.subList(1, args.size()), featExpr.isCollect());
                     if (null != var) {
                         for (final Iterator itr = valuesObject.iterator(); itr.hasNext(); ) {
                             Object val = itr.next();
-                            Binding unifier = new BindingPair(context, val);
+                            Binding unifier = new BindingPair(featureContext, val);
                             unifier.add(var, obj);
                             values.add(unifier);
                         }
-                    } else if (null != context) {
+                    } else if (null != featureContext) {
                         for (final Iterator itr = valuesObject.iterator(); itr.hasNext(); ) {
                             Object val = itr.next();
-                            Binding unifier = new BindingPair(context, val);
+                            Binding unifier = new BindingPair(featureContext, val);
                             values.add(unifier);
                         }
                     } else {
                         values.addAll(valuesObject);
                     }
                 } else {
-                    Object valuesObject = fetchFeature(node, featureName, obj);
+                    Object valuesObject = fetchFeature(context, featureName, obj);
+                    
+                    if (null != valuesObject && valuesObject.getClass().isArray()) {
+                        valuesObject = wrapArray(valuesObject);
+                    }
                     
                     if (valuesObject instanceof Collection) {
                         if (featExpr.isCollect()) {
                             if (null != var) {
-                                Binding unifier = new BindingPair(context, valuesObject);
+                                Binding unifier = new BindingPair(featureContext, valuesObject);
                                 unifier.add(var, obj);
                                 values.add(unifier);
-                            } else if (null != context) {
-                                Binding unifier = new BindingPair(context, valuesObject);
+                            } else if (null != featureContext) {
+                                Binding unifier = new BindingPair(featureContext, valuesObject);
                                 values.add(unifier);
                             } else {
                                 values.add(valuesObject);
@@ -507,14 +566,14 @@ class Evaluator {
                             if (null != var) {
                                 for (final Iterator itr = ((Collection) valuesObject).iterator(); itr.hasNext(); ) {
                                     Object val = itr.next();
-                                    Binding unifier = new BindingPair(context, val);
+                                    Binding unifier = new BindingPair(featureContext, val);
                                     unifier.add(var, obj);
                                     values.add(unifier);
                                 }
-                            } else if (null != context) {
+                            } else if (null != featureContext) {
                                 for (final Iterator itr = ((Collection) valuesObject).iterator(); itr.hasNext(); ) {
                                     Object val = itr.next();
-                                    Binding unifier = new BindingPair(context, val);
+                                    Binding unifier = new BindingPair(featureContext, val);
                                     values.add(unifier);
                                 }
                             } else {
@@ -526,22 +585,22 @@ class Evaluator {
                             List l = new ArrayList(1);
                             l.add(valuesObject);
                             if (null != var) {
-                                Binding unifier = new BindingPair(context, l);
+                                Binding unifier = new BindingPair(featureContext, l);
                                 unifier.add(var, obj);
                                 values.add(unifier);
-                            } else if (null != context) {
-                                Binding unifier = new BindingPair(context, l);
+                            } else if (null != featureContext) {
+                                Binding unifier = new BindingPair(featureContext, l);
                                 values.add(unifier);
                             } else {
                                 values.add(l);
                             }
                         } else {
                             if (null != var) {
-                                Binding unifier = new BindingPair(context, valuesObject);
+                                Binding unifier = new BindingPair(featureContext, valuesObject);
                                 unifier.add(var, obj);
                                 values.add(unifier);
-                            } else if (null != context) {
-                                Binding unifier = new BindingPair(context, valuesObject);
+                            } else if (null != featureContext) {
+                                Binding unifier = new BindingPair(featureContext, valuesObject);
                                 values.add(unifier);
                             } else {
                                 values.add(valuesObject);
@@ -552,6 +611,26 @@ class Evaluator {
             }
         }
         return values;
+    }
+
+    /**
+     * Turn an array of things into a List of things, boxing primitive types as required.
+     * 
+     * @param valuesObject
+     * @return
+     */
+    private Object wrapArray(Object valuesObject) {
+        if (valuesObject instanceof Object[]) {
+            valuesObject = Arrays.asList((Object[]) valuesObject);
+        } else if (valuesObject.getClass().isArray()) {
+            final int length = Array.getLength(valuesObject);
+            List l = new ArrayList(length);
+            for (int i = 0; i < length; i++) {
+                l.add(Array.get(valuesObject, i));
+            }
+            valuesObject = l;
+        }
+        return valuesObject;
     }
 
     private Object evalSimpleExpr(Expression expr) {
@@ -573,20 +652,20 @@ class Evaluator {
         return value;
     }
     
-    private List evalEnumExpr(Node node, Expression expr)
+    private List evalEnumExpr(Binding context, Expression expr)
     throws ResolutionException, NotGroundException {
         List values = new ArrayList();
         List args = ((EnumConstant) expr).getArg();
         Expression enumExpr = (Expression) args.get(0);
         Expression literalExpr = (Expression) args.get(1);
-        List enumObjs = eval(node, enumExpr);
-        List literalObjs = eval(node, literalExpr);
+        List enumObjs = eval(context, enumExpr);
+        List literalObjs = eval(context, literalExpr);
 
         for (final Iterator eItr = enumObjs.iterator(); eItr.hasNext(); ) {
             Object eObj = eItr.next();
             EEnum enumeration = null;
             if (eObj instanceof String) {
-                eObj = Util.findClassifierByName(ruleEval.nameMap, (String) eObj);
+                eObj = ModelUtils.findClassifierByName(ruleEval.nameMap, (String) eObj);
             }
             if (eObj instanceof EEnum) {
                 enumeration = (EEnum) eObj;
@@ -608,31 +687,54 @@ class Evaluator {
     }
 
     /**
-     * @param node
+     * @param context
      * @param args
      * @return
      * @throws ResolutionException
      * @throws NotGroundException
      */
-    private List evalAll(Node node, List args) throws ResolutionException, NotGroundException {
-        List results = new ArrayList(args.size());
-        Iterator itr = args.iterator();
-        while (itr.hasNext()) {
-            Expression arg = (Expression) itr.next();
-            List vals = eval(node, arg);
-            if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
-                AbstractVar var = ((WrappedVar) vals.get(0)).getVar();
-                throw new NotGroundException(var.getName() + " is not bound.");
-            }
-            results.add(vals);
+    
+//    
+//    The change below and the expandParams functions appear to be addressing a different
+//    albeit related problem to the rest of the changes to Tree, TreeListener, *Resolver etc
+//    Those changes are dealing with delays propagating out of sub-Trees -- see the FIXME below
+    
+    void evalAll(Node node, Binding context, List args, Function function) throws ResolutionException, NotGroundException {
+        try {
+            new Expander(function, context, args, false);
+        } catch (ResolutionException e) {
+            e.setNode(node);
+            throw e;
         }
-        return results;
     }
     
-    private Map methodCache = new HashMap();
+    final private Map methodCache = new HashMap();
     
     private Method resolveMethod(Object instance, String name, Object[] params) {
+        Map methodCache = getMethodCache(instance, name);
         Method method = null;
+        
+        // Deal with zero-arity method first
+        if (null == params || params.length == 0) {
+            Class cls = instance.getClass();
+            method = (Method) methodCache.get(NULL_TYPE);
+            if (null == method) {
+                try {
+                    Method[] ms = cls.getMethods();
+                    for (int i = 0; null == method && i < ms.length; i++) {
+                        if (name.equals(ms[i].getName()) && ms[i].getParameterTypes().length == 0) {
+                            method = ms[i];
+                        }
+                    }
+                } catch (SecurityException e) {
+                }
+            }
+            if (null != method) {
+                // Cache the result
+                methodCache.put(NULL_TYPE, method);
+            }
+            return method;
+        }
         
         Class[] rawTypes = new Class[params.length];
         boolean hasBoxedTypes = false;
@@ -644,22 +746,7 @@ class Evaluator {
             }
         }
         
-        Map namesToTypes = (Map) methodCache.get(instance.getClass());
-        Map typesToMethods;
-        if (null != namesToTypes) {
-            typesToMethods = (Map) namesToTypes.get(name);
-            if (null != typesToMethods) {
-                method = (Method) typesToMethods.get(Arrays.asList(rawTypes));
-            } else {
-                typesToMethods = new HashMap();
-                namesToTypes.put(name, typesToMethods);
-            }
-        } else {
-            namesToTypes = new HashMap();
-            typesToMethods = new HashMap();
-            methodCache.put(instance.getClass(), namesToTypes);
-            namesToTypes.put(name, typesToMethods);
-        }
+        method = (Method) methodCache.get(Arrays.asList(rawTypes));
         
         if (null == method) {
             Class[] unboxedTypes = null;
@@ -686,157 +773,134 @@ class Evaluator {
             
             if (null != method) {
                 // Cache the result
-                typesToMethods.put(Arrays.asList(rawTypes), method);
+                methodCache.put(Arrays.asList(rawTypes), method);
             }
         }
 
         return method;
     }
     
+    /**
+     * Beware, this will find the first method (they are in an arbitrary order) that matches subject to
+     * auto-unboxing...eg, the choice between foo(int) and foo(Integer) is arbitrary
+     * 
+     * @param instance
+     * @param name
+     * @param types
+     * @param unboxedTypes may be null, but otherwise the same length as types
+     * @return
+     */
     private Method resolveMethod(Object instance, String name, Class[] types, Class[] unboxedTypes) {
         Method method = null;
         Class cls = instance.getClass();
         
-        // Loop through the class hierarchy
-        while (null == method && null != cls) {
-            Class[] interfaces = cls.getInterfaces();
-
-            // First try the implemented interfaces since their methods must be
-            // accessible to us
-            for (int i = 0; i < interfaces.length && null == method; i++) {
-                try {
-                    method = interfaces[i].getMethod(name, types);
-                } catch (SecurityException e1) {
-                } catch (NoSuchMethodException e1) {
+        // FIXME: This will fail for private Classes implementing public Interfaces
+        Method[] ms = cls.getMethods();
+        for (int i = 0; null == method && i < ms.length; i++) {
+            if (name.equals(ms[i].getName())) {
+                Class[] parameterTypes = ms[i].getParameterTypes();
+                if (parameterTypes.length != types.length) {
+                    continue;
                 }
-            }
-            if (null != unboxedTypes) {
-                for (int i = 0; i < interfaces.length && null == method; i++) {
-                    try {
-                        method = interfaces[i].getMethod(name, unboxedTypes);
-                    } catch (SecurityException e1) {
-                    } catch (NoSuchMethodException e1) {
+                method = ms[i];
+                for (int j = 0; j < parameterTypes.length; j++) {
+                    if (!parameterTypes[j].isAssignableFrom(types[j]) &&
+                        (null == unboxedTypes || !parameterTypes[j].isAssignableFrom(unboxedTypes[j]))) {
+                        method = null;
+                        break;
                     }
                 }
             }
-
-            // Only check public classes
-            if (null == method && (cls.getModifiers() & Modifier.PUBLIC) > 0) {
-                try {
-                    method = cls.getMethod(name, types);
-                } catch (SecurityException e) {
-                } catch (NoSuchMethodException e) {
-                }
-
-                if (null == method && null != unboxedTypes) {
-                    try {
-                        method = cls.getMethod(name, unboxedTypes);
-                    } catch (SecurityException e) {
-                    } catch (NoSuchMethodException e) {
-                    }
-                }
-            }
-            
-            cls = cls.getSuperclass();
         }
 
         return method;
     }
-
-    private void invokeOperation(Object instance, String methodName, List ls, int i, Object[] params, Collection results, boolean collect)
-    throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        Collection l = (Collection) ls.get(i);
-        if (i < ls.size()-1) {
-            for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
-                params[i] = itr.next();
-                invokeOperation(instance, methodName, ls, i+1, params, results, collect);
+    
+    private Map getMethodCache(Object instance, String name) {
+        Map namesToTypes = (Map) methodCache.get(instance.getClass());
+        Map typesToMethods;
+        if (null != namesToTypes) {
+            typesToMethods = (Map) namesToTypes.get(name);
+            if (null == typesToMethods) {
+                typesToMethods = new HashMap();
+                namesToTypes.put(name, typesToMethods);
             }
         } else {
-            for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
-                params[i] = itr.next();
-                
-                Method method = resolveMethod(instance, methodName, params);
-
-                if (null == method) {
-                    warnNoMethod(instance, methodName);
-                } else {
-                    Object result = method.invoke(instance, params);
-                    if (null != result) {
-                        if (!collect && result instanceof Collection) { 
-                            results.addAll((Collection) result);
-                        } else {
-                            results.add(result);
-                        }
-                    }
-                }
-            }
+            namesToTypes = new HashMap();
+            typesToMethods = new HashMap();
+            methodCache.put(instance.getClass(), namesToTypes);
+            namesToTypes.put(name, typesToMethods);
         }
+        return typesToMethods;
     }
 
     private void warnNoMethod(Object instance, String methodName) {
-        String message = "WARNING: no such operation: ";
+        String message = "No such operation: ";
         if (instance instanceof EObject) {
-            message += Util.getFullyQualifiedName(((EObject) instance).eClass()) + "." + methodName;
+            message += ModelUtils.getFullyQualifiedName(((EObject) instance).eClass()) + "." + methodName;
         } else {
-            message += Util.getFullyQualifiedName(instance.getClass()) + "." + methodName;
+            message += ModelUtils.getFullyQualifiedName(instance.getClass()) + "." + methodName;
         }
 //        System.err.println(message);
         ruleEval.fireWarning(message);
     }
     
-    private List callOperation(Node node, String operationName, Object instance, List args, boolean collect)
+    private List callOperation(Binding context, final String operationName, final Object instance, List args, boolean collect)
     throws ResolutionException, NotGroundException {
-        List results = new ArrayList();
+        Function methodCall = new Function() {
+            public Object call(Object[] params) throws ResolutionException {
+                Object result = null;
+                
+                // In the general case the param types could all be different and
+                // thus invoke different methods so we cannot cache/lift this
+                // method resolution call
+                Method method = resolveMethod(instance, operationName, params);
 
-        // TODO check EMF reflective calling of operations
-        // for now, use Java reflection :(
-
-        try {
-            List params = evalAll(node, args);
-            if (params.size() > 0) {
-                try {
-                    invokeOperation(instance, operationName, params, 0, new Object[params.size()], results, collect);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    ruleEval.fireWarning(e);
-                    throw new ResolutionException(node, "Operation invocation "+ operationName + " failed", e);
-                }
-            } else {
-                Object[] paramArray = params.toArray();
-
-                Method method = resolveMethod(instance, operationName, paramArray);
                 if (null == method) {
                     warnNoMethod(instance, operationName);
+                    result = Collections.EMPTY_LIST;
                 } else {
-                    Object result = method.invoke(instance, paramArray);
-                    if (null != result) {
-                        if (!collect && result instanceof Collection) { 
-                            results.addAll((Collection) result);
-                        } else {
-                            results.add(result);
-                        }
+                    try {
+                        result = method.invoke(instance, params);
+                    } catch (SecurityException e) {
+                        ruleEval.fireWarning(e);
+                    } catch (IllegalArgumentException e) {
+                        ruleEval.fireWarning(e);
+                    } catch (IllegalAccessException e) {
+                        ruleEval.fireWarning(e);
+                    } catch (InvocationTargetException e) {
+                        ruleEval.fireWarning(e);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+//                        ruleEval.fireError(e);
+                        throw new ResolutionException(null, "Operation invocation "+ operationName + " failed", e);
+                    }
+                    if (null == result) {
+                        result = Collections.EMPTY_LIST;
                     }
                 }
+                return result;
             }
-            // System.out.println("\t" + operationName + "(...) = " + results);   // TODO delete
-        } catch (SecurityException e) {
-            e.printStackTrace();
-            ruleEval.fireWarning(e);
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//            ruleEval.fireWarning(e);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-//            System.err.println(method);        // TODO delete
-//            System.err.println("  " + args);
-            ruleEval.fireWarning(e);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            ruleEval.fireWarning(e);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            ruleEval.fireWarning(e);
+            
+        };
+
+        List results;
+
+        if (args.size() > 0) {
+            Expander expander = new Expander(methodCall, context, args, collect);
+            results = expander.getResults();
+        } else {
+            results = new ArrayList();
+            Object result = methodCall.call(null);
+            if (null != result) {
+                if (!collect && result instanceof Collection) { 
+                    results.addAll((Collection) result);
+                } else {
+                    results.add(result);
+                }
+            }
         }
+        // System.out.println("\t" + operationName + "(...) = " + results);   // TODO delete
         
         return results;
     }
@@ -864,26 +928,29 @@ class Evaluator {
 //        return null;
 //    }
 
-    Object fetchFeature(Node node, String featureName, Object obj) throws ResolutionException {
+    Object fetchFeature(Binding context, String featureName, Object obj) {
         Object valuesObject = null;
         try {
             if (obj instanceof EObject) {
                 EObject instance = (EObject) obj;
+                // If instance is a DynamicObject or it's containing eResource is a target Extent
+                // then we're querying a target object which is an error (until we update the stratification
+                // as outlined by David Hearnden)
                 try {
-                    EStructuralFeature eFeature = AbstractResolver.getFeature(node, instance.eClass(), featureName);
+                    EStructuralFeature eFeature = AbstractResolver.getFeature(null, instance.eClass(), featureName);
                     valuesObject = instance.eGet(eFeature);
 
                     if (valuesObject != null || instance.eIsSet(eFeature) || !eFeature.isRequired()) {
                         ExtentUtil.highlightEdge(instance, valuesObject, ExtentUtil.FEATURE_LOOKUP);
                     } else {
-                        ruleEval.fireWarning(Util.getFullyQualifiedName(eFeature) + " is not set and no default value");
+                        ruleEval.fireWarning(ModelUtils.getFullyQualifiedName(eFeature) + " is not set and no default value");
                     }
                     return valuesObject;    // This was a valid feature - don't want to fall through
                 } catch (ResolutionException e) {
                     // EFeature not found, so try other ways to get a value for featureName
                 }
             }
-            if (null == valuesObject && obj instanceof FeatureMap.Entry) {
+            if (obj instanceof FeatureMap.Entry) {
                 FeatureMap.Entry entry = (FeatureMap.Entry) obj;
                 EStructuralFeature eFeature = entry.getEStructuralFeature();
                 if (eFeature.getName().equals(featureName)) {
@@ -891,19 +958,18 @@ class Evaluator {
                     return valuesObject;    // This was a valid feature - don't want to fall through
                 }
             }
-            if (null == valuesObject) {
-                String methName = "get" + featureName.substring(0, 1).toUpperCase() + featureName.substring(1, featureName.length());
+
+            String methName = "get" + featureName.substring(0, 1).toUpperCase() + featureName.substring(1, featureName.length());
+            try {
                 try {
-                    try {
-                        valuesObject = obj.getClass().getDeclaredMethod(methName, null).invoke(obj, null);
-                    } catch (NoSuchMethodException e) {
-                        if (null == valuesObject) {
-                            valuesObject = obj.getClass().getDeclaredField(featureName).get(obj);
-                        }
+                    valuesObject = obj.getClass().getMethod(methName, null).invoke(obj, null);
+                } catch (NoSuchMethodException e) {
+                    if (null == valuesObject) {
+                        valuesObject = obj.getClass().getField(featureName).get(obj);
                     }
-                } catch (Exception e) {
-                    throw new ResolutionException(node, "Could not find a source of values for '" + featureName + "' in '" + obj + "'", e);
                 }
+            } catch (Exception e) {
+                throw new ResolutionException(null, "Could not find a source of values for '" + featureName + "' in '" + obj + "'", e);
             }
         } catch (ResolutionException e) {
             ruleEval.fireWarning(e);
@@ -912,23 +978,140 @@ class Evaluator {
         return valuesObject;
     }
     
-    private void accumulate(Function f, List ls, Collection results) {
-        accumulate(f, ls, 0, new Object[ls.size()], results);
-    }
+//    private void accumulate(Function f, List itemsCollections, Collection results, boolean collect) throws ResolutionException {
+//        accumulate(f, itemsCollections, 0, new Object[itemsCollections.size()], results, collect);
+//    }
+//    
+//    private void accumulate(Function f, List itemsCollections, int i, Object[] params, Collection results, boolean collect) throws ResolutionException {
+//        Collection items = (Collection) itemsCollections.get(i);
+//        if (i < itemsCollections.size()-1) {
+//            for (final Iterator itr = items.iterator(); itr.hasNext(); ) {
+//                params[i] = itr.next();
+//                accumulate(f, itemsCollections, i+1, params, results, collect);
+//            }
+//        } else {
+//            for (final Iterator itr = items.iterator(); itr.hasNext(); ) {
+//                params[i] = itr.next();
+//                Object result = f.call(params);
+//                if (null != result) {
+//                    if (!collect && result instanceof Collection) { 
+//                        results.addAll((Collection) result);
+//                    } else {
+//                        results.add(result);
+//                    }
+//                } else {
+//                    ruleEval.fireWarning("Function call returned null: " + f + "(" + params + ")");
+//                }
+//            }
+//        }
+//    }
     
-    private void accumulate(Function f, List ls, int i, Object[] params, Collection results) {
-        Collection l = (Collection) ls.get(i);
-        if (i < ls.size()-1) {
-            for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
-                params[i] = itr.next();
-                accumulate(f, ls, i+1, params, results);
-            }
-        } else {
-            for (final Iterator itr = l.iterator(); itr.hasNext(); ) {
-                params[i] = itr.next();
-                results.add(f.call(params));
+//    /**
+//     * 
+//     * @param f Function to call for each set of actual parameter values
+//     * @param context outer Binding context for the calls
+//     * @param actuals List of Expressions to evaluate to obtain the parameter values
+//     * @param params array of actual parameter values
+//     * @param i number of valid values in the params array
+//     * @param results collection of results from the calls
+//     * @param collect true means preserve nesting of result values
+//     * @throws NotGroundException
+//     * @throws ResolutionException
+//     */
+//    private void expandParams(Function f, Binding context, List actuals, Object[] params, int i, Collection results, boolean collect)
+//    throws NotGroundException, ResolutionException {
+//        if (i == params.length) {
+//            Object result = f.call(params);
+//            if (null != result) {
+//                if (!collect && result instanceof Collection) { 
+//                    results.addAll((Collection) result);
+//                } else {
+//                    results.add(result);
+//                }
+//            } else {
+//                ruleEval.fireWarning("Function call returned null: " + f + "(" + params + ")");
+//            }
+//        } else {
+//            List values = eval(context, (Expression) actuals.get(i));
+//            for (final Iterator itr = values.iterator(); itr.hasNext(); ) {
+//                Object obj = itr.next();
+//                Binding newContext;
+//                if (obj instanceof BindingPair) {
+//                    newContext = null;
+//                } else {
+//                    newContext = context;
+//                }
+//                params[i] = obj;
+//                expandParams(f, newContext, actuals, params, i+1, results, collect);
+//            }
+//        }
+//    }
+
+    final class Expander {
+
+        final private List results = new ArrayList();
+        final private Function f;
+        final private List actuals;
+        final private Object[] params;
+        final private boolean collect;
+        
+        /**
+         * 
+         * @param function Function to call for each set of actual parameter values
+         * @param context outer Binding context for the calls
+         * @param actuals List of Expressions to evaluate to obtain the parameter values
+         * @param collect true means preserve nesting of result values
+         * @throws NotGroundException
+         * @throws ResolutionException
+         */
+        Expander(Function function, Binding context, List actuals, boolean collect)
+        throws NotGroundException, ResolutionException {
+            this.f = function;
+            this.actuals = actuals;
+            this.collect = collect;
+            
+            params = new Object[actuals.size()];
+
+            expandParams(context, 0);
+        }
+        
+        private void expandParams(Binding context, int i)
+        throws NotGroundException, ResolutionException {
+            if (i == params.length) {
+                Object result = (f instanceof Function2) ? ((Function2) f).call(context, params) : f.call(params);
+                if (null != result) {
+                    if (!collect && result instanceof Collection) { 
+                        results.addAll((Collection) result);
+                    } else {
+                        results.add(result);
+                    }
+                } else {
+                    ruleEval.fireWarning("Function call returned null: " + f + "(" + params + ")");
+                }
+            } else {
+                List values = eval(context, (Expression) actuals.get(i));
+                for (final Iterator itr = values.iterator(); itr.hasNext(); ) {
+                    Object obj = itr.next();
+                    Binding newContext;
+                    if (obj instanceof BindingPair) {
+                        newContext = new Binding(context);
+                        newContext.composeRight((BindingPair) obj);
+                        obj = ((BindingPair) obj).getValue();
+                        
+                        System.err.println(params[i] + " = " + obj);
+                        System.err.println(context);
+                        System.err.println(newContext);
+                    } else {
+                        newContext = context;
+                    }
+                    params[i] = obj;
+                    expandParams(newContext, i+1);
+                }
             }
         }
-    }   
-
+        
+        List getResults() {
+            return results;
+        }
+    }
 }

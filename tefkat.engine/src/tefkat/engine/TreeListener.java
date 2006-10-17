@@ -35,5 +35,13 @@ interface TreeListener {
      * @param tree
      */
     public void completed(Tree tree);
+    
+    /**
+     * Called once if the Tree fails due to floundering.
+     * Once called, there will be no further calls to solution or completed.
+     *
+     * @param tree
+     */
+    public void floundered(Tree tree);
 
 }

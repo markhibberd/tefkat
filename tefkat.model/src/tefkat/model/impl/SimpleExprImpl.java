@@ -40,190 +40,125 @@ import tefkat.model.TefkatPackage;
  * @generated
  */
 public abstract class SimpleExprImpl extends ExpressionImpl implements SimpleExpr {
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2005";
+     * @generated
+     */
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
-	/**
-	 * The default value of the '{@link #getRepresentation() <em>Representation</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #getRepresentation() <em>Representation</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getRepresentation()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getRepresentation()
+     * @generated
+     * @ordered
+     */
     protected static final String REPRESENTATION_EDEFAULT = null;
 
-	/**
-	 * The cached value of the '{@link #getRepresentation() <em>Representation</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getRepresentation() <em>Representation</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getRepresentation()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getRepresentation()
+     * @generated
+     * @ordered
+     */
     protected String representation = REPRESENTATION_EDEFAULT;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected SimpleExprImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return TefkatPackage.eINSTANCE.getSimpleExpr();
-	}
+        return TefkatPackage.Literals.SIMPLE_EXPR;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String getRepresentation() {
-		return representation;
-	}
+        return representation;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setRepresentation(String newRepresentation) {
-		String oldRepresentation = representation;
-		representation = newRepresentation;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.SIMPLE_EXPR__REPRESENTATION, oldRepresentation, representation));
-	}
+        String oldRepresentation = representation;
+        representation = newRepresentation;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.SIMPLE_EXPR__REPRESENTATION, oldRepresentation, representation));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case TefkatPackage.SIMPLE_EXPR__EXPR:
-					if (eContainer != null)
-						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, TefkatPackage.SIMPLE_EXPR__EXPR, msgs);
-				default:
-					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		if (eContainer != null)
-			msgs = eBasicRemoveFromContainer(msgs);
-		return eBasicSetContainer(otherEnd, featureID, msgs);
-	}
+     * @generated
+     */
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
+                return getRepresentation();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case TefkatPackage.SIMPLE_EXPR__EXPR:
-					return eBasicSetContainer(null, TefkatPackage.SIMPLE_EXPR__EXPR, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
+     * @generated
+     */
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+            case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
+                setRepresentation((String)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-		if (eContainerFeatureID >= 0) {
-			switch (eContainerFeatureID) {
-				case TefkatPackage.SIMPLE_EXPR__EXPR:
-					return eContainer.eInverseRemove(this, TefkatPackage.COMPOUND_EXPR__ARG, CompoundExpr.class, msgs);
-				default:
-					return eDynamicBasicRemoveFromContainer(msgs);
-			}
-		}
-		return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-	}
+     * @generated
+     */
+    public void eUnset(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
+                setRepresentation(REPRESENTATION_EDEFAULT);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.SIMPLE_EXPR__EXPR:
-				return getExpr();
-			case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
-				return getRepresentation();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.SIMPLE_EXPR__EXPR:
-				setExpr((CompoundExpr)newValue);
-				return;
-			case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
-				setRepresentation((String)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.SIMPLE_EXPR__EXPR:
-				setExpr((CompoundExpr)null);
-				return;
-			case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
-				setRepresentation(REPRESENTATION_EDEFAULT);
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case TefkatPackage.SIMPLE_EXPR__EXPR:
-				return getExpr() != null;
-			case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
-				return REPRESENTATION_EDEFAULT == null ? representation != null : !REPRESENTATION_EDEFAULT.equals(representation);
-		}
-		return eDynamicIsSet(eFeature);
-	}
+     * @generated
+     */
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+            case TefkatPackage.SIMPLE_EXPR__REPRESENTATION:
+                return REPRESENTATION_EDEFAULT == null ? representation != null : !REPRESENTATION_EDEFAULT.equals(representation);
+        }
+        return super.eIsSet(featureID);
+    }
 
     /**
      * <!-- begin-user-doc -->

@@ -16,7 +16,7 @@ package tefkat.engine;
 
 import org.eclipse.emf.ecore.EClass;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.Extent;
 
 
@@ -26,19 +26,19 @@ import tefkat.model.Extent;
  */
 public class WrappedVar {
 
-    final private AbstractVar var;
+    final private Var var;
     private EClass type;
     private Extent extent;
     private boolean isExact;
     
-    protected WrappedVar(AbstractVar var) {
+    protected WrappedVar(Var var) {
         if (null == var) {
             throw new IllegalArgumentException("Var must not be null");
         }
         this.var = var;
     }
     
-    public AbstractVar getVar() {
+    public Var getVar() {
         return var;
     }
     
@@ -176,10 +176,8 @@ public class WrappedVar {
     }
     
     public String toString() {
-        if (null != type) {
-            return var + (isExact ? "!" : "/") + type.getName();
-        } else {
-            return String.valueOf(var);
-        }
+        return var +
+               (isExact ? "!" : "/") +
+               (null == type ? "_" : type.getName());
     }
 }

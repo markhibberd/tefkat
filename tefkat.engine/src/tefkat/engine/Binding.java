@@ -21,10 +21,12 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.VarUse;
 
 
@@ -47,7 +49,7 @@ public class Binding {
     static int counter = 0;
 
     private boolean frozen = false;
-    final private Map varToTerm;    // Each entry is a AbstractVar -> Object
+    final private Map varToTerm;    // Each entry is a Var -> Object
                                     // Note, Object may be a WrappedVar...
 
     /**
@@ -62,7 +64,7 @@ public class Binding {
      *  @param unifier  The unifier to duplicate.
      */
     public Binding(Binding unifier) {
-        counter++;
+        incrementCounter();
         if (null == unifier) {
             varToTerm = new HashMap();
         } else {
@@ -70,6 +72,9 @@ public class Binding {
         }
     }
     
+    private static void incrementCounter() {
+        counter++;
+    }
     
     /**
      * Removes all bindings to leave an empty unifier.
@@ -96,16 +101,19 @@ public class Binding {
      *  @param var   The variable to bind.
      *  @param val  The value to bind the variable to.
      */
-    public void put(AbstractVar var, Object val) {
+    public void put(Var var, Object val) {
         if (frozen) {
             throw new BindingError("Cannot modify a frozen Binding");
+        }
+        if (null == val) {
+            throw new BindingError("Attempting to bind " + var + " to null");
         }
         varToTerm.put(var, val);
     }
     
 
     /**
-     *  Adds the binding from the var referenced by varUse to val into this unifier @see #add(AbstractVar, Object).
+     *  Adds the binding from the var referenced by varUse to val into this unifier @see #add(Var, Object).
      *
      *  Precondition:  
      *      !(varToTerm.keySet().contains(var))
@@ -129,9 +137,12 @@ public class Binding {
      *  @param var  The variable to bind.
      *  @param val  The value to bind the variable to.
      */
-    public void add(AbstractVar var, Object val) throws ResolutionException {
+    public void add(Var var, Object val) throws ResolutionException {
         if (frozen) {
             throw new BindingError("Cannot modify a frozen Binding");
+        }
+        if (null == val) {
+            throw new BindingError("Attempting to bind " + var + " to null");
         }
 
         for (Iterator i = varToTerm.entrySet().iterator(); i.hasNext(); ) {
@@ -153,7 +164,7 @@ public class Binding {
      *  @param var  The variable to query.
      *  @return  The value of the variable in this unifier.
      */
-    public Object lookup(AbstractVar var) {
+    public Object lookup(Var var) {
         Object obj = varToTerm.get(var);
         if (obj instanceof DynamicObject && ((DynamicObject) obj).hasStaticInstance()) {
             obj = ((DynamicObject) obj).getStaticInstance();
@@ -252,15 +263,15 @@ public class Binding {
         Iterator i = u.varToTerm.entrySet().iterator();
         while (i.hasNext()) {
             Map.Entry vt = (Map.Entry) i.next();
-            AbstractVar uKey = (AbstractVar) vt.getKey();
+            Var uKey = (Var) vt.getKey();
             Object uVal = vt.getValue();
             // check precondition
             if (true &&
-            		keys().contains(uKey) &&
-            		// uKey != uVal &&   // Vars can be bound to themselves
-            		!uVal.equals(lookup(uKey)) // Can be bound to the same thing
-                        && !(uVal instanceof WrappedVar)
-                    ) {
+                    keys().contains(uKey) &&
+                    // uKey != uVal &&   // Vars can be bound to themselves
+                    !uVal.equals(lookup(uKey)) // Can be bound to the same thing
+                    && !(uVal instanceof WrappedVar)
+            ) {
 //                System.err.println(this);
 //                System.err.println(u);
                 if (uVal instanceof DynamicObject) {
@@ -297,11 +308,11 @@ public class Binding {
         String s = null;
 
         for (Iterator i = varToTerm.keySet().iterator(); i.hasNext(); ) {
-            AbstractVar var = (AbstractVar) i.next();
+            Var var = (Var) i.next();
             Object subs = lookup(var);
             
             if (null == subs) {
-                throw new BindingError("NULL binding for " + subs);
+                throw new BindingError("NULL binding for " + var);
             } else if (subs.getClass().equals(EObjectImpl.class)) {
                 subs = subs.hashCode() + ":" + ((EObject) subs).eClass().getName();
             } else if (subs instanceof WrappedVar) {
@@ -315,7 +326,7 @@ public class Binding {
         return "{" + (s == null ? "" : s) + "}";
     }
     
-    private String formatVar(AbstractVar var) {
+    private String formatVar(Var var) {
         return var.getScope().getName() + "::"
             + (null == var.getName() ? "_V" + var.hashCode() : var.getName());
     }
@@ -333,12 +344,10 @@ public class Binding {
     }
     
     public static class BindingError extends Error {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 6575697896092447618L;
 
-		public BindingError(String message) {
+        private static final long serialVersionUID = 6575697896092447618L;
+
+        public BindingError(String message) {
             super(message);
         }
     }
@@ -349,4 +358,121 @@ public class Binding {
     public void freeze() {
         frozen = true;
     }
+    
+
+    public static Binding createBinding(Object val1, Object val2) throws ResolutionException {
+        Binding unifier = null;
+        if (val1 instanceof BindingPair) {
+            unifier = new Binding();
+            unifier.composeLeft((BindingPair) val1);
+            val1 = ((BindingPair) val1).getValue();
+        }
+        if (val2 instanceof BindingPair) {
+            if (null == unifier) {
+                unifier = new Binding();
+            }
+            unifier.composeLeft((BindingPair) val2);
+            val2 = ((BindingPair) val2).getValue();
+        }
+    
+        if (val1 instanceof WrappedVar) {
+            unifier = bindWrappedVar(unifier, (WrappedVar) val1, val2);
+        } else if (val2 instanceof WrappedVar) {
+            unifier = bindWrappedVar(unifier, (WrappedVar) val2, val1);
+        } else if (val1 instanceof Number && val2 instanceof Number) {
+            if (val1 instanceof Float || val1 instanceof Double ||
+                val2 instanceof Float || val2 instanceof Double) {
+                double v1 = ((Number) val1).doubleValue();
+                double v2 = ((Number) val2).doubleValue();
+                if (v1 == v2) {
+                    if (null == unifier) {
+                        unifier = new Binding();
+                    }
+                } else {
+                    unifier = null;
+                }
+            } else {
+                long l1 = ((Number) val1).longValue();
+                long l2 = ((Number) val2).longValue();
+                if (l1 == l2) {
+                    if (null == unifier) {
+                        unifier = new Binding();
+                    }
+                } else {
+                    unifier = null;
+                }
+            }
+        } else {
+            // bloody EMF - a "generated" EEnumLiteral is not "equal" to a
+            // dynamic EEnumLiteral or something like that
+            // - you need to get the EEnumerator for comparisons...
+            if (val1 instanceof EEnumLiteral) {
+                val1 = ((EEnumLiteral) val1).getInstance();
+            }
+            if (val2 instanceof EEnumLiteral) {
+                val2 = ((EEnumLiteral) val2).getInstance();
+            }
+            if (val1.equals(val2)) {
+                if (null == unifier) {
+                    unifier = new Binding();
+                }
+            } else {
+                unifier = null;
+            }
+        }
+        return unifier;
+    }
+
+    static private Binding bindWrappedVar(Binding unifier, WrappedVar wVar, Object val) throws ResolutionException {
+        final Binding result;
+        Var var = wVar.getVar();
+        EClass eClass = wVar.getType();
+        if (null != eClass) {
+            if (val instanceof WrappedVar) {
+                WrappedVar wVar2 = (WrappedVar) val;
+                Var var2 = wVar2.getVar();
+                EClass eClass2 = wVar2.getType();
+                boolean isExact2 = wVar2.isExact();
+                
+                if (null != eClass2) {
+                    if (wVar.setType(eClass2, isExact2)) {
+                        result = (null == unifier) ? new Binding() : unifier;
+                        result.add(var, wVar);
+                        result.add(var2, wVar);
+                    } else {    // type mismatch
+                        result = null;
+                    }
+                } else {
+                    result = (null == unifier) ? new Binding() : unifier;
+                    result.add(var, wVar);
+                    result.add(var2, wVar);
+                }
+            } else if (val instanceof EObject) {
+                if (eClass.isSuperTypeOf(((EObject) val).eClass())) {
+                    result = (null == unifier) ? new Binding() : unifier;
+                    result.add(var, val);
+                } else {
+                    result = null;
+                }
+            } else {
+                Class cls = eClass.getInstanceClass();
+                if (null != cls) {
+                    if (cls.isAssignableFrom(val.getClass())) {
+                        result = (null == unifier) ? new Binding() : unifier;
+                        result.add(var, val);
+                    } else {
+                        result = null;
+                    }
+                } else {
+                    result = null;
+                }
+            }
+        } else {
+            result = (null == unifier) ? new Binding() : unifier;
+            result.add(var, val);
+        }
+        
+        return result;
+    }
+
 }

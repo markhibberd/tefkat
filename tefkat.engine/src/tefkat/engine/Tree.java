@@ -35,7 +35,11 @@ public class Tree {
 
     private final Transformation transformation;
 
-    private final Collection successes = new ArrayList();
+    private final Tree parentTree;
+
+    private final Node parentNode;
+
+    private final Collection answers = new ArrayList();
     
     private final List unresolvedNodes = new ArrayList();
     
@@ -47,17 +51,27 @@ public class Tree {
     
     private int level = Integer.MAX_VALUE;
 
-    public Tree(Transformation transformation, Node node, Binding context, Extent trackingExtent, boolean isNegation) {
+    public Tree(Transformation transformation, Tree parentTree, Node parentNode, Node node, Binding context, Extent trackingExtent, boolean isNegation) {
         counter++;
         
         this.transformation = transformation;
+        this.parentTree = parentTree;
+        this.parentNode = parentNode;
         this.context = context;
         this.trackingExtent = trackingExtent;
         this.isNegation = isNegation;
         
-	if (null != node) {
-	    unresolvedNodes.add(node);
-	}
+        if (null != node) {
+            unresolvedNodes.add(node);
+        }
+    }
+    
+    Tree getParentTree() {
+        return parentTree;
+    }
+    
+    Node getParentNode() {
+        return parentNode;
     }
 
     void addTreeListener(TreeListener listener) {
@@ -112,13 +126,13 @@ public class Tree {
      *  @param unifier  The unifier of the parent's selected literal.
      */
     void createBranch(Node parent, Binding unifier, Collection childGoal) {
-	if (null != parent) {
-	    if (null == unifier) {
-		unifier = parent.getBindings(); // Inherit bindings from parent
-	    } else {
-		unifier.composeLeft(parent.getBindings());
-	    }
-	}
+        if (null != parent) {
+            if (null == unifier) {
+                unifier = parent.getBindings(); // Inherit bindings from parent
+            } else {
+                unifier.composeLeft(parent.getBindings());
+            }
+        }
         Node child = new Node(childGoal, unifier, parent);
         addUnresolvedNode(child);
     }
@@ -131,14 +145,26 @@ public class Tree {
             listener.completed(this);
         }
     }
+    
+    public void floundered() {
+        for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
+            TreeListener listener = (TreeListener) itr.next();
+            listener.floundered(this);
+        }
+    }
 
     public void success(Node node) throws ResolutionException {
         node.setIsSuccess(true);
         successes.add(node);
         
-        for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
-            TreeListener listener = (TreeListener) itr.next();
-            listener.solution(node);
+        Binding answer = node.getBindings();
+        if (!answers.contains(answer)) {
+            answers.add(answer);
+
+            for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
+                TreeListener listener = (TreeListener) itr.next();
+                listener.solution(answer);
+            }
         }
         
         if (isNegation) {

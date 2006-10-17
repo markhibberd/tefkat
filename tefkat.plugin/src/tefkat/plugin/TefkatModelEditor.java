@@ -35,11 +35,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.text.DocumentEvent;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentListener;
-import org.eclipse.jface.text.ITextInputListener;
-import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -50,13 +45,17 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.xsd.util.XSDResourceImpl;
 
+import tefkat.model.internal.ModelUtils;
 import tefkat.model.parser.ParserEvent;
 import tefkat.model.parser.ParserListener;
 
@@ -86,6 +85,8 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         SERIALIZATION_OPTIONS = new HashMap();
         SERIALIZATION_OPTIONS.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
         SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData());
+        SERIALIZATION_OPTIONS.put(XSDResourceImpl.XSD_TRACK_LOCATION, Boolean.TRUE);
+
     }
     
     private StyledText text;
@@ -125,6 +126,13 @@ public class TefkatModelEditor extends MultiPageEditorPart {
 
     private void createPage0() {
         textEditor = new TefkatTextEditor();
+        textEditor.addPropertyListener(new IPropertyListener() {
+            public void propertyChanged(final Object source, final int propId) {
+                if (IWorkbenchPartConstants.PROP_DIRTY == propId && !textEditor.isDirty()) {
+                    runner.requestParse();
+                }
+            }
+        });
 
         try {
             int index = addPage(textEditor, getEditorInput());
@@ -217,43 +225,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
             super.selectAndReveal(selectionStart, selectionLength, revealStart,
                     revealLength);
         }
-        /* (non-Javadoc)
-         * @see org.eclipse.ui.IEditorPart#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
-         */
-        public void createPartControl(Composite parent) {
-            super.createPartControl(parent);
-        
-            final IDocumentListener documentListener = new IDocumentListener() {
-                public void documentAboutToBeChanged(DocumentEvent event) {
-                    // ignore
-                }
-                public void documentChanged(DocumentEvent event) {
-                    runner.requestParse();
-                }
-            };
 
-            ISourceViewer sourceViewer = getSourceViewer();
-            sourceViewer.addTextInputListener(new ITextInputListener() {
-
-                public void inputDocumentAboutToBeChanged(IDocument oldInput, IDocument newInput) {
-                    // ignore
-                }
-
-                public void inputDocumentChanged(IDocument oldInput, IDocument newInput) {
-                    if (null != oldInput) {
-                        oldInput.removeDocumentListener(documentListener);
-                    }
-                    if (null != newInput) {
-                        newInput.addDocumentListener(documentListener);
-                    }
-                }
-                
-            });
-            IDocument document = sourceViewer.getDocument();
-            if (null != document) {
-                document.addDocumentListener(documentListener);
-            }
-        }
     }
     
     class ParserThread extends Thread {
@@ -303,7 +275,14 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                 return;
             }
             
+//            TefkatPlugin.getPlugin().clearResourceSet();
+//            ResourceSet resourceSet = TefkatPlugin.getPlugin().getResourceSet();
             ResourceSet resourceSet = new ResourceSetImpl();
+            
+            // Need to use a new ExtendedMetaData instance to avoid cached ePackage instances.
+            //
+            SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData(resourceSet.getPackageRegistry()));
+            resourceSet.getLoadOptions().putAll(SERIALIZATION_OPTIONS);
 
             final IResource resource = (IResource) textEditor.getEditorInput().getAdapter(IResource.class);
             try {
@@ -356,10 +335,24 @@ public class TefkatModelEditor extends MultiPageEditorPart {
             final Resource res = resourceSet.createResource(uri);
         
             try {
-                parser.transformation(res);
-                OutputStream out = new ByteArrayOutputStream();
+                parser.setResource(res);
+                final Transformation transformation = parser.transformation();
                 res.save(out, SERIALIZATION_OPTIONS);
-                final String xmi = out.toString();
+
+                ModelUtils.resolveTrackingClassNames(transformation, parser.trackingMap);
+                printStrata(sb, transformation.getStrata());
+                
+            } catch (final RecognitionException e) {
+                createErrorMarker(resource, e.toString(), e.getLine());
+            } catch (final ANTLRException e) {
+                createErrorMarker(resource, e.toString(), lexer.getLine());
+            } catch (final StratificationException e) {
+                createErrorMarker(resource, e.toString(), lexer.getLine());
+                sb.append(e.getMessage()).append("\n");
+                printStrata(sb, e.getStrata());
+            } catch (final Exception e) {
+                createErrorMarker(resource, e.toString(), lexer.getLine());
+            } finally {
                 Display.getDefault().asyncExec(new Runnable() {
                     public void run() {
                         if (getContainer().isDisposed()) {

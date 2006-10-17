@@ -33,7 +33,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
-import tefkat.model.AbstractVar;
+import tefkat.model.Var;
 import tefkat.model.AndTerm;
 import tefkat.model.MofInstance;
 import tefkat.model.OrTerm;
@@ -91,8 +91,8 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                 id = ((Transformation) obj).getName();
             } else if (obj instanceof VarScope) {
                 id = "SCOPE" + getID(((EObject) obj).eContainer()) + ((VarScope) obj).getName();
-            } else if (obj instanceof AbstractVar) {
-                id = "VAR" + getID(((EObject) obj).eContainer()) + ((AbstractVar) obj).getName();
+            } else if (obj instanceof Var) {
+                id = "VAR" + getID(((EObject) obj).eContainer()) + ((Var) obj).getName();
             } else if (obj instanceof VarUse) {
                 id = "USE" + getID(((EObject) obj).eContainer()) + getID(((VarUse) obj).getVar());
             } else if (obj instanceof AndTerm) {
