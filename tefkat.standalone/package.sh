@@ -11,48 +11,63 @@ export JARS
 ECLIPSE_DIR=/dstc/eclipse3.1/plugins
 EMF_VERSION=2.1.0
 
+ECLIPSE_DIR=/Applications/eclipse-SDK-3.2/plugins
+EMF_VERSION=2.2.0.v200606271057
+
+BUILD_BASE=..
+BUILD_BASE=~/eclipse.build/plugins
+
+BUILD_DIR=runtime
+BUILD_DIR=@dot
+
 cat > /tmp/manifest.mf <<EOF
 Manifest-Version: 1.0
-Main-Class: com.dstc.tefkat.engine.Main
+Main-Class: tefkat.engine.Main
+Class-Path: main/tefkat.jar lib/antlr.jar lib/jgraph.jar lib/org.eclipse.emf.ecore_$EMF_VERSION.jar lib/org.eclipse.emf.ecore.xmi_$EMF_VERSION.jar lib/org.eclipse.emf.common_$EMF_VERSION.jar
 EOF
 
 test -d main || mkdir main
 
 jar -cfm main/tefkat.jar /tmp/manifest.mf
 jar -uf main/tefkat.jar \
-    -C ../com.dstc.tefkat.engine/runtime com \
-    -C ../com.dstc.tefkat.config/runtime com \
-    -C ../com.dstc.tefkat.model/runtime com \
-    -C ../com.dstc.tefkat.model.parser/runtime com
+    -C $BUILD_BASE/tefkat.engine/$BUILD_DIR tefkat \
+    -C $BUILD_BASE/tefkat.config/$BUILD_DIR tefkat \
+    -C $BUILD_BASE/tefkat.model/$BUILD_DIR tefkat \
+    -C $BUILD_BASE/tefkat.model.parser/$BUILD_DIR tefkat
 
 test -d lib || mkdir lib
 cp -f \
-    ../com.dstc.tefkat.engine/jgraph.jar \
-    $ECLIPSE_DIR/org.antlr_2.7.6.b2/antlr.jar \
+    ../tefkat.engine/jgraph.jar \
+    $ECLIPSE_DIR/org.antlr_2.7.6/antlr.jar \
     $ECLIPSE_DIR/org.eclipse.emf.ecore_$EMF_VERSION.jar \
     $ECLIPSE_DIR/org.eclipse.emf.ecore.xmi_$EMF_VERSION.jar \
     $ECLIPSE_DIR/org.eclipse.emf.common_$EMF_VERSION.jar \
+    $ECLIPSE_DIR/org.eclipse.xsd.ecore.exporter_$EMF_VERSION.jar \
+    $ECLIPSE_DIR/org.eclipse.xsd.ecore.importer_$EMF_VERSION.jar \
+    $ECLIPSE_DIR/org.eclipse.xsd_$EMF_VERSION.jar \
     lib
 
-cat > /tmp/wrap.manifest.mf <<EOF
-Wrap-Class-Loader: com.simontuffs.onejar.ExternalClassLoader
-EOF
-
-jar -cfm wrap/wraploader.jar /tmp/wrap.manifest.mf com
-jar -uvf wrap/wraploader.jar com
+#cat > /tmp/wrap.manifest.mf <<EOF
+#Wrap-Class-Loader: com.simontuffs.onejar.ExternalClassLoader
+#EOF
+#
+#test -d wrap || mkdir wrap
+#jar -cfm wrap/wraploader.jar /tmp/wrap.manifest.mf com
+#jar -uvf wrap/wraploader.jar com
 
 test -d onejar || mkdir onejar
 cd onejar
-jar -xf ../one-jar-boot-0.95.jar
+jar -xf ../one-jar-boot-0.95-lawley.jar
 cd ..
 
-jar -cfm $TEFKAT_JAR onejar/boot-manifest.mf \
+jar -cvfm $TEFKAT_JAR onejar/boot-manifest.mf \
     -C onejar com \
     -C onejar doc \
     main/tefkat.jar \
-    wrap/wraploader.jar \
-    lib/*.jar
+    lib/*.jar \
+
+#    wrap/wraploader.jar
 
 # cleanup
-## /bin/rm -rf main lib onejar
+##/bin/rm -rf main lib onejar wrap
 
