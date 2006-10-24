@@ -337,10 +337,10 @@ abstract class AbstractResolver {
         if (pDefVars.size() == 0) {
             if (ruleEval.INCREMENTAL) {
                 incrementalResolvePatternDefn(tree, node,
-                        literal, pDefVars, args, pDefn, null, new Binding(), isNegation);
+                        literal, pDefVars, args, pDefn, null, tree.getContext(), isNegation);
             } else {
                 resolvePatternDefn(tree, node,
-                        literal, pDefVars, args, pDefn, null, new Binding(), isNegation);
+                        literal, pDefVars, args, pDefn, null, tree.getContext(), isNegation);
             }
         } else {
 //            final Binding context = tree.getContext();
@@ -348,6 +348,7 @@ abstract class AbstractResolver {
             if (ruleEval.INCREMENTAL) {
                 resolver = new PatternCall(pDefVars) {
                     void invoke(Binding callContext, Binding parameterContext) throws ResolutionException {
+                        parameterContext.composeRight(tree.getContext());
                         incrementalResolvePatternDefn(tree, node,
                                 literal, pDefVars, args, pDefn,
                                 callContext, parameterContext, isNegation);
@@ -356,6 +357,7 @@ abstract class AbstractResolver {
             } else {
                 resolver = new PatternCall(pDefVars) {
                     void invoke(Binding callContext, Binding parameterContext) throws ResolutionException {
+                        parameterContext.composeRight(tree.getContext());
                         resolvePatternDefn(tree, node,
                                 literal, pDefVars, args, pDefn,
                                 callContext, parameterContext, isNegation);

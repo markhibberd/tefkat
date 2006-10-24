@@ -62,7 +62,7 @@ public class Tree {
         this.isNegation = isNegation;
         
         if (null != node) {
-            unresolvedNodes.add(node);
+            addUnresolvedNode(node);
         }
     }
     
