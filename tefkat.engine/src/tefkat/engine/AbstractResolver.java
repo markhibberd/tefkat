@@ -484,27 +484,49 @@ abstract class AbstractResolver {
 
     static private Binding createOutputBinding(final Node node, final Binding context, final List formals, final List actuals, Binding solution) throws ResolutionException {
         Binding unifier = new Binding(context);
+        Map linkMap = new HashMap();
         // System.err.println("  s " + currentSolution); // TODO delete
         for (int j = 0; j < actuals.size(); j++) {
             Expression argExpr = (Expression) actuals.get(j);
             if (argExpr instanceof VarUse) {
-                Object val = node.lookup(((VarUse) argExpr).getVar());
+                final Var var = ((VarUse) argExpr).getVar();
+                final Object val = node.lookup(var);
+                Object outVal = solution.lookup((Var) formals.get(j));
+
+                // Handle case where unbound input params are unified
+                // but not grounded within the pattern.
+                // For example: p(A, B) call to
+                //    PATTERN p(X, Y) WHERE X = Y;
+                // should bind A to B, but not to X or Y.
+		//
+                if (outVal instanceof WrappedVar) {
+                    if (linkMap.contains(outVal)) {
+                        outVal = linkMap.get(outVal);
+                    } else {
+                        WrappedVar wVar = new WrappedVar(var);
+                        wVar.setExtent(((WrappedVar) outVal).getExtent());
+                        wVar.setType(((WrappedVar) outVal).getType(),
+                                     ((WrappedVar) outVal).getExact());
+                        linkMap.put(outVal, wVar);
+                        outVal = wVar;
+                    }
+                }
+
                 if (null == val) {
                     // We only add a new binding if argExpr is not already
                     // bound, otherwise we end up with multiple identical bindings
                     // for the same Var.
-                    unifier.add(((VarUse) argExpr).getVar(),
-                            solution.lookup((Var) formals.get(j)));
+
+                    unifier.add(var, outVal);
                 } else if (val instanceof WrappedVar) {
-                    unifier.add(((WrappedVar) val).getVar(),
-                            solution.lookup((Var) formals.get(j)));
-                } else if (!val.equals(solution.lookup((Var) formals.get(j)))) {
+                    Binding.bindWrappedVar(unifier, (WrappedVar) val, outVal);
+                } else if (!val.equals(outVal)) {
 //                    System.err.println("Arg:\t" + argExpr);
 //                    System.err.println("actual:\t" + val);
 //                    System.err.println("formal:\t" + formals.get(j));
-//                    System.err.println("result:\t" + solution.lookup((PatternVar) formals.get(j)));
+//                    System.err.println("result:\t" + outVal);
                     
-                    throw new ResolutionException(node, "conflicting pattern arg and result: " + val + "\t" + solution.lookup((Var) formals.get(j)));
+                    throw new ResolutionException(node, "conflicting pattern arg and result: " + val + "\t" + outVal);
                 }
             }
         }
@@ -598,7 +620,7 @@ abstract class AbstractResolver {
         condGoal.add(literal.getTerm().get(0));
         Node newRoot = new Node(condGoal, context); // cannot pass node as node-context here -- see evalNegatedGoal()
         Tree newTree = new Tree(tree.getTransformation(), tree, node, newRoot, tree.getContext(), tree.getTrackingExtent(), false);
-	newTree.setLevel(tree.getLevel() - 1);
+        newTree.setLevel(tree.getLevel() - 1);
 
         if (ruleEval.INCREMENTAL) {
             final List newGoal = new ArrayList(node.goal());
@@ -627,7 +649,7 @@ abstract class AbstractResolver {
                 
             });
 
-	    ruleEval.addUnresolvedTree(newTree);
+            ruleEval.addUnresolvedTree(newTree);
         } else {
             ruleEval.resolveNode(newTree);
             

@@ -423,7 +423,7 @@ public class Binding {
         return unifier;
     }
 
-    static private Binding bindWrappedVar(Binding unifier, WrappedVar wVar, Object val) throws ResolutionException {
+    static public Binding bindWrappedVar(Binding unifier, WrappedVar wVar, Object val) throws ResolutionException {
         final Binding result;
         Var var = wVar.getVar();
         EClass eClass = wVar.getType();
