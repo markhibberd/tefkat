@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
@@ -500,13 +501,13 @@ abstract class AbstractResolver {
                 // should bind A to B, but not to X or Y.
 		//
                 if (outVal instanceof WrappedVar) {
-                    if (linkMap.contains(outVal)) {
+                    if (linkMap.containsKey(outVal)) {
                         outVal = linkMap.get(outVal);
                     } else {
                         WrappedVar wVar = new WrappedVar(var);
                         wVar.setExtent(((WrappedVar) outVal).getExtent());
                         wVar.setType(((WrappedVar) outVal).getType(),
-                                     ((WrappedVar) outVal).getExact());
+                                     ((WrappedVar) outVal).isExact());
                         linkMap.put(outVal, wVar);
                         outVal = wVar;
                     }
