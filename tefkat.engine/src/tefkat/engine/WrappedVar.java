@@ -178,6 +178,7 @@ public class WrappedVar {
     public String toString() {
         return var +
                (isExact ? "!" : "/") +
-               (null == type ? "_" : type.getName());
+               (null == type ? "_" : type.getName() +
+               (null == extent ? "@_" : ("@" + extent)));
     }
 }
