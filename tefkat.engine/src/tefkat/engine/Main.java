@@ -298,7 +298,9 @@ public class Main {
                     for (int i = 0; i < tgts.length; i++) {
                         tgts[i].save(options);
                     }
-                    trace.save(options);
+		    if (null != trace) {
+			trace.save(options);
+		    }
                 }
                 System.out.println("...done");
             }
