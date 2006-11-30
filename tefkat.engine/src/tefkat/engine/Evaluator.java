@@ -76,14 +76,13 @@ class Evaluator {
 
     private final class MapFeature implements Function {
         public Object call(Object[] params) throws ResolutionException {
-            final Binding context = (Binding) funcMap.get(CONTEXT_KEY);
             final Collection list = (Collection) params[0];
             final String feature = (String) params[1];
             final List result = new ArrayList();
             
             for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
                 Object obj = itr.next();
-                result.add(fetchFeature(context, feature, obj));
+                result.add(fetchFeature(feature, obj));
             }
         
             return result;
@@ -321,6 +320,10 @@ class Evaluator {
         funcMap.put(name, function);
     }
 
+    List eval(Context context, Expression expr) throws ResolutionException, NotGroundException {
+        return eval(context.node, expr);
+    }
+
     /**
      * Evaluate expr given the bindings in node.
      * 
@@ -472,21 +475,17 @@ class Evaluator {
         Collection featureNames = eval(context, featExpr.getFeature());
         List args = featExpr.getArg();
         List objs = eval(context, (Expression) args.get(0));
-        Binding featureContext = null;
         
         for (final Iterator fItr = featureNames.iterator(); fItr.hasNext(); ) {
             Object fObj = fItr.next();
+            Binding featureContext = null;
+
             if (fObj instanceof WrappedVar) {
                 Var var = ((WrappedVar) fObj).getVar();
                 throw new NotGroundException(
                     "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featExpr.getFeature());
             } else if (fObj instanceof BindingPair) {
-                if (null == featureContext) {
-                    featureContext = (Binding) fObj;
-                } else {
-                    featureContext = new Binding(featureContext);
-                    featureContext.composeLeft((Binding) fObj);
-                }
+                featureContext = (Binding) fObj;
                 fObj = ((BindingPair) fObj).getValue();
             }
 
@@ -509,13 +508,14 @@ class Evaluator {
             
             for (final Iterator objItr = objs.iterator(); objItr.hasNext(); ) {
                 Object obj = objItr.next();
+                Binding objectContext = featureContext;
                 
                 if (obj instanceof BindingPair) {
-                    if (null == featureContext) {
-                        featureContext = (Binding) obj;
+                    if (null == objectContext) {
+                        objectContext = (Binding) obj;
                     } else {
-                        featureContext = new Binding(featureContext);
-                        featureContext.composeLeft((Binding) obj);
+                        objectContext = new Binding(objectContext);
+                        objectContext.composeLeft((Binding) obj);
                     }
                     obj = ((BindingPair) obj).getValue();
                 }
@@ -530,21 +530,21 @@ class Evaluator {
                     if (null != var) {
                         for (final Iterator itr = valuesObject.iterator(); itr.hasNext(); ) {
                             Object val = itr.next();
-                            Binding unifier = new BindingPair(featureContext, val);
+                            Binding unifier = new BindingPair(objectContext, val);
                             unifier.add(var, obj);
                             values.add(unifier);
                         }
-                    } else if (null != featureContext) {
+                    } else if (null != objectContext) {
                         for (final Iterator itr = valuesObject.iterator(); itr.hasNext(); ) {
                             Object val = itr.next();
-                            Binding unifier = new BindingPair(featureContext, val);
+                            Binding unifier = new BindingPair(objectContext, val);
                             values.add(unifier);
                         }
                     } else {
                         values.addAll(valuesObject);
                     }
                 } else {
-                    Object valuesObject = fetchFeature(context, featureName, obj);
+                    Object valuesObject = fetchFeature(featureName, obj);
                     
                     if (null != valuesObject && valuesObject.getClass().isArray()) {
                         valuesObject = wrapArray(valuesObject);
@@ -553,11 +553,11 @@ class Evaluator {
                     if (valuesObject instanceof Collection) {
                         if (featExpr.isCollect()) {
                             if (null != var) {
-                                Binding unifier = new BindingPair(featureContext, valuesObject);
+                                Binding unifier = new BindingPair(objectContext, valuesObject);
                                 unifier.add(var, obj);
                                 values.add(unifier);
-                            } else if (null != featureContext) {
-                                Binding unifier = new BindingPair(featureContext, valuesObject);
+                            } else if (null != objectContext) {
+                                Binding unifier = new BindingPair(objectContext, valuesObject);
                                 values.add(unifier);
                             } else {
                                 values.add(valuesObject);
@@ -566,14 +566,14 @@ class Evaluator {
                             if (null != var) {
                                 for (final Iterator itr = ((Collection) valuesObject).iterator(); itr.hasNext(); ) {
                                     Object val = itr.next();
-                                    Binding unifier = new BindingPair(featureContext, val);
+                                    Binding unifier = new BindingPair(objectContext, val);
                                     unifier.add(var, obj);
                                     values.add(unifier);
                                 }
-                            } else if (null != featureContext) {
+                            } else if (null != objectContext) {
                                 for (final Iterator itr = ((Collection) valuesObject).iterator(); itr.hasNext(); ) {
                                     Object val = itr.next();
-                                    Binding unifier = new BindingPair(featureContext, val);
+                                    Binding unifier = new BindingPair(objectContext, val);
                                     values.add(unifier);
                                 }
                             } else {
@@ -585,22 +585,22 @@ class Evaluator {
                             List l = new ArrayList(1);
                             l.add(valuesObject);
                             if (null != var) {
-                                Binding unifier = new BindingPair(featureContext, l);
+                                Binding unifier = new BindingPair(objectContext, l);
                                 unifier.add(var, obj);
                                 values.add(unifier);
-                            } else if (null != featureContext) {
-                                Binding unifier = new BindingPair(featureContext, l);
+                            } else if (null != objectContext) {
+                                Binding unifier = new BindingPair(objectContext, l);
                                 values.add(unifier);
                             } else {
                                 values.add(l);
                             }
                         } else {
                             if (null != var) {
-                                Binding unifier = new BindingPair(featureContext, valuesObject);
+                                Binding unifier = new BindingPair(objectContext, valuesObject);
                                 unifier.add(var, obj);
                                 values.add(unifier);
-                            } else if (null != featureContext) {
-                                Binding unifier = new BindingPair(featureContext, valuesObject);
+                            } else if (null != objectContext) {
+                                Binding unifier = new BindingPair(objectContext, valuesObject);
                                 values.add(unifier);
                             } else {
                                 values.add(valuesObject);
@@ -686,6 +686,10 @@ class Evaluator {
         return values;
     }
 
+    void evalAll(Context context, Binding unifier, List args, Function function) throws ResolutionException, NotGroundException {
+        evalAll(context.node, unifier, args, function);
+    }
+    
     /**
      * @param context
      * @param args
@@ -928,7 +932,7 @@ class Evaluator {
 //        return null;
 //    }
 
-    Object fetchFeature(Binding context, String featureName, Object obj) {
+    Object fetchFeature(String featureName, Object obj) {
         Object valuesObject = null;
         try {
             if (obj instanceof EObject) {

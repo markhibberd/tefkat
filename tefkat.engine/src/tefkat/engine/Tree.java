@@ -35,9 +35,7 @@ public class Tree {
 
     private final Transformation transformation;
 
-    private final Tree parentTree;
-
-    private final Node parentNode;
+    private final Context parentContext;
 
     private final Collection answers = new ArrayList();
     
@@ -51,12 +49,11 @@ public class Tree {
     
     private int level = Integer.MAX_VALUE;
 
-    public Tree(Transformation transformation, Tree parentTree, Node parentNode, Node node, Binding context, Extent trackingExtent, boolean isNegation) {
-        counter++;
+    public Tree(Transformation transformation, Context parentContext, Node node, Binding context, Extent trackingExtent, boolean isNegation) {
+        increment();
         
         this.transformation = transformation;
-        this.parentTree = parentTree;
-        this.parentNode = parentNode;
+        this.parentContext = parentContext;
         this.context = context;
         this.trackingExtent = trackingExtent;
         this.isNegation = isNegation;
@@ -65,20 +62,16 @@ public class Tree {
             addUnresolvedNode(node);
         }
     }
-    
-    Tree getParentTree() {
-        return parentTree;
-    }
-    
-    Node getParentNode() {
-        return parentNode;
+
+    private static void increment() {
+        counter++;
     }
 
-    void addTreeListener(TreeListener listener) {
+    public void addTreeListener(TreeListener listener) {
         listeners.add(listener);
     }
 
-    void removeTreeListener(TreeListener listener) {
+    public void removeTreeListener(TreeListener listener) {
         listeners.remove(listener);
     }
     
@@ -146,7 +139,20 @@ public class Tree {
         }
     }
     
-    public void floundered() {
+    Node flounder() {
+        // Tell any listeners so they can clean up
+        floundered();
+
+        if (null != parentContext) {
+            // Delay the node that originally created this tree
+            parentContext.node.delay();
+            parentContext.tree.addUnresolvedNode(parentContext.node);
+            return parentContext.node;
+        }
+        return null;
+    }
+    
+    private void floundered() {
         for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
             TreeListener listener = (TreeListener) itr.next();
             listener.floundered(this);

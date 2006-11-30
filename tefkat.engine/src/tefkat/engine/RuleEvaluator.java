@@ -31,15 +31,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import tefkat.model.Var;
-import tefkat.model.CompoundTerm;
 import tefkat.model.Extent;
-import tefkat.model.IfTerm;
 import tefkat.model.Injection;
 import tefkat.model.MofInstance;
 import tefkat.model.NotTerm;
 import tefkat.model.PatternDefn;
 import tefkat.model.TRule;
-import tefkat.model.TargetTerm;
 import tefkat.model.TefkatException;
 import tefkat.model.TefkatFactory;
 import tefkat.model.Term;
@@ -165,7 +162,7 @@ public class RuleEvaluator {
         }
     }
     
-    public void runFixpointTransformation(Transformation transformation, boolean force)
+    void runFixpointTransformation(Transformation transformation, boolean force)
             throws TefkatException {
 
         try {
@@ -198,7 +195,7 @@ public class RuleEvaluator {
         }
     }
     
-    public void runIncrementalTransformation(Transformation transformation, boolean force)
+    void runIncrementalTransformation(Transformation transformation, boolean force)
             throws TefkatException {
 
         try {
@@ -216,7 +213,7 @@ public class RuleEvaluator {
                 //
                 Tree tree;
                 if (ONE_TREE) {
-                    tree = new Tree(transformation, null, null, null, _context, trackingExtent, false);
+                    tree = new Tree(transformation, null, null, _context, trackingExtent, false);
                     tree.setLevel(level);
                     
                     addUnresolvedTree(tree);
@@ -230,7 +227,7 @@ public class RuleEvaluator {
                         
                         if (!tRule.isAbstract()) {
                             if (!ONE_TREE) {
-                                tree = new Tree(transformation, null, null, null, _context, trackingExtent, false);
+                                tree = new Tree(transformation, null, null, _context, trackingExtent, false);
                                 tree.setLevel(level);
                                 
                                 addUnresolvedTree(tree);
@@ -675,7 +672,7 @@ public class RuleEvaluator {
             //            System.out.println(trule.getName() + ": C " + ruleContext);
 
             Node root = new Node(goal, ruleContext);
-            Tree tree = new Tree(trule.getTransformation(), null, null, root, context, trackingExtent, false);
+            Tree tree = new Tree(trule.getTransformation(), null, root, context, trackingExtent, false);
 
             resolveNode(tree);
 
@@ -727,29 +724,22 @@ public class RuleEvaluator {
 
                     if (null == node.getDelayed() || node.getDelayed().isEmpty()) {
                         tree.success(node);
-                    } else if (tree.getParentTree() != null) {
-                        // Trees created for IFs or PATTERNs/TEMPLATEs should
-                        // be delayed -- only Trees for TRules should flounder
-                        
-                        // Don't continue with this tree - it's obsolete
-                        unresolvedTrees.remove(tree);
-                        // Tell any listeners so they can clean up
-                        tree.floundered();
-                        
-                        // Delay the node that originally created this tree
-                        Tree parentTree = tree.getParentTree();
-                        Node parentNode = tree.getParentNode();
-                        
-                        parentNode.delay();
-                        parentTree.addUnresolvedNode(parentNode);
-                        fireDelayTerm(parentNode);
                     } else {
-                        // FIXME - Trees created for IFs or PATTERNs/TEMPLATEs should
-                        // be delayed -- only Trees for TRules should flounder
-                        throw new ResolutionException(node,
-                                "Floundered - all terms are delayed: "
-                                + node.getDelayed() + "\t"
-                                + node.getBindings());
+                        // If this is a subtree (created for IFs or PATTERNs/TEMPLATEs)
+                        // propagate delay -- only top-level Trees (for TRules) should flounder
+                        
+                        Node flounder = tree.flounder();
+                        
+                        if (null != node) {
+                            // Don't continue with this tree - it's obsolete
+                            unresolvedTrees.remove(tree);
+                            fireDelayTerm(flounder);
+                        } else {
+                            throw new ResolutionException(node,
+                                    "Floundered - all terms are delayed: "
+                                    + node.getDelayed() + "\t"
+                                    + node.getBindings());
+                        }
                     }
 
                     fireExitTerm(node);
@@ -757,13 +747,8 @@ public class RuleEvaluator {
                     //  Select a literal for node.
                     //
                     Term literal = selectLiteral(node);
-                    if (literal == null) {
-                        throw new ResolutionException(node,
-                                "Could not select a valid literal from goal: " + node.goal());
-                    }
 
                     try {
-
                         fireEnterTerm(node);
 
 //                        if (breakpoints.contains(literal)) {
@@ -776,10 +761,10 @@ public class RuleEvaluator {
                         // Grow the tree according to the type of literal using the
                         // appropriate resolver.
                         //
-                        if (isTarget(literal)) {
-                            tgtResolver.doResolveNode(tree, node, literal, false);
+                        if (literal.isTarget()) {
+                            tgtResolver.doResolveNode(new Context(tree, node), literal, false);
                         } else {
-                            srcResolver.doResolveNode(tree, node, literal, false);
+                            srcResolver.doResolveNode(new Context(tree, node), literal, false);
                         }
 
                         fireExitTerm(node);
@@ -861,13 +846,8 @@ public class RuleEvaluator {
                     //  Select a literal for node.
                     //
                     Term literal = selectLiteral(node);
-                    if (literal == null) {
-                        throw new ResolutionException(node,
-                                "Could not select a valid literal from goal: " + node.goal());
-                    }
 
                     try {
-
                         fireEnterTerm(node);
 
 //                        if (breakpoints.contains(literal)) {
@@ -880,10 +860,10 @@ public class RuleEvaluator {
                         // Grow the tree according to the type of literal using the
                         // appropriate resolver.
                         //
-                        if (isTarget(literal)) {
-                            tgtResolver.doResolveNode(tree, node, literal, false);
+                        if (literal.isTarget()) {
+                            tgtResolver.doResolveNode(new Context(tree, node), literal, false);
                         } else {
-                            srcResolver.doResolveNode(tree, node, literal, false);
+                            srcResolver.doResolveNode(new Context(tree, node), literal, false);
                         }
 
                         fireExitTerm(node);
@@ -921,8 +901,9 @@ public class RuleEvaluator {
      *            The node containing the goal from which to choose a literal.
      * @return A chosen literal, or null if the node's goal is empty (i.e.
      *         success)
+     * @throws ResolutionException 
      */
-    private Term selectLiteral(Node node) {
+    private Term selectLiteral(Node node) throws ResolutionException {
         Term[] literals = (Term[]) node.goal().toArray(new Term[node.goal().size()]);
 
         // Simple selection rule:
@@ -933,17 +914,21 @@ public class RuleEvaluator {
         //    + select anything else (target terms) last
         //
         for (int i = 0; i < literals.length; i++) {
-            if (!(isTarget(literals[i]) || literals[i] instanceof NotTerm)) {
+            if (!(literals[i].isTarget() || literals[i] instanceof NotTerm)) {
                 node.selectLiteral(literals[i]);
                 return literals[i];
             }
         }
 
         for (int i = 0; i < literals.length; i++) {
-            if (!isTarget(literals[i])) {
+            if (!literals[i].isTarget()) {
                 node.selectLiteral(literals[i]);
                 return literals[i];
             }
+        }
+        
+        if (null != node.getDelayed() && !node.getDelayed().isEmpty()) {
+            throw new ResolutionException(node, "Flounder: All source terms delayed.");
         }
 
         for (int i = 0; i < literals.length; i++) {
@@ -965,34 +950,8 @@ public class RuleEvaluator {
             return literals[0];
         }
 
-        return null;
-    }
-
-    /**
-     * A term is a "target" term if it's of the correct type and:
-     * <ul>
-     * <li> it's owned by a TRule via its "tgt" reference, or </li>
-     * <li> it's owned by a PatternDefn for which "isSource" is false, or </li>
-     * <li> it's not the condition of an IfTerm, and
-     * it's owned by a CompoundTerm that is a "target" term.</li>
-     * </ul>
-     * 
-     * Otherwise its either owned by a TRule via its "src" reference or by a
-     * PatternDefn for which "isSource" is true or by a Query so it must be a
-     * "source" term.
-     * 
-     * @param term
-     * @return
-     */
-    static boolean isTarget(Term term) {
-        CompoundTerm parent = term.getCompoundTerm();
-        return (term instanceof TargetTerm)
-                && (((TargetTerm) term).getTRuleTgt() != null
-                        || (term.getPatternDefn() != null && !term.getPatternDefn().isSource())
-                        || (parent != null
-                                && !(parent instanceof IfTerm &&
-                                        ((IfTerm) parent).getTerm().get(0).equals(term))
-                                && isTarget(parent)));
+        throw new ResolutionException(node,
+                "Could not select a valid literal from goal: " + node.goal());
     }
 
     //    private String formatBinding(Binding solution) {

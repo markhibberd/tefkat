@@ -18,7 +18,7 @@ package tefkat.engine;
  * @author lawley
  *
  */
-interface TreeListener {
+public interface TreeListener {
     
     /**
      * Called as each new (unique) successful Binding is found.

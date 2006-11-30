@@ -50,31 +50,25 @@ import java.util.Map;
 class SourceResolver extends AbstractResolver {
 
     private static final class HandleNewTrackingInstance implements TrackingCallback {
-        private final Tree tree;
+        private final Context context;
 
         private final EClass class1;
 
-        private final Collection goal;
-
         private final Object[][] map;
 
-        private final Node node;
-
-        HandleNewTrackingInstance(Tree tree, EClass class1, Collection goal, Object[][] map, Node node) {
-            this.tree = tree;
+        HandleNewTrackingInstance(Context context, EClass class1, Object[][] map) {
+            this.context = context;
             this.class1 = class1;
-            this.goal = goal;
             this.map = map;
-            this.node = node;
         }
 
         public String toString() {
-            return tree.toString();
+            return context.tree.toString();
         }
 
         public void handleInstance(EObject inst) throws ResolutionException, NotGroundException {
-            if (tree.isCompleted()) {
-                throw new ResolutionException(node, "INTERNAL ERROR: Tree completed too early: " + tree);
+            if (context.tree.isCompleted()) {
+                context.error("INTERNAL ERROR: Tree completed too early: " + context);
             }
         
             // Check each feature looking for a mismatch
@@ -87,7 +81,7 @@ class SourceResolver extends AbstractResolver {
                 List featureValues = (List) map[i][1];
                 List newBindings = null;
                 
-                EStructuralFeature sFeature = getFeature(node, class1, featureName);
+                EStructuralFeature sFeature = getFeature(context, class1, featureName);
                 Object value = inst.eGet(sFeature);
         
                 if (value == null) {
@@ -113,7 +107,7 @@ class SourceResolver extends AbstractResolver {
                         for (Iterator valItr = ((List) value).iterator(); valItr.hasNext(); ) {
                             Object o = valItr.next();
                             if (o instanceof BindingPair) {
-                                throw new NotGroundException("Implementation limitiation: BindingPair in TrackingUse not yet supported.");
+                                context.delay("Implementation limitiation: BindingPair in TrackingUse not yet supported.");
                             }
                         }
                         if (featureValues.removeAll((List) value)) {
@@ -136,7 +130,7 @@ class SourceResolver extends AbstractResolver {
                         }
                         ExtentUtil.highlightEdge(inst, value, ExtentUtil.FEATURE_LOOKUP);
                     } else if (featureValue instanceof BindingPair) {
-                        throw new NotGroundException("Implementation limitiation: BindingPair in TrackingUse not yet supported.");
+                        context.delay("Implementation limitiation: BindingPair in TrackingUse not yet supported.");
                     } else if (value.equals(featureValue)) {
                         newBindings = oldBindings;
                     } else {
@@ -158,7 +152,7 @@ class SourceResolver extends AbstractResolver {
                      * Create a new branch of the tree, and continue 
                      * resolution from the newly created node.
                      */
-                    tree.createBranch(node, unifier, goal);
+                    context.createBranch(unifier);
                  }
             }
         }
@@ -184,8 +178,7 @@ class SourceResolver extends AbstractResolver {
      * @param literal
      */
     protected void resolveTrackingUse(
-        final Tree tree,
-        final Node node,
+        final Context context,
         final TrackingUse literal)
     throws ResolutionException, NotGroundException {
 
@@ -196,7 +189,7 @@ class SourceResolver extends AbstractResolver {
             // If it's still a proxy after the getTracking() call, the cross-document reference proxy has
             // not been resolved, meaning the reference was dodgy, i.e. to a non-existent class or something
             //
-            throw new ResolutionException(node, "Unable to locate tracking class: " + trackingClass);
+            context.error("Unable to locate tracking class: " + trackingClass);
         }
 
         List featureList = literal.getFeatures();
@@ -206,18 +199,15 @@ class SourceResolver extends AbstractResolver {
         for (Iterator itr = featureList.iterator(); itr.hasNext(); ) {
             Map.Entry entry = (Map.Entry) itr.next();
             featureMap[i][0] = entry.getKey();
-            featureMap[i][1] = exprEval.eval(node, (Expression) entry.getValue());
+            featureMap[i][1] = exprEval.eval(context, (Expression) entry.getValue());
             i++;
         }
 
-        final Collection newGoal = new ArrayList(node.goal());
-        newGoal.remove(literal);
-     
-        TrackingCallback callback = new HandleNewTrackingInstance(tree, trackingClass, newGoal, featureMap, node);
+        TrackingCallback callback = new HandleNewTrackingInstance(context, trackingClass, featureMap);
 
         // Get the existing instances of the tracking class.
         //
-        Extent trackingExtent = tree.getTrackingExtent();
+        Extent trackingExtent = context.tree.getTrackingExtent();
         List trackings = trackingExtent.getObjectsByClass(trackingClass, false);
         ExtentUtil.highlightNodes(trackings, ExtentUtil.CLASS_LOOKUP);
         
@@ -232,8 +222,7 @@ class SourceResolver extends AbstractResolver {
     }
 
     protected boolean resolveMofInstance(
-        final Tree tree,
-        final Node node,
+        final Context context,
         final MofInstance literal)
     throws ResolutionException, NotGroundException {
         /**
@@ -241,9 +230,9 @@ class SourceResolver extends AbstractResolver {
          */
         Var extentVar = literal.getExtent();
 
-        List results = exprEval.eval(node, literal.getTypeName());
+        List results = exprEval.eval(context, literal.getTypeName());
         if (results.size() != 1) {
-            throw new ResolutionException(node, "Expected only a single type name, got: " + results);
+            context.error("Expected only a single type name, got: " + results);
         }
         Object typeObj = results.get(0);
         EClassifier theClass = null;
@@ -252,9 +241,9 @@ class SourceResolver extends AbstractResolver {
             theClass = (EClassifier) typeObj;
             className = ModelUtils.getFullyQualifiedName(theClass);
         } else if (typeObj instanceof WrappedVar) {
-            throw new ResolutionException(
-                    node,
-                    "Unsupported mode (unbound typeName) for MofInstance: " + literal);
+            context.error("Unsupported mode (unbound typeName) for MofInstance: " + literal);
+            // satisfy the compiler (it doesn't know the previous line always throws an exception)
+            className = null;
         } else {
             className = String.valueOf(typeObj);
             if (!"_".equals(className)) {
@@ -269,9 +258,9 @@ class SourceResolver extends AbstractResolver {
         Expression instanceExpr = literal.getInstance();
 
         // Our "package instance" wrapper around an EMOF ExtentUtil (EMF Resource)
-        Extent extent = (null == extentVar ? null : (Extent) node.lookup(extentVar));
+        Extent extent = (null == extentVar ? null : (Extent) context.lookup(extentVar));
 
-        Collection instances = exprEval.eval(node, instanceExpr);
+        Collection instances = exprEval.eval(context, instanceExpr);
 
         boolean success = false;
         
@@ -291,21 +280,15 @@ class SourceResolver extends AbstractResolver {
                 if ("_".equals(className)) {
                     // Any type will do, isExact in this context is meaningless
                     // hence, no need to call setType on the WrappedVar
-                    Collection newGoal = new ArrayList(node.goal());
-                    newGoal.remove(literal);
-
                     Binding unifier = new Binding();
                     unifier.add(wVar.getVar(), wVar);
-                    tree.createBranch(node, unifier, newGoal);
+                    context.createBranch(unifier);
                 } else if (!(theClass instanceof EClass)) {
                     ruleEval.fireWarning("Could not find class named: " + className);
                 } else if (wVar.setType((EClass) theClass, literal.isExact())) {
-                    Collection newGoal = new ArrayList(node.goal());
-                    newGoal.remove(literal);
-
                     Binding unifier = new Binding();
                     unifier.add(wVar.getVar(), wVar);
-                    tree.createBranch(node, unifier, newGoal);
+                    context.createBranch(unifier);
                 }
             } else {
                 // handle the ??+ mode
@@ -322,20 +305,18 @@ class SourceResolver extends AbstractResolver {
                     if (isOfType) {
                         success = true;
                     
-                        Collection newGoal = new ArrayList(node.goal());
-                        newGoal.remove(literal);
                         /**
                          * Create a new branch of the tree, and continue 
                          * resolution from the newly created node.
                          */
-                        tree.createBranch(node, unifier, newGoal);
+                        context.createBranch(unifier);
                     }
                 }
             }
         }
 
         if (!success) {
-            tree.failure(node);
+            context.fail();
         }
         return success;
     }
@@ -346,8 +327,7 @@ class SourceResolver extends AbstractResolver {
     final private static List relOpList = Arrays.asList(relOpArray);
    
     protected void resolveCondition(
-        final Tree tree,
-        final Node node,
+        final Context context,
         final Condition term)
     throws ResolutionException, NotGroundException {
         boolean result = false;
@@ -356,8 +336,8 @@ class SourceResolver extends AbstractResolver {
         List args = term.getArg();
 
         if ("=".equals(relation)) {
-            List vals1 = exprEval.eval(node, (Expression) args.get(0));
-            List vals2 = exprEval.eval(node, (Expression) args.get(1));
+            List vals1 = exprEval.eval(context, (Expression) args.get(0));
+            List vals2 = exprEval.eval(context, (Expression) args.get(1));
             
             // TODO need to check handling of all the possible cases
             // Eg X = Y, X = 3, 3 = X, 2 = 3, 3 = 3,
@@ -372,15 +352,13 @@ class SourceResolver extends AbstractResolver {
 
                     if (null != unifier) {
                         result = true;
-                        Collection newGoal = new ArrayList(node.goal());
-                        newGoal.remove(term);
-                        tree.createBranch(node, unifier, newGoal);
+                        context.createBranch(unifier);
                     }
                 }
             }
         } else if (relOpList.contains(relation)) {
-            Collection vals1 = exprEval.eval(node, (Expression) args.get(0));
-            Collection vals2 = exprEval.eval(node, (Expression) args.get(1));
+            Collection vals1 = exprEval.eval(context, (Expression) args.get(0));
+            Collection vals2 = exprEval.eval(context, (Expression) args.get(1));
             for (Iterator itr1 = vals1.iterator(); itr1.hasNext(); ) {
                 Object val1 = itr1.next();
                 // System.err.println("** " + val1);
@@ -390,9 +368,9 @@ class SourceResolver extends AbstractResolver {
                     // System.err.println("**** " + val2);
 
                     if (val1 instanceof WrappedVar) {
-                        throw new NotGroundException("Unbound Var, " + val1 + ", not allowed in Condition.");
+                        context.delay("Unbound Var, " + val1 + ", not allowed in Condition.");
                     } else if (val2 instanceof WrappedVar) {
-                        throw new NotGroundException("Unbound Var, " + val2 + ", not allowed in Condition.");
+                        context.delay("Unbound Var, " + val2 + ", not allowed in Condition.");
                     } else {
                         Binding unifier = new Binding();
                         if (val1 instanceof BindingPair) {
@@ -403,11 +381,9 @@ class SourceResolver extends AbstractResolver {
                             unifier.composeRight((BindingPair) val2);
                             val2 = ((BindingPair) val2).getValue();
                         }
-                        if (compare(node, relation, val1, val2)) {
+                        if (compare(context, relation, val1, val2)) {
                             result = true;
-                            Collection newGoal = new ArrayList(node.goal());
-                            newGoal.remove(term);
-                            tree.createBranch(node, unifier, newGoal);
+                            context.createBranch(unifier);
 //                        } else {
                             // no match - result unchanged
                         }
@@ -415,7 +391,7 @@ class SourceResolver extends AbstractResolver {
                 }
             }
         } else if (relation.equals("boolean")) {
-            Collection vals = exprEval.eval(node, (Expression) args.get(0));
+            Collection vals = exprEval.eval(context, (Expression) args.get(0));
             List bindings = new ArrayList();
             for (Iterator itr = vals.iterator(); itr.hasNext(); ) {
                 Object val = itr.next();
@@ -427,9 +403,9 @@ class SourceResolver extends AbstractResolver {
                     } else if (Boolean.FALSE.equals(bVal)) {
                         // do nothing
                     } else if (bVal instanceof WrappedVar) {
-                        throw new NotGroundException("Unbound Var, " + bVal + ", not allowed in Condition.");
+                        context.delay("Unbound Var, " + bVal + ", not allowed in Condition.");
                     } else {
-                        throw new ResolutionException(node, "Condition did not reference a boolean valued Expression.");
+                        context.error("Condition did not reference a boolean valued Expression.");
                     }
                 }
                 if (Boolean.TRUE.equals(val)) {
@@ -437,9 +413,9 @@ class SourceResolver extends AbstractResolver {
                 } else if (Boolean.FALSE.equals(val)) {
                     // do nothing
                 } else if (val instanceof WrappedVar) {
-                    throw new NotGroundException("Unbound Var, " + val + ", not allowed in Condition.");
+                    context.delay("Unbound Var, " + val + ", not allowed in Condition.");
                 } else {
-                    throw new ResolutionException(node, "Condition did not reference a boolean valued Expression.");
+                    context.error("Condition did not reference a boolean valued Expression.");
                 }
             }
 
@@ -448,26 +424,22 @@ class SourceResolver extends AbstractResolver {
             if (result) {
                 if (bindings.size() > 0) {
                     for (Iterator itr = bindings.iterator(); itr.hasNext(); ) {
-                        Collection newGoal = new ArrayList(node.goal());
-                        newGoal.remove(term);
-                        tree.createBranch(node, (Binding) itr.next(), newGoal);
+                        context.createBranch((Binding) itr.next());
                     }
                 } else {
-                    Collection newGoal = new ArrayList(node.goal());
-                    newGoal.remove(term);
-                    tree.createBranch(node, new Binding(), newGoal);
+                    context.createBranch();
                 }
             }
         } else {
-            throw new ResolutionException(node, "Unknown relation '" + relation + "' in Condition");
+            context.error("Unknown relation '" + relation + "' in Condition");
         }
         
         if (!result) {
-            tree.failure(node);
+            context.fail();
         }
     }
     
-    private boolean compare(Node node, String relation, Object val1, Object val2)
+    private boolean compare(Context context, String relation, Object val1, Object val2)
         throws ResolutionException {
 
         long cmp;
@@ -483,7 +455,8 @@ class SourceResolver extends AbstractResolver {
                 try {
                     cmp = ((Comparable) val1).compareTo(val2);
                 } catch (ClassCastException e) {
-                    throw new ResolutionException(node, val1 + " and " + val2 + " are not comparable.", e);
+                    context.error(val1 + " and " + val2 + " are not comparable.", e);
+                    cmp = 0;    // notreached
                 }
             } else {
                 long lval1 = ((Number) val1).longValue();
@@ -494,12 +467,14 @@ class SourceResolver extends AbstractResolver {
             try {
                 cmp = ((Comparable) val1).compareTo(val2);
             } catch (ClassCastException e) {
-                throw new ResolutionException(node, val1 + " and " + val2 + " are not comparable.", e);
+                context.error(val1 + " and " + val2 + " are not comparable.", e);
+                cmp = 0;    // notreached
             }
         } else if ("!=".equals(relation)) {
             return !val1.equals(val2);
         } else {
-            throw new ResolutionException(node, val1 + " and " + val2 + " are not comparable.");
+            context.error(val1 + " and " + val2 + " are not comparable.");
+            cmp = 0;    // notreached
         }
 
         if (cmp < 0 && relation.charAt(0) == '<') { // "<".equals(relation) || "<=".equals(relation)
@@ -516,43 +491,45 @@ class SourceResolver extends AbstractResolver {
     }
 
     protected void resolveNotTerm(
-        final Tree tree,
-        final Node node,
+        final Context context,
         final NotTerm literal)
-        throws ResolutionException, NotGroundException {
+    throws ResolutionException, NotGroundException {
         
-        // Ensure that all non-local variables are already bound
-        for (Iterator itr = literal.getNonLocalVars().iterator(); itr.hasNext(); ) {
+        // Ensure that all non-local variables are already ground
+        // (WrappedVars are handled by the Expander)
+        for (final Iterator itr = literal.getNonLocalVars().iterator(); itr.hasNext(); ) {
             Var var = (Var) itr.next();
-            if (null == node.lookup(var)) {
-                throw new NotGroundException("Non-local variable " + var + " is not bound.");
+            Object value = context.lookup(var);
+            if (null == value) {
+                context.delay("Non-local variable " + var + " is not bound.");
             }
         }
-
-        //  Create a new subtree attached to this node, and mark
-        //  that tree as a negative tree.
-        //
-        Collection negGoal = new ArrayList(literal.getTerm());
         
-        evalNegatedGoal(tree, node, literal, negGoal);
+        final Function f = new Function() {
+            public Object call(Object[] params) throws ResolutionException {
+                Binding unifier = (Binding) params[0];
+                evalNegatedGoal(context, unifier, new ArrayList(literal.getTerm()));
+                return null;
+            }
+            
+        };
+        
+        new Expander(literal.getNonLocalVars(), f).run(context.node.getBindings());
+
     }
 
     /**
-     * @param tree
-     * @param node
+     * @param context
      * @param literal
      * @param negGoal
      * @return
      * @throws ResolutionException
      */
-    private void evalNegatedGoal(final Tree tree, final Node node, final NotTerm literal, final Collection negGoal)
+    private void evalNegatedGoal(final Context context, final Binding unifier, final Collection negGoal)
     throws ResolutionException {
-        Binding context = new Binding(node.getBindings());
         // cannot pass node as context here or delayed terms will get pushed into the "NOT"
         // leading to possible spurious flounderings -- see also resolveIfTerm 
-        Node newRoot = new Node(negGoal, context);
-        final Tree newTree = new Tree(tree.getTransformation(), tree, node, newRoot, tree.getContext(), tree.getTrackingExtent(), true);
-        newTree.setLevel(tree.getLevel() - 1);
+        final Tree newTree = context.createTree(negGoal, unifier, true, true);
 
         if (ruleEval.INCREMENTAL) {
             newTree.addTreeListener(new TreeListener() {
@@ -563,13 +540,11 @@ class SourceResolver extends AbstractResolver {
                 public void completed(Tree theTree) {
                     if (theTree.isSuccess()) {
                     	newTree.removeTreeListener(this);
-                    	tree.failure(node);
+                    	context.fail();
                     } else {
                     	// Negation tree finitely failed, regard as true.
                     	//
-                    	List newGoal = new ArrayList(node.goal());
-                    	newGoal.remove(literal);
-                    	tree.createBranch(node, null, newGoal);
+                        context.createBranch(new Binding(unifier));
                     }
                 }
 
@@ -584,21 +559,18 @@ class SourceResolver extends AbstractResolver {
             //
             ruleEval.resolveNode(newTree);
             if (newTree.isSuccess()) {
-                tree.failure(node);
+                context.fail();
             } else {
                 // Negation tree finitely failed, regard as true.
                 //
-                List newGoal = new ArrayList(node.goal());
-                newGoal.remove(literal);
-                tree.createBranch(node, null, newGoal);
+                context.createBranch(new Binding(unifier));
             }
         }
         
     }
 
     protected void resolveOrTerm(
-        final Tree tree,
-        final Node node,
+        final Context context,
         final OrTerm literal)
         throws ResolutionException {
         /**
@@ -607,14 +579,11 @@ class SourceResolver extends AbstractResolver {
          */
         Collection terms = literal.getTerm();
         if (null == terms || terms.isEmpty()) {
-            throw new ResolutionException(node, "Malformed (empty) OrTerm");
+            context.error("Malformed (empty) OrTerm");
         }
 
         for (Iterator itr = terms.iterator(); itr.hasNext(); ) {
-            List newGoal = new ArrayList(node.goal());
-            newGoal.remove(literal);
-            newGoal.add(0, itr.next());
-            tree.createBranch(node, null, newGoal);
+            context.createBranch((Term) itr.next());
         }
     }
 
@@ -627,32 +596,32 @@ class SourceResolver extends AbstractResolver {
         return super.selectLiteral(node);
     }
     
-    protected void resolveMofOrder(final Tree tree, final Node node, final MofOrder term)
+    protected void resolveMofOrder(final Context context, final MofOrder term)
     throws ResolutionException, NotGroundException {
-        List instances = exprEval.eval(node, term.getInstance());
-        List features = exprEval.eval(node, term.getFeature());
-        List lesserObjects = exprEval.eval(node, term.getLesser());
-        List greaterObjects = exprEval.eval(node, term.getGreater());
+        List instances = exprEval.eval(context, term.getInstance());
+        List features = exprEval.eval(context, term.getFeature());
+        List lesserObjects = exprEval.eval(context, term.getLesser());
+        List greaterObjects = exprEval.eval(context, term.getGreater());
         
         for (Iterator iItr = instances.iterator(); iItr.hasNext(); ) {
             Object instance = iItr.next();
             
             if (instance instanceof WrappedVar) {
-                throw new NotGroundException("Unsupported mode (unbound '" + term.getInstance() + "') for MofOrder: " + term);
+                context.delay("Unsupported mode (unbound '" + term.getInstance() + "') for MofOrder: " + term);
             }
             
             for (Iterator fItr = features.iterator(); fItr.hasNext(); ) {
                 Object featureRef = fItr.next();
 
                 if (featureRef instanceof WrappedVar) {
-                    throw new NotGroundException("Unsupported mode (unbound '" + term.getFeature() + "') for MofOrder: " + term);
+                    context.delay("Unsupported mode (unbound '" + term.getFeature() + "') for MofOrder: " + term);
                 } else if (featureRef instanceof EStructuralFeature) {
                     featureRef = ((EStructuralFeature) featureRef).getName();
                 }
                 
-                Object values = exprEval.fetchFeature(node.getBindings(), (String) featureRef, instance);
+                Object values = exprEval.fetchFeature((String) featureRef, instance);
                 if (!(values instanceof List)) {
-                    throw new ResolutionException(node, "The feature " + featureRef + " of " + instance + " did not return an ordered collection.");
+                    context.error("The feature " + featureRef + " of " + instance + " did not return an ordered collection.");
                 }
                 List valueList = (List) values;
                 
@@ -661,18 +630,18 @@ class SourceResolver extends AbstractResolver {
                     
                     if (lesser instanceof WrappedVar) {
                         for (int i = 0; i < valueList.size(); i++) {
-                            processGreaterObjects(tree, node, term, greaterObjects, valueList, i);
+                            processGreaterObjects(context, greaterObjects, valueList, i);
                         }
                     } else {
                         int index = valueList.indexOf(lesser);
-                        processGreaterObjects(tree, node, term, greaterObjects, valueList, index);
+                        processGreaterObjects(context, greaterObjects, valueList, index);
                     }
                 }
             }
         }
     }
 
-    private void processGreaterObjects(final Tree tree, final Node node, final MofOrder term,
+    private void processGreaterObjects(final Context context,
             final List greaterObjects, final List valueList, final int lindex)
     throws ResolutionException {
         for (Iterator gItr = greaterObjects.iterator(); gItr.hasNext(); ) {
@@ -684,15 +653,11 @@ class SourceResolver extends AbstractResolver {
                     
                     Binding unifier = new Binding();
                     unifier.add(((WrappedVar) greater).getVar(), val);
-                    
-                    Collection newGoal = new ArrayList(node.goal());
-                    newGoal.remove(term);
-                    tree.createBranch(node, unifier, newGoal);
+
+                    context.createBranch(unifier);
                 }
             } else if (lindex < valueList.indexOf(greater)) {
-                Collection newGoal = new ArrayList(node.goal());
-                newGoal.remove(term);
-                tree.createBranch(node, null, newGoal);
+                context.createBranch();
             }
         }
     }

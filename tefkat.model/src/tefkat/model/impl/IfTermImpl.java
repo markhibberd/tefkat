@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import tefkat.model.PatternDefn;
 import tefkat.model.Var;
 import tefkat.model.IfTerm;
 import tefkat.model.TRule;
@@ -150,7 +151,11 @@ public class IfTermImpl extends CompoundTermImpl implements IfTerm {
         // Find just those condition Vars that are NOT only referenced in the IF-THEN-ELSE
         for (Iterator varItr = conditionVars.iterator(); varItr.hasNext(); ) {
             Var var = (Var) varItr.next();
-            if (!usages.containsAll(var.getUsages())) {
+            
+            if (var.getScope() instanceof PatternDefn && ((PatternDefn) var.getScope()).getParameterVar().contains(var)) {
+                // Pattern parameters are non-local vars
+                nonLocalVars.add(var);
+            } else if (!usages.containsAll(var.getUsages())) {
                 nonLocalVars.add(var);
             }
         }

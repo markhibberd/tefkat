@@ -24,8 +24,10 @@ import java.util.Iterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import tefkat.model.Extent;
 import tefkat.model.Var;
 import tefkat.model.VarUse;
 
@@ -121,7 +123,7 @@ public class Binding {
      *  @param varUse   The reference to the variable to bind.
      *  @param val  The value to bind the variable to.
      */
-    public void add(VarUse varUse, Object val) throws ResolutionException {
+    public void add(VarUse varUse, Object val) {
         add(varUse.getVar(), val);
     }
 
@@ -137,7 +139,7 @@ public class Binding {
      *  @param var  The variable to bind.
      *  @param val  The value to bind the variable to.
      */
-    public void add(Var var, Object val) throws ResolutionException {
+    public void add(Var var, Object val) {
         if (frozen) {
             throw new BindingError("Cannot modify a frozen Binding");
         }
@@ -174,6 +176,12 @@ public class Binding {
     }
 
 
+    /**
+     * If obj is a WrappedVar and is bound in u, return the corresponding value, otherwise return obj.
+     * @param obj
+     * @param u
+     * @return
+     */
     private Object substitute(Object obj, Binding u) {
         Object val = obj;
 
@@ -267,7 +275,7 @@ public class Binding {
             Object uVal = vt.getValue();
             // check precondition
             if (true &&
-                    keys().contains(uKey) &&
+                    varToTerm.containsKey(uKey) &&
                     // uKey != uVal &&   // Vars can be bound to themselves
                     !uVal.equals(lookup(uKey)) // Can be bound to the same thing
                     && !(uVal instanceof WrappedVar)
@@ -283,13 +291,19 @@ public class Binding {
                 throw new BindingError("INTERNAL ERROR: Binding precondition violated for " + uKey + " =\n\t" + uVal + "\n\t" + varToTerm.get(uKey));
             }
             Object o = substitute(uVal, this);
-            varToTerm.put(vt.getKey(), o);
+            if (o instanceof WrappedVar && varToTerm.containsKey(vt.getKey())) {
+                if (null == bindWrappedVar(this, (WrappedVar) o, vt.getValue())) {
+                    throw new BindingError("Incompatible WrappedVar and value: " + o + ", and " + vt.getValue());
+                }
+            } else {
+                varToTerm.put(vt.getKey(), o);
+            }
         }
     }
 
 
     /**
-     *  @return An iterator that iterates through the variables in this unifier.
+     *  @return The set of variables in this unifier.
      */
     public Collection keys() {
         return varToTerm.keySet();
@@ -313,13 +327,15 @@ public class Binding {
             
             if (null == subs) {
                 throw new BindingError("NULL binding for " + var);
-            } else if (subs.getClass().equals(EObjectImpl.class)) {
+            } else if (subs.getClass().equals(EObjectImpl.class) || subs instanceof DynamicEObjectImpl) {
                 subs = subs.hashCode() + ":" + ((EObject) subs).eClass().getName();
             } else if (subs instanceof WrappedVar) {
                 subs = "W(" + subs + ")";
+            } else if (subs instanceof Extent) {
+                continue;
             }
 
-            s = (s == null ? "" : s + ", ")
+            s = (s == null ? "" : s + ",\n ")
                 + formatVar(var)
                 + " -> " + subs;
         }
@@ -360,7 +376,7 @@ public class Binding {
     }
     
 
-    public static Binding createBinding(Object val1, Object val2) throws ResolutionException {
+    public static Binding createBinding(Object val1, Object val2) {
         Binding unifier = null;
         if (val1 instanceof BindingPair) {
             unifier = new Binding();
@@ -423,7 +439,7 @@ public class Binding {
         return unifier;
     }
 
-    static public Binding bindWrappedVar(Binding unifier, WrappedVar wVar, Object val) throws ResolutionException {
+    static public Binding bindWrappedVar(Binding unifier, WrappedVar wVar, Object val) {
         final Binding result;
         Var var = wVar.getVar();
         EClass eClass = wVar.getType();

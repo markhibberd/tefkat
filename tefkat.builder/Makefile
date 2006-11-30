@@ -1,4 +1,13 @@
 
+E_HOME=/Applications/eclipse-SDK-3.2
+E_HOME=/Applications/eclipse
+
+E_PLUGINS=${E_HOME}
+
+#  Need to be smarter about launching Eclipse (see compile target) when there's and extra plugin dir
+#
+## E_PLUGINS=${HOME}/Documents/Eclipse-Plugins/eclipse
+
 ifndef BRANCH
 BRANCH=lawley
 endif
@@ -34,15 +43,15 @@ source: \
 	runAntlr
 
 runAntlr:
-	(cd ~/eclipse.build/plugins/tefkat.model.parser/src/tefkat/model/parser ; java -cp /Applications/eclipse-SDK-3.2/plugins/org.antlr_2.7.6/antlr.jar antlr.Tool tefkat.g)
+	(cd ~/eclipse.build/plugins/tefkat.model.parser/src/tefkat/model/parser ; java -cp ${E_PLUGINS}/plugins/org.antlr_2.7.6/antlr.jar antlr.Tool tefkat.g)
 
 build: init source compile
 
 compile:
-	java -cp /Applications/eclipse-SDK-3.2/startup.jar org.eclipse.core.launcher.Main -application org.eclipse.pde.build.Build -Dbase=/Applications/eclipse-SDK-3.2 -DbaseLocation=/Applications/eclipse-SDK-3.2 ${BOOTCLASSPATH} ${COMP_FLAGS}
+	java -cp ${E_HOME}/startup.jar org.eclipse.core.launcher.Main -application org.eclipse.pde.build.Build -Dbase=${E_HOME} -DbaseLocation=${E_HOME} ${BOOTCLASSPATH} ${COMP_FLAGS}
 
 vcompile:
-	java -cp /Applications/eclipse-SDK-3.2/startup.jar org.eclipse.core.launcher.Main -application org.eclipse.pde.build.Build -Dbase=/Applications/eclipse-SDK-3.2 -DbaseLocation=/Applications/eclipse-SDK-3.2 ${BOOTCLASSPATH} -verbose ${COMP_FLAGS}
+	java -cp ${E_HOME}/startup.jar org.eclipse.core.launcher.Main -application org.eclipse.pde.build.Build -Dbase=${E_HOME} -DbaseLocation=${E_HOME} ${BOOTCLASSPATH} -verbose ${COMP_FLAGS}
 
 plugins/tefkat.%: ../tefkat.%
 	/bin/rm -rf ~/eclipse.build/$@

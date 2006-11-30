@@ -22,6 +22,8 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import tefkat.model.PatternDefn;
+import tefkat.model.PatternScope;
 import tefkat.model.Var;
 import tefkat.model.NotTerm;
 import tefkat.model.TefkatPackage;
@@ -85,7 +87,11 @@ public class NotTermImpl extends CompoundTermImpl implements NotTerm {
         // Find just those Vars that are NOT only referenced in the NOT
         for (Iterator varItr = notVars.iterator(); varItr.hasNext(); ) {
             Var var = (Var) varItr.next();
-            if (!usages.containsAll(var.getUsages())) {
+            
+            if (var.getScope() instanceof PatternDefn && ((PatternDefn) var.getScope()).getParameterVar().contains(var)) {
+                // Pattern parameters are non-local vars
+                nonLocalVars.add(var);
+            } else if (!usages.containsAll(var.getUsages())) {
                 nonLocalVars.add(var);
             }
         }

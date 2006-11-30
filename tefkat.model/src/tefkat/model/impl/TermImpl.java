@@ -52,45 +52,50 @@ import tefkat.model.Term;
 public abstract class TermImpl extends EObjectImpl implements Term {
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
 
     /**
      * The cached value of the '{@link #getContext() <em>Context</em>}' reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @see #getContext()
      * @generated
      * @ordered
      */
-	protected Var context = null;
+    protected Var context = null;
+    
+    /**
+     * The cached isTarget value.
+     */
+    protected byte isTarget = 0;
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected TermImpl() {
+    protected TermImpl() {
         super();
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected EClass eStaticClass() {
+    protected EClass eStaticClass() {
         return TefkatPackage.Literals.TERM;
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public PatternDefn getPatternDefn() {
+    public PatternDefn getPatternDefn() {
         if (eContainerFeatureID != TefkatPackage.TERM__PATTERN_DEFN) return null;
         return (PatternDefn)eContainer();
     }
@@ -107,10 +112,10 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void setPatternDefn(PatternDefn newPatternDefn) {
+    public void setPatternDefn(PatternDefn newPatternDefn) {
         if (newPatternDefn != eInternalContainer() || (eContainerFeatureID != TefkatPackage.TERM__PATTERN_DEFN && newPatternDefn != null)) {
             if (EcoreUtil.isAncestor(this, newPatternDefn))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -128,10 +133,10 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public Query getQuery() {
+    public Query getQuery() {
         if (eContainerFeatureID != TefkatPackage.TERM__QUERY) return null;
         return (Query)eContainer();
     }
@@ -148,10 +153,10 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void setQuery(Query newQuery) {
+    public void setQuery(Query newQuery) {
         if (newQuery != eInternalContainer() || (eContainerFeatureID != TefkatPackage.TERM__QUERY && newQuery != null)) {
             if (EcoreUtil.isAncestor(this, newQuery))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -169,10 +174,10 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public CompoundTerm getCompoundTerm() {
+    public CompoundTerm getCompoundTerm() {
         if (eContainerFeatureID != TefkatPackage.TERM__COMPOUND_TERM) return null;
         return (CompoundTerm)eContainer();
     }
@@ -189,10 +194,10 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void setCompoundTerm(CompoundTerm newCompoundTerm) {
+    public void setCompoundTerm(CompoundTerm newCompoundTerm) {
         if (newCompoundTerm != eInternalContainer() || (eContainerFeatureID != TefkatPackage.TERM__COMPOUND_TERM && newCompoundTerm != null)) {
             if (EcoreUtil.isAncestor(this, newCompoundTerm))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -210,10 +215,10 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public Var getContext() {
+    public Var getContext() {
         if (context != null && context.eIsProxy()) {
             InternalEObject oldContext = (InternalEObject)context;
             context = (Var)eResolveProxy(oldContext);
@@ -227,37 +232,37 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public Var basicGetContext() {
+    public Var basicGetContext() {
         return context;
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void setContext(Var newContext) {
+    public void setContext(Var newContext) {
         Var oldContext = context;
         context = newContext;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, TefkatPackage.TERM__CONTEXT, oldContext, context));
     }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public Var getExtent() {
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public Var getExtent() {
         Var extent = getContext();
         if (null == extent && getCompoundTerm() != null) {
-                extent = getCompoundTerm().getExtent();
+            extent = getCompoundTerm().getExtent();
         }
         return extent;
-	}
+    }
 
     /**
      * <!-- begin-user-doc -->
@@ -277,16 +282,23 @@ public abstract class TermImpl extends EObjectImpl implements Term {
      * to the wonderful nature of multiple inheritance -- most of the relevant
      * ...TermImpls actually extend SourceTermImpl, and not TargetTermImpl.
      * 
+     * Beware, the result of calling isTarget is cached - if you change a Term's
+     * containment the result is <b>NOT</b> recomputed.
+     * 
      * <!-- end-user-doc -->
      * @generated NOT
      */
     public boolean isTarget() {
+        if (0 != isTarget) {
+            return isTarget > 0;
+        }
         // (1)
         if (this instanceof TargetTerm) {
             // (2)
             if (((TargetTerm) this).getTRuleTgt() != null ||
                     // (3)
                     (this.getPatternDefn() != null && !this.getPatternDefn().isSource())) {
+                isTarget = 1;
                 return true;
             }
             CompoundTerm parent = getCompoundTerm();
@@ -296,9 +308,11 @@ public abstract class TermImpl extends EObjectImpl implements Term {
                             ((IfTerm) parent).getTerm().get(0).equals(this)) &&
                   // (5)
                   parent.isTarget()) {
+                isTarget = 1;
                 return true;
             }
         }
+        isTarget = -1;
         return false;
     }
 

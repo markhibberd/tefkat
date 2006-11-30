@@ -24,8 +24,8 @@ public class ResolutionException extends TefkatException {
     
     transient private Node node;
 
-    public ResolutionException(Node node, String message, Exception exception) {
-        super(message, exception);
+    public ResolutionException(Node node, String message, Throwable throwable) {
+        super(message, throwable);
         this.node = node;
     }
 
