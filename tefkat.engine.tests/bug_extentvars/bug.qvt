@@ -1,6 +1,8 @@
 
 TRANSFORMATION bug : src -> tgt
 
+NAMESPACE http:///TefkatModel-2.5.ecore
+
 RULE rule
   WHERE println("src extent =", src, " in rule")
     AND pattern()
@@ -34,5 +36,14 @@ RULE ruleTwo
 
 PATTERN two(X, Y)
   WHERE X = Y
+;
+
+RULE ruleThree
+  WHERE three(A)
+    AND println("A=", A)
+;
+
+PATTERN three(X)
+  FORALL TRule X
 ;
 

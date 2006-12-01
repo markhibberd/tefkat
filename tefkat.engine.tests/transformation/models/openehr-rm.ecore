@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ecore:EPackage xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmi="http://www.omg.org/XMI" xmlns:pom="http://titanium.dstc.edu.au/pocky/object-model" xmlns:pxs="http://titanium.dstc.edu.au/pocky/xsd-mapping" xmlns:pocky="http://titanium.dstc.edu.au/pocky/descriptor" nsPrefix="openehr-rm" nsURI="http://www.openehr.org/rm/v1" name="openEHR" xmi:version="2.0">
+  <ecore:eSubpackages name="common">
+    <ecore:eSubpackages name="identification">
+      <ecore:eClassifiers name="OBJECT_REF" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="id" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_ID"/>
+        <ecore:eStructuralFeatures name="namespace" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="type" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="ACCESS_GROUP_REF" xsi:type="ecore:EClass" eSuperTypes="#//common/identification/OBJECT_REF"/>
+      <ecore:eClassifiers name="PARTY_REF" xsi:type="ecore:EClass" eSuperTypes="#//common/identification/OBJECT_REF"/>
+      <ecore:eClassifiers name="OBJECT_ID" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="value" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="HIER_OBJECT_ID" xsi:type="ecore:EClass" eSuperTypes="#//common/identification/OBJECT_ID"/>
+      <ecore:eClassifiers name="ARCHETYPE_ID" xsi:type="ecore:EClass" eSuperTypes="#//common/identification/OBJECT_ID"/>
+      <ecore:eClassifiers name="TERMINOLOGY_ID" xsi:type="ecore:EClass" eSuperTypes="#//common/identification/OBJECT_ID"/>
+      <ecore:eClassifiers name="UID" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="value" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="ISO_OID" xsi:type="ecore:EClass" eSuperTypes="#//common/identification/UID"/>
+      <ecore:eClassifiers name="UUID" xsi:type="ecore:EClass" eSuperTypes="#//common/identification/UID"/>
+    </ecore:eSubpackages>
+    <ecore:eSubpackages name="archetyped">
+      <ecore:eClassifiers name="LOCATABLE" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="meaning" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+        <ecore:eStructuralFeatures name="name" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+        <ecore:eStructuralFeatures name="archetype_details" xsi:type="ecore:EReference" eType="#//common/archetyped/ARCHETYPED"/>
+        <ecore:eStructuralFeatures name="presentation" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <ecore:eStructuralFeatures name="feeder_audit" xsi:type="ecore:EReference" eType="#//common/archetyped/FEEDER_AUDIT"/>
+        <ecore:eStructuralFeatures name="synthesised" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <ecore:eStructuralFeatures name="links" upperBound="-1" xsi:type="ecore:EReference" eType="#//common/archetyped/LINK">
+                  
+               </ecore:eStructuralFeatures>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="ARCHETYPED" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="uid" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_ID"/>
+        <ecore:eStructuralFeatures name="archetype_id" xsi:type="ecore:EReference" eType="#//common/identification/ARCHETYPE_ID"/>
+        <ecore:eStructuralFeatures name="access_control" xsi:type="ecore:EReference" eType="#//common/identification/ACCESS_GROUP_REF"/>
+        <ecore:eStructuralFeatures name="rm_version" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="LINK" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="meaning" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+        <ecore:eStructuralFeatures name="type" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+        <ecore:eStructuralFeatures name="source" xsi:type="ecore:EReference" eType="#//data_types/uri/DV_EHR_URI"/>
+        <ecore:eStructuralFeatures name="target" xsi:type="ecore:EReference" eType="#//data_types/uri/DV_EHR_URI"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="FEEDER_AUDIT" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="system_id" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="committer" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="time_committed" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DATE_TIME"/>
+        <ecore:eStructuralFeatures name="change_type" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+        <ecore:eStructuralFeatures name="description" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+      </ecore:eClassifiers>
+    </ecore:eSubpackages>
+    <ecore:eSubpackages name="generic">
+      <ecore:eClassifiers name="PARTICIPATION" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="performer" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+        <ecore:eStructuralFeatures name="function" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+        <ecore:eStructuralFeatures name="mode" xsi:type="ecore:EReference" eType="#//data_types/text/COORDINATED_TERM"/>
+        <ecore:eStructuralFeatures name="time" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_DATE_TIME"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="ATTESTATION" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="participations" upperBound="-1" xsi:type="ecore:EReference" eType="#//common/generic/PARTICIPATION">
+                  
+               </ecore:eStructuralFeatures>
+        <ecore:eStructuralFeatures name="time" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DATE_TIME"/>
+        <ecore:eStructuralFeatures name="proof" xsi:type="ecore:EReference" eType="#//data_types/encapsulated/DV_ENCAPSULATED"/>
+        <ecore:eStructuralFeatures name="items" upperBound="-1" xsi:type="ecore:EReference" eType="#//data_types/uri/DV_EHR_URI">
+                  
+               </ecore:eStructuralFeatures>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="RELATED_PARTY" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="party" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+        <ecore:eStructuralFeatures name="relationship" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+      </ecore:eClassifiers>
+    </ecore:eSubpackages>
+    <ecore:eSubpackages name="change_control">
+      <ecore:eClassifiers name="AUDIT_DETAILS" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="node" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="committer" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+        <ecore:eStructuralFeatures name="time_committed" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DATE_TIME"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="VERSION_AUDIT" xsi:type="ecore:EClass" eSuperTypes="#//common/change_control/AUDIT_DETAILS">
+        <ecore:eStructuralFeatures name="change_type" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="CONTRIBUTION" xsi:type="ecore:EClass" eSuperTypes="#//common/change_control/AUDIT_DETAILS">
+        <ecore:eStructuralFeatures name="uid" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_ID"/>
+        <ecore:eStructuralFeatures name="description" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+        <ecore:eStructuralFeatures name="versions" upperBound="-1" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_ID">
+                  
+               </ecore:eStructuralFeatures>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="VERSION" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="attestations" upperBound="-1" xsi:type="ecore:EReference" eType="#//common/generic/ATTESTATION">
+                  
+               </ecore:eStructuralFeatures>
+        <ecore:eStructuralFeatures name="audit" xsi:type="ecore:EReference" eType="#//common/change_control/VERSION_AUDIT"/>
+        <ecore:eStructuralFeatures name="version_id" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="preceding_version_id" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="version_repository_id" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_ID"/>
+        <ecore:eStructuralFeatures name="contribution" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_ID"/>
+      </ecore:eClassifiers>
+    </ecore:eSubpackages>
+  </ecore:eSubpackages>
+  <ecore:eSubpackages name="data_structures">
+    <ecore:eSubpackages name="structure">
+      <ecore:eClassifiers name="STRUCTURE" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE"/>
+      <ecore:eClassifiers name="SINGLE_S" xsi:type="ecore:EClass" eSuperTypes="#//data_structures/structure/STRUCTURE">
+        <ecore:eStructuralFeatures name="representation" xsi:type="ecore:EReference" eType="#//data_structures/structure/representation/ELEMENT"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="LIST_S" xsi:type="ecore:EClass" eSuperTypes="#//data_structures/structure/STRUCTURE">
+        <ecore:eStructuralFeatures name="representation" xsi:type="ecore:EReference" eType="#//data_structures/structure/representation/CLUSTER"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="TABLE_S" xsi:type="ecore:EClass" eSuperTypes="#//data_structures/structure/STRUCTURE">
+        <ecore:eStructuralFeatures name="representation" xsi:type="ecore:EReference" eType="#//data_structures/structure/representation/CLUSTER"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="TREE_S" xsi:type="ecore:EClass" eSuperTypes="#//data_structures/structure/STRUCTURE">
+        <ecore:eStructuralFeatures name="representation" xsi:type="ecore:EReference" eType="#//data_structures/structure/representation/CLUSTER"/>
+      </ecore:eClassifiers>
+      <ecore:eSubpackages name="representation">
+        <ecore:eClassifiers name="ITEM" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE">
+          <ecore:eStructuralFeatures name="displayed" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="CLUSTER" xsi:type="ecore:EClass" eSuperTypes="#//data_structures/structure/representation/ITEM">
+          <ecore:eStructuralFeatures name="items" upperBound="-1" xsi:type="ecore:EReference" eType="#//data_structures/structure/representation/ITEM">
+                     
+                  </ecore:eStructuralFeatures>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="ELEMENT" xsi:type="ecore:EClass" eSuperTypes="#//data_structures/structure/representation/ITEM">
+          <ecore:eStructuralFeatures name="value" xsi:type="ecore:EReference" eType="#//data_types/basic/DATA_VALUE"/>
+          <ecore:eStructuralFeatures name="null_flavor" xsi:type="ecore:EReference" eType="#//data_types/text/DV_CODED_TEXT"/>
+        </ecore:eClassifiers>
+      </ecore:eSubpackages>
+    </ecore:eSubpackages>
+    <ecore:eSubpackages name="history">
+      <ecore:eClassifiers name="HISTORY" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE">
+        <ecore:eStructuralFeatures name="origin" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DATE_TIME"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="EVENT_SERIES" xsi:type="ecore:EClass" eSuperTypes="#//data_structures/history/HISTORY">
+        <ecore:eStructuralFeatures name="period" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+        <ecore:eStructuralFeatures name="items" upperBound="-1" xsi:type="ecore:EReference" eType="#//data_structures/history/EVENT">
+                  
+               </ecore:eStructuralFeatures>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="EVENT" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="item" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+        <ecore:eStructuralFeatures name="offset" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+        <ecore:eStructuralFeatures name="duration" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="SINGLE_EVENT" xsi:type="ecore:EClass" eSuperTypes="#//data_structures/history/HISTORY">
+        <ecore:eStructuralFeatures name="item" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+        <ecore:eStructuralFeatures name="duration" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+      </ecore:eClassifiers>
+    </ecore:eSubpackages>
+  </ecore:eSubpackages>
+  <ecore:eSubpackages name="data_types">
+    <ecore:eSubpackages name="basic">
+      <ecore:eClassifiers name="DATA_VALUE" xsi:type="ecore:EClass"/>
+      <ecore:eClassifiers name="DV_BOOLEAN" xsi:type="ecore:EClass" eSuperTypes="#//data_types/basic/DATA_VALUE">
+        <ecore:eStructuralFeatures name="value" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_STATE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/basic/DATA_VALUE">
+        <ecore:eStructuralFeatures name="value" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="is_terminal" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </ecore:eClassifiers>
+    </ecore:eSubpackages>
+    <ecore:eSubpackages name="text">
+      <ecore:eClassifiers name="DV_TEXT" xsi:type="ecore:EClass" eSuperTypes="#//data_types/basic/DATA_VALUE">
+        <ecore:eStructuralFeatures name="value" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="mappings" upperBound="-1" xsi:type="ecore:EReference" eType="#//data_types/text/TERM_MAPPING">
+                  
+               </ecore:eStructuralFeatures>
+        <ecore:eStructuralFeatures name="formatting" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="hyperlink" xsi:type="ecore:EReference" eType="#//data_types/uri/DV_URI"/>
+        <ecore:eStructuralFeatures name="language" xsi:type="ecore:EReference" eType="#//data_types/text/COORDINATED_TERM"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="TERM_MAPPING" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="target" xsi:type="ecore:EReference" eType="#//data_types/text/COORDINATED_TERM"/>
+        <ecore:eStructuralFeatures name="match" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      ">
+                  
+                  
+                  
+               </ecore:eStructuralFeatures>
+        <ecore:eStructuralFeatures name="purpose" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="COORDINATED_TERM" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="terminology_id" xsi:type="ecore:EReference" eType="#//common/identification/TERMINOLOGY_ID"/>
+        <ecore:eStructuralFeatures name="code_string" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_CODED_TEXT" xsi:type="ecore:EClass" eSuperTypes="#//data_types/text/DV_TEXT">
+        <ecore:eStructuralFeatures name="definition" xsi:type="ecore:EReference" eType="#//data_types/text/COORDINATED_TERM"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_PARAGRAPH" xsi:type="ecore:EClass" eSuperTypes="#//data_types/basic/DATA_VALUE">
+        <ecore:eStructuralFeatures name="items" upperBound="-1" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT">
+                  
+               </ecore:eStructuralFeatures>
+      </ecore:eClassifiers>
+    </ecore:eSubpackages>
+    <ecore:eSubpackages name="quantity">
+      <ecore:eClassifiers name="DV_INTERVAL" xsi:type="ecore:EClass" eSuperTypes="#//data_types/basic/DATA_VALUE"/>
+      <ecore:eClassifiers name="REFERENCE_RANGE" xsi:type="ecore:EClass">
+        <ecore:eStructuralFeatures name="meaning" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_ORDERED" xsi:type="ecore:EClass" eSuperTypes="#//data_types/basic/DATA_VALUE"/>
+      <ecore:eClassifiers name="DV_INTERVAL_DV_ORDERED" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+        <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_ORDERED"/>
+        <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_ORDERED"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="REFERENCE_RANGE_DV_ORDERED" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+        <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_INTERVAL_DV_ORDERED"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_ORDINAL" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_ORDERED">
+        <ecore:eStructuralFeatures name="value" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      ">
+                  
+               </ecore:eStructuralFeatures>
+        <ecore:eStructuralFeatures name="symbol" xsi:type="ecore:EReference" eType="#//data_types/text/DV_CODED_TEXT"/>
+        <ecore:eStructuralFeatures name="reference_ranges" upperBound="-1" xsi:type="ecore:EReference" eType="#//data_types/quantity/REFERENCE_RANGE_DV_ORDINAL">
+                  
+               </ecore:eStructuralFeatures>
+        <ecore:eStructuralFeatures name="normal_ranges" xsi:type="ecore:EReference" eType="#//data_types/quantity/REFERENCE_RANGE_DV_ORDINAL"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_INTERVAL_DV_ORDINAL" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+        <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_ORDINAL"/>
+        <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_ORDINAL"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="REFERENCE_RANGE_DV_ORDINAL" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+        <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_INTERVAL_DV_ORDINAL"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_QUANTIFIED" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_ORDERED">
+        <ecore:eStructuralFeatures name="accuracy" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EReal"/>
+        <ecore:eStructuralFeatures name="is_accuracy_percent" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_INTERVAL_DV_QUANTIFIED" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+        <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_QUANTIFIED"/>
+        <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_QUANTIFIED"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="REFERENCE_RANGE_DV_QUANTIFIED" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+        <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_INTERVAL_DV_QUANTIFIED"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_MEASURABLE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_QUANTIFIED"/>
+      <ecore:eClassifiers name="DV_INTERVAL_DV_MEASURABLE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+        <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_MEASURABLE"/>
+        <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_MEASURABLE"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="REFERENCE_RANGE_DV_MEASURABLE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+        <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_INTERVAL_DV_MEASURABLE"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_QUANTITY" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_MEASURABLE">
+        <ecore:eStructuralFeatures name="magnitude" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EReal"/>
+        <ecore:eStructuralFeatures name="units" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="property" xsi:type="ecore:EReference" eType="#//data_types/text/DV_CODED_TEXT"/>
+        <ecore:eStructuralFeatures name="precision" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      ">
+                  
+               </ecore:eStructuralFeatures>
+        <ecore:eStructuralFeatures name="diff_type" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_QUANTITY"/>
+        <ecore:eStructuralFeatures name="reference_ranges" upperBound="-1" xsi:type="ecore:EReference" eType="#//data_types/quantity/REFERENCE_RANGE_DV_QUANTITY">
+                  
+               </ecore:eStructuralFeatures>
+        <ecore:eStructuralFeatures name="normal_ranges" xsi:type="ecore:EReference" eType="#//data_types/quantity/REFERENCE_RANGE_DV_QUANTITY"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_INTERVAL_DV_QUANTITY" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+        <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_QUANTITY"/>
+        <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_QUANTITY"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="REFERENCE_RANGE_DV_QUANTITY" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+        <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_INTERVAL_DV_QUANTITY"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_COUNTABLE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_QUANTIFIED">
+        <ecore:eStructuralFeatures name="magnitude" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+        <ecore:eStructuralFeatures name="diff_type" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_COUNTABLE"/>
+        <ecore:eStructuralFeatures name="reference_ranges" upperBound="-1" xsi:type="ecore:EReference" eType="#//data_types/quantity/REFERENCE_RANGE_DV_COUNTABLE">
+                  
+               </ecore:eStructuralFeatures>
+        <ecore:eStructuralFeatures name="normal_ranges" xsi:type="ecore:EReference" eType="#//data_types/quantity/REFERENCE_RANGE_DV_COUNTABLE"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_INTERVAL_DV_COUNTABLE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+        <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_COUNTABLE"/>
+        <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_COUNTABLE"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="REFERENCE_RANGE_DV_COUNTABLE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+        <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_INTERVAL_DV_COUNTABLE"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_QUANTITY_RATIO" xsi:type="ecore:EClass" eSuperTypes="#//data_types/basic/DATA_VALUE">
+        <ecore:eStructuralFeatures name="numerator" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_QUANTIFIED"/>
+        <ecore:eStructuralFeatures name="denominator" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_QUANTIFIED"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_CUSTOMARY_QUANTITY" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_QUANTIFIED"/>
+      <ecore:eClassifiers name="DV_INTERVAL_DV_CUSTOMARY_QUANTITY" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+        <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_CUSTOMARY_QUANTITY"/>
+        <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_CUSTOMARY_QUANTITY"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="REFERENCE_RANGE_DV_CUSTOMARY_QUANTITY" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+        <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_INTERVAL_DV_CUSTOMARY_QUANTITY"/>
+      </ecore:eClassifiers>
+      <ecore:eSubpackages name="date_time">
+        <ecore:eClassifiers name="DV_WORLD_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_CUSTOMARY_QUANTITY">
+          <ecore:eStructuralFeatures name="timezone" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_INTERVAL_DV_WORLD_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+          <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_WORLD_TIME"/>
+          <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_WORLD_TIME"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="REFERENCE_RANGE_DV_WORLD_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+          <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_WORLD_TIME"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_DATE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_CUSTOMARY_QUANTITY">
+          <ecore:eStructuralFeatures name="year" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="month" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="day" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="diff_type" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_INTERVAL_DV_DATE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+          <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DATE"/>
+          <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DATE"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="REFERENCE_RANGE_DV_DATE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+          <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_DATE"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/date_time/DV_WORLD_TIME">
+          <ecore:eStructuralFeatures name="hour" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="minute" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="second" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="fractional_second" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EReal">
+                     
+                     
+                  </ecore:eStructuralFeatures>
+          <ecore:eStructuralFeatures name="diff_type" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_INTERVAL_DV_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+          <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_TIME"/>
+          <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_TIME"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="REFERENCE_RANGE_DV_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+          <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_TIME"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_DATE_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/date_time/DV_WORLD_TIME">
+          <ecore:eStructuralFeatures name="year" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="month" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="day" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="hour" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="minute" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="second" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="fractional_second" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EReal">
+                     
+                     
+                  </ecore:eStructuralFeatures>
+          <ecore:eStructuralFeatures name="diff_type" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_INTERVAL_DV_DATE_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+          <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DATE_TIME"/>
+          <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DATE_TIME"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="REFERENCE_RANGE_DV_DATE_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+          <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_DATE_TIME"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_DURATION" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_CUSTOMARY_QUANTITY">
+          <ecore:eStructuralFeatures name="sign" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      ">
+                     
+                     
+                  </ecore:eStructuralFeatures>
+          <ecore:eStructuralFeatures name="days" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="hours" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="minutes" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="seconds" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      "/>
+          <ecore:eStructuralFeatures name="fractional_second" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EReal">
+                     
+                     
+                  </ecore:eStructuralFeatures>
+          <ecore:eStructuralFeatures name="diff_type" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_INTERVAL_DV_DURATION" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+          <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+          <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DURATION"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="REFERENCE_RANGE_DV_DURATION" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+          <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_DURATION"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_PARTIAL_DATE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/date_time/DV_DATE">
+          <ecore:eStructuralFeatures name="month_known" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_INTERVAL_DV_PARTIAL_DATE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+          <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_PARTIAL_DATE"/>
+          <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_PARTIAL_DATE"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="REFERENCE_RANGE_DV_PARTIAL_DATE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+          <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_PARTIAL_DATE"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_PARTIAL_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/date_time/DV_TIME">
+          <ecore:eStructuralFeatures name="minute_known" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="DV_INTERVAL_DV_PARTIAL_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/DV_INTERVAL">
+          <ecore:eStructuralFeatures name="lower" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_PARTIAL_TIME"/>
+          <ecore:eStructuralFeatures name="upper" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_PARTIAL_TIME"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="REFERENCE_RANGE_DV_PARTIAL_TIME" xsi:type="ecore:EClass" eSuperTypes="#//data_types/quantity/REFERENCE_RANGE">
+          <ecore:eStructuralFeatures name="range" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_PARTIAL_TIME"/>
+        </ecore:eClassifiers>
+      </ecore:eSubpackages>
+    </ecore:eSubpackages>
+    <ecore:eSubpackages name="time_specification">
+      <ecore:eClassifiers name="DV_TIME_SPECIFICATION" xsi:type="ecore:EClass" eSuperTypes="#//data_types/basic/DATA_VALUE">
+        <ecore:eStructuralFeatures name="value" xsi:type="ecore:EReference" eType="#//data_types/encapsulated/DV_PARSABLE"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_PERIODIC_TIME_SPECIFICATION" xsi:type="ecore:EClass" eSuperTypes="#//data_types/time_specification/DV_TIME_SPECIFICATION"/>
+      <ecore:eClassifiers name="DV_GENERAL_TIME_SPECIFICATION" xsi:type="ecore:EClass" eSuperTypes="#//data_types/time_specification/DV_TIME_SPECIFICATION"/>
+    </ecore:eSubpackages>
+    <ecore:eSubpackages name="encapsulated">
+      <ecore:eClassifiers name="DV_ENCAPSULATED" xsi:type="ecore:EClass" eSuperTypes="#//data_types/basic/DATA_VALUE">
+        <ecore:eStructuralFeatures name="charset" xsi:type="ecore:EReference" eType="#//data_types/text/COORDINATED_TERM"/>
+        <ecore:eStructuralFeatures name="language" xsi:type="ecore:EReference" eType="#//data_types/text/COORDINATED_TERM"/>
+        <ecore:eStructuralFeatures name="size" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      ">
+                  
+               </ecore:eStructuralFeatures>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_MULTIMEDIA" xsi:type="ecore:EClass" eSuperTypes="#//data_types/encapsulated/DV_ENCAPSULATED">
+        <ecore:eStructuralFeatures name="alternate_text" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="media_type" xsi:type="ecore:EReference" eType="#//data_types/text/COORDINATED_TERM"/>
+        <ecore:eStructuralFeatures name="compression_algorithm" xsi:type="ecore:EReference" eType="#//data_types/text/COORDINATED_TERM"/>
+        <ecore:eStructuralFeatures name="integrity_check" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBinary"/>
+        <ecore:eStructuralFeatures name="integrity_check_algorithm" xsi:type="ecore:EReference" eType="#//data_types/text/COORDINATED_TERM"/>
+        <ecore:eStructuralFeatures name="thumbnail" xsi:type="ecore:EReference" eType="#//data_types/encapsulated/DV_MULTIMEDIA"/>
+        <ecore:eStructuralFeatures name="uri" xsi:type="ecore:EReference" eType="#//data_types/uri/DV_URI"/>
+        <ecore:eStructuralFeatures name="data" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBinary"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_PARSABLE" xsi:type="ecore:EClass" eSuperTypes="#//data_types/encapsulated/DV_ENCAPSULATED">
+        <ecore:eStructuralFeatures name="value" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <ecore:eStructuralFeatures name="formalism" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </ecore:eClassifiers>
+    </ecore:eSubpackages>
+    <ecore:eSubpackages name="uri">
+      <ecore:eClassifiers name="DV_URI" xsi:type="ecore:EClass" eSuperTypes="#//data_types/basic/DATA_VALUE">
+        <ecore:eStructuralFeatures name="value" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </ecore:eClassifiers>
+      <ecore:eClassifiers name="DV_EHR_URI" xsi:type="ecore:EClass" eSuperTypes="#//data_types/uri/DV_URI"/>
+    </ecore:eSubpackages>
+  </ecore:eSubpackages>
+  <ecore:eSubpackages name="demographic">
+    <ecore:eClassifiers name="PARTY" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE">
+      <ecore:eStructuralFeatures name="uid" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_ID"/>
+      <ecore:eStructuralFeatures name="identities" upperBound="-1" xsi:type="ecore:EReference" eType="#//demographic/PARTY_IDENTITY">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="contacts" upperBound="-1" xsi:type="ecore:EReference" eType="#//demographic/CONTACT">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="relationships" upperBound="-1" xsi:type="ecore:EReference" eType="#//demographic/PARTY_RELATIONSHIP">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="reverse_relationships" upperBound="-1" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_REF">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="details" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="PARTY_IDENTITY" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE">
+      <ecore:eStructuralFeatures name="details" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="CONTACT" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE">
+      <ecore:eStructuralFeatures name="time_validity" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_DATE"/>
+      <ecore:eStructuralFeatures name="addresses" upperBound="-1" xsi:type="ecore:EReference" eType="#//demographic/ADDRESS">
+               
+            </ecore:eStructuralFeatures>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="ADDRESS" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE">
+      <ecore:eStructuralFeatures name="details" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="ACTOR" xsi:type="ecore:EClass" eSuperTypes="#//demographic/PARTY">
+      <ecore:eStructuralFeatures name="roles" upperBound="-1" xsi:type="ecore:EReference" eType="#//demographic/ROLE">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="languages" upperBound="-1" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT">
+               
+            </ecore:eStructuralFeatures>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="PERSON" xsi:type="ecore:EClass" eSuperTypes="#//demographic/ACTOR"/>
+    <ecore:eClassifiers name="ORGANISATION" xsi:type="ecore:EClass" eSuperTypes="#//demographic/ACTOR"/>
+    <ecore:eClassifiers name="GROUP" xsi:type="ecore:EClass" eSuperTypes="#//demographic/ACTOR"/>
+    <ecore:eClassifiers name="AGENT" xsi:type="ecore:EClass" eSuperTypes="#//demographic/ACTOR"/>
+    <ecore:eClassifiers name="ROLE" xsi:type="ecore:EClass" eSuperTypes="#//demographic/PARTY">
+      <ecore:eStructuralFeatures name="capabilities" upperBound="-1" xsi:type="ecore:EReference" eType="#//demographic/CAPABILITY">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="time_validity" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_DATE"/>
+      <ecore:eStructuralFeatures name="performer" xsi:type="ecore:EReference" eType="#//demographic/ACTOR"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="CAPABILITY" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE">
+      <ecore:eStructuralFeatures name="credentials" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+      <ecore:eStructuralFeatures name="time_validity" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_DATE"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="PARTY_RELATIONSHIP" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE">
+      <ecore:eStructuralFeatures name="uid" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_ID"/>
+      <ecore:eStructuralFeatures name="details" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+      <ecore:eStructuralFeatures name="time_validity" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_DATE"/>
+      <ecore:eStructuralFeatures name="source" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_REF"/>
+      <ecore:eStructuralFeatures name="target" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_REF"/>
+    </ecore:eClassifiers>
+  </ecore:eSubpackages>
+  <ecore:eSubpackages name="ehr_extract">
+    <ecore:eClassifiers name="EHR_EXTRACT" xsi:type="ecore:EClass" eSuperTypes="#//message/MESSAGE_CONTENT">
+      <ecore:eStructuralFeatures name="time_created" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DATE_TIME"/>
+      <ecore:eStructuralFeatures name="ehr_id" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <ecore:eStructuralFeatures name="subject_of_care" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+      <ecore:eStructuralFeatures name="originator" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+      <ecore:eStructuralFeatures name="other_participations" upperBound="-1" xsi:type="ecore:EReference" eType="#//common/generic/PARTICIPATION">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="is_multimedia_included" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <ecore:eStructuralFeatures name="follow_links" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//E&#10;		Int&#10;	      ">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="directory" xsi:type="ecore:EReference" eType="#//ehr_extract/X_FOLDER"/>
+      <ecore:eStructuralFeatures name="terminology" xsi:type="ecore:EReference" eType="#//ehr_extract/X_TERMINOLOGY"/>
+      <ecore:eStructuralFeatures name="demographics" xsi:type="ecore:EReference" eType="#//ehr_extract/X_DEMOGRAPHICS"/>
+      <ecore:eStructuralFeatures name="access_control" xsi:type="ecore:EReference" eType="#//ehr_extract/X_ACCESS_CONTROL"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="X_COMPOSITION" xsi:type="ecore:EClass">
+      <ecore:eStructuralFeatures name="is_primary" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <ecore:eStructuralFeatures name="original_path" xsi:type="ecore:EReference" eType="#//data_types/uri/DV_EHR_URI"/>
+      <ecore:eStructuralFeatures name="composition" xsi:type="ecore:EReference" eType="#//composition/VERSION_COMPOSITION"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="X_FOLDER" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE">
+      <ecore:eStructuralFeatures name="folders" upperBound="-1" xsi:type="ecore:EReference" eType="#//ehr_extract/X_FOLDER">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="compositions" upperBound="-1" xsi:type="ecore:EReference" eType="#//ehr_extract/X_COMPOSITION">
+               
+            </ecore:eStructuralFeatures>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="X_TERMINOLOGY" xsi:type="ecore:EClass">
+      <ecore:eStructuralFeatures name="details" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="X_DEMOGRAPHICS" xsi:type="ecore:EClass">
+      <ecore:eStructuralFeatures name="parties" upperBound="-1" xsi:type="ecore:EReference" eType="#//demographic/PARTY">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="details" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="X_ACCESS_CONTROL" xsi:type="ecore:EClass">
+      <ecore:eStructuralFeatures name="groups" upperBound="-1" xsi:type="ecore:EReference" eType="#//ehr_extract/ACCESS_GROUP">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="details" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="ACCESS_GROUP" xsi:type="ecore:EClass">
+      <ecore:eStructuralFeatures name="id" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_ID"/>
+    </ecore:eClassifiers>
+  </ecore:eSubpackages>
+  <ecore:eSubpackages name="message">
+    <ecore:eClassifiers name="MESSAGE" xsi:type="ecore:EClass">
+      <ecore:eStructuralFeatures name="time_sent" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_DATE_TIME"/>
+      <ecore:eStructuralFeatures name="sender" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+      <ecore:eStructuralFeatures name="receiver" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+      <ecore:eStructuralFeatures name="sender_node" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+      <ecore:eStructuralFeatures name="receiver_node" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+      <ecore:eStructuralFeatures name="senders_reference" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <ecore:eStructuralFeatures name="initiator" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+               
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="urgency" xsi:type="ecore:EReference" eType="#//data_types/quantity/DV_ORDINAL"/>
+      <ecore:eStructuralFeatures name="signature" xsi:type="ecore:EReference" eType="#//common/generic/ATTESTATION"/>
+      <ecore:eStructuralFeatures name="parties" upperBound="-1" xsi:type="ecore:EReference" eType="#//demographic/PARTY">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="content" xsi:type="ecore:EReference" eType="#//message/MESSAGE_CONTENT"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="MESSAGE_CONTENT" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE"/>
+  </ecore:eSubpackages>
+  <ecore:eSubpackages name="composition">
+    <ecore:eClassifiers name="COMPOSITION" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE">
+      <ecore:eStructuralFeatures name="content" xsi:type="ecore:EReference" eType="#//composition/content/navigation/SECTION"/>
+      <ecore:eStructuralFeatures name="context" xsi:type="ecore:EReference" eType="#//composition/EVENT_CONTEXT"/>
+      <ecore:eStructuralFeatures name="is_persistent" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <ecore:eStructuralFeatures name="territory" xsi:type="ecore:EReference" eType="#//data_types/text/COORDINATED_TERM"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="VERSION_COMPOSITION" xsi:type="ecore:EClass" eSuperTypes="#//common/change_control/VERSION">
+      <ecore:eStructuralFeatures name="data" xsi:type="ecore:EReference" eType="#//composition/COMPOSITION"/>
+    </ecore:eClassifiers>
+    <ecore:eClassifiers name="EVENT_CONTEXT" xsi:type="ecore:EClass">
+      <ecore:eStructuralFeatures name="health_care_facility" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+      <ecore:eStructuralFeatures name="time" xsi:type="ecore:EReference" eType="#//data_types/quantity/date_time/DV_INTERVAL_DV_DATE_TIME"/>
+      <ecore:eStructuralFeatures name="author" xsi:type="ecore:EReference" eType="#//common/identification/PARTY_REF"/>
+      <ecore:eStructuralFeatures name="participations" upperBound="-1" xsi:type="ecore:EReference" eType="#//common/generic/PARTICIPATION">
+               
+            </ecore:eStructuralFeatures>
+      <ecore:eStructuralFeatures name="location" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <ecore:eStructuralFeatures name="practice_setting" xsi:type="ecore:EReference" eType="#//data_types/text/DV_TEXT"/>
+      <ecore:eStructuralFeatures name="other_context" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+    </ecore:eClassifiers>
+    <ecore:eSubpackages name="content">
+      <ecore:eClassifiers name="CONTENT_ITEM" xsi:type="ecore:EClass" eSuperTypes="#//common/archetyped/LOCATABLE"/>
+      <ecore:eSubpackages name="navigation">
+        <ecore:eClassifiers name="SECTION" xsi:type="ecore:EClass" eSuperTypes="#//composition/content/CONTENT_ITEM">
+          <ecore:eStructuralFeatures name="items" upperBound="-1" xsi:type="ecore:EReference" eType="#//composition/content/CONTENT_ITEM">
+                     
+                  </ecore:eStructuralFeatures>
+        </ecore:eClassifiers>
+      </ecore:eSubpackages>
+      <ecore:eSubpackages name="entry">
+        <ecore:eClassifiers name="ENTRY" xsi:type="ecore:EClass" eSuperTypes="#//composition/content/CONTENT_ITEM">
+          <ecore:eStructuralFeatures name="subject" xsi:type="ecore:EReference" eType="#//common/generic/RELATED_PARTY"/>
+          <ecore:eStructuralFeatures name="provider" xsi:type="ecore:EReference" eType="#//common/generic/PARTICIPATION"/>
+          <ecore:eStructuralFeatures name="protocol" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+          <ecore:eStructuralFeatures name="act_id" xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <ecore:eStructuralFeatures name="other_participations" upperBound="-1" xsi:type="ecore:EReference" eType="#//common/generic/PARTICIPATION">
+                     
+                  </ecore:eStructuralFeatures>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="OBSERVATION" xsi:type="ecore:EClass" eSuperTypes="#//composition/content/entry/ENTRY">
+          <ecore:eStructuralFeatures name="data" xsi:type="ecore:EReference" eType="#//data_structures/history/HISTORY"/>
+          <ecore:eStructuralFeatures name="state" xsi:type="ecore:EReference" eType="#//data_structures/history/HISTORY"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="EVALUATION" xsi:type="ecore:EClass" eSuperTypes="#//composition/content/entry/ENTRY">
+          <ecore:eStructuralFeatures name="data" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+        </ecore:eClassifiers>
+        <ecore:eClassifiers name="INSTRUCTION" xsi:type="ecore:EClass" eSuperTypes="#//composition/content/entry/ENTRY">
+          <ecore:eStructuralFeatures name="state" xsi:type="ecore:EReference" eType="#//data_types/basic/DV_STATE"/>
+          <ecore:eStructuralFeatures name="action" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+          <ecore:eStructuralFeatures name="profile" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+          <ecore:eStructuralFeatures name="data" xsi:type="ecore:EReference" eType="#//data_structures/structure/STRUCTURE"/>
+          <ecore:eStructuralFeatures name="guideline_id" xsi:type="ecore:EReference" eType="#//common/identification/OBJECT_REF"/>
+        </ecore:eClassifiers>
+      </ecore:eSubpackages>
+    </ecore:eSubpackages>
+  </ecore:eSubpackages>
+</ecore:EPackage>

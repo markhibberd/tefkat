@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:arithmetic="http:///arithmetic.ecore">
+  <arithmetic:Number xmi:id="1683222" value="1"/>
+  <arithmetic:Number xmi:id="168332" value="2"/>
+  <arithmetic:Vector xmi:id="7">
+    <values>1</values>
+    <values>1</values>
+    <values>2</values>
+    <values>3</values>
+    <values>5</values>
+    <values>8</values>
+    <values>13</values>
+  </arithmetic:Vector>
+  <arithmetic:Vector xmi:id="17">
+    <values>-3</values>
+    <values>-2</values>
+    <values>-1</values>
+  </arithmetic:Vector>
+</xmi:XMI>

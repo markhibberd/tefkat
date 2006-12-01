@@ -1,0 +1,35 @@
+
+TRANSFORMATION test_strat: x -> y
+
+CLASS tc1 {
+};
+
+CLASS tc2 {
+};
+
+PATTERN foo()
+  WHERE IF 1 = 1 THEN
+            TRUE AND println("a")
+        ELSE
+            println("b")
+        ENDIF
+    AND _ = _aaa AND _aaa = _x
+;
+
+RULE one
+  WHERE tc1 LINKS x = 1
+  AND foo()
+  LINKING tc2 WITH y = 2
+;
+
+
+RULE two
+  WHERE tc1 LINKS x = 1
+  AND NOT foo()
+  LINKING tc2 WITH y = 2
+;
+
+RULE three
+  WHERE tc2 LINKS y = 1
+  LINKING tc1 WITH x = 2
+;

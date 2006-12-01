@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<config:Configuration xmlns:xmi="http://www.omg.org/XMI" xmlns:config="http://www.dstc.edu.au:8080/qvt/TefkatConfig.ecore">
+  <transformationTasks enabled="true">
+    <transformation locationUri="platform:/resource/transformation/transformations/test_nested.qvt"/>
+    <sourceModels locationUri="platform:/resource/transformation/instances/BusinessModel.xmi"/>
+    <targetModels locationUri="platform:/resource/transformation/instances/target.xmi"/>
+  </transformationTasks>
+</config:Configuration>

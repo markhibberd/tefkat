@@ -1,0 +1,37 @@
+
+
+TRANSFORMATION uml2rel : uml -> rel
+
+IMPORT http://www.eclipse.org/emf/2002/Ecore
+
+CLASS ObjToObj {
+  EObject src;
+  EObject tgt;
+};
+
+RULE copy(s, t)
+  FORALL _ s
+  MAKE   EXACT $s.eClass() t
+  LINKING ObjToObj WITH src = s, tgt = t
+  ;
+
+RULE copyAttributes(s, t, a)
+  WHERE ObjToObj LINKS src = s, tgt = t
+    AND s.eClass() = c
+    AND c.eAllAttributes = a
+    AND a.changeable = true
+    AND s.eIsSet(a) = true
+    AND v = s.$a
+  SET t.$a = v
+  ;
+
+RULE copyReferences(s, t, r)
+  WHERE ObjToObj LINKS src = s, tgt = t
+    AND s.eClass() = c
+    AND c.eAllReferences = r
+    AND r.changeable = true
+    AND s.eIsSet(r) = true
+    AND v = s.$r
+    AND ObjToObj LINKS src = v, tgt = tv
+  SET t.$r = tv
+  ;

@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage 
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
+    nsURI="http:///it/itc/sra/taom4e/model.ecore" nsPrefix="it.itc.sra.taom4e.model">
+  <eSubpackages name="core" nsURI="http:///it/itc/sra/taom4e/model/core.ecore" nsPrefix="it.itc.sra.taom4e.model.core">
+    <eSubpackages name="gencore" nsURI="http:///it/itc/sra/taom4e/model/core/gencore.ecore"
+        nsPrefix="it.itc.sra.taom4e.model.core.gencore">
+      <eClassifiers xsi:type="ecore:EClass" name="BusinessModel" eSuperTypes="#//core/gencore/TroposModelElement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="TroposClasses" upperBound="-1"
+            eType="#//core/gencore/TroposClass" containment="true" eOpposite="#//core/gencore/TroposClass/BusinessModel"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="TroposRelations" upperBound="-1"
+            eType="#//core/gencore/TroposRelation" containment="true" eOpposite="#//core/gencore/TroposRelation/BusinessModel"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TroposModelElement">
+        <eOperations name="getNamePrefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TroposClass" eSuperTypes="#//core/gencore/TroposModelElement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="BusinessModel" lowerBound="1"
+            eType="#//core/gencore/BusinessModel" transient="true" eOpposite="#//core/gencore/BusinessModel/TroposClasses"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TroposRelation" eSuperTypes="#//core/gencore/TroposModelElement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="BusinessModel" lowerBound="1"
+            eType="#//core/gencore/BusinessModel" transient="true" eOpposite="#//core/gencore/BusinessModel/TroposRelations"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="informalcore" nsURI="http:///it/itc/sra/taom4e/model/core/informalcore.ecore"
+        nsPrefix="it.itc.sra.taom4e.model.core.informalcore">
+      <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//core/gencore/TroposClass #//core/informalcore/ActorOwner">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="namePrefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" defaultValueLiteral="Actor "/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="decomposition" upperBound="-1"
+            eType="#//core/informalcore/Decomposition" eOpposite="#//core/informalcore/Decomposition/actorDecPointOfView"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="dependeeDependency"
+            upperBound="-1" eType="#//core/informalcore/Dependency" eOpposite="#//core/informalcore/Dependency/dependee"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="dependerDependency"
+            upperBound="-1" eType="#//core/informalcore/Dependency" eOpposite="#//core/informalcore/Dependency/depender"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="contribution" upperBound="-1"
+            eType="#//core/informalcore/Contribution" eOpposite="#//core/informalcore/Contribution/actorContributionPointOfView"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="wanted" upperBound="-1"
+            eType="#//core/informalcore/Goal" eOpposite="#//core/informalcore/Goal/wanter"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="meansEnd" upperBound="-1"
+            eType="#//core/informalcore/MeansEnd" eOpposite="#//core/informalcore/MeansEnd/actorMeansEndPointOfView"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="plans" upperBound="-1"
+            eType="#//core/informalcore/Plan" eOpposite="#//core/informalcore/Plan/capableOf"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="resources" upperBound="-1"
+            eType="#//core/informalcore/Resource" eOpposite="#//core/informalcore/Resource/use"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="goalDiagrams" upperBound="-1"
+            eType="#//diagram/goaldiagram/GoalDiagram" eOpposite="#//diagram/goaldiagram/GoalDiagram/Actor"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Decomposition" eSuperTypes="#//core/gencore/TroposRelation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actorDecPointOfView"
+            lowerBound="1" eType="#//core/informalcore/Actor" eOpposite="#//core/informalcore/Actor/decomposition"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BooleanDecomposition" eSuperTypes="#//core/informalcore/Decomposition #//core/informalcore/AttachedBooleanDecomposition">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="BooleanDecLink" lowerBound="1"
+            upperBound="-1" eType="#//core/informalcore/BooleanDecLink" eOpposite="#//core/informalcore/BooleanDecLink/BooleanDecomposition"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="rootGoal" eType="#//core/informalcore/Goal"
+            eOpposite="#//core/informalcore/Goal/booleanDecomposition"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="rootPlan" eType="#//core/informalcore/Plan"
+            eOpposite="#//core/informalcore/Plan/booleanDecomposition"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BooleanDecLink" eSuperTypes="#//core/gencore/TroposRelation #//core/informalcore/ConnectedBooleanDecLink">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="BooleanDecomposition"
+            lowerBound="1" eType="#//core/informalcore/BooleanDecomposition" eOpposite="#//core/informalcore/BooleanDecomposition/BooleanDecLink"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="targetGoal" eType="#//core/informalcore/Goal"
+            eOpposite="#//core/informalcore/Goal/boolDecLink"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="targetPlan" eType="#//core/informalcore/Plan"
+            eOpposite="#//core/informalcore/Plan/boolDecLink"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="AndDecLink" eSuperTypes="#//core/informalcore/BooleanDecLink"/>
+      <eClassifiers xsi:type="ecore:EClass" name="OrDecLink" eSuperTypes="#//core/informalcore/BooleanDecLink"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Dependency" eSuperTypes="#//core/gencore/TroposRelation #//core/informalcore/SupportedDependency #//core/informalcore/NestingDependency">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="namePrefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" defaultValueLiteral="Dependency "/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="dependee" lowerBound="1"
+            eType="#//core/informalcore/Actor" eOpposite="#//core/informalcore/Actor/dependeeDependency"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="depender" lowerBound="1"
+            eType="#//core/informalcore/Actor" eOpposite="#//core/informalcore/Actor/dependerDependency"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="goalDependum" eType="#//core/informalcore/Goal"
+            eOpposite="#//core/informalcore/Goal/dependency"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="goalWhy" eType="#//core/informalcore/Goal"
+            eOpposite="#//core/informalcore/Goal/dependencyWhy"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="resourceDependum" eType="#//core/informalcore/Resource"
+            eOpposite="#//core/informalcore/Resource/dependency"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="resourceWhy" eType="#//core/informalcore/Resource"
+            eOpposite="#//core/informalcore/Resource/dependencyWhy"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="planDependum" eType="#//core/informalcore/Plan"
+            eOpposite="#//core/informalcore/Plan/dependency"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="planWhy" eType="#//core/informalcore/Plan"
+            eOpposite="#//core/informalcore/Plan/dependencyWhy"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Contribution" eSuperTypes="#//core/gencore/TroposRelation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actorContributionPointOfView"
+            lowerBound="1" eType="#//core/informalcore/Actor" eOpposite="#//core/informalcore/Actor/contribution"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="contributer" lowerBound="1"
+            eType="#//core/informalcore/Goal" eOpposite="#//core/informalcore/Goal/contributeContributions"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="contributed" lowerBound="1"
+            eType="#//core/informalcore/Goal" eOpposite="#//core/informalcore/Goal/contributedByContributions"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SoftGoal" eSuperTypes="#//core/informalcore/Goal">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="namePrefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" defaultValueLiteral="SoftGoal "/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="HardGoal" eSuperTypes="#//core/informalcore/Goal">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="namePrefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" defaultValueLiteral="HardGoal "/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Goal" eSuperTypes="#//core/gencore/TroposClass #//core/informalcore/OwnedObject #//core/informalcore/IntentionalWhy #//core/informalcore/IntentionalDependum #//core/informalcore/IntentionalRoot #//core/informalcore/IntentionalMeans #//core/informalcore/IntentionalEnd #//core/informalcore/IntentionalTarget">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="wanter" lowerBound="1"
+            eType="#//core/informalcore/Actor" eOpposite="#//core/informalcore/Actor/wanted"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="contributeContributions"
+            upperBound="-1" eType="#//core/informalcore/Contribution" eOpposite="#//core/informalcore/Contribution/contributer"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="contributedByContributions"
+            upperBound="-1" eType="#//core/informalcore/Contribution" eOpposite="#//core/informalcore/Contribution/contributed"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="meansEndMeans" upperBound="-1"
+            eType="#//core/informalcore/MeansEnd" eOpposite="#//core/informalcore/MeansEnd/meansGoal"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="meansEndEnd" upperBound="-1"
+            eType="#//core/informalcore/MeansEnd" eOpposite="#//core/informalcore/MeansEnd/end"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="dependency" upperBound="-1"
+            eType="#//core/informalcore/Dependency" eOpposite="#//core/informalcore/Dependency/goalDependum"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyWhy" upperBound="-1"
+            eType="#//core/informalcore/Dependency" eOpposite="#//core/informalcore/Dependency/goalWhy"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="plan" lowerBound="1"
+            upperBound="-1" eType="#//core/informalcore/Plan" eOpposite="#//core/informalcore/Plan/isFulfilled"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="booleanDecomposition"
+            eType="#//core/informalcore/BooleanDecomposition" eOpposite="#//core/informalcore/BooleanDecomposition/rootGoal"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="boolDecLink" upperBound="-1"
+            eType="#//core/informalcore/BooleanDecLink" eOpposite="#//core/informalcore/BooleanDecLink/targetGoal"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="MeansEnd" eSuperTypes="#//core/gencore/TroposRelation #//core/informalcore/SupportedMeansEnd #//core/informalcore/ReceivedMeansEnd">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actorMeansEndPointOfView"
+            lowerBound="1" eType="#//core/informalcore/Actor" eOpposite="#//core/informalcore/Actor/meansEnd"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="meansGoal" eType="#//core/informalcore/Goal"
+            eOpposite="#//core/informalcore/Goal/meansEndMeans"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="end" lowerBound="1"
+            eType="#//core/informalcore/Goal" eOpposite="#//core/informalcore/Goal/meansEndEnd"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="meansResource" eType="#//core/informalcore/Resource"
+            eOpposite="#//core/informalcore/Resource/meansEndMeans"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="meansPlan" eType="#//core/informalcore/Plan"
+            eOpposite="#//core/informalcore/Plan/meansEndMeans"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="#//core/gencore/TroposClass #//core/informalcore/OwnedObject #//core/informalcore/IntentionalWhy #//core/informalcore/IntentionalDependum #//core/informalcore/IntentionalRoot #//core/informalcore/IntentionalTarget #//core/informalcore/IntentionalMeans #//core/informalcore/IntentionalEnd">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="namePrefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" defaultValueLiteral="Resource "/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="meansEndMeans" upperBound="-1"
+            eType="#//core/informalcore/MeansEnd" eOpposite="#//core/informalcore/MeansEnd/meansResource"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="dependency" upperBound="-1"
+            eType="#//core/informalcore/Dependency" eOpposite="#//core/informalcore/Dependency/resourceDependum"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyWhy" upperBound="-1"
+            eType="#//core/informalcore/Dependency" eOpposite="#//core/informalcore/Dependency/resourceWhy"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="use" lowerBound="1"
+            eType="#//core/informalcore/Actor" eOpposite="#//core/informalcore/Actor/resources"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Plan" eSuperTypes="#//core/gencore/TroposClass #//core/informalcore/OwnedObject #//core/informalcore/IntentionalWhy #//core/informalcore/IntentionalRoot #//core/informalcore/IntentionalMeans #//core/informalcore/IntentionalEnd #//core/informalcore/IntentionalDependum #//core/informalcore/IntentionalTarget">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="namePrefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" defaultValueLiteral="Plan "/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="meansEndMeans" upperBound="-1"
+            eType="#//core/informalcore/MeansEnd" eOpposite="#//core/informalcore/MeansEnd/meansPlan"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="capableOf" eType="#//core/informalcore/Actor"
+            eOpposite="#//core/informalcore/Actor/plans"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="isFulfilled" lowerBound="1"
+            eType="#//core/informalcore/Goal" eOpposite="#//core/informalcore/Goal/plan"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="dependency" upperBound="-1"
+            eType="#//core/informalcore/Dependency" eOpposite="#//core/informalcore/Dependency/planDependum"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyWhy" upperBound="-1"
+            eType="#//core/informalcore/Dependency" eOpposite="#//core/informalcore/Dependency/planWhy"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="booleanDecomposition"
+            eType="#//core/informalcore/BooleanDecomposition" eOpposite="#//core/informalcore/BooleanDecomposition/rootPlan"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="boolDecLink" upperBound="-1"
+            eType="#//core/informalcore/BooleanDecLink" eOpposite="#//core/informalcore/BooleanDecLink/targetPlan"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="InformalBusinessModel" eSuperTypes="#//core/gencore/BusinessModel"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ActorOwner" abstract="true" interface="true">
+        <eOperations name="getOwnedObjects" eType="#//core/informalcore/TroposList"/>
+        <eOperations name="addOwnedObject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="element" eType="#//core/informalcore/OwnedObject"/>
+        </eOperations>
+        <eOperations name="removeOwnedObject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="element" eType="#//core/informalcore/OwnedObject"/>
+        </eOperations>
+        <eOperations name="canAddOwnedObject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="element" eType="#//core/informalcore/OwnedObject"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EDataType" name="TroposList" instanceClassName="java.util.List"/>
+      <eClassifiers xsi:type="ecore:EClass" name="OwnedObject" abstract="true" interface="true">
+        <eOperations name="getActorOwner" eType="#//core/informalcore/ActorOwner"/>
+        <eOperations name="setActorOwner" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="actorOwner" eType="#//core/informalcore/ActorOwner"/>
+        </eOperations>
+        <eOperations name="canSetActorOwner" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="actorOwner" eType="#//core/informalcore/ActorOwner"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SupportedDependency" abstract="true"
+          interface="true">
+        <eOperations name="getIntentionalWhy" eType="#//core/informalcore/IntentionalWhy"/>
+        <eOperations name="setIntentionalWhy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalWhy"/>
+        </eOperations>
+        <eOperations name="canSetIntentionalWhy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalWhy"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IntentionalWhy" abstract="true"
+          interface="true">
+        <eOperations name="getSupportedDependencies" eType="#//core/informalcore/TroposList"/>
+        <eOperations name="addSupportedDependency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="dependency" eType="#//core/informalcore/SupportedDependency"/>
+        </eOperations>
+        <eOperations name="removeSupportedDependency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="dependency" eType="#//core/informalcore/SupportedDependency"/>
+        </eOperations>
+        <eOperations name="canAddSupportedDependency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="dependency" eType="#//core/informalcore/SupportedDependency"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="NestingDependency" abstract="true"
+          interface="true">
+        <eOperations name="getIntentionalDependum" eType="#//core/informalcore/IntentionalDependum"/>
+        <eOperations name="setIntentionalDependum" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalDependum"/>
+        </eOperations>
+        <eOperations name="canSetIntentionalDependum" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalDependum"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IntentionalDependum" abstract="true"
+          interface="true">
+        <eOperations name="getNestingDependencies" eType="#//core/informalcore/TroposList"/>
+        <eOperations name="addNestingDependency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="dependency" eType="#//core/informalcore/NestingDependency"/>
+        </eOperations>
+        <eOperations name="removeNestingDependency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="dependency" eType="#//core/informalcore/NestingDependency"/>
+        </eOperations>
+        <eOperations name="canAddNestingDependency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="dependency" eType="#//core/informalcore/NestingDependency"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="AttachedBooleanDecomposition" abstract="true"
+          interface="true">
+        <eOperations name="getIntentionalRoot" eType="#//core/informalcore/IntentionalRoot"/>
+        <eOperations name="setIntentionalRoot" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalRoot"/>
+        </eOperations>
+        <eOperations name="canSetIntentionalRoot" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalRoot"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IntentionalRoot" abstract="true"
+          interface="true">
+        <eOperations name="getAttachedBooleanDecomposition" eType="#//core/informalcore/AttachedBooleanDecomposition"/>
+        <eOperations name="setAttachedBooleanDecomposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="decomposition" eType="#//core/informalcore/AttachedBooleanDecomposition"/>
+        </eOperations>
+        <eOperations name="canSetAttachedBooleanDecomposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="decomposition" eType="#//core/informalcore/AttachedBooleanDecomposition"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ConnectedBooleanDecLink" abstract="true"
+          interface="true">
+        <eOperations name="getIntentionalTarget" eType="#//core/informalcore/IntentionalTarget"/>
+        <eOperations name="setIntentionalTarget" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalTarget"/>
+        </eOperations>
+        <eOperations name="canSetIntentionalTarget" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalTarget"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IntentionalTarget" abstract="true"
+          interface="true">
+        <eOperations name="getConnectedBooleanDecLinks" eType="#//core/informalcore/TroposList"/>
+        <eOperations name="addConnectedBooleanDecLink" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="link" eType="#//core/informalcore/ConnectedBooleanDecLink"/>
+        </eOperations>
+        <eOperations name="removeConnectedBooleanDecLink" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="link" eType="#//core/informalcore/ConnectedBooleanDecLink"/>
+        </eOperations>
+        <eOperations name="canAddConnectedBooleanDecLink" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="link" eType="#//core/informalcore/ConnectedBooleanDecLink"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SupportedMeansEnd" abstract="true"
+          interface="true">
+        <eOperations name="getIntentionalMeans" eType="#//core/informalcore/IntentionalMeans"/>
+        <eOperations name="setIntentionalMeans" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalMeans"/>
+        </eOperations>
+        <eOperations name="canSetIntentionalMeans" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalMeans"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IntentionalMeans" abstract="true"
+          interface="true">
+        <eOperations name="getSupportedMeansEnds" eType="#//core/informalcore/TroposList"/>
+        <eOperations name="addSupportedMeansEnd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="meansEnd" eType="#//core/informalcore/SupportedMeansEnd"/>
+        </eOperations>
+        <eOperations name="removeSupportedMeansEnd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="meansEnd" eType="#//core/informalcore/SupportedMeansEnd"/>
+        </eOperations>
+        <eOperations name="canAddSupportedMeansEnd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="meansEnd" eType="#//core/informalcore/SupportedMeansEnd"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ReceivedMeansEnd" abstract="true"
+          interface="true">
+        <eOperations name="getIntentionalEnd" eType="#//core/informalcore/IntentionalEnd"/>
+        <eOperations name="setIntentionalEnd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalEnd"/>
+        </eOperations>
+        <eOperations name="canSetIntentionalEnd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="intentional" eType="#//core/informalcore/IntentionalEnd"/>
+        </eOperations>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IntentionalEnd" abstract="true"
+          interface="true">
+        <eOperations name="getReceivedMeansEnds" eType="#//core/informalcore/TroposList"/>
+        <eOperations name="addReceivedMeansEnd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="meansEnd" eType="#//core/informalcore/ReceivedMeansEnd"/>
+        </eOperations>
+        <eOperations name="removeReceivedMeansEnd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="meansEnd" eType="#//core/informalcore/ReceivedMeansEnd"/>
+        </eOperations>
+        <eOperations name="canAddReceivedMeansEnd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="meansEnd" eType="#//core/informalcore/ReceivedMeansEnd"/>
+        </eOperations>
+      </eClassifiers>
+      <eSubpackages name="formalcore" nsURI="http:///it/itc/sra/taom4e/model/core/informalcore/formalcore.ecore"
+          nsPrefix="it.itc.sra.taom4e.model.core.informalcore.formalcore">
+        <eClassifiers xsi:type="ecore:EClass" name="FActor" eSuperTypes="#//core/informalcore/Actor">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="attribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="invariantProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="FContribution" eSuperTypes="#//core/informalcore/Contribution">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="metric" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="FResource" eSuperTypes="#//core/informalcore/Resource">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="attribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="invariantProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="fulfillmentProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="FDependency" eSuperTypes="#//core/informalcore/Dependency">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="attribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="invariantProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="fulfillmentProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="FPlan" eSuperTypes="#//core/informalcore/Plan">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="attribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="invariantProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="fulfillmentProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EEnum" name="ModeType">
+          <eLiterals name="ACHIEVE"/>
+          <eLiterals name="MAINTAIN" value="1"/>
+          <eLiterals name="ACHIEVEMAINTAIN" value="2"/>
+          <eLiterals name="AVOID" value="3"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EEnum" name="PropertyCategoryType">
+          <eLiterals name="CONSTRAINT"/>
+          <eLiterals name="ASSERTION" value="1"/>
+          <eLiterals name="POSSIBILITY" value="2"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EEnum" name="EventCategoryType">
+          <eLiterals name="TRIGGER"/>
+          <eLiterals name="CONDITION" value="1"/>
+          <eLiterals name="DEFINITION" value="2"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EDataType" name="LTL" instanceClassName="java.lang.String"/>
+        <eClassifiers xsi:type="ecore:EClass" name="FormalBusinessModel" eSuperTypes="#//core/informalcore/InformalBusinessModel">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="globalProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="FSoftGoal" eSuperTypes="#//core/informalcore/SoftGoal">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="attribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="invariantProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="fulfillmentProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="FHardGoal" eSuperTypes="#//core/informalcore/HardGoal">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="attribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="invariantProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="fulfillmentProperty"
+              eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EEnum" name="DependencyType">
+          <eLiterals name="HARDGOAL"/>
+          <eLiterals name="SOFTGOAL" value="1"/>
+          <eLiterals name="PLAN" value="2"/>
+          <eLiterals name="RESOURCE" value="3"/>
+        </eClassifiers>
+      </eSubpackages>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="diagram" nsURI="http:///it/itc/sra/taom4e/model/diagram.ecore"
+      nsPrefix="it.itc.sra.taom4e.model.diagram">
+    <eSubpackages name="gendiagram" nsURI="http:///it/itc/sra/taom4e/model/diagram/gendiagram.ecore"
+        nsPrefix="it.itc.sra.taom4e.model.diagram.gendiagram">
+      <eClassifiers xsi:type="ecore:EClass" name="DiagramConnection" eSuperTypes="#//diagram/gendiagram/DiagramObject">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="targetNode" lowerBound="1"
+            eType="#//diagram/gendiagram/DiagramNode" eOpposite="#//diagram/gendiagram/DiagramNode/targetConnections"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sourceNode" lowerBound="1"
+            eType="#//diagram/gendiagram/DiagramNode" transient="true" eOpposite="#//diagram/gendiagram/DiagramNode/sourceConnections"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="DiagramNode" eSuperTypes="#//diagram/gendiagram/DiagramObject">
+        <eOperations name="disconnectFromContainer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eOperations name="reconnectToContainer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="targetConnections"
+            upperBound="-1" eType="#//diagram/gendiagram/DiagramConnection" eOpposite="#//diagram/gendiagram/DiagramConnection/targetNode"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//diagram/gendiagram/ContainerDiagramNode"
+            eOpposite="#//diagram/gendiagram/ContainerDiagramNode/children"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="Diagram" lowerBound="1"
+            eType="#//diagram/gendiagram/Diagram" transient="true" eOpposite="#//diagram/gendiagram/Diagram/DiagramNodes"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sourceConnections"
+            upperBound="-1" eType="#//diagram/gendiagram/DiagramConnection" containment="true"
+            eOpposite="#//diagram/gendiagram/DiagramConnection/sourceNode"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Diagram" eSuperTypes="#//diagram/gendiagram/DiagramObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="phase" eType="#//project/Phase"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="DiagramNodes" upperBound="-1"
+            eType="#//diagram/gendiagram/DiagramNode" containment="true" eOpposite="#//diagram/gendiagram/DiagramNode/Diagram"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ContainerDiagramNode" eSuperTypes="#//diagram/gendiagram/DiagramNode">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+            eType="#//diagram/gendiagram/DiagramNode" eOpposite="#//diagram/gendiagram/DiagramNode/container"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="DiagramObject">
+        <eOperations name="disconnectFromDiagram"/>
+        <eOperations name="reconnectToDiagram" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eOperations name="setSingleCore">
+          <eParameters name="troposModelElement" eType="#//core/gencore/TroposModelElement"/>
+        </eOperations>
+        <eOperations name="getSingleCore" eType="#//core/gencore/TroposModelElement"/>
+        <eOperations name="addCore">
+          <eParameters name="troposModelElement" eType="#//core/gencore/TroposModelElement"/>
+        </eOperations>
+        <eOperations name="removeCore" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+          <eParameters name="troposModelElement" eType="#//core/gencore/TroposModelElement"/>
+        </eOperations>
+        <eOperations name="disconnectFromCore"/>
+        <eOperations name="reconnectToCore" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eOperations name="disconnectFromDiagramAndCore"/>
+        <eOperations name="reconnectToDiagramAndCore" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="oldCore" eType="#//diagram/gendiagram/TroposVector"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="core" upperBound="-1"
+            eType="#//core/gencore/TroposModelElement"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Comment" eSuperTypes="#//diagram/gendiagram/DiagramNode">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EDataType" name="TroposVector" instanceClassName="java.util.Vector"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="TroposNotification" instanceClassName="org.eclipse.emf.common.notify.Notification"/>
+    </eSubpackages>
+    <eSubpackages name="goaldiagram" nsURI="http:///it/itc/sra/taom4e/model/diagram/goaldiagram.ecore"
+        nsPrefix="it.itc.sra.taom4e.model.diagram.goaldiagram">
+      <eClassifiers xsi:type="ecore:EClass" name="GoalDiagram" eSuperTypes="#//diagram/gendiagram/Diagram">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="Actor" lowerBound="1"
+            eType="#//core/informalcore/Actor" eOpposite="#//core/informalcore/Actor/goalDiagrams"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="GD_ActorUI" eSuperTypes="#//diagram/gendiagram/ContainerDiagramNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="GD_ResourceUI" eSuperTypes="#//diagram/gendiagram/DiagramNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="GD_HardGoalUI" eSuperTypes="#//diagram/gendiagram/DiagramNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="GD_PlanUI" eSuperTypes="#//diagram/gendiagram/DiagramNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="GD_ContributionUI" eSuperTypes="#//diagram/gendiagram/DiagramConnection"/>
+      <eClassifiers xsi:type="ecore:EClass" name="GD_MeansEndUI" eSuperTypes="#//diagram/gendiagram/DiagramConnection"/>
+      <eClassifiers xsi:type="ecore:EClass" name="GD_AndDecompositionUI" eSuperTypes="#//diagram/gendiagram/DiagramConnection">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="BooleanDecLink" upperBound="-1"
+            eType="#//core/informalcore/BooleanDecLink"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="GD_OrDecompositionUI" eSuperTypes="#//diagram/gendiagram/DiagramConnection">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="BooleanDecLink" upperBound="-1"
+            eType="#//core/informalcore/BooleanDecLink"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="GD_SoftGoalUI" eSuperTypes="#//diagram/gendiagram/DiagramNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="GD_BooleanDecLinkUI" eSuperTypes="#//diagram/gendiagram/DiagramConnection"/>
+      <eClassifiers xsi:type="ecore:EEnum" name="GD_Relation_Literal">
+        <eLiterals name="MEANSEND"/>
+        <eLiterals name="BOOLDEC" value="1"/>
+        <eLiterals name="CONTRIBUTION" value="2"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="actordiagram" nsURI="http:///it/itc/sra/taom4e/model/diagram/actordiagram.ecore"
+        nsPrefix="it.itc.sra.taom4e.model.diagram.actordiagram">
+      <eClassifiers xsi:type="ecore:EClass" name="ActorDiagram" eSuperTypes="#//diagram/gendiagram/Diagram"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AD_ActorUI" eSuperTypes="#//diagram/gendiagram/ContainerDiagramNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AD_ResourceUI" eSuperTypes="#//diagram/gendiagram/DiagramNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AD_PlanUI" eSuperTypes="#//diagram/gendiagram/DiagramNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AD_HardGoalUI" eSuperTypes="#//diagram/gendiagram/DiagramNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AD_DependencyLinkUI" eSuperTypes="#//diagram/gendiagram/DiagramConnection"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AD_SoftGoalUI" eSuperTypes="#//diagram/gendiagram/DiagramNode"/>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="project" nsURI="http:///it/itc/sra/taom4e/model/project.ecore"
+      nsPrefix="it.itc.sra.taom4e.model.project">
+    <eClassifiers xsi:type="ecore:EClass" name="Project">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Diagram" upperBound="-1"
+          eType="#//diagram/gendiagram/Diagram" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="BusinessModel" lowerBound="1"
+          eType="#//core/gencore/BusinessModel"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Phase">
+      <eLiterals name="ER"/>
+      <eLiterals name="LR" value="1"/>
+      <eLiterals name="AD" value="2"/>
+      <eLiterals name="DD" value="3"/>
+      <eLiterals name="IMPL" value="4"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Section">
+      <eLiterals name="PROJECT"/>
+      <eLiterals name="VIEW" value="1"/>
+      <eLiterals name="MODEL" value="2"/>
+      <eLiterals name="ELEMENT" value="3"/>
+      <eLiterals name="RELATION" value="4"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

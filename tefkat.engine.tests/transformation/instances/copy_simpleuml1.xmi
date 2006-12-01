@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:UMLPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http:///transformation/simpleuml.ecore" xmi:id="16272138">
+  <contents xsi:type="uml:UMLClass" xmi:id="6399974" name="thereAreTwoClassesWithTheSameName" kind="persistent"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="14361740" name="thereAreTwoClassesWithTheSameName" kind="persistent"/>
+  <contents xsi:type="uml:PrimitiveDataType" xmi:id="20735704" name="String"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="8650214" name="OffShoreCompany" parents="#30117391" kind="persistent"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="26360997" name="LocalCompany" parents="#30117391" kind="persistent"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="30117391" name="Company" parents="#9745176"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="3870732" name="Person" parents="#9745176" kind="persistent"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="9745176" name="Principal">
+    <attribute xmi:id="10258369" name="name" type="#20735704"/>
+    <attribute xmi:id="26914830" name="savingsAccount" type="#11770074"/>
+  </contents>
+  <contents xsi:type="uml:UMLClass" xmi:id="11770074" name="Account" kind="persistent">
+    <attribute xmi:id="7990516" name="owner" type="#9745176"/>
+  </contents>
+</uml:UMLPackage>

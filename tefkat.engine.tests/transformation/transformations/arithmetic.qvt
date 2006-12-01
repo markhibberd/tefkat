@@ -1,0 +1,162 @@
+
+TRANSFORMATION arith : a -> b
+
+// IMPORT http://www.eclipse.org/emf/2002/Ecore
+IMPORT http:///arithmetic.ecore
+
+CLASS tr {
+  Number n1;
+  Number n2;
+};
+
+CLASS track {
+  int i1;
+};
+
+RULE init
+  LINKING track WITH i1 = 0
+;
+
+RULE loop
+  WHERE track LINKS i1 = x
+  AND println(x)
+  AND x < 5
+  LINKING track WITH i1 = x + 1
+;
+
+ABSTRACT
+RULE t
+  WHERE true = true
+//  AND println(<http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers>)
+//  AND println(<http:///arithmetic.ecore#//MySet>)
+  AND (x = 1 OR x = 2)
+  MAKE MySet p FROM f("a") {
+    foo: x;
+    vals: Number@b c { value: 3; };
+    vals: Number@b d { value: 4; };
+  }
+  SET d BEFORE c IN p.vals
+  ;
+
+ABSTRACT
+RULE tt EXTENDS t;
+
+ABSTRACT
+RULE nested
+  MAKE MySet _ {
+      vals: Number _;
+    }
+  ;
+
+ABSTRACT
+RULE delay
+  WHERE 1 = 1
+  AND println(split("aa/bb/cc/dd", "/"))
+  AND println(join(".", "aaa", "bbb"))
+  AND println(join("#", split("aa/bb/xx/yy", "/")))
+  AND x > 10
+  AND IF println("zzzzzzzzzzzzzzzzzzzzzzz") AND 1 = 1 THEN x = 20 AND println("foo") ELSE x = 30 AND println("bar") ENDIF
+  AND IF 1 = 2 THEN y = 15 AND println("foo 2") ELSE y = 10 AND println("bar 2") ENDIF
+  AND println(x, y)
+  ;
+
+ABSTRACT
+RULE optElse
+  WHERE IF 1 = 1
+        // THEN TRUE
+        ELSE println("1 != 1")
+        ENDIF
+;
+
+ABSTRACT
+RULE tgtITE
+  SET IF 1 = 1
+        THEN MAKE println("tgt then")
+        ELSE MAKE println("tgt else")
+      ENDIF
+;
+
+ABSTRACT
+RULE elseif
+  WHERE IF 1 = 2
+        THEN println("a")
+        ELSEIF 1 = 3
+        THEN println("b")
+        ELSEIF 1 = 1
+        THEN println("c")
+        ELSE println("d")
+        ENDIF
+;
+
+ABSTRACT
+RULE fixpoint
+  WHERE tr LINKS n1 = n1, n2 = n2
+    AND n2.value < 10
+    AND println(n1.value, n2.value)
+   MAKE Number n3 FROM num(n2.value)
+    SET n3.value = n2.value + 1
+  LINKING tr WITH n1 = n1, n2 = n3
+  ;
+
+ABSTRACT
+RULE expr
+  FORALL Number n1, Number n2
+  WHERE  println("X", n1.value, n2.value)
+  AND x = n1.value
+  AND y = n2.value
+  AND x.equals(y) = true
+  AND println("Y", n1.value, n2.value)
+  LINKING tr WITH n1 = n1, n2 = n2
+  ;
+
+/*
+RULE order
+  FORALL Vector v1, Vector v2
+  WHERE
+  (
+//    v1 != v2 AND
+    v1.values = x1 AND
+    v2.values = x2 AND
+//    println("o", x1, x2) AND
+    x1 BEFORE x2 IN v1.values
+  ) AND
+    println(v1.hashCode(), x1, "<", v2.hashCode(), x2)
+  MAKE Vector nv
+//  SET  x1 BEFORE x2 IN nv.values
+  ;
+*/
+
+/*
+RULE r
+  FORALL Number n
+  WHERE println(n.value, n)
+  MAKE Number m
+  SET m.value = n.value * -5;
+
+RULE rr
+//  WHERE x = [ 1 ]
+  MAKE Number n
+  SET n.value = 2 + -2 * 5.2;
+
+RULE rrr
+  FORALL Number n// { value: v; }
+  WHERE v = n.value AND println(n.value) AND v > 0
+  MAKE Number m FROM XX(n) { value: v + 20; }
+  ;
+*/
+
+ABSTRACT
+RULE rrrr
+  MAKE t("foo", _, -11120);
+
+TEMPLATE t(id, n, v)
+  MAKE Number n FROM id(id) { value: v; }
+  ;
+
+ABSTRACT
+RULE v
+  FORALL Vector v
+  WHERE x = v.values
+  MAKE Vector w
+  SET w.values = x
+  ;

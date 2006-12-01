@@ -1,0 +1,135 @@
+
+TRANSFORMATION compile : src -> tgt
+
+NAMESPACE M http:///TefkatModel-2.5.ecore
+NAMESPACE R http:///TefkatRuntime-1.0.ecore
+NAMESPACE http://www.eclipse.org/emf/2002/Ecore
+
+CLASS link {
+    EObject src;
+    EObject tgt;
+};
+
+RULE transformation(st, tt)
+  FORALL M^Transformation st {
+	    name: tn;
+         }
+  MAKE   R^Transformation tt {
+	    name: tn;
+         }
+  LINKING link WITH src=st, tgt=tt
+;
+
+RULE namespace
+  FORALL M^NamespaceDeclaration sn
+  MAKE   R^NamespaceDeclaration tn
+  , println("NS", tn)
+  LINKING link WITH src=sn, tgt=tn
+;
+
+RULE trule
+  FORALL M^TRule sr
+  MAKE   R^TRule tr
+  LINKING link WITH src=sr, tgt=tr
+;
+
+RULE term
+  FORALL M^Term st
+  WHERE  class = st.eClass()
+    // AND  println(class.eStructuralFeatures.name)
+  MAKE   $join("", "R^", class.name) tt
+  LINKING link WITH src=st, tgt=tt
+;
+
+RULE compoundTerm
+  FORALL M^CompoundTerm st
+  WHERE  sct = st.term
+    AND  link LINKS src=st, tgt=tt
+    AND  link LINKS src=sct, tgt=tct
+    SET  tt.term = tct
+;
+
+RULE expression
+  FORALL M^Expression se
+  WHERE  class = se.eClass()
+    // AND  println("test", se, join("", "R^", class.name))
+    // AND IF ::model::VarUse se THEN println(se, se.eContainer()) ENDIF
+  MAKE   $join("", "R^", class.name) te
+  LINKING link WITH src=se, tgt=te
+;
+
+RULE compoundExpr
+  FORALL M^CompoundExpr se
+  WHERE  sce = se.arg
+    AND  link LINKS src=se, tgt=te
+    AND  link LINKS src=sce, tgt=tce
+    SET  te.arg = tce
+;
+
+RULE var
+  FORALL M^Var sv
+  MAKE   R^Var tv
+  LINKING link WITH src=sv, tgt=tv
+;
+
+RULE featureValuePair
+  FORALL M^FeatureValuePair sfv
+  MAKE   R^FeatureValuePair tfv
+  LINKING link WITH src=sfv, tgt=tfv
+;
+
+RULE linkFeatures
+  FORALL _ st
+  WHERE  class = st.eClass()
+    AND  link LINKS src=st, tgt=tt
+    AND  f = class.eAllStructuralFeatures
+    AND  f.derived = false
+    AND  f.changeable = true
+    AND  n = f.name
+    AND  st.eIsSet(f) = true
+    AND  sv = st.$n
+    // AND  IF ::model::Transformation st THEN println(st, sv) ENDIF
+    SET  IF link LINKS src=sv, tgt=tv THEN
+	   // MAKE println(tt.eClass(), "->", tv.eClass())
+           // SET tt.$n = tv
+	   MAKE print1(class.name, n)
+	   SET IF "namespaceDeclarations" = n THEN
+	     MAKE println("XXXXXXX")
+	     , print1("HC", tt.hashCode())
+             SET tt.namespaceDeclarations = tv
+	   ENDIF
+	 ELSEIF EClass sv THEN
+	   SET tt.$n = sv
+	 ELSEIF NOT EObject sv THEN
+	   SET tt.$n = sv
+	 ELSE
+	   MAKE print1("Ignore", sv.hashCode(), sv.class.name)
+	 ENDIF
+;
+
+PATTERN print1(X)
+  WHERE println(X)
+;
+
+PATTERN print1(X, Y)
+  WHERE println(X, Y)
+;
+
+PATTERN print1(X, Y, Z)
+  WHERE println(X, Y, Z)
+;
+
+/*
+RULE miTerm
+  FORALL M^MofInstance sterm
+  MAKE R^MofInstance tterm
+  LINKING link WITH src=sterm, tgt=tterm
+;
+
+RULE condTerm
+  FORALL M^Condition sterm
+  MAKE R^Condition tterm
+  LINKING link WITH src=sterm, tgt=tterm
+;
+*/
+

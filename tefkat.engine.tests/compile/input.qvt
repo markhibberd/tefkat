@@ -1,0 +1,22 @@
+
+TRANSFORMATION example : src -> tgt
+
+NAMESPACE M http:///TefkatModel-2.5.ecore
+NAMESPACE R http:///TefkatRuntime-1.0.ecore
+NAMESPACE http://www.eclipse.org/emf/2002/Ecore
+
+CLASS link {
+    EObject src;
+    EObject tgt;
+};
+
+RULE transformation
+  FORALL M^Transformation st {
+	     name: tn;
+         }
+  MAKE   R^Transformation tt {
+	    name: tn;
+         }
+  LINKING link WITH src=st, tgt=tt
+;
+

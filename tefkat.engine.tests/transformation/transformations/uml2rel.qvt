@@ -1,0 +1,138 @@
+
+TRANSFORMATION uml2rel : uml -> rel
+
+IMPORT platform:/resource/transformation/models/simpleuml.ecore
+IMPORT platform:/resource/transformation/models/relational.ecore
+IMPORT platform:/resource/transformation/models/uml2rel.ecore
+
+//RULE enumtest
+//  WHERE println(<platform:/resource/transformation/models/simpleuml.ecore#//Ignore/lit1>)
+//  AND println(x)
+//  ;
+
+//
+//  simple'(c, t) :- UMLClass c AND NOT(over_simple(c, t)) AND assert(Table t)
+//
+RULE simple(c, t)
+  FORALL UMLClass c
+  MAKE Table t FROM c2t(c.name)
+  SET t.name = c.name
+  LINKING c2t WITH cls = c, tbl = t;
+  
+//
+//  over_simple2(c, t) :- over_simple(c, t)
+//  simple2'(c, t) :- UMLClass c AND NOT(over_simple(c, t)) AND NOT(over_simple2(c, t)) AND assert(Table t) and assert(t.name = c.name)
+//
+RULE simple2(c, t) EXTENDS simple(c, t) SET t.name = c.name;
+//
+//  over_simple(c, t) :- c.name = "Person"
+//  over'(c, t) :- c.name = "Person" AND NOT(over_over(c, t)) % abstract
+//
+ABSTRACT RULE over(c, t) OVERRIDES simple(c, t) WHERE c.name = "Person";
+//
+//  over_simple(c, t) :- c.name = "Principal"
+//  over3'(c, t) :- UMLClass c AND c.name = "Principal" AND NOT(over_over3(c, t)) AND assert(Table t) AND assert(t.name="Test Over2")
+//
+RULE over3(c, t) OVERRIDES simple(c, t) WHERE c.name = "Principal" MAKE Table t SET t.name="Test Over2";
+
+/*
+RULE linker
+  FORALL Attribute a
+  WHERE
+    c2t LINKS cls = c, tbl = t
+    AND c = a.owner
+    AND println(a.owner.name, a.owner.hashCode(), c.name, c.hashCode())
+    AND c.attribute = a
+  MAKE Column col
+  SET col.name = a.name, t.column = col
+  ;
+*/
+
+/*
+  // Produces a Table and Key for each persistent Class.
+  //
+  RULE Class2Table(c, t, k)
+    FORALL  UMLClass c
+    WHERE   n = c.name AND c.kind = "persistent"
+    MAKE    Table t FROM c2t(c.name), Key k FROM c2k(c.name)
+    SET     t.name = append("T_", c.name), t.key = k,
+            k.name = c.name
+    ;
+
+  // Produces Columns belonging to a Table for
+  // each persistent Class with storable Attributes.
+  //
+  
+  RULE Attr2Column(c, a, t, k, col)
+  EXTENDS Class2Table(c, t, k)
+    FORALL  Attribute a
+    WHERE   hasAttr(c, a, n)
+    MAKE    Column col FROM c4a(c,a,n)
+    SET     col.name = n,
+            col.owner = t
+    ;
+
+*/
+/*
+
+  // Immediate Attributes of a Class that are primary have
+  // their corresponding Column as part of the Table's Key.
+  //
+  RULE KeyColumns(c, a, t, k, col)
+  EXTENDS Attr2Column(c, a, t, k, col)
+    WHERE   a.kind = "primary" AND
+	        inhAttr(c, a)
+    SET     col.belongsTo = k;
+
+*/
+/*
+  // An Attribute is "storable" if it is a simple type (DataType),
+  // or it is Class-valued and that Class is persistent.
+  //
+  PATTERN storable(A)
+    FORALL Attribute A
+    WHERE  println("s", A.name) AND (A.type = "Class" ) OR // AND A.type.kind = "persistent") OR
+	   (A.type = "DataType");
+
+
+  // A Class "inherits" an Attribute if it owns it directly,
+  // or it has a superclass that "inherits" the Attribute.
+  //
+  // [Note - other's mapping examples ignore this, but what is a
+  //  "class" model without inheritance?]
+  //
+  PATTERN inhAttr(C, A)
+    FORALL Attribute A
+    WHERE println(A.name, A.owner.name) AND A.owner = C OR
+	  (A.owner = C2 AND supertype(C2, C));
+
+
+  PATTERN supertype(Super, Sub)
+    FORALL UMLClass Sub
+    WHERE Sub.parents = Super OR
+	  (Sub.parents = Middle AND supertype(Super, Middle));
+
+
+  // This pattern is used to handle so-called "complex types".
+  // A Class "has" and Attribute with a fully qualified name
+  // if it "inherits" the attribute and the attribute is storable,
+  // or it "inherits" another class-valued attribute for which the
+  // class is not persistent (ie a complex type) and that class
+  // "has" the attribute.
+  //
+  PATTERN hasAttr(C, A, N)
+    FORALL Attribute A
+    WHERE (
+	    inhAttr(C, A) AND
+	    A.name = N AND
+	    storable(A)
+//	  ) OR
+//	  (
+//	    inhAttr(C, A2) AND
+//	    A2.type = C2 AND
+//	    hasAttr(C2, A, N2) AND
+//	    C2.kind != "persistent" AND
+//	    N = append(append(A2.name, "_"), N2)
+	  );
+
+*/

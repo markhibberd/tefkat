@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<config:Configuration xmlns:xmi="http://www.omg.org/XMI" xmlns:config="http://www.dstc.edu.au:8080/qvt/TefkatConfig.ecore">
+  <transformationTasks enabled="true">
+    <transformation locationUri="platform:/resource/transformation/transformations/copy.qvt"/>
+    <sourceModels locationUri="platform:/resource/transformation/instances/template.antlr"/>
+    <targetModels locationUri="platform:/resource/transformation/instances/copy_template.antlr"/>
+    <trace locationUri="platform:/resource/transformation/instances/copy_trace1.xmi"/>
+    <uriMap key="http:///transformation/" value="platform:/resource/transformation/models/"/>
+    <uriMap key="http://antlr" value="platform:/resource/transformation/models/antlr.ecore"/>
+  </transformationTasks>
+</config:Configuration>

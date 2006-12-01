@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="antlr"
+    nsURI="http://antlr" nsPrefix="antlr">
+  <eClassifiers xsi:type="ecore:EClass" name="Grammar">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="header" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="options" upperBound="-1"
+        eType="#//Option" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lexer" eType="#//ClassDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parser" eType="#//ClassDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="treeParser" eType="#//ClassDefinition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preamble" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="options" upperBound="-1"
+        eType="#//Option" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tokens" upperBound="-1"
+        eType="#//Token" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//Rule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comment" eType="#//CodeFragment"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractRule" abstract="true">
+    <eOperations name="addElement">
+      <eParameters name="elem" eType="#//Element"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="options" upperBound="-1"
+        eType="#//Option" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alternatives" upperBound="-1"
+        eType="#//Alternative" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Alternative">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//Element" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exception" eType="#//ExceptionSpec"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="excluded" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedRule" abstract="true" eSuperTypes="#//AbstractRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//NamedRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scope" lowerBound="1" eType="#//SCOPE"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formalParameters" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="throwsClause" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initAction" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnValue" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="excluded" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exception" eType="#//ExceptionGroup"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comment" eType="#//CodeFragment"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Token" eSuperTypes="#//NamedRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="embedded" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Option">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//ANTLR_OPTIONS"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ASTType" eType="#//AST_TYPE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LabelableElement" abstract="true" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exception" eType="#//ExceptionGroup"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleReference" abstract="true" eSuperTypes="#//LabelableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//NamedRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnValue" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actualParameters" eType="#//CodeFragment"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CodeFragment" abstract="true" interface="true"
+      eSuperTypes="#//Element">
+    <eOperations name="getText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleCodeFragment" eSuperTypes="#//CodeFragment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contents" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//CODE_FRAGMENT_TYPE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Terminal" eSuperTypes="#//RuleReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="options" upperBound="-1"
+        eType="#//Option" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NonTerminal" eSuperTypes="#//RuleReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SubRule" eSuperTypes="#//AbstractRule #//Element">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//SUB_RULE_TYPE"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initAction" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Range" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="begin" lowerBound="1" eType="#//Literal"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="end" lowerBound="1" eType="#//Literal"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Literal" eSuperTypes="#//LabelableElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negated" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExceptionGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptions" lowerBound="1"
+        upperBound="-1" eType="#//ExceptionSpec" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExceptionSpec">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="handlers" upperBound="-1"
+        eType="#//ExceptionHandler" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExceptionHandler">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//CodeFragment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" lowerBound="1"
+        eType="#//CodeFragment" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Symbol" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//SYMBOLS"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ANTLR_OPTIONS">
+    <eLiterals name="K"/>
+    <eLiterals name="BUILD_AST" value="1"/>
+    <eLiterals name="TEST_LITERALS" value="2"/>
+    <eLiterals name="EXPORT_VOCAB" value="3"/>
+    <eLiterals name="DEFAULT_ERROR_HANDLER" value="4"/>
+    <eLiterals name="WARN_WHEN_FOLLOW_AMBIG" value="5"/>
+    <eLiterals name="INTERACTIVE" value="6"/>
+    <eLiterals name="CHAR_VOCABULARY" value="7"/>
+    <eLiterals name="GENERATE_AMBIG_WARNINGS" value="8"/>
+    <eLiterals name="GREEDY" value="9"/>
+    <eLiterals name="AST" value="10"/>
+    <eLiterals name="LANGUAGE" value="11"/>
+    <eLiterals name="IMPORT_VOCAB" value="12"/>
+    <eLiterals name="CODE_GEN_MAKE_SWITCH_THRESHOLD" value="13"/>
+    <eLiterals name="CODE_GEN_BITSET_TEST_THRESHOLD" value="14"/>
+    <eLiterals name="ANALYZER_DEBUG" value="15"/>
+    <eLiterals name="CODE_GEN_DEBUG" value="16"/>
+    <eLiterals name="AST_LABEL_TYPE" value="17"/>
+    <eLiterals name="IGNORE" value="18"/>
+    <eLiterals name="PARAPHRASE" value="19"/>
+    <eLiterals name="CASE_SENSITIVE_LITERALS" value="20"/>
+    <eLiterals name="CLASS_HEADER_PREFIX" value="21"/>
+    <eLiterals name="CLASS_HEADER_SUFFIX" value="22"/>
+    <eLiterals name="MANGLE_LITERAL_PREFIX" value="23"/>
+    <eLiterals name="FILTER" value="24"/>
+    <eLiterals name="NAMESPACE" value="25"/>
+    <eLiterals name="NAMESPACE_STD" value="26"/>
+    <eLiterals name="NAMESPACE_ANTLR" value="27"/>
+    <eLiterals name="GEN_HASH_LINES" value="28"/>
+    <eLiterals name="NO_CONSTRUCTORS" value="29"/>
+    <eLiterals name="CASE_SENSITIVE" value="30"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SCOPE">
+    <eLiterals name="DEFAULT"/>
+    <eLiterals name="PROTECTED" value="1"/>
+    <eLiterals name="PRIVATE" value="2"/>
+    <eLiterals name="PUBLIC" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CODE_FRAGMENT_TYPE">
+    <eLiterals name="SEMANTIC_ACTION"/>
+    <eLiterals name="SEMANTIC_PREDICATE" value="1"/>
+    <eLiterals name="RULE_ARGUMENT" value="2"/>
+    <eLiterals name="RETURNS_CLAUSE" value="3"/>
+    <eLiterals name="THROWS_CLAUSE" value="4"/>
+    <eLiterals name="RETURN_VALUE" value="5"/>
+    <eLiterals name="LABEL" value="6"/>
+    <eLiterals name="COMMENT" value="7"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SUB_RULE_TYPE">
+    <eLiterals name="SIMPLE"/>
+    <eLiterals name="CLOSURE" value="1"/>
+    <eLiterals name="POSITIVE_CLOSURE" value="2"/>
+    <eLiterals name="OPTIONAL" value="3"/>
+    <eLiterals name="SYNTACTIC_PREDICATE" value="4"/>
+    <eLiterals name="TREE" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AST_TYPE">
+    <eLiterals name="NONE"/>
+    <eLiterals name="EXCLUDE" value="1"/>
+    <eLiterals name="NODE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SYMBOLS">
+    <eLiterals name="WILDCARD"/>
+    <eLiterals name="EOF" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>
