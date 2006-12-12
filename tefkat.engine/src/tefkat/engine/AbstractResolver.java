@@ -37,16 +37,15 @@ import tefkat.model.internal.ModelUtils;
  */
 abstract class AbstractResolver {
     
-    class Expander {
+    class VarExpander {
         final private List vars;
         final private Function function;
 
-        Expander(List vars, Function function) {
+        VarExpander(List vars, Function function, Binding unifier)
+        throws NotGroundException, ResolutionException {
             this.vars = vars;
             this.function = function;
-        }
-        
-        void run(final Binding unifier) throws NotGroundException, ResolutionException {
+
             expandVars(0, unifier);
         }
         
@@ -145,7 +144,7 @@ abstract class AbstractResolver {
     final IntMap elapsedTime = new IntMap();
     final IntMap callCount = new IntMap();
     
-    protected RuleEvaluator ruleEval;
+    final protected RuleEvaluator ruleEval;
 
     protected Evaluator exprEval;
 
@@ -160,50 +159,15 @@ abstract class AbstractResolver {
     protected Map getNameMap() {
         return ruleEval.nameMap;
     }
-    
-    /**
-     *  Collect the unifiers that describe the solutions to the goal.
-     *  If the goal was not successful, throws a RuntimeExpcetion.
-     *  
-     *  @return A collection of unifiers, each unifier containing only the set
-     *          or variables in the goal, and mapping each variable to a term.
-     */
-    Collection solutions(Tree tree, Collection goalVars) {
-        if (!tree.isSuccess()) {
-            throw new IllegalStateException(
-                    "Resolution of the goal failed - there are no solutions");
-        }
-        
-        Collection unifiers = new ArrayList();
-      
-        for (Iterator itr = tree.getAnswers().iterator(); itr.hasNext(); ) {
-            Binding answer = (Binding) itr.next();
-            unifiers.add(answer);
-        }
-
-//        Binding init = new Binding();
-//
-//        Iterator i = goalVars.iterator();
-//        while (i.hasNext()) {
-//            Var v = (Var) i.next();
-//            init.put(v, v);
-//        }
-//
-//        Node rootNode = tree.root();
-//        init.apply(rootNode.binding());
-//        solutions(rootNode, init, unifiers);
-        return unifiers;
-    }
 
     /**
      * @param tree
      * @param node
      * @param goal
-     * @param isNegation
      * @return
      * @throws ResolutionException
      */
-    protected void doResolveNode(final Context context, final Term literal, final boolean isNegation)
+    protected void doResolveNode(final Context context, final Term literal)
     throws ResolutionException, NotGroundException {
 
         EClass idc = literal.eClass();
@@ -226,7 +190,7 @@ abstract class AbstractResolver {
             break;
             
         case TefkatPackage.PATTERN_USE:
-            resolvePatternUse(context, (PatternUse) literal, isNegation);
+            resolvePatternUse(context, (PatternUse) literal);
             break;
             
         case TefkatPackage.NOT_TERM:
@@ -324,12 +288,11 @@ abstract class AbstractResolver {
      * @param tree
      * @param node
      * @param literal
-     * @param isNegation
      * @return
      * 
      * TODO Cache PatternUse calls to trap infinite recursion.
      */
-    protected void resolvePatternUse(final Context context, final PatternUse literal, final boolean isNegation)
+    protected void resolvePatternUse(final Context context, final PatternUse literal)
     throws ResolutionException, NotGroundException {
 
         final PatternDefn pDefn = literal.getDefn();
@@ -374,10 +337,10 @@ abstract class AbstractResolver {
         if (pDefVars.size() == 0) {
             if (ruleEval.INCREMENTAL) {
                 incrementalResolvePatternDefn(context,
-                        literal, pDefVars, args, pDefn, null, context.tree.getContext(), isNegation);
+                        literal, pDefVars, args, pDefn, null, context.tree.getContext());
             } else {
                 resolvePatternDefn(context,
-                        literal, pDefVars, args, pDefn, null, context.tree.getContext(), isNegation);
+                        literal, pDefVars, args, pDefn, null, context.tree.getContext());
             }
         } else {
 //            final Binding context = tree.getContext();
@@ -388,7 +351,7 @@ abstract class AbstractResolver {
                         parameterContext.composeRight(context.tree.getContext());
                         incrementalResolvePatternDefn(context,
                                 literal, pDefVars, args, pDefn,
-                                callContext, parameterContext, isNegation);
+                                callContext, parameterContext);
                     }
                 };
             } else {
@@ -397,7 +360,7 @@ abstract class AbstractResolver {
                         parameterContext.composeRight(context.tree.getContext());
                         resolvePatternDefn(context,
                                 literal, pDefVars, args, pDefn,
-                                callContext, parameterContext, isNegation);
+                                callContext, parameterContext);
                     }
                 };
             }
@@ -409,27 +372,13 @@ abstract class AbstractResolver {
 
     private void incrementalResolvePatternDefn(final Context context, final PatternUse literal,
             final List pDefVars, final List args, final PatternDefn pDefn,
-            final Binding callContext, final Binding parameterContext, final boolean isNegation)
+            final Binding callContext, final Binding parameterContext)
     throws ResolutionException {
 
-        final Map cache = ruleEval.getPatternCache(pDefn);
-        Tree resultTree = (Tree) cache.get(parameterContext);
+        final Collection goal = new ArrayList();
+        goal.add(pDefn.getTerm());
         
-        if (null == resultTree) {
-            Collection patGoal = new ArrayList();
-            Term pDefTerm = pDefn.getTerm();
-            patGoal.add(pDefTerm);
-
-//            System.err.println("resolving " + patGoal + "\n  " + newContext);      // TODO delete
-            Node patternNode = new Node(patGoal, parameterContext);
-        
-            // Maybe Tree (via context) should construct the new tree?
-            resultTree = context.createTree(patternNode, isNegation, false);
-            
-            ruleEval.addUnresolvedTree(resultTree);
-
-            cache.put(parameterContext, resultTree);
-        }
+        Tree resultTree = context.getResultTree(goal, parameterContext);
 
         if (!resultTree.isCompleted()) {
             // Register listener for any new solutions
@@ -449,18 +398,15 @@ abstract class AbstractResolver {
                 }
 
                 public void floundered(Tree theTree) {
-                    cache.remove(parameterContext);
                 }
                 
             });
         }
         
-        //System.err.println("\t" + resultTree.isSuccess());      // TODO delete
         if (resultTree.isSuccess()) {
             // Process any existing solutions
             
-            Collection solutions = solutions(resultTree, pDefVars);
-            for (Iterator itr = solutions.iterator(); itr.hasNext();) {
+            for (Iterator itr = resultTree.getAnswers().iterator(); itr.hasNext();) {
                 Binding answer = (Binding) itr.next();
                 Binding unifier = createOutputBinding(context, callContext, pDefVars, args, answer);
 
@@ -471,34 +417,18 @@ abstract class AbstractResolver {
     
     private void resolvePatternDefn(final Context context, final PatternUse literal,
             final List pDefVars, final List args, final PatternDefn pDefn,
-            final Binding callContext, final Binding parameterContext, final boolean isNegation)
+            final Binding callContext, final Binding parameterContext)
     throws ResolutionException {
         try {
             ruleEval.pushPattern(pDefn);
-            Tree resultTree = null;
+
+            final Collection goal = new ArrayList();
+            goal.add(pDefn.getTerm());
             
-            Map cache = ruleEval.getPatternCache(pDefn);
-            resultTree = (Tree) cache.get(parameterContext);
+            Tree resultTree = context.getResultTree(goal, parameterContext);
             
-            if (null == resultTree) {
-                Collection patGoal = new ArrayList();
-                Term pDefTerm = pDefn.getTerm();
-                patGoal.add(pDefTerm);
-                
-//              System.err.println("resolving " + patGoal + "\n  " + newContext);      // TODO delete
-                Node patternNode = new Node(patGoal, parameterContext);
-                
-                resultTree = context.createTree(patternNode, isNegation, false);
-                
-                ruleEval.resolveNode(resultTree);
-                
-                cache.put(parameterContext, resultTree);
-            }
-            
-            //System.err.println("\t" + resultTree.isSuccess());      // TODO delete
             if (resultTree.isSuccess()) {
-                Collection solutions = solutions(resultTree, pDefVars);
-                for (Iterator itr = solutions.iterator(); itr.hasNext(); ) {
+                for (Iterator itr = resultTree.getAnswers().iterator(); itr.hasNext(); ) {
                     Binding currentSolution = (Binding) itr.next();
                     Binding unifier = createOutputBinding(context, callContext, pDefVars, args, currentSolution);
 
@@ -653,7 +583,7 @@ abstract class AbstractResolver {
             
         };
         
-        new Expander(literal.getNonLocalVars(), f).run(context.node.getBindings());
+        new VarExpander(literal.getNonLocalVars(), f, context.node.getBindings());
     }
     
     private void evalIfGoal(final Context context, final Binding unifier, final List terms)
@@ -686,8 +616,6 @@ abstract class AbstractResolver {
                 }
                 
             });
-
-            ruleEval.addUnresolvedTree(newTree);
         } else {
             ruleEval.resolveNode(newTree);
             

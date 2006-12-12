@@ -52,7 +52,7 @@ import java.util.Map;
  *  Example:
  *      TargetResolver r = new TargetResolver();
  *      Tree t = r.resolve(goal, binding);
- *      Collection solutions = r.solutions(t, vars);
+ *      Collection solutions = t.getAnswers();
  *
  *  @author David Hearnden, Aug 2003
  *  @author michael lawley, Aug 2003 -- modified for QVT model
@@ -65,8 +65,6 @@ class TargetResolver extends AbstractResolver {
         // Ensure EMF runtime knows about the Trace metamodel
         TracePackageImpl.init();
     }
-    
-    private final Injections injections = new Injections();
 
     /**
      *  Create a new TargetResolver for goal using rules in transformation, and solve.
@@ -77,12 +75,12 @@ class TargetResolver extends AbstractResolver {
     	super(evaluator);
     }
 
-    protected void doResolveNode(final Context context, final Term literal, final boolean isNegation)
+    protected void doResolveNode(final Context context, final Term literal)
     throws ResolutionException, NotGroundException {
         if (literal instanceof Injection) {
             resolveInjection(context, (Injection) literal);
         } else {
-            super.doResolveNode(context, literal, isNegation);
+            super.doResolveNode(context, literal);
         }
     }
     
@@ -161,7 +159,7 @@ class TargetResolver extends AbstractResolver {
             List keys = (List) itr.next();
             keys.add(0, literal.getName());
         
-            EObject targetObject = injections.lookup(context.tree.getTrackingExtent(), keys, literal.getTRuleTgt());
+            EObject targetObject = ruleEval.injections.lookup(context.tree.getTrackingExtent(), keys, literal.getTRuleTgt());
         
             Binding unifier = new Binding();
             for (Iterator keyItr = keys.iterator(); keyItr.hasNext(); ) {
@@ -492,9 +490,7 @@ class TargetResolver extends AbstractResolver {
     }
 
     /**
-     * @param tree
-     * @param node
-     * @param goal
+     * @param context
      * @param term
      * @throws ResolutionException
      * @throws NotGroundException
@@ -522,9 +518,7 @@ class TargetResolver extends AbstractResolver {
     }
 
     /**
-     * @param tree
-     * @param node
-     * @param goal
+     * @param context
      * @param term
      * @throws ResolutionException
      * @throws NotGroundException
@@ -680,7 +674,7 @@ class TargetResolver extends AbstractResolver {
      * @param eFeature
      * @return
      */
-    private Object coerceType(Object object, EStructuralFeature eFeature) {
+    static private Object coerceType(Object object, EStructuralFeature eFeature) {
         Object result;
         if ("java.lang.String".equals(eFeature.getEType().getInstanceClassName())) {
             result = String.valueOf(object);
@@ -711,7 +705,7 @@ class TargetResolver extends AbstractResolver {
         return result;
     }
     
-    private List coerceTypes(List l, EStructuralFeature eFeature) {
+    static private List coerceTypes(List l, EStructuralFeature eFeature) {
         List cl = new ArrayList(l.size());
         for (int i = 0; i < l.size(); i++) {
             cl.add(i, coerceType(l.get(i), eFeature));

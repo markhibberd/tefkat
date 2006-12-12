@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import tefkat.engine.TargetResolver.Injections;
 import tefkat.model.Var;
 import tefkat.model.Extent;
 import tefkat.model.Injection;
@@ -88,6 +89,9 @@ public class RuleEvaluator {
     final private Set breakpoints = new HashSet();
     
     final private List unresolvedTrees = new ArrayList();
+    
+    final Injections injections = new Injections();
+
 
     /**
      *  
@@ -213,7 +217,7 @@ public class RuleEvaluator {
                 //
                 Tree tree;
                 if (ONE_TREE) {
-                    tree = new Tree(transformation, null, null, _context, trackingExtent, false);
+                    tree = new Tree(null, null, _context, trackingExtent, false);
                     tree.setLevel(level);
                     
                     addUnresolvedTree(tree);
@@ -227,7 +231,7 @@ public class RuleEvaluator {
                         
                         if (!tRule.isAbstract()) {
                             if (!ONE_TREE) {
-                                tree = new Tree(transformation, null, null, _context, trackingExtent, false);
+                                tree = new Tree(null, null, _context, trackingExtent, false);
                                 tree.setLevel(level);
                                 
                                 addUnresolvedTree(tree);
@@ -672,7 +676,7 @@ public class RuleEvaluator {
             //            System.out.println(trule.getName() + ": C " + ruleContext);
 
             Node root = new Node(goal, ruleContext);
-            Tree tree = new Tree(trule.getTransformation(), null, root, context, trackingExtent, false);
+            Tree tree = new Tree(null, root, context, trackingExtent, false);
 
             resolveNode(tree);
 
@@ -681,7 +685,7 @@ public class RuleEvaluator {
                 vars.addAll(ruleContext.keys()); // Add the extent vars to the
                                                  // vars provided to solutions
 
-                truleSolutions.addAll(tgtResolver.solutions(tree, vars));
+                truleSolutions.addAll(tree.getAnswers());
             } else {
                 fireInfo("TRule: " + trule.getName() + " matched nothing.");
             }
@@ -730,7 +734,7 @@ public class RuleEvaluator {
                         
                         Node flounder = tree.flounder();
                         
-                        if (null != node) {
+                        if (null != flounder) {
                             // Don't continue with this tree - it's obsolete
                             unresolvedTrees.remove(tree);
                             fireDelayTerm(flounder);
@@ -762,9 +766,9 @@ public class RuleEvaluator {
                         // appropriate resolver.
                         //
                         if (literal.isTarget()) {
-                            tgtResolver.doResolveNode(new Context(tree, node), literal, false);
+                            tgtResolver.doResolveNode(new Context(this, exprEval, tree, node), literal);
                         } else {
-                            srcResolver.doResolveNode(new Context(tree, node), literal, false);
+                            srcResolver.doResolveNode(new Context(this, exprEval, tree, node), literal);
                         }
 
                         fireExitTerm(node);
@@ -861,9 +865,9 @@ public class RuleEvaluator {
                         // appropriate resolver.
                         //
                         if (literal.isTarget()) {
-                            tgtResolver.doResolveNode(new Context(tree, node), literal, false);
+                            tgtResolver.doResolveNode(new Context(this, exprEval, tree, node), literal);
                         } else {
-                            srcResolver.doResolveNode(new Context(tree, node), literal, false);
+                            srcResolver.doResolveNode(new Context(this, exprEval, tree, node), literal);
                         }
 
                         fireExitTerm(node);
@@ -1564,14 +1568,14 @@ public class RuleEvaluator {
     }
 
     /**
-     * @param defn
+     * @param goal
      * @return
      */
-    public Map getPatternCache(PatternDefn defn) {
-        Map cache = (Map) patternCache.get(defn);
+    public Map getPatternCache(Collection goal) {
+        Map cache = (Map) patternCache.get(goal);
         if (null == cache) {
             cache = new HashMap();
-            patternCache.put(defn, cache);
+            patternCache.put(goal, cache);
         }
         return cache;
     }

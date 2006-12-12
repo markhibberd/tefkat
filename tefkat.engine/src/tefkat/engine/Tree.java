@@ -33,8 +33,6 @@ public class Tree {
     
     private final Binding context;
 
-    private final Transformation transformation;
-
     private final Context parentContext;
 
     private final Collection answers = new ArrayList();
@@ -49,10 +47,9 @@ public class Tree {
     
     private int level = Integer.MAX_VALUE;
 
-    public Tree(Transformation transformation, Context parentContext, Node node, Binding context, Extent trackingExtent, boolean isNegation) {
+    public Tree(Context parentContext, Node node, Binding context, Extent trackingExtent, boolean isNegation) {
         increment();
         
-        this.transformation = transformation;
         this.parentContext = parentContext;
         this.context = context;
         this.trackingExtent = trackingExtent;
@@ -97,10 +94,6 @@ public class Tree {
         } else {
             return null;
         }
-    }
-    
-    public List getUnresolvedNodes() {
-        return unresolvedNodes;
     }
     
     void addUnresolvedNode(Node node) {
@@ -177,10 +170,6 @@ public class Tree {
         }
     }
 
-    public void failure(Node node) {
-        node.setIsFailure(true);
-    }
-
     public Collection getAnswers() {
         return answers;
     }
@@ -195,10 +184,6 @@ public class Tree {
 
     boolean isNegation() {
         return isNegation;
-    }
-    
-    public Transformation getTransformation() {
-        return transformation;
     }
 
 }

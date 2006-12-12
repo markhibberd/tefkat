@@ -514,13 +514,13 @@ class SourceResolver extends AbstractResolver {
             
         };
         
-        new Expander(literal.getNonLocalVars(), f).run(context.node.getBindings());
+        new VarExpander(literal.getNonLocalVars(), f, context.node.getBindings());
 
     }
 
     /**
      * @param context
-     * @param literal
+     * @param unifier
      * @param negGoal
      * @return
      * @throws ResolutionException
@@ -552,8 +552,6 @@ class SourceResolver extends AbstractResolver {
                 }
                 
             });
-
-            ruleEval.addUnresolvedTree(newTree);
         } else {
             // Any success nodes in the negation tree?
             //

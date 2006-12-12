@@ -46,19 +46,18 @@ import tefkat.model.internal.ModelUtils;
  * @author lawley
  *
  */
-class Evaluator {
+public class Evaluator {
 
     private static final String NULL_TYPE = "null";
 
-    private final class DataMapLookup implements Function {
-        public Object call(Object[] params) throws ResolutionException {
+    private final class DataMapLookup implements Function2 {
+        public Object call(Binding binding, Object[] params) throws ResolutionException {
             DataMap dataMap = (DataMap) params[0];
             String key = String.valueOf(params[1]);
             Object result = dataMap.getValue().get(key);
             if (result instanceof Expression) {
-                Binding context = (Binding) funcMap.get(CONTEXT_KEY);
                 try {
-                    List vals = eval(context, (Expression) result);
+                    List vals = eval(binding, (Expression) result);
                     if (vals.size() == 1) {
                         result = vals.get(0);
                     } else {
@@ -72,6 +71,11 @@ class Evaluator {
             }
             return result;
         }
+
+        public Object call(Object[] params) throws ResolutionException {
+            throw new UnsupportedOperationException("Wrong method called. Should have been call(Binding, Object[])");
+        }
+
     }
 
     private final class MapFeature implements Function {
@@ -279,7 +283,6 @@ class Evaluator {
     /**
      * Key for Node instance in the funcMap (yes, it's a hack)
      */
-    private final static String CONTEXT_KEY = " context ";
     private final Map funcMap = new HashMap();
 
     private final RuleEvaluator ruleEval;
@@ -429,13 +432,13 @@ class Evaluator {
         List args = collection.getArg();
         Function f = (Function) funcMap.get("collect");
         
-        Expander expander = new Expander(f, context, args, true);
+        ExprExpander expander = new ExprExpander(f, context, args, true);
         List results = expander.getResults();
         
         return results;
     }
 
-    private List evalFunctionExpr(Binding context, Expression expr) throws ResolutionException, NotGroundException {
+    private List evalFunctionExpr(Binding unifier, Expression expr) throws ResolutionException, NotGroundException {
         List values;
         FunctionExpr funcExpr = (FunctionExpr) expr;
         String op = funcExpr.getFunction();
@@ -443,18 +446,20 @@ class Evaluator {
         Function f = (Function) funcMap.get(op);
         try {
             if (null != f) {
-                funcMap.put(CONTEXT_KEY, context);
                 if (args.size() > 0) {
-                    Expander expander = new Expander(f, context, args, false);
+                    ExprExpander expander = new ExprExpander(f, unifier, args, false);
                     values = expander.getResults();
                 } else {
                     values = new ArrayList();
-                    values.add(f.call(args.toArray()));
+                    if (f instanceof Function2) {
+                        values.add(((Function2) f).call(unifier, args.toArray()));
+                    } else {
+                        values.add(f.call(args.toArray()));
+                    }
                 }
-                funcMap.remove(CONTEXT_KEY);
             } else if ("collect".equals(op)) {
                 f = (Function) funcMap.get("collect");
-                Expander expander = new Expander(f, context, args, true);
+                ExprExpander expander = new ExprExpander(f, unifier, args, true);
                 values = expander.getResults();
             } else {
                 throw new ResolutionException(null, "Unknown function: " + op);
@@ -691,7 +696,7 @@ class Evaluator {
     }
     
     /**
-     * @param context
+     * @param unifier
      * @param args
      * @return
      * @throws ResolutionException
@@ -703,9 +708,9 @@ class Evaluator {
 //    albeit related problem to the rest of the changes to Tree, TreeListener, *Resolver etc
 //    Those changes are dealing with delays propagating out of sub-Trees -- see the FIXME below
     
-    void evalAll(Node node, Binding context, List args, Function function) throws ResolutionException, NotGroundException {
+    void evalAll(Node node, Binding unifier, List args, Function function) throws ResolutionException, NotGroundException {
         try {
-            new Expander(function, context, args, false);
+            new ExprExpander(function, unifier, args, false);
         } catch (ResolutionException e) {
             e.setNode(node);
             throw e;
@@ -891,7 +896,7 @@ class Evaluator {
         List results;
 
         if (args.size() > 0) {
-            Expander expander = new Expander(methodCall, context, args, collect);
+            ExprExpander expander = new ExprExpander(methodCall, context, args, collect);
             results = expander.getResults();
         } else {
             results = new ArrayList();
@@ -1051,7 +1056,7 @@ class Evaluator {
 //        }
 //    }
 
-    final class Expander {
+    final class ExprExpander {
 
         final private List results = new ArrayList();
         final private Function f;
@@ -1062,13 +1067,13 @@ class Evaluator {
         /**
          * 
          * @param function Function to call for each set of actual parameter values
-         * @param context outer Binding context for the calls
+         * @param binding outer Binding context for the calls
          * @param actuals List of Expressions to evaluate to obtain the parameter values
          * @param collect true means preserve nesting of result values
          * @throws NotGroundException
          * @throws ResolutionException
          */
-        Expander(Function function, Binding context, List actuals, boolean collect)
+        ExprExpander(Function function, Binding binding, List actuals, boolean collect)
         throws NotGroundException, ResolutionException {
             this.f = function;
             this.actuals = actuals;
@@ -1076,13 +1081,13 @@ class Evaluator {
             
             params = new Object[actuals.size()];
 
-            expandParams(context, 0);
+            expandParams(binding, 0);
         }
         
-        private void expandParams(Binding context, int i)
+        private void expandParams(Binding binding, int i)
         throws NotGroundException, ResolutionException {
             if (i == params.length) {
-                Object result = (f instanceof Function2) ? ((Function2) f).call(context, params) : f.call(params);
+                Object result = (f instanceof Function2) ? ((Function2) f).call(binding, params) : f.call(params);
                 if (null != result) {
                     if (!collect && result instanceof Collection) { 
                         results.addAll((Collection) result);
@@ -1093,20 +1098,20 @@ class Evaluator {
                     ruleEval.fireWarning("Function call returned null: " + f + "(" + params + ")");
                 }
             } else {
-                List values = eval(context, (Expression) actuals.get(i));
+                List values = eval(binding, (Expression) actuals.get(i));
                 for (final Iterator itr = values.iterator(); itr.hasNext(); ) {
                     Object obj = itr.next();
                     Binding newContext;
                     if (obj instanceof BindingPair) {
-                        newContext = new Binding(context);
+                        newContext = new Binding(binding);
                         newContext.composeRight((BindingPair) obj);
                         obj = ((BindingPair) obj).getValue();
                         
                         System.err.println(params[i] + " = " + obj);
-                        System.err.println(context);
+                        System.err.println(binding);
                         System.err.println(newContext);
                     } else {
-                        newContext = context;
+                        newContext = binding;
                     }
                     params[i] = obj;
                     expandParams(newContext, i+1);
