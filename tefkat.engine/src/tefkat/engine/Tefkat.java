@@ -378,14 +378,14 @@ public class Tefkat {
     private void createRuleEvaluator(Extent trackingExtent, Transformation t, Binding context) throws ResolutionException {
 
         // Get all the transitively referenced Resources
-        Map nameMap = new HashMap();
+        final Map nameMap = new HashMap();
         buildNameMap(t, nameMap);
         
-        try {
-            ModelUtils.resolveTrackingClassNames(t, nameMap);
-        } catch (TefkatException e) {
-            throw new ResolutionException(null, "Could not resolve tracking class references", e);
-        }
+//        try {
+//            ModelUtils.resolveTrackingClassNames(t, nameMap);
+//        } catch (TefkatException e) {
+//            throw new ResolutionException(null, "Could not resolve tracking class references", e);
+//        }
         
         ruleEvaluator = new RuleEvaluator(context, trackingExtent, nameMap, engineListeners);
         ruleEvaluator.setInterrupted(false);
@@ -588,7 +588,7 @@ public class Tefkat {
             }
 
             transform(transformationR, sourcesR, targetsR, traceR, force);
-
+            
             for (int i = 0; i < targetsR.length; i++) {
                 setObjectIds(targetsR[i]);
                 if (save) {
@@ -620,14 +620,25 @@ public class Tefkat {
             clearResourceSet();
         }
     }
-    
-    private void setObjectIds(Resource res) {
+
+    /**
+     * Sets the XMI IDs of the objects and avoids duplicates in the XMIResource
+     * @param res
+     */
+    private static void setObjectIds(Resource res) {
         if (res instanceof XMIResource) {
             XMIResource xres = (XMIResource) res;
-            for (Iterator itr = xres.getAllContents(); itr.hasNext(); ) {
-                EObject obj = (EObject) itr.next();
+            Object[] roots = xres.getContents().toArray();
+            for (int i = roots.length - 1; i >= 0; i--) {
+                EObject obj = (EObject) roots[i];
+                
+                // Set XMI ID if not already set
                 if (null == xres.getID(obj)) {
                     xres.setID(obj, String.valueOf(obj.hashCode()));
+                }
+                // remove direct containment for things that are transitively contained
+                if (null != obj.eContainer()) {
+                    xres.getContents().remove(obj);
                 }
             }
         }

@@ -30,10 +30,12 @@ import javax.swing.JScrollPane;
 import javax.swing.ToolTipManager;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
+import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
@@ -296,9 +298,11 @@ public class Main {
                     options.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
                     options.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData());
                     for (int i = 0; i < tgts.length; i++) {
+                        setObjectIds(tgts[i]);
                         tgts[i].save(options);
                     }
 		    if (null != trace) {
+                        setObjectIds(trace);
 			trace.save(options);
 		    }
                 }
@@ -322,6 +326,29 @@ public class Main {
 //             System.exit(0);
         }
 
+    }
+
+    /**
+     * Sets the XMI IDs of the objects and avoids duplicates in the XMIResource
+     * @param res
+     */
+    private static void setObjectIds(Resource res) {
+        if (res instanceof XMIResource) {
+            XMIResource xres = (XMIResource) res;
+            Object[] roots = xres.getContents().toArray();
+            for (int i = roots.length - 1; i >= 0; i--) {
+                EObject obj = (EObject) roots[i];
+                
+                // Set XMI ID if not already set
+                if (null == xres.getID(obj)) {
+                    xres.setID(obj, String.valueOf(obj.hashCode()));
+                }
+                // remove direct containment for things that are transitively contained
+                if (null != obj.eContainer()) {
+                    xres.getContents().remove(obj);
+                }
+            }
+        }
     }
     
     /**
