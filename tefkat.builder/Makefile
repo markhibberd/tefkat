@@ -63,6 +63,7 @@ features/tefkat.%: ../tefkat.%
 
 munge:
 	(cd /tmp; \
+	 /bin/rm -rf tefkat; \
 	 unzip ~/eclipse.build/${BRANCH}${REVISION}/tefkat.feature-${BRANCH}${REVISION}.zip; \
 	 cd tefkat; \
 	 scp -r plugins features lawley@shell.sf.net:tefkat/htdocs/update-site \
