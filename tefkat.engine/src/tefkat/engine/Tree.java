@@ -126,8 +126,10 @@ public class Tree {
     public void completed() {
         completed = true;
         
-        for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
-            TreeListener listener = (TreeListener) itr.next();
+        // Need to avoid problems if the TreeListener tries to remove itself
+        Object[] array = listeners.toArray();
+        for (int i = array.length - 1; i >= 0; i--) {
+            TreeListener listener = (TreeListener) array[i];
             listener.completed(this);
         }
     }
