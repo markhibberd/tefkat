@@ -16,6 +16,6 @@ tests: \
 %.tefkat: %.xml
 	java -jar ../../tefkat.standalone/Tefkat_2.1.0.1.jar \
 	    ${ARGS} ${VIS} \
-	    -mapURI platform:/resource/transformation/ file:/Users/lawley/src/Tefkat-svn/tefkat.engine.tests/transformation/ \
-	    -mapURI http:/// file:/Users/lawley/src/Tefkat-svn/tefkat.engine.tests/transformation/models/ \
+	    -mapURI platform:/resource/transformation/ file:${PWD}/../../tefkat.engine.tests/transformation/ \
+	    -mapURI http:/// file:${PWD}/../../tefkat.engine.tests/transformation/models/ \
 	    -conf $<

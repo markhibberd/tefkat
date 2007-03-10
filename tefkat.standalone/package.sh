@@ -13,12 +13,11 @@ EMF_VERSION=2.1.0
 
 ECLIPSE_DIR=/Applications/eclipse-SDK-3.2/plugins
 EMF_VERSION=2.2.0.v200606271057
+EMF_VERSION=2.2.?.v200609210005
 
 BUILD_BASE=..
-BUILD_BASE=~/eclipse.build/plugins
 
-BUILD_DIR=runtime
-BUILD_DIR=@dot
+# BUILD_BASE=~/eclipse.build/plugins
 
 cat > /tmp/manifest.mf <<EOF
 Manifest-Version: 1.0
@@ -29,11 +28,19 @@ EOF
 test -d main || mkdir main
 
 jar -cfm main/tefkat.jar /tmp/manifest.mf
-jar -uf main/tefkat.jar \
-    -C $BUILD_BASE/tefkat.engine/$BUILD_DIR tefkat \
-    -C $BUILD_BASE/tefkat.config/$BUILD_DIR tefkat \
-    -C $BUILD_BASE/tefkat.model/$BUILD_DIR tefkat \
-    -C $BUILD_BASE/tefkat.model.parser/$BUILD_DIR tefkat
+for BD in runtime bin @dot
+do
+  for PROJ in tefkat.engine tefkat.config tefkat.model tefkat.model.parser
+  do
+    test -d $BUILD_BASE/$PROJ/$BD && jar -uf main/tefkat.jar -C $BUILD_BASE/$PROJ/$BD tefkat
+  done
+done
+
+#jar -uf main/tefkat.jar \
+#    -C $BUILD_BASE/tefkat.engine/$BUILD_DIR tefkat \
+#    -C $BUILD_BASE/tefkat.config/$BUILD_DIR tefkat \
+#    -C $BUILD_BASE/tefkat.model/$BUILD_DIR tefkat \
+#    -C $BUILD_BASE/tefkat.model.parser/$BUILD_DIR tefkat
 
 test -d lib || mkdir lib
 cp -f \

@@ -1853,7 +1853,7 @@ public class TefkatPackageImpl extends EPackageImpl implements TefkatPackage {
         addEOperation(ifTermEClass, this.getVar(), "getNonLocalVars", 0, -1);
 
         initEClass(trackingUseEClass, TrackingUse.class, "TrackingUse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getTrackingUse_Tracking(), ecorePackage.getEClass(), null, "tracking", null, 0, 1, TrackingUse.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getTrackingUse_Tracking(), ecorePackage.getEClass(), null, "tracking", null, 0, 1, TrackingUse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getTrackingUse_Features(), this.getFeatureValuePair(), null, "features", null, 0, -1, TrackingUse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getTrackingUse_TrackingName(), ecorePackage.getEString(), "trackingName", null, 1, 1, TrackingUse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

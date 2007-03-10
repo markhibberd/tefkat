@@ -138,6 +138,7 @@ class TargetResolver extends AbstractResolver {
                 List pairs = new ArrayList(instances.size());
                 for (Iterator instItr = instances.iterator(); instItr.hasNext(); ) {
                     Object o = instItr.next();
+
                     BindingPair bp = new BindingPair(o);
                     bp.add(wVar.getVar(), o);
                     pairs.add(bp);
@@ -636,7 +637,7 @@ class TargetResolver extends AbstractResolver {
                                 context.error("Conflicting value: " + newVal + " found for feature, " + ModelUtils.getFullyQualifiedName(theFeature) + ", which is already set to: " + curVal);
                             }
                         } else {
-                            //System.err.println("Setting " + theFeature + " to " + newVal);
+//                            System.err.println("Setting " + theFeature.getName() + " to " + newVal);
 //                                System.err.println("O **** " + instance);
 //                                System.err.println(instance.eClass());
 //                                System.err.println("F **** " + theFeature);

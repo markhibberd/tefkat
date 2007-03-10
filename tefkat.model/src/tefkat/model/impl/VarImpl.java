@@ -455,7 +455,7 @@ public class VarImpl extends EObjectImpl implements Var {
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        return getScope().getName() + "::" + name;
+        return (null == getScope() ? null : getScope().getName()) + "::" + name;
     }
 
 } //VarImpl

@@ -1716,7 +1716,7 @@ relation[VarScope scope, List terms] returns [Term term = null] {
                 }
                 conjunct[scope, aTerm.getTerm()]
                 RBRACK
-        |        (("EXACT"|"DYNAMIC")? (DOLLAR|UNDERSCORE|CARET|FQID|ID) (AT ID)? vname) =>
+        |       (("EXACT"|"DYNAMIC")? (DOLLAR|UNDERSCORE|(CARET ID)? FQID|ID (CARET ID)?) (AT ID)? vname) =>
                 term = range[scope, null, false, terms] {
                         MofInstance inst = (MofInstance) term;
                 	// NPE triggred here if range[] has failed to match
@@ -1727,14 +1727,14 @@ relation[VarScope scope, List terms] returns [Term term = null] {
                         }
                 }
                 (objectBody[scope, var, false, terms, null])?
-        |        (BANG | "NOT") term = relation[scope, terms] {
+        |       (BANG | "NOT") term = relation[scope, terms] {
                         NotTerm nterm = TefkatFactory.eINSTANCE.createNotTerm();
                         if (null != term) {
                             nterm.getTerm().add(term);
                         }
                         term = nterm;
                 }
-        |        (pname LBRACK) => term = patternUse[scope, terms]
+        |       (pname LBRACK) => term = patternUse[scope, terms]
         |        (tname "LINKS") => term = links[scope, terms]
         |        ("IF") => term = s_ifthenelse[scope]
         |        b:BOOLEAN {
@@ -1767,7 +1767,7 @@ relation[VarScope scope, List terms] returns [Term term = null] {
                         nTerm.getTerm().add(condition);
                         term = nTerm;
                 }
-        |        lhs = expr[scope, terms]
+        |       lhs = expr[scope, terms]
                 (
                     "BEFORE"
                     rhs = expr[scope, terms]
@@ -2054,6 +2054,7 @@ trackingUse[VarScope scope, List terms] returns [TrackingUse use = null] {
                                           "a " + tracking.getClass().getName();
                             reportWarning("Expected an EClass: " + tname + ", found " + type, getMarkLine(), getMarkColumn());
                         }
+                        use.setTracking((EClass) tracking);
                         featureMap = use.getFeatures().map();
                 }
                 featureMaps[scope, featureMap, terms]
@@ -2233,6 +2234,7 @@ links[VarScope scope, List terms] returns [TrackingUse use = null] {
                                           "a " + tracking.getClass().getName();
                             reportWarning("Expected an EClass: " + tname + ", found " + type, getMarkLine(), getMarkColumn());
                         }
+                        use.setTracking((EClass) tracking);
                         featureMap = use.getFeatures().map();
                 }
                 featureMaps[scope, featureMap, terms]
@@ -2250,7 +2252,7 @@ path[VarScope scope, List terms] returns [Expression expr = null] {
                         expr = TefkatFactory.eINSTANCE.createVarUse();
                         Var var = getVarInScope(scope, vname);
                         if (null == var) {
-                            throw new antlr.SemanticException("No var named: " + vname + " in scope.", getFilename(), getMarkLine(), getMarkColumn());
+                            var = declareVar(scope, vname, getMarkLine(), getMarkColumn());
                         }
                         ((VarUse) expr).setVar(var);
                     }

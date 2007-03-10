@@ -38,11 +38,13 @@ import tefkat.model.internal.ModelUtils;
 abstract class AbstractResolver {
     
     class VarExpander {
+        final private Context context;
         final private List vars;
         final private Function function;
 
-        VarExpander(List vars, Function function, Binding unifier)
+        VarExpander(Context context, List vars, Function function, Binding unifier)
         throws NotGroundException, ResolutionException {
+            this.context = context;
             this.vars = vars;
             this.function = function;
 
@@ -54,7 +56,7 @@ abstract class AbstractResolver {
             if (idx == vars.size()) {
                 // reached end of list of vars, now do the work
                 final Object[] args = {unifier};
-                function.call(args);
+                function.call(context, args);
                 return;
             }
 
@@ -82,17 +84,17 @@ abstract class AbstractResolver {
             this.vars = vars;
         }
 
-        public Object call(Object[] params) {
-            throw new Error("Internal error: this method should not be called");
+        public Object call(Context context, Object[] params) {
+            throw new UnsupportedOperationException("Internal error: this method should not be called");
         }
 
         /**
-         * @param context a set of variable bindings that needs to be propagated to the answer Binding
+         * @param binding a set of variable bindings that needs to be propagated to the answer Binding
          * @param actuals actual values or WrappedVaes for the pDefVars for a call
          */
-        public Object call(Binding context, Object[] actuals) throws ResolutionException {
+        public Object call(Context context, Binding binding, Object[] actuals) throws ResolutionException {
             Binding parameterContext = new Binding();
-            Binding callContext = new Binding(context);
+            Binding callContext = new Binding(binding);
             
 //            System.err.println(pDefn.getName());
 //            System.err.println("    C: " + context);
@@ -221,7 +223,7 @@ abstract class AbstractResolver {
             context.error("Unrecognised term type: " + literal);
         }
         
-        long end = System.currentTimeMillis();
+        final long end = System.currentTimeMillis();
         int total = elapsedTime.get(idc);
         total += (end - start);
         elapsedTime.put(idc, total);
@@ -561,7 +563,7 @@ abstract class AbstractResolver {
         }
     }
 
-    protected void resolveIfTerm(final Context context, final IfTerm literal)
+    protected void resolveIfTerm(Context context, final IfTerm literal)
     throws ResolutionException, NotGroundException {
         
         // Ensure that all non-local variables are already ground
@@ -575,7 +577,7 @@ abstract class AbstractResolver {
         }
         
         final Function f = new Function() {
-            public Object call(Object[] params) throws ResolutionException {
+            public Object call(Context context, Object[] params) throws ResolutionException {
                 Binding unifier = (Binding) params[0];
                 evalIfGoal(context, unifier , literal.getTerm());
                 return null;
@@ -583,7 +585,7 @@ abstract class AbstractResolver {
             
         };
         
-        new VarExpander(literal.getNonLocalVars(), f, context.node.getBindings());
+        new VarExpander(context, literal.getNonLocalVars(), f, context.getBindings());
     }
     
     private void evalIfGoal(final Context context, final Binding unifier, final List terms)

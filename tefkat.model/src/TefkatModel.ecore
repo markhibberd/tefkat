@@ -153,8 +153,7 @@
     <eOperations name="getNonLocalVars" upperBound="-1" eType="#//Var"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TrackingUse" eSuperTypes="#//SimpleTerm">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="tracking" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"
-        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracking" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
         eType="#//FeatureValuePair" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="trackingName" lowerBound="1"

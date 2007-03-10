@@ -363,7 +363,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                 final Transformation transformation = parser.transformation();
                 res.save(out, SERIALIZATION_OPTIONS);
 
-                ModelUtils.resolveTrackingClassNames(transformation, parser.trackingMap);
+//                ModelUtils.resolveTrackingClassNames(transformation, parser.trackingMap);
                 printStrata(sb, transformation.getStrata());
                 
             } catch (final RecognitionException e) {

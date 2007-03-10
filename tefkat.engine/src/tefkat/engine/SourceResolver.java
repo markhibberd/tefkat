@@ -17,6 +17,8 @@ package tefkat.engine;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import tefkat.model.*;
@@ -27,7 +29,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
@@ -207,8 +208,7 @@ class SourceResolver extends AbstractResolver {
 
         // Get the existing instances of the tracking class.
         //
-        Extent trackingExtent = context.tree.getTrackingExtent();
-        List trackings = trackingExtent.getObjectsByClass(trackingClass, false);
+        List trackings = ruleEval.getTrackingCache(trackingClass);
         ExtentUtil.highlightNodes(trackings, ExtentUtil.CLASS_LOOKUP);
         
         // record that this rule has queried the tracking class
@@ -506,7 +506,7 @@ class SourceResolver extends AbstractResolver {
         }
         
         final Function f = new Function() {
-            public Object call(Object[] params) throws ResolutionException {
+            public Object call(Context context, Object[] params) throws ResolutionException {
                 Binding unifier = (Binding) params[0];
                 evalNegatedGoal(context, unifier, new ArrayList(literal.getTerm()));
                 return null;
@@ -514,7 +514,7 @@ class SourceResolver extends AbstractResolver {
             
         };
         
-        new VarExpander(literal.getNonLocalVars(), f, context.node.getBindings());
+        new VarExpander(context, literal.getNonLocalVars(), f, context.node.getBindings());
 
     }
 
@@ -617,7 +617,7 @@ class SourceResolver extends AbstractResolver {
                     featureRef = ((EStructuralFeature) featureRef).getName();
                 }
                 
-                Object values = exprEval.fetchFeature((String) featureRef, instance);
+                Object values = context.fetchFeature((String) featureRef, instance);
                 if (!(values instanceof List)) {
                     context.error("The feature " + featureRef + " of " + instance + " did not return an ordered collection.");
                 }

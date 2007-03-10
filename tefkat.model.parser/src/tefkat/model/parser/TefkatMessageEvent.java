@@ -48,4 +48,7 @@ public class TefkatMessageEvent extends MessageEvent {
         return column;
     }
 
+    public String toString() {
+        return line + ", " + column + ", " + super.toString();
+    }
 }

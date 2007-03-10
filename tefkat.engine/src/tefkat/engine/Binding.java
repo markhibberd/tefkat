@@ -146,15 +146,24 @@ public class Binding {
         if (null == val) {
             throw new BindingError("Attempting to bind " + var + " to null");
         }
+        
+        // TODO delete this debugging check
+//        if (val instanceof Var) {
+//            System.err.println("Warning: storing unwrapped Var in Binding");
+//        }
 
         for (Iterator i = varToTerm.entrySet().iterator(); i.hasNext(); ) {
             Map.Entry vt = (Map.Entry) i.next();
             Object obj = vt.getValue();
             if (obj instanceof WrappedVar) {
                 obj = ((WrappedVar) obj).getVar();
-            }
-            if (var.equals(obj)) {
-                vt.setValue(val);
+                
+                // FIXME - Moved this code inside above IF otherwise add fails
+                // when transforming the transformation itself (!) since 
+                // a Var may (will) bind to itself.
+                if (var.equals(obj)) {
+                    vt.setValue(val);
+                }
             }
         }
         varToTerm.put(var, val);
@@ -168,10 +177,17 @@ public class Binding {
      */
     public Object lookup(Var var) {
         Object obj = varToTerm.get(var);
+//boolean flag = var.getName().equals("V") && obj instanceof Var && ((Var) obj).getName().equals("T");
+//if(flag) {
+//    System.err.println(hashCode() + " V == " + obj);
+//}
         if (obj instanceof DynamicObject && ((DynamicObject) obj).hasStaticInstance()) {
             obj = ((DynamicObject) obj).getStaticInstance();
             varToTerm.put(var, obj);
         }
+//if (var.getName().equals("V")) {
+//    System.err.println(hashCode() + " V /= " + obj);
+//}
         return obj;
     }
 

@@ -2,5 +2,5 @@ package tefkat.engine;
 
 public interface Function2
     extends Function {
-    public Object call(Binding context, Object[] params) throws ResolutionException;
+    public Object call(Context context, Binding binding, Object[] params) throws ResolutionException;
 }

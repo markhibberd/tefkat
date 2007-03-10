@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.FeatureMap;
 
 import tefkat.model.TRule;
 import tefkat.model.Term;
 import tefkat.model.Var;
+import tefkat.model.internal.ModelUtils;
 
 final class Context {
 
@@ -123,7 +126,53 @@ final class Context {
     }
 
     Object fetchFeature(String featureName, Object obj) {
-        return exprEval.fetchFeature(featureName, obj);
+        Object valuesObject = null;
+        try {
+            if (obj instanceof EObject) {
+                EObject instance = (EObject) obj;
+                // If instance is a DynamicObject or it's containing eResource is a target Extent
+                // then we're querying a target object which is an error (until we update the stratification
+                // as outlined by David Hearnden)
+                try {
+                    EStructuralFeature eFeature = AbstractResolver.getFeature(this, instance.eClass(), featureName);
+                    valuesObject = instance.eGet(eFeature);
+    
+                    if (valuesObject != null || instance.eIsSet(eFeature) || !eFeature.isRequired()) {
+                        ExtentUtil.highlightEdge(instance, valuesObject, ExtentUtil.FEATURE_LOOKUP);
+                    } else {
+                        warn(ModelUtils.getFullyQualifiedName(eFeature) + " is not set and no default value");
+                    }
+                    return valuesObject;    // This was a valid feature - don't want to fall through
+                } catch (ResolutionException e) {
+                    // EFeature not found, so try other ways to get a value for featureName
+                }
+            }
+            if (obj instanceof FeatureMap.Entry) {
+                FeatureMap.Entry entry = (FeatureMap.Entry) obj;
+                EStructuralFeature eFeature = entry.getEStructuralFeature();
+                if (eFeature.getName().equals(featureName)) {
+                    valuesObject = entry.getValue();
+                    return valuesObject;    // This was a valid feature - don't want to fall through
+                }
+            }
+    
+            String methName = "get" + featureName.substring(0, 1).toUpperCase() + featureName.substring(1, featureName.length());
+            try {
+                try {
+                    valuesObject = obj.getClass().getMethod(methName, null).invoke(obj, null);
+                } catch (NoSuchMethodException e) {
+                    if (null == valuesObject) {
+                        valuesObject = obj.getClass().getField(featureName).get(obj);
+                    }
+                }
+            } catch (Exception e) {
+                throw new ResolutionException(null, "Could not find a source of values for '" + featureName + "' in '" + obj + "'", e);
+            }
+        } catch (ResolutionException e) {
+            warn(e.getMessage());
+        }
+    
+        return valuesObject;
     }
 
     void addPartialOrder(Object inst, Object feat, Object lesser, Object greater) {

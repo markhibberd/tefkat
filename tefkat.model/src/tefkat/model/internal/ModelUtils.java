@@ -214,47 +214,47 @@ public abstract class ModelUtils {
         }
     }
     
-    public static void resolveTrackingClassNames(Transformation t, Map nameMap)
-    throws TefkatException {
-        for (Iterator itr = t.getPatternDefn().iterator(); itr.hasNext(); ) {
-            PatternDefn pDefn = (PatternDefn) itr.next();
-            resolveTrackingClassNames(pDefn.getTerm(), nameMap);
-        }
-        for (Iterator itr = t.getTRule().iterator(); itr.hasNext(); ) {
-            TRule tRule = (TRule) itr.next();
-            resolveTrackingClassNames(tRule.getSrc(), nameMap);
-            resolveTrackingClassNames(tRule.getTgt(), nameMap);
-        }
-    }
-    
-    private static void resolveTrackingClassNames(List terms, Map nameMap)
-    throws TefkatException {
-        for (Iterator itr = terms.iterator(); itr.hasNext(); ) {
-            Term term = (Term) itr.next();
-            resolveTrackingClassNames(term, nameMap);
-        }
-    }
-    
-    private static void resolveTrackingClassNames(Term term, Map nameMap)
-    throws TefkatException {
-        if (term instanceof TrackingUse) {
-            TrackingUse trackingUse = (TrackingUse) term;
-            String tname = trackingUse.getTrackingName();
-            EClassifier tracking = findClassifierByName(nameMap, tname);
-            if (null == tracking) {
-                throw new TefkatException("Undefined tracking class: " + tname);
-            }
-            if (!(tracking instanceof EClass)) {
-                String type = (tracking instanceof EDataType) ? "an EDataType" :
-                              (tracking instanceof EEnum) ? "an EEnum" :
-                              "a " + tracking.getClass().getName();
-                throw new TefkatException("Expected an EClass: " + tname + ", found " + type);
-            }
-            trackingUse.setTracking((EClass) tracking);
-        } else if (term instanceof CompoundTerm) {
-            CompoundTerm compoundTerm = (CompoundTerm) term;
-            resolveTrackingClassNames(compoundTerm.getTerm(), nameMap);
-        }
-    }
+//    public static void resolveTrackingClassNames(Transformation t, Map nameMap)
+//    throws TefkatException {
+//        for (Iterator itr = t.getPatternDefn().iterator(); itr.hasNext(); ) {
+//            PatternDefn pDefn = (PatternDefn) itr.next();
+//            resolveTrackingClassNames(pDefn.getTerm(), nameMap);
+//        }
+//        for (Iterator itr = t.getTRule().iterator(); itr.hasNext(); ) {
+//            TRule tRule = (TRule) itr.next();
+//            resolveTrackingClassNames(tRule.getSrc(), nameMap);
+//            resolveTrackingClassNames(tRule.getTgt(), nameMap);
+//        }
+//    }
+//    
+//    private static void resolveTrackingClassNames(List terms, Map nameMap)
+//    throws TefkatException {
+//        for (Iterator itr = terms.iterator(); itr.hasNext(); ) {
+//            Term term = (Term) itr.next();
+//            resolveTrackingClassNames(term, nameMap);
+//        }
+//    }
+//    
+//    private static void resolveTrackingClassNames(Term term, Map nameMap)
+//    throws TefkatException {
+//        if (term instanceof TrackingUse) {
+//            TrackingUse trackingUse = (TrackingUse) term;
+//            String tname = trackingUse.getTrackingName();
+//            EClassifier tracking = findClassifierByName(nameMap, tname);
+//            if (null == tracking) {
+//                throw new TefkatException("Undefined tracking class: " + tname);
+//            }
+//            if (!(tracking instanceof EClass)) {
+//                String type = (tracking instanceof EDataType) ? "an EDataType" :
+//                              (tracking instanceof EEnum) ? "an EEnum" :
+//                              "a " + tracking.getClass().getName();
+//                throw new TefkatException("Expected an EClass: " + tname + ", found " + type);
+//            }
+//            trackingUse.setTracking((EClass) tracking);
+//        } else if (term instanceof CompoundTerm) {
+//            CompoundTerm compoundTerm = (CompoundTerm) term;
+//            resolveTrackingClassNames(compoundTerm.getTerm(), nameMap);
+//        }
+//    }
     
 }

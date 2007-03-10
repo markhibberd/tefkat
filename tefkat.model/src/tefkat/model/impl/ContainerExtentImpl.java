@@ -25,7 +25,6 @@ import org.eclipse.emf.common.util.TreeIterator;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -108,79 +107,56 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
 
     /**
      * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
-    public EList getObjectsByClass(EClass theClass, boolean isExactly) {
-        EList objects = getAllObjectsByClass(theClass, isExactly);
-        return objects;
-    }
-    
-    static private interface Filter {
-        boolean filter(EObject eObject);
-    }
-
-    /**
      * FIXME Yikes, need to invalidate the cache if the extent is modified, but
      * in the context of a Tefkat transformation, only tracking extents will get
      * modified.
-     * 
-     * @param theClass
-     * @param isExactly
-     * @return
+     * <!-- end-user-doc -->
+     * @generated NOT
      */
-    private EList getAllObjectsByClass(final EClass theClass, final boolean isExactly) {
+    public EList getObjectsByClass(final EClass theClass, boolean isExactly) {
         EList objects;
         if (null == theClass) {
             // null class means no type constraint -- i.e., get all instances
-            objects = (EList) cacheLookup(exactlyCache, theClass);
+            objects = cacheLookup(exactlyCache, theClass);
             if (null == objects) {
-                objects = getMatchingObjects(new Filter() {
-                    public boolean filter(EObject eObject) {
-                        return true;
-                    }
-                });
+                objects = new BasicEList();
+                for (Iterator itr = resource.getAllContents(); itr.hasNext(); ) {
+                    objects.add(itr.next());
+                }
                 cacheStore(exactlyCache, theClass, objects);
             }
         } else if (isExactly) {
-            objects = (EList) cacheLookup(exactlyCache, theClass);
+            objects = cacheLookup(exactlyCache, theClass);
             if (null == objects) {
-                objects = getMatchingObjects(new Filter() {
-                    public boolean filter(EObject eObject) {
-                        return theClass.equals(eObject.eClass());
+                objects = new BasicEList();
+                for (Iterator itr = resource.getAllContents(); itr.hasNext(); ) {
+                    EObject obj = (EObject) itr.next();
+                    if (theClass.equals(obj.eClass())) {
+                        objects.add(obj);
                     }
-                });
+                }
                 cacheStore(exactlyCache, theClass, objects);
             }
         } else {
-            objects = (EList) cacheLookup(inexactlyCache, theClass);
+            objects = cacheLookup(inexactlyCache, theClass);
             if (null == objects) {
-                objects = getMatchingObjects(new Filter() {
-                    public boolean filter(EObject eObject) {
-                        return theClass.isSuperTypeOf(eObject.eClass());
+                objects = new BasicEList();
+                for (Iterator itr = resource.getAllContents(); itr.hasNext(); ) {
+                    EObject obj = (EObject) itr.next();
+                    if (theClass.isInstance(obj)) {
+                        objects.add(obj);
                     }
-                });
+                }
                 cacheStore(inexactlyCache, theClass, objects);
             }
         }
-        
         return objects;
     }
 
-    private EList getMatchingObjects(Filter filter) {
-        EList objects = new BasicEList();
-        Iterator itr = resource.getAllContents();
-        while (itr.hasNext()) {
-            EObject obj = (EObject) itr.next();
-            if (filter.filter(obj)) {
-                objects.add(obj);
-            }
-        }
-        return objects;
-    }
-    
-    private Object cacheLookup(Map cache, Object key) {
+    private EList cacheLookup(Map cache, EClass key) {
         // Can't cache if underlying resource has changed
+        // This is always (almost) the case for tracking extents :-(
+        // hence we keep special cases in the RuleEvaluator
         if (getResource().isModified()) {
             return null;
         }
@@ -188,12 +164,12 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
         if (null != result) {
             result = ((WeakReference) result).get();
         }
-        return result;
+        return (EList) result;
     }
     
-    private void cacheStore(Map cache, Object key, Object value) {
+    private void cacheStore(Map cache, EClass key, EList objects) {
         // Can't cache if underlying resource has changed
-        cache.put(key, new WeakReference(value));
+        cache.put(key, new WeakReference(objects));
     }
 
     /**
@@ -212,6 +188,36 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      */
     public void add(EObject obj) {
         resource.getContents().add(obj);
+//        System.err.println(resource.getURI() + " " + resource.getContents().size());
+        final EClass eClass = obj.eClass();
+        EList exact = getCache(exactlyCache, eClass);
+        if (null != exact) {
+//            System.err.println("hit");
+            exact.add(obj);
+        }
+        EList inexact = getCache(inexactlyCache, eClass);
+        if (null != inexact) {
+            inexact.add(obj);
+        }
+        for (Iterator itr = eClass.getEAllSuperTypes().iterator(); itr.hasNext(); ) {
+            EClass superClass = (EClass) itr.next();
+            inexact = getCache(inexactlyCache, superClass);
+            if (null != inexact) {
+                inexact.add(obj);
+            }
+        }
+    }
+    
+    EList getCache(Map cache, EClass key) {
+        Object result = cache.get(key);
+        if (null != result) {
+            result = ((WeakReference) result).get();
+        }
+        if (null == result) {
+            result = new BasicEList();
+            cache.put(key, new WeakReference(result));
+        }
+        return (EList) result;
     }
 
     /**
@@ -221,6 +227,11 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      */
     public void remove(EObject obj) {
         resource.getContents().remove(obj);
+        System.err.println(resource.getURI() + " remove");
+//        EList exact = cacheLookup(exactlyCache, obj.eClass());
+//        if (null != exact) {
+//            exact.remove(obj);
+//        }
     }
 
     /**

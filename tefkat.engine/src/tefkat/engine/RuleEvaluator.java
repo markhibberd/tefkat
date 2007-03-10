@@ -25,12 +25,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import tefkat.engine.TargetResolver.Injections;
+import tefkat.model.TefkatPackage;
 import tefkat.model.Var;
 import tefkat.model.Extent;
 import tefkat.model.Injection;
@@ -1318,6 +1321,8 @@ public class RuleEvaluator {
         }
     }
 
+    Map tcCache = new HashMap();
+    
     /**
      * Records that an instance of a given tracking class was created.
      * 
@@ -1327,18 +1332,37 @@ public class RuleEvaluator {
      */
     void trackingCreate(EClass trackingClass, EObject instance) throws ResolutionException, NotGroundException {
         if (INCREMENTAL) {
-            // FIXME do this for all superclasses as well!
-            //
+            updateTrackingCache(trackingClass, instance);
+            for (Iterator itr = trackingClass.getEAllSuperTypes().iterator(); itr.hasNext(); ) {
+                updateTrackingCache((EClass) itr.next(), instance);
+            }
+            
             List callbacks = (List) trackingQueryMap.get(trackingClass);
             if (null != callbacks) {
                 for (Iterator itr = callbacks.iterator(); itr.hasNext(); ) {
                     TrackingCallback callback = (TrackingCallback) itr.next();
                     callback.handleInstance(instance);
+//                    int count = srcResolver.callCount.get(TefkatPackage.Literals.TRACKING_USE);
+//                    count++;
+//                    srcResolver.callCount.put(TefkatPackage.Literals.TRACKING_USE, count);
                 }
             }
         } else {
             trackingUpdateSet.add(trackingClass);
         }
+    }
+
+    private void updateTrackingCache(EClass trackingClass, EObject instance) {
+        getTrackingCache(trackingClass).add(instance);
+    }
+
+    List getTrackingCache(EClass trackingClass) {
+        List list = (List) tcCache.get(trackingClass);
+        if (null == list) {
+            list = new ArrayList();
+            tcCache.put(trackingClass, list);
+        }
+        return list;
     }
 
     final private Map featureOrderings = new HashMap();

@@ -54,7 +54,7 @@ public interface TrackingUse extends SimpleTerm {
      * @return the value of the '<em>Tracking</em>' reference.
      * @see #setTracking(EClass)
      * @see tefkat.model.TefkatPackage#getTrackingUse_Tracking()
-     * @model transient="true"
+     * @model
      * @generated
      */
     EClass getTracking();
