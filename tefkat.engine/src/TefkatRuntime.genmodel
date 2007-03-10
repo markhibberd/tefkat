@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright michael lawley 2004"
+    modelDirectory="/tefkat.engine/src" modelPluginID="tefkat.engine.runtime" modelName="TefkatRuntime"
+    importerID="org.eclipse.emf.importer.ecore">
+  <foreignModel>TefkatRuntime.ecore</foreignModel>
+  <genPackages prefix="Runtime" basePackage="tefkat.engine" disposableProviderFactory="true"
+      ecorePackage="TefkatRuntime.ecore#/">
+    <genDataTypes ecoreDataType="TefkatRuntime.ecore#//Collection"/>
+    <genDataTypes ecoreDataType="TefkatRuntime.ecore#//List"/>
+    <genDataTypes ecoreDataType="TefkatRuntime.ecore#//ListArray"/>
+    <genDataTypes ecoreDataType="TefkatRuntime.ecore#//Context"/>
+    <genDataTypes ecoreDataType="TefkatRuntime.ecore#//TefkatException"/>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//Extent">
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Extent/contains">
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//Extent/contains/instance"/>
+      </genOperations>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Extent/getObjectsByClass">
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//Extent/getObjectsByClass/theClass"/>
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//Extent/getObjectsByClass/isExactly"/>
+      </genOperations>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Extent/getAllContents"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Extent/add">
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//Extent/add/obj"/>
+      </genOperations>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Extent/remove">
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//Extent/remove/obj"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//ContainerExtent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//ContainerExtent/resource"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//ReferenceExtent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//ReferenceExtent/resources"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//Var">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Var/scope"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//Var/name"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Var/usages"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Var/superseded"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Var/superseder"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Var/extended"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Var/extender"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//VarScope">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//VarScope/vars"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//VarScope/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//VarScope/comments"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//PatternScope">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//PatternScope/patternDefn"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//TRule">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//TRule/transformation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//TRule/src"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//TRule/tgt"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//TRule/extended"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//TRule/superseded"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//TRule/abstract"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//TRule/getGoal"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//TRule/getSourceTerms"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//TRule/getOverrideTerms"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//TRule/getTargetTerms"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//Transformation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Transformation/tRule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//Transformation/importedPackages"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Transformation/namespaceDeclarations"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Transformation/getStrata"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Transformation/addSupersedes">
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//Transformation/addSupersedes/superseder"/>
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//Transformation/addSupersedes/superseded"/>
+      </genOperations>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Transformation/removeSupersedes">
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//Transformation/removeSupersedes/superseder"/>
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//Transformation/removeSupersedes/superseded"/>
+      </genOperations>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Transformation/getSupersedingRules">
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//Transformation/getSupersedingRules/superseded"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//NamespaceDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//NamespaceDeclaration/prefix"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//NamespaceDeclaration/URI"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//PatternDefn">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//PatternDefn/patternScope"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//PatternDefn/term"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//PatternDefn/parameterVar"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//PatternDefn/source"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//Query">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Query/term"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Query/parameterVar"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//Term">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Term/patternDefn"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Term/query"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Term/compoundTerm"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Term/context"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Term/getExtent"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Term/isTarget"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//SourceTerm">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//SourceTerm/tRuleSrc"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//SourceTerm/match">
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//SourceTerm/match/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//TargetTerm">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//TargetTerm/tRuleTgt"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//TargetTerm/ensure">
+        <genParameters ecoreParameter="TefkatRuntime.ecore#//TargetTerm/ensure/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//CompoundTerm">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//CompoundTerm/term"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//SimpleTerm"/>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//Expression">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Expression/expr"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Expression/copy"/>
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//Expression/eval"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//InstanceRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//InstanceRef/object"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//AndTerm"/>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//OrTerm"/>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//NotTerm">
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//NotTerm/getNonLocalVars"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//IfTerm">
+      <genOperations ecoreOperation="TefkatRuntime.ecore#//IfTerm/getNonLocalVars"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//TrackingUse">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//TrackingUse/tracking"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//TrackingUse/features"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//TrackingUse/trackingName"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//FeatureValuePair">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//FeatureValuePair/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//FeatureValuePair/key"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//PatternUse">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//PatternUse/defn"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//PatternUse/arg"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//MofTerm"/>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//Condition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Condition/arg"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//Condition/relation"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//MofInstance">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//MofInstance/typeName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//MofInstance/instance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//MofInstance/exact"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//MofOrder">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//MofOrder/lesser"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//MofOrder/greater"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//MofOrder/instance"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//MofOrder/feature"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//CompoundExpr">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//CompoundExpr/arg"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TefkatRuntime.ecore#//SimpleExpr">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//SimpleExpr/representation"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//VarUse">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//VarUse/var"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//CollectionExpr">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//CollectionExpr/unique"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//CollectionExpr/ordered"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//FunctionExpr">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//FunctionExpr/function"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//FeatureExpr">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//FeatureExpr/operation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//FeatureExpr/collect"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//FeatureExpr/feature"/>
+    </genClasses>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//StringConstant"/>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//IntConstant"/>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//RealConstant"/>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//BooleanConstant"/>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//EnumConstant"/>
+    <genClasses ecoreClass="TefkatRuntime.ecore#//Injection">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatRuntime.ecore#//Injection/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Injection/sources"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatRuntime.ecore#//Injection/target"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
