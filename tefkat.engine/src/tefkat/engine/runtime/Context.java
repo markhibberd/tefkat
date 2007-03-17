@@ -196,8 +196,8 @@ public class Context {
         evaluation.addPartialOrder(inst, feat, lesser, greater);
     }
     
-    public Tree getResultTree(final Collection goal, final Binding unifier) {
-        final Map cache = evaluation.getPatternCache(goal);
+    public Tree getResultTree(final Term term, final Binding unifier) {
+        final Map cache = evaluation.getPatternCache(term);
         final Binding parameterContext;
         if (null == unifier) {
             parameterContext = tree.getContext();
@@ -208,6 +208,9 @@ public class Context {
         Tree resultTree = (Tree) cache.get(parameterContext);
         
         if (null == resultTree) {
+            final Collection goal = new ArrayList();
+            goal.add(term);
+            
 //            Collection patGoal = new ArrayList();
 //            Term pDefTerm = pDefn.getTerm();
 //            patGoal.add(pDefTerm);
@@ -243,13 +246,27 @@ public class Context {
         return resultTree;
     }
     
+    /** 
+     * 
+     * @param trackingClass
+     * @param isExactly
+     * @param callback Used to notify of subsequently created instances, can be null
+     * @return
+     */
     public List getObjectsByClass(EClass trackingClass, boolean isExactly, TrackingCallback callback) {
-        // record that this rule has queried the tracking class
-        evaluation.trackingQuery(trackingClass, callback);
+        // if necessary, record that this rule has queried the tracking class
+        if (null != callback) {
+            evaluation.trackingQuery(trackingClass, callback);
+        }
 
 //      ExtentUtil.highlightNodes(trackings, ExtentUtil.CLASS_LOOKUP);
 
         return tree.getTrackingExtent().getObjectsByClass(trackingClass, isExactly);
+    }
+    
+    public void addTrackingInstance(EClass trackingClass, EObject trackingInstance) throws ResolutionException, NotGroundException {
+        tree.getTrackingExtent().add(trackingInstance);
+        evaluation.trackingCreate(trackingClass, trackingInstance);
     }
 
     public EStructuralFeature getFeature(EClass klass, String featureName) throws ResolutionException {

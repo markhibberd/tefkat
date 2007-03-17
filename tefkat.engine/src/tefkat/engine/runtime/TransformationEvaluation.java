@@ -292,7 +292,7 @@ final public class TransformationEvaluation {
                     if (theTree.isSuccess()) {
                         fireInfo("TRule: " + trule.getName() + " completed.");
                     } else {
-                        fireInfo("TRule: " + trule.getName() + " matched nothing.");
+                        fireWarning("TRule: " + trule.getName() + " matched nothing.");
                     }
                 }
 
@@ -1296,14 +1296,14 @@ e.printStackTrace();
     }
 
     /**
-     * @param goal
+     * @param term
      * @return
      */
-    Map getPatternCache(Collection goal) {
-        Map cache = (Map) patternCache.get(goal);
+    Map getPatternCache(Term term) {
+        Map cache = (Map) patternCache.get(term);
         if (null == cache) {
             cache = new HashMap();
-            patternCache.put(goal, cache);
+            patternCache.put(term, cache);
         }
         return cache;
     }

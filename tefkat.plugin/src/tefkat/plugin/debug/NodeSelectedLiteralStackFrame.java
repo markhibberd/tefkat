@@ -16,7 +16,6 @@ package tefkat.plugin.debug;
 import java.util.List;
 
 import org.eclipse.debug.core.DebugException;
-import org.eclipse.debug.core.model.IRegister;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
@@ -31,7 +30,7 @@ import tefkat.model.VarScope;
  * @author lawley
  *
  */
-public class NodeSelectedLiteralStackFrame extends AbstractStackFrame {
+class NodeSelectedLiteralStackFrame extends AbstractStackFrame {
 
     private static final String DELAY = "DELAY";
     private static final String GOAL = "GOAL";
@@ -43,7 +42,7 @@ public class NodeSelectedLiteralStackFrame extends AbstractStackFrame {
     /**
      * 
      */
-    public NodeSelectedLiteralStackFrame(IThread thread, Node node) {
+    NodeSelectedLiteralStackFrame(IThread thread, Node node) {
         super((DebugTarget) thread.getDebugTarget());
         
         this.thread = thread;

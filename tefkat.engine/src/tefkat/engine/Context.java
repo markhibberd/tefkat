@@ -183,8 +183,8 @@ final class Context {
         ruleEval.fireInfo(mesg);
     }
     
-    Tree getResultTree(final Collection goal, final Binding unifier) {
-        final Map cache = ruleEval.getPatternCache(goal);
+    Tree getResultTree(final Term term, final Binding unifier) {
+        final Map cache = ruleEval.getPatternCache(term);
         final Binding parameterContext;
         if (null == unifier) {
             parameterContext = tree.getContext();
@@ -195,6 +195,9 @@ final class Context {
         Tree resultTree = (Tree) cache.get(parameterContext);
         
         if (null == resultTree) {
+            final Collection goal = new ArrayList();
+            goal.add(term);
+            
 //            Collection patGoal = new ArrayList();
 //            Term pDefTerm = pDefn.getTerm();
 //            patGoal.add(pDefTerm);

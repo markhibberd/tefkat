@@ -38,7 +38,6 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.EcoreUtil.ExternalCrossReferencer;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
@@ -59,6 +58,7 @@ import tefkat.model.Transformation;
 import tefkat.model.impl.TefkatPackageImpl;
 import tefkat.model.internal.IntMap;
 import tefkat.model.internal.ModelUtils;
+import tefkat.model.parser.ParserListener;
 import tefkat.model.parser.TefkatResourceFactory;
 
 
@@ -86,7 +86,7 @@ public class Tefkat {
     private final List engineListeners = new ArrayList();
 
     private final Resource.Factory XMI_RESOURCE_FACTORY = new XMIResourceFactoryImpl();
-    private final Resource.Factory TEFKAT_RESOURCE_FACTORY = new TefkatResourceFactory();
+    private final TefkatResourceFactory TEFKAT_RESOURCE_FACTORY = new TefkatResourceFactory();
     private final Resource.Factory XSD_RESOURCE_FACTORY = new XSDResourceFactoryImpl();
     private final Resource.Factory ECORE_RESOURCE_FACTORY = new EcoreResourceFactoryImpl();
     private final Resource.Factory XML_RESOURCE_FACTORY = new GenericXMLResourceFactoryImpl();
@@ -769,6 +769,14 @@ public class Tefkat {
         }
 
         return result;
+    }
+
+    public void addParserListener(final ParserListener listener) {
+        TEFKAT_RESOURCE_FACTORY.addParserListener(listener);
+    }
+
+    public void removeParserListener(final ParserListener listener) {
+        TEFKAT_RESOURCE_FACTORY.removeParserListener(listener);
     }
 
 }

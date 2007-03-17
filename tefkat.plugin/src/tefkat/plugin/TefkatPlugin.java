@@ -95,7 +95,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
 
     public static final String URIMAP_PREFERENCE = "URIMap";
 
-    public static final TefkatResourceFactory TEFKAT_RESOURCE_FACTORY = new TefkatResourceFactory();
+//    public static final TefkatResourceFactory TEFKAT_RESOURCE_FACTORY = Tefkat
     
     private static final Resource.Factory ECORE_RESOURCE_FACTORY = new EcoreResourceFactoryImpl();
     private static final Resource.Factory XMI_RESOURCE_FACTORY = new XMIResourceFactoryImpl();
@@ -123,10 +123,10 @@ public class TefkatPlugin extends AbstractUIPlugin {
     private ResourceBundle resourceBundle;
     
     // The QVT parser wrapped as a resource factory
-    static {
-        Map map = Registry.INSTANCE.getExtensionToFactoryMap();
-        map.put("qvt", TEFKAT_RESOURCE_FACTORY);
-    }
+//    static {
+//        Map map = Registry.INSTANCE.getExtensionToFactoryMap();
+//        map.put("qvt", TEFKAT_RESOURCE_FACTORY);
+//    }
 
     // The Tefkat Transformation Engine
     private Tefkat theEngine;
@@ -283,7 +283,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
     public Tefkat getTefkat() {
         if (null == theEngine) {
             theEngine = new Tefkat();
-            theEngine.registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
+//            theEngine.registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
 
             ConsolePlugin plugin = ConsolePlugin.getDefault();
             IConsoleManager manager = plugin.getConsoleManager();

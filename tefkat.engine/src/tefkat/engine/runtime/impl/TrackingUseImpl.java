@@ -7,6 +7,7 @@
 package tefkat.engine.runtime.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,9 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EMap;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
@@ -29,17 +32,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import tefkat.engine.runtime.Binding;
 import tefkat.engine.runtime.BindingPair;
 import tefkat.engine.runtime.Context;
+import tefkat.engine.runtime.DynamicObject;
 import tefkat.engine.runtime.Expression;
-import tefkat.engine.runtime.Extent;
 import tefkat.engine.runtime.NotGroundException;
 import tefkat.engine.runtime.ResolutionException;
 import tefkat.engine.runtime.RuntimePackage;
-import tefkat.engine.runtime.Term;
 import tefkat.engine.runtime.TrackingCallback;
 import tefkat.engine.runtime.TrackingUse;
-import tefkat.engine.runtime.Var;
 import tefkat.engine.runtime.WrappedVar;
-import tefkat.model.internal.ModelUtils;
 
 
 /**
@@ -306,7 +306,6 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
                 result.append(", ");
             }
         }
-        result.append(')');
         return result.toString();
     }
 
@@ -347,8 +346,116 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
     }
 
     public void ensure(Context context) throws ResolutionException, NotGroundException {
-        // TODO Auto-generated method stub
         
+        // Get the properties of the TrackingUse
+        
+        EClass trackingClass = getTracking();
+        if (trackingClass.eIsProxy()) {
+            // If it's still a proxy after the getTracking() call, the cross-document reference proxy has
+            // not been resolved, meaning the reference was dodgy, i.e. to a non-existent class or something
+            //
+            context.error("Unable to locate tracking class: " + trackingClass);
+        }
+
+        Map featureVal = new HashMap();
+        List featureList = getFeatures();
+        
+        for (Iterator itr = featureList.iterator(); itr.hasNext(); ) {
+            Map.Entry keyEntry = (Map.Entry) itr.next();
+            String name = (String) keyEntry.getKey();
+            Expression expr = (Expression) keyEntry.getValue();
+            List vals = expr.eval(context);
+            if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
+                // ruleEval.fireInfo(expr + DELAYING_MESSAGE);
+                context.delay(expr + NOT_BOUND_MESSAGE);
+            }
+            EStructuralFeature feature = context.getFeature(trackingClass, name);
+            featureVal.put(feature, Util.coerceTypes(vals, feature));
+//            System.err.println("**** " + keyEntry.getKey() + " = " + vals);
+        }
+        
+        List trackings = context.getObjectsByClass(trackingClass, false, null);
+        
+        boolean isMatch = false;
+        for (final Iterator itr = trackings.iterator(); !isMatch && itr.hasNext(); ) {
+            EObject inst = (EObject) itr.next();
+            isMatch = true;
+            for (final Iterator fvItr = featureVal.entrySet().iterator(); isMatch && fvItr.hasNext(); ) {
+                Map.Entry entry = (Map.Entry) fvItr.next();
+                EStructuralFeature feature = (EStructuralFeature) entry.getKey();
+                List featureValues = (List) entry.getValue();
+                Object value = inst.eGet(feature);
+                if (feature.isMany()) {
+                    if (!featureValues.equals(value)) {
+                        isMatch = false;
+                    }
+                } else {
+                    if (featureValues.size() != 1 || !featureValues.get(0).equals(value)) {
+                        isMatch = false;
+                    }
+                }
+            }
+        }
+
+        if (!isMatch) {
+            createTrackingInstance(context, trackingClass, featureVal);
+        }
+        
+        context.createBranch();
+    }
+
+    private void createTrackingInstance(Context context, EClass trackingClass, Map featureVal) throws ResolutionException, NotGroundException {
+        EObject trackingInstance;
+        // instantiate the class using the factory
+
+        // find the package
+//        System.out.println("==== Creating a tracking: " + trackingClass.getName());
+        // TODO fixme - should probably use DynamicObjects for tracking instances
+        EPackage trackingPackage = trackingClass.getEPackage();
+        if (null == trackingPackage) {
+            context.error("Malformed class: " + Context.getFullyQualifiedName(trackingClass) + " not contained in a package.");
+        }
+        EFactory trackingFactory = trackingPackage.getEFactoryInstance();
+        trackingInstance = trackingFactory.create(trackingClass);
+            
+        // fill in the values of the fields
+        for (Iterator featureValIter = featureVal.entrySet().iterator(); featureValIter.hasNext(); ) {
+            Map.Entry entry = (Map.Entry) featureValIter.next();
+            
+            EStructuralFeature feature = (EStructuralFeature) entry.getKey();
+            List featureValues = (List) entry.getValue();
+            
+            if (feature.isMany()) {
+//                System.out.println("==== Adding tracking features: " + featureName + " = " + featureValues);
+                List vals = (List) trackingInstance.eGet(feature);
+//                System.out.println("==== " + vals);
+                vals.addAll(featureValues);
+//                System.out.println("==== " + trackingInstance.eGet(feature));
+                for (Iterator itr = featureValues.iterator(); itr.hasNext(); ) {
+                    Object val = itr.next();
+                    if (val instanceof DynamicObject) {
+                        DynamicObject dynVal = (DynamicObject) val;
+                        dynVal.addMultiReferenceFrom(trackingInstance, feature);
+                    }
+                }
+            } else {
+                // If the feature isn't multi-valued, then there better be only
+                // one possible value for it.
+                if (featureValues.size() > 1) {
+                    context.error("Too many values (" + featureValues + ") for feature " + trackingClass + "." + feature.getName());
+                }
+                Object val = featureValues.get(0);
+                // System.out.println("  Setting tracking feature: " + feature + " = " + val);
+                trackingInstance.eSet(feature, val);
+                if (val instanceof DynamicObject) {
+                    DynamicObject dynVal = (DynamicObject) val;
+                    dynVal.addReferenceFrom(trackingInstance, feature);
+                }
+            }
+        }
+        
+        // tracking instance created - now tell others about it
+        context.addTrackingInstance(trackingClass, trackingInstance);
     }
 
     private static final class HandleNewTrackingInstance implements TrackingCallback {
@@ -394,14 +501,15 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
                         isMatch = false;
                     } else if (featureValues.size() == 1 && featureValues.get(0) instanceof WrappedVar) {
                         // UNIFY
-                        Var var = ((WrappedVar) featureValues.get(0)).getVar();
+                        WrappedVar wrappedVar = (WrappedVar) featureValues.get(0);
                         newBindings = new ArrayList();
                         for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
                             Binding oldUnifier = (Binding) bindingItr.next();
                             for (Iterator valueItr = ((List) value).iterator(); valueItr.hasNext(); ) {
                                 Binding unifier = new Binding(oldUnifier);
-                                unifier.add(var, valueItr.next());
-                                newBindings.add(unifier);
+                                if (null != Binding.bindWrappedVar(unifier, wrappedVar, value)) {
+                                    newBindings.add(unifier);
+                                }
                             }
                         }
 //                        ExtentUtil.highlightEdge(inst, value, ExtentUtil.FEATURE_LOOKUP);
@@ -422,13 +530,14 @@ public class TrackingUseImpl extends SimpleTermImpl implements TrackingUse {
                     Object featureValue = featureValues.get(0);
                     if (featureValue instanceof WrappedVar) {
                         // UNIFY
-                        Var var = ((WrappedVar) featureValue).getVar();
+                        WrappedVar wrappedVar = (WrappedVar) featureValue;
                         newBindings = new ArrayList();
                         for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
                             Binding oldUnifier = (Binding) bindingItr.next();
                             Binding unifier = new Binding(oldUnifier);
-                            unifier.add(var, value);
-                            newBindings.add(unifier);
+                            if (null != Binding.bindWrappedVar(unifier, wrappedVar, value)) {
+                                newBindings.add(unifier);
+                            }
                         }
 //                        ExtentUtil.highlightEdge(inst, value, ExtentUtil.FEATURE_LOOKUP);
                     } else if (featureValue instanceof BindingPair) {

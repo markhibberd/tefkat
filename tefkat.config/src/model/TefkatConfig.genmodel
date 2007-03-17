@@ -23,7 +23,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatConfig.ecore#//TransformationTask/sourceModels"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatConfig.ecore#//TransformationTask/targetModels"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatConfig.ecore#//TransformationTask/trace"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TefkatConfig.ecore#//TransformationTask/enabled"/>
+      <genFeatures createChild="false" propertyDescription="" ecoreFeature="ecore:EAttribute TefkatConfig.ecore#//TransformationTask/enabled"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute TefkatConfig.ecore#//TransformationTask/mode"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatConfig.ecore#//TransformationTask/properties"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TefkatConfig.ecore#//TransformationTask/uriMap"/>

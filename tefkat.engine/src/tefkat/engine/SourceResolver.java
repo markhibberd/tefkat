@@ -17,11 +17,18 @@ package tefkat.engine;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import tefkat.model.*;
+import tefkat.model.Condition;
+import tefkat.model.Expression;
+import tefkat.model.Extent;
+import tefkat.model.MofInstance;
+import tefkat.model.MofOrder;
+import tefkat.model.NotTerm;
+import tefkat.model.OrTerm;
+import tefkat.model.Term;
+import tefkat.model.TrackingUse;
+import tefkat.model.Var;
 import tefkat.model.internal.ModelUtils;
 
 
@@ -93,14 +100,17 @@ class SourceResolver extends AbstractResolver {
                         isMatch = false;
                     } else if (featureValues.size() == 1 && featureValues.get(0) instanceof WrappedVar) {
                         // UNIFY
-                        Var var = ((WrappedVar) featureValues.get(0)).getVar();
+                        final WrappedVar wrappedVar = (WrappedVar) featureValues.get(0);
+                        
                         newBindings = new ArrayList();
                         for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
                             Binding oldUnifier = (Binding) bindingItr.next();
                             for (Iterator valueItr = ((List) value).iterator(); valueItr.hasNext(); ) {
                                 Binding unifier = new Binding(oldUnifier);
-                                unifier.add(var, valueItr.next());
-                                newBindings.add(unifier);
+                                if (null != Binding.bindWrappedVar(unifier, wrappedVar, valueItr.next())) {
+                                    // only add if binding of wrapped var succeeded
+                                    newBindings.add(unifier);
+                                }
                             }
                         }
                         ExtentUtil.highlightEdge(inst, value, ExtentUtil.FEATURE_LOOKUP);
@@ -121,13 +131,14 @@ class SourceResolver extends AbstractResolver {
                     Object featureValue = featureValues.get(0);
                     if (featureValue instanceof WrappedVar) {
                         // UNIFY
-                        Var var = ((WrappedVar) featureValue).getVar();
+                        WrappedVar wrappedVar = (WrappedVar) featureValue;
                         newBindings = new ArrayList();
                         for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
                             Binding oldUnifier = (Binding) bindingItr.next();
                             Binding unifier = new Binding(oldUnifier);
-                            unifier.add(var, value);
-                            newBindings.add(unifier);
+                            if (null != Binding.bindWrappedVar(unifier, wrappedVar, value)) {
+                                newBindings.add(unifier);
+                            }
                         }
                         ExtentUtil.highlightEdge(inst, value, ExtentUtil.FEATURE_LOOKUP);
                     } else if (featureValue instanceof BindingPair) {
@@ -628,34 +639,37 @@ class SourceResolver extends AbstractResolver {
                     
                     if (lesser instanceof WrappedVar) {
                         for (int i = 0; i < valueList.size(); i++) {
-                            processGreaterObjects(context, greaterObjects, valueList, i);
+                            Binding unifier = Binding.bindWrappedVar(null, (WrappedVar) lesser, valueList.get(i));
+                            processGreaterObjects(context, unifier, greaterObjects, valueList, i);
                         }
                     } else {
                         int index = valueList.indexOf(lesser);
-                        processGreaterObjects(context, greaterObjects, valueList, index);
+                        processGreaterObjects(context, null, greaterObjects, valueList, index);
                     }
                 }
             }
         }
     }
 
-    private void processGreaterObjects(final Context context,
+    private void processGreaterObjects(final Context context, final Binding unifier,
             final List greaterObjects, final List valueList, final int lindex)
     throws ResolutionException {
         for (Iterator gItr = greaterObjects.iterator(); gItr.hasNext(); ) {
             Object greater = gItr.next();
         
             if (greater instanceof WrappedVar) {
+                final WrappedVar wrappedVar = (WrappedVar) greater;
+                
                 for (int i = lindex + 1; i < valueList.size(); i++) {
-                    Object val = greaterObjects.get(i);
+                    Object val = valueList.get(i);
                     
-                    Binding unifier = new Binding();
-                    unifier.add(((WrappedVar) greater).getVar(), val);
-
-                    context.createBranch(unifier);
+                    Binding unifier2 = Binding.bindWrappedVar(new Binding(unifier), wrappedVar, val);
+                    if (null != unifier2) {
+                        context.createBranch(unifier2);
+                    }
                 }
             } else if (lindex < valueList.indexOf(greater)) {
-                context.createBranch();
+                context.createBranch(unifier);
             }
         }
     }

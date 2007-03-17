@@ -15,7 +15,6 @@
 package tefkat.plugin.debug;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import tefkat.engine.Binding;
 import tefkat.engine.Node;
 import tefkat.engine.Tefkat;
-import tefkat.engine.TefkatListener;
 import tefkat.engine.TefkatListener2;
 import tefkat.engine.Tree;
 import tefkat.model.Extent;
@@ -61,7 +59,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
     
     private Tefkat engine;
     private Node currentNode = null;
-    private TRule currentRule = null;
+//    private TRule currentRule = null;
     private Stack nodes = new Stack();
     private Stack trees = new Stack();
     private boolean suspended;
@@ -146,7 +144,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
             public void evaluateRule(TRule rule, Binding context, boolean cached) {
                 // This is not set correctly for incremental evaluation since we don't
                 // do one rule at a time, but jump between rules
-                currentRule = rule;
+//                currentRule = rule;
             }
 
             public void evaluateSource(TRule rule, Binding context) {}
@@ -402,11 +400,13 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
      * @see tefkat.model.parser.ParserListener#matched(tefkat.model.parser.ParserEvent)
      */
     public void matched(ParserEvent event) {
+        System.err.println("matched");
         startCharMap.put(event.getObj(), new Integer(event.getStartChar()));
         endCharMap.put(event.getObj(), new Integer(event.getEndChar()));
     }
     
     public int getStartChar(EObject obj) {
+        System.err.println("getStartChar: " + obj);
         while (obj != null) {
             // look up position
             Integer pos = (Integer) startCharMap.get(obj);
@@ -415,7 +415,10 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
             }
             // not found so go to parent
             obj = obj.eContainer();
+            System.err.println("    " + obj);
         }
+        System.err.println(" -1");
+        System.err.println(startCharMap);
         return -1;
     }
     

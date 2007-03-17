@@ -25,15 +25,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import tefkat.engine.TargetResolver.Injections;
-import tefkat.model.TefkatPackage;
 import tefkat.model.Var;
 import tefkat.model.Extent;
 import tefkat.model.Injection;
@@ -387,7 +384,7 @@ public class RuleEvaluator {
                     if (theTree.isSuccess()) {
                         fireInfo("TRule: " + trule.getName() + " completed.");
                     } else {
-                        fireInfo("TRule: " + trule.getName() + " matched nothing.");
+                        fireWarning("TRule: " + trule.getName() + " matched nothing.");
                     }
                 }
 
@@ -1592,14 +1589,14 @@ public class RuleEvaluator {
     }
 
     /**
-     * @param goal
+     * @param term
      * @return
      */
-    public Map getPatternCache(Collection goal) {
-        Map cache = (Map) patternCache.get(goal);
+    public Map getPatternCache(Term term) {
+        Map cache = (Map) patternCache.get(term);
         if (null == cache) {
             cache = new HashMap();
-            patternCache.put(goal, cache);
+            patternCache.put(term, cache);
         }
         return cache;
     }

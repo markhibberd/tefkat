@@ -61,7 +61,7 @@ public class DebugProcess implements IProcess {
      */
     public void setAttribute(String key, String value) {
         // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -69,7 +69,8 @@ public class DebugProcess implements IProcess {
      */
     public String getAttribute(String key) {
         // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException();
+//        return null;
     }
 
     /* (non-Javadoc)
@@ -77,7 +78,8 @@ public class DebugProcess implements IProcess {
      */
     public int getExitValue() throws DebugException {
         // TODO Auto-generated method stub
-        return 0;
+        throw new UnsupportedOperationException();
+//        return 0;
     }
 
     /* (non-Javadoc)
@@ -93,7 +95,8 @@ public class DebugProcess implements IProcess {
      */
     public boolean canTerminate() {
         // TODO Auto-generated method stub
-        return false;
+        throw new UnsupportedOperationException();
+//        return false;
     }
 
     /* (non-Javadoc)
@@ -101,7 +104,8 @@ public class DebugProcess implements IProcess {
      */
     public boolean isTerminated() {
         // TODO Auto-generated method stub
-        return false;
+        throw new UnsupportedOperationException();
+//        return false;
     }
 
     /* (non-Javadoc)
@@ -109,6 +113,7 @@ public class DebugProcess implements IProcess {
      */
     public void terminate() throws DebugException {
         // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
 
     }
 

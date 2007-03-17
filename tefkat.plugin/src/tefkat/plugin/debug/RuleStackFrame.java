@@ -29,7 +29,7 @@ import tefkat.model.TRule;
  * @author lawley
  *
  */
-public class RuleStackFrame extends AbstractStackFrame {
+class RuleStackFrame extends AbstractStackFrame {
     
     private IThread thread;
     private TRule rule;
@@ -38,7 +38,7 @@ public class RuleStackFrame extends AbstractStackFrame {
     /**
      * @param target
      */
-    public RuleStackFrame(IThread thread, TRule rule) {
+    RuleStackFrame(IThread thread, TRule rule) {
         super((DebugTarget) thread.getDebugTarget());
         
         this.thread = thread;

@@ -377,10 +377,7 @@ abstract class AbstractResolver {
             final Binding callContext, final Binding parameterContext)
     throws ResolutionException {
 
-        final Collection goal = new ArrayList();
-        goal.add(pDefn.getTerm());
-        
-        Tree resultTree = context.getResultTree(goal, parameterContext);
+        Tree resultTree = context.getResultTree(pDefn.getTerm(), parameterContext);
 
         if (!resultTree.isCompleted()) {
             // Register listener for any new solutions
@@ -423,11 +420,8 @@ abstract class AbstractResolver {
     throws ResolutionException {
         try {
             ruleEval.pushPattern(pDefn);
-
-            final Collection goal = new ArrayList();
-            goal.add(pDefn.getTerm());
             
-            Tree resultTree = context.getResultTree(goal, parameterContext);
+            Tree resultTree = context.getResultTree(pDefn.getTerm(), parameterContext);
             
             if (resultTree.isSuccess()) {
                 for (Iterator itr = resultTree.getAnswers().iterator(); itr.hasNext(); ) {

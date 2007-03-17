@@ -101,7 +101,13 @@ public class Node {
         if (goal.contains(literal)) {
             selectedLiteral = literal;
         }
-        System.err.println("Selected: " + selectedLiteral + "\t" + bindings);
+        if (literal.eContainer() instanceof TRule) {
+            final String name = ((TRule) literal.eContainer()).getName();
+//            if (name.startsWith("link")) {
+//                System.err.println(name);
+//                System.err.println("Selected: " + selectedLiteral + "\t" + bindings);
+//            }
+        }
     }
 
     public Node getParentNode() {

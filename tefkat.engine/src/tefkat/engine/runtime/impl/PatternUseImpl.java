@@ -303,10 +303,7 @@ public class PatternUseImpl extends SimpleTermImpl implements PatternUse {
             final Binding callContext, final Binding parameterContext)
     throws ResolutionException {
 
-        final Collection goal = new ArrayList();
-        goal.add(getDefn().getTerm());
-        
-        Tree resultTree = context.getResultTree(goal, parameterContext);
+        Tree resultTree = context.getResultTree(getDefn().getTerm(), parameterContext);
 
         if (!resultTree.isCompleted()) {
             // Register listener for any new solutions

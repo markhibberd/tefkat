@@ -14,16 +14,14 @@ package tefkat.model.impl;
 
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import tefkat.model.CompoundExpr;
 import tefkat.model.Expression;
 import tefkat.model.InstanceRef;
 import tefkat.model.TefkatFactory;
@@ -181,6 +179,10 @@ public class InstanceRefImpl extends ExpressionImpl implements InstanceRef {
         InstanceRef copy = TefkatFactory.eINSTANCE.createInstanceRef();
         copy.setObject(getObject());
         return copy;
+    }
+    
+    public String toString() {
+        return getObject() instanceof EClassifier ? ((EClassifier) getObject()).getName() : String.valueOf(getObject());
     }
 
 } //InstanceRefImpl

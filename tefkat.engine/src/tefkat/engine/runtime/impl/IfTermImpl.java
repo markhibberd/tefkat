@@ -130,7 +130,7 @@ public class IfTermImpl extends CompoundTermImpl implements IfTerm {
      */
     public EList getNonLocalVars() {
         if (null == nonLocalVars) {
-            EList nonLocalVars = new BasicEList();
+            nonLocalVars = new BasicEList();
             Set conditionVars = new HashSet();
             Set usages = new HashSet();
 

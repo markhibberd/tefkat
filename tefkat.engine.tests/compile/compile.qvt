@@ -11,22 +11,18 @@ NAMESPACE http://CompilerTracking.ecore
     EObject tgt;
 }; */
 
+CLASS dummy {
+};
+
 PATTERN isTefkatClass(C)
   WHERE C.ePackage.name = "model"
 ;
 
-//RULE a
-//  FORALL M^Var V
-//  WHERE A = B
-//  MAKE R^Var T, println("V", V.name)//, V.getClass(), V.eContainer().name)
-//;
-
 RULE copyTefkatObjects
   FORALL _ S
-   WHERE TRUE
-     AND SC = S.eClass()
+   WHERE SC = S.eClass()
      AND isTefkatClass(SC)
-     AND TC = join("", "R^", SC.name)
+     AND TC = join("^", "R", SC.name)
     MAKE $TC T
       // , println("copy", S, SC.name, TC, S.eContainer())
   LINKING link WITH src=S, tgt=T
@@ -39,8 +35,8 @@ RULE linkFeaturesReferences
     AND  f = class.eAllReferences
     AND  f.derived = false
     AND  f.changeable = true
-    AND  n = f.name
     AND  so.eIsSet(f) = true
+    AND  n = f.name
     AND  sv = so.$n
     // AND  IF ::model::Transformation st THEN println(st, sv) ENDIF
     SET  IF link LINKS src=sv, tgt=tv THEN
@@ -60,21 +56,56 @@ RULE linkFeaturesReferences
 	 ENDIF
 ;
 
+RULE orderFeatures
+  WHERE link LINKS src=so, tgt=to
+    AND class = so.eClass()
+    AND f = class.eAllReferences
+
+    AND n = f.name
+//    AND println("AA", n)
+
+    AND f.many = true
+    AND f.derived = false
+    AND f.changeable = true
+    AND so.eIsSet(f) = true
+    AND n = f.name
+//    AND println("BB", n, so.$n)
+    AND so1 BEFORE so2 IN so.$n
+//    AND println("XXXXXXXXXXXXX", so1, so2)
+    SET IF link LINKS src=so1, tgt=to1 AND
+           link LINKS src=so2, tgt=to2 THEN
+          SET to1 BEFORE to2 IN to.$n
+        ELSE
+          SET so1 BEFORE so2 IN to.$n
+        ENDIF
+;
+
 RULE copyAttributeValues
   WHERE link LINKS src=s, tgt=t
     AND c = s.eClass()
-    AND IF NOT isTefkatClass(c) THEN println(s, s.eAllAttributes.name) ENDIF
+    AND IF NOT isTefkatClass(c) THEN println("cAV", s, s.eAllAttributes.name) ENDIF
     AND f = c.eAllAttributes
     AND fn = f.name
     AND v = s.$fn
     SET t.$fn = v
 ;
 
+RULE orderAttributes
+  WHERE link LINKS src=s, tgt=t
+    AND c = s.eClass()
+    AND IF NOT isTefkatClass(c) THEN println("oAV", s, s.eAllAttributes.name) ENDIF
+    AND f = c.eAllAttributes
+    AND f.many = true
+    AND fn = f.name
+    AND v1 BEFORE v2 IN s.$fn
+    SET v1 BEFORE v2 IN t.$fn
+;
+
+ABSTRACT
 RULE TU
-  FORALL ::model::TrackingUse stu
-   WHERE _ = stu.eClass()	// BUG - without this line, the TrackingUse expand of stu fails
-     AND link LINKS src=stu, tgt=ttu
-     AND println(stu.tracking)
+  FORALL M^TrackingUse stu
+   WHERE link LINKS src=stu, tgt=ttu
+     AND println("TU", stu.tracking)
      SET ttu.tracking = <http://CompilerTracking.ecore#//link>
 ;
 

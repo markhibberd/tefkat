@@ -59,7 +59,6 @@ import org.eclipse.xsd.util.XSDResourceImpl;
 
 import tefkat.model.StratificationException;
 import tefkat.model.Transformation;
-import tefkat.model.internal.ModelUtils;
 import tefkat.model.parser.ParserEvent;
 import tefkat.model.parser.ParserListener;
 
@@ -123,7 +122,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     /* (non-Javadoc)
      * @see org.eclipse.ui.part.MultiPageEditorPart#createPages()
      */
-    protected void createPages() {
+    public void createPages() {
         createEditorPage();
         createXMIPage();
         createStratificationPage();
@@ -157,6 +156,8 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     }
 
     private void createXMIPage() {
+//        EcoreEditor ecoreEditor = new org.eclipse.emf.ecore.presentation.EcoreEditor();
+//        ecoreEditor.createPartControl(getContainer());
         Composite composite = new Composite(getContainer(), SWT.NONE);
         FillLayout layout = new FillLayout();
         composite.setLayout(layout);
