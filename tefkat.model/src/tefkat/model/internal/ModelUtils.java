@@ -22,8 +22,6 @@ import java.util.Map;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -31,14 +29,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
-
-import tefkat.model.CompoundTerm;
-import tefkat.model.PatternDefn;
-import tefkat.model.TRule;
-import tefkat.model.TefkatException;
-import tefkat.model.Term;
-import tefkat.model.TrackingUse;
-import tefkat.model.Transformation;
 
 /**
  * Some generic functions for interacting with Tefkat transformations and models.
@@ -111,7 +101,20 @@ public abstract class ModelUtils {
         }
         Object obj = nameMap.get(name);
         if (obj instanceof List) {
-            throw new RuntimeException("Ambiguous name: " + name + " resolves to " + obj);
+            final StringBuilder sb = new StringBuilder();
+            sb.append("Ambiguous name: ")
+              .append(name)
+              .append(" resolves to [");
+            for (final Iterator itr = ((List) obj).iterator(); itr.hasNext(); ) {
+                EClassifier classifier = (EClassifier) itr.next();
+                sb.append(getFullyQualifiedName(classifier));
+                sb.append(" (").append(classifier.getEPackage().getNsURI()).append(")");
+                if (itr.hasNext()) {
+                    sb.append(", ");
+                }
+            }
+            sb.append("]");
+            throw new RuntimeException(sb.toString());
         }
         return (EClassifier) obj;
     }
