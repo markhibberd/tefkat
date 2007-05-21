@@ -77,17 +77,25 @@ public class Evaluator {
 
     }
 
+    /**
+     * Takes a collection and a feature and returns a collection of the results
+     * of fetching the feature from each of the input objects.
+     * 
+     * @author michaellawley
+     */
     private final class MapFeature implements Function {
         public Object call(Context context, Object[] params) throws ResolutionException {
             final Collection list = (Collection) params[0];
             final String feature = (String) params[1];
-            final List result = new ArrayList();
+            final List items = new ArrayList();
             
             for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
                 Object obj = itr.next();
-                result.add(context.fetchFeature(feature, obj));
+                items.add(context.fetchFeature(feature, obj));
             }
-        
+
+            final ArrayList result = new ArrayList();
+            result.add(items);
             return result;
         }
     }
