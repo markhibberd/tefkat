@@ -81,8 +81,8 @@ options {
         }
 
         protected String unicode(String hexSeq) {
-        	int codePoint = Integer.parseInt(hexSeq, 16);
-        	return new String(Character.toChars(codePoint));
+            int codePoint = Integer.parseInt(hexSeq, 16);
+            return new String(Character.toChars(codePoint));
         }
 }
 
@@ -162,7 +162,7 @@ ID_OR_IMPORT_OR_OBJREF
                         ID { $setType(ID); }
                 )
         ;
-		
+        
 FQID
 options {
         paraphrase = "a fully qualified identifier";
@@ -209,7 +209,7 @@ REAL_OR_INT
 
 CARET
 options {
-	paraphrase = "a caret symbol '^'";
+    paraphrase = "a caret symbol '^'";
 }        :       '^'       ;
 AT
 options {
@@ -511,10 +511,10 @@ options {
         try {
             resource = resourceSet.getResource(uri, true);//loadOnDemand);
         } catch (final WrappedException e) {
-        	throw new antlr.SemanticException("Unable to load model from URI: " + uriString) {
-        		{
-	                initCause(e);
-        		}
+            throw new antlr.SemanticException("Unable to load model from URI: " + uriString) {
+                {
+                    initCause(e);
+                }
             };
         }
         if (null == resource) {
@@ -553,9 +553,9 @@ options {
             }
         }
         if (scope instanceof TRule) {
-        	return getVarInScope(((TRule) scope).getTransformation(), name);
+            return getVarInScope(((TRule) scope).getTransformation(), name);
         } else if (scope instanceof PatternDefn) {
-        	return getVarInScope(((PatternDefn) scope).getPatternScope(), name);
+            return getVarInScope(((PatternDefn) scope).getPatternScope(), name);
         }
         return null;
     }
@@ -957,7 +957,7 @@ classDecl[Transformation t] {
                 (
                     LBRACE
                     (
-                    	{ fsChar = getNextCharIndex(); }
+                        { fsChar = getNextCharIndex(); }
                         type = simpleTypeLiteral
                         ref:ID fsemi:SEMI {
                             // TODO handle attributes (strings, ints, etc)
@@ -1369,10 +1369,10 @@ range[VarScope scope, Var outerContext, boolean isExactly, List terms] returns [
                     reportMatch(i, sChar, eChar);
                 }
         ;
-        exception
-        catch [RecognitionException ex] {
-            reportError(ex);
-        }
+//        exception
+//        catch [RecognitionException ex] {
+//            reportError(ex);
+//        }
 
 context[VarScope scope] returns [Var context = null;] {
         String name;
@@ -1405,15 +1405,15 @@ typeName[VarScope scope, List terms] returns [Expression expr = null] {
                 DOLLAR expr = factor[scope, terms]
         |
                 UNDERSCORE { name = "_"; } {
-                	StringConstant sc = TefkatFactory.eINSTANCE.createStringConstant();
-                	sc.setRepresentation(name);
-                	expr = sc;
+                    StringConstant sc = TefkatFactory.eINSTANCE.createStringConstant();
+                    sc.setRepresentation(name);
+                    expr = sc;
                 }
         |
                 type = simpleTypeLiteral {
-                	InstanceRef ref = TefkatFactory.eINSTANCE.createInstanceRef();
-                	ref.setObject(type);
-                	expr = ref;
+                    InstanceRef ref = TefkatFactory.eINSTANCE.createInstanceRef();
+                    ref.setObject(type);
+                    expr = ref;
                 }
         )
         ;
@@ -1466,19 +1466,29 @@ vname returns [String name = null]
 conjunct[VarScope scope, List terms] {
         Term term;
 }
-        :       term = disjunct[scope, terms] {
+        :       term = d1:disjunct[scope, terms] {
                         if (null != term) {
                             terms.add(term);
                         }
                 }
                 (
-                        "AND" term = disjunct[scope, terms] {
+                        "AND" term = d2:disjunct[scope, terms] {
                                 if (null != term) {
                                     terms.add(term);
                                 }
                         }
                 )*
         ;
+        exception [d1]
+        catch [RecognitionException ex] {
+            reportError(ex);
+            term = null;
+        }
+        exception [d2]
+        catch [RecognitionException ex] {
+            reportError(ex);
+            term = null;
+        }
 
 disjunct[VarScope scope, List terms] returns [Term term] {
         OrTerm oTerm = null;
@@ -1487,9 +1497,9 @@ disjunct[VarScope scope, List terms] returns [Term term] {
         int sChar = -1, eChar = -1;
 }
         :       { sChar = getNextCharIndex(); }
-                term = relation[scope, oTerms]
+                term = r1:relation[scope, oTerms]
                 (
-                        "OR" rTerm = relation[scope, oTerms] {
+                        "OR" rTerm = r2:relation[scope, oTerms] {
                                 if (null == oTerm) {
                                         // first time here
                                         oTerm = TefkatFactory.eINSTANCE.createOrTerm();
@@ -1531,6 +1541,16 @@ disjunct[VarScope scope, List terms] returns [Term term] {
                     }
                 }
         ;
+        exception [r1]
+        catch [RecognitionException ex] {
+            reportError(ex);
+            term = null;
+        }
+        exception [r2]
+        catch [RecognitionException ex] {
+            reportError(ex);
+            rTerm = null;
+        }
 
 s_ifthenelse[VarScope scope] returns [IfTerm term = null] {
         int sChar = -1, eChar = -1;
@@ -1717,9 +1737,10 @@ relation[VarScope scope, List terms] returns [Term term = null] {
                 conjunct[scope, aTerm.getTerm()]
                 RBRACK
         |       (("EXACT"|"DYNAMIC")? (DOLLAR|UNDERSCORE|(CARET ID)? FQID|ID (CARET ID)?) (AT ID)? vname) =>
+//        | //(range) =>
                 term = range[scope, null, false, terms] {
                         MofInstance inst = (MofInstance) term;
-                	// NPE triggred here if range[] has failed to match
+                    // NPE triggred here if range[] has failed to match
                         var = ((VarUse) inst.getInstance()).getVar();
                         Var extVar = inst.getContext();
                         if (null != extVar && tgtExtents.contains(extVar)) {
@@ -1806,10 +1827,10 @@ relation[VarScope scope, List terms] returns [Term term = null] {
                 )
         )       { eChar = getCharIndex(); reportMatch(term, sChar, eChar); }
         ;
-        exception
-        catch [RecognitionException ex] {
-            reportError(ex);
-        }
+//        exception
+//        catch [RecognitionException ex] {
+//            reportError(ex);
+//        }
 
 relop returns [Token relop = null]
         :       tok1:RELOP {relop = tok1;}
@@ -1920,11 +1941,19 @@ uname returns [String name = null]
         ;
 
 settings[VarScope scope, Var tgtExtent, List tgts, List params]
-        :       setting[scope, tgtExtent, tgts, params]
+        :       s1:setting[scope, tgtExtent, tgts, params]
                 (
-                        COMMA setting[scope, tgtExtent, tgts, params]
+                        COMMA s2:setting[scope, tgtExtent, tgts, params]
                 )*
         ;
+        exception [s1]
+        catch [RecognitionException ex] {
+            reportError(ex);
+        }
+        exception [s2]
+        catch [RecognitionException ex] {
+            reportError(ex);
+        }
 
 setting[VarScope scope, Var tgtExtent, List tgts, List params] {
         Term term = null;
@@ -2014,26 +2043,36 @@ setting_stmt[VarScope scope, List tgts] {
                     }
                 }
         ;
-        exception
-        catch [RecognitionException ex] {
-            reportError(ex);
-        }
+//        exception
+//        catch [RecognitionException ex] {
+//            reportError(ex);
+//        }
 
 trackingUses[VarScope scope, List terms] {
         TrackingUse use;
 }
-        :       use = trackingUse[scope, terms] {
+        :       use = t1:trackingUse[scope, terms] {
                         if (null != use) {
                             terms.add(use);
                         }
                 }
-                (        use = trackingUse[scope, terms] {
+                (        use = t2:trackingUse[scope, terms] {
                             if (null != use) {
                                 terms.add(use);
                             }
                         }
                 )*
         ;
+        exception [t1]
+        catch [RecognitionException ex] {
+            reportError(ex);
+            use = null;
+        }
+        exception [t2]
+        catch [RecognitionException ex] {
+            reportError(ex);
+            use = null;
+        }
 
 trackingUse[VarScope scope, List terms] returns [TrackingUse use = null] {
         String tname;
@@ -2063,10 +2102,18 @@ trackingUse[VarScope scope, List terms] returns [TrackingUse use = null] {
 
 featureMaps[VarScope scope, Map featureMap, List terms] {
 }
-        :       featureMap[scope, featureMap, terms]
-                (        COMMA featureMap[scope, featureMap, terms]        
+        :       f1:featureMap[scope, featureMap, terms]
+                (        COMMA f2:featureMap[scope, featureMap, terms]        
                 )*
         ;
+        exception [f1]
+        catch [RecognitionException ex] {
+            reportError(ex);
+        }
+        exception [f2]
+        catch [RecognitionException ex] {
+            reportError(ex);
+        }
 
 featureMap[VarScope scope, Map featureMap, List terms] {
         String fname;
@@ -2094,19 +2141,29 @@ patternUse[VarScope scope, List terms] returns [PatternUse use = null] {
 exprs[VarScope scope, List terms] returns [List list = new ArrayList()] {
         Expression expr;
 }
-        :       expr = expr[scope, terms] {
+        :       expr = e1:expr[scope, terms] {
                         if (null != expr) {
                             list.add(expr);
                         }
                 }
                 (
-                        COMMA expr = expr[scope, terms] {
+                        COMMA expr = e2:expr[scope, terms] {
                             if (null != expr) {
                                 list.add(expr);
                             }
                         }
                 )*
         ;
+        exception [e1]
+        catch [RecognitionException ex] {
+            reportError(ex);
+            expr = null;
+        }
+        exception [e2]
+        catch [RecognitionException ex] {
+            reportError(ex);
+            expr = null;
+        }
 
 expr[VarScope scope, List terms] returns [Expression expr] {
         Expression rhs = null;
@@ -2264,40 +2321,42 @@ path[VarScope scope, List terms] returns [Expression expr = null] {
                     }
                 )
                 (
-                        (        PERIOD
-                        |        ARROW {
-                                        // Expr->Feature is short for Expr.$member.Feature
-                                        // where Expr must be a collection
-                                        SimpleExpr sc = TefkatFactory.eINSTANCE.createStringConstant();
-                                        sc.setRepresentation("$member");
-                                        
-                                        fe = TefkatFactory.eINSTANCE.createFeatureExpr();
-                                        fe.setFeature(sc);
-                                        
-                                        args = fe.getArg();
-                                        args.add(expr);
-                                        expr = fe;
-                                }
-                        )
-                        feature = feature[scope, terms] {
-                                fe = TefkatFactory.eINSTANCE.createFeatureExpr();
-                                fe.setFeature(feature);
+                    (        PERIOD
+                    |        ARROW {
+                                // FIXME use funmap() instead
 
+                                // Expr->Feature is short for Expr.$member.Feature
+                                // where Expr must be a collection
+                                SimpleExpr sc = TefkatFactory.eINSTANCE.createStringConstant();
+                                sc.setRepresentation("$member");
+                                
+                                fe = TefkatFactory.eINSTANCE.createFeatureExpr();
+                                fe.setFeature(sc);
+                                
                                 args = fe.getArg();
                                 args.add(expr);
                                 expr = fe;
+                            }
+                    )
+                    feature = feature[scope, terms] {
+                        fe = TefkatFactory.eINSTANCE.createFeatureExpr();
+                        fe.setFeature(feature);
+
+                        args = fe.getArg();
+                        args.add(expr);
+                        expr = fe;
+                    }
+                    (
+                        params = actuals[scope, terms] {
+                            fe.setOperation(true);
+                            args.addAll(params);
                         }
-                        (
-                                params = actuals[scope, terms] {
-                                        fe.setOperation(true);
-                                        args.addAll(params);
-                                }
-                        )?
-                        (        // TODO revisit syntax
-                                LBRACE RBRACE {
-                                        fe.setCollect(true);
-                                }
-                        )?
+                    )?
+                    (    // TODO revisit syntax
+                        LBRACE RBRACE {
+                            fe.setCollect(true);
+                        }
+                    )?
                 )+
         ;
 
@@ -2312,7 +2371,7 @@ feature[VarScope scope, List terms] returns [Expression expr = null]
                     }
                 |
                     d:DOLLAR expr = factor[scope, terms] {
-                            setMark(d);
+                        setMark(d);
                     }
                 )
         ;
