@@ -37,5 +37,5 @@ public class TefkatToken extends CommonHiddenStreamToken {
     public void setOffset(int o) {
         offset = o;
     }
-
+    
 }

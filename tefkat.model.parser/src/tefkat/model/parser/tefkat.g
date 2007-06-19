@@ -74,7 +74,6 @@ options {
             Token tok = super.makeToken(t);
             if (tok instanceof TefkatToken) {
                 TefkatToken tefTok = (TefkatToken) tok;
-                InputBuffer ib = getInputBuffer();
                 tefTok.setOffset(offset);
             }
             return tok;
@@ -404,12 +403,16 @@ options {
             trackingMap.put("long", EcorePackage.eINSTANCE.getELong());
             trackingMap.put("float", EcorePackage.eINSTANCE.getEFloat());
             trackingMap.put("double", EcorePackage.eINSTANCE.getEDouble());
+            trackingMap.put("any", EcorePackage.eINSTANCE.getEJavaObject());
+            trackingMap.put("object", EcorePackage.eINSTANCE.getEObject());
             trackingMap.put("::boolean", EcorePackage.eINSTANCE.getEBoolean());
             trackingMap.put("::string", EcorePackage.eINSTANCE.getEString());
             trackingMap.put("::int", EcorePackage.eINSTANCE.getEInt());
             trackingMap.put("::long", EcorePackage.eINSTANCE.getELong());
             trackingMap.put("::float", EcorePackage.eINSTANCE.getEFloat());
             trackingMap.put("::double", EcorePackage.eINSTANCE.getEDouble());
+            trackingMap.put("::any", EcorePackage.eINSTANCE.getEJavaObject());
+            trackingMap.put("::object", EcorePackage.eINSTANCE.getEObject());
     }
 
     /**
@@ -937,6 +940,7 @@ classDecl[Transformation t] {
         Resource res = t.eResource();
         EClass eClass = null;
         EClassifier type = null;
+        boolean multiValued = false;
         int csChar = -1, ceChar = -1;
         int fsChar = -1, feChar = -1;
 }
@@ -957,8 +961,9 @@ classDecl[Transformation t] {
                 (
                     LBRACE
                     (
-                        { fsChar = getNextCharIndex(); }
+                        { fsChar = getNextCharIndex(); multiValued = false; }
                         type = simpleTypeLiteral
+                        (LBRACE RBRACE { multiValued = true; })?
                         ref:ID fsemi:SEMI {
                             // TODO handle attributes (strings, ints, etc)
                             // Note that string -> EString, int -> EInt, etc
@@ -970,6 +975,10 @@ classDecl[Transformation t] {
                             }
                             eFeature.setName(ref.getText());
                             eFeature.setEType(type);
+                            if (multiValued) {
+                                eFeature.setUpperBound(-1);
+                                eFeature.setUnique(false);
+                            }
                             eClass.getEStructuralFeatures().add(eFeature);
                             
                             feChar = getCharIndex(fsemi);
@@ -1845,9 +1854,14 @@ making[VarScope scope, Var tgtExtent, List tgts, List params]
                 )*
         ;
 
-make[VarScope scope, Var tgtExtent, List tgts, List params]
+make[VarScope scope, Var tgtExtent, List tgts, List params] {
+	Term term;
+}
         :       (pname LBRACK) => templateUse[scope, tgtExtent, tgts]
-        |        makeObject[scope, tgtExtent, true, tgts, params]
+        |       ("IF") => term = t_ifthenelse[scope, tgtExtent, params] {
+                    tgts.add(term);
+                }
+        |       makeObject[scope, tgtExtent, true, tgts, params]
         ;
 
 // ((null == params) => source side) => no unique and no Injection
@@ -1864,11 +1878,16 @@ makeObject[VarScope scope, Var tgtExtent, boolean isExactly, List tgts, List par
                     }
                 }
                 (
+                    // a FROM clause is only valid on "target" side
                     {null != params}? params = unique[scope, tgtExtent, tgts, targetVar]
                 |
+                    // Changed to make FROM optional in TEMPLATEs - need to fix "bug" in target MofInstance
+                
                     // YES, this really should be an IDENTITY (==/!=) test and not an equals() test!
-                    {Collections.EMPTY_LIST != params}? {
-                        if (null != params) {
+                    {true || Collections.EMPTY_LIST != params}? {
+                    	if (Collections.EMPTY_LIST == params) {
+                            reportWarning("No default FROM clauses in TEMPLATEs", getMarkLine(), getMarkColumn());
+                    	} else if (null != params) {
                             Injection injection = TefkatFactory.eINSTANCE.createInjection();
 
                             String varName = null;
@@ -1959,7 +1978,7 @@ setting[VarScope scope, Var tgtExtent, List tgts, List params] {
         Term term = null;
 }
         :       setting_stmt[scope, tgts]
-        |        b:BOOLEAN {
+        |       b:BOOLEAN {
                     SimpleExpr bool = TefkatFactory.eINSTANCE.createBooleanConstant();
                     bool.setRepresentation(b.getText());
                     Condition cond = TefkatFactory.eINSTANCE.createCondition();
@@ -1968,7 +1987,7 @@ setting[VarScope scope, Var tgtExtent, List tgts, List params] {
                     args.add(bool);
                     tgts.add(cond);
                 }
-        |        ("IF") => term = t_ifthenelse[scope, tgtExtent, params] {
+        |       ("IF") => term = t_ifthenelse[scope, tgtExtent, params] {
                     tgts.add(term);
                 }
         ;
@@ -2021,7 +2040,7 @@ setting_stmt[VarScope scope, List tgts] {
                     }
                 |
                     {
-                            if ((lhs instanceof FeatureExpr) && ((FeatureExpr) lhs).isOperation()) {
+                        if ((lhs instanceof FeatureExpr) && ((FeatureExpr) lhs).isOperation()) {
                             Condition cond = TefkatFactory.eINSTANCE.createCondition();
                             cond.setRelation("boolean");
                             if (null != lhs) {
@@ -2029,9 +2048,9 @@ setting_stmt[VarScope scope, List tgts] {
                             }
                             
                             term = cond;
-                            } else {
-                                throw new antlr.SemanticException("Expected an operation call: " + lhs, getFilename(), getMarkLine(), getMarkColumn());
-                            }
+                        } else {
+                            throw new antlr.SemanticException("Expected an operation call: " + lhs, getFilename(), getMarkLine(), getMarkColumn());
+                        }
                     }
                 )
                 {
@@ -2493,12 +2512,13 @@ booleanlit returns [String value = null]
 
 collectionlit[VarScope scope, List terms] returns [CollectionExpr collection = null] {
         List exprs;
-}        :       LSQUARE {
+}
+        :       LSQUARE {
                     collection = TefkatFactory.eINSTANCE.createCollectionExpr();
                 }
-                exprs = exprs[scope, terms] {
+                (exprs = exprs[scope, terms] {
                     collection.getArg().addAll(exprs);
-                }
+                })?
                 RSQUARE
         ;
 

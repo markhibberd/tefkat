@@ -78,13 +78,13 @@ public class TefkatResourceImpl extends XMIResourceImpl {
                 public void reportError(MessageEvent e) {
                     Resource.Diagnostic diag = new DiagnosticImpl((TefkatMessageEvent) e);
                     TefkatResourceImpl.this.getErrors().add(diag);
-                    System.err.println("parser error: " + e);
+//                    System.err.println("parser error: " + e);
                 }
 
                 public void reportWarning(MessageEvent e) {
                     Resource.Diagnostic diag = new DiagnosticImpl((TefkatMessageEvent) e);
                     TefkatResourceImpl.this.getWarnings().add(diag);
-                    System.err.println("parser warning: " + e);
+//                    System.err.println("parser warning: " + e);
                 }
                 
             });

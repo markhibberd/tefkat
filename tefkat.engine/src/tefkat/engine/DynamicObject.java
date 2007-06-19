@@ -53,6 +53,9 @@ final public class DynamicObject extends EObjectImpl {
     public EObject getStaticInstance() {
         if (null == staticObj) {
             EClass eClass = eClass();
+            if (eClass.isAbstract()) {
+                throw new IllegalArgumentException("Cannot create an instance of the abstract type: " + eClass.getName());
+            }
             staticObj = eClass.getEPackage().getEFactoryInstance().create(eClass);
             
 //            System.out.println("New static instance: " + staticObj.hashCode() + " of type " + eClass.getName());

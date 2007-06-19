@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -55,8 +56,11 @@ import tefkat.model.Extent;
 import tefkat.model.PatternUse;
 import tefkat.model.ReferenceExtent;
 import tefkat.model.TRule;
+import tefkat.model.TefkatException;
 import tefkat.model.Term;
 import tefkat.model.Transformation;
+import tefkat.model.parser.ParserEvent;
+import tefkat.model.parser.ParserListener;
 import tefkat.model.parser.TefkatResourceFactory;
 
 
@@ -105,12 +109,25 @@ public class Main {
         boolean saveResult = false;
         JFrame frame = null;
         
-        Tefkat engine = new Tefkat();
+        final Tefkat engine = new Tefkat();
         engine.addTefkatListener(new TefkatListenerAdapter() {
 
             public void resourceLoaded(Resource res) {
                 if (!quiet) {
                     System.err.println("Loaded " + res.getURI());
+                }
+                displayDiagnostics("Warning", res.getWarnings());
+                final List<Diagnostic> errors = res.getErrors();
+                displayDiagnostics("Error", errors);
+                if (errors.size() > 0) {
+                    System.exit(-1);
+                }
+            }
+
+            private void displayDiagnostics(final String prefix, final List<Diagnostic> errors) {
+                for (final Iterator<Diagnostic> itr = errors.iterator(); itr.hasNext(); ) {
+                    final Diagnostic e = itr.next();
+                    System.err.println(prefix + ": (" + e.getLine() + ", " + e.getColumn() + ") " + e.getMessage());
                 }
             }
             
@@ -126,10 +143,20 @@ public class Main {
             
             public void error(String message, Throwable cause) {
                 System.err.println("Error: " + message);
-                cause.printStackTrace();
+                if (true || cause instanceof RuntimeException) {
+                    cause.printStackTrace();
+                } else {
+                    for (StackTraceElement elt: cause.getStackTrace()) {
+                        if (elt.getClassName().startsWith("tefkat")) {
+                            System.err.println("  at " + elt);
+//                            break;
+                        }
+                    }
+                }
             }
 
         });
+        
         ResourceSet rs = engine.getResourceSet();
         Map URIMap = rs.getURIConverter().getURIMap();
 
@@ -320,6 +347,7 @@ public class Main {
                 Thread.sleep(5000);
             }
 
+        } catch (ResolutionException e) {
         } catch (Throwable t) {
             t.printStackTrace();
 //        } finally {

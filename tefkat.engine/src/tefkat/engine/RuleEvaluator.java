@@ -546,15 +546,15 @@ public class RuleEvaluator {
         }
     }
 
-    protected void fireResourceLoaded(Resource res) {
-        for (Iterator itr = listeners.iterator(); itr.hasNext();) {
-            try {
-                ((TefkatListener) itr.next()).resourceLoaded(res);
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    protected void fireResourceLoaded(Resource res) {
+//        for (Iterator itr = listeners.iterator(); itr.hasNext();) {
+//            try {
+//                ((TefkatListener) itr.next()).resourceLoaded(res);
+//            } catch (Throwable e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     private void fireTreeAdded(Tree tree) {
         for (Iterator itr = listeners.iterator(); itr.hasNext();) {

@@ -32,9 +32,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -103,12 +105,28 @@ public class Tefkat {
 
     private List threads = new ArrayList();
     
-    final private Adapter resourceLoadingListener = new AdapterImpl() {
+    final private Adapter resourceLoadListener = new AdapterImpl() {
+        public void notifyChanged(Notification notif) {
+            if (Notification.SET == notif.getEventType() &&
+                    notif.getNotifier() instanceof Resource &&
+                    Resource.RESOURCE__IS_LOADED == notif.getFeatureID(Resource.class) &&
+                    notif.getNewBooleanValue()) {
+                Resource res = (Resource) notif.getNotifier();
+                fireResourceLoaded(res);
+                res.eAdapters().remove(resourceLoadListener);
+            }
+        }
+    };
+    
+    final private Adapter resourceSetChangeListener = new AdapterImpl() {
         public void notifyChanged(Notification notif) {
             if (Notification.ADD == notif.getEventType()) {
                 Resource res = (Resource) notif.getNewValue();
-                fireResourceLoaded(res);
-            } else if (Notification.REMOVING_ADAPTER != notif.getEventType()) {
+                res.eAdapters().add(resourceLoadListener);
+            } else if (Notification.REMOVING_ADAPTER == notif.getEventType()) {
+                Resource res = (Resource) notif.getOldValue();
+                res.eAdapters().remove(resourceLoadListener);
+            } else {
                 fireInfo("ResourceSet event " + notif.getEventType() + ": " + notif.getNewValue());
             }
         }
@@ -135,7 +153,7 @@ public class Tefkat {
         registerFactory("ecore", ECORE_RESOURCE_FACTORY);
         registerFactory("xml", XML_RESOURCE_FACTORY);
         
-        _resourceSet.eAdapters().add(resourceLoadingListener);
+        _resourceSet.eAdapters().add(resourceSetChangeListener);
     }
     
     public ResourceSet getResourceSet() {
@@ -147,7 +165,7 @@ public class Tefkat {
     
     public void clearResourceSet() {
         if (null != _resourceSet) {
-            _resourceSet.eAdapters().remove(resourceLoadingListener);
+            _resourceSet.eAdapters().remove(resourceSetChangeListener);
             _resourceSet = null;
         }
     }

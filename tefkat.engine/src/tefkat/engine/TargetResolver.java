@@ -375,12 +375,18 @@ class TargetResolver extends AbstractResolver {
                 context.delay(obj + NOT_BOUND_MESSAGE);
             } else {
                 EObject eObj = (EObject) obj;
+                boolean makeExact = literal.isExact();
                 
                 if (typeObj instanceof WrappedVar) {
                     unifier.add(((WrappedVar) typeObj).getVar(), eObj.eClass().getName());
                 } else if (typeObj instanceof String) {
 		    // _ is the universal type -> it always matches
-		    if (!"_".equals(typeObj)) {
+		    if ("_".equals(typeObj)) {
+                        // It's not possible to make an instance exactly no type
+                        // (although we _might_ consider the possibilty that one
+                        // would like the possiblity to freeze the current type)
+                        makeExact = false;
+                    } else {
 			Map nameMap = getNameMap();
 			String typeName = (String) typeObj;
 			EClassifier eClassifier = ModelUtils.findClassifierByName(nameMap, typeName);
@@ -410,7 +416,7 @@ class TargetResolver extends AbstractResolver {
                     context.error("Invalid Expression type for MofInstance.typeName: " + typeObj);
                 }
                 
-                if (literal.isExact() && eObj instanceof DynamicObject) {
+                if (makeExact && eObj instanceof DynamicObject) {
                     if (eObj.eResource() != null) {
                         eObj.eResource().getContents().remove(eObj);
 //                      System.err.println("  ...removed: " + eObj.hashCode());
@@ -604,22 +610,31 @@ class TargetResolver extends AbstractResolver {
                             // Insert at beginning so that we have a chance of preserving
                             // the order from the source model (the Node-tree traversal 
                             // would otherwise naturally invert the order).
-                            
-                            if (theFeature.isUnique()) {
-                                // This is normally done by the EMF code, but not in the
-                                // case where the theFeature is backed by a FeatureMap.
-                                // Hence, we do it ourselves
-                                newVals.removeAll(featureValues);
-                            }
-                            
-                            featureValues.addAll(0, newVals);
-                            
-                            for (Iterator newValsItr = newVals.iterator(); newValsItr.hasNext(); ) {
-                                Object newVal = newValsItr.next();
-                                if (newVal instanceof DynamicObject) {
-                                    ((DynamicObject) newVal).addMultiReferenceFrom(instance, theFeature);
+
+                            if (featExpr.isCollect()) {
+                                for (final Iterator nvItr = newVals.iterator(); nvItr.hasNext(); ) {
+                                    final List valList = (List) nvItr.next();
+
+                                    if (theFeature.isUnique()) {
+                                        // This is normally done by the EMF code, but not in the
+                                        // case where the theFeature is backed by a FeatureMap.
+                                        // Hence, we do it ourselves
+                                        valList.removeAll(featureValues);
+                                    }
+                                    featureValues.addAll(0, valList);
+                                    recordMultiReference(instance, theFeature, valList);
                                 }
+                            } else {
+                                if (theFeature.isUnique()) {
+                                    // This is normally done by the EMF code, but not in the
+                                    // case where the theFeature is backed by a FeatureMap.
+                                    // Hence, we do it ourselves
+                                    newVals.removeAll(featureValues);
+                                }
+                                featureValues.addAll(0, newVals);
+                                recordMultiReference(instance, theFeature, newVals);
                             }
+                            
                         } catch (ArrayStoreException e) {
                             context.error("Couldn't add values to feature (type mismatch?): " + ModelUtils.getFullyQualifiedName(theFeature) + " <- " + newVals, e);
                         }
@@ -665,6 +680,15 @@ class TargetResolver extends AbstractResolver {
             }
         } else {
             context.error("Non FeatureExpr LHS, " + args.get(0) + ", Not Yet Implemented");
+        }
+    }
+
+    private void recordMultiReference(EObject instance, EStructuralFeature theFeature, List newVals) {
+        for (Iterator newValsItr = newVals.iterator(); newValsItr.hasNext(); ) {
+            Object newVal = newValsItr.next();
+            if (newVal instanceof DynamicObject) {
+                ((DynamicObject) newVal).addMultiReferenceFrom(instance, theFeature);
+            }
         }
     }
 

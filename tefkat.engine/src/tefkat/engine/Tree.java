@@ -141,6 +141,11 @@ public class Tree {
         if (null != parentContext) {
             // Delay the node that originally created this tree
             parentContext.node.delay();
+//            // grab the currently delayed terms
+//            final Collection delayed = parentContext.node.getDelayed();
+//            // traverse this Tree to find non-failed leaf Nodes and compute the output binding
+//            // for each output binding, unifier, create a branch in the parent Tree
+//            parentContext.tree.createBranch(parentContext.node, unifier, parentContext.node.goal());
             parentContext.tree.addUnresolvedNode(parentContext.node);
             return parentContext.node;
         }
