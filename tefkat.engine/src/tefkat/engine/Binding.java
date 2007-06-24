@@ -9,8 +9,6 @@
  *     michael lawley
  *     David Hearnden
  *
- *
- *
  */
 
 package tefkat.engine;

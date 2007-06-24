@@ -26,27 +26,35 @@ public class NotGroundException extends TefkatException {
      * 
      */
     private static final long serialVersionUID = -4499738378813153849L;
+    final private Node node;
 
     /**
      * @param message
      */
-    public NotGroundException(String message) {
+    public NotGroundException(Node node, String message) {
         super(message);
+        this.node = node;
     }
 
     /**
      * @param message
      * @param cause
      */
-    public NotGroundException(String message, Throwable cause) {
+    public NotGroundException(Node node, String message, Throwable cause) {
         super(message, cause);
+        this.node = node;
     }
 
     /**
      * @param cause
      */
-    public NotGroundException(Throwable cause) {
+    public NotGroundException(Node node, Throwable cause) {
         super(cause);
+        this.node = node;
+    }
+
+    public Node getNode() {
+        return node;
     }
 }
 

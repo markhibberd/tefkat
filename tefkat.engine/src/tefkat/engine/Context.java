@@ -55,7 +55,7 @@ final class Context {
     }
     
     void delay(String message) throws NotGroundException {
-        throw new NotGroundException(message);
+        throw new NotGroundException(node, message);
     }
     
     void error(String message) throws ResolutionException {
@@ -110,7 +110,7 @@ final class Context {
     }
 
     List expand(WrappedVar var) throws NotGroundException {
-        return exprEval.expand(var);
+        return exprEval.expand(this, var);
     }
 
     EObject lookup(List keys, TRule rule) {
@@ -118,16 +118,20 @@ final class Context {
     }
 
     void warn(String string) {
-        ruleEval.fireWarning(string);
+        ruleEval.fireWarning(string);// + "\n    " + node);
     }
 
     Map getNameMap() {
         return ruleEval.nameMap;
     }
 
-    Object fetchFeature(String featureName, Object obj) {
+    Object fetchFeature(String featureName, Object obj) throws ResolutionException {
         Object valuesObject = null;
-        try {
+
+        if (obj instanceof DynamicObject) {
+            throw new ResolutionException(node, "Illegal attempt to retrieve feature value from target object instance: " + obj);
+        }
+        
             if (obj instanceof EObject) {
                 EObject instance = (EObject) obj;
                 // If instance is a DynamicObject or it's containing eResource is a target Extent
@@ -166,11 +170,8 @@ final class Context {
                     }
                 }
             } catch (Exception e) {
-                throw new ResolutionException(null, "Could not find a source of values for '" + featureName + "' in '" + obj + "'", e);
+                warn("Could not find a source of values for '" + featureName + "' in '" + obj + "' " + e.getMessage());
             }
-        } catch (ResolutionException e) {
-            warn(e.getMessage());
-        }
     
         return valuesObject;
     }

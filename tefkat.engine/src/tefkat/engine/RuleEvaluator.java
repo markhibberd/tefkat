@@ -28,7 +28,6 @@ import java.util.Stack;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
 
 import tefkat.engine.TargetResolver.Injections;
 import tefkat.model.Var;
@@ -42,6 +41,7 @@ import tefkat.model.TefkatException;
 import tefkat.model.TefkatFactory;
 import tefkat.model.Term;
 import tefkat.model.Transformation;
+import tefkat.model.VarScope;
 import tefkat.model.internal.ModelUtils;
 
 
@@ -177,7 +177,7 @@ public class RuleEvaluator {
             fireInfo("... " + strata.length + " levels.");
 
             for (int i = 0; i < strata.length; i++) {
-                fireInfo("Stratum " + i + " : " + strata[i]);
+                fireInfo("Stratum " + i + " : " + formatStrata(strata[i]));
                 fixpoint(strata[i], force);
             }
 
@@ -210,7 +210,7 @@ public class RuleEvaluator {
             fireInfo("... " + strata.length + " levels.");
             
             for (int level = 0; level < strata.length; level++) {
-                fireInfo("Stratum " + level + " : " + strata[level]);
+                fireInfo("Stratum " + level + " : " + formatStrata(strata[level]));
                 
                 // Currently, we use a single Tree per stratum which means
                 // that it's really a forest with one root Node per TRule
@@ -300,6 +300,16 @@ public class RuleEvaluator {
         }
     }
     
+    private String formatStrata(List<VarScope> strata) {
+        final StringBuilder sb = new StringBuilder();
+        for (VarScope s: strata) {
+            if (s instanceof TRule && !((TRule) s).isAbstract()) {
+                sb.append(", ").append(s.getName());
+            }
+        }
+        return sb.length() > 0 ? sb.substring(2) : "";
+    }
+
     private void fixpoint(List tRules, boolean force) throws ResolutionException {
         trackingQueryMap.clear();
         while (tRules.size() > 0) {
@@ -529,7 +539,8 @@ public class RuleEvaluator {
         }
         for (Iterator itr = listeners.iterator(); itr.hasNext();) {
             try {
-                ((TefkatListener) itr.next()).error(message, t);
+                final TefkatListener listener = (TefkatListener) itr.next();
+                listener.error(message, t);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -687,6 +698,9 @@ public class RuleEvaluator {
 
                 truleSolutions.addAll(tree.getAnswers());
             } else {
+                
+                System.err.println(tree.getUnresolvedNode());
+                
                 fireInfo("TRule: " + trule.getName() + " matched nothing.");
             }
         }
@@ -732,7 +746,7 @@ public class RuleEvaluator {
                         // If this is a subtree (created for IFs or PATTERNs/TEMPLATEs)
                         // propagate delay -- only top-level Trees (for TRules) should flounder
                         
-                        Node flounder = tree.flounder();
+                        Node flounder = tree.flounder(node.getDelayReasons());
                         
                         if (null != flounder) {
                             // Don't continue with this tree - it's obsolete
@@ -741,8 +755,7 @@ public class RuleEvaluator {
                         } else {
                             throw new ResolutionException(node,
                                     "Floundered - all terms are delayed: "
-                                    + node.getDelayed() + "\t"
-                                    + node.getBindings());
+                                    + formatDelayedNoded(node));
                         }
                     }
 
@@ -779,7 +792,7 @@ public class RuleEvaluator {
                             throw new AssertionError(
                                 "Internal Error: inconsistent state, please report this problem to the developers.");
                         }
-                        node.delay();
+                        node.delay(e);
                         tree.addUnresolvedNode(node);
                         fireDelayTerm(node);
                     }
@@ -802,6 +815,36 @@ public class RuleEvaluator {
         }
     }
     
+
+    private String formatDelayedNoded(final Node node) {
+        final StringBuilder sb = new StringBuilder();
+        
+        sb.append("[\n");
+        Collection<NotGroundException> reasons = node.getDelayReasons();
+        for (final Iterator<NotGroundException> itr = reasons.iterator(); itr.hasNext(); ) {
+            final NotGroundException reason = itr.next();
+            final Node reasonNode = reason.getNode();
+            Term term = reasonNode.selectedLiteral();
+            EObject c = term.eContainer();
+            while (null != c && !(c instanceof VarScope)) {
+                c = c.eContainer();
+            }
+            sb.append("  ").append(reason.getMessage()).append(" in ").append(c).append("\n");
+        }
+        sb.append("]");
+        
+//        sb.append("[\n");
+//        Collection<Term> terms = node.getDelayed();
+//        for (final Iterator<Term> itr = terms.iterator(); itr.hasNext(); ) {
+//            final Term term = itr.next();
+//            sb.append("  ").append(term).append("\n");
+//        }
+//        sb.append("]");
+//        
+//        sb.append(node.getBindings());
+        
+        return sb.toString();
+    }
 
     /**
      * Grow the tree from the given node.
@@ -878,7 +921,7 @@ public class RuleEvaluator {
                             throw new AssertionError(
                                     "Internal Error: inconsistent state, please report this problem to the developers.");
                         }
-                        node.delay();
+                        node.delay(e);
                         tree.addUnresolvedNode(node);
                         fireDelayTerm(node);
                     }
@@ -932,7 +975,8 @@ public class RuleEvaluator {
         }
         
         if (null != node.getDelayed() && !node.getDelayed().isEmpty()) {
-            throw new ResolutionException(node, "Flounder: All source terms delayed.");
+            throw new ResolutionException(node, "Flounder: All source terms delayed: "
+                                                + formatDelayedNoded(node));
         }
 
         for (int i = 0; i < literals.length; i++) {

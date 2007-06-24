@@ -768,8 +768,10 @@ public class Tefkat {
 
         while (resources.size() > 0) {
             Set newResources = new HashSet();
-            for (Iterator itr = resources.iterator(); itr.hasNext(); ) {
+            System.err.println("warning, skipping load of referenced resources");
+            for (Iterator itr = resources.iterator(); false && itr.hasNext(); ) {
                 Resource res = (Resource) itr.next();
+System.err.println("findAllResources: " + res);
                 Map refs = EcoreUtil.ExternalCrossReferencer.find(res);
                 for (Iterator refItr = refs.keySet().iterator(); refItr.hasNext(); ) {
                     EObject o = (EObject) refItr.next();

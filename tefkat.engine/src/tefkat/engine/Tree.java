@@ -134,13 +134,13 @@ public class Tree {
         }
     }
     
-    Node flounder() {
+    Node flounder(Collection reasons) {
         // Tell any listeners so they can clean up
         floundered();
 
         if (null != parentContext) {
             // Delay the node that originally created this tree
-            parentContext.node.delay();
+            parentContext.node.delay(reasons);
 //            // grab the currently delayed terms
 //            final Collection delayed = parentContext.node.getDelayed();
 //            // traverse this Tree to find non-failed leaf Nodes and compute the output binding

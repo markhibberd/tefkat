@@ -40,9 +40,9 @@ abstract class AbstractResolver {
     class VarExpander {
         final private Context context;
         final private List vars;
-        final private Function function;
+        final private Function2 function;
 
-        VarExpander(Context context, List vars, Function function, Binding unifier)
+        VarExpander(Context context, List vars, Function2 function, Binding unifier)
         throws NotGroundException, ResolutionException {
             this.context = context;
             this.vars = vars;
@@ -55,15 +55,14 @@ abstract class AbstractResolver {
         throws NotGroundException, ResolutionException {
             if (idx == vars.size()) {
                 // reached end of list of vars, now do the work
-                final Object[] args = {unifier};
-                function.call(context, args);
+                function.call(context, unifier, null);
                 return;
             }
 
             Var var = (Var) vars.get(idx);
             Object value = unifier.lookup(var);
             if (value instanceof WrappedVar) {
-                List objs = exprEval.expand((WrappedVar) value);
+                List objs = exprEval.expand(context, (WrappedVar) value);
                 for (final Iterator itr = objs.iterator(); itr.hasNext(); ) {
                     Object obj = itr.next();
                     Binding unifier2 = new Binding(unifier);
@@ -76,16 +75,11 @@ abstract class AbstractResolver {
         }
     }
 
-    private abstract class PatternCall
-        implements Function2 {
+    private abstract class PatternCall extends Function2 {
         private final List vars;
 
         PatternCall(List vars) {
             this.vars = vars;
-        }
-
-        public Object call(Context context, Object[] params) {
-            throw new UnsupportedOperationException("Internal error: this method should not be called");
         }
 
         /**
@@ -489,51 +483,6 @@ abstract class AbstractResolver {
         return unifier;
     }
 
-    /**
-     *  Choose a literal from the goal of the given node.
-     *  @param node  The node containing the goal from which to choose a 
-     *               literal.
-     *  @return A chosen literal, or null if the node's goal is empty 
-     *          (i.e. success)
-     */
-    protected Term selectLiteral(final Node node) {
-        Term[] literals = (Term[]) node.goal().toArray(new Term[node.goal().size()]);
-
-        /**
-         *  Simple selection rule:
-         *    + select MofInstances first, then anything else
-         */
-        for (int i = 0; i < literals.length; i++) {
-            if (literals[i] instanceof MofInstance) {
-                node.selectLiteral(literals[i]);
-                return literals[i];
-            }
-        }
-
-        for (int i = 0; i < literals.length; i++) {
-            if (literals[i] instanceof CompoundTerm) {
-                node.selectLiteral(literals[i]);
-                return literals[i];
-            }
-        }
-
-        // Delay selection of "println"
-        for (int i = 0; i < literals.length; i++) {
-            if ((literals[i] instanceof PatternUse) &&
-                    null == ((PatternUse) literals[i]).getDefn()) {
-                continue;
-            }
-            node.selectLiteral(literals[i]);
-            return literals[i];
-        }
-
-        if (literals.length > 0) {
-            node.selectLiteral(literals[0]);
-            return literals[0];
-        }
-
-        return null;
-    }
 
     protected void resolveAndTerm(final Context context, final AndTerm literal)
     throws ResolutionException {
@@ -559,7 +508,7 @@ abstract class AbstractResolver {
 
     protected void resolveIfTerm(Context context, final IfTerm literal)
     throws ResolutionException, NotGroundException {
-        
+
         // Ensure that all non-local variables are already ground
         // (WrappedVars are handled by the Expander)
         for (Iterator itr = literal.getNonLocalVars().iterator(); itr.hasNext(); ) {
@@ -570,13 +519,11 @@ abstract class AbstractResolver {
             }
         }
         
-        final Function f = new Function() {
-            public Object call(Context context, Object[] params) throws ResolutionException {
-                Binding unifier = (Binding) params[0];
-                evalIfGoal(context, unifier , literal.getTerm());
+        final Function2 f = new Function2() {
+            public Object call(Context context, Binding unifier, Object[] params) throws ResolutionException {
+                evalIfGoal(context, unifier, literal.getTerm());
                 return null;
             }
-            
         };
         
         new VarExpander(context, literal.getNonLocalVars(), f, context.getBindings());

@@ -49,7 +49,17 @@ public class Evaluator {
 
     private static final String NULL_TYPE = "null";
 
-    private final class DataMapLookup implements Function2 {
+    private final class MinCardinality extends Function2 {
+        public Object call(Context context, Binding binding, Object[] params) throws ResolutionException, NotGroundException {
+            if (params.length != 4) {
+                throw new ResolutionException(null, "min_cardinality expected 4 args, got " + params.length);
+            }
+            System.err.println("Assert " + params[0] + "." + params[1] + " = " + params[2] + " >= " + params[3]);
+            return Boolean.TRUE;
+        }
+    }
+    
+    private final class DataMapLookup extends Function2 {
         public Object call(Context context, Binding binding, Object[] params) throws ResolutionException {
             DataMap dataMap = (DataMap) params[0];
             String key = String.valueOf(params[1]);
@@ -70,11 +80,6 @@ public class Evaluator {
             }
             return result;
         }
-
-        public Object call(Context context, Object[] params) throws ResolutionException {
-            throw new UnsupportedOperationException("Wrong method called. Should have been call(Context, Binding, Object[])");
-        }
-
     }
 
     /**
@@ -112,10 +117,13 @@ public class Evaluator {
         }
     }
 
-    private static final class AppendFunction implements Function {
-        public Object call(Context context, Object[] params) {
+    private static final class AppendFunction extends Function2 {
+        public Object call(Context context, Binding binding, Object[] params) throws ResolutionException, NotGroundException {
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < params.length; i++) {
+                if (params[i] instanceof WrappedVar) {
+                    context.delay("Cannot append unbound variable: " + params[i]);
+                }
                 sb.append(params[i]);
             }
             return sb.toString();
@@ -321,6 +329,8 @@ public class Evaluator {
         
         // FIXME rename this function to dataMap or something (see tefkat.g)
         addFunction("map", new DataMapLookup());
+        
+        addFunction("min_cardinality", new MinCardinality());
     }
 
     final void addFunction(String name, Function function) {
@@ -366,9 +376,9 @@ public class Evaluator {
         }
     }
     
-    List expand(WrappedVar wVar) throws NotGroundException {
+    List expand(Context context, WrappedVar wVar) throws NotGroundException {
         if (null == wVar.getExtent()) {
-            throw new NotGroundException("Unsupported mode: unbound extent for" + wVar);
+            context.delay("Unsupported mode: unbound extent for" + wVar);
         }
 //        Var var = wVar.getVar();
 //        EClassifier type = wVar.getType();
@@ -487,8 +497,7 @@ public class Evaluator {
 
             if (fObj instanceof WrappedVar) {
                 Var var = ((WrappedVar) fObj).getVar();
-                throw new NotGroundException(
-                    "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featExpr.getFeature());
+                context.delay("Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + featExpr.getFeature());
             } else if (fObj instanceof BindingPair) {
                 featureContext = (Binding) fObj;
                 fObj = ((BindingPair) fObj).getValue();
@@ -507,7 +516,7 @@ public class Evaluator {
             Var var = null;
             if (objs.size() == 1 && objs.get(0) instanceof WrappedVar) {
                 WrappedVar wVar = (WrappedVar) objs.get(0);
-                objs = expand(wVar);
+                objs = expand(context, wVar);
                 var = wVar.getVar();
             }
             
@@ -909,10 +918,11 @@ public class Evaluator {
 
         final private List results = new ArrayList();
         final private Context context;
-        final private Function f;
+        final private Function function;
         final private List actuals;
         final private Object[] params;
         final private boolean collect;
+        final private boolean allowUnboundParameters;
         
         /**
          * 
@@ -926,9 +936,10 @@ public class Evaluator {
         ExprExpander(Context context, Function function, Binding binding, List actuals, boolean collect)
         throws NotGroundException, ResolutionException {
             this.context = context;
-            this.f = function;
+            this.function = function;
             this.actuals = actuals;
             this.collect = collect;
+            this.allowUnboundParameters = function instanceof Function2;
             
             params = new Object[actuals.size()];
 
@@ -938,7 +949,10 @@ public class Evaluator {
         private void expandParams(Binding binding, int i)
         throws NotGroundException, ResolutionException {
             if (i == params.length) {
-                Object result = (f instanceof Function2) ? ((Function2) f).call(context, binding, params) : f.call(context, params);
+                Object result = (function instanceof Function2)
+                        ? ((Function2) function).call(context, binding, params)
+                        : function.call(context, params);
+                        
                 if (null != result) {
                     if (!collect && result instanceof Collection) { 
                         results.addAll((Collection) result);
@@ -946,7 +960,7 @@ public class Evaluator {
                         results.add(result);
                     }
                 } else {
-                    ruleEval.fireWarning("Function call returned null: " + f + "(" + params + ")");
+                    ruleEval.fireWarning("Function call returned null: " + function + "(" + params + ")");
                 }
             } else {
                 List values = eval(context, binding, (Expression) actuals.get(i));
@@ -961,6 +975,9 @@ public class Evaluator {
                         System.err.println(params[i] + " = " + obj);
                         System.err.println(binding);
                         System.err.println(newContext);
+                    } else if (obj instanceof WrappedVar && !allowUnboundParameters) {
+                        context.delay("Unbound var for Function call not allowed");
+                        newContext = null;      // NOTREACHED
                     } else {
                         newContext = binding;
                     }

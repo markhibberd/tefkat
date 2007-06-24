@@ -31,6 +31,7 @@ public class Node {
     private final Collection goal;  // A set of tefkat.model.Terms
     
     private Collection delayed;     // A set of tefkat.model.Terms
+    private Collection delayReasons;     // A set of tefkat.model.Terms
     private Term selectedLiteral;
     private boolean isSuccess;
     private boolean isFailure;
@@ -58,12 +59,25 @@ public class Node {
         this(goal, binding, null);
     }
     
-    public void delay() {
+    public void delay(NotGroundException reason) {
         if (goal.remove(selectedLiteral)) {
             if (null == delayed) {
                 delayed = new ArrayList(4); // the default size of 10 is overkill
+                delayReasons = new ArrayList(4);
             }
             delayed.add(selectedLiteral);
+            delayReasons.add(reason);
+        }
+    }
+
+    public void delay(Collection reasons) {
+        if (goal.remove(selectedLiteral)) {
+            if (null == delayed) {
+                delayed = new ArrayList(4); // the default size of 10 is overkill
+                delayReasons = new ArrayList(4);
+            }
+            delayed.add(selectedLiteral);
+            delayReasons.addAll(reasons);
         }
     }
     
@@ -71,18 +85,22 @@ public class Node {
         return delayed;
     }
     
+    public Collection getDelayReasons() {
+        return delayReasons;
+    }
+    
     public String toString() {
         if (null == selectedLiteral) {
-            return "G: " + goal;
+            return "Goal Terms: " + goal;
         }
         EObject c = selectedLiteral;
         while (null != c && !(c instanceof VarScope)) {
             c = c.eContainer();
         }
         if (null == c) {
-            return "???::" + selectedLiteral;
+            return "Unknown Rule/Pattern/Template:\n    Term: " + selectedLiteral;
         }
-        return "S: " + c + "\n\t:: " + selectedLiteral;
+        return c + ":\n    Term: " + selectedLiteral;
     }
 
     /**

@@ -8,8 +8,6 @@
  * Contributors:
  *     michael lawley
  *
- *
- *
  */
 
 package tefkat.engine;

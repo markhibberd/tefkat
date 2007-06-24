@@ -516,13 +516,11 @@ class SourceResolver extends AbstractResolver {
             }
         }
         
-        final Function f = new Function() {
-            public Object call(Context context, Object[] params) throws ResolutionException {
-                Binding unifier = (Binding) params[0];
+        final Function2 f = new Function2() {
+            public Object call(Context context, Binding unifier, Object[] params) throws ResolutionException {
                 evalNegatedGoal(context, unifier, new ArrayList(literal.getTerm()));
                 return null;
             }
-            
         };
         
         new VarExpander(context, literal.getNonLocalVars(), f, context.node.getBindings());
@@ -596,15 +594,6 @@ class SourceResolver extends AbstractResolver {
         }
     }
 
-    protected Term selectLiteral(final Node node) {
-        Term t = doSelectLiteral(node);
-        return t;
-    }
-
-    protected Term doSelectLiteral(final Node node) {
-        return super.selectLiteral(node);
-    }
-    
     protected void resolveMofOrder(final Context context, final MofOrder term)
     throws ResolutionException, NotGroundException {
         List instances = exprEval.eval(context, term.getInstance());

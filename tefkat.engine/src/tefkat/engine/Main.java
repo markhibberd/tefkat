@@ -142,10 +142,10 @@ public class Main {
             }
             
             public void error(String message, Throwable cause) {
-                System.err.println("Error: " + message);
-                if (true || cause instanceof RuntimeException) {
+                if (cause instanceof RuntimeException) {
                     cause.printStackTrace();
                 } else {
+                    System.err.println("Error: " + message);
                     for (StackTraceElement elt: cause.getStackTrace()) {
                         if (elt.getClassName().startsWith("tefkat")) {
                             System.err.println("  at " + elt);

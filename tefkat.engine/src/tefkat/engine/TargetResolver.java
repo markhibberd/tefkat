@@ -134,7 +134,7 @@ class TargetResolver extends AbstractResolver {
             List vals = exprEval.eval(context, expr);
             if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
                 WrappedVar wVar = (WrappedVar) vals.get(0);
-                Collection instances = exprEval.expand(wVar);
+                Collection instances = exprEval.expand(context, wVar);
                 List pairs = new ArrayList(instances.size());
                 for (Iterator instItr = instances.iterator(); instItr.hasNext(); ) {
                     Object o = instItr.next();
@@ -233,7 +233,7 @@ class TargetResolver extends AbstractResolver {
             Expression expr = (Expression) keyEntry.getValue();
             List vals = exprEval.eval(context, expr);
             if (vals.size() == 1 && vals.get(0) instanceof WrappedVar) {
-                // ruleEval.fireInfo(expr + DELAYING_MESSAGE);
+//                 ruleEval.fireInfo(expr + " delayed in LINKING");
                 context.delay(expr + NOT_BOUND_MESSAGE);
             }
             EStructuralFeature feature = getFeature(context, trackingClass, name);
@@ -830,60 +830,6 @@ class TargetResolver extends AbstractResolver {
         }
     }
 
-    /**
-     *  Choose a literal from the goal of the given node.
-     *  @param node  The node containing the goal from which to choose a 
-     *               literal.
-     *  @return A chosen literal, or null if the node's goal is empty 
-     *          (i.e. success)
-     */
-    protected  Term selectLiteral(Node node) {
-        Term t = doSelectLiteral(node);
-        return t;
-    }
-
-    protected  Term doSelectLiteral(Node node) {
-        Term[] literals = (Term[]) node.goal().toArray(new Term[node.goal().size()]);
-        
-        /**
-         * Expand:
-         *   Injections, then
-         *   bound MofInstances, then
-         *   TrackingUses, then
-         *   the rest
-         */
-
-        for (int i = 0; i < literals.length; i++) {
-            if (literals[i] instanceof Injection) {
-                node.selectLiteral(literals[i]);
-                return literals[i];
-            }
-        }
-        for (int i = 0; i < literals.length; i++) {
-            if (literals[i] instanceof MofInstance) {
-                MofInstance term = (MofInstance) literals[i];
-                Expression theVar = term.getInstance();
-                /**
-                 * Check that the Var is bound
-                 */
-                if (theVar instanceof VarUse && null != node.lookup(((VarUse) theVar).getVar())) {
-                    node.selectLiteral(literals[i]);
-                    return literals[i];
-                }
-            }
-        }
-        for (int i = 0; i < literals.length; i++) {
-            if (literals[i] instanceof TrackingUse) {
-                node.selectLiteral(literals[i]);
-                return literals[i];
-            }
-        }
-
-        /**
-         *  Otherwise delegate to generic selection rule.
-         */
-        return super.selectLiteral(node);
-    }
 
     
     static class Injections {
