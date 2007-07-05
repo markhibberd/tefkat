@@ -1360,6 +1360,11 @@ e.printStackTrace();
                 ObjectAny any = TraceFactory.eINSTANCE.createObjectAny();
                 any.getRef().add(key);
                 sources.add(any);
+                // In case a target object is used as an injection parameter
+                if (key instanceof DynamicObject) {
+                    DynamicObject dynObj = (DynamicObject) key;
+                    dynObj.addMultiReferenceFrom(any, TracePackage.eINSTANCE.getObjectAny_Ref());
+                }
             } else if (key instanceof String) {
                 StringAny any = TraceFactory.eINSTANCE.createStringAny();
                 any.setString((String) key);
