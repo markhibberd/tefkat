@@ -4,15 +4,14 @@
  */
 package tefkat.antTask;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.EnumeratedAttribute;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.resource.URIConverter;
 
 import tefkat.config.TefkatConfig.ExecutionMode;
 import tefkat.config.TefkatConfig.Model;
@@ -26,7 +25,7 @@ import tefkat.model.parser.TefkatResourceFactory;
  * This class implements an Ant task for running Tefkat.
  * 
  * When complete it will support specification of all parameters currently
- * supported by the config file tefkat.xml :
+ * supported by the config file tefkat.xmi :
  * <ul>
  * <li>transformation URI</li>
  * <li>source model URIs</li>
@@ -40,6 +39,15 @@ import tefkat.model.parser.TefkatResourceFactory;
  */
 public class TefkatTask extends Task {
 
+    private static URI currentDir = URI.createFileURI(System.getProperty("user.dir") + File.separator);
+    static {
+        System.err.println("CWD: " + currentDir);
+        URI uri = URI.createFileURI("file.qvt");
+        System.err.println(uri);
+        System.err.println(uri.resolve(currentDir));
+//        System.err.println(currentDir.resolve(uri));
+    }
+    
     private TransformationTask task;
     private boolean save;
     private boolean force;
@@ -49,6 +57,7 @@ public class TefkatTask extends Task {
      */
     public TefkatTask() {
         super();
+        URIConverter.URI_MAP.put(URI.createURI("platform:/resource/"), currentDir);
     }
 
     public void execute() throws BuildException {
@@ -85,14 +94,14 @@ public class TefkatTask extends Task {
     public void setTransformation(String str) {
         System.out.println("setTransformation: " + str);
         Model model = TefkatConfigFactory.eINSTANCE.createModel();
-        model.setLocationUri(str);
+        model.setLocationUri(resolveUriStr(str));
         task.setTransformation(model);
     }
     
     public void setTraceURI(String str) {
         System.out.println("setTraceURI: " + str);
         Model model = TefkatConfigFactory.eINSTANCE.createModel();
-        model.setLocationUri(str);
+        model.setLocationUri(resolveUriStr(str));
         task.setTrace(model);
     }
     
@@ -111,6 +120,26 @@ public class TefkatTask extends Task {
         task.getTargetModels().add(location.getModel());
     }
     
+    private static String resolveUriStr(String input) {
+        
+        System.err.println("input: " + input);
+        
+        final URI uri = URI.createURI(input);
+        System.err.println("uri: " + uri);
+        final String result;
+
+        System.err.println("1 " + currentDir+"\t: " + uri);
+        System.err.println(uri.resolve(currentDir));
+        if (uri.hasRelativePath() || true) {
+            result = uri.resolve(currentDir).toString();
+        } else {
+            result = input;
+        }
+
+        System.err.println("2 " + input+"\t: " + result);
+        return result;
+    }
+    
     public static class Mode extends EnumeratedAttribute {
         public String[] getValues() {
             return new String[] {"REPLACE", "UPDATE"};
@@ -126,7 +155,11 @@ public class TefkatTask extends Task {
         
         public void setURI(String str) {
             System.out.println("setUri: " + str);
-            model.setLocationUri(str);
+            model.setLocationUri(resolveUriStr(str));
+        }
+        
+        public void setVarGroup(String str) {
+            model.setVarGroup(str);
         }
         
         Model getModel() {

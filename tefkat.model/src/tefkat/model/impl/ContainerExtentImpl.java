@@ -77,6 +77,8 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
     private Map exactlyCache = new WeakHashMap();
     private Map inexactlyCache = new WeakHashMap();
 
+    private boolean noCache = false;
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -109,7 +111,7 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
      * <!-- begin-user-doc -->
      * FIXME Yikes, need to invalidate the cache if the extent is modified, but
      * in the context of a Tefkat transformation, only tracking extents will get
-     * modified.
+     * modified, and only via our add method.
      * <!-- end-user-doc -->
      * @generated NOT
      */
@@ -123,7 +125,7 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
                 for (Iterator itr = resource.getAllContents(); itr.hasNext(); ) {
                     objects.add(itr.next());
                 }
-                cacheStore(exactlyCache, theClass, objects);
+                if (!noCache) cacheStore(exactlyCache, theClass, objects);
             }
         } else if (isExactly) {
             objects = cacheLookup(exactlyCache, theClass);
@@ -135,7 +137,7 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
                         objects.add(obj);
                     }
                 }
-                cacheStore(exactlyCache, theClass, objects);
+                if (!noCache) cacheStore(exactlyCache, theClass, objects);
             }
         } else {
             objects = cacheLookup(inexactlyCache, theClass);
@@ -147,17 +149,17 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
                         objects.add(obj);
                     }
                 }
-                cacheStore(inexactlyCache, theClass, objects);
+                if (!noCache) cacheStore(inexactlyCache, theClass, objects);
             }
         }
         return objects;
     }
 
     private EList cacheLookup(Map cache, EClass key) {
-        // Can't cache if underlying resource has changed
-        // This is always (almost) the case for tracking extents :-(
-        // hence we keep special cases in the RuleEvaluator
-        if (getResource().isModified()) {
+        // Can't cache if underlying resource has changed behind our back
+        // -- the add(EObject) method maintains the caches
+        
+        if (resource.isModified()) {
             return null;
         }
         Object result = cache.get(key);
@@ -168,8 +170,12 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
     }
     
     private void cacheStore(Map cache, EClass key, EList objects) {
-        // Can't cache if underlying resource has changed
-        cache.put(key, new WeakReference(objects));
+        // Can't cache if underlying resource has changed behind our back
+        // -- the add(EObject) method maintains the caches
+
+        if (!resource.isModified()) {
+            cache.put(key, new WeakReference(objects));
+        }
     }
 
     /**
@@ -183,10 +189,12 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
 
     /**
      * <!-- begin-user-doc -->
+     * Adds obj to the underlying Resource and updates the caches
      * <!-- end-user-doc -->
      * @generated NOT
      */
     public void add(EObject obj) {
+        final boolean modState = resource.isModified();
         resource.getContents().add(obj);
 //        System.err.println(resource.getURI() + " " + resource.getContents().size());
         final EClass eClass = obj.eClass();
@@ -206,9 +214,10 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
                 inexact.add(obj);
             }
         }
+        resource.setModified(modState);
     }
     
-    EList getCache(Map cache, EClass key) {
+    private EList getCache(Map cache, EClass key) {
         Object result = cache.get(key);
         if (null != result) {
             result = ((WeakReference) result).get();
@@ -228,6 +237,7 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
     public void remove(EObject obj) {
         resource.getContents().remove(obj);
         System.err.println(resource.getURI() + " remove");
+        throw new UnsupportedOperationException("Tefkat doesn't use this method");
 //        EList exact = cacheLookup(exactlyCache, obj.eClass());
 //        if (null != exact) {
 //            exact.remove(obj);
@@ -237,9 +247,10 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
     public Resource getResource() {
+        if (true) throw new UnsupportedOperationException("Don't really want to expose our internal Resource");
         return resource;
     }
 
@@ -251,6 +262,11 @@ public class ContainerExtentImpl extends ExtentImpl implements ContainerExtent {
     public void setResource(Resource newResource) {
         Resource oldResource = resource;
         resource = newResource;
+        
+        if (resource.isModified()) {
+            throw new IllegalArgumentException("New Resource nust not be in a modified state: " + newResource);
+        }
+        
         exactlyCache.clear();
         inexactlyCache.clear();
         if (eNotificationRequired())

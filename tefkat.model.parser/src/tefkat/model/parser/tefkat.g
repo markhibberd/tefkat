@@ -962,10 +962,10 @@ classDecl[Transformation t] {
                     LBRACE
                     (
                         { fsChar = getNextCharIndex(); multiValued = false; }
-                        type = simpleTypeLiteral
+                        type = simpleTypeLiteral[false]
                         (LBRACE RBRACE { multiValued = true; })?
                         ref:ID fsemi:SEMI {
-                            // TODO handle attributes (strings, ints, etc)
+                            // TODO syntax for containment references
                             // Note that string -> EString, int -> EInt, etc
                             EStructuralFeature eFeature;
                             if (type instanceof EClass) {
@@ -997,7 +997,7 @@ classDecl[Transformation t] {
 superClasses[EClass eClass] {
         EClassifier superEClass;
 }
-        :       superEClass = simpleTypeLiteral {
+        :       superEClass = simpleTypeLiteral[false] {
                     if (!(superEClass instanceof EClass)) {
                         String type = (superEClass instanceof EDataType) ? "an EDataType" :
                                       (superEClass instanceof EEnum) ? "an EEnum" :
@@ -1419,7 +1419,7 @@ typeName[VarScope scope, List terms] returns [Expression expr = null] {
                     expr = sc;
                 }
         |
-                type = simpleTypeLiteral {
+                type = simpleTypeLiteral[true] {
                     InstanceRef ref = TefkatFactory.eINSTANCE.createInstanceRef();
                     ref.setObject(type);
                     expr = ref;
@@ -1427,7 +1427,7 @@ typeName[VarScope scope, List terms] returns [Expression expr = null] {
         )
         ;
 
-simpleTypeLiteral returns [EClassifier type = null] {
+simpleTypeLiteral[boolean resolve] returns [EClassifier type = null] {
         EObject obj;
         String name = "";
 }
@@ -1435,7 +1435,7 @@ simpleTypeLiteral returns [EClassifier type = null] {
                 (CARET id2: ID { name += '^' + id2.getText(); })?
                 {
                     type = ModelUtils.findClassifierByName(trackingMap, name);
-                    if (null == type) {
+                    if (resolve && null == type) {
                         throw new antlr.SemanticException("Cannot resolve type: " + name, getFilename(), getMarkLine(), getMarkColumn());
                     }
                 }
@@ -1444,7 +1444,7 @@ simpleTypeLiteral returns [EClassifier type = null] {
                 fqid: FQID {
                     name += fqid.getText();
                     type = ModelUtils.findClassifierByName(trackingMap, name);
-                    if (null == type) {
+                    if (resolve && null == type) {
                         throw new antlr.SemanticException("Cannot resolve type: " + name, getFilename(), getMarkLine(), getMarkColumn());
                     }
                 }
@@ -1600,13 +1600,9 @@ s_ite[VarScope scope] returns [IfTerm term = null] {
                     termList.clear();
                 }
                 | {
-                    SimpleExpr bool = TefkatFactory.eINSTANCE.createBooleanConstant();
-                    bool.setRepresentation("TRUE");
-                    Condition cond = TefkatFactory.eINSTANCE.createCondition();
-                    cond.setRelation("boolean");
-                    List args = cond.getArg();
-                    args.add(bool);
-                    thenTerm = cond;
+                    // No THEN term is equivalent to THEN TRUE
+                    // We use an empty AndTerm to implement TRUE
+                    thenTerm = TefkatFactory.eINSTANCE.createAndTerm();
                 }
                 )
                 (
@@ -1768,14 +1764,11 @@ relation[VarScope scope, List terms] returns [Term term = null] {
         |        (tname "LINKS") => term = links[scope, terms]
         |        ("IF") => term = s_ifthenelse[scope]
         |        b:BOOLEAN {
-                        SimpleExpr bool = TefkatFactory.eINSTANCE.createBooleanConstant();
-                        bool.setRepresentation(b.getText());
-                        Condition cond = TefkatFactory.eINSTANCE.createCondition();
-                        cond.setRelation("boolean");
-                        List args = cond.getArg();
-                        args.add(bool);
-                        
-                        term = cond;
+                        if ("TRUE".equals(b.getText())) {
+                        	term = TefkatFactory.eINSTANCE.createAndTerm();
+                        } else {
+                        	term = TefkatFactory.eINSTANCE.createOrTerm();
+                        }
                 }
         |        "UNDEF" lhs = factor[scope, terms] {
                         if (scope instanceof TRule || scope instanceof PatternDefn) {
@@ -1979,13 +1972,15 @@ setting[VarScope scope, Var tgtExtent, List tgts, List params] {
 }
         :       setting_stmt[scope, tgts]
         |       b:BOOLEAN {
-                    SimpleExpr bool = TefkatFactory.eINSTANCE.createBooleanConstant();
-                    bool.setRepresentation(b.getText());
-                    Condition cond = TefkatFactory.eINSTANCE.createCondition();
-                    cond.setRelation("boolean");
-                    List args = cond.getArg();
-                    args.add(bool);
-                    tgts.add(cond);
+                    if ("TRUE".equals(b.getText())) {
+                    	term = TefkatFactory.eINSTANCE.createAndTerm();
+                    } else {
+                    	// An empty OR represents FALSE but OR is not valid
+                    	// on the target side, so we cheat and wrap it in an AndTerm
+                    	term = TefkatFactory.eINSTANCE.createAndTerm();
+                    	((AndTerm) term).getTerm().add(TefkatFactory.eINSTANCE.createOrTerm());
+                    }
+                    tgts.add(term);
                 }
         |       ("IF") => term = t_ifthenelse[scope, tgtExtent, params] {
                     tgts.add(term);
@@ -2040,7 +2035,8 @@ setting_stmt[VarScope scope, List tgts] {
                     }
                 |
                     {
-                        if ((lhs instanceof FeatureExpr) && ((FeatureExpr) lhs).isOperation()) {
+                        if (((lhs instanceof FeatureExpr) && ((FeatureExpr) lhs).isOperation()) ||
+                            ((lhs instanceof FunctionExpr) && "min_cardinality".equals(((FunctionExpr) lhs).getFunction()))) {
                             Condition cond = TefkatFactory.eINSTANCE.createCondition();
                             cond.setRelation("boolean");
                             if (null != lhs) {
@@ -2419,34 +2415,34 @@ vardecl[VarScope vs]  returns [Var var = null]
 /*
 NOT YET IMPLEMENTED -- need a decent syntax
 */
-enumlit[VarScope scope, List terms] returns [EnumConstant enumeration = null] {
-        // EClassifier eClassifier;
-        Expression typeExpr;
-        Expression literalExpr;
-}
-        :       HASH
-                // eClassifier = simpleTypeLiteral
-                typeExpr = typeName[scope, terms]
-                PERIOD
-                literalExpr = literal[scope, terms] {
-//                id: ID {
-//                        if (!(eClassifier instanceof EEnum)) {
-//                                throw new antlr.SemanticException("Expected an EEnum: " + eClassifier + ", but got a EClass or EDataType", getFilename(), getMarkLine(), getMarkColumn());
-//                        }
-//                        EEnum eenum = (EEnum) eClassifier;
-//                        EEnumLiteral literal = eenum.getEEnumLiteral(id.getText());
-//                        Resource res = literal.eResource();
-//                        String uriFrag = res.getURIFragment(literal);
-                        enumeration = TefkatFactory.eINSTANCE.createEnumConstant();
-                        List args = enumeration.getArg();
-                        args.add(typeExpr);
-                        args.add(literalExpr);
-//                        enumeration.setRepresentation(res.getURI() + uriFrag);
-//                        literal.eResource().getResourceSet().getEObject(URI.createURI(enumeration.getRepresentation()), false);
-//                        ref = TefkatFactory.eINSTANCE.createInstanceRef();
-//                        ref.setObject(literal);
-                }
-        ;
+//enumlit[VarScope scope, List terms] returns [EnumConstant enumeration = null] {
+//        // EClassifier eClassifier;
+//        Expression typeExpr;
+//        Expression literalExpr;
+//}
+//        :       HASH
+//                // eClassifier = simpleTypeLiteral
+//                typeExpr = typeName[scope, terms]
+//                PERIOD
+//                literalExpr = literal[scope, terms] {
+////                id: ID {
+////                        if (!(eClassifier instanceof EEnum)) {
+////                                throw new antlr.SemanticException("Expected an EEnum: " + eClassifier + ", but got a EClass or EDataType", getFilename(), getMarkLine(), getMarkColumn());
+////                        }
+////                        EEnum eenum = (EEnum) eClassifier;
+////                        EEnumLiteral literal = eenum.getEEnumLiteral(id.getText());
+////                        Resource res = literal.eResource();
+////                        String uriFrag = res.getURIFragment(literal);
+//                        enumeration = TefkatFactory.eINSTANCE.createEnumConstant();
+//                        List args = enumeration.getArg();
+//                        args.add(typeExpr);
+//                        args.add(literalExpr);
+////                        enumeration.setRepresentation(res.getURI() + uriFrag);
+////                        literal.eResource().getResourceSet().getEObject(URI.createURI(enumeration.getRepresentation()), false);
+////                        ref = TefkatFactory.eINSTANCE.createInstanceRef();
+////                        ref.setObject(literal);
+//                }
+//        ;
 
 literal[VarScope scope, List terms] returns [Expression expr = null] {
         String s = null;

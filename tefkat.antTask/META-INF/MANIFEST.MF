@@ -11,4 +11,5 @@ Require-Bundle: org.apache.ant,
  org.eclipse.ant.core,
  tefkat.config,
  tefkat.model,
- tefkat.engine
+ tefkat.engine,
+ tefkat.model.parser
