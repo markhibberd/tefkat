@@ -42,6 +42,7 @@ import tefkat.engine.runtime.functions.SplitString;
 import tefkat.engine.runtime.functions.StripSuffix;
 import tefkat.engine.runtime.functions.SubList;
 import tefkat.engine.runtime.functions.Subtract;
+import tefkat.engine.trace.BoolAny;
 import tefkat.engine.trace.IntAny;
 import tefkat.engine.trace.ObjectAny;
 import tefkat.engine.trace.StringAny;
@@ -1358,20 +1359,24 @@ e.printStackTrace();
             
             if (key instanceof EObject) {
                 ObjectAny any = TraceFactory.eINSTANCE.createObjectAny();
-                any.getRef().add(key);
+                any.getValue().add(key);
                 sources.add(any);
                 // In case a target object is used as an injection parameter
                 if (key instanceof DynamicObject) {
                     DynamicObject dynObj = (DynamicObject) key;
-                    dynObj.addMultiReferenceFrom(any, TracePackage.eINSTANCE.getObjectAny_Ref());
+                    dynObj.addMultiReferenceFrom(any, TracePackage.eINSTANCE.getObjectAny_Value());
                 }
             } else if (key instanceof String) {
                 StringAny any = TraceFactory.eINSTANCE.createStringAny();
-                any.setString((String) key);
+                any.setValue((String) key);
                 sources.add(any);
             } else if (key instanceof Integer) {
                 IntAny any = TraceFactory.eINSTANCE.createIntAny();
-                any.setInt(((Integer) key).intValue());
+                any.setValue(((Integer) key).intValue());
+                sources.add(any);
+            } else if (key instanceof Boolean) {
+                BoolAny any = TraceFactory.eINSTANCE.createBoolAny();
+                any.setValue(((Boolean) key).booleanValue());
                 sources.add(any);
             } else {
                 throw new Error("Internal Error: trace support for " + key.getClass() + " not yet implemented.");

@@ -30,7 +30,7 @@ import tefkat.engine.trace.TracePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link tefkat.engine.trace.impl.StringAnyImpl#getString <em>String</em>}</li>
+ *   <li>{@link tefkat.engine.trace.impl.StringAnyImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,27 +42,27 @@ public class StringAnyImpl extends AnyImpl implements StringAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2004";
+    public static final String copyright = "Copyright michael lawley 2004";
 
     /**
-     * The default value of the '{@link #getString() <em>String</em>}' attribute.
+     * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getString()
+     * @see #getValue()
      * @generated
      * @ordered
      */
-    protected static final String STRING_EDEFAULT = null;
+    protected static final String VALUE_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getString() <em>String</em>}' attribute.
+     * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getString()
+     * @see #getValue()
      * @generated
      * @ordered
      */
-    protected String string = STRING_EDEFAULT;
+    protected String value = VALUE_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -79,7 +79,7 @@ public class StringAnyImpl extends AnyImpl implements StringAny {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TracePackage.eINSTANCE.getStringAny();
+        return TracePackage.Literals.STRING_ANY;
     }
 
     /**
@@ -87,8 +87,8 @@ public class StringAnyImpl extends AnyImpl implements StringAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public String getString() {
-        return string;
+    public String getValue() {
+        return value;
     }
 
     /**
@@ -96,11 +96,11 @@ public class StringAnyImpl extends AnyImpl implements StringAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setString(String newString) {
-        String oldString = string;
-        string = newString;
+    public void setValue(String newValue) {
+        String oldValue = value;
+        value = newValue;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.STRING_ANY__STRING, oldString, string));
+            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.STRING_ANY__VALUE, oldValue, value));
     }
 
     /**
@@ -108,12 +108,12 @@ public class StringAnyImpl extends AnyImpl implements StringAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TracePackage.STRING_ANY__STRING:
-                return getString();
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case TracePackage.STRING_ANY__VALUE:
+                return getValue();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -121,13 +121,13 @@ public class StringAnyImpl extends AnyImpl implements StringAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TracePackage.STRING_ANY__STRING:
-                setString((String)newValue);
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+            case TracePackage.STRING_ANY__VALUE:
+                setValue((String)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -135,13 +135,13 @@ public class StringAnyImpl extends AnyImpl implements StringAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TracePackage.STRING_ANY__STRING:
-                setString(STRING_EDEFAULT);
+    public void eUnset(int featureID) {
+        switch (featureID) {
+            case TracePackage.STRING_ANY__VALUE:
+                setValue(VALUE_EDEFAULT);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -149,12 +149,12 @@ public class StringAnyImpl extends AnyImpl implements StringAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TracePackage.STRING_ANY__STRING:
-                return STRING_EDEFAULT == null ? string != null : !STRING_EDEFAULT.equals(string);
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+            case TracePackage.STRING_ANY__VALUE:
+                return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**
@@ -166,8 +166,8 @@ public class StringAnyImpl extends AnyImpl implements StringAny {
         if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (string: ");
-        result.append(string);
+        result.append(" (value: ");
+        result.append(value);
         result.append(')');
         return result.toString();
     }

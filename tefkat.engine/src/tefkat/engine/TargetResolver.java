@@ -8,8 +8,6 @@
  * Contributors:
  *     michael lawley
  *     David Hearnden
- *
- *
  */
 
 package tefkat.engine;
@@ -24,6 +22,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
+import tefkat.engine.trace.BoolAny;
 import tefkat.engine.trace.IntAny;
 import tefkat.engine.trace.ObjectAny;
 import tefkat.engine.trace.StringAny;
@@ -882,21 +881,25 @@ class TargetResolver extends AbstractResolver {
                 
                 if (key instanceof EObject) {
                     ObjectAny any = TraceFactory.eINSTANCE.createObjectAny();
-                    any.getRef().add(key);
+                    any.getValue().add(key);
                     sources.add(any);
                     
                     // In case a target object is used as an injection parameter
                     if (key instanceof DynamicObject) {
                         DynamicObject dynObj = (DynamicObject) key;
-                        dynObj.addMultiReferenceFrom(any, TracePackage.eINSTANCE.getObjectAny_Ref());
+                        dynObj.addMultiReferenceFrom(any, TracePackage.eINSTANCE.getObjectAny_Value());
                     }
                 } else if (key instanceof String) {
                     StringAny any = TraceFactory.eINSTANCE.createStringAny();
-                    any.setString((String) key);
+                    any.setValue((String) key);
                     sources.add(any);
                 } else if (key instanceof Integer) {
                     IntAny any = TraceFactory.eINSTANCE.createIntAny();
-                    any.setInt(((Integer) key).intValue());
+                    any.setValue(((Integer) key).intValue());
+                    sources.add(any);
+                } else if (key instanceof Boolean) {
+                    BoolAny any = TraceFactory.eINSTANCE.createBoolAny();
+                    any.setValue(((Boolean) key).booleanValue());
                     sources.add(any);
                 } else {
                     throw new Error("Internal Error: trace support for " + key.getClass() + " not yet implemented.");
@@ -915,7 +918,7 @@ class TargetResolver extends AbstractResolver {
             
             if (null == keyVal) {
                 return null;
-            } else if ((idx + 1)  < keys.size()) {
+            } else if ((idx + 1)  < keys.size() && keyVal instanceof Map) {
                 return lookup((Map) keyVal, keys, idx + 1);
             } else {
                 return (EObject) keyVal;

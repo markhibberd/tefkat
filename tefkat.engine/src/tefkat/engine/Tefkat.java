@@ -32,11 +32,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -50,6 +48,7 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import tefkat.config.TefkatConfig.ExecutionMode;
 import tefkat.config.TefkatConfig.Model;
 import tefkat.config.TefkatConfig.TransformationTask;
+import tefkat.model.ReferenceExtent;
 import tefkat.model.Var;
 import tefkat.model.ContainerExtent;
 import tefkat.model.Extent;
@@ -123,7 +122,8 @@ public class Tefkat {
             if (Notification.ADD == notif.getEventType()) {
                 Resource res = (Resource) notif.getNewValue();
                 res.eAdapters().add(resourceLoadListener);
-            } else if (Notification.REMOVING_ADAPTER == notif.getEventType()) {
+            } else if (Notification.REMOVING_ADAPTER == notif.getEventType() && notif.getOldValue() instanceof Resource) {
+                System.err.println("*********" + notif);
                 Resource res = (Resource) notif.getOldValue();
                 res.eAdapters().remove(resourceLoadListener);
             } else {
@@ -267,12 +267,17 @@ public class Tefkat {
     
     public void transform(Resource transformation, Resource[] srcs, Resource[] tgts,
             Resource tracking, boolean force) throws TefkatException {
+        transform(transformation, null, srcs, tgts, tracking, force);
+    }
+    
+    public void transform(Resource transformation, Map parameters, Resource[] srcs, Resource[] tgts,
+            Resource tracking, boolean force) throws TefkatException {
         
         setResourceSet(transformation.getResourceSet());
 
-        ContainerExtent[] srcEs = new ContainerExtent[srcs.length];
-        ContainerExtent[] tgtEs = new ContainerExtent[tgts.length];
-        ContainerExtent trackingE;
+        final ContainerExtent[] srcEs = new ContainerExtent[srcs.length];
+        final ContainerExtent[] tgtEs = new ContainerExtent[tgts.length];
+        final ContainerExtent trackingE = TefkatFactory.eINSTANCE.createContainerExtent();
 
         for (int i = 0; i < srcs.length; i++) {
             srcEs[i] = TefkatFactory.eINSTANCE.createContainerExtent();
@@ -285,30 +290,20 @@ public class Tefkat {
         }
         
         if (null == tracking) {
-            trackingE = TefkatFactory.eINSTANCE.createContainerExtent();
             trackingE.setResource(createTempResource("tefkat-tracking", ".xmi"));
         } else {
-            trackingE = TefkatFactory.eINSTANCE.createContainerExtent();
             trackingE.setResource(tracking);
         }
-        // Mark the tracking resource as modified so that caching in the
-        // tracking extent is disabled - this saves the overhead of automatic
-        // tracking modification since the tracking extent will almost certainly
-        // be modified, and if it isn't, it'll be empty (currently) so the cost
-        // of not caching is very low.
-        //
-        // TODO refactor this as an Extent operation: setCaching(false)
-        trackingE.getResource().setModified(true);
 
-        transform(transformation, srcEs, tgtEs, trackingE, force);
+        transform(transformation, parameters, srcEs, tgtEs, trackingE, force);
     }
     
-    void transform(Resource transformation, Extent[] srcs, Extent[] tgts,
+    void transform(Resource transformation, Map parameters, Extent[] srcs, Extent[] tgts,
             Extent trackingExtent, boolean force) throws TefkatException {
         
         setResourceSet(transformation.getResourceSet());
 
-        try {            
+        try {
             fireStart();
 
             List contents = transformation.getContents();
@@ -317,16 +312,36 @@ public class Tefkat {
                     Transformation t = (Transformation) contents.get(j);
                     Binding context = new Binding();
                     List extentVars = t.getVars();
-                    if (srcs.length + tgts.length != extentVars.size()) {
-                        throw new ResolutionException(null, "Wrong number of parameters.  Expected " + extentVars.size() + ", got " + (srcs.length + tgts.length));
-                    }
-                    for (int k = 0; k < extentVars.size(); k++) {
-                        Var extentVar = (Var) extentVars.get(k);
-                        if (k < srcs.length) {
-                            context.add(extentVar, srcs[k]);
-                        } else {
-                            context.add(extentVar, tgts[k - srcs.length]);
+
+                    for (final Iterator itr = extentVars.iterator(); itr.hasNext(); ) {
+                        final Var var = (Var) itr.next();
+                        final String varName = var.getName();
+                        if (parameters.containsKey(varName)) {
+                            context.add(var, parameters.get(varName));
                         }
+                    }
+                    
+                    int idx = 0;
+                    for (int k = 0; k < srcs.length; k++) {
+                        Var var;
+                        do {
+                            if (idx >= extentVars.size()) {
+                                throw new ResolutionException(null, "Too many parameters while processing " + srcs[k] + ".  Expected " + extentVars.size() + ", got approximately " + (parameters.size() + srcs.length + tgts.length));
+                            }
+                            var = (Var) extentVars.get(idx++);
+                        } while (context.lookup(var) != null);
+                        context.add(var, srcs[k]);
+                    }
+                    
+                    for (int k = 0; k < tgts.length; k++) {
+                        Var var;
+                        do {
+                            if (idx >= extentVars.size()) {
+                                throw new ResolutionException(null, "Too many parameters found while processing " + srcs[k] + ".  Expected " + extentVars.size() + ", got approximately " + (parameters.size() + srcs.length + tgts.length));
+                            }
+                            var = (Var) extentVars.get(idx++);
+                        } while (context.lookup(var) != null);
+                        context.add(var, tgts[k]);
                     }
                     
                     Tree.counter = 0;
@@ -353,6 +368,9 @@ public class Tefkat {
                         
                         timings("Source", ruleEvaluator.srcResolver);
                         timings("Target", ruleEvaluator.tgtResolver);
+                        for (int i = 0; i < ruleEvaluator.tgtResolver.elapsed.length; i++) {
+                            fireInfo("TrackingUse breakdown: " + i + "  " + ruleEvaluator.tgtResolver.elapsed[i]);
+                        }
                     
 //                    fireInfo("TrackingUse breakdown: " + 
 //                            ruleEvaluator.tgtResolver.counter + "\t" +
@@ -567,6 +585,7 @@ public class Tefkat {
             }
             
             Resource transformationR = null;
+            Map parameters = new HashMap();
             Resource[] sourcesR;
             Resource[] targetsR;
             Resource traceR = null;
@@ -582,10 +601,27 @@ public class Tefkat {
 
             transformationR = getResource(task.getTransformation().getLocationUri());
             List sources = task.getSourceModels();
-            sourcesR = new Resource[sources.size()];
-            for (int i = 0; i < sourcesR.length; i++) {
-                sourcesR[i] = getResource(((Model) sources.get(i)).getLocationUri());
+//            sourcesR = new Resource[sources.size()];
+            List sourcesL = new ArrayList();
+            for (int i = 0; i < sources.size(); i++) {
+                final Model model = (Model) sources.get(i);
+                final Resource resource = getResource((model).getLocationUri());
+                final String varGroup = model.getVarGroup();
+                // FIXME need to handle varGroup
+                if (varGroup != null) {
+                    ReferenceExtent extent;
+                    if (parameters.containsKey(varGroup)) {
+                        extent = (ReferenceExtent) parameters.get(varGroup);
+                    } else {
+                        extent = TefkatFactory.eINSTANCE.createReferenceExtent();
+                        parameters.put(varGroup, extent);
+                    }
+                    extent.getResources().add(resource);
+                } else {
+                    sourcesL.add(resource);
+                }
             }
+            sourcesR = (Resource[]) sourcesL.toArray(new Resource[sourcesL.size()]);
 
             List targets = task.getTargetModels();
             targetsR = new Resource[targets.size()];
@@ -602,10 +638,11 @@ public class Tefkat {
                 }
                 if (null != task.getTrace()) {
                     traceR = getResource(task.getTrace().getLocationUri());
+                    throw new UnsupportedOperationException("Not yet implemented: need to initialise internal structures wrt loaded trace model");
                 }
             }
 
-            transform(transformationR, sourcesR, targetsR, traceR, force);
+            transform(transformationR, parameters, sourcesR, targetsR, traceR, force);
             
             for (int i = 0; i < targetsR.length; i++) {
                 setObjectIds(targetsR[i]);
@@ -650,18 +687,26 @@ public class Tefkat {
             for (int i = roots.length - 1; i >= 0; i--) {
                 EObject obj = (EObject) roots[i];
                 
-                // Set XMI ID if not already set
-                if (null == xres.getID(obj)) {
-                    xres.setID(obj, String.valueOf(obj.hashCode()));
-                }
-                // remove direct containment for things that are transitively contained
-                if (null != obj.eContainer()) {
-                    xres.getContents().remove(obj);
-                }
+                fixObjectId(xres, obj);
             }
         }
     }
-    
+
+    private static void fixObjectId(XMIResource xres, EObject obj) {
+        // Set XMI ID if not already set
+        if (null == xres.getID(obj)) {
+            xres.setID(obj, String.valueOf(obj.hashCode()));
+        }
+        // remove direct containment for things that are transitively contained
+        if (null != obj.eContainer()) {
+            xres.getContents().remove(obj);
+        }
+        Object[] children = obj.eContents().toArray();
+        for (int i = children.length - 1; i >= 0; i--) {
+            fixObjectId(xres, (EObject) children[i]);
+        }
+    }
+
     public void pause() {
         paused = true;
         if (null != ruleEvaluator) {

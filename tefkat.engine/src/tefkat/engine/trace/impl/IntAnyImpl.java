@@ -30,7 +30,7 @@ import tefkat.engine.trace.TracePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link tefkat.engine.trace.impl.IntAnyImpl#getInt <em>Int</em>}</li>
+ *   <li>{@link tefkat.engine.trace.impl.IntAnyImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,27 +42,27 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2004";
+    public static final String copyright = "Copyright michael lawley 2004";
 
     /**
-     * The default value of the '{@link #getInt() <em>Int</em>}' attribute.
+     * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getInt()
+     * @see #getValue()
      * @generated
      * @ordered
      */
-    protected static final int INT_EDEFAULT = 0;
+    protected static final int VALUE_EDEFAULT = 0;
 
     /**
-     * The cached value of the '{@link #getInt() <em>Int</em>}' attribute.
+     * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getInt()
+     * @see #getValue()
      * @generated
      * @ordered
      */
-    protected int int_ = INT_EDEFAULT;
+    protected int value = VALUE_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -79,7 +79,7 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TracePackage.eINSTANCE.getIntAny();
+        return TracePackage.Literals.INT_ANY;
     }
 
     /**
@@ -87,8 +87,8 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public int getInt() {
-        return int_;
+    public int getValue() {
+        return value;
     }
 
     /**
@@ -96,11 +96,11 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setInt(int newInt) {
-        int oldInt = int_;
-        int_ = newInt;
+    public void setValue(int newValue) {
+        int oldValue = value;
+        value = newValue;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.INT_ANY__INT, oldInt, int_));
+            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.INT_ANY__VALUE, oldValue, value));
     }
 
     /**
@@ -108,12 +108,12 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TracePackage.INT_ANY__INT:
-                return new Integer(getInt());
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case TracePackage.INT_ANY__VALUE:
+                return new Integer(getValue());
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -121,13 +121,13 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TracePackage.INT_ANY__INT:
-                setInt(((Integer)newValue).intValue());
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+            case TracePackage.INT_ANY__VALUE:
+                setValue(((Integer)newValue).intValue());
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -135,13 +135,13 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TracePackage.INT_ANY__INT:
-                setInt(INT_EDEFAULT);
+    public void eUnset(int featureID) {
+        switch (featureID) {
+            case TracePackage.INT_ANY__VALUE:
+                setValue(VALUE_EDEFAULT);
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -149,12 +149,12 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TracePackage.INT_ANY__INT:
-                return int_ != INT_EDEFAULT;
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+            case TracePackage.INT_ANY__VALUE:
+                return value != VALUE_EDEFAULT;
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**
@@ -166,8 +166,8 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
         if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (int: ");
-        result.append(int_);
+        result.append(" (value: ");
+        result.append(value);
         result.append(')');
         return result.toString();
     }

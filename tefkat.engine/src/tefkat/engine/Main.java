@@ -94,7 +94,7 @@ public class Main {
         System.err.println(message);
         System.err.println("usage: tefkat [-quiet] [-debug] [-force] [-fixpoint] [-statistics] [-save] [-layout] [-vis mtsT] [-mapURI from to]*");
         System.err.println("\t[-conf configURI | -transformation mappingURI");
-        System.err.println("\t[-source srcURI]* [-target targetURI]* [-trace traceURI]]");
+        System.err.println("\t[-source srcURI | -sourceVar var=srcURI]* [-target targetURI]* [-trace traceURI]]");
         System.exit(1);
     }
     
@@ -159,6 +159,7 @@ public class Main {
         
         ResourceSet rs = engine.getResourceSet();
         Map URIMap = rs.getURIConverter().getURIMap();
+        Map parameters = new HashMap();
 
         for (int i = 0; i < args.length; i++) {
 
@@ -213,6 +214,12 @@ public class Main {
             } else if (args[i].equals("-source")) {
                 i += 1;
                 sourceURIs.add(args[i]);
+            } else if (args[i].equals("-sourceVar")) {
+                i += 1;
+                int idx = args[i].indexOf("=");
+                String var = args[i].substring(0, idx);
+                String uri = args[i].substring(idx+1);
+                parameters.put(var, uri);
             } else if (args[i].equals("-target")) {
                 i += 1;
                 targetURIs.add(args[i]);
@@ -282,6 +289,11 @@ public class Main {
                 }
                 int j;
                 Resource transformation = rs.getResource(URI.createURI(transformationURI), true);
+                for (Iterator itr = parameters.entrySet().iterator(); itr.hasNext(); ) {
+                    Map.Entry entry = (Map.Entry) itr.next();
+                    URI uri = URI.createURI((String) entry.getValue());
+                    entry.setValue(rs.getResource(uri, true));
+                }
                 Resource[] srcs = new Resource[sourceURIs.size()];
                 j = 0;
                 for (Iterator itr = sourceURIs.iterator(); itr.hasNext(); j++) {
@@ -319,7 +331,7 @@ public class Main {
                 }
 
                 System.out.println("transforming...");
-                engine.transform(transformation, srcs, tgts, trace);
+                engine.transform(transformation, parameters, srcs, tgts, trace, false);
                 if (saveResult) {
                     Map options = new HashMap();
                     options.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
@@ -367,15 +379,23 @@ public class Main {
             for (int i = roots.length - 1; i >= 0; i--) {
                 EObject obj = (EObject) roots[i];
                 
-                // Set XMI ID if not already set
-                if (null == xres.getID(obj)) {
-                    xres.setID(obj, String.valueOf(obj.hashCode()));
-                }
-                // remove direct containment for things that are transitively contained
-                if (null != obj.eContainer()) {
-                    xres.getContents().remove(obj);
-                }
+                fixObjectId(xres, obj);
             }
+        }
+    }
+
+    private static void fixObjectId(XMIResource xres, EObject obj) {
+        // Set XMI ID if not already set
+        if (null == xres.getID(obj)) {
+            xres.setID(obj, String.valueOf(obj.hashCode()));
+        }
+        // remove direct containment for things that are transitively contained
+        if (null != obj.eContainer()) {
+            xres.getContents().remove(obj);
+        }
+        Object[] children = obj.eContents().toArray();
+        for (int i = children.length - 1; i >= 0; i--) {
+            fixObjectId(xres, (EObject) children[i]);
         }
     }
     

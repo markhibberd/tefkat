@@ -39,7 +39,7 @@ public interface TracePackage extends EPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2004";
+    String copyright = "Copyright michael lawley 2004";
 
     /**
      * The package name.
@@ -120,7 +120,7 @@ public interface TracePackage extends EPackage {
     int TRACE__RULES = 3;
 
     /**
-     * The number of structural features of the the '<em>Trace</em>' class.
+     * The number of structural features of the '<em>Trace</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -139,7 +139,7 @@ public interface TracePackage extends EPackage {
     int ANY = 1;
 
     /**
-     * The number of structural features of the the '<em>Any</em>' class.
+     * The number of structural features of the '<em>Any</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -158,16 +158,16 @@ public interface TracePackage extends EPackage {
     int INT_ANY = 2;
 
     /**
-     * The feature id for the '<em><b>Int</b></em>' attribute.
+     * The feature id for the '<em><b>Value</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INT_ANY__INT = ANY_FEATURE_COUNT + 0;
+    int INT_ANY__VALUE = ANY_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Int Any</em>' class.
+     * The number of structural features of the '<em>Int Any</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -186,16 +186,16 @@ public interface TracePackage extends EPackage {
     int STRING_ANY = 3;
 
     /**
-     * The feature id for the '<em><b>String</b></em>' attribute.
+     * The feature id for the '<em><b>Value</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int STRING_ANY__STRING = ANY_FEATURE_COUNT + 0;
+    int STRING_ANY__VALUE = ANY_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>String Any</em>' class.
+     * The number of structural features of the '<em>String Any</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -214,22 +214,51 @@ public interface TracePackage extends EPackage {
     int OBJECT_ANY = 4;
 
     /**
-     * The feature id for the '<em><b>Ref</b></em>' reference list.
+     * The feature id for the '<em><b>Value</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int OBJECT_ANY__REF = ANY_FEATURE_COUNT + 0;
+    int OBJECT_ANY__VALUE = ANY_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Object Any</em>' class.
+     * The number of structural features of the '<em>Object Any</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
     int OBJECT_ANY_FEATURE_COUNT = ANY_FEATURE_COUNT + 1;
+
+
+    /**
+     * The meta object id for the '{@link tefkat.engine.trace.impl.BoolAnyImpl <em>Bool Any</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.engine.trace.impl.BoolAnyImpl
+     * @see tefkat.engine.trace.impl.TracePackageImpl#getBoolAny()
+     * @generated
+     */
+    int BOOL_ANY = 5;
+
+    /**
+     * The feature id for the '<em><b>Value</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BOOL_ANY__VALUE = ANY_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Bool Any</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BOOL_ANY_FEATURE_COUNT = ANY_FEATURE_COUNT + 1;
 
 
     /**
@@ -307,15 +336,15 @@ public interface TracePackage extends EPackage {
     EClass getIntAny();
 
     /**
-     * Returns the meta object for the attribute '{@link tefkat.engine.trace.IntAny#getInt <em>Int</em>}'.
+     * Returns the meta object for the attribute '{@link tefkat.engine.trace.IntAny#getValue <em>Value</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Int</em>'.
-     * @see tefkat.engine.trace.IntAny#getInt()
+     * @return the meta object for the attribute '<em>Value</em>'.
+     * @see tefkat.engine.trace.IntAny#getValue()
      * @see #getIntAny()
      * @generated
      */
-    EAttribute getIntAny_Int();
+    EAttribute getIntAny_Value();
 
     /**
      * Returns the meta object for class '{@link tefkat.engine.trace.StringAny <em>String Any</em>}'.
@@ -328,15 +357,15 @@ public interface TracePackage extends EPackage {
     EClass getStringAny();
 
     /**
-     * Returns the meta object for the attribute '{@link tefkat.engine.trace.StringAny#getString <em>String</em>}'.
+     * Returns the meta object for the attribute '{@link tefkat.engine.trace.StringAny#getValue <em>Value</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>String</em>'.
-     * @see tefkat.engine.trace.StringAny#getString()
+     * @return the meta object for the attribute '<em>Value</em>'.
+     * @see tefkat.engine.trace.StringAny#getValue()
      * @see #getStringAny()
      * @generated
      */
-    EAttribute getStringAny_String();
+    EAttribute getStringAny_Value();
 
     /**
      * Returns the meta object for class '{@link tefkat.engine.trace.ObjectAny <em>Object Any</em>}'.
@@ -349,15 +378,36 @@ public interface TracePackage extends EPackage {
     EClass getObjectAny();
 
     /**
-     * Returns the meta object for the reference list '{@link tefkat.engine.trace.ObjectAny#getRef <em>Ref</em>}'.
+     * Returns the meta object for the reference list '{@link tefkat.engine.trace.ObjectAny#getValue <em>Value</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Ref</em>'.
-     * @see tefkat.engine.trace.ObjectAny#getRef()
+     * @return the meta object for the reference list '<em>Value</em>'.
+     * @see tefkat.engine.trace.ObjectAny#getValue()
      * @see #getObjectAny()
      * @generated
      */
-    EReference getObjectAny_Ref();
+    EReference getObjectAny_Value();
+
+    /**
+     * Returns the meta object for class '{@link tefkat.engine.trace.BoolAny <em>Bool Any</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Bool Any</em>'.
+     * @see tefkat.engine.trace.BoolAny
+     * @generated
+     */
+    EClass getBoolAny();
+
+    /**
+     * Returns the meta object for the attribute '{@link tefkat.engine.trace.BoolAny#isValue <em>Value</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Value</em>'.
+     * @see tefkat.engine.trace.BoolAny#isValue()
+     * @see #getBoolAny()
+     * @generated
+     */
+    EAttribute getBoolAny_Value();
 
     /**
      * Returns the factory that creates the instances of the model.
@@ -367,5 +417,144 @@ public interface TracePackage extends EPackage {
      * @generated
      */
     TraceFactory getTraceFactory();
+
+    /**
+     * <!-- begin-user-doc -->
+     * Defines literals for the meta objects that represent
+     * <ul>
+     *   <li>each class,</li>
+     *   <li>each feature of each class,</li>
+     *   <li>each enum,</li>
+     *   <li>and each data type</li>
+     * </ul>
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    interface Literals  {
+        /**
+         * The meta object literal for the '{@link tefkat.engine.trace.impl.TraceImpl <em>Trace</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.engine.trace.impl.TraceImpl
+         * @see tefkat.engine.trace.impl.TracePackageImpl#getTrace()
+         * @generated
+         */
+        EClass TRACE = eINSTANCE.getTrace();
+
+        /**
+         * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute TRACE__NAME = eINSTANCE.getTrace_Name();
+
+        /**
+         * The meta object literal for the '<em><b>Sources</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRACE__SOURCES = eINSTANCE.getTrace_Sources();
+
+        /**
+         * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRACE__TARGET = eINSTANCE.getTrace_Target();
+
+        /**
+         * The meta object literal for the '<em><b>Rules</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRACE__RULES = eINSTANCE.getTrace_Rules();
+
+        /**
+         * The meta object literal for the '{@link tefkat.engine.trace.impl.AnyImpl <em>Any</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.engine.trace.impl.AnyImpl
+         * @see tefkat.engine.trace.impl.TracePackageImpl#getAny()
+         * @generated
+         */
+        EClass ANY = eINSTANCE.getAny();
+
+        /**
+         * The meta object literal for the '{@link tefkat.engine.trace.impl.IntAnyImpl <em>Int Any</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.engine.trace.impl.IntAnyImpl
+         * @see tefkat.engine.trace.impl.TracePackageImpl#getIntAny()
+         * @generated
+         */
+        EClass INT_ANY = eINSTANCE.getIntAny();
+
+        /**
+         * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute INT_ANY__VALUE = eINSTANCE.getIntAny_Value();
+
+        /**
+         * The meta object literal for the '{@link tefkat.engine.trace.impl.StringAnyImpl <em>String Any</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.engine.trace.impl.StringAnyImpl
+         * @see tefkat.engine.trace.impl.TracePackageImpl#getStringAny()
+         * @generated
+         */
+        EClass STRING_ANY = eINSTANCE.getStringAny();
+
+        /**
+         * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute STRING_ANY__VALUE = eINSTANCE.getStringAny_Value();
+
+        /**
+         * The meta object literal for the '{@link tefkat.engine.trace.impl.ObjectAnyImpl <em>Object Any</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.engine.trace.impl.ObjectAnyImpl
+         * @see tefkat.engine.trace.impl.TracePackageImpl#getObjectAny()
+         * @generated
+         */
+        EClass OBJECT_ANY = eINSTANCE.getObjectAny();
+
+        /**
+         * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference OBJECT_ANY__VALUE = eINSTANCE.getObjectAny_Value();
+
+        /**
+         * The meta object literal for the '{@link tefkat.engine.trace.impl.BoolAnyImpl <em>Bool Any</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.engine.trace.impl.BoolAnyImpl
+         * @see tefkat.engine.trace.impl.TracePackageImpl#getBoolAny()
+         * @generated
+         */
+        EClass BOOL_ANY = eINSTANCE.getBoolAny();
+
+        /**
+         * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute BOOL_ANY__VALUE = eINSTANCE.getBoolAny_Value();
+
+    }
 
 } //TracePackage

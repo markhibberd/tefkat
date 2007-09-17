@@ -58,7 +58,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2004";
+    public static final String copyright = "Copyright michael lawley 2004";
 
     /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -125,7 +125,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TracePackage.eINSTANCE.getTrace();
+        return TracePackage.Literals.TRACE;
     }
 
     /**
@@ -168,8 +168,8 @@ public class TraceImpl extends EObjectImpl implements Trace {
      */
     public EObject getTarget() {
         if (target != null && target.eIsProxy()) {
-            EObject oldTarget = target;
-            target = (EObject)eResolveProxy((InternalEObject)target);
+            InternalEObject oldTarget = (InternalEObject)target;
+            target = eResolveProxy(oldTarget);
             if (target != oldTarget) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracePackage.TRACE__TARGET, oldTarget, target));
@@ -216,16 +216,12 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TracePackage.TRACE__SOURCES:
-                    return ((InternalEList)getSources()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TracePackage.TRACE__SOURCES:
+                return ((InternalEList)getSources()).basicRemove(otherEnd, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -233,8 +229,8 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TracePackage.TRACE__NAME:
                 return getName();
             case TracePackage.TRACE__SOURCES:
@@ -245,7 +241,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
             case TracePackage.TRACE__RULES:
                 return getRules();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -253,8 +249,8 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TracePackage.TRACE__NAME:
                 setName((String)newValue);
                 return;
@@ -270,7 +266,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
                 getRules().addAll((Collection)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -278,8 +274,8 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TracePackage.TRACE__NAME:
                 setName(NAME_EDEFAULT);
                 return;
@@ -293,7 +289,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
                 getRules().clear();
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -301,8 +297,8 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TracePackage.TRACE__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case TracePackage.TRACE__SOURCES:
@@ -312,7 +308,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
             case TracePackage.TRACE__RULES:
                 return rules != null && !rules.isEmpty();
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

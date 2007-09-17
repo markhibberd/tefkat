@@ -16,21 +16,21 @@ package tefkat.engine.trace;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Int Any</b></em>'.
+ * A representation of the model object '<em><b>Bool Any</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link tefkat.engine.trace.IntAny#getValue <em>Value</em>}</li>
+ *   <li>{@link tefkat.engine.trace.BoolAny#isValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
- * @see tefkat.engine.trace.TracePackage#getIntAny()
+ * @see tefkat.engine.trace.TracePackage#getBoolAny()
  * @model
  * @generated
  */
-public interface IntAny extends Any {
+public interface BoolAny extends Any {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -47,21 +47,21 @@ public interface IntAny extends Any {
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Value</em>' attribute.
-     * @see #setValue(int)
-     * @see tefkat.engine.trace.TracePackage#getIntAny_Value()
+     * @see #setValue(boolean)
+     * @see tefkat.engine.trace.TracePackage#getBoolAny_Value()
      * @model
      * @generated
      */
-    int getValue();
+    boolean isValue();
 
     /**
-     * Sets the value of the '{@link tefkat.engine.trace.IntAny#getValue <em>Value</em>}' attribute.
+     * Sets the value of the '{@link tefkat.engine.trace.BoolAny#isValue <em>Value</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @param value the new value of the '<em>Value</em>' attribute.
-     * @see #getValue()
+     * @see #isValue()
      * @generated
      */
-    void setValue(int value);
+    void setValue(boolean value);
 
-} // IntAny
+} // BoolAny

@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import tefkat.engine.trace.Any;
+import tefkat.engine.trace.BoolAny;
 import tefkat.engine.trace.IntAny;
 import tefkat.engine.trace.ObjectAny;
 import tefkat.engine.trace.StringAny;
@@ -40,7 +41,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2004";
+    public static final String copyright = "Copyright michael lawley 2004";
 
     /**
      * <!-- begin-user-doc -->
@@ -76,6 +77,13 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
      * @generated
      */
     private EClass objectAnyEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass boolAnyEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -213,7 +221,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getIntAny_Int() {
+    public EAttribute getIntAny_Value() {
         return (EAttribute)intAnyEClass.getEStructuralFeatures().get(0);
     }
 
@@ -231,7 +239,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getStringAny_String() {
+    public EAttribute getStringAny_Value() {
         return (EAttribute)stringAnyEClass.getEStructuralFeatures().get(0);
     }
 
@@ -249,8 +257,26 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getObjectAny_Ref() {
+    public EReference getObjectAny_Value() {
         return (EReference)objectAnyEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getBoolAny() {
+        return boolAnyEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getBoolAny_Value() {
+        return (EAttribute)boolAnyEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -290,13 +316,16 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
         anyEClass = createEClass(ANY);
 
         intAnyEClass = createEClass(INT_ANY);
-        createEAttribute(intAnyEClass, INT_ANY__INT);
+        createEAttribute(intAnyEClass, INT_ANY__VALUE);
 
         stringAnyEClass = createEClass(STRING_ANY);
-        createEAttribute(stringAnyEClass, STRING_ANY__STRING);
+        createEAttribute(stringAnyEClass, STRING_ANY__VALUE);
 
         objectAnyEClass = createEClass(OBJECT_ANY);
-        createEReference(objectAnyEClass, OBJECT_ANY__REF);
+        createEReference(objectAnyEClass, OBJECT_ANY__VALUE);
+
+        boolAnyEClass = createEClass(BOOL_ANY);
+        createEAttribute(boolAnyEClass, BOOL_ANY__VALUE);
     }
 
     /**
@@ -326,6 +355,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
         intAnyEClass.getESuperTypes().add(this.getAny());
         stringAnyEClass.getESuperTypes().add(this.getAny());
         objectAnyEClass.getESuperTypes().add(this.getAny());
+        boolAnyEClass.getESuperTypes().add(this.getAny());
 
         // Initialize classes and features; add operations and parameters
         initEClass(traceEClass, Trace.class, "Trace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -337,13 +367,16 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
         initEClass(anyEClass, Any.class, "Any", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
         initEClass(intAnyEClass, IntAny.class, "IntAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getIntAny_Int(), ecorePackage.getEInt(), "int", null, 0, 1, IntAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIntAny_Value(), ecorePackage.getEInt(), "value", null, 0, 1, IntAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(stringAnyEClass, StringAny.class, "StringAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getStringAny_String(), ecorePackage.getEString(), "string", null, 0, 1, StringAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getStringAny_Value(), ecorePackage.getEString(), "value", null, 0, 1, StringAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(objectAnyEClass, ObjectAny.class, "ObjectAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getObjectAny_Ref(), ecorePackage.getEObject(), null, "ref", null, 0, -1, ObjectAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getObjectAny_Value(), ecorePackage.getEObject(), null, "value", null, 0, -1, ObjectAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(boolAnyEClass, BoolAny.class, "BoolAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getBoolAny_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, BoolAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

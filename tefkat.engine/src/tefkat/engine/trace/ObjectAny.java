@@ -23,7 +23,7 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link tefkat.engine.trace.ObjectAny#getRef <em>Ref</em>}</li>
+ *   <li>{@link tefkat.engine.trace.ObjectAny#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
@@ -37,22 +37,22 @@ public interface ObjectAny extends Any {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2004";
+    String copyright = "Copyright michael lawley 2004";
 
     /**
-     * Returns the value of the '<em><b>Ref</b></em>' reference list.
+     * Returns the value of the '<em><b>Value</b></em>' reference list.
      * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Ref</em>' reference list isn't clear,
+     * If the meaning of the '<em>Value</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Ref</em>' reference list.
-     * @see tefkat.engine.trace.TracePackage#getObjectAny_Ref()
+     * @return the value of the '<em>Value</em>' reference list.
+     * @see tefkat.engine.trace.TracePackage#getObjectAny_Value()
      * @model type="org.eclipse.emf.ecore.EObject"
      * @generated
      */
-    EList getRef();
+    EList getValue();
 
 } // ObjectAny

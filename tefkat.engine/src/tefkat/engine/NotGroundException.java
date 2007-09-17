@@ -7,9 +7,6 @@
  *
  * Contributors:
  *     michael lawley
- *
- *
- *
  */
 
 package tefkat.engine;
@@ -17,15 +14,15 @@ package tefkat.engine;
 import tefkat.model.TefkatException;
 
 /**
+ * This exception is used for control-flow manipulation
+ * not errors - we don't need a stack trace and avoid calculating
+ * it can save a large amount of time.
+ * (see <http://www.javaspecialists.co.za/archive/newsletter.do?issue=129>)
+ * 
  * @author lawley
- *
  */
-public class NotGroundException extends TefkatException {
+final class NotGroundException extends TefkatException {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -4499738378813153849L;
     final private Node node;
 
     /**
@@ -36,25 +33,16 @@ public class NotGroundException extends TefkatException {
         this.node = node;
     }
 
-    /**
-     * @param message
-     * @param cause
-     */
-    public NotGroundException(Node node, String message, Throwable cause) {
-        super(message, cause);
-        this.node = node;
-    }
-
-    /**
-     * @param cause
-     */
-    public NotGroundException(Node node, Throwable cause) {
-        super(cause);
-        this.node = node;
-    }
-
     public Node getNode() {
         return node;
+    }
+
+    /**
+     * See class comment
+     */
+    @Override
+    public Throwable fillInStackTrace() {
+        return null;
     }
 }
 

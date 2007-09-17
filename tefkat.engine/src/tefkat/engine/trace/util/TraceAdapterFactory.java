@@ -36,7 +36,7 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2004";
+    public static final String copyright = "Copyright michael lawley 2004";
 
     /**
      * The cached model package.
@@ -98,6 +98,9 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
             }
             public Object caseObjectAny(ObjectAny object) {
                 return createObjectAnyAdapter();
+            }
+            public Object caseBoolAny(BoolAny object) {
+                return createBoolAnyAdapter();
             }
             public Object defaultCase(EObject object) {
                 return createEObjectAdapter();
@@ -184,6 +187,20 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createObjectAnyAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link tefkat.engine.trace.BoolAny <em>Bool Any</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see tefkat.engine.trace.BoolAny
+     * @generated
+     */
+    public Adapter createBoolAnyAdapter() {
         return null;
     }
 

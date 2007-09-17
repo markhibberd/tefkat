@@ -59,7 +59,8 @@ public class OrTermImpl extends CompoundTermImpl implements OrTerm {
          */
         Collection terms = getTerm();
         if (null == terms || terms.isEmpty()) {
-            context.error("Malformed (empty) OrTerm");
+//            context.error("Malformed (empty) OrTerm");
+            context.fail();
         }
 
         for (Iterator itr = terms.iterator(); itr.hasNext(); ) {

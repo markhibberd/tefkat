@@ -16,7 +16,11 @@ package tefkat.engine.trace.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import tefkat.engine.trace.*;
 
@@ -32,7 +36,26 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2004";
+    public static final String copyright = "Copyright michael lawley 2004";
+
+    /**
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public static TraceFactory init() {
+        try {
+            TraceFactory theTraceFactory = (TraceFactory)EPackage.Registry.INSTANCE.getEFactory("http:///com/dstc/tefkat/TefkatTrace.ecore"); 
+            if (theTraceFactory != null) {
+                return theTraceFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new TraceFactoryImpl();
+    }
 
     /**
      * Creates an instance of the factory.
@@ -55,6 +78,7 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
             case TracePackage.INT_ANY: return createIntAny();
             case TracePackage.STRING_ANY: return createStringAny();
             case TracePackage.OBJECT_ANY: return createObjectAny();
+            case TracePackage.BOOL_ANY: return createBoolAny();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -98,6 +122,16 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
     public ObjectAny createObjectAny() {
         ObjectAnyImpl objectAny = new ObjectAnyImpl();
         return objectAny;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public BoolAny createBoolAny() {
+        BoolAnyImpl boolAny = new BoolAnyImpl();
+        return boolAny;
     }
 
     /**

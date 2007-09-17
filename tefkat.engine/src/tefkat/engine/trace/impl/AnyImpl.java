@@ -35,7 +35,7 @@ public abstract class AnyImpl extends EObjectImpl implements Any {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2004";
+    public static final String copyright = "Copyright michael lawley 2004";
 
     /**
      * <!-- begin-user-doc -->
@@ -52,7 +52,7 @@ public abstract class AnyImpl extends EObjectImpl implements Any {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TracePackage.eINSTANCE.getAny();
+        return TracePackage.Literals.ANY;
     }
 
 } //AnyImpl

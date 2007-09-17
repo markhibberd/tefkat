@@ -29,7 +29,7 @@ public interface TraceFactory extends EFactory {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2004";
+    String copyright = "Copyright michael lawley 2004";
 
     /**
      * The singleton instance of the factory.
@@ -37,7 +37,7 @@ public interface TraceFactory extends EFactory {
      * <!-- end-user-doc -->
      * @generated
      */
-    TraceFactory eINSTANCE = new tefkat.engine.trace.impl.TraceFactoryImpl();
+    TraceFactory eINSTANCE = tefkat.engine.trace.impl.TraceFactoryImpl.init();
 
     /**
      * Returns a new object of class '<em>Trace</em>'.
@@ -74,6 +74,15 @@ public interface TraceFactory extends EFactory {
      * @generated
      */
     ObjectAny createObjectAny();
+
+    /**
+     * Returns a new object of class '<em>Bool Any</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Bool Any</em>'.
+     * @generated
+     */
+    BoolAny createBoolAny();
 
     /**
      * Returns the package supported by this factory.

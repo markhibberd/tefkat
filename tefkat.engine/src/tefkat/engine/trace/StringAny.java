@@ -22,7 +22,7 @@ package tefkat.engine.trace;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link tefkat.engine.trace.StringAny#getString <em>String</em>}</li>
+ *   <li>{@link tefkat.engine.trace.StringAny#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
@@ -36,32 +36,32 @@ public interface StringAny extends Any {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2004";
+    String copyright = "Copyright michael lawley 2004";
 
     /**
-     * Returns the value of the '<em><b>String</b></em>' attribute.
+     * Returns the value of the '<em><b>Value</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>String</em>' attribute isn't clear,
+     * If the meaning of the '<em>Value</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>String</em>' attribute.
-     * @see #setString(String)
-     * @see tefkat.engine.trace.TracePackage#getStringAny_String()
+     * @return the value of the '<em>Value</em>' attribute.
+     * @see #setValue(String)
+     * @see tefkat.engine.trace.TracePackage#getStringAny_Value()
      * @model
      * @generated
      */
-    String getString();
+    String getValue();
 
     /**
-     * Sets the value of the '{@link tefkat.engine.trace.StringAny#getString <em>String</em>}' attribute.
+     * Sets the value of the '{@link tefkat.engine.trace.StringAny#getValue <em>Value</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>String</em>' attribute.
-     * @see #getString()
+     * @param value the new value of the '<em>Value</em>' attribute.
+     * @see #getValue()
      * @generated
      */
-    void setString(String value);
+    void setValue(String value);
 
 } // StringAny

@@ -42,7 +42,7 @@ public interface Trace extends EObject {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2004";
+    String copyright = "Copyright michael lawley 2004";
 
     /**
      * Returns the value of the '<em><b>Name</b></em>' attribute.

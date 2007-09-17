@@ -39,7 +39,7 @@ public class TraceSwitch {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2004";
+    public static final String copyright = "Copyright michael lawley 2004";
 
     /**
      * The cached model package
@@ -134,6 +134,13 @@ public class TraceSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case TracePackage.BOOL_ANY: {
+                BoolAny boolAny = (BoolAny)theEObject;
+                Object result = caseBoolAny(boolAny);
+                if (result == null) result = caseAny(boolAny);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
     }
@@ -210,6 +217,21 @@ public class TraceSwitch {
      * @generated
      */
     public Object caseObjectAny(ObjectAny object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpretting the object as an instance of '<em>Bool Any</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpretting the object as an instance of '<em>Bool Any</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public Object caseBoolAny(BoolAny object) {
         return null;
     }
 
