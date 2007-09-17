@@ -44,7 +44,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMIResource;
@@ -67,7 +66,6 @@ import tefkat.engine.TefkatListenerAdapter;
 import tefkat.model.Extent;
 import tefkat.model.TRule;
 import tefkat.model.Transformation;
-import tefkat.model.parser.TefkatResourceFactory;
 import tefkat.plugin.TefkatPreferencePage.URIMap;
 
 
@@ -91,7 +89,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_FUNCTION_SET = PLUGIN_ID + ".functionSet";
 
-    public static final String CONFIGURATION_FILE = "tefkat.xml";
+    public static final String CONFIGURATION_FILE = "tefkat.xmi";
 
     public static final String URIMAP_PREFERENCE = "URIMap";
 

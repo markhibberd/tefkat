@@ -172,7 +172,7 @@ public class EngineParametersTab extends AbstractLaunchConfigurationTab {
                 "Select the Tefkat configuration");
         
         // Do we want an initial selection?
-        // Maybe, but it should look for tefkat.xml in the current project,
+        // Maybe, but it should look for tefkat.xmi in the current project,
         // and there is no notion of a "current project" at this point.
         //
         String currentContainerString = configurationText.getText();

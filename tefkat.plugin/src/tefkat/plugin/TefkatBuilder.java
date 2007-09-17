@@ -139,7 +139,7 @@ public class TefkatBuilder extends IncrementalProjectBuilder {
             monitor.subTask("Find Tefkat Generated files");
             project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
             monitor.worked(1);
-//            needRebuild();    // I don't think we need to call this any more - was calling it because of possible chaining in the tefkat.xml spec
+//            needRebuild();    // I don't think we need to call this any more - was calling it because of possible chaining in the tefkat.xmi spec
         } finally {
             monitor.done();
         }
