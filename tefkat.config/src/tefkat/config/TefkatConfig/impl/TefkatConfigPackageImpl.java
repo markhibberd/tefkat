@@ -23,11 +23,9 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import tefkat.config.TefkatConfig.AbstractModel;
 import tefkat.config.TefkatConfig.Configuration;
 import tefkat.config.TefkatConfig.ExecutionMode;
 import tefkat.config.TefkatConfig.Model;
-import tefkat.config.TefkatConfig.ModelGroup;
 import tefkat.config.TefkatConfig.TefkatConfigFactory;
 import tefkat.config.TefkatConfig.TefkatConfigPackage;
 import tefkat.config.TefkatConfig.TransformationTask;
