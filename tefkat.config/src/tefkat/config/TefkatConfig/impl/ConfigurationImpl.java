@@ -90,7 +90,7 @@ public class ConfigurationImpl extends EObjectImpl implements Configuration {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatConfigPackage.eINSTANCE.getConfiguration();
+        return TefkatConfigPackage.Literals.CONFIGURATION;
     }
 
     /**
@@ -122,16 +122,12 @@ public class ConfigurationImpl extends EObjectImpl implements Configuration {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatConfigPackage.CONFIGURATION__TRANSFORMATION_TASKS:
-                    return ((InternalEList)getTransformationTasks()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatConfigPackage.CONFIGURATION__TRANSFORMATION_TASKS:
+                return ((InternalEList)getTransformationTasks()).basicRemove(otherEnd, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -139,14 +135,14 @@ public class ConfigurationImpl extends EObjectImpl implements Configuration {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatConfigPackage.CONFIGURATION__TRANSFORMATION_TASKS:
                 return getTransformationTasks();
             case TefkatConfigPackage.CONFIGURATION__PACKAGE_CLASSES:
                 return getPackageClasses();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -154,8 +150,8 @@ public class ConfigurationImpl extends EObjectImpl implements Configuration {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatConfigPackage.CONFIGURATION__TRANSFORMATION_TASKS:
                 getTransformationTasks().clear();
                 getTransformationTasks().addAll((Collection)newValue);
@@ -165,7 +161,7 @@ public class ConfigurationImpl extends EObjectImpl implements Configuration {
                 getPackageClasses().addAll((Collection)newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -173,8 +169,8 @@ public class ConfigurationImpl extends EObjectImpl implements Configuration {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatConfigPackage.CONFIGURATION__TRANSFORMATION_TASKS:
                 getTransformationTasks().clear();
                 return;
@@ -182,7 +178,7 @@ public class ConfigurationImpl extends EObjectImpl implements Configuration {
                 getPackageClasses().clear();
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -190,14 +186,14 @@ public class ConfigurationImpl extends EObjectImpl implements Configuration {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatConfigPackage.CONFIGURATION__TRANSFORMATION_TASKS:
                 return transformationTasks != null && !transformationTasks.isEmpty();
             case TefkatConfigPackage.CONFIGURATION__PACKAGE_CLASSES:
                 return packageClasses != null && !packageClasses.isEmpty();
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

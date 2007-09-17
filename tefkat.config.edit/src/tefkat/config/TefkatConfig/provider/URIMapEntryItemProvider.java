@@ -95,8 +95,10 @@ public class URIMapEntryItemProvider
                  getResourceLocator(),
                  getString("_UI_URIMapEntry_key_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_URIMapEntry_key_feature", "_UI_URIMapEntry_type"),
-                 TefkatConfigPackage.eINSTANCE.getURIMapEntry_Key(),
+                 TefkatConfigPackage.Literals.URI_MAP_ENTRY__KEY,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -115,8 +117,10 @@ public class URIMapEntryItemProvider
                  getResourceLocator(),
                  getString("_UI_URIMapEntry_value_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_URIMapEntry_value_feature", "_UI_URIMapEntry_type"),
-                 TefkatConfigPackage.eINSTANCE.getURIMapEntry_Value(),
+                 TefkatConfigPackage.Literals.URI_MAP_ENTRY__VALUE,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -129,7 +133,7 @@ public class URIMapEntryItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/URIMapEntry");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/URIMapEntry"));
     }
 
     /**

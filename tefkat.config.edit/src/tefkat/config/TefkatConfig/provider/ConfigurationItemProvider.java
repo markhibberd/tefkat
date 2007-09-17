@@ -95,8 +95,10 @@ public class ConfigurationItemProvider
                  getResourceLocator(),
                  getString("_UI_Configuration_PackageClasses_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Configuration_PackageClasses_feature", "_UI_Configuration_type"),
-                 TefkatConfigPackage.eINSTANCE.getConfiguration_PackageClasses(),
+                 TefkatConfigPackage.Literals.CONFIGURATION__PACKAGE_CLASSES,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -113,7 +115,7 @@ public class ConfigurationItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatConfigPackage.eINSTANCE.getConfiguration_TransformationTasks());
+            childrenFeatures.add(TefkatConfigPackage.Literals.CONFIGURATION__TRANSFORMATION_TASKS);
         }
         return childrenFeatures;
     }
@@ -125,7 +127,7 @@ public class ConfigurationItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/Configuration");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/Configuration"));
     }
 
     /**
@@ -171,7 +173,7 @@ public class ConfigurationItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatConfigPackage.eINSTANCE.getConfiguration_TransformationTasks(),
+                (TefkatConfigPackage.Literals.CONFIGURATION__TRANSFORMATION_TASKS,
                  TefkatConfigFactory.eINSTANCE.createTransformationTask()));
     }
 

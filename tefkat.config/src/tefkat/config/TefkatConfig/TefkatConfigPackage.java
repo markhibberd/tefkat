@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see tefkat.config.TefkatConfig.TefkatConfigFactory
  * @model kind="package"
+ *        annotation="Copyright Copyright='michael lawley' Licence='Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA'"
  * @generated
  */
 public interface TefkatConfigPackage extends EPackage {
@@ -103,7 +104,7 @@ public interface TefkatConfigPackage extends EPackage {
     int CONFIGURATION__PACKAGE_CLASSES = 1;
 
     /**
-     * The number of structural features of the the '<em>Configuration</em>' class.
+     * The number of structural features of the '<em>Configuration</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -194,7 +195,7 @@ public interface TefkatConfigPackage extends EPackage {
     int TRANSFORMATION_TASK__URI_MAP = 7;
 
     /**
-     * The number of structural features of the the '<em>Transformation Task</em>' class.
+     * The number of structural features of the '<em>Transformation Task</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -222,13 +223,22 @@ public interface TefkatConfigPackage extends EPackage {
     int MODEL__LOCATION_URI = 0;
 
     /**
-     * The number of structural features of the the '<em>Model</em>' class.
+     * The feature id for the '<em><b>Var Group</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int MODEL_FEATURE_COUNT = 1;
+    int MODEL__VAR_GROUP = 1;
+
+    /**
+     * The number of structural features of the '<em>Model</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int MODEL_FEATURE_COUNT = 2;
 
     /**
      * The meta object id for the '{@link tefkat.config.TefkatConfig.impl.URIMapEntryImpl <em>URI Map Entry</em>}' class.
@@ -259,7 +269,7 @@ public interface TefkatConfigPackage extends EPackage {
     int URI_MAP_ENTRY__VALUE = 1;
 
     /**
-     * The number of structural features of the the '<em>URI Map Entry</em>' class.
+     * The number of structural features of the '<em>URI Map Entry</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -296,7 +306,7 @@ public interface TefkatConfigPackage extends EPackage {
     int PROPERTY__VALUE = 1;
 
     /**
-     * The number of structural features of the the '<em>Property</em>' class.
+     * The number of structural features of the '<em>Property</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -467,6 +477,17 @@ public interface TefkatConfigPackage extends EPackage {
     EAttribute getModel_LocationUri();
 
     /**
+     * Returns the meta object for the attribute '{@link tefkat.config.TefkatConfig.Model#getVarGroup <em>Var Group</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Var Group</em>'.
+     * @see tefkat.config.TefkatConfig.Model#getVarGroup()
+     * @see #getModel()
+     * @generated
+     */
+    EAttribute getModel_VarGroup();
+
+    /**
      * Returns the meta object for class '{@link java.util.Map.Entry <em>URI Map Entry</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -552,5 +573,208 @@ public interface TefkatConfigPackage extends EPackage {
      * @generated
      */
     TefkatConfigFactory getTefkatConfigFactory();
+
+    /**
+     * <!-- begin-user-doc -->
+     * Defines literals for the meta objects that represent
+     * <ul>
+     *   <li>each class,</li>
+     *   <li>each feature of each class,</li>
+     *   <li>each enum,</li>
+     *   <li>and each data type</li>
+     * </ul>
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    interface Literals  {
+        /**
+         * The meta object literal for the '{@link tefkat.config.TefkatConfig.impl.ConfigurationImpl <em>Configuration</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.config.TefkatConfig.impl.ConfigurationImpl
+         * @see tefkat.config.TefkatConfig.impl.TefkatConfigPackageImpl#getConfiguration()
+         * @generated
+         */
+        EClass CONFIGURATION = eINSTANCE.getConfiguration();
+
+        /**
+         * The meta object literal for the '<em><b>Transformation Tasks</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference CONFIGURATION__TRANSFORMATION_TASKS = eINSTANCE.getConfiguration_TransformationTasks();
+
+        /**
+         * The meta object literal for the '<em><b>Package Classes</b></em>' attribute list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute CONFIGURATION__PACKAGE_CLASSES = eINSTANCE.getConfiguration_PackageClasses();
+
+        /**
+         * The meta object literal for the '{@link tefkat.config.TefkatConfig.impl.TransformationTaskImpl <em>Transformation Task</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.config.TefkatConfig.impl.TransformationTaskImpl
+         * @see tefkat.config.TefkatConfig.impl.TefkatConfigPackageImpl#getTransformationTask()
+         * @generated
+         */
+        EClass TRANSFORMATION_TASK = eINSTANCE.getTransformationTask();
+
+        /**
+         * The meta object literal for the '<em><b>Transformation</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRANSFORMATION_TASK__TRANSFORMATION = eINSTANCE.getTransformationTask_Transformation();
+
+        /**
+         * The meta object literal for the '<em><b>Source Models</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRANSFORMATION_TASK__SOURCE_MODELS = eINSTANCE.getTransformationTask_SourceModels();
+
+        /**
+         * The meta object literal for the '<em><b>Target Models</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRANSFORMATION_TASK__TARGET_MODELS = eINSTANCE.getTransformationTask_TargetModels();
+
+        /**
+         * The meta object literal for the '<em><b>Trace</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRANSFORMATION_TASK__TRACE = eINSTANCE.getTransformationTask_Trace();
+
+        /**
+         * The meta object literal for the '<em><b>Enabled</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute TRANSFORMATION_TASK__ENABLED = eINSTANCE.getTransformationTask_Enabled();
+
+        /**
+         * The meta object literal for the '<em><b>Mode</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute TRANSFORMATION_TASK__MODE = eINSTANCE.getTransformationTask_Mode();
+
+        /**
+         * The meta object literal for the '<em><b>Properties</b></em>' map feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRANSFORMATION_TASK__PROPERTIES = eINSTANCE.getTransformationTask_Properties();
+
+        /**
+         * The meta object literal for the '<em><b>Uri Map</b></em>' map feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRANSFORMATION_TASK__URI_MAP = eINSTANCE.getTransformationTask_UriMap();
+
+        /**
+         * The meta object literal for the '{@link tefkat.config.TefkatConfig.impl.ModelImpl <em>Model</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.config.TefkatConfig.impl.ModelImpl
+         * @see tefkat.config.TefkatConfig.impl.TefkatConfigPackageImpl#getModel()
+         * @generated
+         */
+        EClass MODEL = eINSTANCE.getModel();
+
+        /**
+         * The meta object literal for the '<em><b>Location Uri</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute MODEL__LOCATION_URI = eINSTANCE.getModel_LocationUri();
+
+        /**
+         * The meta object literal for the '<em><b>Var Group</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute MODEL__VAR_GROUP = eINSTANCE.getModel_VarGroup();
+
+        /**
+         * The meta object literal for the '{@link tefkat.config.TefkatConfig.impl.URIMapEntryImpl <em>URI Map Entry</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.config.TefkatConfig.impl.URIMapEntryImpl
+         * @see tefkat.config.TefkatConfig.impl.TefkatConfigPackageImpl#getURIMapEntry()
+         * @generated
+         */
+        EClass URI_MAP_ENTRY = eINSTANCE.getURIMapEntry();
+
+        /**
+         * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute URI_MAP_ENTRY__KEY = eINSTANCE.getURIMapEntry_Key();
+
+        /**
+         * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute URI_MAP_ENTRY__VALUE = eINSTANCE.getURIMapEntry_Value();
+
+        /**
+         * The meta object literal for the '{@link tefkat.config.TefkatConfig.impl.PropertyImpl <em>Property</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.config.TefkatConfig.impl.PropertyImpl
+         * @see tefkat.config.TefkatConfig.impl.TefkatConfigPackageImpl#getProperty()
+         * @generated
+         */
+        EClass PROPERTY = eINSTANCE.getProperty();
+
+        /**
+         * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute PROPERTY__KEY = eINSTANCE.getProperty_Key();
+
+        /**
+         * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute PROPERTY__VALUE = eINSTANCE.getProperty_Value();
+
+        /**
+         * The meta object literal for the '{@link tefkat.config.TefkatConfig.ExecutionMode <em>Execution Mode</em>}' enum.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.config.TefkatConfig.ExecutionMode
+         * @see tefkat.config.TefkatConfig.impl.TefkatConfigPackageImpl#getExecutionMode()
+         * @generated
+         */
+        EEnum EXECUTION_MODE = eINSTANCE.getExecutionMode();
+
+    }
 
 } //TefkatConfigPackage

@@ -98,8 +98,10 @@ public class TransformationTaskItemProvider
                  getResourceLocator(),
                  getString("_UI_TransformationTask_enabled_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TransformationTask_enabled_feature", "_UI_TransformationTask_type"),
-                 TefkatConfigPackage.eINSTANCE.getTransformationTask_Enabled(),
+                 TefkatConfigPackage.Literals.TRANSFORMATION_TASK__ENABLED,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
                  null,
                  null));
@@ -118,7 +120,9 @@ public class TransformationTaskItemProvider
                  getResourceLocator(),
                  getString("_UI_TransformationTask_mode_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_TransformationTask_mode_feature", "_UI_TransformationTask_type"),
-                 TefkatConfigPackage.eINSTANCE.getTransformationTask_Mode(),
+                 TefkatConfigPackage.Literals.TRANSFORMATION_TASK__MODE,
+                 false,
+                 false,
                  false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
@@ -136,12 +140,12 @@ public class TransformationTaskItemProvider
     public Collection getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
-            childrenFeatures.add(TefkatConfigPackage.eINSTANCE.getTransformationTask_Transformation());
-            childrenFeatures.add(TefkatConfigPackage.eINSTANCE.getTransformationTask_SourceModels());
-            childrenFeatures.add(TefkatConfigPackage.eINSTANCE.getTransformationTask_TargetModels());
-            childrenFeatures.add(TefkatConfigPackage.eINSTANCE.getTransformationTask_Trace());
-            childrenFeatures.add(TefkatConfigPackage.eINSTANCE.getTransformationTask_Properties());
-            childrenFeatures.add(TefkatConfigPackage.eINSTANCE.getTransformationTask_UriMap());
+            childrenFeatures.add(TefkatConfigPackage.Literals.TRANSFORMATION_TASK__TRANSFORMATION);
+            childrenFeatures.add(TefkatConfigPackage.Literals.TRANSFORMATION_TASK__SOURCE_MODELS);
+            childrenFeatures.add(TefkatConfigPackage.Literals.TRANSFORMATION_TASK__TARGET_MODELS);
+            childrenFeatures.add(TefkatConfigPackage.Literals.TRANSFORMATION_TASK__TRACE);
+            childrenFeatures.add(TefkatConfigPackage.Literals.TRANSFORMATION_TASK__PROPERTIES);
+            childrenFeatures.add(TefkatConfigPackage.Literals.TRANSFORMATION_TASK__URI_MAP);
         }
         return childrenFeatures;
     }
@@ -165,7 +169,7 @@ public class TransformationTaskItemProvider
      * @generated
      */
     public Object getImage(Object object) {
-        return getResourceLocator().getImage("full/obj16/TransformationTask");
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/TransformationTask"));
     }
 
     /**
@@ -218,33 +222,33 @@ public class TransformationTaskItemProvider
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatConfigPackage.eINSTANCE.getTransformationTask_Transformation(),
+                (TefkatConfigPackage.Literals.TRANSFORMATION_TASK__TRANSFORMATION,
                  TefkatConfigFactory.eINSTANCE.createModel()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatConfigPackage.eINSTANCE.getTransformationTask_SourceModels(),
+                (TefkatConfigPackage.Literals.TRANSFORMATION_TASK__SOURCE_MODELS,
                  TefkatConfigFactory.eINSTANCE.createModel()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatConfigPackage.eINSTANCE.getTransformationTask_TargetModels(),
+                (TefkatConfigPackage.Literals.TRANSFORMATION_TASK__TARGET_MODELS,
                  TefkatConfigFactory.eINSTANCE.createModel()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatConfigPackage.eINSTANCE.getTransformationTask_Trace(),
+                (TefkatConfigPackage.Literals.TRANSFORMATION_TASK__TRACE,
                  TefkatConfigFactory.eINSTANCE.createModel()));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatConfigPackage.eINSTANCE.getTransformationTask_Properties(),
-                 TefkatConfigFactory.eINSTANCE.create(TefkatConfigPackage.eINSTANCE.getProperty())));
+                (TefkatConfigPackage.Literals.TRANSFORMATION_TASK__PROPERTIES,
+                 TefkatConfigFactory.eINSTANCE.create(TefkatConfigPackage.Literals.PROPERTY)));
 
         newChildDescriptors.add
             (createChildParameter
-                (TefkatConfigPackage.eINSTANCE.getTransformationTask_UriMap(),
-                 TefkatConfigFactory.eINSTANCE.create(TefkatConfigPackage.eINSTANCE.getURIMapEntry())));
+                (TefkatConfigPackage.Literals.TRANSFORMATION_TASK__URI_MAP,
+                 TefkatConfigFactory.eINSTANCE.create(TefkatConfigPackage.Literals.URI_MAP_ENTRY)));
     }
 
     /**
@@ -258,10 +262,10 @@ public class TransformationTaskItemProvider
         Object childObject = child;
 
         boolean qualify =
-            childFeature == TefkatConfigPackage.eINSTANCE.getTransformationTask_Transformation() ||
-            childFeature == TefkatConfigPackage.eINSTANCE.getTransformationTask_SourceModels() ||
-            childFeature == TefkatConfigPackage.eINSTANCE.getTransformationTask_TargetModels() ||
-            childFeature == TefkatConfigPackage.eINSTANCE.getTransformationTask_Trace();
+            childFeature == TefkatConfigPackage.Literals.TRANSFORMATION_TASK__TRANSFORMATION ||
+            childFeature == TefkatConfigPackage.Literals.TRANSFORMATION_TASK__SOURCE_MODELS ||
+            childFeature == TefkatConfigPackage.Literals.TRANSFORMATION_TASK__TARGET_MODELS ||
+            childFeature == TefkatConfigPackage.Literals.TRANSFORMATION_TASK__TRACE;
 
         if (qualify) {
             return getString

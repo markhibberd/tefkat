@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link tefkat.config.TefkatConfig.Model#getLocationUri <em>Location Uri</em>}</li>
+ *   <li>{@link tefkat.config.TefkatConfig.Model#getVarGroup <em>Var Group</em>}</li>
  * </ul>
  * </p>
  *
@@ -64,5 +65,31 @@ public interface Model extends EObject {
      * @generated
      */
     void setLocationUri(String value);
+
+    /**
+     * Returns the value of the '<em><b>Var Group</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Var Group</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Var Group</em>' attribute.
+     * @see #setVarGroup(String)
+     * @see tefkat.config.TefkatConfig.TefkatConfigPackage#getModel_VarGroup()
+     * @model
+     * @generated
+     */
+    String getVarGroup();
+
+    /**
+     * Sets the value of the '{@link tefkat.config.TefkatConfig.Model#getVarGroup <em>Var Group</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Var Group</em>' attribute.
+     * @see #getVarGroup()
+     * @generated
+     */
+    void setVarGroup(String value);
 
 } // Model

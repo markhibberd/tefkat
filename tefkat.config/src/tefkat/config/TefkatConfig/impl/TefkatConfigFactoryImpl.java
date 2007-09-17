@@ -19,7 +19,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import tefkat.config.TefkatConfig.*;
 
@@ -36,6 +40,25 @@ public class TefkatConfigFactoryImpl extends EFactoryImpl implements TefkatConfi
      * @generated
      */
     public static final String copyright = "Copyright michael lawley Pty Ltd 2004-2005";
+
+    /**
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public static TefkatConfigFactory init() {
+        try {
+            TefkatConfigFactory theTefkatConfigFactory = (TefkatConfigFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.dstc.edu.au:8080/qvt/TefkatConfig.ecore"); 
+            if (theTefkatConfigFactory != null) {
+                return theTefkatConfigFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new TefkatConfigFactoryImpl();
+    }
 
     /**
      * Creates an instance of the factory.
@@ -71,11 +94,8 @@ public class TefkatConfigFactoryImpl extends EFactoryImpl implements TefkatConfi
      */
     public Object createFromString(EDataType eDataType, String initialValue) {
         switch (eDataType.getClassifierID()) {
-            case TefkatConfigPackage.EXECUTION_MODE: {
-                ExecutionMode result = ExecutionMode.get(initialValue);
-                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-                return result;
-            }
+            case TefkatConfigPackage.EXECUTION_MODE:
+                return createExecutionModeFromString(eDataType, initialValue);
             default:
                 throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
@@ -89,7 +109,7 @@ public class TefkatConfigFactoryImpl extends EFactoryImpl implements TefkatConfi
     public String convertToString(EDataType eDataType, Object instanceValue) {
         switch (eDataType.getClassifierID()) {
             case TefkatConfigPackage.EXECUTION_MODE:
-                return instanceValue == null ? null : instanceValue.toString();
+                return convertExecutionModeToString(eDataType, instanceValue);
             default:
                 throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
@@ -143,6 +163,26 @@ public class TefkatConfigFactoryImpl extends EFactoryImpl implements TefkatConfi
     public Map.Entry createProperty() {
         PropertyImpl property = new PropertyImpl();
         return property;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ExecutionMode createExecutionModeFromString(EDataType eDataType, String initialValue) {
+        ExecutionMode result = ExecutionMode.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String convertExecutionModeToString(EDataType eDataType, Object instanceValue) {
+        return instanceValue == null ? null : instanceValue.toString();
     }
 
     /**

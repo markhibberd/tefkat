@@ -32,6 +32,7 @@ import tefkat.config.TefkatConfig.TefkatConfigPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link tefkat.config.TefkatConfig.impl.ModelImpl#getLocationUri <em>Location Uri</em>}</li>
+ *   <li>{@link tefkat.config.TefkatConfig.impl.ModelImpl#getVarGroup <em>Var Group</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,6 +67,26 @@ public class ModelImpl extends EObjectImpl implements Model {
     protected String locationUri = LOCATION_URI_EDEFAULT;
 
     /**
+     * The default value of the '{@link #getVarGroup() <em>Var Group</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getVarGroup()
+     * @generated
+     * @ordered
+     */
+    protected static final String VAR_GROUP_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getVarGroup() <em>Var Group</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getVarGroup()
+     * @generated
+     * @ordered
+     */
+    protected String varGroup = VAR_GROUP_EDEFAULT;
+
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -80,7 +101,7 @@ public class ModelImpl extends EObjectImpl implements Model {
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatConfigPackage.eINSTANCE.getModel();
+        return TefkatConfigPackage.Literals.MODEL;
     }
 
     /**
@@ -109,12 +130,8 @@ public class ModelImpl extends EObjectImpl implements Model {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case TefkatConfigPackage.MODEL__LOCATION_URI:
-                return getLocationUri();
-        }
-        return eDynamicGet(eFeature, resolve);
+    public String getVarGroup() {
+        return varGroup;
     }
 
     /**
@@ -122,13 +139,43 @@ public class ModelImpl extends EObjectImpl implements Model {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void setVarGroup(String newVarGroup) {
+        String oldVarGroup = varGroup;
+        varGroup = newVarGroup;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TefkatConfigPackage.MODEL__VAR_GROUP, oldVarGroup, varGroup));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+            case TefkatConfigPackage.MODEL__LOCATION_URI:
+                return getLocationUri();
+            case TefkatConfigPackage.MODEL__VAR_GROUP:
+                return getVarGroup();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatConfigPackage.MODEL__LOCATION_URI:
                 setLocationUri((String)newValue);
                 return;
+            case TefkatConfigPackage.MODEL__VAR_GROUP:
+                setVarGroup((String)newValue);
+                return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -136,13 +183,16 @@ public class ModelImpl extends EObjectImpl implements Model {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatConfigPackage.MODEL__LOCATION_URI:
                 setLocationUri(LOCATION_URI_EDEFAULT);
                 return;
+            case TefkatConfigPackage.MODEL__VAR_GROUP:
+                setVarGroup(VAR_GROUP_EDEFAULT);
+                return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -150,12 +200,14 @@ public class ModelImpl extends EObjectImpl implements Model {
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatConfigPackage.MODEL__LOCATION_URI:
                 return LOCATION_URI_EDEFAULT == null ? locationUri != null : !LOCATION_URI_EDEFAULT.equals(locationUri);
+            case TefkatConfigPackage.MODEL__VAR_GROUP:
+                return VAR_GROUP_EDEFAULT == null ? varGroup != null : !VAR_GROUP_EDEFAULT.equals(varGroup);
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**
@@ -169,6 +221,8 @@ public class ModelImpl extends EObjectImpl implements Model {
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (locationUri: ");
         result.append(locationUri);
+        result.append(", varGroup: ");
+        result.append(varGroup);
         result.append(')');
         return result.toString();
     }

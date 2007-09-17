@@ -23,9 +23,11 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import tefkat.config.TefkatConfig.AbstractModel;
 import tefkat.config.TefkatConfig.Configuration;
 import tefkat.config.TefkatConfig.ExecutionMode;
 import tefkat.config.TefkatConfig.Model;
+import tefkat.config.TefkatConfig.ModelGroup;
 import tefkat.config.TefkatConfig.TefkatConfigFactory;
 import tefkat.config.TefkatConfig.TefkatConfigPackage;
 import tefkat.config.TefkatConfig.TransformationTask;
@@ -285,6 +287,15 @@ public class TefkatConfigPackageImpl extends EPackageImpl implements TefkatConfi
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getModel_VarGroup() {
+        return (EAttribute)modelEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getURIMapEntry() {
         return uriMapEntryEClass;
     }
@@ -387,6 +398,7 @@ public class TefkatConfigPackageImpl extends EPackageImpl implements TefkatConfi
 
         modelEClass = createEClass(MODEL);
         createEAttribute(modelEClass, MODEL__LOCATION_URI);
+        createEAttribute(modelEClass, MODEL__VAR_GROUP);
 
         uriMapEntryEClass = createEClass(URI_MAP_ENTRY);
         createEAttribute(uriMapEntryEClass, URI_MAP_ENTRY__KEY);
@@ -442,6 +454,7 @@ public class TefkatConfigPackageImpl extends EPackageImpl implements TefkatConfi
 
         initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getModel_LocationUri(), ecorePackage.getEString(), "locationUri", null, 1, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getModel_VarGroup(), ecorePackage.getEString(), "varGroup", null, 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(uriMapEntryEClass, Map.Entry.class, "URIMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getURIMapEntry_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

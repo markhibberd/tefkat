@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import tefkat.config.TefkatConfig.AbstractModel;
 import tefkat.config.TefkatConfig.ExecutionMode;
 import tefkat.config.TefkatConfig.Model;
 import tefkat.config.TefkatConfig.TefkatConfigPackage;
@@ -189,7 +190,7 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
      * @generated
      */
     protected EClass eStaticClass() {
-        return TefkatConfigPackage.eINSTANCE.getTransformationTask();
+        return TefkatConfigPackage.Literals.TRANSFORMATION_TASK;
     }
 
     /**
@@ -376,7 +377,7 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
      */
     public EMap getProperties() {
         if (properties == null) {
-            properties = new EcoreEMap(TefkatConfigPackage.eINSTANCE.getProperty(), PropertyImpl.class, this, TefkatConfigPackage.TRANSFORMATION_TASK__PROPERTIES);
+            properties = new EcoreEMap(TefkatConfigPackage.Literals.PROPERTY, PropertyImpl.class, this, TefkatConfigPackage.TRANSFORMATION_TASK__PROPERTIES);
         }
         return properties;
     }
@@ -388,7 +389,7 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
      */
     public EMap getUriMap() {
         if (uriMap == null) {
-            uriMap = new EcoreEMap(TefkatConfigPackage.eINSTANCE.getURIMapEntry(), URIMapEntryImpl.class, this, TefkatConfigPackage.TRANSFORMATION_TASK__URI_MAP);
+            uriMap = new EcoreEMap(TefkatConfigPackage.Literals.URI_MAP_ENTRY, URIMapEntryImpl.class, this, TefkatConfigPackage.TRANSFORMATION_TASK__URI_MAP);
         }
         return uriMap;
     }
@@ -398,26 +399,22 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case TefkatConfigPackage.TRANSFORMATION_TASK__TRANSFORMATION:
-                    return basicSetTransformation(null, msgs);
-                case TefkatConfigPackage.TRANSFORMATION_TASK__SOURCE_MODELS:
-                    return ((InternalEList)getSourceModels()).basicRemove(otherEnd, msgs);
-                case TefkatConfigPackage.TRANSFORMATION_TASK__TARGET_MODELS:
-                    return ((InternalEList)getTargetModels()).basicRemove(otherEnd, msgs);
-                case TefkatConfigPackage.TRANSFORMATION_TASK__TRACE:
-                    return basicSetTrace(null, msgs);
-                case TefkatConfigPackage.TRANSFORMATION_TASK__PROPERTIES:
-                    return ((InternalEList)getProperties()).basicRemove(otherEnd, msgs);
-                case TefkatConfigPackage.TRANSFORMATION_TASK__URI_MAP:
-                    return ((InternalEList)getUriMap()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case TefkatConfigPackage.TRANSFORMATION_TASK__TRANSFORMATION:
+                return basicSetTransformation(null, msgs);
+            case TefkatConfigPackage.TRANSFORMATION_TASK__SOURCE_MODELS:
+                return ((InternalEList)getSourceModels()).basicRemove(otherEnd, msgs);
+            case TefkatConfigPackage.TRANSFORMATION_TASK__TARGET_MODELS:
+                return ((InternalEList)getTargetModels()).basicRemove(otherEnd, msgs);
+            case TefkatConfigPackage.TRANSFORMATION_TASK__TRACE:
+                return basicSetTrace(null, msgs);
+            case TefkatConfigPackage.TRANSFORMATION_TASK__PROPERTIES:
+                return ((InternalEList)getProperties()).basicRemove(otherEnd, msgs);
+            case TefkatConfigPackage.TRANSFORMATION_TASK__URI_MAP:
+                return ((InternalEList)getUriMap()).basicRemove(otherEnd, msgs);
         }
-        return eBasicSetContainer(null, featureID, msgs);
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -425,8 +422,8 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
             case TefkatConfigPackage.TRANSFORMATION_TASK__TRANSFORMATION:
                 return getTransformation();
             case TefkatConfigPackage.TRANSFORMATION_TASK__SOURCE_MODELS:
@@ -440,11 +437,13 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
             case TefkatConfigPackage.TRANSFORMATION_TASK__MODE:
                 return getMode();
             case TefkatConfigPackage.TRANSFORMATION_TASK__PROPERTIES:
-                return getProperties();
+                if (coreType) return getProperties();
+                else return getProperties().map();
             case TefkatConfigPackage.TRANSFORMATION_TASK__URI_MAP:
-                return getUriMap();
+                if (coreType) return getUriMap();
+                else return getUriMap().map();
         }
-        return eDynamicGet(eFeature, resolve);
+        return super.eGet(featureID, resolve, coreType);
     }
 
     /**
@@ -452,8 +451,8 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
             case TefkatConfigPackage.TRANSFORMATION_TASK__TRANSFORMATION:
                 setTransformation((Model)newValue);
                 return;
@@ -475,15 +474,13 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
                 setMode((ExecutionMode)newValue);
                 return;
             case TefkatConfigPackage.TRANSFORMATION_TASK__PROPERTIES:
-                getProperties().clear();
-                getProperties().addAll((Collection)newValue);
+                ((EStructuralFeature.Setting)getProperties()).set(newValue);
                 return;
             case TefkatConfigPackage.TRANSFORMATION_TASK__URI_MAP:
-                getUriMap().clear();
-                getUriMap().addAll((Collection)newValue);
+                ((EStructuralFeature.Setting)getUriMap()).set(newValue);
                 return;
         }
-        eDynamicSet(eFeature, newValue);
+        super.eSet(featureID, newValue);
     }
 
     /**
@@ -491,8 +488,8 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
      * <!-- end-user-doc -->
      * @generated
      */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public void eUnset(int featureID) {
+        switch (featureID) {
             case TefkatConfigPackage.TRANSFORMATION_TASK__TRANSFORMATION:
                 setTransformation((Model)null);
                 return;
@@ -518,7 +515,7 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
                 getUriMap().clear();
                 return;
         }
-        eDynamicUnset(eFeature);
+        super.eUnset(featureID);
     }
 
     /**
@@ -526,8 +523,8 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
             case TefkatConfigPackage.TRANSFORMATION_TASK__TRANSFORMATION:
                 return transformation != null;
             case TefkatConfigPackage.TRANSFORMATION_TASK__SOURCE_MODELS:
@@ -545,7 +542,7 @@ public class TransformationTaskImpl extends EObjectImpl implements Transformatio
             case TefkatConfigPackage.TRANSFORMATION_TASK__URI_MAP:
                 return uriMap != null && !uriMap.isEmpty();
         }
-        return eDynamicIsSet(eFeature);
+        return super.eIsSet(featureID);
     }
 
     /**

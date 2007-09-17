@@ -37,7 +37,7 @@ public interface TefkatConfigFactory extends EFactory {
      * <!-- end-user-doc -->
      * @generated
      */
-    TefkatConfigFactory eINSTANCE = new tefkat.config.TefkatConfig.impl.TefkatConfigFactoryImpl();
+    TefkatConfigFactory eINSTANCE = tefkat.config.TefkatConfig.impl.TefkatConfigFactoryImpl.init();
 
     /**
      * Returns a new object of class '<em>Configuration</em>'.

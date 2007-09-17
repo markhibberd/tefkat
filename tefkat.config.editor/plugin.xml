@@ -34,7 +34,7 @@
           class="tefkat.config.TefkatConfig.presentation.TefkatConfigEditor"
           contributorClass="tefkat.config.TefkatConfig.presentation.TefkatConfigActionBarContributor"
           extensions="tefkatconfig"
-          filenames="tefkat.xml"
+          filenames="tefkat.xmi"
           icon="icons/full/obj16/TefkatConfigModelFile.gif"
           id="tefkat.config.TefkatConfig.presentation.TefkatConfigEditorID"
           name="%_UI_TefkatConfigEditor_label">
