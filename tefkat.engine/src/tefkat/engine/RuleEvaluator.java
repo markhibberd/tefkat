@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import tefkat.engine.TargetResolver.Injections;
 import tefkat.model.Var;
 import tefkat.model.Extent;
 import tefkat.model.Injection;
@@ -96,8 +95,7 @@ public class RuleEvaluator {
     /**
      *  
      */
-    RuleEvaluator(Binding context, Extent trackingExtent,
-            Map nameMap, List listeners) {
+    RuleEvaluator(Binding context, Extent trackingExtent, Map nameMap, List listeners) {
 
         // TODO check for null target model, either here or in the engine
 
@@ -105,6 +103,8 @@ public class RuleEvaluator {
         this.listeners = listeners;
         this._context = context;
         this.nameMap = nameMap;
+        
+        injections.loadTrace(trackingExtent);
 
         exprEval = new Evaluator(this);
         srcResolver = new SourceResolver(this);

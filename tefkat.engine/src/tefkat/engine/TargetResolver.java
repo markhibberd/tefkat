@@ -22,13 +22,6 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
-import tefkat.engine.trace.BoolAny;
-import tefkat.engine.trace.IntAny;
-import tefkat.engine.trace.ObjectAny;
-import tefkat.engine.trace.StringAny;
-import tefkat.engine.trace.Trace;
-import tefkat.engine.trace.TraceFactory;
-import tefkat.engine.trace.TracePackage;
 import tefkat.engine.trace.impl.TracePackageImpl;
 import tefkat.model.*;
 import tefkat.model.internal.ModelUtils;
@@ -159,7 +152,7 @@ class TargetResolver extends AbstractResolver {
             List keys = (List) itr.next();
             keys.add(0, literal.getName());
         
-            EObject targetObject = ruleEval.injections.lookup(context.tree.getTrackingExtent(), keys, literal.getTRuleTgt());
+            EObject targetObject = context.lookup(keys, literal.getTRuleTgt());
         
             Binding unifier = new Binding();
             for (Iterator keyItr = keys.iterator(); keyItr.hasNext(); ) {
@@ -825,118 +818,6 @@ class TargetResolver extends AbstractResolver {
                         context.createBranch(gUnifier);
                     }
                 }
-            }
-        }
-    }
-
-
-    
-    static class Injections {
-        
-        private Map injections = new HashMap();
-        private Map traces = new HashMap();
-        
-        EObject lookup(Extent extent, List keys, TRule rule) {
-            EObject obj = lookup(injections, keys, 0);
-            Trace trace;
-            if (null == obj) {
-                obj = new DynamicObject();
-                store(extent, keys, obj);
-                trace = createTrace(extent, keys, obj);
-                traces.put(obj, trace);
-            } else {
-            	trace = (Trace) traces.get(obj);
-            }
-            if (rule != null) {
-                trace.getRules().add(rule);
-            }
-            ExtentUtil.highlightNode(obj, ExtentUtil.OBJECT_LOOKUP);
-            ExtentUtil.highlightNode(trace, ExtentUtil.OBJECT_LOOKUP);
-            
-            return obj;
-        }
-        
-        /**
-         * @param extent
-         * @param keys
-         * @param obj
-         * @throws Error
-         */
-        private Trace createTrace(Extent extent, List keys, EObject obj) throws Error {
-            Trace trace = TraceFactory.eINSTANCE.createTrace();
-            trace.setTarget(obj);
-            if (obj instanceof DynamicObject) {
-                DynamicObject dynObj = (DynamicObject) obj;
-                dynObj.addReferenceFrom(trace, TracePackage.eINSTANCE.getTrace_Target());
-            }
-            
-            extent.add(trace);
-
-            List sources = trace.getSources();
-            for (int i = 0; i < keys.size(); i++) {
-                Object key = keys.get(i);
-                if (key instanceof BindingPair) {
-                    key = ((BindingPair) key).getValue();
-                }
-                
-                if (key instanceof EObject) {
-                    ObjectAny any = TraceFactory.eINSTANCE.createObjectAny();
-                    any.getValue().add(key);
-                    sources.add(any);
-                    
-                    // In case a target object is used as an injection parameter
-                    if (key instanceof DynamicObject) {
-                        DynamicObject dynObj = (DynamicObject) key;
-                        dynObj.addMultiReferenceFrom(any, TracePackage.eINSTANCE.getObjectAny_Value());
-                    }
-                } else if (key instanceof String) {
-                    StringAny any = TraceFactory.eINSTANCE.createStringAny();
-                    any.setValue((String) key);
-                    sources.add(any);
-                } else if (key instanceof Integer) {
-                    IntAny any = TraceFactory.eINSTANCE.createIntAny();
-                    any.setValue(((Integer) key).intValue());
-                    sources.add(any);
-                } else if (key instanceof Boolean) {
-                    BoolAny any = TraceFactory.eINSTANCE.createBoolAny();
-                    any.setValue(((Boolean) key).booleanValue());
-                    sources.add(any);
-                } else {
-                    throw new Error("Internal Error: trace support for " + key.getClass() + " not yet implemented.");
-                }
-            }
-            return trace;
-        }
-
-        private void store(Extent extent, List keys, EObject value) {
-            store(extent, injections, keys, value, 0);
-        }
-        
-        private EObject lookup(Map map, List keys, int idx) {
-            Object key = keys.get(idx);
-            Object keyVal = map.get(key);
-            
-            if (null == keyVal) {
-                return null;
-            } else if ((idx + 1)  < keys.size() && keyVal instanceof Map) {
-                return lookup((Map) keyVal, keys, idx + 1);
-            } else {
-                return (EObject) keyVal;
-            }
-        }
-        
-        private void store(Extent extent, Map map, List keys, EObject value, int idx) {
-            Object key = keys.get(idx);
-            
-            if ((idx + 1) < keys.size()) {
-                Map subMap = (Map) map.get(key);
-                if (null == subMap) {
-                    subMap = new HashMap();
-                    map.put(key, subMap);
-                }
-                store(extent, subMap, keys, value, idx + 1);
-            } else {
-                map.put(key, value);
             }
         }
     }

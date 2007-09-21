@@ -56,11 +56,8 @@ import tefkat.model.Extent;
 import tefkat.model.PatternUse;
 import tefkat.model.ReferenceExtent;
 import tefkat.model.TRule;
-import tefkat.model.TefkatException;
 import tefkat.model.Term;
 import tefkat.model.Transformation;
-import tefkat.model.parser.ParserEvent;
-import tefkat.model.parser.ParserListener;
 import tefkat.model.parser.TefkatResourceFactory;
 
 
