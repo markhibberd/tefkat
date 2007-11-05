@@ -32,6 +32,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -415,7 +416,7 @@ public class Tefkat {
 
         // Get all the transitively referenced Resources
         final Map nameMap = new HashMap();
-        buildNameMap(t, nameMap);
+        buildPackageNameMap(t, nameMap);
         
 //        try {
 //            ModelUtils.resolveTrackingClassNames(t, nameMap);
@@ -435,59 +436,101 @@ public class Tefkat {
         }
     }
 
-    private void buildNameMap(Transformation t, Map nameMap) throws ResolutionException {
-        Map importedNamespaces = new HashMap();
+    private void buildPackageNameMap(Transformation t, Map nameMap) throws ResolutionException {
+        final Map importedNamespaces = new HashMap();
         importedNamespaces.put(null, new HashSet());
 
-        EPackage.Registry registry = getResourceSet().getPackageRegistry();
+        final EPackage.Registry registry = getResourceSet().getPackageRegistry();
         
         for (final Iterator itr = t.getNamespaceDeclarations().iterator(); itr.hasNext(); ) {
-            NamespaceDeclaration nsd = (NamespaceDeclaration) itr.next();
-            String name = nsd.getPrefix();
-            String uriStr = nsd.getURI();
-            Set resources = (Set) importedNamespaces.get(name);
-            if (null == resources) {
-                resources = new HashSet();
-                importedNamespaces.put(name, resources);
+            final NamespaceDeclaration nsd = (NamespaceDeclaration) itr.next();
+            final String name = nsd.getPrefix();
+            final String uriStr = nsd.getURI();
+            Set packages = (Set) importedNamespaces.get(name);
+            if (null == packages) {
+                packages = new HashSet();
+                importedNamespaces.put(name, packages);
             }
-            importResource(resources, registry, uriStr);
+            importPackage(packages, registry, uriStr);
         }
-        Set resources = (Set) importedNamespaces.get(null);
-        resources.add(t.eResource());
+        final Set nullPackages = (Set) importedNamespaces.get(null);
+        importPackage(nullPackages, registry, t.eResource().getURI().toString());
+
         for (final Iterator itr = t.getImportedPackages().iterator(); itr.hasNext(); ) {
-            String uriStr = (String) itr.next();
-            importResource(resources, registry, uriStr);
+            final String uriStr = (String) itr.next();
+            importPackage(nullPackages, registry, uriStr);
         }
         
         for (final Iterator itr = importedNamespaces.entrySet().iterator(); itr.hasNext(); ) {
-            Map.Entry entry = (Entry) itr.next();
-            String name = (String) entry.getKey();
-            resources = findAllResources((Collection) entry.getValue());
-            ModelUtils.buildNameMaps(resources, nameMap, name);
+            final Map.Entry entry = (Entry) itr.next();
+            final String name = (String) entry.getKey();
+            final Set packages = (Set) entry.getValue();
+            ModelUtils.buildPackageNameMaps(packages, nameMap, name);
         }
     }
 
-    private void importResource(Set resources, EPackage.Registry registry, String uriStr) throws ResolutionException {
-        // Avoid explicitly loading resources corresponding to packages that
-        // have already been loaded (or dynamically created!)
-        //
-        try {
-            if (registry.containsKey(uriStr)) {
-                resources.add(registry.getEPackage(uriStr).eResource());
-            } else {
-                // gracefully handle the case where an XSD has no targetNamespace
-                // (there can be only one :-)
-                EPackage nullPkg = registry.getEPackage(null);
-                if (null != nullPkg && uriStr.equals(nullPkg.getNsURI())) {
-                    resources.add(nullPkg.eResource());
-                } else {
-                    resources.add(getResource(uriStr));
-                }
-            }
-        } catch (IOException e) {
-            throw new ResolutionException(null, "Could not import model: " + uriStr, e);
+    private void importPackage(Set packages, EPackage.Registry registry, String uriStr) {
+        final EPackage pkg = registry.getEPackage(uriStr);
+        if (null != pkg) {
+            packages.add(pkg);
+        } else {
+            fireWarning("Could not resolve package for '" + uriStr + "'");
         }
     }
+
+//    private void buildNameMap(Transformation t, Map nameMap) throws ResolutionException {
+//        Map importedNamespaces = new HashMap();
+//        importedNamespaces.put(null, new HashSet());
+//
+//        EPackage.Registry registry = getResourceSet().getPackageRegistry();
+//        
+//        for (final Iterator itr = t.getNamespaceDeclarations().iterator(); itr.hasNext(); ) {
+//            NamespaceDeclaration nsd = (NamespaceDeclaration) itr.next();
+//            String name = nsd.getPrefix();
+//            String uriStr = nsd.getURI();
+//            Set resources = (Set) importedNamespaces.get(name);
+//            if (null == resources) {
+//                resources = new HashSet();
+//                importedNamespaces.put(name, resources);
+//            }
+//            importResource(resources, registry, uriStr);
+//        }
+//        Set resources = (Set) importedNamespaces.get(null);
+//        resources.add(t.eResource());
+//        for (final Iterator itr = t.getImportedPackages().iterator(); itr.hasNext(); ) {
+//            String uriStr = (String) itr.next();
+//            importResource(resources, registry, uriStr);
+//        }
+//        
+//        for (final Iterator itr = importedNamespaces.entrySet().iterator(); itr.hasNext(); ) {
+//            Map.Entry entry = (Entry) itr.next();
+//            String name = (String) entry.getKey();
+//            resources = findAllResources((Collection) entry.getValue());
+//            ModelUtils.buildNameMaps(resources, nameMap, name);
+//        }
+//    }
+
+//    private void importResource(Set resources, EPackage.Registry registry, String uriStr) throws ResolutionException {
+//        // Avoid explicitly loading resources corresponding to packages that
+//        // have already been loaded (or dynamically created!)
+//        //
+//        try {
+//            if (registry.containsKey(uriStr)) {
+//                resources.add(registry.getEPackage(uriStr).eResource());
+//            } else {
+//                // gracefully handle the case where an XSD has no targetNamespace
+//                // (there can be only one :-)
+//                EPackage nullPkg = registry.getEPackage(null);
+//                if (null != nullPkg && uriStr.equals(nullPkg.getNsURI())) {
+//                    resources.add(nullPkg.eResource());
+//                } else {
+//                    resources.add(getResource(uriStr));
+//                }
+//            }
+//        } catch (IOException e) {
+//            throw new ResolutionException(null, "Could not import model: " + uriStr, e);
+//        }
+//    }
 
     // Attempting to use a separate thread to allow hung resource loads to be interrupted
     private Resource getResource(final String location) throws IOException {
