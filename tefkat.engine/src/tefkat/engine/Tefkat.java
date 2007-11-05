@@ -49,6 +49,7 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import tefkat.config.TefkatConfig.ExecutionMode;
 import tefkat.config.TefkatConfig.Model;
 import tefkat.config.TefkatConfig.TransformationTask;
+import tefkat.model.Query;
 import tefkat.model.ReferenceExtent;
 import tefkat.model.Var;
 import tefkat.model.ContainerExtent;
@@ -405,7 +406,7 @@ public class Tefkat {
             }
         }
     }
-
+    
     /**
      * @param trackingExtent
      * @param t
@@ -577,6 +578,7 @@ public class Tefkat {
         return res;
     }
     
+    
     /**
      * Takes a TefkatConfig.TransformationTask and performs the described
      * transformation.
@@ -650,8 +652,9 @@ public class Tefkat {
                 final Model model = (Model) sources.get(i);
                 final Resource resource = getResource((model).getLocationUri());
                 final String varGroup = model.getVarGroup();
-                // FIXME need to handle varGroup
-                if (varGroup != null) {
+                
+                // handle various guises of an un-specified varGroup
+                if (varGroup != null && varGroup.trim().length() > 0) {
                     ReferenceExtent extent;
                     if (parameters.containsKey(varGroup)) {
                         extent = (ReferenceExtent) parameters.get(varGroup);
