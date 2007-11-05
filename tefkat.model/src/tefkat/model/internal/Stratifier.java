@@ -14,6 +14,7 @@ import tefkat.model.IfTerm;
 import tefkat.model.NotTerm;
 import tefkat.model.PatternDefn;
 import tefkat.model.PatternUse;
+import tefkat.model.StratificationException;
 import tefkat.model.TefkatException;
 import tefkat.model.Term;
 import tefkat.model.TrackingUse;
@@ -47,7 +48,7 @@ public class Stratifier extends TefkatSwitch {
         try {
             check(term);
         } catch (IllegalStateException e) {
-            throw new TefkatException("Illegal Transformation specification.", e);
+            throw new TefkatException(e.getMessage(), e);
         }
     }
     
@@ -95,6 +96,9 @@ public class Stratifier extends TefkatSwitch {
      */
     public Object caseTrackingUse(TrackingUse object) {
         EClass key = object.getTracking();
+        if (null == key) {
+            throw new IllegalStateException("Cannot stratify TrackingUse with null tracking reference: " + object);
+        }
         List keys = null;
         Map map;
         if (negated) {
