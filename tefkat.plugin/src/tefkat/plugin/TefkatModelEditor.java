@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -166,7 +167,6 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         
         XMI_PAGE = addPage(composite);
         setPageText(XMI_PAGE, "XMI Preview");
-        runner.requestParse();
     }
 
     private void createStratificationPage() {
@@ -252,13 +252,13 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     }
     
     class ParserThread extends Thread {
-        private boolean parseRequested = false;
+        private volatile boolean parseRequested = false;
         
         synchronized final public void requestParse() {
-            parseRequested = true;
-            if (!isAlive()) {
+            if (!parseRequested && !isAlive()) {
                 start();
             }
+            parseRequested = true;
             notify();
         }
         
@@ -309,7 +309,8 @@ public class TefkatModelEditor extends MultiPageEditorPart {
 
             final IResource resource = (IResource) textEditor.getEditorInput().getAdapter(IResource.class);
             try {
-                resource.deleteMarkers(PARSE_ERROR, false, IResource.DEPTH_INFINITE);
+                resource.deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
+                resource.deleteMarkers(PARSE_ERROR, true, IResource.DEPTH_INFINITE);
             } catch (CoreException e1) {
                 // TODO Log this
             }
@@ -326,32 +327,41 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         
             TefkatParser parser = new TefkatParser(filter);
 
-            parser.addMessageListener(new MessageAdapter() {
-                public void reportError(MessageEvent e) {
-                    if (e instanceof TefkatMessageEvent) {
-                        createErrorMarker(resource, e.getText(), ((TefkatMessageEvent) e).getLine());
-                    } else {
-                        createErrorMarker(resource, e.getText(), lexer.getLine());
-                    }
-                }
-
-                public void reportWarning(MessageEvent e) {
-                    if (e instanceof TefkatMessageEvent) {
-                        createWarningMarker(resource, e.getText(), ((TefkatMessageEvent) e).getLine());
-                    } else {
-                        createWarningMarker(resource, e.getText(), lexer.getLine());
-                    }
-                }
-            });
+            final MessageAdapter messageListener = new MessageAdapter() {
+                            public void reportError(MessageEvent e) {
+                                if (e instanceof TefkatMessageEvent) {
+                                    final TefkatMessageEvent tme = (TefkatMessageEvent) e;
+                                    final Object src = tme.getSource();
+                                    createErrorMarker(resource, getMessage(tme.getLine(), e.getText()), tme.getLocation(), tme.getLine(), tme.getCharStart(), tme.getCharEnd());
+                                } else {
+                                    createErrorMarker(resource, e.getText(), lexer.getLine());
+                                }
+                            }
+            
+                            public void reportWarning(MessageEvent e) {
+                                if (e instanceof TefkatMessageEvent) {
+                                    final TefkatMessageEvent tme = (TefkatMessageEvent) e;
+                                    createWarningMarker(resource, getMessage(tme.getLine(), e.getText()), tme.getLine(), tme.getCharStart(), tme.getCharEnd());
+                                } else {
+                                    createWarningMarker(resource, e.getText(), lexer.getLine());
+                                }
+                            }
+                            
+                            private String getMessage(int line, String msg) {
+                                Object[] args = {line, msg};
+                                return new Formatter().format("%4d: %s", args).toString();
+                            }
+                        };
+            parser.addMessageListener(messageListener);
             
             // store map of char position to parse terms
             startCharMap.clear();
             endCharMap.clear();
             parser.addParserListener(new ParserListener() {
-            public void matched(ParserEvent e) {
+                public void matched(ParserEvent e) {
                     startCharMap.put(e.getObj(), new Integer(e.getStartChar()));
                     endCharMap.put(e.getObj(), new Integer(e.getEndChar()));
-               }
+                }
             });
 
             URI uri = URI.createPlatformResourceURI(resource.getFullPath().toString());
@@ -376,8 +386,9 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                 sb.append(e.getMessage()).append("\n");
                 printStrata(sb, e.getStrata());
             } catch (final Exception e) {
-                createErrorMarker(resource, e.toString(), lexer.getLine());
+                createErrorMarker(resource, e.getMessage(), "line " + lexer.getLine(), lexer.getLine(), 1, 1);
             } finally {
+                parser.removeMessageListener(messageListener);
                 Display.getDefault().asyncExec(new Runnable() {
                     public void run() {
                         if (getContainer().isDisposed()) {
@@ -408,13 +419,27 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     }
 
     private void createErrorMarker(final IResource resource, final String message, final int line) {
+        createErrorMarker(resource, message, "line " + line, line, -1, -1);
+    }
+
+    private void createErrorMarker(final IResource resource, final String message, final String location, final int line, final int start, final int end) {
+        System.err.println(message);
     Display.getDefault().asyncExec(new Runnable() {
         public void run() {
         try {
-            Map map = new HashMap(3);
-            map.put(IMarker.LINE_NUMBER, new Integer(line));
+            Map map = new HashMap(6);
+            if (start >= 0) {
+                map.put(IMarker.CHAR_START, new Integer(start));
+            }
+            if (end >= 0) {
+                map.put(IMarker.CHAR_END, new Integer(end));
+            }
+            if (line > 0) {
+                map.put(IMarker.LINE_NUMBER, new Integer(line));
+            }
             map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
             map.put(IMarker.MESSAGE, message);
+            map.put(IMarker.LOCATION, location);
             createMarker(resource, map);
         } catch (CoreException e) {
             // TODO Log later
@@ -425,13 +450,26 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     }
 
     private void createWarningMarker(final IResource resource, final String message, final int line) {
+        createWarningMarker(resource, message, line, -1, -1);
+    }
+
+    private void createWarningMarker(final IResource resource, final String message, final int line, final int start, final int end) {
 	Display.getDefault().asyncExec(new Runnable() {
 	    public void run() {
 		try {
-		    Map map = new HashMap(3);
-		    map.put(IMarker.LINE_NUMBER, new Integer(line));
+		    Map map = new HashMap(6);
+                    if (start >= 0) {
+                        map.put(IMarker.CHAR_START, new Integer(start));
+                    }
+                    if (end >= 0) {
+                        map.put(IMarker.CHAR_END, new Integer(end));
+                    }
+                    if (line > 0) {
+                        map.put(IMarker.LINE_NUMBER, new Integer(line));
+                    }
 		    map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
 		    map.put(IMarker.MESSAGE, message);
+                    map.put(IMarker.LOCATION, message);
 		    createMarker(resource, map);
 		} catch (CoreException e) {
 		    // TODO Log later
