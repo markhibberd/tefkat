@@ -470,7 +470,7 @@ options {
     private boolean preserveComments = false;
     
     /**
-     * A package to put any class delcs in
+     * A package to put any class decls in
      */
     private EPackage ePackage = null;
     
@@ -508,35 +508,15 @@ options {
     }
     
     private void definePackage(Transformation t, String namespace, String uriString) throws antlr.SemanticException {
-        URI uri = URI.createURI(uriString);
-        ResourceSet resourceSet = t.eResource().getResourceSet();
-        Resource resource = null;
-        try {
-            resource = resourceSet.getResource(uri, true);//loadOnDemand);
-        } catch (final WrappedException e) {
-            throw new antlr.SemanticException("Unable to load model from URI: " + uriString) {
-                {
-                    initCause(e);
-                }
-            };
+        final List packages = new ArrayList(1);
+        final EPackage.Registry registry = t.eResource().getResourceSet().getPackageRegistry();
+        final EPackage pkg = registry.getEPackage(uriString);
+        if (null != pkg) {
+            packages.add(pkg);
+        } else {
+            throw new antlr.SemanticException("Unable to load model from URI: " + uriString, getFilename(), getMarkLine(), getMarkColumn());
         }
-        if (null == resource) {
-            throw new antlr.SemanticException("Unable to load model from URI: " + uriString);
-        }
-//        List packages = new ArrayList();
-//        TreeIterator contents = resource.getAllContents();
-//        while (contents.hasNext()) {
-//            Object elt = contents.next();
-//            if (elt instanceof EPackage) {
-//                packages.add(elt);
-//            } else {
-//                contents.prune();
-//            }
-//        }
-//        Set resources = ModelUtils.findAllResources(packages);
-        List resources = new ArrayList(1);
-        resources.add(resource);
-        ModelUtils.buildNameMaps(resources, trackingMap, namespace);
+        ModelUtils.buildPackageNameMaps(packages, trackingMap, namespace);
     }
     
     /**
@@ -751,15 +731,23 @@ transformation returns [Transformation t = null;] {
         Var srcExtent = null, tgtExtent = null;
 }
         :       tok:"TRANSFORMATION" {
-                        t = TefkatFactory.eINSTANCE.createTransformation();
-//                        org.eclipse.emf.ecore.xml.type.AnyType any = 
-//                                XMLTypeFactory.eINSTANCE.createAnyType();
-//                        resource.getEObjectToExtensionMap().put(t, any);
-                        annotate(t, tok);
+                    t = TefkatFactory.eINSTANCE.createTransformation();
+//                    org.eclipse.emf.ecore.xml.type.AnyType any = 
+//                            XMLTypeFactory.eINSTANCE.createAnyType();
+//                    resource.getEObjectToExtensionMap().put(t, any);
+                    annotate(t, tok);
                 }
                 name:ID {
-                        t.setName(name.getText());
-                        resource.getContents().add(t);
+                    t.setName(name.getText());
+                    resource.getContents().add(t);
+
+                    final String pkgURI = String.valueOf(resource.getURI());
+                    ePackage = EcoreFactory.eINSTANCE.createEPackage();
+                    ePackage.setNsURI(pkgURI);
+                    ePackage.setName(t.getName());
+                    resource.getContents().add(0, ePackage);
+                    final EPackage.Registry registry = resource.getResourceSet().getPackageRegistry();
+                    registry.put(pkgURI, ePackage);
                 }
                 (
                     // for backwards compatability
@@ -937,7 +925,7 @@ body[Transformation t, Var srcExtent, Var tgtExtent]
  */
 
 classDecl[Transformation t] {
-        Resource res = t.eResource();
+        final Resource res = t.eResource();
         EClass eClass = null;
         EClassifier type = null;
         boolean multiValued = false;
@@ -946,23 +934,29 @@ classDecl[Transformation t] {
 }
         :       c:"CLASS" id: ID {
                     csChar = getCharIndex(c);
-                    if (null == ePackage) {
-                            ePackage = EcoreFactory.eINSTANCE.createEPackage();
-                            ePackage.setNsURI(String.valueOf(resource.getURI()));
-                            ePackage.setName(t.getName());
-                        res.getContents().add(0, ePackage);
+                    final String name = id.getText();
+                    if (trackingMap.containsKey(name)) {
+                    	// re-use existing class so that we can do forward declarations
+                    	// TODO consider requiring that eClass be empty at this point to avoid
+                    	// inadvertant re-use
+                    	//
+                    	eClass = (EClass) trackingMap.get(name);
+                        if (eClass.getEStructuralFeatures().size() > 0) {
+                            throw new antlr.SemanticException("Attempting to re-define existing class: " + name, getFilename(), getMarkLine(), getMarkColumn());
+                        }
+                    } else {
+                        eClass = EcoreFactory.eINSTANCE.createEClass();
+                        eClass.setName(name);
+                        ePackage.getEClassifiers().add(eClass);
+                        trackingMap.put(name, eClass);
                     }
-                    eClass = EcoreFactory.eINSTANCE.createEClass();
-                    eClass.setName(id.getText());
-                    ePackage.getEClassifiers().add(eClass);
-                    trackingMap.put(eClass.getName(), eClass);
                 }
                 ( "EXTENDS" superClasses[eClass] )?
                 (
                     LBRACE
                     (
                         { fsChar = getNextCharIndex(); multiValued = false; }
-                        type = simpleTypeLiteral[false]
+                        type = simpleTypeLiteral[true]
                         (LBRACE RBRACE { multiValued = true; })?
                         ref:ID fsemi:SEMI {
                             // TODO syntax for containment references
@@ -997,14 +991,14 @@ classDecl[Transformation t] {
 superClasses[EClass eClass] {
         EClassifier superEClass;
 }
-        :       superEClass = simpleTypeLiteral[false] {
+        :       superEClass = simpleTypeLiteral[true] {
                     if (!(superEClass instanceof EClass)) {
                         String type = (superEClass instanceof EDataType) ? "an EDataType" :
                                       (superEClass instanceof EEnum) ? "an EEnum" :
                                       "a " + superEClass.getClass().getName();
                         throw new antlr.SemanticException("Expected an EClass: " + superEClass + ", found " + type, getFilename(), getMarkLine(), getMarkColumn());
                     }
-                    eClass.getESuperTypes().add(superEClass);
+                    eClass.getESuperTypes().add((EClass) superEClass);
                 }
                 ( COMMA superClasses[eClass] )?
         ;
@@ -1074,6 +1068,8 @@ map_value returns [Object obj = null] {
 
 importDecl[Transformation t]
         :       "IMPORT" uri:URITOK {
+        	        setMark(uri);
+        	        
                     String uriStr = uri.getText();
                     NamespaceDeclaration nsd = TefkatFactory.eINSTANCE.createNamespaceDeclaration();
                     nsd.setURI(uri.getText());
@@ -1088,6 +1084,8 @@ namespaceDecl[Transformation t] {
         String name = null;
 }
         :       "NAMESPACE" (id:ID {name = id.getText();})? uri:URITOK {
+                    setMark(uri);
+                    
                     String uriStr = uri.getText();
                     NamespaceDeclaration nsd = TefkatFactory.eINSTANCE.createNamespaceDeclaration();
                     nsd.setPrefix(name);
