@@ -23,6 +23,8 @@ public class TefkatMessageEvent extends MessageEvent {
     private String location;
     private int line;
     private int column;
+    private int charStart;
+    private int charEnd;
     
     /**
      * @param obj
@@ -30,10 +32,16 @@ public class TefkatMessageEvent extends MessageEvent {
      * @param message
      */
     public TefkatMessageEvent(Object obj, int level, String message, int line, int column) {
+        this(obj, level, message, line, column, -1, -1);
+    }
+    
+    public TefkatMessageEvent(Object obj, int level, String message, int line, int column, int start, int end) {
         super(obj, level, message);
-        this.location = String.valueOf(obj);
+        this.location = "Line " + line + ", column " + column + " (" + start + ", " + end + ")";
         this.line = line;
         this.column = column;
+        this.charStart = start;
+        this.charEnd = end;
     }
     
     public String getLocation() {
@@ -46,6 +54,14 @@ public class TefkatMessageEvent extends MessageEvent {
     
     public int getColumn() {
         return column;
+    }
+    
+    public int getCharStart() {
+        return charStart;
+    }
+    
+    public int getCharEnd() {
+        return charEnd;
     }
 
     public String toString() {
