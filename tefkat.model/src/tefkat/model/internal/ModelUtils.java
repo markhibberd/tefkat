@@ -120,37 +120,68 @@ public abstract class ModelUtils {
     }
     
     /**
+     * Given a set of EPackages, build a Map of
+     * names to EClasses using both the unqualified and fully-qualified names.
+     * 
+     * If there is a name clash, put null in the map.
+     *
+     */
+    public final static Map buildPackageNameMaps(Collection packages, Map nameMap, String namespace) {
+        for (final Iterator pkgItr = packages.iterator(); pkgItr.hasNext(); ) {
+            EPackage pkg = (EPackage) pkgItr.next();
+            
+            for (Iterator itr = pkg.getEClassifiers().iterator(); itr.hasNext(); ) {
+                EClassifier eClassifier = (EClassifier) itr.next();
+                
+                String fqName = ModelUtils.getFullyQualifiedName(eClassifier);
+                addToMap(nameMap, fqName, eClassifier);
+                
+                String name = eClassifier.getName();
+                addToMap(nameMap, name, eClassifier);
+                
+                if (null != namespace) {
+                    addToMap(nameMap, '^' + namespace + fqName, eClassifier);
+                    addToMap(nameMap, namespace + '^' + name, eClassifier);
+                }
+            }
+            
+            buildPackageNameMaps(pkg.getESubpackages(), nameMap, namespace);
+        }
+        return nameMap;
+    }
+    
+    /**
      * Given a set of resources containing EPackages and EClasses, build a Map of
-     * names to EClasses using both the unqualified and fully-qualifed names.
+     * names to EClasses using both the unqualified and fully-qualified names.
      * 
      * If there is a name clash, put null in the map.
      * 
      * @param resources
      * @return
      */
-    public final static Map buildNameMaps(Collection resources, String namespace) {
-        return buildNameMaps(resources, new HashMap(), namespace);
-    }
+//    public final static Map buildNameMaps(Collection resources, String namespace) {
+//        return buildNameMaps(resources, new HashMap(), namespace);
+//    }
     
-    public final static Map buildNameMaps(Collection resources, Map nameMap, String namespace) {
-        XSDEcoreBuilder xsdEcoreBuilder = null;
-        for (Iterator itr = resources.iterator(); itr.hasNext();) {
-            Resource res = (Resource) itr.next();
-            // Do a tree iteration over the Resource, pruning on every
-            // non-EPackage since only EPackages can (transitively) contain
-            // EClassifiers
-            TreeIterator treeItr = res.getAllContents();
-            xsdEcoreBuilder = buildNameMaps(treeItr, nameMap, namespace, res.getResourceSet(), xsdEcoreBuilder);
-        }
-        if (null != xsdEcoreBuilder) {
-            for (Iterator itr = xsdEcoreBuilder.getTargetNamespaceToEPackageMap().values().iterator(); itr.hasNext();) {
-                EPackage pkg = (EPackage) itr.next();
-                xsdEcoreBuilder = buildNameMaps(pkg.eAllContents(), nameMap, namespace, null, xsdEcoreBuilder);
-            }
-        }
-        
-        return nameMap;
-    }
+//    public final static Map buildNameMaps(Collection resources, Map nameMap, String namespace) {
+//        XSDEcoreBuilder xsdEcoreBuilder = null;
+//        for (Iterator itr = resources.iterator(); itr.hasNext();) {
+//            Resource res = (Resource) itr.next();
+//            // Do a tree iteration over the Resource, pruning on every
+//            // non-EPackage since only EPackages can (transitively) contain
+//            // EClassifiers
+//            TreeIterator treeItr = res.getAllContents();
+//            xsdEcoreBuilder = buildNameMaps(treeItr, nameMap, namespace, res.getResourceSet(), xsdEcoreBuilder);
+//        }
+//        if (null != xsdEcoreBuilder) {
+//            for (Iterator itr = xsdEcoreBuilder.getTargetNamespaceToEPackageMap().values().iterator(); itr.hasNext();) {
+//                EPackage pkg = (EPackage) itr.next();
+//                xsdEcoreBuilder = buildNameMaps(pkg.eAllContents(), nameMap, namespace, null, xsdEcoreBuilder);
+//            }
+//        }
+//        
+//        return nameMap;
+//    }
     
     private static XSDEcoreBuilder buildNameMaps(TreeIterator treeItr, Map nameMap, String namespace, final ResourceSet resourceSet, XSDEcoreBuilder xsdEcoreBuilder) {
         while (treeItr.hasNext()) {
