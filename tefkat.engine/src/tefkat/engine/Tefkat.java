@@ -32,7 +32,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -49,6 +48,7 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import tefkat.config.TefkatConfig.ExecutionMode;
 import tefkat.config.TefkatConfig.Model;
 import tefkat.config.TefkatConfig.TransformationTask;
+import tefkat.model.PatternScope;
 import tefkat.model.Query;
 import tefkat.model.ReferenceExtent;
 import tefkat.model.Var;
@@ -300,6 +300,78 @@ public class Tefkat {
         transform(transformation, parameters, srcEs, tgtEs, trackingE, force);
     }
     
+    public void query(Resource query, Map parameters, Extent[] srcs) throws TefkatException {
+        setResourceSet(query.getResourceSet());
+
+        List contents = query.getContents();
+        for (int j = 0; j < contents.size(); j++) {
+            if (contents.get(j) instanceof Query) {
+                Query q = (Query) contents.get(j);
+                Binding context = new Binding();
+                List extentVars = q.getVars();
+
+                for (final Iterator itr = extentVars.iterator(); itr.hasNext(); ) {
+                    final Var var = (Var) itr.next();
+                    final String varName = var.getName();
+                    if (parameters.containsKey(varName)) {
+                        context.add(var, parameters.get(varName));
+                    }
+                }
+                
+                int idx = 0;
+                for (int k = 0; k < srcs.length; k++) {
+                    Var var;
+                    do {
+                        if (idx >= extentVars.size()) {
+                            throw new ResolutionException(null, "Too many parameters while processing " + srcs[k] + ".  Expected " + extentVars.size() + ", got approximately " + (parameters.size() + srcs.length));
+                        }
+                        var = (Var) extentVars.get(idx++);
+                    } while (context.lookup(var) != null);
+                    context.add(var, srcs[k]);
+                }
+                
+                Tree.counter = 0;
+                Node.counter = 0;
+                Binding.counter = 0;
+                DynamicObject.counter = 0;
+                
+//                fireQueryStarted(q, srcs, context);
+                createRuleEvaluator(null, q, context);
+
+                if (paused) {
+                    ruleEvaluator.pause();
+                }
+                final long startTime = System.currentTimeMillis();
+                final Collection answers = ruleEvaluator.runQuery(q);
+                
+                for (Object b: answers) {
+                    System.out.println(b);
+                }
+                
+                final long endTime = System.currentTimeMillis();
+
+                if (printingStats) {
+                    fireInfo(DynamicObject.counter + " Dynamic Objects");
+                    fireInfo(Tree.counter + " Trees");
+                    fireInfo(Node.counter + " Nodes");
+                    fireInfo(Binding.counter + " Bindings");
+                    fireInfo("Binding/Node Ratio: " + Binding.counter / (float) Node.counter);
+                    
+                    timings("Source", ruleEvaluator.srcResolver);
+                    timings("Target", ruleEvaluator.tgtResolver);
+                    for (int i = 0; i < ruleEvaluator.tgtResolver.elapsed.length; i++) {
+                        fireInfo("TrackingUse breakdown: " + i + "  " + ruleEvaluator.tgtResolver.elapsed[i]);
+                    }
+                    
+                    fireInfo("Query time: " + (endTime - startTime) / 1000.0 + "s");
+                }
+                
+//                fireQueryFinished();
+            }
+        }
+
+    }
+    
     void transform(Resource transformation, Map parameters, Extent[] srcs, Extent[] tgts,
             Extent trackingExtent, boolean force) throws TefkatException {
         
@@ -409,15 +481,15 @@ public class Tefkat {
     
     /**
      * @param trackingExtent
-     * @param t
+     * @param scope
      * @param context
      * @throws ResolutionException
      */
-    private void createRuleEvaluator(Extent trackingExtent, Transformation t, Binding context) throws ResolutionException {
+    private void createRuleEvaluator(Extent trackingExtent, PatternScope scope, Binding context) throws ResolutionException {
 
         // Get all the transitively referenced Resources
         final Map nameMap = new HashMap();
-        buildPackageNameMap(t, nameMap);
+        buildPackageNameMap(scope, nameMap);
         
 //        try {
 //            ModelUtils.resolveTrackingClassNames(t, nameMap);
@@ -437,13 +509,13 @@ public class Tefkat {
         }
     }
 
-    private void buildPackageNameMap(Transformation t, Map nameMap) throws ResolutionException {
+    private void buildPackageNameMap(PatternScope scope, Map nameMap) throws ResolutionException {
         final Map importedNamespaces = new HashMap();
         importedNamespaces.put(null, new HashSet());
 
         final EPackage.Registry registry = getResourceSet().getPackageRegistry();
         
-        for (final Iterator itr = t.getNamespaceDeclarations().iterator(); itr.hasNext(); ) {
+        for (final Iterator itr = scope.getNamespaceDeclarations().iterator(); itr.hasNext(); ) {
             final NamespaceDeclaration nsd = (NamespaceDeclaration) itr.next();
             final String name = nsd.getPrefix();
             final String uriStr = nsd.getURI();
@@ -455,9 +527,9 @@ public class Tefkat {
             importPackage(packages, registry, uriStr);
         }
         final Set nullPackages = (Set) importedNamespaces.get(null);
-        importPackage(nullPackages, registry, t.eResource().getURI().toString());
+        importPackage(nullPackages, registry, scope.eResource().getURI().toString());
 
-        for (final Iterator itr = t.getImportedPackages().iterator(); itr.hasNext(); ) {
+        for (final Iterator itr = scope.getImportedPackages().iterator(); itr.hasNext(); ) {
             final String uriStr = (String) itr.next();
             importPackage(nullPackages, registry, uriStr);
         }
@@ -475,7 +547,28 @@ public class Tefkat {
         if (null != pkg) {
             packages.add(pkg);
         } else {
-            fireWarning("Could not resolve package for '" + uriStr + "'");
+            final Resource res = getResourceSet().getResource(URI.createURI(uriStr), true);
+            if (null == res) {
+                fireWarning("Unable to load model for URI: " + uriStr);
+                return;
+            }
+
+            boolean found = false;
+
+            for (Object o: res.getContents()) {
+                if (o instanceof EPackage) {
+                    EPackage p = (EPackage) o;
+                    if (uriStr.equals(p.getNsURI())) {
+                        packages.add(p);
+//                      registry.put(uriStr, p);
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                fireWarning("Unable to find EPackage with NsURI: " + uriStr);
+            }
         }
     }
 

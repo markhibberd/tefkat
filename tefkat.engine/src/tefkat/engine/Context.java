@@ -123,6 +123,10 @@ final class Context {
     List expand(WrappedVar var) throws NotGroundException {
         return exprEval.expand(this, var);
     }
+    
+    Function getFunction(String name) {
+        return (Function) exprEval.funcMap.get(name);
+    }
 
     EObject lookup(List keys, TRule rule) {
         return ruleEval.injections.lookup(tree.getTrackingExtent(), keys, rule);

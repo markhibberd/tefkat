@@ -65,7 +65,7 @@ public class TefkatActionBarContributor
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * This keeps track of the active editor.

@@ -1,6 +1,6 @@
 
-E_HOME=/Applications/eclipse-SDK-3.2
 E_HOME=/Applications/eclipse
+E_HOME=/Applications/eclipse-SDK-3.2
 
 E_PLUGINS=${E_HOME}
 
@@ -55,11 +55,11 @@ vcompile:
 
 plugins/tefkat.%: ../tefkat.%
 	/bin/rm -rf ~/eclipse.build/$@
-	svn export -r${REVISION} $< ~/eclipse.build/$@
+	svn export -q -r${REVISION} $< ~/eclipse.build/$@
 
 features/tefkat.%: ../tefkat.%
 	/bin/rm -rf ~/eclipse.build/$@
-	svn export -r${REVISION} $< ~/eclipse.build/$@
+	svn export -q -r${REVISION} $< ~/eclipse.build/$@
 
 munge:
 	(cd /tmp; \

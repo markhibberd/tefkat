@@ -38,7 +38,7 @@ public interface FeatureExpr extends CompoundExpr {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * Returns the value of the '<em><b>Operation</b></em>' attribute.

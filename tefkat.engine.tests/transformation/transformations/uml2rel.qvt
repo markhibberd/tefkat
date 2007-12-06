@@ -1,9 +1,11 @@
 
 TRANSFORMATION uml2rel : uml -> rel
 
-IMPORT platform:/resource/transformation/models/simpleuml.ecore
-IMPORT platform:/resource/transformation/models/relational.ecore
-IMPORT platform:/resource/transformation/models/uml2rel.ecore
+RULE EXTENTS WHERE println("UML", uml, "REL", rel);
+
+NAMESPACE platform:/resource/tefkat.engine.tests/transformation/models/simpleuml.ecore
+NAMESPACE platform:/resource/tefkat.engine.tests/transformation/models/relational.ecore
+NAMESPACE platform:/resource/tefkat.engine.tests/transformation/models/uml2rel.ecore
 
 //RULE enumtest
 //  WHERE println(<platform:/resource/transformation/models/simpleuml.ecore#//Ignore/lit1>)

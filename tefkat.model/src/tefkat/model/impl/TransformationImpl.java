@@ -55,8 +55,6 @@ import tefkat.model.internal.Stratifier;
  * The following features are implemented:
  * <ul>
  *   <li>{@link tefkat.model.impl.TransformationImpl#getTRule <em>TRule</em>}</li>
- *   <li>{@link tefkat.model.impl.TransformationImpl#getImportedPackages <em>Imported Packages</em>}</li>
- *   <li>{@link tefkat.model.impl.TransformationImpl#getNamespaceDeclarations <em>Namespace Declarations</em>}</li>
  * </ul>
  * </p>
  *
@@ -68,7 +66,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
     
     /**
      * The cached value of the '{@link #getTRule() <em>TRule</em>}' containment reference list.
@@ -80,26 +78,6 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
      */
     protected EList tRule = null;
     
-    /**
-     * The cached value of the '{@link #getImportedPackages() <em>Imported Packages</em>}' attribute list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getImportedPackages()
-     * @generated
-     * @ordered
-     */
-    protected EList importedPackages = null;
-    
-    /**
-     * The cached value of the '{@link #getNamespaceDeclarations() <em>Namespace Declarations</em>}' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getNamespaceDeclarations()
-     * @generated
-     * @ordered
-     */
-    protected EList namespaceDeclarations = null;
-
     /**
      * Maps from a TRule to a Collection of the TRules that supersede it
      * with respect to <em>this</em> Transformation.
@@ -174,8 +152,6 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
         switch (featureID) {
             case TefkatPackage.TRANSFORMATION__TRULE:
                 return ((InternalEList)getTRule()).basicRemove(otherEnd, msgs);
-            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
-                return ((InternalEList)getNamespaceDeclarations()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -189,10 +165,6 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
         switch (featureID) {
             case TefkatPackage.TRANSFORMATION__TRULE:
                 return getTRule();
-            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
-                return getImportedPackages();
-            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
-                return getNamespaceDeclarations();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -208,14 +180,6 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
                 getTRule().clear();
                 getTRule().addAll((Collection)newValue);
                 return;
-            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
-                getImportedPackages().clear();
-                getImportedPackages().addAll((Collection)newValue);
-                return;
-            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
-                getNamespaceDeclarations().clear();
-                getNamespaceDeclarations().addAll((Collection)newValue);
-                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -230,12 +194,6 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
             case TefkatPackage.TRANSFORMATION__TRULE:
                 getTRule().clear();
                 return;
-            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
-                getImportedPackages().clear();
-                return;
-            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
-                getNamespaceDeclarations().clear();
-                return;
         }
         super.eUnset(featureID);
     }
@@ -249,10 +207,6 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
         switch (featureID) {
             case TefkatPackage.TRANSFORMATION__TRULE:
                 return tRule != null && !tRule.isEmpty();
-            case TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES:
-                return importedPackages != null && !importedPackages.isEmpty();
-            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
-                return namespaceDeclarations != null && !namespaceDeclarations.isEmpty();
         }
         return super.eIsSet(featureID);
     }
@@ -276,30 +230,6 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
             tRule = new EObjectContainmentWithInverseEList(TRule.class, this, TefkatPackage.TRANSFORMATION__TRULE, TefkatPackage.TRULE__TRANSFORMATION);
         }
         return tRule;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList getImportedPackages() {
-        if (importedPackages == null) {
-            importedPackages = new EDataTypeUniqueEList(String.class, this, TefkatPackage.TRANSFORMATION__IMPORTED_PACKAGES);
-        }
-        return importedPackages;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList getNamespaceDeclarations() {
-        if (namespaceDeclarations == null) {
-            namespaceDeclarations = new EObjectContainmentEList(NamespaceDeclaration.class, this, TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS);
-        }
-        return namespaceDeclarations;
     }
 
     /**

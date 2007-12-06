@@ -40,7 +40,7 @@ public class BooleanConstantImpl extends SimpleExprImpl implements BooleanConsta
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * <!-- begin-user-doc -->

@@ -47,7 +47,7 @@ public class MofOrderImpl extends MofTermImpl implements MofOrder {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * The cached value of the '{@link #getLesser() <em>Lesser</em>}' containment reference.

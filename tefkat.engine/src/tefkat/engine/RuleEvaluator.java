@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import tefkat.model.Query;
 import tefkat.model.Var;
 import tefkat.model.Extent;
 import tefkat.model.Injection;
@@ -104,7 +105,9 @@ public class RuleEvaluator {
         this._context = context;
         this.nameMap = nameMap;
         
-        injections.loadTrace(trackingExtent);
+        if (null != trackingExtent) {
+            injections.loadTrace(trackingExtent);
+        }
 
         exprEval = new Evaluator(this);
         srcResolver = new SourceResolver(this);
@@ -157,6 +160,92 @@ public class RuleEvaluator {
         return exprEval;
     }
 
+    public Collection runQuery(final Query query) throws TefkatException {
+        try {
+            final Collection answers = new ArrayList();
+            
+            final Tree tree = new Tree(null, null, _context, trackingExtent, false);
+            tree.setLevel(0);
+
+            addUnresolvedTree(tree);
+
+            final Collection goal = new ArrayList();
+            goal.add(query.getTerm());
+            final Binding context = new Binding(_context);
+            tree.createBranch(null, context, goal );
+
+            tree.addTreeListener(new TreeListener() {
+
+                public void solution(Binding answer) throws ResolutionException {
+                    answers.add(answer);
+                }
+
+                public void completed(Tree theTree) {
+                    if (theTree.isSuccess()) {
+                        fireInfo("Query: " + query.getName() + " completed.");
+                    } else {
+                        fireWarning("Query: " + query.getName() + " matched nothing.");
+                    }
+                }
+
+                public void floundered(Tree theTree) {
+                    // floundering of top-level tree is handled in the
+                    // resolve/resolveNode loop
+                }
+            
+            });
+
+            while (unresolvedTrees.size() > 0) {
+
+                resolve();
+//              System.err.println("completing trees...");
+                int minLevel = Integer.MAX_VALUE;
+                List done = new ArrayList();
+                for (int j = 0; j < unresolvedTrees.size(); j++) {
+                    Tree cTree = (Tree) unresolvedTrees.get(j);
+                    if (cTree.getLevel() < minLevel) {
+                        done.clear();
+                        done.add(cTree);
+                        minLevel = cTree.getLevel();
+                    } else if (cTree.getLevel() == minLevel) {
+                        done.add(cTree);
+                    }
+                }
+
+                if (done.size() == 0) {
+                    // I don't think we should ever reach here...
+                    throw new TefkatException("Internal Error.  Please file a bug report.");
+                } else {
+//                  System.err.println("Min level: " + minLevel);
+                    for (Iterator itr = done.iterator(); itr.hasNext(); ) {
+                        Tree cTree = (Tree) itr.next();
+//                      System.err.println(cTree + " " + cTree.isNegation() + "\t" + cTree.getLevel());
+                        removeUnresolvedTree(cTree);
+                        cTree.completed();
+                    }
+                }
+//              System.err.println(" #trees = " + unresolvedTrees.size());
+
+            }
+            
+            return answers;
+        } catch (ResolutionException e) {
+            fireError(e);
+            if (stepMode) {
+                breakpoint(e.getNode().selectedLiteral());
+            }
+            throw e;
+        } catch (RuntimeException e) {
+            fireError(e);
+            if (stepMode) {
+                // FIXME - this stuff doesn't work as intended
+                pause();
+                waitStep();
+            }
+            throw new ResolutionException(null, "Internal error", e);
+        }
+    }
+    
     public void runTransformation(Transformation transformation, boolean force)
             throws TefkatException {
         if (INCREMENTAL) {

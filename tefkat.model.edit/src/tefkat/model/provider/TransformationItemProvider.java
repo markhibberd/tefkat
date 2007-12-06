@@ -56,7 +56,7 @@ public class TransformationItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -78,31 +78,8 @@ public class TransformationItemProvider
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addImportedPackagesPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
-    }
-
-    /**
-     * This adds a property descriptor for the Imported Packages feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected void addImportedPackagesPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_Transformation_importedPackages_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_Transformation_importedPackages_feature", "_UI_Transformation_type"),
-                 TefkatPackage.Literals.TRANSFORMATION__IMPORTED_PACKAGES,
-                 true,
-                 false,
-                 false,
-                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-                 null,
-                 null));
     }
 
     /**
@@ -117,21 +94,8 @@ public class TransformationItemProvider
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
             childrenFeatures.add(TefkatPackage.Literals.TRANSFORMATION__TRULE);
-            childrenFeatures.add(TefkatPackage.Literals.TRANSFORMATION__NAMESPACE_DECLARATIONS);
         }
         return childrenFeatures;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected EStructuralFeature getChildFeature(Object object, Object child) {
-        // Check the type of the specified child object and return the proper feature to use for
-        // adding (see {@link AddCommand}) it as a child.
-
-        return super.getChildFeature(object, child);
     }
 
     /**
@@ -169,7 +133,6 @@ public class TransformationItemProvider
 
         switch (notification.getFeatureID(Transformation.class)) {
             case TefkatPackage.TRANSFORMATION__TRULE:
-            case TefkatPackage.TRANSFORMATION__NAMESPACE_DECLARATIONS:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
                 return;
         }
@@ -190,11 +153,6 @@ public class TransformationItemProvider
             (createChildParameter
                 (TefkatPackage.Literals.TRANSFORMATION__TRULE,
                  TefkatFactory.eINSTANCE.createTRule()));
-
-        newChildDescriptors.add
-            (createChildParameter
-                (TefkatPackage.Literals.TRANSFORMATION__NAMESPACE_DECLARATIONS,
-                 TefkatFactory.eINSTANCE.createNamespaceDeclaration()));
     }
 
     /**

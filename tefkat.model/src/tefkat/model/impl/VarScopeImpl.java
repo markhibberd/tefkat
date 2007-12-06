@@ -56,7 +56,7 @@ public class VarScopeImpl extends EObjectImpl implements VarScope {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * The cached value of the '{@link #getVars() <em>Vars</em>}' containment reference list.

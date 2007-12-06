@@ -22,11 +22,15 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import tefkat.model.PatternScope;
@@ -52,7 +56,7 @@ public class PatternScopeItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -74,8 +78,31 @@ public class PatternScopeItemProvider
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
+            addImportedPackagesPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
+    }
+
+    /**
+     * This adds a property descriptor for the Imported Packages feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addImportedPackagesPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_PatternScope_importedPackages_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_PatternScope_importedPackages_feature", "_UI_PatternScope_type"),
+                 TefkatPackage.Literals.PATTERN_SCOPE__IMPORTED_PACKAGES,
+                 true,
+                 false,
+                 false,
+                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+                 null,
+                 null));
     }
 
     /**
@@ -90,8 +117,21 @@ public class PatternScopeItemProvider
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
             childrenFeatures.add(TefkatPackage.Literals.PATTERN_SCOPE__PATTERN_DEFN);
+            childrenFeatures.add(TefkatPackage.Literals.PATTERN_SCOPE__NAMESPACE_DECLARATIONS);
         }
         return childrenFeatures;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected EStructuralFeature getChildFeature(Object object, Object child) {
+        // Check the type of the specified child object and return the proper feature to use for
+        // adding (see {@link AddCommand}) it as a child.
+
+        return super.getChildFeature(object, child);
     }
 
     /**
@@ -128,7 +168,11 @@ public class PatternScopeItemProvider
         updateChildren(notification);
 
         switch (notification.getFeatureID(PatternScope.class)) {
+            case TefkatPackage.PATTERN_SCOPE__IMPORTED_PACKAGES:
+                fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+                return;
             case TefkatPackage.PATTERN_SCOPE__PATTERN_DEFN:
+            case TefkatPackage.PATTERN_SCOPE__NAMESPACE_DECLARATIONS:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
                 return;
         }
@@ -149,6 +193,11 @@ public class PatternScopeItemProvider
             (createChildParameter
                 (TefkatPackage.Literals.PATTERN_SCOPE__PATTERN_DEFN,
                  TefkatFactory.eINSTANCE.createPatternDefn()));
+
+        newChildDescriptors.add
+            (createChildParameter
+                (TefkatPackage.Literals.PATTERN_SCOPE__NAMESPACE_DECLARATIONS,
+                 TefkatFactory.eINSTANCE.createNamespaceDeclaration()));
     }
 
     /**

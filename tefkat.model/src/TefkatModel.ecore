@@ -52,6 +52,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="PatternScope" abstract="true" eSuperTypes="#//VarScope">
     <eStructuralFeatures xsi:type="ecore:EReference" name="patternDefn" upperBound="-1"
         eType="#//PatternDefn" containment="true" eOpposite="#//PatternDefn/patternScope"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="namespaceDeclarations"
+        upperBound="-1" eType="#//NamespaceDeclaration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedPackages" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TRule" eSuperTypes="#//VarScope">
     <eAnnotations source="22July2004 - Added abstract attribute and removed opposite ends for extended/superseded"/>
@@ -86,10 +90,6 @@
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tRule" upperBound="-1"
         eType="#//TRule" containment="true" eOpposite="#//TRule/transformation"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedPackages" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="namespaceDeclarations"
-        upperBound="-1" eType="#//NamespaceDeclaration" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamespaceDeclaration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

@@ -54,7 +54,7 @@ public class CollectionExprImpl extends CompoundExprImpl implements CollectionEx
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * The default value of the '{@link #isUnique() <em>Unique</em>}' attribute.

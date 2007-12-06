@@ -2,7 +2,7 @@
 TRANSFORMATION arith : a -> b
 
 // IMPORT http://www.eclipse.org/emf/2002/Ecore
-IMPORT http:///arithmetic.ecore
+NAMESPACE http:///arithmetic.ecore
 
 CLASS tr {
   Number n1;
@@ -12,6 +12,9 @@ CLASS tr {
 CLASS track {
   int i1;
 };
+
+RULE numericTrace
+MAKE Number n FROM n(12) SET n.value = 12;
 
 RULE init
   LINKING track WITH i1 = 0
@@ -58,6 +61,7 @@ RULE delay
   AND IF println("zzzzzzzzzzzzzzzzzzzzzzz") AND 1 = 1 THEN x = 20 AND println("foo") ELSE x = 30 AND println("bar") ENDIF
   AND IF 1 = 2 THEN y = 15 AND println("foo 2") ELSE y = 10 AND println("bar 2") ENDIF
   AND println(x, y)
+  AND ghghg
   ;
 
 ABSTRACT

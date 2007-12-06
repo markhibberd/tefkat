@@ -32,7 +32,7 @@ public interface IfTerm extends CompoundTerm, TargetTerm {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * <!-- begin-user-doc -->

@@ -40,7 +40,7 @@ public interface PatternDefn extends VarScope {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * Returns the value of the '<em><b>Pattern Scope</b></em>' container reference.

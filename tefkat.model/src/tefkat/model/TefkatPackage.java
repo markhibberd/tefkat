@@ -40,7 +40,7 @@ public interface TefkatPackage extends EPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * The package name.
@@ -324,13 +324,31 @@ public interface TefkatPackage extends EPackage {
     int PATTERN_SCOPE__PATTERN_DEFN = VAR_SCOPE_FEATURE_COUNT + 0;
 
     /**
+     * The feature id for the '<em><b>Namespace Declarations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PATTERN_SCOPE__NAMESPACE_DECLARATIONS = VAR_SCOPE_FEATURE_COUNT + 1;
+
+    /**
+     * The feature id for the '<em><b>Imported Packages</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PATTERN_SCOPE__IMPORTED_PACKAGES = VAR_SCOPE_FEATURE_COUNT + 2;
+
+    /**
      * The number of structural features of the '<em>Pattern Scope</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int PATTERN_SCOPE_FEATURE_COUNT = VAR_SCOPE_FEATURE_COUNT + 1;
+    int PATTERN_SCOPE_FEATURE_COUNT = VAR_SCOPE_FEATURE_COUNT + 3;
 
     /**
      * The meta object id for the '{@link tefkat.model.impl.TRuleImpl <em>TRule</em>}' class.
@@ -479,6 +497,24 @@ public interface TefkatPackage extends EPackage {
     int TRANSFORMATION__PATTERN_DEFN = PATTERN_SCOPE__PATTERN_DEFN;
 
     /**
+     * The feature id for the '<em><b>Namespace Declarations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TRANSFORMATION__NAMESPACE_DECLARATIONS = PATTERN_SCOPE__NAMESPACE_DECLARATIONS;
+
+    /**
+     * The feature id for the '<em><b>Imported Packages</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TRANSFORMATION__IMPORTED_PACKAGES = PATTERN_SCOPE__IMPORTED_PACKAGES;
+
+    /**
      * The feature id for the '<em><b>TRule</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -488,31 +524,13 @@ public interface TefkatPackage extends EPackage {
     int TRANSFORMATION__TRULE = PATTERN_SCOPE_FEATURE_COUNT + 0;
 
     /**
-     * The feature id for the '<em><b>Imported Packages</b></em>' attribute list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TRANSFORMATION__IMPORTED_PACKAGES = PATTERN_SCOPE_FEATURE_COUNT + 1;
-
-    /**
-     * The feature id for the '<em><b>Namespace Declarations</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TRANSFORMATION__NAMESPACE_DECLARATIONS = PATTERN_SCOPE_FEATURE_COUNT + 2;
-
-    /**
      * The number of structural features of the '<em>Transformation</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int TRANSFORMATION_FEATURE_COUNT = PATTERN_SCOPE_FEATURE_COUNT + 3;
+    int TRANSFORMATION_FEATURE_COUNT = PATTERN_SCOPE_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link tefkat.model.impl.PatternDefnImpl <em>Pattern Defn</em>}' class.
@@ -978,6 +996,24 @@ public interface TefkatPackage extends EPackage {
      * @ordered
      */
     int QUERY__PATTERN_DEFN = PATTERN_SCOPE__PATTERN_DEFN;
+
+    /**
+     * The feature id for the '<em><b>Namespace Declarations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int QUERY__NAMESPACE_DECLARATIONS = PATTERN_SCOPE__NAMESPACE_DECLARATIONS;
+
+    /**
+     * The feature id for the '<em><b>Imported Packages</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int QUERY__IMPORTED_PACKAGES = PATTERN_SCOPE__IMPORTED_PACKAGES;
 
     /**
      * The feature id for the '<em><b>Term</b></em>' containment reference.
@@ -2807,6 +2843,28 @@ public interface TefkatPackage extends EPackage {
     EReference getPatternScope_PatternDefn();
 
     /**
+     * Returns the meta object for the containment reference list '{@link tefkat.model.PatternScope#getNamespaceDeclarations <em>Namespace Declarations</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Namespace Declarations</em>'.
+     * @see tefkat.model.PatternScope#getNamespaceDeclarations()
+     * @see #getPatternScope()
+     * @generated
+     */
+    EReference getPatternScope_NamespaceDeclarations();
+
+    /**
+     * Returns the meta object for the attribute list '{@link tefkat.model.PatternScope#getImportedPackages <em>Imported Packages</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute list '<em>Imported Packages</em>'.
+     * @see tefkat.model.PatternScope#getImportedPackages()
+     * @see #getPatternScope()
+     * @generated
+     */
+    EAttribute getPatternScope_ImportedPackages();
+
+    /**
      * Returns the meta object for class '{@link tefkat.model.TRule <em>TRule</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2902,28 +2960,6 @@ public interface TefkatPackage extends EPackage {
      * @generated
      */
     EReference getTransformation_TRule();
-
-    /**
-     * Returns the meta object for the attribute list '{@link tefkat.model.Transformation#getImportedPackages <em>Imported Packages</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute list '<em>Imported Packages</em>'.
-     * @see tefkat.model.Transformation#getImportedPackages()
-     * @see #getTransformation()
-     * @generated
-     */
-    EAttribute getTransformation_ImportedPackages();
-
-    /**
-     * Returns the meta object for the containment reference list '{@link tefkat.model.Transformation#getNamespaceDeclarations <em>Namespace Declarations</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Namespace Declarations</em>'.
-     * @see tefkat.model.Transformation#getNamespaceDeclarations()
-     * @see #getTransformation()
-     * @generated
-     */
-    EReference getTransformation_NamespaceDeclarations();
 
     /**
      * Returns the meta object for class '{@link tefkat.model.PatternDefn <em>Pattern Defn</em>}'.
@@ -3983,6 +4019,22 @@ public interface TefkatPackage extends EPackage {
         EReference PATTERN_SCOPE__PATTERN_DEFN = eINSTANCE.getPatternScope_PatternDefn();
 
         /**
+         * The meta object literal for the '<em><b>Namespace Declarations</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PATTERN_SCOPE__NAMESPACE_DECLARATIONS = eINSTANCE.getPatternScope_NamespaceDeclarations();
+
+        /**
+         * The meta object literal for the '<em><b>Imported Packages</b></em>' attribute list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute PATTERN_SCOPE__IMPORTED_PACKAGES = eINSTANCE.getPatternScope_ImportedPackages();
+
+        /**
          * The meta object literal for the '{@link tefkat.model.impl.TRuleImpl <em>TRule</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -4057,22 +4109,6 @@ public interface TefkatPackage extends EPackage {
          * @generated
          */
         EReference TRANSFORMATION__TRULE = eINSTANCE.getTransformation_TRule();
-
-        /**
-         * The meta object literal for the '<em><b>Imported Packages</b></em>' attribute list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute TRANSFORMATION__IMPORTED_PACKAGES = eINSTANCE.getTransformation_ImportedPackages();
-
-        /**
-         * The meta object literal for the '<em><b>Namespace Declarations</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference TRANSFORMATION__NAMESPACE_DECLARATIONS = eINSTANCE.getTransformation_NamespaceDeclarations();
 
         /**
          * The meta object literal for the '{@link tefkat.model.impl.PatternDefnImpl <em>Pattern Defn</em>}' class.

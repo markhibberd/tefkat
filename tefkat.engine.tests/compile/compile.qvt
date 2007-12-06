@@ -11,8 +11,15 @@ NAMESPACE http://CompilerTracking.ecore
     EObject tgt;
 }; */
 
+/*
 CLASS dummy {
 };
+
+RULE a
+  WHERE NOT dummy LINKS src=1
+  LINKING dummy WITH src=1
+    ;
+*/
 
 PATTERN isTefkatClass(C)
   WHERE C.ePackage.name = "model"

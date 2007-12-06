@@ -1,6 +1,7 @@
 #!/bin/sh
 
-TEFKAT_VERSION=2.1.0.`date "+%Y%m%d%H%M"`
+TEFKAT_VERSION_PREFIX=2.1.0.
+TEFKAT_VERSION="$TEFKAT_VERSION_PREFIX"`date "+%Y%m%d%H%M"`
 TEFKAT_JAR=Tefkat_$TEFKAT_VERSION.jar
 
 PATH="/dstc/stow/j2sdk1.4.2/bin:$PATH"
@@ -72,6 +73,9 @@ jar -cvfm $TEFKAT_JAR onejar/boot-manifest.mf \
     -C onejar doc \
     main/tefkat.jar \
     lib/*.jar \
+
+/bin/rm Tefkat_"$TEFKAT_VERSION_PREFIX"1.jar
+ln -s $TEFKAT_JAR Tefkat_"$TEFKAT_VERSION_PREFIX"1.jar
 
 #    wrap/wraploader.jar
 

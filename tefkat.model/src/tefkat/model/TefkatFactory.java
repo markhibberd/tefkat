@@ -29,7 +29,7 @@ public interface TefkatFactory extends EFactory {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * The singleton instance of the factory.

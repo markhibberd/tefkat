@@ -44,7 +44,7 @@ public interface TRule extends VarScope {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * Returns the value of the '<em><b>Transformation</b></em>' container reference.

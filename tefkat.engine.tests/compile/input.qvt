@@ -4,7 +4,8 @@ TRANSFORMATION example : src -> tgt
 NAMESPACE M http:///TefkatModel-2.5.ecore
 NAMESPACE R http:///TefkatRuntime-1.0.ecore
 NAMESPACE http://www.eclipse.org/emf/2002/Ecore
-NAMESPACE http://CompilerTracking.ecore
+//NAMESPACE http://CompilerTracking.ecore
+NAMESPACE file:/Users/michaellawley/Documents/src/Tefkat-lawley/tefkat.engine.tests/compile/CompilerTracking.ecore
 
 /*
 CLASS link {
@@ -12,6 +13,11 @@ CLASS link {
     EObject tgt;
 };
 */
+
+RULE debug
+  FORALL _ O
+  WHERE println(O)
+;
 
 RULE transformation
   FORALL M^Transformation st {

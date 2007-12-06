@@ -294,11 +294,49 @@ public class Evaluator {
             }
         }
     }
+    
+    private static final class Sum implements Function {
+        public Object call(Context context, Object[] params) throws ResolutionException {
+            Number[] collection = (Number[]) params[0];
+            boolean integral = true;
+            for (int i = 0; i < collection.length && integral; i++) {
+                integral |= collection[i] instanceof Double;
+            }
+            if (integral) {
+                long result = 0;
+                for (int i = 0; i < collection.length && integral; i++) {
+                    result += collection[i].longValue();
+                }
+                return result;
+            } else {
+                double result = 0;
+                for (int i = 0; i < collection.length && integral; i++) {
+                    result += collection[i].doubleValue();
+                }
+                return result;
+            }
+        }
+    }
+    
+    private static final class Foldl implements Function {
+        public Object call(Context context, Object[] params) throws ResolutionException {
+            final String function = (String) params[0];
+            Object result = params[1];
+            final Collection collection = (Collection) params[2];
+            
+            final Function func = context.getFunction(function);
+            for (Object param: collection) {
+                Object[] args = {result, param};
+                result = func.call(context, args);
+            }
+            return result;
+        }
+    }
 
     /**
      * Key for Node instance in the funcMap (yes, it's a hack)
      */
-    private final Map funcMap = new HashMap();
+    final Map funcMap = new HashMap();
 
     private final RuleEvaluator ruleEval;
 
@@ -320,12 +358,14 @@ public class Evaluator {
         addFunction("long", new CastLong());
         addFunction("float", new CastFloat());
         addFunction("double", new CastDouble());
+        addFunction("sum", new Sum());
         addFunction("+", new Add());
         addFunction("-", new Subtract());
         addFunction("*", new Multiply());
         addFunction("/", new Divide());
         
         addFunction("funmap", new MapFeature());
+        addFunction("foldl", new Foldl());
         
         // FIXME rename this function to dataMap or something (see tefkat.g)
         addFunction("map", new DataMapLookup());

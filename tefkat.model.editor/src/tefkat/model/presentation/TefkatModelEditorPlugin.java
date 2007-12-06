@@ -31,7 +31,7 @@ public final class TefkatModelEditorPlugin extends EMFPlugin {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * Keep track of the singleton.

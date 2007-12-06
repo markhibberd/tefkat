@@ -37,7 +37,7 @@ public interface InstanceRef extends Expression {
      * <!-- end-user-doc -->
      * @generated
      */
-    String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * Returns the value of the '<em><b>Object</b></em>' reference.

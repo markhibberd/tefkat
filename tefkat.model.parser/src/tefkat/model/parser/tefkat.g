@@ -509,12 +509,33 @@ options {
     
     private void definePackage(Transformation t, String namespace, String uriString) throws antlr.SemanticException {
         final List packages = new ArrayList(1);
-        final EPackage.Registry registry = t.eResource().getResourceSet().getPackageRegistry();
+        final ResourceSet rs = t.eResource().getResourceSet();
+        final EPackage.Registry registry = rs.getPackageRegistry();
         final EPackage pkg = registry.getEPackage(uriString);
         if (null != pkg) {
             packages.add(pkg);
         } else {
-            throw new antlr.SemanticException("Unable to load model from URI: " + uriString, getFilename(), getMarkLine(), getMarkColumn());
+        	final Resource res = rs.getResource(URI.createURI(uriString), true);
+        	if (null == res) {
+	            throw new antlr.SemanticException("Unable to load model from URI: " + uriString, getFilename(), getMarkLine(), getMarkColumn());
+        	}
+        	
+        	boolean found = false;
+        	
+        	for (Object o: res.getContents()) {
+        		if (o instanceof EPackage) {
+        			EPackage p = (EPackage) o;
+        			if (uriString.equals(p.getNsURI())) {
+                        packages.add(p);
+//        				registry.put(uriString, p);
+        				found = true;
+        				break;
+        			}
+        		}
+        	}
+        	if (!found) {
+	            throw new antlr.SemanticException("Unable to find EPackage with NsURI: " + uriString, getFilename(), getMarkLine(), getMarkColumn());
+        	}
         }
         ModelUtils.buildPackageNameMaps(packages, trackingMap, namespace);
     }
@@ -605,6 +626,29 @@ options {
             }
         }
         throw new antlr.SemanticException("Couldn't resolve var name: " + varName + " in rule " + trule.getName());
+    }
+
+    /**
+     * For each PatternUse, resolve the PatternDefn name
+     */
+    private void resolvePatternReferences() throws SemanticException {
+        for (Iterator itr = patUseMap.keySet().iterator(); itr.hasNext(); ) {
+            PatternUse pu = (PatternUse) itr.next();
+            String pname = (String) patUseMap.get(pu);
+            PatternDefn pd = (PatternDefn) patMap.get(pname);
+            if (null == pd) {
+                if (!pname.startsWith("println/")) {
+                    EObject container = pu.eContainer();
+                    while (!(null == container || container instanceof VarScope)) {
+                        container = container.eContainer();
+                    }
+                    reportError("Use of undefined pattern: " + pname + " in " + container, -1, -1);
+                    throw new antlr.SemanticException("Reference to unknown pattern: " + pname + " in " + container, getFilename(), -1, -1);
+                }
+            } else {
+                pu.setDefn(pd);
+            }
+        }
     }
     
     // Error/Warning support infrastructure
@@ -770,6 +814,26 @@ options {
     }
 }
 
+query returns [Query q = null;] {
+        Var srcExtent = null;
+        AndTerm term = TefkatFactory.eINSTANCE.createAndTerm();
+}
+	:	tok:"QUERY" {
+			q = TefkatFactory.eINSTANCE.createQuery();
+			q.setTerm(term);
+            resource.getContents().add(q);
+			annotate(q, tok);
+        }
+        name:ID {
+        	q.setName(name.getText());
+        }
+        (patternDefn[q, srcExtent])*
+        conjunct[q, term.getTerm()]
+        {
+        	resolvePatternReferences();
+        }
+	;
+
 transformation returns [Transformation t = null;] {
         Var srcExtent = null, tgtExtent = null;
         int sChar = -1, eChar = -1;
@@ -902,24 +966,7 @@ transformation returns [Transformation t = null;] {
                         }
                     }
                     
-                    // For each PatternUse, resolve the PatternDefn name
-                    for (Iterator itr = patUseMap.keySet().iterator(); itr.hasNext(); ) {
-                        PatternUse pu = (PatternUse) itr.next();
-                        String pname = (String) patUseMap.get(pu);
-                        PatternDefn pd = (PatternDefn) patMap.get(pname);
-                        if (null == pd) {
-                            if (!pname.startsWith("println/")) {
-                                EObject container = pu.eContainer();
-                                while (!(null == container || container instanceof VarScope)) {
-                                        container = container.eContainer();
-                                }
-                                reportError("Use of undefined pattern: " + pname + " in " + container, -1, -1);
-                                throw new antlr.SemanticException("Reference to unknown pattern: " + pname + " in " + container, getFilename(), -1, -1);
-                            }
-                        } else {
-                            pu.setDefn(pd);
-                        }
-                    }
+                    resolvePatternReferences();
                 }
                 EOF
         ;
@@ -1175,7 +1222,7 @@ tname returns [String name = null]
                 }
         ;
 
-patternDefn[Transformation t, Var srcExtent] {
+patternDefn[PatternScope t, Var srcExtent] {
         PatternDefn pd = null;
         String name;
         AndTerm conjunct = null;

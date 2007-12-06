@@ -51,7 +51,7 @@ public class ReferenceExtentImpl extends ExtentImpl implements ReferenceExtent {
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * The cached value of the '{@link #getResources() <em>Resources</em>}' attribute list.

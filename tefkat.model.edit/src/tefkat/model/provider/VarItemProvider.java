@@ -54,7 +54,7 @@ public class VarItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * This constructs an instance from a factory and a notifier.
@@ -101,6 +101,8 @@ public class VarItemProvider
                  getString("_UI_PropertyDescriptor_description", "_UI_Var_name_feature", "_UI_Var_type"),
                  TefkatPackage.Literals.VAR__NAME,
                  true,
+                 false,
+                 false,
                  ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
                  null,
                  null));
@@ -120,6 +122,8 @@ public class VarItemProvider
                  getString("_UI_Var_usages_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Var_usages_feature", "_UI_Var_type"),
                  TefkatPackage.Literals.VAR__USAGES,
+                 false,
+                 false,
                  false,
                  null,
                  null,
@@ -141,6 +145,8 @@ public class VarItemProvider
                  getString("_UI_PropertyDescriptor_description", "_UI_Var_superseded_feature", "_UI_Var_type"),
                  TefkatPackage.Literals.VAR__SUPERSEDED,
                  true,
+                 false,
+                 true,
                  null,
                  null,
                  null));
@@ -160,6 +166,8 @@ public class VarItemProvider
                  getString("_UI_Var_superseder_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Var_superseder_feature", "_UI_Var_type"),
                  TefkatPackage.Literals.VAR__SUPERSEDER,
+                 true,
+                 false,
                  true,
                  null,
                  null,
@@ -181,6 +189,8 @@ public class VarItemProvider
                  getString("_UI_PropertyDescriptor_description", "_UI_Var_extended_feature", "_UI_Var_type"),
                  TefkatPackage.Literals.VAR__EXTENDED,
                  true,
+                 false,
+                 true,
                  null,
                  null,
                  null));
@@ -200,6 +210,8 @@ public class VarItemProvider
                  getString("_UI_Var_extender_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_Var_extender_feature", "_UI_Var_type"),
                  TefkatPackage.Literals.VAR__EXTENDER,
+                 true,
+                 false,
                  true,
                  null,
                  null,

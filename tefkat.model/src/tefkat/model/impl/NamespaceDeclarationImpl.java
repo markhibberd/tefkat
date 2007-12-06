@@ -43,7 +43,7 @@ public class NamespaceDeclarationImpl extends EObjectImpl implements NamespaceDe
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2006";
+    public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
 
     /**
      * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
