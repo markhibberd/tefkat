@@ -117,7 +117,7 @@ public class Context {
 
     public List expand(WrappedVar wVar) throws NotGroundException {
         if (null == wVar.getExtent()) {
-            throw new NotGroundException("Unsupported mode: unbound extent for" + wVar);
+            throw new NotGroundException("Unsupported mode: unbound extent for " + wVar);
         }
 //        Var var = wVar.getVar();
 //        EClassifier type = wVar.getType();

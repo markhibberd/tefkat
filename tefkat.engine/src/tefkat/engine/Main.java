@@ -16,9 +16,13 @@ package tefkat.engine;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +33,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.ToolTipManager;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -43,6 +48,12 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.jgraph.event.GraphModelEvent;
 import org.jgraph.event.GraphModelListener;
 
+import antlr.RecognitionException;
+import antlr.TokenStreamException;
+import antlr.TokenStreamHiddenTokenFilter;
+import antlr.debug.MessageAdapter;
+import antlr.debug.MessageEvent;
+
 import tefkat.config.TefkatConfig.Configuration;
 import tefkat.config.TefkatConfig.Model;
 import tefkat.config.TefkatConfig.TransformationTask;
@@ -54,10 +65,17 @@ import tefkat.engine.view.Visualiser;
 import tefkat.model.ContainerExtent;
 import tefkat.model.Extent;
 import tefkat.model.PatternUse;
+import tefkat.model.Query;
 import tefkat.model.ReferenceExtent;
+import tefkat.model.SourceTerm;
 import tefkat.model.TRule;
+import tefkat.model.TefkatException;
+import tefkat.model.TefkatFactory;
 import tefkat.model.Term;
 import tefkat.model.Transformation;
+import tefkat.model.Var;
+import tefkat.model.parser.TefkatLexer;
+import tefkat.model.parser.TefkatParser;
 import tefkat.model.parser.TefkatResourceFactory;
 
 
@@ -97,6 +115,7 @@ public class Main {
     
     public static void main(String[] args) {
         boolean mapVis = false, targetVis = false, sourceVis = false, traceVis = false;
+        boolean queryMode = false;
         boolean debugger = false;
         String configURI = null;
         String transformationURI = null;
@@ -160,7 +179,9 @@ public class Main {
 
         for (int i = 0; i < args.length; i++) {
 
-            if (args[i].equals("-layout")) {
+            if (args[i].equals("-query")) {
+                queryMode = true;
+            } else if (args[i].equals("-layout")) {
                 layout = true;
             } else if (args[i].equals("-debug")) {
                 debugger = true;
@@ -280,12 +301,49 @@ public class Main {
                         System.err.println("Warning: " + obj + " is not a Configuration instance.");
                     }
                 }
+            } else if (queryMode) {
+                ReferenceExtent extent = TefkatFactory.eINSTANCE.createReferenceExtent();
+                List extentResources = extent.getResources();
+
+//                    for (Iterator itr = parameters.entrySet().iterator(); itr.hasNext(); ) {
+//                        Map.Entry entry = (Map.Entry) itr.next();
+//                        URI uri = URI.createURI((String) entry.getValue());
+//                        entry.setValue(rs.getResource(uri, true));
+//                    }
+                for (Iterator itr = sourceURIs.iterator(); itr.hasNext(); ) {
+                    URI uri = URI.createURI((String) itr.next());
+                    extentResources.add(rs.getResource(uri, true));
+                }
+
+                Query q = TefkatFactory.eINSTANCE.createQuery();
+                q.setName("Interactive");
+                Var srcExtent = TefkatFactory.eINSTANCE.createVar();
+                srcExtent.setName("Source Extent");
+                q.getVars().add(srcExtent);
+
+                Binding context = new Binding();
+                context.add(srcExtent, extent);
+
+                // loop until EOF
+                boolean done;
+                do {
+                    try {
+                        done = readAndEvalQuery(engine, q, srcExtent, context);
+                    } catch (ResolutionException e) {
+                        done = false;
+                    } catch (RecognitionException e) {
+                        done = false;
+                    } catch (TokenStreamException e) {
+                        done = false;
+                    }
+                } while (!done);
+
             } else {
                 if (transformationURI == null) {
                     usage("Must specify a config URI or a transformation URI");
                 }
-                int j;
                 Resource transformation = rs.getResource(URI.createURI(transformationURI), true);
+                int j;
                 for (Iterator itr = parameters.entrySet().iterator(); itr.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) itr.next();
                     URI uri = URI.createURI((String) entry.getValue());
@@ -363,6 +421,56 @@ public class Main {
 //             System.exit(0);
         }
 
+    }
+
+    private static boolean readAndEvalQuery(final Tefkat engine, Query q, Var srcExtent, Binding context) throws RecognitionException, TokenStreamException, ResolutionException, TefkatException, IOException {
+        System.out.println("Enter query:");
+        
+        final StringBuilder sb = new StringBuilder();
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String line;
+        while ((line = reader.readLine()) != null &&
+                !line.trim().endsWith(";")) {
+            sb.append(line);
+        }
+        if (null != line) {
+            sb.append(line);
+        }
+        
+        TefkatLexer lexer = new TefkatLexer(new StringReader(sb.toString()));
+        // use nonstandard token object
+        lexer.setTokenObjectClass("antlr.CommonHiddenStreamToken");
+        // create the filter
+        TokenStreamHiddenTokenFilter filter = new TokenStreamHiddenTokenFilter(lexer);
+
+        // hide not discard
+        filter.hide(TefkatParser.COMMENT);
+        filter.hide(TefkatParser.WS);
+
+        TefkatParser parser = new TefkatParser(filter);
+        parser.addMessageListener(new MessageAdapter() {
+            public void reportError(MessageEvent e) {
+                System.err.println("parser error: " + e);
+            }
+
+            public void reportWarning(MessageEvent e) {
+                System.err.println("parser warning: " + e);
+            }
+            
+        });
+        
+        SourceTerm stmt = parser.queryStatement(q, srcExtent);
+        if (null != stmt) {
+            q.setTerm(stmt);
+
+            Collection answers = engine.evaluateQuery(context, q);
+
+            for (Object o: answers) {
+                System.out.println(o);
+            }
+        }
+        
+        return null == line;
     }
 
     /**

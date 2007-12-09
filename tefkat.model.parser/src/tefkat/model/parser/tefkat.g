@@ -570,14 +570,7 @@ options {
      */
     private Map singletonVars = new HashMap();
     private Var declareVar(VarScope scope, String name, int line, int column) throws antlr.SemanticException {
-        Var var = null;
-        if (scope instanceof PatternDefn) {
-            var = TefkatFactory.eINSTANCE.createVar();
-        } else if (scope instanceof TRule) {
-            var = TefkatFactory.eINSTANCE.createVar();
-        } else {
-            throw new antlr.SemanticException("Scope for variable use " + name + " must be a PatternDefn or TRule, not: " + scope, getFilename(), line, column);
-        }
+        Var var = TefkatFactory.eINSTANCE.createVar();
         
         if (null != name) {
             if (name.charAt(0) == '_') {
@@ -631,7 +624,13 @@ options {
     /**
      * For each PatternUse, resolve the PatternDefn name
      */
-    private void resolvePatternReferences() throws SemanticException {
+    private void resolvePatternReferences(PatternScope scope) throws SemanticException {
+        List defns = scope.getPatternDefn();
+        for (final Iterator itr = defns.iterator(); itr.hasNext(); ) {
+            PatternDefn def = (PatternDefn) itr.next();
+            patMap.put(def.getName(), def);
+        }
+    	
         for (Iterator itr = patUseMap.keySet().iterator(); itr.hasNext(); ) {
             PatternUse pu = (PatternUse) itr.next();
             String pname = (String) patUseMap.get(pu);
@@ -717,6 +716,7 @@ options {
     
     public void reportError(RecognitionException e) {
         System.err.println("Deprecated reportError(RecognitionException) called");
+        e.printStackTrace();
 //        new Exception().printStackTrace();
         int endChar = -1;
         try {
@@ -816,23 +816,43 @@ options {
 
 query returns [Query q = null;] {
         Var srcExtent = null;
-        AndTerm term = TefkatFactory.eINSTANCE.createAndTerm();
+        SourceTerm stmt = null;
 }
 	:	tok:"QUERY" {
 			q = TefkatFactory.eINSTANCE.createQuery();
-			q.setTerm(term);
-            resource.getContents().add(q);
+// doesn't need to go in a resource...
+//            resource.getContents().add(q);
 			annotate(q, tok);
         }
-        name:ID {
-        	q.setName(name.getText());
-        }
-        (patternDefn[q, srcExtent])*
-        conjunct[q, term.getTerm()]
-        {
-        	resolvePatternReferences();
-        }
+//        (name:ID SEMI {
+//        	q.setName(name.getText());
+//        })?
+        
+        (stmt = queryStatement[q, srcExtent] {
+        	q.setTerm(stmt);
+        })?
 	;
+
+queryStatement[Query q, Var srcExtent] returns [SourceTerm result = null] {
+	AndTerm container = TefkatFactory.eINSTANCE.createAndTerm();
+	List terms = container.getTerm();
+}
+	:
+    (patternDefn[q, srcExtent])*
+	(
+        conjunct[q, terms]
+        {
+          	resolvePatternReferences(q);
+        	if (1 == terms.size()) {
+        		result = (SourceTerm) terms.remove(0);
+        	} else {
+        		result = container;
+        	}
+        	result.setContext(srcExtent);
+        }
+        SEMI
+    )?
+;
 
 transformation returns [Transformation t = null;] {
         Var srcExtent = null, tgtExtent = null;
@@ -966,7 +986,7 @@ transformation returns [Transformation t = null;] {
                         }
                     }
                     
-                    resolvePatternReferences();
+                    resolvePatternReferences(t);
                 }
                 EOF
         ;
@@ -1225,6 +1245,7 @@ tname returns [String name = null]
 patternDefn[PatternScope t, Var srcExtent] {
         PatternDefn pd = null;
         String name;
+        String fullName = null;
         AndTerm conjunct = null;
         int sChar = -1, eChar = -1;
         int sConjChar = -1;
@@ -1243,12 +1264,8 @@ patternDefn[PatternScope t, Var srcExtent] {
                 formals[pd] {
                     // mark all Vars from the formals as parameter vars
                     pd.getParameterVar().addAll(pd.getVars());
-                    String fullName = name + "/" + pd.getParameterVar().size();
+                    fullName = name + "/" + pd.getParameterVar().size();
                     pd.setName(fullName);
-                    if (patMap.containsKey(fullName)) {
-                        throw new antlr.SemanticException("Duplicate definition of pattern '" + fullName + "' found.", getFilename(), getMarkLine(), getMarkColumn());
-                    }
-                    patMap.put(fullName, pd);
                 }
                 ( forall:"FORALL" ranges[pd, srcExtent, conjunct.getTerm(), false] {
                     sConjChar = getStartChar(forall);
@@ -1263,6 +1280,11 @@ patternDefn[PatternScope t, Var srcExtent] {
                     eChar = getEndChar(semi);
                     reportMatch(conjunct, sConjChar, eChar);
                     reportMatch(pd, sChar, eChar);
+                    
+                    if (patMap.containsKey(fullName)) {
+                        throw new antlr.SemanticException("Duplicate definition of pattern '" + fullName + "' found.", getFilename(), getMarkLine(), getMarkColumn());
+                    }
+                    patMap.put(fullName, pd);
                 }
         ;
 

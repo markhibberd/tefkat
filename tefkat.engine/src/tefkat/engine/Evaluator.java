@@ -418,7 +418,7 @@ public class Evaluator {
     
     List expand(Context context, WrappedVar wVar) throws NotGroundException {
         if (null == wVar.getExtent()) {
-            context.delay("Unsupported mode: unbound extent for" + wVar);
+            context.delay("Unsupported mode: unbound extent for " + wVar);
         }
 //        Var var = wVar.getVar();
 //        EClassifier type = wVar.getType();

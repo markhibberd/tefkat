@@ -307,42 +307,11 @@ public class Tefkat {
         for (int j = 0; j < contents.size(); j++) {
             if (contents.get(j) instanceof Query) {
                 Query q = (Query) contents.get(j);
-                Binding context = new Binding();
-                List extentVars = q.getVars();
-
-                for (final Iterator itr = extentVars.iterator(); itr.hasNext(); ) {
-                    final Var var = (Var) itr.next();
-                    final String varName = var.getName();
-                    if (parameters.containsKey(varName)) {
-                        context.add(var, parameters.get(varName));
-                    }
-                }
+                Binding context = setupQueryEnvironment(parameters, srcs, q);
                 
-                int idx = 0;
-                for (int k = 0; k < srcs.length; k++) {
-                    Var var;
-                    do {
-                        if (idx >= extentVars.size()) {
-                            throw new ResolutionException(null, "Too many parameters while processing " + srcs[k] + ".  Expected " + extentVars.size() + ", got approximately " + (parameters.size() + srcs.length));
-                        }
-                        var = (Var) extentVars.get(idx++);
-                    } while (context.lookup(var) != null);
-                    context.add(var, srcs[k]);
-                }
-                
-                Tree.counter = 0;
-                Node.counter = 0;
-                Binding.counter = 0;
-                DynamicObject.counter = 0;
-                
-//                fireQueryStarted(q, srcs, context);
-                createRuleEvaluator(null, q, context);
-
-                if (paused) {
-                    ruleEvaluator.pause();
-                }
                 final long startTime = System.currentTimeMillis();
-                final Collection answers = ruleEvaluator.runQuery(q);
+
+                final Collection answers = evaluateQuery(context, q);
                 
                 for (Object b: answers) {
                     System.out.println(b);
@@ -370,6 +339,48 @@ public class Tefkat {
             }
         }
 
+    }
+
+    public Collection evaluateQuery(Binding context, Query q) throws ResolutionException, TefkatException {
+        Tree.counter = 0;
+        Node.counter = 0;
+        Binding.counter = 0;
+        DynamicObject.counter = 0;
+        
+//                fireQueryStarted(q, srcs, context);
+        createRuleEvaluator(null, q, context);
+
+        if (paused) {
+            ruleEvaluator.pause();
+        }
+        final Collection answers = ruleEvaluator.runQuery(q);
+        return answers;
+    }
+
+    private Binding setupQueryEnvironment(Map parameters, Extent[] srcs, Query q) throws ResolutionException {
+        Binding context = new Binding();
+        List extentVars = q.getVars();
+
+        for (final Iterator itr = extentVars.iterator(); itr.hasNext(); ) {
+            final Var var = (Var) itr.next();
+            final String varName = var.getName();
+            if (parameters.containsKey(varName)) {
+                context.add(var, parameters.get(varName));
+            }
+        }
+        
+        int idx = 0;
+        for (int k = 0; k < srcs.length; k++) {
+            Var var;
+            do {
+                if (idx >= extentVars.size()) {
+                    throw new ResolutionException(null, "Too many parameters while processing " + srcs[k] + ".  Expected " + extentVars.size() + ", got approximately " + (parameters.size() + srcs.length));
+                }
+                var = (Var) extentVars.get(idx++);
+            } while (context.lookup(var) != null);
+            context.add(var, srcs[k]);
+        }
+        return context;
     }
     
     void transform(Resource transformation, Map parameters, Extent[] srcs, Extent[] tgts,
@@ -527,7 +538,9 @@ public class Tefkat {
             importPackage(packages, registry, uriStr);
         }
         final Set nullPackages = (Set) importedNamespaces.get(null);
-        importPackage(nullPackages, registry, scope.eResource().getURI().toString());
+        if (null != scope.eResource()) {
+            importPackage(nullPackages, registry, scope.eResource().getURI().toString());
+        }
 
         for (final Iterator itr = scope.getImportedPackages().iterator(); itr.hasNext(); ) {
             final String uriStr = (String) itr.next();
