@@ -520,21 +520,30 @@ options {
 	            throw new antlr.SemanticException("Unable to load model from URI: " + uriString, getFilename(), getMarkLine(), getMarkColumn());
         	}
         	
-        	boolean found = false;
+        	if (false) {	// Strict checking
+        	    boolean found = false;
         	
-        	for (Object o: res.getContents()) {
-        		if (o instanceof EPackage) {
-        			EPackage p = (EPackage) o;
-        			if (uriString.equals(p.getNsURI())) {
+        	    for (Object o: res.getContents()) {
+        		    if (o instanceof EPackage) {
+        			    EPackage p = (EPackage) o;
+        			    if (uriString.equals(p.getNsURI())) {
+                            packages.add(p);
+//        				    registry.put(uriString, p);
+        				    found = true;
+        				    break;
+        			    }
+        		    }
+        	    }
+        	    if (!found) {
+	                throw new antlr.SemanticException("Unable to find EPackage with NsURI: " + uriString, getFilename(), getMarkLine(), getMarkColumn());
+        	    }
+        	} else {
+        	    for (Object o: res.getContents()) {
+        		    if (o instanceof EPackage) {
+        			    EPackage p = (EPackage) o;
                         packages.add(p);
-//        				registry.put(uriString, p);
-        				found = true;
-        				break;
-        			}
-        		}
-        	}
-        	if (!found) {
-	            throw new antlr.SemanticException("Unable to find EPackage with NsURI: " + uriString, getFilename(), getMarkLine(), getMarkColumn());
+        		    }
+        	    }
         	}
         }
         ModelUtils.buildPackageNameMaps(packages, trackingMap, namespace);

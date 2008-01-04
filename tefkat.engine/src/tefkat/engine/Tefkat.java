@@ -175,15 +175,18 @@ public class Tefkat {
     public Tefkat() {
     }
     
+    @Deprecated
     public boolean isIncremental() {
         return isIncremental;
     }
     
+    @Deprecated
     public void setIncremental(boolean isIncremental) {
-        this.isIncremental = isIncremental;
-        if (null != ruleEvaluator) {
-            ruleEvaluator.INCREMENTAL = isIncremental;
-        }
+        throw new UnsupportedOperationException("non-incremental model is deprecated");
+//        this.isIncremental = isIncremental;
+//        if (null != ruleEvaluator) {
+//            ruleEvaluator.INCREMENTAL = isIncremental;
+//        }
     }
     
     public boolean isPrintingStats() {
@@ -510,7 +513,7 @@ public class Tefkat {
         
         ruleEvaluator = new RuleEvaluator(context, trackingExtent, nameMap, engineListeners);
         ruleEvaluator.setInterrupted(false);
-        ruleEvaluator.INCREMENTAL = isIncremental;
+//        ruleEvaluator.INCREMENTAL = isIncremental;
         Evaluator evaluator = ruleEvaluator.getEvaluator();
         for (final Iterator itr = functions.entrySet().iterator(); itr.hasNext(); ) {
             Map.Entry entry = (Map.Entry) itr.next();
@@ -521,8 +524,8 @@ public class Tefkat {
     }
 
     private void buildPackageNameMap(PatternScope scope, Map nameMap) throws ResolutionException {
-        final Map importedNamespaces = new HashMap();
-        importedNamespaces.put(null, new HashSet());
+        final Map<String, Set<EPackage>> importedNamespaces = new HashMap<String, Set<EPackage>>();
+        importedNamespaces.put(null, new HashSet<EPackage>());
 
         final EPackage.Registry registry = getResourceSet().getPackageRegistry();
         
@@ -530,14 +533,14 @@ public class Tefkat {
             final NamespaceDeclaration nsd = (NamespaceDeclaration) itr.next();
             final String name = nsd.getPrefix();
             final String uriStr = nsd.getURI();
-            Set packages = (Set) importedNamespaces.get(name);
+            Set<EPackage> packages = importedNamespaces.get(name);
             if (null == packages) {
-                packages = new HashSet();
+                packages = new HashSet<EPackage>();
                 importedNamespaces.put(name, packages);
             }
             importPackage(packages, registry, uriStr);
         }
-        final Set nullPackages = (Set) importedNamespaces.get(null);
+        final Set<EPackage> nullPackages = importedNamespaces.get(null);
         if (null != scope.eResource()) {
             importPackage(nullPackages, registry, scope.eResource().getURI().toString());
         }
@@ -555,7 +558,7 @@ public class Tefkat {
         }
     }
 
-    private void importPackage(Set packages, EPackage.Registry registry, String uriStr) {
+    private void importPackage(Set<EPackage> packages, EPackage.Registry registry, String uriStr) {
         final EPackage pkg = registry.getEPackage(uriStr);
         if (null != pkg) {
             packages.add(pkg);
@@ -566,21 +569,30 @@ public class Tefkat {
                 return;
             }
 
-            boolean found = false;
+            if (false) {        // strict checking
+                boolean found = false;
 
-            for (Object o: res.getContents()) {
-                if (o instanceof EPackage) {
-                    EPackage p = (EPackage) o;
-                    if (uriStr.equals(p.getNsURI())) {
-                        packages.add(p);
-//                      registry.put(uriStr, p);
-                        found = true;
-                        break;
+                for (Object o: res.getContents()) {
+                    if (o instanceof EPackage) {
+                        EPackage p = (EPackage) o;
+                        if (uriStr.equals(p.getNsURI())) {
+                            packages.add(p);
+//                          registry.put(uriStr, p);
+                            found = true;
+                            break;
+                        }
                     }
                 }
-            }
-            if (!found) {
-                fireWarning("Unable to find EPackage with NsURI: " + uriStr);
+                if (!found) {
+                    fireWarning("Unable to find EPackage with NsURI: " + uriStr);
+                }
+            } else {
+                for (Object o: res.getContents()) {
+                    if (o instanceof EPackage) {
+                        EPackage p = (EPackage) o;
+                        packages.add(p);
+                    }
+                }
             }
         }
     }

@@ -416,6 +416,14 @@ public class Evaluator {
         }
     }
     
+    /**
+     * Return the list of instances that wVar should be bound to.
+     * 
+     * @param context
+     * @param wVar
+     * @return
+     * @throws NotGroundException
+     */
     List expand(Context context, WrappedVar wVar) throws NotGroundException {
         if (null == wVar.getExtent()) {
             context.delay("Unsupported mode: unbound extent for " + wVar);

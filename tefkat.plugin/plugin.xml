@@ -103,10 +103,18 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            category="com.dstc.emf.view"
+            category="tefkat.plugin.view.category"
             class="tefkat.plugin.TefkatTransformationView"
             id="tefkat.plugin.TefkatTransformationView"
             name="Tefkat Transformation View"/>
+      <view
+            category="tefkat.plugin.view.category"
+            class="tefkat.plugin.TefkatQueryView"
+            id="tefkat.plugin.TefkatQueryView"
+            name="Tefkat Query"/>
+      <category
+            id="tefkat.plugin.view.category"
+            name="Tefkat"/>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">

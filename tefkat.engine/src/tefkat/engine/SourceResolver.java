@@ -540,7 +540,7 @@ class SourceResolver extends AbstractResolver {
         // leading to possible spurious flounderings -- see also resolveIfTerm 
         final Tree newTree = context.createTree(negGoal, unifier, true, true);
 
-        if (ruleEval.INCREMENTAL) {
+//        if (ruleEval.INCREMENTAL) {
             newTree.addTreeListener(new TreeListener() {
 
                 public void solution(Binding answer) {
@@ -561,18 +561,18 @@ class SourceResolver extends AbstractResolver {
                 }
                 
             });
-        } else {
-            // Any success nodes in the negation tree?
-            //
-            ruleEval.resolveNode(newTree);
-            if (newTree.isSuccess()) {
-                context.fail();
-            } else {
-                // Negation tree finitely failed, regard as true.
-                //
-                context.createBranch(new Binding(unifier));
-            }
-        }
+//        } else {
+//            // Any success nodes in the negation tree?
+//            //
+//            ruleEval.resolveNode(newTree);
+//            if (newTree.isSuccess()) {
+//                context.fail();
+//            } else {
+//                // Negation tree finitely failed, regard as true.
+//                //
+//                context.createBranch(new Binding(unifier));
+//            }
+//        }
         
     }
 

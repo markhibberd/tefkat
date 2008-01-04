@@ -14,15 +14,15 @@
 
 package tefkat.engine;
 
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import tefkat.model.Extent;
-import tefkat.model.Transformation;
 
 
 public class Tree {
@@ -178,7 +178,7 @@ public class Tree {
     }
 
     public Collection getAnswers() {
-        return answers;
+        return Collections.unmodifiableCollection(answers);
     }
 
     public boolean isSuccess() {

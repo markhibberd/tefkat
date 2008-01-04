@@ -331,17 +331,17 @@ abstract class AbstractResolver {
         
         // handle arity-zero (no args) pattern
         if (pDefVars.size() == 0) {
-            if (ruleEval.INCREMENTAL) {
+//            if (ruleEval.INCREMENTAL) {
                 incrementalResolvePatternDefn(context,
                         literal, pDefVars, args, pDefn, null, context.tree.getContext());
-            } else {
-                resolvePatternDefn(context,
-                        literal, pDefVars, args, pDefn, null, context.tree.getContext());
-            }
+//            } else {
+//                resolvePatternDefn(context,
+//                        literal, pDefVars, args, pDefn, null, context.tree.getContext());
+//            }
         } else {
 //            final Binding context = tree.getContext();
             Function resolver;
-            if (ruleEval.INCREMENTAL) {
+//            if (ruleEval.INCREMENTAL) {
                 resolver = new PatternCall(pDefVars) {
                     void invoke(Binding callContext, Binding parameterContext) throws ResolutionException {
                         parameterContext.composeRight(context.tree.getContext());
@@ -350,16 +350,16 @@ abstract class AbstractResolver {
                                 callContext, parameterContext);
                     }
                 };
-            } else {
-                resolver = new PatternCall(pDefVars) {
-                    void invoke(Binding callContext, Binding parameterContext) throws ResolutionException {
-                        parameterContext.composeRight(context.tree.getContext());
-                        resolvePatternDefn(context,
-                                literal, pDefVars, args, pDefn,
-                                callContext, parameterContext);
-                    }
-                };
-            }
+//            } else {
+//                resolver = new PatternCall(pDefVars) {
+//                    void invoke(Binding callContext, Binding parameterContext) throws ResolutionException {
+//                        parameterContext.composeRight(context.tree.getContext());
+//                        resolvePatternDefn(context,
+//                                literal, pDefVars, args, pDefn,
+//                                callContext, parameterContext);
+//                    }
+//                };
+//            }
             
             exprEval.evalAll(context, context.node.getBindings(), args, resolver);
 
@@ -538,7 +538,7 @@ abstract class AbstractResolver {
         // leading to possible spurious flounderings -- see also evalNegatedGoal 
         Tree newTree = context.createTree(condGoal, unifier, false, true);
 
-        if (ruleEval.INCREMENTAL) {
+//        if (ruleEval.INCREMENTAL) {
             newTree.addTreeListener(new TreeListener() {
 
                 public void solution(Binding answer) {
@@ -559,21 +559,21 @@ abstract class AbstractResolver {
                 }
                 
             });
-        } else {
-            ruleEval.resolveNode(newTree);
-            
-            if (newTree.isSuccess()) {
-                // THEN
-                for (final Iterator itr = newTree.getAnswers().iterator(); itr.hasNext(); ) {
-                    Binding answer = (Binding) itr.next();
-                    Binding sContext = new Binding(answer);
-                    context.createBranch((Term) terms.get(1), sContext);
-                }
-            } else {
-                // ELSE
-                context.createBranch((Term) terms.get(2), new Binding(unifier));
-            }
-        }
+//        } else {
+//            ruleEval.resolveNode(newTree);
+//            
+//            if (newTree.isSuccess()) {
+//                // THEN
+//                for (final Iterator itr = newTree.getAnswers().iterator(); itr.hasNext(); ) {
+//                    Binding answer = (Binding) itr.next();
+//                    Binding sContext = new Binding(answer);
+//                    context.createBranch((Term) terms.get(1), sContext);
+//                }
+//            } else {
+//                // ELSE
+//                context.createBranch((Term) terms.get(2), new Binding(unifier));
+//            }
+//        }
     }
 
 }

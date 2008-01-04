@@ -109,9 +109,9 @@ final class Context {
             result.setLevel(tree.getLevel());
         }
         
-        if (ruleEval.INCREMENTAL) {
+//        if (ruleEval.INCREMENTAL) {
             ruleEval.addUnresolvedTree(result);
-        }
+//        }
         
         return result;
     }

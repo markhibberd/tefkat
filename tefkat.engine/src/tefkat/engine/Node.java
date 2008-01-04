@@ -28,15 +28,15 @@ public class Node {
     
     private final Binding bindings;
     private final Node parentNode;
-    private final Collection goal;  // A set of tefkat.model.Terms
+    private final Collection<Term> goal;  // A set of tefkat.model.Terms
     
-    private Collection delayed;     // A set of tefkat.model.Terms
-    private Collection delayReasons;     // A set of tefkat.model.Terms
+    private Collection<Term> delayed;     // A set of tefkat.model.Terms
+    private Collection<NotGroundException> delayReasons;
     private Term selectedLiteral;
     private boolean isSuccess;
     private boolean isFailure;
     
-    public Node(Collection goal, Binding binding, Node parent) {
+    public Node(Collection<Term> goal, Binding binding, Node parent) {
         incrementCounter();
         
         binding.freeze();
@@ -55,37 +55,37 @@ public class Node {
         counter++;
     }
     
-    public Node(Collection goal, Binding binding) {
+    public Node(Collection<Term> goal, Binding binding) {
         this(goal, binding, null);
     }
     
     public void delay(NotGroundException reason) {
         if (goal.remove(selectedLiteral)) {
             if (null == delayed) {
-                delayed = new ArrayList(4); // the default size of 10 is overkill
-                delayReasons = new ArrayList(4);
+                delayed = new ArrayList<Term>(4); // the default size of 10 is overkill
+                delayReasons = new ArrayList<NotGroundException>(4);
             }
             delayed.add(selectedLiteral);
             delayReasons.add(reason);
         }
     }
 
-    public void delay(Collection reasons) {
+    public void delay(Collection<NotGroundException> reasons) {
         if (goal.remove(selectedLiteral)) {
             if (null == delayed) {
-                delayed = new ArrayList(4); // the default size of 10 is overkill
-                delayReasons = new ArrayList(4);
+                delayed = new ArrayList<Term>(4); // the default size of 10 is overkill
+                delayReasons = new ArrayList<NotGroundException>(4);
             }
             delayed.add(selectedLiteral);
             delayReasons.addAll(reasons);
         }
     }
     
-    public Collection getDelayed() {
+    public Collection<Term> getDelayed() {
         return delayed;
     }
     
-    public Collection getDelayReasons() {
+    public Collection<NotGroundException> getDelayReasons() {
         return delayReasons;
     }
     
@@ -136,7 +136,7 @@ public class Node {
     public Term selectedLiteral() {
         return selectedLiteral;
     }
-    public Collection goal() {
+    public Collection<Term> goal() {
         return goal;
     }
     public boolean isSuccess() {
