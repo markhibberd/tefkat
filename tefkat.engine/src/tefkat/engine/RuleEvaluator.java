@@ -60,7 +60,7 @@ public class RuleEvaluator {
 
     private final Binding _context;
 
-    private final Map<TRule, Collection<?>> evalCache;
+    private final Map<TRule, Collection<Binding>> evalCache;
 
     private final Map<Term, Map> patternCache;
 
@@ -111,7 +111,7 @@ public class RuleEvaluator {
         exprEval = new Evaluator(this);
         srcResolver = new SourceResolver(this);
         tgtResolver = new TargetResolver(this, null, listeners);
-        evalCache = new HashMap<TRule, Collection<?>>();
+        evalCache = new HashMap<TRule, Collection<Binding>>();
         patternCache = new HashMap<Term, Map>();
     }
 
@@ -468,7 +468,7 @@ public class RuleEvaluator {
         Collection<Binding> ruleContexts = generateContexts(trule, _context);
 
         // FIXME - no rule caching any more
-        final Collection<?> truleSolutions = new HashSet();
+        final Collection<Binding> truleSolutions = new HashSet<Binding>();
         
         if (ruleContexts.size() > 0) {
             
