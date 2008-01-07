@@ -35,24 +35,24 @@ import tefkat.engine.runtime.functions.CollectFunction;
 import tefkat.engine.runtime.functions.DataMapLookup;
 import tefkat.engine.runtime.functions.Divide;
 import tefkat.engine.runtime.functions.ElementAt;
+import tefkat.engine.runtime.functions.Foldl;
 import tefkat.engine.runtime.functions.IdentityFunction;
 import tefkat.engine.runtime.functions.JoinStrings;
+import tefkat.engine.runtime.functions.MapFeature;
+import tefkat.engine.runtime.functions.MinCardinality;
 import tefkat.engine.runtime.functions.Multiply;
 import tefkat.engine.runtime.functions.SplitString;
 import tefkat.engine.runtime.functions.StripSuffix;
 import tefkat.engine.runtime.functions.SubList;
 import tefkat.engine.runtime.functions.Subtract;
-import tefkat.engine.trace.BoolAny;
-import tefkat.engine.trace.IntAny;
-import tefkat.engine.trace.ObjectAny;
-import tefkat.engine.trace.StringAny;
-import tefkat.engine.trace.Trace;
-import tefkat.engine.trace.TraceFactory;
-import tefkat.engine.trace.TracePackage;
+import tefkat.engine.runtime.functions.Sum;
 
 final public class TransformationEvaluation {
 
-    private static final boolean ONE_TREE = true;
+    /**
+     * If ONE_TREE is set to true, then we cannot separate solutions on a per-rule basis :-(
+     */
+    private static final boolean ONE_TREE = false;
 
     private final Extent trackingExtent;
 
@@ -71,25 +71,27 @@ final public class TransformationEvaluation {
     private int depth = 0;
 
 
-    private final List[] stratas;
+    private final List<VarScope>[] stratas;
     
     private final boolean force;
 
-    private final Map nameMap = new HashMap();
+    private final Map<String, Object> nameMap = new HashMap<String, Object>();
 
-    private final Map funcMap = new HashMap();
+    private final Map<String, Function> funcMap = new HashMap<String, Function>();
 
-    private final Map evalCache = new HashMap();
+    private final Map<TRule, Collection<Binding>> evalCache = new HashMap<TRule, Collection<Binding>>();
 
-    private final Map patternCache = new HashMap();
+    private final Map<Term, Map<Binding, Tree>> patternCache = new HashMap<Term, Map<Binding,Tree>>();
 
-    final private Map trackingQueryMap = new HashMap();
+    final private Map<EClass, List<TrackingCallback>> trackingQueryMap = new HashMap<EClass, List<TrackingCallback>>();
 
-    final private Map featureOrderings = new HashMap();
+    final private Map<Object, Map<Object, PartialOrder>> featureOrderings = new HashMap<Object, Map<Object, PartialOrder>>();
 
-    final private Set breakpoints = new HashSet();
+    final private Set<Term> breakpoints = new HashSet<Term>();
     
-    final private List unresolvedTrees = new ArrayList();
+    final private List<Tree> unresolvedTrees = new ArrayList<Tree>();
+
+    final Injections injections = new Injections();
 
     /**
      * 
@@ -103,6 +105,10 @@ final public class TransformationEvaluation {
         this.listeners = listeners;
         this.binding = binding;
         this.force = force;
+        
+        if (null != trackingExtent) {
+            injections.loadTrace(trackingExtent);
+        }
         
         initFunctionMap();
         
@@ -128,15 +134,20 @@ final public class TransformationEvaluation {
         addFunction("long", new CastLong());
         addFunction("float", new CastFloat());
         addFunction("double", new CastDouble());
+        addFunction("sum", new Sum());
         addFunction("+", new Add());
         addFunction("-", new Subtract());
         addFunction("*", new Multiply());
         addFunction("/", new Divide());
         
-//        addFunction("funmap", new MapFeature());
+        addFunction("funmap", new MapFeature());
+        addFunction("foldl", new Foldl());
         
         // FIXME rename this function to dataMap or something (see tefkat.g)
         addFunction("map", new DataMapLookup());
+        
+        addFunction("min_cardinality", new MinCardinality());
+
     }
     
     void addUnresolvedTree(Tree tree) {
@@ -172,7 +183,7 @@ final public class TransformationEvaluation {
         try {
 
             for (int level = 0; level < stratas.length; level++) {
-                fireInfo("Stratum " + level + " : " + stratas[level]);
+                fireInfo("Stratum " + level + " : " + formatStrata(stratas[level]));
 
                 // Currently, we use a single Tree per stratum which means
                 // that it's really a forest with one root Node per TRule
@@ -206,11 +217,11 @@ final public class TransformationEvaluation {
                 while (unresolvedTrees.size() > 0) {
                     try {
                         resolve();
-                        //                      System.err.println("completing trees...");
+//                      System.err.println("completing trees...");
                         int minLevel = Integer.MAX_VALUE;
-                        List done = new ArrayList();
+                        List<Tree> done = new ArrayList<Tree>();
                         for (int j = 0; j < unresolvedTrees.size(); j++) {
-                            Tree cTree = (Tree) unresolvedTrees.get(j);
+                            Tree cTree = unresolvedTrees.get(j);
                             if (cTree.getLevel() < minLevel) {
                                 done.clear();
                                 done.add(cTree);
@@ -225,8 +236,8 @@ final public class TransformationEvaluation {
                             throw new TefkatException("Internal Error.  Please file a bug report.");
                         } else {
                             //                          System.err.println("Min level: " + minLevel);
-                            for (Iterator itr = done.iterator(); itr.hasNext(); ) {
-                                Tree cTree = (Tree) itr.next();
+                            for (Iterator<Tree> itr = done.iterator(); itr.hasNext(); ) {
+                                Tree cTree = itr.next();
                                 //                              System.err.println(cTree + " " + cTree.isNegation() + "\t" + cTree.getLevel());
                                 removeUnresolvedTree(cTree);
                                 cTree.completed();
@@ -262,27 +273,38 @@ final public class TransformationEvaluation {
         }
     }
     
+    private String formatStrata(List<VarScope> strata) {
+        final StringBuilder sb = new StringBuilder();
+        for (VarScope s: strata) {
+            if (s instanceof TRule && !((TRule) s).isAbstract()) {
+                sb.append(", ").append(s.getName());
+            }
+        }
+        return sb.length() > 0 ? sb.substring(2) : "";
+    }
+    
     private void incrementalEvaluate(final TRule trule, final Tree tree)
     throws ResolutionException {
         // Only evaluate rules once
         if (evalCache.containsKey(trule)) {
+            // FIXME This should never happen...not doing rule caching any more AFAIR
             fireInfo("Using cached results for " + trule.getName());
             fireEvaluateRule(trule, binding, true);
             return;
         }
         fireEvaluateRule(trule, binding, false);
 
-        Collection goal = trule.getGoal();
-        Collection ruleContexts = generateContexts(trule, binding);
+        Collection<Term> goal = trule.getGoal();
+        Collection<Binding> ruleContexts = generateContexts(trule, binding);
 
         // FIXME - no rule caching any more
-        final Collection truleSolutions = new HashSet();
+        final Collection<Binding> truleSolutions = new HashSet<Binding>();
         
-        for (Iterator itr = ruleContexts.iterator(); itr.hasNext();) {
-            final Binding ruleContext = (Binding) itr.next();
-
-            tree.createBranch(null, ruleContext, goal);
-            
+        if (ruleContexts.size() > 0) {
+        
+            // IMPORTANT!!! took this out of the enclosing loop below!
+            // only one listener required...
+            //
             tree.addTreeListener(new TreeListener() {
 
                 public void solution(Binding answer) throws ResolutionException {
@@ -303,9 +325,16 @@ final public class TransformationEvaluation {
                 }
             
             });
+
+            for (Iterator<Binding> itr = ruleContexts.iterator(); itr.hasNext();) {
+                final Binding ruleContext = itr.next();
+
+                tree.createBranch(null, ruleContext, goal);
+            }
         }
 
         // record the results for later use by extending TRules
+        // FIXME truleSolutions never gets populated...
         evalCache.put(trule, truleSolutions);
     }
 
@@ -455,15 +484,15 @@ final public class TransformationEvaluation {
         }
     }
 
-    protected void fireResourceLoaded(Resource res) {
-        for (Iterator itr = listeners.iterator(); itr.hasNext();) {
-            try {
-                ((TefkatListener) itr.next()).resourceLoaded(res);
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    protected void fireResourceLoaded(Resource res) {
+//        for (Iterator itr = listeners.iterator(); itr.hasNext();) {
+//            try {
+//                ((TefkatListener) itr.next()).resourceLoaded(res);
+//            } catch (Throwable e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     private void fireTreeAdded(Tree tree) {
         for (Iterator itr = listeners.iterator(); itr.hasNext();) {
@@ -563,8 +592,8 @@ final public class TransformationEvaluation {
         while (!isInterrupted && unresolvedTrees.size() > 0) {
             Tree tree = null;
             Node node = null;
-            for (Iterator itr = unresolvedTrees.iterator(); null == node && itr.hasNext(); ) {
-                tree = (Tree) itr.next();
+            for (Iterator<Tree> itr = unresolvedTrees.iterator(); null == node && itr.hasNext(); ) {
+                tree = itr.next();
                 node = tree.getUnresolvedNode();
             }
             if (null == node) {
@@ -576,29 +605,33 @@ final public class TransformationEvaluation {
                 depth++;
                 fireEnterTree(tree);
 
+                final Context context = new Context(this, tree, node);
+
                 //  Is the goal already a success?
                 //
                 if (node.goal().isEmpty()) {
 
                     fireEnterTerm(node);
 
-                    if (null == node.getDelayed() || node.getDelayed().isEmpty()) {
-                        tree.success(node);
-                    } else {
-                        // If this is a subtree (created for IFs or PATTERNs/TEMPLATEs)
-                        // propagate delay -- only top-level Trees (for TRules) should flounder
-                        
-                        Node flounder = tree.flounder();
-                        
-                        if (null != flounder) {
-                            // Don't continue with this tree - it's obsolete
-                            unresolvedTrees.remove(tree);
-                            fireDelayTerm(flounder);
+                    if (context.groundWrappedVars()) {
+                        if (null == node.getDelayed() || node.getDelayed().isEmpty()) {
+                            tree.success(node);
                         } else {
-                            throw new ResolutionException(node,
-                                    "Floundered - all terms are delayed: "
-                                    + node.getDelayed() + "\t"
-                                    + node.getBindings());
+                            // If this is a subtree (created for IFs or PATTERNs/TEMPLATEs)
+                            // propagate delay -- only top-level Trees (for TRules) should flounder
+
+                            Node flounder = tree.flounder(node.getDelayReasons());
+
+                            if (null != flounder) {
+                                // Don't continue with this tree - it's obsolete
+                                unresolvedTrees.remove(tree);
+                                fireDelayTerm(flounder);
+                            } else {
+                                throw new ResolutionException(node,
+                                        "Floundered - all terms are delayed: "
+                                        + node.getDelayed() + "\t"
+                                        + node.getBindings());
+                            }
                         }
                     }
 
@@ -606,7 +639,7 @@ final public class TransformationEvaluation {
                 } else {
                     //  Select a literal for node.
                     //
-                    Term literal = node.selectLiteral();
+                    Term literal = context.selectLiteral();
 
                     try {
                         fireEnterTerm(node);
@@ -621,7 +654,6 @@ final public class TransformationEvaluation {
                         // Grow the tree according to the type of literal using the
                         // appropriate resolver.
                         //
-                        final Context context = new Context(this, tree, node);
                         if (literal.isTarget()) {
                             ((TargetTerm) literal).ensure(context);
                         } else {
@@ -637,12 +669,16 @@ final public class TransformationEvaluation {
                                 "Internal Error: inconsistent state, please report this problem to the developers.");
                         }
 e.printStackTrace();
-                        node.delay();
+                        node.delay(e);
                         tree.addUnresolvedNode(node);
                         fireDelayTerm(node);
                     }
                 }
 
+            } catch (NotGroundException e) {
+                // TODO Auto-generated catch block
+                // FIXME need to work out what to do here...
+                e.printStackTrace();
             } finally {
                 if (returnMode >= depth) {
                     returnMode = 0;
@@ -660,18 +696,12 @@ e.printStackTrace();
         }
     }
 
-
-    // ================================================================================
-    // Utility methods for constructing suitable goals that account for the
-    // extends and supersedes associations.
-    //
-
     /**
      * Stores a map to the (inverted) supersedes references.
      */
-    private final Map invertedSupMap = new HashMap();
+    private final Map<TRule, List> invertedSupMap = new HashMap<TRule, List>();
 
-    private final Map extendsBindingMap = new HashMap();
+    private final Map<TRule, Binding> extendsBindingMap = new HashMap<TRule, Binding>();
 
     /**
      * Construct variable bindings required for extends relationships. Depends
@@ -682,7 +712,7 @@ e.printStackTrace();
      * @throws ResolutionException
      */
     private Binding getExtendsBinding(TRule rule) throws ResolutionException {
-        Binding binding = (Binding) extendsBindingMap.get(rule);
+        Binding binding = extendsBindingMap.get(rule);
         if (null == binding) {
             binding = new Binding();
 
@@ -704,7 +734,7 @@ e.printStackTrace();
         return binding;
     }
 
-    private final Map overrideBindingMap = new HashMap();
+    private final Map<TRule, Binding> overrideBindingMap = new HashMap<TRule, Binding>();
 
     /**
      * Construct variable bindings required for superseding relationships.
@@ -715,13 +745,13 @@ e.printStackTrace();
      * @throws ResolutionException
      */
     private Binding getOverrideBinding(TRule rule) throws ResolutionException {
-        Binding binding = (Binding) overrideBindingMap.get(rule);
+        Binding binding = overrideBindingMap.get(rule);
         if (null == binding) {
             binding = new Binding();
 
-            List supersedingRules = getList(invertedSupMap, rule);
-            for (Iterator itr = supersedingRules.iterator(); itr.hasNext();) {
-                TRule supersedingRule = (TRule) itr.next();
+            List<TRule> supersedingRules = getList(invertedSupMap, rule);
+            for (Iterator<TRule> itr = supersedingRules.iterator(); itr.hasNext();) {
+                TRule supersedingRule = itr.next();
 
                 binding.composeRight(getExtendsBinding(supersedingRule));
             }
@@ -746,13 +776,13 @@ e.printStackTrace();
      */
     private void buildMaps(Transformation tr) {
          // Stores a map to the transitive closure of the extends references.
-        final Map extRulesMap = new HashMap();
+        final Map<TRule, List> extRulesMap = new HashMap<TRule, List>();
 
         for (Iterator itr = tr.getTRule().iterator(); itr.hasNext();) {
             TRule rule = (TRule) itr.next();
 
             // Compute the TC of the rules that 'rule' extends
-            List ext = getList(extRulesMap, rule);
+            List<TRule> ext = getList(extRulesMap, rule);
             buildExtList(rule, ext);
 
             // For each rule that this rule supersedes, bulid the inverted
@@ -760,7 +790,7 @@ e.printStackTrace();
             for (Iterator supItr = rule.getSuperseded().iterator(); supItr.hasNext();) {
                 TRule supRule = (TRule) supItr.next();
 
-                List sup = getList(invertedSupMap, supRule);
+                List<TRule> sup = getList(invertedSupMap, supRule);
                 sup.add(rule);
             }
         }
@@ -808,10 +838,10 @@ e.printStackTrace();
         }
     }
 
-    private List getList(Map map, TRule rule) {
-        List list = (List) map.get(rule);
+    private List<TRule> getList(Map<TRule, List> map, TRule rule) {
+        List<TRule> list = map.get(rule);
         if (null == list) {
-            list = new ArrayList();
+            list = new ArrayList<TRule>();
             map.put(rule, list);
         }
         return list;
@@ -826,7 +856,7 @@ e.printStackTrace();
     //        return binding;
     //    }
 
-    private void buildExtList(TRule rule, List rules) {
+    private void buildExtList(TRule rule, List<TRule> rules) {
         rules.addAll(rule.getExtended());
         for (Iterator itr = rule.getExtended().iterator(); itr.hasNext();) {
             TRule extRule = (TRule) itr.next();
@@ -838,9 +868,9 @@ e.printStackTrace();
     //
     // ================================================================================
 
-    private Collection generateContexts(TRule trule, Binding context)
+    private Collection<Binding> generateContexts(TRule trule, Binding context)
             throws ResolutionException {
-        Collection contextSet = new HashSet();
+        Collection<Binding> contextSet = new HashSet<Binding>();
         Binding ruleContext = new Binding(context);
         ruleContext.composeRight(getExtendsBinding(trule));
         ruleContext.composeRight(getOverrideBinding(trule));
@@ -857,9 +887,9 @@ e.printStackTrace();
      * @param callback
      */
     void trackingQuery(EClass trackingClass, TrackingCallback callback) {
-        List callbacks = (List) trackingQueryMap.get(trackingClass);
+        List<TrackingCallback> callbacks = trackingQueryMap.get(trackingClass);
         if (null == callbacks) {
-            callbacks = new ArrayList();
+            callbacks = new ArrayList<TrackingCallback>();
             trackingQueryMap.put(trackingClass, callbacks);
         }
         callbacks.add(callback);
@@ -875,22 +905,22 @@ e.printStackTrace();
     void trackingCreate(EClass trackingClass, EObject instance) throws ResolutionException, NotGroundException {
         // FIXME do this for all superclasses as well!
         //
-        List callbacks = (List) trackingQueryMap.get(trackingClass);
+        List<TrackingCallback> callbacks = trackingQueryMap.get(trackingClass);
         if (null != callbacks) {
-            for (Iterator itr = callbacks.iterator(); itr.hasNext(); ) {
-                TrackingCallback callback = (TrackingCallback) itr.next();
+            for (Iterator<TrackingCallback> itr = callbacks.iterator(); itr.hasNext(); ) {
+                TrackingCallback callback = itr.next();
                 callback.handleInstance(instance);
             }
         }
     }
 
     void addPartialOrder(Object inst, Object feat, Object lesser, Object greater) {
-        Map instanceOrderings = (Map) featureOrderings.get(feat);
+        Map<Object, PartialOrder> instanceOrderings = featureOrderings.get(feat);
         if (null == instanceOrderings) {
-            instanceOrderings = new HashMap();
+            instanceOrderings = new HashMap<Object, PartialOrder>();
             featureOrderings.put(feat, instanceOrderings);
         }
-        PartialOrder partialOrder = (PartialOrder) instanceOrderings.get(inst);
+        PartialOrder partialOrder = instanceOrderings.get(inst);
         if (null == partialOrder) {
             partialOrder = new PartialOrder(feat + " of " + inst);
             instanceOrderings.put(inst, partialOrder);
@@ -919,7 +949,7 @@ e.printStackTrace();
                             + inst + " did not return an ordered collection.");
                 }
 
-                partialOrder.sort((List) val);
+                partialOrder.sort((List<Object>) val);
             }
         }
     }
@@ -927,8 +957,8 @@ e.printStackTrace();
     static class PartialOrder {
         final private String context;
         
-        final private Map instanceOrderings = new HashMap();
-        final private Map instanceCounters = new HashMap();
+        final private Map<Object, Set> instanceOrderings = new HashMap<Object, Set>();
+        final private Map<Object, Counter> instanceCounters = new HashMap<Object, Counter>();
 
         PartialOrder(String context) {
             this.context = context;
@@ -940,14 +970,14 @@ e.printStackTrace();
                 instanceOrderings.put(greater, new HashSet());
                 instanceCounters.put(greater, new Counter());
             }
-            Set adjacentNodes = (Set) instanceOrderings.get(lesser);
+            Set<Object> adjacentNodes = instanceOrderings.get(lesser);
             if (null == adjacentNodes) {
-                adjacentNodes = new HashSet();
+                adjacentNodes = new HashSet<Object>();
                 instanceOrderings.put(lesser, adjacentNodes);
                 instanceCounters.put(lesser, new Counter());
             }
             if (!adjacentNodes.contains(greater)) {
-                ((Counter) instanceCounters.get(greater)).increment();
+                instanceCounters.get(greater).increment();
                 adjacentNodes.add(greater);
             }
         }
@@ -958,22 +988,22 @@ e.printStackTrace();
                 instanceOrderings.put(greater, new HashSet());
                 instanceCounters.put(greater, new Counter());
             }
-            Set adjacentNodes = (Set) instanceOrderings.get(lesser);
+            Set<Object> adjacentNodes = instanceOrderings.get(lesser);
             if (null == adjacentNodes) {
-                adjacentNodes = new HashSet();
+                adjacentNodes = new HashSet<Object>();
                 instanceOrderings.put(lesser, adjacentNodes);
                 instanceCounters.put(lesser, new Counter());
             }
             adjacentNodes.add(greater);
         }
         
-        void sort(List vals) throws ResolutionException {
-            List no_pred = new ArrayList();
+        void sort(List<Object> vals) throws ResolutionException {
+            List<Object> no_pred = new ArrayList<Object>();
 
             // Identify all nodes with no predecessors
-            for (final Iterator itr = instanceOrderings.keySet().iterator(); itr.hasNext(); ) {
+            for (final Iterator<Object> itr = instanceOrderings.keySet().iterator(); itr.hasNext(); ) {
                 Object node = itr.next();
-                if (((Counter) instanceCounters.get(node)).isZero()) {
+                if (instanceCounters.get(node).isZero()) {
                     no_pred.add(node);
                 }
             }
@@ -996,13 +1026,13 @@ e.printStackTrace();
                     throw new ResolutionException(null, "Cannot store " + lesser + " in " + context, e);
                 }
 
-                Collection adjacentNodes = (Collection) instanceOrderings.get(lesser);
+                Collection adjacentNodes = instanceOrderings.get(lesser);
                 if (null == adjacentNodes) {
                     continue;
                 }
                 for (Iterator neighbors = adjacentNodes.iterator(); neighbors.hasNext(); ) {
                     Object greater = neighbors.next();
-                    Counter counter = (Counter) instanceCounters.get(greater);
+                    Counter counter = instanceCounters.get(greater);
                     if (null == counter) {
                         no_pred.add(greater);
                     } else {
@@ -1015,7 +1045,7 @@ e.printStackTrace();
             }
 
             // Are there nodes remaining? If so, it was a cyclic graph.
-            List cycle = new ArrayList();
+            List<Object> cycle = new ArrayList<Object>();
             for (final Iterator itr = instanceCounters.entrySet().iterator(); itr.hasNext();) {
                 final Map.Entry entry = (Map.Entry) itr.next();
                 final Counter value = (Counter) entry.getValue();
@@ -1051,7 +1081,7 @@ e.printStackTrace();
         }
     }
 
-    private static void importResource(Set resources, EPackage.Registry registry, ResourceSet resourceSet, String uriStr) throws ResolutionException {
+    private static void importResource(Set<Resource> resources, EPackage.Registry registry, ResourceSet resourceSet, String uriStr) throws ResolutionException {
         // Avoid explicitly loading resources corresponding to packages that
         // have already been loaded (or dynamically created!)
         //
@@ -1073,8 +1103,8 @@ e.printStackTrace();
         }
     }
     
-    private static void buildNameMap(Transformation t, Map nameMap) throws ResolutionException {
-        Map importedNamespaces = new HashMap();
+    private static void buildNameMap(Transformation t, Map<String, Object> nameMap) throws ResolutionException {
+        Map<String, Set> importedNamespaces = new HashMap<String, Set>();
         importedNamespaces.put(null, new HashSet());
 
         final ResourceSet resourceSet = t.eResource().getResourceSet();
@@ -1084,14 +1114,14 @@ e.printStackTrace();
             NamespaceDeclaration nsd = (NamespaceDeclaration) itr.next();
             String name = nsd.getPrefix();
             String uriStr = nsd.getURI();
-            Set resources = (Set) importedNamespaces.get(name);
+            Set<Resource> resources = importedNamespaces.get(name);
             if (null == resources) {
-                resources = new HashSet();
+                resources = new HashSet<Resource>();
                 importedNamespaces.put(name, resources);
             }
             importResource(resources, registry, resourceSet, uriStr);
         }
-        Set resources = (Set) importedNamespaces.get(null);
+        Set<Resource> resources = importedNamespaces.get(null);
         resources.add(t.eResource());
         for (final Iterator itr = t.getImportedPackages().iterator(); itr.hasNext(); ) {
             String uriStr = (String) itr.next();
@@ -1101,7 +1131,7 @@ e.printStackTrace();
         for (final Iterator itr = importedNamespaces.entrySet().iterator(); itr.hasNext(); ) {
             Map.Entry entry = (Entry) itr.next();
             String name = (String) entry.getKey();
-            resources = findAllResources((Collection) entry.getValue());
+            resources = findAllResources((Collection<Resource>) entry.getValue());
             buildNameMaps(resources, nameMap, name);
         }
     }
@@ -1154,13 +1184,13 @@ e.printStackTrace();
      * @param resources
      * @return
      */
-    static private final Set findAllResources(Collection resources) {
-        Set result = new HashSet(resources);
+    static private final Set<Resource> findAllResources(Collection<Resource> resources) {
+        Set<Resource> result = new HashSet<Resource>(resources);
 
         while (resources.size() > 0) {
-            Set newResources = new HashSet();
-            for (Iterator itr = resources.iterator(); itr.hasNext(); ) {
-                Resource res = (Resource) itr.next();
+            Set<Resource> newResources = new HashSet<Resource>();
+            for (Iterator<Resource> itr = resources.iterator(); itr.hasNext(); ) {
+                Resource res = itr.next();
                 Map refs = EcoreUtil.ExternalCrossReferencer.find(res);
                 for (Iterator refItr = refs.keySet().iterator(); refItr.hasNext(); ) {
                     EObject o = (EObject) refItr.next();
@@ -1180,10 +1210,10 @@ e.printStackTrace();
         return result;
     }
     
-    private static Map buildNameMaps(Collection resources, Map nameMap, String namespace) {
+    private static Map<String, Object> buildNameMaps(Collection<Resource> resources, Map<String, Object> nameMap, String namespace) {
         XSDEcoreBuilder xsdEcoreBuilder = null;
-        for (Iterator itr = resources.iterator(); itr.hasNext();) {
-            Resource res = (Resource) itr.next();
+        for (Iterator<Resource> itr = resources.iterator(); itr.hasNext();) {
+            Resource res = itr.next();
             // Do a tree iteration over the Resource, pruning on every
             // non-EPackage since only EPackages can (transitively) contain
             // EClassifiers
@@ -1200,7 +1230,7 @@ e.printStackTrace();
         return nameMap;
     }
     
-    private static XSDEcoreBuilder buildNameMaps(TreeIterator treeItr, Map nameMap, String namespace, final ResourceSet resourceSet, XSDEcoreBuilder xsdEcoreBuilder) {
+    private static XSDEcoreBuilder buildNameMaps(TreeIterator treeItr, Map<String, Object> nameMap, String namespace, final ResourceSet resourceSet, XSDEcoreBuilder xsdEcoreBuilder) {
         while (treeItr.hasNext()) {
             EObject obj = (EObject) treeItr.next();
             if (obj instanceof EClassifier) {
@@ -1246,15 +1276,15 @@ e.printStackTrace();
         return xsdEcoreBuilder;
     }
     
-    private static void addToMap(Map nameMap, String name, EClassifier eClassifier) {
+    private static void addToMap(Map<String, Object> nameMap, String name, EClassifier eClassifier) {
         if (nameMap.containsKey(name)) {
             if (!eClassifier.equals(nameMap.get(name))) {
                 // Record a name-clash by storing a List of the clashing things
                 Object clashObj = nameMap.get(name);
                 if (clashObj instanceof List) {
-                    ((List) clashObj).add(eClassifier);
+                    ((List<EClassifier>) clashObj).add(eClassifier);
                 } else {
-                    List allNames = new ArrayList();
+                    List<EClassifier> allNames = new ArrayList<EClassifier>();
                     allNames.add((EClassifier) clashObj);
                     allNames.add(eClassifier);
                     nameMap.put(name, allNames);
@@ -1300,10 +1330,10 @@ e.printStackTrace();
      * @param term
      * @return
      */
-    Map getPatternCache(Term term) {
-        Map cache = (Map) patternCache.get(term);
+    Map<Binding, Tree> getPatternCache(Term term) {
+        Map<Binding, Tree> cache = patternCache.get(term);
         if (null == cache) {
-            cache = new HashMap();
+            cache = new HashMap<Binding, Tree>();
             patternCache.put(term, cache);
         }
         return cache;
@@ -1311,113 +1341,6 @@ e.printStackTrace();
     
     // Injections
     
-    final private Map injections = new HashMap();
-    final private Map traces = new HashMap();
-    
-    EObject lookup(Extent extent, List keys, TRule rule) {
-        EObject obj = lookup(injections, keys, 0);
-        Trace trace;
-        if (null == obj) {
-            obj = new DynamicObject();
-            store(extent, keys, obj);
-            trace = createTrace(extent, keys, obj);
-            traces.put(obj, trace);
-        } else {
-                trace = (Trace) traces.get(obj);
-        }
-        if (rule != null) {
-            trace.getRules().add(rule);
-        }
-//        ExtentUtil.highlightNode(obj, ExtentUtil.OBJECT_LOOKUP);
-//        ExtentUtil.highlightNode(trace, ExtentUtil.OBJECT_LOOKUP);
-        
-        return obj;
-    }
-    
-    /**
-     * @param extent
-     * @param keys
-     * @param obj
-     * @throws Error
-     */
-    private Trace createTrace(Extent extent, List keys, EObject obj) throws Error {
-        Trace trace = TraceFactory.eINSTANCE.createTrace();
-        trace.setTarget(obj);
-        if (obj instanceof DynamicObject) {
-            DynamicObject dynObj = (DynamicObject) obj;
-            dynObj.addReferenceFrom(trace, TracePackage.eINSTANCE.getTrace_Target());
-        }
-        
-        extent.add(trace);
-
-        List sources = trace.getSources();
-        for (int i = 0; i < keys.size(); i++) {
-            Object key = keys.get(i);
-            if (key instanceof BindingPair) {
-                key = ((BindingPair) key).getValue();
-            }
-            
-            if (key instanceof EObject) {
-                ObjectAny any = TraceFactory.eINSTANCE.createObjectAny();
-                any.getValue().add(key);
-                sources.add(any);
-                // In case a target object is used as an injection parameter
-                if (key instanceof DynamicObject) {
-                    DynamicObject dynObj = (DynamicObject) key;
-                    dynObj.addMultiReferenceFrom(any, TracePackage.eINSTANCE.getObjectAny_Value());
-                }
-            } else if (key instanceof String) {
-                StringAny any = TraceFactory.eINSTANCE.createStringAny();
-                any.setValue((String) key);
-                sources.add(any);
-            } else if (key instanceof Integer) {
-                IntAny any = TraceFactory.eINSTANCE.createIntAny();
-                any.setValue(((Integer) key).intValue());
-                sources.add(any);
-            } else if (key instanceof Boolean) {
-                BoolAny any = TraceFactory.eINSTANCE.createBoolAny();
-                any.setValue(((Boolean) key).booleanValue());
-                sources.add(any);
-            } else {
-                throw new Error("Internal Error: trace support for " + key.getClass() + " not yet implemented.");
-            }
-        }
-        return trace;
-    }
-
-    private void store(Extent extent, List keys, EObject value) {
-        store(extent, injections, keys, value, 0);
-    }
-    
-    private EObject lookup(Map map, List keys, int idx) {
-        Object key = keys.get(idx);
-        Object keyVal = map.get(key);
-        
-        if (null == keyVal) {
-            return null;
-        } else if ((idx + 1)  < keys.size()) {
-            return lookup((Map) keyVal, keys, idx + 1);
-        } else {
-            return (EObject) keyVal;
-        }
-    }
-    
-    private void store(Extent extent, Map map, List keys, EObject value, int idx) {
-        Object key = keys.get(idx);
-        
-        if ((idx + 1) < keys.size()) {
-            Map subMap = (Map) map.get(key);
-            if (null == subMap) {
-                subMap = new HashMap();
-                map.put(key, subMap);
-            }
-            store(extent, subMap, keys, value, idx + 1);
-        } else {
-            map.put(key, value);
-        }
-    }
-
-
     final void addFunction(String name, Function function) {
         if (funcMap.containsKey(name)) {
             throw new IllegalArgumentException("A Function with named " + name + " is already registered.");
@@ -1426,7 +1349,7 @@ e.printStackTrace();
     }
 
     final Function getFunction(String name) {
-        return (Function) funcMap.get(name);
+        return funcMap.get(name);
     }
 
 }

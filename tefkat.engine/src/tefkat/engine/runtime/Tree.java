@@ -16,6 +16,7 @@ package tefkat.engine.runtime;
 
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -31,11 +32,11 @@ public class Tree {
 
     private final Context parentContext;
 
-    private final Collection answers = new ArrayList();
+    private final Collection<Binding> answers = new ArrayList<Binding>();
     
-    private final List unresolvedNodes = new ArrayList();
+    private final List<Node> unresolvedNodes = new ArrayList<Node>();
     
-    private final Set listeners = new HashSet();
+    private final Set<TreeListener> listeners = new HashSet<TreeListener>();
 
     private final boolean isNegation;
     
@@ -86,7 +87,7 @@ public class Tree {
 
     Node getUnresolvedNode() {
         if (unresolvedNodes.size() > 0) {
-            return (Node) unresolvedNodes.remove(0);
+            return unresolvedNodes.remove(0);
         } else {
             return null;
         }
@@ -107,7 +108,7 @@ public class Tree {
      *  @param parent   The parent node for the new edge.
      *  @param unifier  The unifier of the parent's selected literal.
      */
-    void createBranch(Node parent, Binding unifier, Collection childGoal) {
+    void createBranch(Node parent, Binding unifier, Collection<Term> childGoal) {
         if (null != parent) {
             if (null == unifier) {
                 unifier = parent.getBindings(); // Inherit bindings from parent
@@ -130,13 +131,13 @@ public class Tree {
         }
     }
     
-    Node flounder() {
+    Node flounder(Collection<NotGroundException> reasons) {
         // Tell any listeners so they can clean up
         floundered();
 
         if (null != parentContext) {
             // Delay the node that originally created this tree
-            parentContext.node.delay();
+            parentContext.node.delay(reasons);
             parentContext.tree.addUnresolvedNode(parentContext.node);
             return parentContext.node;
         }
@@ -144,8 +145,8 @@ public class Tree {
     }
     
     private void floundered() {
-        for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
-            TreeListener listener = (TreeListener) itr.next();
+        for (final Iterator<TreeListener> itr = listeners.iterator(); itr.hasNext(); ) {
+            TreeListener listener = itr.next();
             listener.floundered(this);
         }
     }
@@ -157,8 +158,8 @@ public class Tree {
         if (!answers.contains(answer)) {
             answers.add(answer);
 
-            for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
-                TreeListener listener = (TreeListener) itr.next();
+            for (final Iterator<TreeListener> itr = listeners.iterator(); itr.hasNext(); ) {
+                TreeListener listener = itr.next();
                 listener.solution(answer);
             }
         }
@@ -168,8 +169,8 @@ public class Tree {
         }
     }
 
-    public Collection getAnswers() {
-        return answers;
+    public Collection<Binding> getAnswers() {
+        return Collections.unmodifiableCollection(answers);
     }
 
     public boolean isSuccess() {

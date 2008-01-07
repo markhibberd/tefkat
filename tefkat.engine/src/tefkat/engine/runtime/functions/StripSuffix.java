@@ -4,10 +4,11 @@
 package tefkat.engine.runtime.functions;
 
 import tefkat.engine.runtime.Binding;
+import tefkat.engine.runtime.Context;
 import tefkat.engine.runtime.Function;
 
 final public class StripSuffix implements Function {
-    public Object call(Binding binding, Object[] params) {
+    public Object call(Context ctxt, Binding binding, Object[] params) {
         String str = (String) params[0];
         String suffix = (String) params[1];
         String result = str;

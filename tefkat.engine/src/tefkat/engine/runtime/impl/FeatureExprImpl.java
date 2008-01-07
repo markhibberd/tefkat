@@ -355,8 +355,7 @@ public class FeatureExprImpl extends CompoundExprImpl implements FeatureExpr {
 
             if (fObj instanceof WrappedVar) {
                 Var var = ((WrappedVar) fObj).getVar();
-                throw new NotGroundException(
-                    "Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + getFeature());
+                context.delay("Unsupported mode (unbound '" + var.getName() + "') for FeatureExpr: " + var.getName() + "." + getFeature());
             } else if (fObj instanceof BindingPair) {
                 featureContext = (Binding) fObj;
                 fObj = ((BindingPair) fObj).getValue();
@@ -489,7 +488,7 @@ public class FeatureExprImpl extends CompoundExprImpl implements FeatureExpr {
     private List callOperation(final Context context, Binding binding, final String operationName, final Object instance, List args, boolean collect)
     throws ResolutionException, NotGroundException {
         Function methodCall = new Function() {
-            public Object call(Binding unifier, Object[] params) throws ResolutionException {
+            public Object call(Context ctxt, Binding unifier, Object[] params) throws ResolutionException {
                 Object result = null;
                 
                 // In the general case the param types could all be different and
@@ -498,19 +497,19 @@ public class FeatureExprImpl extends CompoundExprImpl implements FeatureExpr {
                 Method method = Context.resolveMethod(instance, operationName, params);
 
                 if (null == method) {
-                    warnNoMethod(context, instance, operationName);
+                    warnNoMethod(ctxt, instance, operationName);
                     result = Collections.EMPTY_LIST;
                 } else {
                     try {
                         result = method.invoke(instance, params);
                     } catch (SecurityException e) {
-                        context.warn(e);
+                        ctxt.warn(e);
                     } catch (IllegalArgumentException e) {
-                        context.warn(e);
+                        ctxt.warn(e);
                     } catch (IllegalAccessException e) {
-                        context.warn(e);
+                        ctxt.warn(e);
                     } catch (InvocationTargetException e) {
-                        context.warn(e);
+                        ctxt.warn(e);
                     } catch (Exception e) {
                         e.printStackTrace();
 //                        ruleEval.fireError(e);
@@ -532,7 +531,7 @@ public class FeatureExprImpl extends CompoundExprImpl implements FeatureExpr {
             results = expander.getResults();
         } else {
             results = new ArrayList();
-            Object result = methodCall.call(null, null);
+            Object result = methodCall.call(context, null, null);
             if (null != result) {
                 if (!collect && result instanceof Collection) { 
                     results.addAll((Collection) result);

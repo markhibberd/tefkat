@@ -409,8 +409,8 @@ public class PatternUseImpl extends SimpleTermImpl implements PatternUse {
 
 } //PatternUseImpl
 
-abstract class PatternCall
-implements Function {
+abstract class PatternCall implements Function
+{
     private final List vars;
 
     PatternCall(List vars) {
@@ -421,7 +421,7 @@ implements Function {
      * @param unifier a set of variable bindings that needs to be propagated to the answer Binding
      * @param actuals actual values or WrappedVaes for the pDefVars for a call
      */
-    public Object call(Binding unifier, Object[] actuals) throws ResolutionException {
+    public Object call(Context ctxt, Binding unifier, Object[] actuals) throws ResolutionException {
         Binding parameterUnifier = new Binding();
         Binding callUnifier = new Binding(unifier);
 

@@ -20,7 +20,7 @@ final class ExprExpander {
     final private List results = new ArrayList();
     
     final private Context context;
-    final private Function f;
+    final private Function function;
     final private List actuals;
     final private Object[] params;
     final private boolean collect;
@@ -37,7 +37,7 @@ final class ExprExpander {
     ExprExpander(Context context, Function function, Binding unifier, List actuals, boolean collect)
     throws NotGroundException, ResolutionException {
         this.context = context;
-        this.f = function;
+        this.function = function;
         this.actuals = actuals;
         this.collect = collect;
 
@@ -49,7 +49,7 @@ final class ExprExpander {
     private void expandParams(Binding binding, int i)
     throws NotGroundException, ResolutionException {
         if (i == params.length) {
-            Object result = f.call(binding, params);
+            Object result = function.call(context, binding, params);
             if (null != result) {
                 if (!collect && result instanceof Collection) { 
                     results.addAll((Collection) result);
@@ -57,7 +57,7 @@ final class ExprExpander {
                     results.add(result);
                 }
             } else {
-                context.warn("Function call returned null: " + f + "(" + params + ")");
+                context.warn("Function call returned null: " + function + "(" + params + ")");
             }
         } else {
             List values = ((Expression) actuals.get(i)).eval(context, binding);

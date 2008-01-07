@@ -15,6 +15,6 @@
 package tefkat.engine.runtime;
 
 public interface Function {
-    public Object call(Binding unifier, Object[] params) throws ResolutionException;
+    public Object call(Context context, Binding unifier, Object[] params) throws ResolutionException, NotGroundException;
 }
 

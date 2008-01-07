@@ -13,7 +13,7 @@ import tefkat.engine.runtime.WrappedVar;
 final public class VarExpander {
     
     interface Function {
-        public void call(Binding unifier) throws ResolutionException;
+        public void call(Context context, Binding unifier) throws ResolutionException;
     }
     
     final private Context context;
@@ -41,7 +41,7 @@ final public class VarExpander {
     throws NotGroundException, ResolutionException {
         if (idx == vars.size()) {
             // reached end of list of vars, now do the work
-            function.call(unifier);
+            function.call(context, unifier);
             return;
         }
 

@@ -12,7 +12,7 @@ import tefkat.engine.runtime.SimpleExpr;
 
 final public class DataMapLookup implements Function {
     
-    public Object call(Binding binding, Object[] params) throws ResolutionException {
+    public Object call(Context ctxt, Binding binding, Object[] params) throws ResolutionException {
         DataMap dataMap = (DataMap) params[0];
         String key = String.valueOf(params[1]);
         Object result = dataMap.getValue().get(key);

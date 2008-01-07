@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import tefkat.engine.runtime.Binding;
+import tefkat.engine.runtime.Context;
 import tefkat.engine.runtime.Function;
 
 final public class JoinStrings implements Function {
@@ -15,7 +16,7 @@ final public class JoinStrings implements Function {
      * @params[0]   separator
      * @params[1..n]    the list of strings
      */
-    public Object call(Binding binding, Object[] params) {
+    public Object call(Context ctxt, Binding binding, Object[] params) {
         String separator = String.valueOf(params[0]);
         StringBuffer b = new StringBuffer();
         if (params.length == 2 && params[1] instanceof Collection) {

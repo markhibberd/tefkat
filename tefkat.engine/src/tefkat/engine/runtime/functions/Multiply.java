@@ -4,10 +4,11 @@
 package tefkat.engine.runtime.functions;
 
 import tefkat.engine.runtime.Binding;
+import tefkat.engine.runtime.Context;
 import tefkat.engine.runtime.Function;
 
 final public class Multiply implements Function {
-    public Object call(Binding binding, Object[] params) {
+    public Object call(Context ctxt, Binding binding, Object[] params) {
         Number lhs = (Number) params[0];
         Number rhs = (Number) params[1];
         if (lhs instanceof Float || rhs instanceof Float || lhs instanceof Double || rhs instanceof Double) {

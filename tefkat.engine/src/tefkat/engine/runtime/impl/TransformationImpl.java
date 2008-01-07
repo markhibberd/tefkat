@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import tefkat.config.TefkatConfig.TefkatConfigFactory;
 import tefkat.engine.runtime.NamespaceDeclaration;
 import tefkat.engine.runtime.PatternDefn;
 import tefkat.engine.runtime.RuntimePackage;

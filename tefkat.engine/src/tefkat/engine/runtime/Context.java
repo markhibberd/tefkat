@@ -63,7 +63,7 @@ public class Context {
     }
     
     public void delay(String message) throws NotGroundException {
-        throw new NotGroundException(message);
+        throw new NotGroundException(node, message);
     }
     
     public void error(String message) throws ResolutionException {
@@ -117,7 +117,7 @@ public class Context {
 
     public List expand(WrappedVar wVar) throws NotGroundException {
         if (null == wVar.getExtent()) {
-            throw new NotGroundException("Unsupported mode: unbound extent for " + wVar);
+            delay("Unsupported mode: unbound extent for " + wVar);
         }
 //        Var var = wVar.getVar();
 //        EClassifier type = wVar.getType();
@@ -127,7 +127,7 @@ public class Context {
     }
 
     public EObject lookup(List keys, TRule rule) {
-        return evaluation.lookup(tree.getTrackingExtent(), keys, rule);
+        return evaluation.injections.lookup(tree.getTrackingExtent(), keys, rule);
     }
 
     public void info(String string) {
@@ -142,51 +142,52 @@ public class Context {
         evaluation.fireWarning(throwable);
     }
 
-    public Object fetchFeature(String featureName, Object obj) {
+    public Object fetchFeature(String featureName, Object obj) throws ResolutionException {
         Object valuesObject = null;
+
+        if (obj instanceof DynamicObject) {
+            throw new ResolutionException(node, "Illegal attempt to retrieve feature value from target object instance: " + obj);
+        }
+        
+        if (obj instanceof EObject) {
+            EObject instance = (EObject) obj;
+            // If instance is a DynamicObject or it's containing eResource is a target Extent
+            // then we're querying a target object which is an error (until we update the stratification
+            // as outlined by David Hearnden)
+
+            EStructuralFeature eFeature = instance.eClass().getEStructuralFeature(featureName);
+            if (null != eFeature) {
+                valuesObject = instance.eGet(eFeature);
+
+                if (valuesObject != null || instance.eIsSet(eFeature) || !eFeature.isRequired()) {
+//                  FIXME                        ExtentUtil.highlightEdge(instance, valuesObject, ExtentUtil.FEATURE_LOOKUP);
+                } else {
+                    warn(Context.getFullyQualifiedName(eFeature) + " is not set and no default value");
+                }
+                return valuesObject;    // This was a valid feature - don't want to fall through
+            }
+        }
+        // EFeature not found, so try other ways to get a value for featureName
+        if (obj instanceof FeatureMap.Entry) {
+            FeatureMap.Entry entry = (FeatureMap.Entry) obj;
+            EStructuralFeature eFeature = entry.getEStructuralFeature();
+            if (eFeature.getName().equals(featureName)) {
+                valuesObject = entry.getValue();
+                return valuesObject;    // This was a valid feature - don't want to fall through
+            }
+        }
+
+        String methName = "get" + featureName.substring(0, 1).toUpperCase() + featureName.substring(1, featureName.length());
         try {
-            if (obj instanceof EObject) {
-                EObject instance = (EObject) obj;
-                // If instance is a DynamicObject or it's containing eResource is a target Extent
-                // then we're querying a target object which is an error (until we update the stratification
-                // as outlined by David Hearnden)
-                
-                EStructuralFeature eFeature = instance.eClass().getEStructuralFeature(featureName);
-                if (null != eFeature) {
-                    valuesObject = instance.eGet(eFeature);
-
-                    if (valuesObject != null || instance.eIsSet(eFeature) || !eFeature.isRequired()) {
-// FIXME                        ExtentUtil.highlightEdge(instance, valuesObject, ExtentUtil.FEATURE_LOOKUP);
-                    } else {
-                        warn(Context.getFullyQualifiedName(eFeature) + " is not set and no default value");
-                    }
-                    return valuesObject;    // This was a valid feature - don't want to fall through
-                }
-            }
-            // EFeature not found, so try other ways to get a value for featureName
-            if (obj instanceof FeatureMap.Entry) {
-                FeatureMap.Entry entry = (FeatureMap.Entry) obj;
-                EStructuralFeature eFeature = entry.getEStructuralFeature();
-                if (eFeature.getName().equals(featureName)) {
-                    valuesObject = entry.getValue();
-                    return valuesObject;    // This was a valid feature - don't want to fall through
-                }
-            }
-
-            String methName = "get" + featureName.substring(0, 1).toUpperCase() + featureName.substring(1, featureName.length());
             try {
-                try {
-                    valuesObject = obj.getClass().getMethod(methName, null).invoke(obj, null);
-                } catch (NoSuchMethodException e) {
-                    if (null == valuesObject) {
-                        valuesObject = obj.getClass().getField(featureName).get(obj);
-                    }
+                valuesObject = obj.getClass().getMethod(methName, null).invoke(obj, null);
+            } catch (NoSuchMethodException e) {
+                if (null == valuesObject) {
+                    valuesObject = obj.getClass().getField(featureName).get(obj);
                 }
-            } catch (Exception e) {
-                error("Could not find a source of values for '" + featureName + "' in '" + obj + "'", e);
             }
-        } catch (ResolutionException e) {
-            warn(e.getMessage());
+        } catch (Exception e) {
+            warn("Could not find a source of values for '" + featureName + "' in '" + obj + "'");
         }
 
         return valuesObject;
@@ -454,4 +455,139 @@ public class Context {
         return method;
     }
 
+    /**
+     * Choose a literal from the goal of the given node.
+     * 
+     * @return A chosen literal, or null if the node's goal is empty (i.e.
+     *         success)
+     * @throws ResolutionException 
+     * @throws NotGroundException 
+     */
+    public Term selectLiteral() throws ResolutionException, NotGroundException {
+        Term[] literals = node.goal().toArray(new Term[node.goal().size()]);
+
+        // Simple selection rule:
+        //    + select non-target, non-negation terms first
+        //    + select non-target terms next
+        //    + select Injections next
+        //    + select target MofInstances next
+        //    + select anything else (target terms) last
+        //
+        for (int i = 0; i < literals.length; i++) {
+            if (!(literals[i].isTarget() || literals[i] instanceof NotTerm)) {
+                node.setSelectedLiteral(literals[i]);
+                return literals[i];
+            }
+        }
+
+        for (int i = 0; i < literals.length; i++) {
+            if (!literals[i].isTarget()) {
+                node.setSelectedLiteral(literals[i]);
+                return literals[i];
+            }
+        }
+
+        if (!groundWrappedVars()) {
+            return null;
+        }
+
+        if (null != node.getDelayed() && !node.getDelayed().isEmpty()) {
+            throw new ResolutionException(node, "Flounder: All source terms delayed: " + formatDelayedNode());
+        }
+
+        for (int i = 0; i < literals.length; i++) {
+            if (literals[i] instanceof Injection) {
+                node.setSelectedLiteral(literals[i]);
+                return literals[i];
+            }
+        }
+
+        for (int i = 0; i < literals.length; i++) {
+            if (literals[i] instanceof MofInstance) {
+                node.setSelectedLiteral(literals[i]);
+                return literals[i];
+            }
+        }
+
+        if (literals.length > 0) {
+            node.setSelectedLiteral(literals[0]);
+            return literals[0];
+        }
+
+        throw new ResolutionException(node,
+                "Could not select a valid literal from goal: " + node.goal());
+    }
+
+    /**
+     * Looks for a WrappedVar in the Node's Binding and creates new nodes with bindings to found instances.
+     * If there are no instances to bind to then node fails.
+     * 
+     * @param tree
+     * @param node
+     * @return true if no WrappedVars were found
+     * @throws NotGroundException
+     */
+    boolean groundWrappedVars() throws NotGroundException {
+        boolean done = true;
+    
+    //      fireInfo("grounding...");
+    
+        final Binding binding = getBindings();
+    
+        for (final Iterator itr = binding.entrySet().iterator(); done && itr.hasNext(); ) {
+            final Map.Entry entry = (Map.Entry) itr.next();
+            final Var var = (Var) entry.getKey();
+            final Object v = entry.getValue();
+            if (v instanceof WrappedVar) {
+                done = false;
+    
+                final List l = expand((WrappedVar) v);
+    
+    //              fireInfo(var + " <- #instances: " + l.size());
+                if (l.size() == 0) {
+                    fail();
+                } else {
+                    for (final Iterator itr2 = l.iterator(); itr2.hasNext(); ) {
+                        final Object o = itr2.next();
+                        Binding unifier = new Binding();
+                        unifier.add(var, o);
+    //                      fireInfo("    " + var + " = " + o);
+                        createBranch(unifier);
+                    }
+                }
+            }
+        }
+        return done;
+    }
+    
+    private String formatDelayedNode() {
+        final StringBuilder sb = new StringBuilder();
+        
+        sb.append("[\n");
+        Collection<NotGroundException> reasons = node.getDelayReasons();
+        for (final Iterator<NotGroundException> itr = reasons.iterator(); itr.hasNext(); ) {
+            final NotGroundException reason = itr.next();
+            final Node reasonNode = reason.getNode();
+            Term term = reasonNode.selectedLiteral();
+            EObject c = term.eContainer();
+            while (null != c && !(c instanceof VarScope)) {
+                c = c.eContainer();
+            }
+            sb.append("  ").append(reason.getMessage()).append(" in ").append(c).append("\n");
+        }
+        sb.append("]");
+        
+//        sb.append("[\n");
+//        Collection<Term> terms = node.getDelayed();
+//        for (final Iterator<Term> itr = terms.iterator(); itr.hasNext(); ) {
+//            final Term term = itr.next();
+//            sb.append("  ").append(term).append("\n");
+//        }
+//        sb.append("]");
+//        
+//        sb.append(node.getBindings());
+        
+        return sb.toString();
+    }
+    
 }

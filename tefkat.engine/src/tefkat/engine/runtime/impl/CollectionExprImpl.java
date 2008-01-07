@@ -225,7 +225,7 @@ public class CollectionExprImpl extends CompoundExprImpl implements CollectionEx
     }
 
     final static Function COLLECT_FUNCTION = new Function() {
-        public Object call(Binding unifier, Object[] params) {
+        public Object call(Context ctxt, Binding unifier, Object[] params) {
             return Arrays.asList(params);
         }
     };

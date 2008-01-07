@@ -187,14 +187,14 @@ public class FunctionExprImpl extends CompoundExprImpl implements FunctionExpr {
         try {
             if ("funmap".equals(op)) {
                 f = new Function() {
-                    public Object call(Binding binding, Object[] params) throws ResolutionException {
+                    public Object call(Context ctxt, Binding binding, Object[] params) throws ResolutionException {
                         final Collection list = (Collection) params[0];
                         final String feature = (String) params[1];
                         final List result = new ArrayList();
                         
                         for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
                             Object obj = itr.next();
-                            result.add(context.fetchFeature(feature, obj));
+                            result.add(ctxt.fetchFeature(feature, obj));
                         }
                     
                         return result;
@@ -209,7 +209,7 @@ public class FunctionExprImpl extends CompoundExprImpl implements FunctionExpr {
                     values = expander.getResults();
                 } else {
                     values = new ArrayList();
-                    values.add(f.call(binding, args.toArray()));
+                    values.add(f.call(context, binding, args.toArray()));
                 }
             } else {
                 throw new ResolutionException(null, "Unknown function: " + op);

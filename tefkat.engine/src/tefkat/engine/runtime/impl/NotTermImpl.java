@@ -116,7 +116,7 @@ public class NotTermImpl extends CompoundTermImpl implements NotTerm {
         }
         
         final VarExpander.Function f = new VarExpander.Function() {
-            public void call(Binding unifier) throws ResolutionException {
+            public void call(Context context, Binding unifier) throws ResolutionException {
                 evalNegatedGoal(context, unifier, new ArrayList(getTerm()));
             }
             

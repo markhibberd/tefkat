@@ -442,6 +442,7 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
                 context.delay(obj + NOT_BOUND_MESSAGE);
             } else {
                 EObject eObj = (EObject) obj;
+                boolean makeExact = isExact();
                 
                 if (typeObj instanceof WrappedVar) {
                     unifier.add(((WrappedVar) typeObj).getVar(), eObj.eClass().getName());
@@ -465,6 +466,11 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
                         if (!result) {
                             context.error("Type mismatch, " + typeName + " not compatible with " + eObj.eClass());
                         }
+                    } else {
+                        // It's not possible to make an instance exactly no type
+                        // (although we _might_ consider the possibilty that one
+                        // would like the possiblity to freeze the current type)
+                        makeExact = false;
                     }
                 } else if (typeObj instanceof EClass) {
                     EClass subCls = (EClass) typeObj;
@@ -476,7 +482,7 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
                     context.error("Invalid Expression type for MofInstance.typeName: " + typeObj);
                 }
                 
-                if (isExact() && eObj instanceof DynamicObject) {
+                if (makeExact && eObj instanceof DynamicObject) {
                     if (eObj.eResource() != null) {
                         eObj.eResource().getContents().remove(eObj);
 //                      System.err.println("  ...removed: " + eObj.hashCode());

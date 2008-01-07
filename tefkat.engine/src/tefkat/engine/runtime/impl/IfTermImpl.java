@@ -199,8 +199,8 @@ public class IfTermImpl extends CompoundTermImpl implements IfTerm {
         }
         
         final VarExpander.Function f = new VarExpander.Function() {
-            public void call(Binding unifier) throws ResolutionException {
-                evalIfGoal(context, unifier , getTerm());
+            public void call(Context context, Binding unifier) throws ResolutionException {
+                evalIfGoal(context, unifier, getTerm());
             }
             
         };

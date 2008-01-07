@@ -509,21 +509,31 @@ public class ConditionImpl extends SimpleTermImpl implements Condition {
                             // the order from the source model (the Node-tree traversal 
                             // would otherwise naturally invert the order).
                             
-                            if (theFeature.isUnique()) {
-                                // This is normally done by the EMF code, but not in the
-                                // case where the theFeature is backed by a FeatureMap.
-                                // Hence, we do it ourselves
-                                newVals.removeAll(featureValues);
-                            }
-                            
-                            featureValues.addAll(0, newVals);
-                            
-                            for (Iterator newValsItr = newVals.iterator(); newValsItr.hasNext(); ) {
-                                Object newVal = newValsItr.next();
-                                if (newVal instanceof DynamicObject) {
-                                    ((DynamicObject) newVal).addMultiReferenceFrom(instance, theFeature);
+                            if (featExpr.isCollect()) {
+                                for (final Iterator nvItr = newVals.iterator(); nvItr.hasNext(); ) {
+                                    final List valList = (List) nvItr.next();
+
+                                    if (theFeature.isUnique()) {
+                                        // This is normally done by the EMF code, but not in the
+                                        // case where the theFeature is backed by a FeatureMap.
+                                        // Hence, we do it ourselves
+                                        valList.removeAll(featureValues);
+                                    }
+                                    featureValues.addAll(0, valList);
+                                    recordMultiReference(instance, theFeature, valList);
                                 }
+                            } else {
+                                if (theFeature.isUnique()) {
+                                    // This is normally done by the EMF code, but not in the
+                                    // case where the theFeature is backed by a FeatureMap.
+                                    // Hence, we do it ourselves
+                                    newVals.removeAll(featureValues);
+                                }
+
+                                featureValues.addAll(0, newVals);
+                                recordMultiReference(instance, theFeature, newVals);
                             }
+                            
                         } catch (ArrayStoreException e) {
                             context.error("Couldn't add values to feature (type mismatch?): " + ModelUtils.getFullyQualifiedName(theFeature) + " <- " + newVals, e);
                         }
@@ -569,6 +579,15 @@ public class ConditionImpl extends SimpleTermImpl implements Condition {
             }
         } else {
             context.error("Non FeatureExpr LHS, " + args.get(0) + ", Not Yet Implemented");
+        }
+    }
+
+    private void recordMultiReference(EObject instance, EStructuralFeature theFeature, List newVals) {
+        for (Iterator newValsItr = newVals.iterator(); newValsItr.hasNext(); ) {
+            Object newVal = newValsItr.next();
+            if (newVal instanceof DynamicObject) {
+                ((DynamicObject) newVal).addMultiReferenceFrom(instance, theFeature);
+            }
         }
     }
 
