@@ -34,7 +34,5 @@ Require-Bundle: org.eclipse.core.resources,
  tefkat.config.edit,
  tefkat.config.editor,
  tefkat.model.parser,
- tefkat.engine,
- org.eclipse.jdt.ui,
- org.eclipse.emf.workspace.ui
+ tefkat.engine
 Eclipse-LazyStart: true
