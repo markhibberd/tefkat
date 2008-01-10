@@ -18,7 +18,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://www.lawley.id.au/updates"/>
+      <update label="%updateSiteName" url="http://tefkat.net/update-site/"/>
       <discovery label="%emfUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
       <discovery label="%antlrUpdateSiteName" url="http://antlreclipse.sourceforge.net/updates/"/>
    </url>
