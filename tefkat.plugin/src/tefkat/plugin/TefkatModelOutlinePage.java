@@ -15,7 +15,6 @@
 package tefkat.plugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,13 +35,13 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
-import tefkat.model.Var;
 import tefkat.model.AndTerm;
 import tefkat.model.MofInstance;
+import tefkat.model.NamespaceDeclaration;
 import tefkat.model.OrTerm;
-import tefkat.model.TefkatException;
 import tefkat.model.Term;
 import tefkat.model.Transformation;
+import tefkat.model.Var;
 import tefkat.model.VarScope;
 import tefkat.model.VarUse;
 
@@ -54,8 +53,8 @@ import tefkat.model.VarUse;
 public class TefkatModelOutlinePage extends ContentOutlinePage {
 
     private String resId;
-    final private Map objMap = new HashMap();
-    final private Map idMap = new HashMap();
+    final private Map<String, Object> objMap = new HashMap<String, Object>();
+    final private Map<Object, String> idMap = new HashMap<Object, String>();
     
     /**
      * 
@@ -88,7 +87,7 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
             return "";
         }
         
-        String id = (String) idMap.get(obj);
+        String id = idMap.get(obj);
         
         if (null == id) {
             if (obj instanceof Transformation) {
@@ -137,20 +136,6 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
         return strings;
     }
 
-    private String[] getIDs(Object[] objects, Object context) {
-        if (null == context) {
-            return getIDs(objects);
-        }
-        
-        String[] strings = new String[objects.length + 1];
-        
-        for (int i = 0; i < objects.length; i++) {
-            strings[i] = getID(objects[i]);
-        }
-        strings[objects.length] = getID(context);
-        
-        return strings;
-    }
     
     /**
      * Return the real objects in the selection rather than their internal ID proxies
@@ -182,6 +167,10 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                     return ((EPackage) obj).getName() + " <" + ((EPackage) obj).getNsURI() + ">";
                 } else if (obj instanceof Collection) {
                     return "stratum";
+                } else if (obj instanceof AndTerm) {
+                    return "AND";
+                } else if (obj instanceof OrTerm) {
+                    return "OR";
                 } else {
                     return String.valueOf(obj);
                 }
@@ -193,9 +182,9 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                 Object element = objMap.get(elementID); // map from String id to (E)Object
 
                 if (element instanceof EObject) {
-                    Object[] children = ((EObject) element).eContents().toArray();
+                    Object[] children = filter(((EObject) element).eContents()).toArray();
                     if (element instanceof Term) {
-                        return getIDs(children, ((Term) element).getContext());
+                        return getIDs(children);
                     } else {
                         return getIDs(children);
                     }
@@ -218,7 +207,7 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
                 Object element = objMap.get(elementID); // map from String id to (E)Object
                 boolean children = false;
                 if (element instanceof EObject) {
-                    children = !((EObject) element).eContents().isEmpty();
+                    children = !filter(((EObject) element).eContents()).isEmpty();
                 }
                 return children;
             }
@@ -226,7 +215,7 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
             public Object[] getElements(Object elementID) {
                 Object element = objMap.get(elementID); // map from String id to Object
                 if (element instanceof Resource) {
-                    Object[] children = ((Resource) element).getContents().toArray();
+                    Object[] children = filter(((Resource) element).getContents()).toArray();
                     return getIDs(children);
                 } else {
 //                    System.out.println("************* Root element must be a Resource: " + element);
@@ -245,6 +234,23 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
             }
             
         });
+    }
+    
+    private boolean filter(final Object obj) {
+        if (obj instanceof Var || obj instanceof NamespaceDeclaration || obj instanceof EPackage) {
+            return false;
+        }
+        return true;
+    }
+    
+    private Collection<Object> filter(final Collection objects) {
+        Collection<Object> result = new ArrayList<Object>();
+        for (Object o: objects) {
+            if (filter(o)) {
+                result.add(o);
+            }
+        }
+        return result;
     }
 
     public void dispose() {

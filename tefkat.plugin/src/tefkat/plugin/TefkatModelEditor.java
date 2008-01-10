@@ -498,22 +498,28 @@ public class TefkatModelEditor extends MultiPageEditorPart {
 
                     public void selectionChanged(SelectionChangedEvent event) {
                         ISelection selection = event.getSelection();
-                        if (!selection.isEmpty()) {
-                            Object selectionElement = ((IStructuredSelection) selection).getFirstElement();
+
+                        int s = Integer.MAX_VALUE;
+                        int e = Integer.MIN_VALUE;
+                        for (final Iterator itr = ((IStructuredSelection) selection).iterator(); itr.hasNext(); ) {
+                            final Object selectionElement = itr.next();
+
                             if (selectionElement instanceof EObject) {
                                 EObject obj = (EObject) selectionElement;
                                 Integer startChar = getStartChar(obj);
                                 Integer endChar = getEndChar(obj);
-                                if (null != startChar && null != endChar) {
-                                    int start = startChar.intValue();
-                                    int length = endChar.intValue() - start;
-                                    textEditor.setHighlightRange(start, length, true);
-                                    return;
+                                if (null != startChar && startChar.intValue() >= 0 && null != endChar && endChar.intValue() >= 0) {
+                                    s = Math.min(s, startChar.intValue());
+                                    e = Math.max(e, endChar.intValue());
                                 }
                             }
                         }
-
-                        textEditor.resetHighlightRange();
+                        if (s <= e) {
+                            textEditor.setHighlightRange(s, e - s, true);
+                            textEditor.selectAndReveal(s, (e - s));
+                        } else {
+                            textEditor.resetHighlightRange();
+                        }
                     }
                 });
             }
