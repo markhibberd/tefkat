@@ -507,7 +507,7 @@ options {
         l.add(vars);
     }
     
-    private void definePackage(Transformation t, String namespace, String uriString) throws antlr.SemanticException {
+    private void definePackage(PatternScope t, String namespace, String uriString) throws antlr.SemanticException {
         final List packages = new ArrayList(1);
         final ResourceSet rs = t.eResource().getResourceSet();
         final EPackage.Registry registry = rs.getPackageRegistry();
@@ -515,7 +515,12 @@ options {
         if (null != pkg) {
             packages.add(pkg);
         } else {
-        	final Resource res = rs.getResource(URI.createURI(uriString), true);
+        	final Resource res;
+        	try {
+                res = rs.getResource(URI.createURI(uriString), true);
+        	} catch (Exception e) {
+	            throw new antlr.SemanticException("Unable to load model from URI: " + uriString, getFilename(), getMarkLine(), getMarkColumn());
+        	}
         	if (null == res) {
 	            throw new antlr.SemanticException("Unable to load model from URI: " + uriString, getFilename(), getMarkLine(), getMarkColumn());
         	}
@@ -829,27 +834,44 @@ query returns [Query q = null;] {
 }
 	:	tok:"QUERY" {
 			q = TefkatFactory.eINSTANCE.createQuery();
-// doesn't need to go in a resource...
-//            resource.getContents().add(q);
+
+            resource.getContents().add(q);
 			annotate(q, tok);
         }
 //        (name:ID SEMI {
 //        	q.setName(name.getText());
 //        })?
+
+        (namespaceDecl[q]
+        |patternDefn[q, srcExtent]
+        )*
         
-        (stmt = queryStatement[q, srcExtent] {
+        stmt = queryTerm[q, srcExtent] {
         	q.setTerm(stmt);
-        })?
+        }
 	;
 
-queryStatement[Query q, Var srcExtent] returns [SourceTerm result = null] {
+queryStatement[Query q, Var srcExtent] returns [SourceTerm result = null]
+	:
+    (namespaceDecl[q] {
+    	System.out.println("Loaded namespace");
+    }
+    |patternDefn[q, srcExtent]
+	|result = queryTerm[q, srcExtent]
+    |EOF
+	)
+;
+
+queryTerm[Query q, Var srcExtent] returns [SourceTerm result = null] {
 	AndTerm container = TefkatFactory.eINSTANCE.createAndTerm();
 	List terms = container.getTerm();
+	List params = null;
 }
-	:
-    (patternDefn[q, srcExtent])*
-	(
-        conjunct[q, terms]
+    :
+	    (params = vardecls[q] {
+        	q.getParameterVar().addAll(params);
+	    })?
+	    COLON conjunct[q, terms]
         {
           	resolvePatternReferences(q);
         	if (1 == terms.size()) {
@@ -860,7 +882,6 @@ queryStatement[Query q, Var srcExtent] returns [SourceTerm result = null] {
         	result.setContext(srcExtent);
         }
         SEMI
-    )?
 ;
 
 transformation returns [Transformation t = null;] {
@@ -885,7 +906,7 @@ transformation returns [Transformation t = null;] {
                     resource.getContents().add(0, ePackage);
                     final EPackage.Registry registry = resource.getResourceSet().getPackageRegistry();
                     registry.put(pkgURI, ePackage);
-                        sChar = getStartChar(LT(0));
+                        sChar = getStartChar();
                 }
                 (
                     // for backwards compatability
@@ -913,7 +934,7 @@ transformation returns [Transformation t = null;] {
                     }
                 )
                 ("EXTENDS" transformationExtends[t])? {
-                	eChar = getStartChar(LT(0));
+                	eChar = getStartChar();
                 }
                 (
                     body[t, srcExtent, tgtExtent] {
@@ -1035,7 +1056,7 @@ body[Transformation t, Var srcExtent, Var tgtExtent] {
         int sChar = -1, eChar = -1;
 }
         :   {
-        	sChar = getStartChar(LT(0));
+        	sChar = getStartChar();
         }       
         (   importDecl[t]
         |   namespaceDecl[t]
@@ -1227,7 +1248,7 @@ importDecl[Transformation t]
                 }
         ;
 
-namespaceDecl[Transformation t] {
+namespaceDecl[PatternScope t] {
         String name = null;
 }
         :       "NAMESPACE" (id:ID {name = id.getText();})? uri:URITOK {
@@ -1387,11 +1408,11 @@ trule[Transformation t, Var srcExtent, Var tgtExtent] {
                         sConjChar = getStartChar(where);
                     }
                 })?
-                { eConjChar = getStartChar(); }
+                { eConjChar = getEndChar(); }
                 targetClauses[trule, tgtExtent, trule.getTgt(), params]
                 semi:SEMI
                 {
-                    eChar = getStartChar(semi);
+                    eChar = getEndChar(semi);
                     if (-1 != sConjChar) {
                         if (-1 == eConjChar) {
                                 eConjChar = eChar;
@@ -1502,12 +1523,14 @@ range[VarScope scope, Var outerContext, boolean isExactly, List terms] returns [
         Var var = null;
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getStartChar(); }
+        :
+                { sChar = getStartChar(LT(1)); }
                 (
                     "EXACT" { isExactly = true; }
                 |
                     "DYNAMIC" { isExactly = false; }
-                )?
+                |
+                )
                 type = typeName[scope, terms]
                 context = context[scope]
                 name = vname {
@@ -1523,7 +1546,7 @@ range[VarScope scope, Var outerContext, boolean isExactly, List terms] returns [
                     i.setExact(isExactly);
                     i.setContext(null == context ? outerContext : context);
 
-                    eChar = getStartChar();
+                    eChar = getEndChar();
                     reportMatch(i, sChar, eChar);
                 }
         ;
@@ -1651,54 +1674,76 @@ conjunct[VarScope scope, List terms] {
             term = null;
         }
 
-disjunct[VarScope scope, List terms] returns [Term term] {
-        OrTerm oTerm = null;
+disjunct[VarScope scope, List terms] returns [Term term = null] {
+        OrTerm oTerm = TefkatFactory.eINSTANCE.createOrTerm();
         List oTerms = new ArrayList();
-        Term rTerm;
-        int sChar = -1, eChar = -1;
+        Term rTerm = null;
+        int sChar = -1, eChar = -1, sDisjChar = -1;
 }
-        :       { sChar = getStartChar(); }
-                term = r1:relation[scope, oTerms]
-                (
-                    "OR" rTerm = r2:relation[scope, oTerms] {
-                        if (null == oTerm) {
-                            // first time here
-                            oTerm = TefkatFactory.eINSTANCE.createOrTerm();
-
-                            if (term instanceof AndTerm) {
-                                ((AndTerm) term).getTerm().addAll(oTerms);
-                                term.setCompoundTerm(oTerm);
-                            } else if (null != term) {
-                                AndTerm aTerm = TefkatFactory.eINSTANCE.createAndTerm();
-                                aTerm.getTerm().addAll(oTerms);
-                                aTerm.getTerm().add(term);
-                                aTerm.setCompoundTerm(oTerm);
-                            }
-                            // else there was an error parsing the first term 
-                            // but continue anyway
-
-                            term = oTerm;
-                        }
-                        if (rTerm instanceof AndTerm) {
-                            ((AndTerm) rTerm).getTerm().addAll(oTerms);
+        :       { sChar = getStartChar(LT(1)); }
+                rTerm = r1:relation[scope, oTerms] {
+                	// If rTerm != null && oTerms.size() > 0, then we need an AndTerm
+                    if (rTerm instanceof AndTerm) {
+                        List conjunct = ((AndTerm) rTerm).getTerm();
+                        conjunct.addAll(oTerms);
+                        if (conjunct.size() > 1) {
                             rTerm.setCompoundTerm(oTerm);
-                        } else {
-                            AndTerm aTerm = TefkatFactory.eINSTANCE.createAndTerm();
-                            aTerm.getTerm().addAll(oTerms);
-                            if (null != rTerm) {
-                                aTerm.getTerm().add(rTerm);
-                            }
-                            aTerm.setCompoundTerm(oTerm);
+                        } else if (conjunct.size() == 1) {
+                        	oTerm.getTerm().addAll(conjunct);
                         }
-                        oTerms.clear();
+                    } else {
+                        AndTerm aTerm = TefkatFactory.eINSTANCE.createAndTerm();
+                        List conjunct = aTerm.getTerm();
+                        conjunct.addAll(oTerms);
+                        if (null != rTerm) {
+                            conjunct.add(rTerm);
+                        }
+                        if (conjunct.size() > 1) {
+                            aTerm.setCompoundTerm(oTerm);
+                            reportMatch(aTerm, sChar, getEndChar());
+                        } else if (conjunct.size() == 1) {
+                        	oTerm.getTerm().addAll(conjunct);
+                        }
+                    }
+                    oTerms.clear();
+                }
+                (
+                    "OR"
+                    { sDisjChar = getStartChar(LT(1)); }
+                    rTerm = r2:relation[scope, oTerms] {
+                	// If rTerm != null && oTerms.size() > 0, then we need an AndTerm
+                    if (rTerm instanceof AndTerm) {
+                        List conjunct = ((AndTerm) rTerm).getTerm();
+                        conjunct.addAll(oTerms);
+                        if (conjunct.size() > 1) {
+                            rTerm.setCompoundTerm(oTerm);
+                        } else if (conjunct.size() == 1) {
+                        	oTerm.getTerm().addAll(conjunct);
+                        }
+                    } else {
+                        AndTerm aTerm = TefkatFactory.eINSTANCE.createAndTerm();
+                        List conjunct = aTerm.getTerm();
+                        conjunct.addAll(oTerms);
+                        if (null != rTerm) {
+                            conjunct.add(rTerm);
+                        }
+                        if (conjunct.size() > 1) {
+                            aTerm.setCompoundTerm(oTerm);
+                            reportMatch(aTerm, sDisjChar, getEndChar());
+                        } else if (conjunct.size() == 1) {
+                        	oTerm.getTerm().addAll(conjunct);
+                        }
+                    }
+                    oTerms.clear();
                     }
                 )*
                 {
-                    if (oTerm != null) {
-                        eChar = getStartChar();
+                    if (oTerm.getTerm().size() > 1) {
+                        eChar = getEndChar();
                         reportMatch(oTerm, sChar, eChar);
+                        term = oTerm;
                     } else {
-                        terms.addAll(oTerms);
+                        terms.addAll(oTerm.getTerm());
                     }
                 }
         ;
@@ -1759,28 +1804,29 @@ s_ite[VarScope scope] returns [IfTerm term = null] {
                 }
                 )
                 (
-                elseif:"ELSEIF" {
-                	sChar = getStartChar(elseif);
-                }
-                elseTerm = s_ite[scope] {
-                    eChar = getStartChar();
-                    reportMatch(term, sChar, eChar);
-                }
-                |
-                "ELSE"
-                conjunct[scope, termList] {
-                    if (termList.size() > 1) {
-                        elseTerm = TefkatFactory.eINSTANCE.createAndTerm();
-                        ((AndTerm) elseTerm).getTerm().addAll(termList);
-                    } else if (termList.size() == 1) {
-                        elseTerm = (Term) termList.get(0);
+                    elseif:"ELSEIF" {
+                	    sChar = getStartChar(elseif);
                     }
-                }
-                | {
-                    // No ELSE term is equivalent to ELSE TRUE
-                    // We use an empty AndTerm to implement TRUE
-                    elseTerm = TefkatFactory.eINSTANCE.createAndTerm();
-                }
+                    elseTerm = s_ite[scope] {
+                        eChar = getEndChar();
+                        reportMatch(term, sChar, eChar);
+                    }
+                |
+                    "ELSE"
+                    conjunct[scope, termList] {
+                        if (termList.size() > 1) {
+                            elseTerm = TefkatFactory.eINSTANCE.createAndTerm();
+                            ((AndTerm) elseTerm).getTerm().addAll(termList);
+                        } else if (termList.size() == 1) {
+                            elseTerm = (Term) termList.get(0);
+                        }
+                    }
+                |
+                    {
+                        // No ELSE term is equivalent to ELSE TRUE
+                        // We use an empty AndTerm to implement TRUE
+                        elseTerm = TefkatFactory.eINSTANCE.createAndTerm();
+                    }
                 )
                 {
                     term = TefkatFactory.eINSTANCE.createIfTerm();
@@ -1890,8 +1936,10 @@ relation[VarScope scope, List terms] returns [Term term = null] {
         int sChar = -1, eChar = -1;
 }
         :
+        {
+        	sChar = getStartChar(LT(1));
+        }
         (       lbrack:LBRACK {
-        	        sChar = getStartChar(lbrack);
                     aTerm = TefkatFactory.eINSTANCE.createAndTerm();
                     term = aTerm;
                 }
@@ -1983,7 +2031,8 @@ relation[VarScope scope, List terms] returns [Term term = null] {
                         term = cond;
                     }
                 )
-        )       { eChar = getStartChar(); reportMatch(term, sChar, eChar); }
+        )
+        { eChar = getEndChar(); reportMatch(term, sChar, eChar); }
         ;
 //        exception
 //        catch [RecognitionException ex] {
@@ -2058,7 +2107,7 @@ makeObject[VarScope scope, Var tgtExtent, boolean isExactly, List tgts, List par
                             injection.setTarget(varUse);
                             tgts.add(injection);
 
-                            eChar = getStartChar();
+                            eChar = getEndChar();
                             reportMatch(injection, sChar, eChar);
                         }
                     }
@@ -2098,7 +2147,7 @@ unique[VarScope scope, Var outerContext, List tgts, Var targetVar] returns [List
                     injection.setTarget(varUse);
                     tgts.add(injection);
 
-                    eChar = getStartChar();
+                    eChar = getEndChar();
                     reportMatch(injection, sChar, eChar);
                 }
         ;
@@ -2152,7 +2201,7 @@ setting_stmt[VarScope scope, List tgts] {
         Term term = null;
         int sChar = -1, eChar = -1;
 }
-        :       { sChar = getStartChar(); }
+        :       { sChar = getStartChar(LT(1)); }
                 lhs = expr[scope, tgts]
                 (
                     "BEFORE"
@@ -2210,7 +2259,7 @@ setting_stmt[VarScope scope, List tgts] {
                     if (null != term) {
                         tgts.add(term);
 
-                        eChar = getStartChar();
+                        eChar = getEndChar();
                         reportMatch(term, sChar, eChar);
                     }
                 }
@@ -2269,7 +2318,7 @@ trackingUse[VarScope scope, List terms] returns [TrackingUse use = null] {
                     featureMap = use.getFeatures().map();
                 }
                 featureMaps[scope, featureMap, terms]
-                { eChar = getStartChar(); reportMatch(use, sChar, eChar); }
+                { eChar = getEndChar(); reportMatch(use, sChar, eChar); }
                 ;
 
 featureMaps[VarScope scope, Map featureMap, List terms] {
@@ -2679,38 +2728,40 @@ collectionlit[VarScope scope, List terms] returns [CollectionExpr collection = n
 
 objectBody[VarScope scope, Var var, boolean isExactly, List terms, List params] {
         Expression feature;
+        int sChar = -1;
 }
         :       LBRACE
                 (
+                    { sChar = getStartChar(LT(1)); }
                     feature = feature[scope, terms]
                     COLON
                     (
                         (LSQUARE) =>        // Need to match collection Exprs specially so that we generate individual featureExprs
                         LSQUARE
-                        featureVals[scope, var, isExactly, terms, params, feature]
+                        featureVals[scope, var, isExactly, terms, params, feature, sChar]
                         RSQUARE
                     |
-                        featureVal[scope, var, isExactly, terms, params, feature]
+                        featureVal[scope, var, isExactly, terms, params, feature, sChar]
                     )
                     SEMI
                 )*
                 RBRACE
         ;
 
-featureVals[VarScope scope, Var var, boolean isExactly, List terms, List params, Expression feature]
-        :       featureVal[scope, var, isExactly, terms, params, feature]
+featureVals[VarScope scope, Var var, boolean isExactly, List terms, List params, Expression feature, int sChar]
+        :       featureVal[scope, var, isExactly, terms, params, feature, sChar]
                 (
                     COMMA
-                    featureVal[scope, var, isExactly, terms, params, feature.copy()]
+                    featureVal[scope, var, isExactly, terms, params, feature.copy(), sChar]
                 )*
         ;
 
-featureVal[VarScope scope, Var var, boolean isExactly, List terms, List params, Expression feature] {
+featureVal[VarScope scope, Var var, boolean isExactly, List terms, List params, Expression feature, int sChar] {
         Expression expr = null;
         Var objVar;
-        int sChar = -1, eChar = -1;
+        int eChar = -1;
 }
-        :   { sChar = getStartChar(); }
+        :
             (
                 (("EXACT"|"DYNAMIC")? (DOLLAR|UNDERSCORE|CARET|FQID|ID) (AT ID)? vname) =>
                 objVar = makeObject[scope, null, isExactly, terms, params] {
@@ -2737,7 +2788,7 @@ featureVal[VarScope scope, Var var, boolean isExactly, List terms, List params, 
                 
                 terms.add(cond);
                 
-                eChar = getStartChar();
+                eChar = getEndChar();
                 reportMatch(cond, sChar, eChar);
             }
         ;
