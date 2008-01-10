@@ -174,17 +174,27 @@ public class RuleEvaluator {
             tree.createBranch(null, context, goal );
 
             tree.addTreeListener(new TreeListener() {
+                final List<Var> vars = query.getParameterVar();
 
                 public void solution(Binding answer) throws ResolutionException {
-                    answers.add(answer);
+                    final Binding result = new Binding();
+                    for (Var var: vars) {
+                        Object val = answer.lookup(var);
+                        if (null != val) {
+                            result.add(var, val);
+                        } else {
+                            result.add(var, var);
+                        }
+                    }
+                    answers.add(result);
                 }
 
                 public void completed(Tree theTree) {
-                    if (theTree.isSuccess()) {
-                        fireInfo("Query: " + query.getName() + " completed.");
-                    } else {
-                        fireWarning("Query: " + query.getName() + " matched nothing.");
-                    }
+//                    if (theTree.isSuccess()) {
+//                        fireInfo("Query: " + query.getName() + " completed.");
+//                    } else {
+//                        fireWarning("Query: " + query.getName() + " matched nothing.");
+//                    }
                 }
 
                 public void floundered(Tree theTree) {
@@ -227,7 +237,11 @@ public class RuleEvaluator {
 
             }
             
-            return answers;
+            if (tree.isSuccess()) {
+                return answers;
+            } else {
+                return null;
+            }
         } catch (ResolutionException e) {
             fireError(e);
             if (stepMode) {

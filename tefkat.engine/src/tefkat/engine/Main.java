@@ -8,8 +8,6 @@
  * Contributors:
  *     michael lawley
  *
- *
- *
  */
 
 package tefkat.engine;
@@ -33,9 +31,9 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.ToolTipManager;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -48,16 +46,11 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.jgraph.event.GraphModelEvent;
 import org.jgraph.event.GraphModelListener;
 
-import antlr.RecognitionException;
-import antlr.TokenStreamException;
-import antlr.TokenStreamHiddenTokenFilter;
-import antlr.debug.MessageAdapter;
-import antlr.debug.MessageEvent;
-
 import tefkat.config.TefkatConfig.Configuration;
 import tefkat.config.TefkatConfig.Model;
 import tefkat.config.TefkatConfig.TransformationTask;
 import tefkat.config.TefkatConfig.impl.TefkatConfigPackageImpl;
+import tefkat.engine.trace.impl.TracePackageImpl;
 import tefkat.engine.view.RadialTreeLayoutAlgorithm;
 import tefkat.engine.view.ResourceSetModel;
 import tefkat.engine.view.ResourceView;
@@ -74,9 +67,15 @@ import tefkat.model.TefkatFactory;
 import tefkat.model.Term;
 import tefkat.model.Transformation;
 import tefkat.model.Var;
+import tefkat.model.internal.ModelUtils;
 import tefkat.model.parser.TefkatLexer;
 import tefkat.model.parser.TefkatParser;
 import tefkat.model.parser.TefkatResourceFactory;
+import antlr.RecognitionException;
+import antlr.TokenStreamException;
+import antlr.TokenStreamHiddenTokenFilter;
+import antlr.debug.MessageAdapter;
+import antlr.debug.MessageEvent;
 
 
 /**
@@ -250,6 +249,7 @@ public class Main {
         }
         
         TefkatConfigPackageImpl.init();
+        TracePackageImpl.init();
         
         engine.registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
         engine.registerFactory("xsd", XSD_RESOURCE_FACTORY);
@@ -314,26 +314,39 @@ public class Main {
                     URI uri = URI.createURI((String) itr.next());
                     extentResources.add(rs.getResource(uri, true));
                 }
-
-                Query q = TefkatFactory.eINSTANCE.createQuery();
-                q.setName("Interactive");
+                
+                Query query = TefkatFactory.eINSTANCE.createQuery();
+                query.setName("");
                 Var srcExtent = TefkatFactory.eINSTANCE.createVar();
-                srcExtent.setName("Source Extent");
-                q.getVars().add(srcExtent);
+                srcExtent.setName("Source");
+
+                Resource r = rs.createResource(URI.createURI("query"));
+                r.getContents().add(query);
 
                 Binding context = new Binding();
                 context.add(srcExtent, extent);
+
+                final Map packageNameMap = new HashMap();
+
+                System.out.println("Global packages: " + Registry.INSTANCE.keySet());
+                System.out.println("Local packages: " + rs.getPackageRegistry().keySet());
+
+                ModelUtils.buildPackageNameMaps(Registry.INSTANCE.values(), packageNameMap, "global");
+                ModelUtils.buildPackageNameMaps(rs.getPackageRegistry().values(), packageNameMap, "locate");
 
                 // loop until EOF
                 boolean done;
                 do {
                     try {
-                        done = readAndEvalQuery(engine, q, srcExtent, context);
+                        done = readAndEvalQuery(engine, query, srcExtent, context, packageNameMap);
                     } catch (ResolutionException e) {
+                        System.err.println(e);
                         done = false;
                     } catch (RecognitionException e) {
+                        System.err.println(e);
                         done = false;
                     } catch (TokenStreamException e) {
+                        System.err.println(e);
                         done = false;
                     }
                 } while (!done);
@@ -423,18 +436,19 @@ public class Main {
 
     }
 
-    private static boolean readAndEvalQuery(final Tefkat engine, Query q, Var srcExtent, Binding context) throws RecognitionException, TokenStreamException, ResolutionException, TefkatException, IOException {
+    private static boolean readAndEvalQuery(final Tefkat engine, final Query query, final Var srcExtent, final Binding context, final Map namespace) throws RecognitionException, TokenStreamException, ResolutionException, TefkatException, IOException {
         System.out.println("Enter query:");
         
         final StringBuilder sb = new StringBuilder();
         final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        // Need to preserve EOL in input since parsing of NAMESPACE/IMPORT depends on it :(
         String line;
-        while ((line = reader.readLine()) != null &&
-                !line.trim().endsWith(";")) {
-            sb.append(line);
-        }
-        if (null != line) {
-            sb.append(line);
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+            final String trim = line.trim();
+            if (trim.endsWith(";") || trim.startsWith("NAMESPACE")) {
+                break;
+            }
         }
         
         TefkatLexer lexer = new TefkatLexer(new StringReader(sb.toString()));
@@ -459,18 +473,31 @@ public class Main {
             
         });
         
-        SourceTerm stmt = parser.queryStatement(q, srcExtent);
+        parser.trackingMap.putAll(namespace);
+        
+        query.getVars().clear();
+        query.getParameterVar().clear();
+        query.getVars().add(srcExtent);
+        
+        SourceTerm stmt = parser.queryStatement(query, srcExtent);
         if (null != stmt) {
-            q.setTerm(stmt);
+            query.setTerm(stmt);
 
-            Collection answers = engine.evaluateQuery(context, q);
+            Collection<Binding> answers = engine.evaluateQuery(context, query);
 
-            for (Object o: answers) {
-                System.out.println(o);
+            if (null != answers) {
+                for (Binding b: answers) {
+                    System.out.println(b);
+                }
+                System.out.println(answers.size() + " results.");
+            } else {
+                System.out.println("No.");
             }
         }
         
-        return null == line;
+        namespace.putAll(parser.trackingMap);
+        
+        return sb.length() == 0 && null == line;
     }
 
     /**
