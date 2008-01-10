@@ -310,7 +310,8 @@ public class MofInstanceImpl extends MofTermImpl implements MofInstance {
     public String toString() {
         if (eIsProxy()) return super.toString();
 
-        return instance + (exact ? " :#" : " : ") + typeName + (null == context ? "" : "@" + context);
+        return (exact ? "" : "EXACT ") + typeName + (null == context ? "" : "@" + context) + " " + instance;
+//        return instance + (exact ? " :#" : " : ") + typeName + (null == context ? "" : "@" + context);
     }
 
 } //MofInstanceImpl
