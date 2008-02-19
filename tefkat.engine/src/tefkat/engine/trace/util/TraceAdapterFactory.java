@@ -66,6 +66,7 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
      * @return whether this factory is applicable for the type of the object.
      * @generated
      */
+    @Override
     public boolean isFactoryForType(Object object) {
         if (object == modelPackage) {
             return true;
@@ -82,27 +83,42 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
      * <!-- end-user-doc -->
      * @generated
      */
-    protected TraceSwitch modelSwitch =
-        new TraceSwitch() {
-            public Object caseTrace(Trace object) {
+    protected TraceSwitch<Adapter> modelSwitch =
+        new TraceSwitch<Adapter>() {
+            @Override
+            public Adapter caseTrace(Trace object) {
                 return createTraceAdapter();
             }
-            public Object caseAny(Any object) {
+            @Override
+            public Adapter caseAny(Any object) {
                 return createAnyAdapter();
             }
-            public Object caseIntAny(IntAny object) {
-                return createIntAnyAdapter();
-            }
-            public Object caseStringAny(StringAny object) {
-                return createStringAnyAdapter();
-            }
-            public Object caseObjectAny(ObjectAny object) {
-                return createObjectAnyAdapter();
-            }
-            public Object caseBoolAny(BoolAny object) {
+            @Override
+            public Adapter caseBoolAny(BoolAny object) {
                 return createBoolAnyAdapter();
             }
-            public Object defaultCase(EObject object) {
+            @Override
+            public Adapter caseIntAny(IntAny object) {
+                return createIntAnyAdapter();
+            }
+            @Override
+            public Adapter caseDecimalAny(DecimalAny object) {
+                return createDecimalAnyAdapter();
+            }
+            @Override
+            public Adapter caseStringAny(StringAny object) {
+                return createStringAnyAdapter();
+            }
+            @Override
+            public Adapter caseObjectAny(ObjectAny object) {
+                return createObjectAnyAdapter();
+            }
+            @Override
+            public Adapter caseNameValuePair(NameValuePair object) {
+                return createNameValuePairAdapter();
+            }
+            @Override
+            public Adapter defaultCase(EObject object) {
                 return createEObjectAdapter();
             }
         };
@@ -115,8 +131,9 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
      * @return the adapter for the <code>target</code>.
      * @generated
      */
+    @Override
     public Adapter createAdapter(Notifier target) {
-        return (Adapter)modelSwitch.doSwitch((EObject)target);
+        return modelSwitch.doSwitch((EObject)target);
     }
 
 
@@ -163,6 +180,20 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link tefkat.engine.trace.DecimalAny <em>Decimal Any</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see tefkat.engine.trace.DecimalAny
+     * @generated
+     */
+    public Adapter createDecimalAnyAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link tefkat.engine.trace.StringAny <em>String Any</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -187,6 +218,20 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createObjectAnyAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link tefkat.engine.trace.NameValuePair <em>Name Value Pair</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see tefkat.engine.trace.NameValuePair
+     * @generated
+     */
+    public Adapter createNameValuePairAdapter() {
         return null;
     }
 

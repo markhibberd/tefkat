@@ -31,7 +31,7 @@ public class Injections {
             traces.put(target, keys);
         }
     }
-    
+
     protected EObject lookup(Extent extent, List keys, TRule rule) {
             EObject obj = lookup(injections, keys, 0);
             Trace trace;
@@ -48,7 +48,7 @@ public class Injections {
             }
     //        ExtentUtil.highlightNode(obj, ExtentUtil.OBJECT_LOOKUP);
     //        ExtentUtil.highlightNode(trace, ExtentUtil.OBJECT_LOOKUP);
-            
+
             return obj;
         }
 
@@ -65,19 +65,19 @@ public class Injections {
             DynamicObject dynObj = (DynamicObject) obj;
             dynObj.addReferenceFrom(trace, TracePackage.eINSTANCE.getTrace_Target());
         }
-        
+
         extent.add(trace);
-    
+
         List sources = trace.getSources();
         for (int i = 0; i < keys.size(); i++) {
             Object key = keys.get(i);
             if (key instanceof BindingPair) {
                 key = ((BindingPair) key).getValue();
             }
-            
+
             if (key instanceof EObject) {
                 ObjectAny any = TraceFactory.eINSTANCE.createObjectAny();
-                any.getValue().add(key);
+                any.getValue().add((EObject) key);
                 sources.add(any);
                 // In case a target object is used as an injection parameter
                 if (key instanceof DynamicObject) {
@@ -110,7 +110,7 @@ public class Injections {
     private EObject lookup(Map map, List keys, int idx) {
         Object key = keys.get(idx);
         Object keyVal = map.get(key);
-        
+
         if (null == keyVal) {
             return null;
         } else if ((idx + 1)  < keys.size()) {
@@ -122,7 +122,7 @@ public class Injections {
 
     private void store(Map map, List keys, EObject value, int idx) {
         Object key = keys.get(idx);
-        
+
         if ((idx + 1) < keys.size()) {
             Map subMap = (Map) map.get(key);
             if (null == subMap) {

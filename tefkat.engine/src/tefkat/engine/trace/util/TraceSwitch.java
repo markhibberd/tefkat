@@ -33,7 +33,7 @@ import tefkat.engine.trace.*;
  * @see tefkat.engine.trace.TracePackage
  * @generated
  */
-public class TraceSwitch {
+public class TraceSwitch<T> {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -68,7 +68,7 @@ public class TraceSwitch {
      * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
-    public Object doSwitch(EObject theEObject) {
+    public T doSwitch(EObject theEObject) {
         return doSwitch(theEObject.eClass(), theEObject);
     }
 
@@ -79,16 +79,16 @@ public class TraceSwitch {
      * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
-    protected Object doSwitch(EClass theEClass, EObject theEObject) {
+    protected T doSwitch(EClass theEClass, EObject theEObject) {
         if (theEClass.eContainer() == modelPackage) {
             return doSwitch(theEClass.getClassifierID(), theEObject);
         }
         else {
-            List eSuperTypes = theEClass.getESuperTypes();
+            List<EClass> eSuperTypes = theEClass.getESuperTypes();
             return
                 eSuperTypes.isEmpty() ?
                     defaultCase(theEObject) :
-                    doSwitch((EClass)eSuperTypes.get(0), theEObject);
+                    doSwitch(eSuperTypes.get(0), theEObject);
         }
     }
 
@@ -99,45 +99,58 @@ public class TraceSwitch {
      * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
-    protected Object doSwitch(int classifierID, EObject theEObject) {
+    protected T doSwitch(int classifierID, EObject theEObject) {
         switch (classifierID) {
             case TracePackage.TRACE: {
                 Trace trace = (Trace)theEObject;
-                Object result = caseTrace(trace);
+                T result = caseTrace(trace);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case TracePackage.ANY: {
                 Any any = (Any)theEObject;
-                Object result = caseAny(any);
+                T result = caseAny(any);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case TracePackage.BOOL_ANY: {
+                BoolAny boolAny = (BoolAny)theEObject;
+                T result = caseBoolAny(boolAny);
+                if (result == null) result = caseAny(boolAny);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case TracePackage.INT_ANY: {
                 IntAny intAny = (IntAny)theEObject;
-                Object result = caseIntAny(intAny);
+                T result = caseIntAny(intAny);
                 if (result == null) result = caseAny(intAny);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case TracePackage.DECIMAL_ANY: {
+                DecimalAny decimalAny = (DecimalAny)theEObject;
+                T result = caseDecimalAny(decimalAny);
+                if (result == null) result = caseAny(decimalAny);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case TracePackage.STRING_ANY: {
                 StringAny stringAny = (StringAny)theEObject;
-                Object result = caseStringAny(stringAny);
+                T result = caseStringAny(stringAny);
                 if (result == null) result = caseAny(stringAny);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case TracePackage.OBJECT_ANY: {
                 ObjectAny objectAny = (ObjectAny)theEObject;
-                Object result = caseObjectAny(objectAny);
+                T result = caseObjectAny(objectAny);
                 if (result == null) result = caseAny(objectAny);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case TracePackage.BOOL_ANY: {
-                BoolAny boolAny = (BoolAny)theEObject;
-                Object result = caseBoolAny(boolAny);
-                if (result == null) result = caseAny(boolAny);
+            case TracePackage.NAME_VALUE_PAIR: {
+                NameValuePair nameValuePair = (NameValuePair)theEObject;
+                T result = caseNameValuePair(nameValuePair);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -146,107 +159,137 @@ public class TraceSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Trace</em>'.
+     * Returns the result of interpreting the object as an instance of '<em>Trace</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Trace</em>'.
+     * @return the result of interpreting the object as an instance of '<em>Trace</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseTrace(Trace object) {
+    public T caseTrace(Trace object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Any</em>'.
+     * Returns the result of interpreting the object as an instance of '<em>Any</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Any</em>'.
+     * @return the result of interpreting the object as an instance of '<em>Any</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseAny(Any object) {
+    public T caseAny(Any object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Int Any</em>'.
+     * Returns the result of interpreting the object as an instance of '<em>Int Any</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Int Any</em>'.
+     * @return the result of interpreting the object as an instance of '<em>Int Any</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseIntAny(IntAny object) {
+    public T caseIntAny(IntAny object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>String Any</em>'.
+     * Returns the result of interpreting the object as an instance of '<em>Decimal Any</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>String Any</em>'.
+     * @return the result of interpreting the object as an instance of '<em>Decimal Any</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseStringAny(StringAny object) {
+    public T caseDecimalAny(DecimalAny object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Object Any</em>'.
+     * Returns the result of interpreting the object as an instance of '<em>String Any</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Object Any</em>'.
+     * @return the result of interpreting the object as an instance of '<em>String Any</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseObjectAny(ObjectAny object) {
+    public T caseStringAny(StringAny object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Bool Any</em>'.
+     * Returns the result of interpreting the object as an instance of '<em>Object Any</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Bool Any</em>'.
+     * @return the result of interpreting the object as an instance of '<em>Object Any</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseBoolAny(BoolAny object) {
+    public T caseObjectAny(ObjectAny object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+     * Returns the result of interpreting the object as an instance of '<em>Name Value Pair</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Name Value Pair</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseNameValuePair(NameValuePair object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Bool Any</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Bool Any</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseBoolAny(BoolAny object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch, but this is the last case anyway.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+     * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject)
      * @generated
      */
-    public Object defaultCase(EObject object) {
+    public T defaultCase(EObject object) {
         return null;
     }
 

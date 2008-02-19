@@ -11,6 +11,8 @@
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rules" unique="false" lowerBound="1"
         upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extra" unique="false" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Any" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="BoolAny" eSuperTypes="#//Any">
@@ -28,5 +30,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="ObjectAny" eSuperTypes="#//Any">
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NameValuePair">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -16,33 +16,54 @@ package tefkat.engine.trace.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import tefkat.engine.trace.IntAny;
+import tefkat.engine.trace.NameValuePair;
 import tefkat.engine.trace.TracePackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Int Any</b></em>'.
+ * An implementation of the model object '<em><b>Name Value Pair</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link tefkat.engine.trace.impl.IntAnyImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link tefkat.engine.trace.impl.NameValuePairImpl#getName <em>Name</em>}</li>
+ *   <li>{@link tefkat.engine.trace.impl.NameValuePairImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class IntAnyImpl extends AnyImpl implements IntAny {
+public class NameValuePairImpl extends EObjectImpl implements NameValuePair {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     public static final String copyright = "Copyright michael lawley 2004";
+
+    /**
+     * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getName()
+     * @generated
+     * @ordered
+     */
+    protected static final String NAME_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getName()
+     * @generated
+     * @ordered
+     */
+    protected String name = NAME_EDEFAULT;
 
     /**
      * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -52,7 +73,7 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * @generated
      * @ordered
      */
-    protected static final long VALUE_EDEFAULT = 0L;
+    protected static final String VALUE_EDEFAULT = null;
 
     /**
      * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -62,14 +83,14 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * @generated
      * @ordered
      */
-    protected long value = VALUE_EDEFAULT;
+    protected String value = VALUE_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected IntAnyImpl() {
+    protected NameValuePairImpl() {
         super();
     }
 
@@ -80,7 +101,7 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      */
     @Override
     protected EClass eStaticClass() {
-        return TracePackage.Literals.INT_ANY;
+        return TracePackage.Literals.NAME_VALUE_PAIR;
     }
 
     /**
@@ -88,7 +109,28 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public long getValue() {
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setName(String newName) {
+        String oldName = name;
+        name = newName;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.NAME_VALUE_PAIR__NAME, oldName, name));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getValue() {
         return value;
     }
 
@@ -97,11 +139,11 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setValue(long newValue) {
-        long oldValue = value;
+    public void setValue(String newValue) {
+        String oldValue = value;
         value = newValue;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.INT_ANY__VALUE, oldValue, value));
+            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.NAME_VALUE_PAIR__VALUE, oldValue, value));
     }
 
     /**
@@ -112,8 +154,10 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case TracePackage.INT_ANY__VALUE:
-                return new Long(getValue());
+            case TracePackage.NAME_VALUE_PAIR__NAME:
+                return getName();
+            case TracePackage.NAME_VALUE_PAIR__VALUE:
+                return getValue();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -126,8 +170,11 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case TracePackage.INT_ANY__VALUE:
-                setValue(((Long)newValue).longValue());
+            case TracePackage.NAME_VALUE_PAIR__NAME:
+                setName((String)newValue);
+                return;
+            case TracePackage.NAME_VALUE_PAIR__VALUE:
+                setValue((String)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -141,7 +188,10 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case TracePackage.INT_ANY__VALUE:
+            case TracePackage.NAME_VALUE_PAIR__NAME:
+                setName(NAME_EDEFAULT);
+                return;
+            case TracePackage.NAME_VALUE_PAIR__VALUE:
                 setValue(VALUE_EDEFAULT);
                 return;
         }
@@ -156,8 +206,10 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case TracePackage.INT_ANY__VALUE:
-                return value != VALUE_EDEFAULT;
+            case TracePackage.NAME_VALUE_PAIR__NAME:
+                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+            case TracePackage.NAME_VALUE_PAIR__VALUE:
+                return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
         }
         return super.eIsSet(featureID);
     }
@@ -172,10 +224,12 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
         if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (value: ");
+        result.append(" (name: ");
+        result.append(name);
+        result.append(", value: ");
         result.append(value);
         result.append(')');
         return result.toString();
     }
 
-} //IntAnyImpl
+} //NameValuePairImpl

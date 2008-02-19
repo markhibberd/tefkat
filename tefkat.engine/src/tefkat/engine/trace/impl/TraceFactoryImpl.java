@@ -72,13 +72,16 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
             case TracePackage.TRACE: return createTrace();
+            case TracePackage.BOOL_ANY: return createBoolAny();
             case TracePackage.INT_ANY: return createIntAny();
+            case TracePackage.DECIMAL_ANY: return createDecimalAny();
             case TracePackage.STRING_ANY: return createStringAny();
             case TracePackage.OBJECT_ANY: return createObjectAny();
-            case TracePackage.BOOL_ANY: return createBoolAny();
+            case TracePackage.NAME_VALUE_PAIR: return createNameValuePair();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -109,6 +112,16 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
      * <!-- end-user-doc -->
      * @generated
      */
+    public DecimalAny createDecimalAny() {
+        DecimalAnyImpl decimalAny = new DecimalAnyImpl();
+        return decimalAny;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public StringAny createStringAny() {
         StringAnyImpl stringAny = new StringAnyImpl();
         return stringAny;
@@ -122,6 +135,16 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
     public ObjectAny createObjectAny() {
         ObjectAnyImpl objectAny = new ObjectAnyImpl();
         return objectAny;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NameValuePair createNameValuePair() {
+        NameValuePairImpl nameValuePair = new NameValuePairImpl();
+        return nameValuePair;
     }
 
     /**
@@ -149,6 +172,7 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
      * @deprecated
      * @generated
      */
+    @Deprecated
     public static TracePackage getPackage() {
         return TracePackage.eINSTANCE;
     }

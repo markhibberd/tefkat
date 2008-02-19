@@ -13,26 +13,25 @@
  */
 package tefkat.engine.trace;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
+import java.math.BigDecimal;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Object Any</b></em>'.
+ * A representation of the model object '<em><b>Decimal Any</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link tefkat.engine.trace.ObjectAny#getValue <em>Value</em>}</li>
+ *   <li>{@link tefkat.engine.trace.DecimalAny#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
- * @see tefkat.engine.trace.TracePackage#getObjectAny()
+ * @see tefkat.engine.trace.TracePackage#getDecimalAny()
  * @model
  * @generated
  */
-public interface ObjectAny extends Any {
+public interface DecimalAny extends Any {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -41,19 +40,29 @@ public interface ObjectAny extends Any {
     String copyright = "Copyright michael lawley 2004";
 
     /**
-     * Returns the value of the '<em><b>Value</b></em>' reference list.
-     * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+     * Returns the value of the '<em><b>Value</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Value</em>' reference list isn't clear,
+     * If the meaning of the '<em>Value</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Value</em>' reference list.
-     * @see tefkat.engine.trace.TracePackage#getObjectAny_Value()
+     * @return the value of the '<em>Value</em>' attribute.
+     * @see #setValue(BigDecimal)
+     * @see tefkat.engine.trace.TracePackage#getDecimalAny_Value()
      * @model
      * @generated
      */
-    EList<EObject> getValue();
+    BigDecimal getValue();
 
-} // ObjectAny
+    /**
+     * Sets the value of the '{@link tefkat.engine.trace.DecimalAny#getValue <em>Value</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Value</em>' attribute.
+     * @see #getValue()
+     * @generated
+     */
+    void setValue(BigDecimal value);
+
+} // DecimalAny

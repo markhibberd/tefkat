@@ -47,6 +47,7 @@ import tefkat.engine.trace.TracePackage;
  *   <li>{@link tefkat.engine.trace.impl.TraceImpl#getSources <em>Sources</em>}</li>
  *   <li>{@link tefkat.engine.trace.impl.TraceImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link tefkat.engine.trace.impl.TraceImpl#getRules <em>Rules</em>}</li>
+ *   <li>{@link tefkat.engine.trace.impl.TraceImpl#getExtra <em>Extra</em>}</li>
  * </ul>
  * </p>
  *
@@ -88,7 +89,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * @generated
      * @ordered
      */
-    protected EList sources = null;
+    protected EList<Any> sources;
 
     /**
      * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -98,7 +99,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * @generated
      * @ordered
      */
-    protected EObject target = null;
+    protected EObject target;
 
     /**
      * The cached value of the '{@link #getRules() <em>Rules</em>}' reference list.
@@ -108,7 +109,17 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * @generated
      * @ordered
      */
-    protected EList rules = null;
+    protected EList<EObject> rules;
+
+    /**
+     * The cached value of the '{@link #getExtra() <em>Extra</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getExtra()
+     * @generated
+     * @ordered
+     */
+    protected EList<EObject> extra;
 
     /**
      * <!-- begin-user-doc -->
@@ -124,6 +135,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     protected EClass eStaticClass() {
         return TracePackage.Literals.TRACE;
     }
@@ -154,9 +166,9 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getSources() {
+    public EList<Any> getSources() {
         if (sources == null) {
-            sources = new EObjectContainmentEList(Any.class, this, TracePackage.TRACE__SOURCES);
+            sources = new EObjectContainmentEList<Any>(Any.class, this, TracePackage.TRACE__SOURCES);
         }
         return sources;
     }
@@ -204,9 +216,9 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getRules() {
+    public EList<EObject> getRules() {
         if (rules == null) {
-            rules = new EObjectResolvingEList(EObject.class, this, TracePackage.TRACE__RULES);
+            rules = new EObjectResolvingEList<EObject>(EObject.class, this, TracePackage.TRACE__RULES);
         }
         return rules;
     }
@@ -216,10 +228,25 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EList<EObject> getExtra() {
+        if (extra == null) {
+            extra = new EObjectContainmentEList<EObject>(EObject.class, this, TracePackage.TRACE__EXTRA);
+        }
+        return extra;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case TracePackage.TRACE__SOURCES:
-                return ((InternalEList)getSources()).basicRemove(otherEnd, msgs);
+                return ((InternalEList<?>)getSources()).basicRemove(otherEnd, msgs);
+            case TracePackage.TRACE__EXTRA:
+                return ((InternalEList<?>)getExtra()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -229,6 +256,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case TracePackage.TRACE__NAME:
@@ -240,6 +268,8 @@ public class TraceImpl extends EObjectImpl implements Trace {
                 return basicGetTarget();
             case TracePackage.TRACE__RULES:
                 return getRules();
+            case TracePackage.TRACE__EXTRA:
+                return getExtra();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -249,6 +279,8 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
+    @SuppressWarnings("unchecked")
+    @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case TracePackage.TRACE__NAME:
@@ -256,14 +288,18 @@ public class TraceImpl extends EObjectImpl implements Trace {
                 return;
             case TracePackage.TRACE__SOURCES:
                 getSources().clear();
-                getSources().addAll((Collection)newValue);
+                getSources().addAll((Collection<? extends Any>)newValue);
                 return;
             case TracePackage.TRACE__TARGET:
                 setTarget((EObject)newValue);
                 return;
             case TracePackage.TRACE__RULES:
                 getRules().clear();
-                getRules().addAll((Collection)newValue);
+                getRules().addAll((Collection<? extends EObject>)newValue);
+                return;
+            case TracePackage.TRACE__EXTRA:
+                getExtra().clear();
+                getExtra().addAll((Collection<? extends EObject>)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -274,6 +310,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void eUnset(int featureID) {
         switch (featureID) {
             case TracePackage.TRACE__NAME:
@@ -288,6 +325,9 @@ public class TraceImpl extends EObjectImpl implements Trace {
             case TracePackage.TRACE__RULES:
                 getRules().clear();
                 return;
+            case TracePackage.TRACE__EXTRA:
+                getExtra().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -297,6 +337,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
             case TracePackage.TRACE__NAME:
@@ -307,6 +348,8 @@ public class TraceImpl extends EObjectImpl implements Trace {
                 return target != null;
             case TracePackage.TRACE__RULES:
                 return rules != null && !rules.isEmpty();
+            case TracePackage.TRACE__EXTRA:
+                return extra != null && !extra.isEmpty();
         }
         return super.eIsSet(featureID);
     }
@@ -316,6 +359,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public String toString() {
         if (eIsProxy()) return super.toString();
 

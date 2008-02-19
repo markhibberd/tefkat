@@ -13,30 +13,31 @@
  */
 package tefkat.engine.trace.impl;
 
+import java.math.BigDecimal;
+
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import tefkat.engine.trace.IntAny;
+import tefkat.engine.trace.DecimalAny;
 import tefkat.engine.trace.TracePackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Int Any</b></em>'.
+ * An implementation of the model object '<em><b>Decimal Any</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link tefkat.engine.trace.impl.IntAnyImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link tefkat.engine.trace.impl.DecimalAnyImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class IntAnyImpl extends AnyImpl implements IntAny {
+public class DecimalAnyImpl extends AnyImpl implements DecimalAny {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -52,7 +53,7 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * @generated
      * @ordered
      */
-    protected static final long VALUE_EDEFAULT = 0L;
+    protected static final BigDecimal VALUE_EDEFAULT = null;
 
     /**
      * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -62,14 +63,14 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * @generated
      * @ordered
      */
-    protected long value = VALUE_EDEFAULT;
+    protected BigDecimal value = VALUE_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected IntAnyImpl() {
+    protected DecimalAnyImpl() {
         super();
     }
 
@@ -80,7 +81,7 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      */
     @Override
     protected EClass eStaticClass() {
-        return TracePackage.Literals.INT_ANY;
+        return TracePackage.Literals.DECIMAL_ANY;
     }
 
     /**
@@ -88,7 +89,7 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public long getValue() {
+    public BigDecimal getValue() {
         return value;
     }
 
@@ -97,11 +98,11 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setValue(long newValue) {
-        long oldValue = value;
+    public void setValue(BigDecimal newValue) {
+        BigDecimal oldValue = value;
         value = newValue;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.INT_ANY__VALUE, oldValue, value));
+            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.DECIMAL_ANY__VALUE, oldValue, value));
     }
 
     /**
@@ -112,8 +113,8 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case TracePackage.INT_ANY__VALUE:
-                return new Long(getValue());
+            case TracePackage.DECIMAL_ANY__VALUE:
+                return getValue();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -126,8 +127,8 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case TracePackage.INT_ANY__VALUE:
-                setValue(((Long)newValue).longValue());
+            case TracePackage.DECIMAL_ANY__VALUE:
+                setValue((BigDecimal)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -141,7 +142,7 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case TracePackage.INT_ANY__VALUE:
+            case TracePackage.DECIMAL_ANY__VALUE:
                 setValue(VALUE_EDEFAULT);
                 return;
         }
@@ -156,8 +157,8 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case TracePackage.INT_ANY__VALUE:
-                return value != VALUE_EDEFAULT;
+            case TracePackage.DECIMAL_ANY__VALUE:
+                return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
         }
         return super.eIsSet(featureID);
     }
@@ -178,4 +179,4 @@ public class IntAnyImpl extends AnyImpl implements IntAny {
         return result.toString();
     }
 
-} //IntAnyImpl
+} //DecimalAnyImpl

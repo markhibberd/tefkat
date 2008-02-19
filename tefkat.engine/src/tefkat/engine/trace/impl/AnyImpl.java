@@ -51,6 +51,7 @@ public abstract class AnyImpl extends EObjectImpl implements Any {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     protected EClass eStaticClass() {
         return TracePackage.Literals.ANY;
     }

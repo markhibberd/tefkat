@@ -58,6 +58,15 @@ public interface TraceFactory extends EFactory {
     IntAny createIntAny();
 
     /**
+     * Returns a new object of class '<em>Decimal Any</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Decimal Any</em>'.
+     * @generated
+     */
+    DecimalAny createDecimalAny();
+
+    /**
      * Returns a new object of class '<em>String Any</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -74,6 +83,15 @@ public interface TraceFactory extends EFactory {
      * @generated
      */
     ObjectAny createObjectAny();
+
+    /**
+     * Returns a new object of class '<em>Name Value Pair</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Name Value Pair</em>'.
+     * @generated
+     */
+    NameValuePair createNameValuePair();
 
     /**
      * Returns a new object of class '<em>Bool Any</em>'.

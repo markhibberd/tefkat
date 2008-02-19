@@ -22,7 +22,9 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import tefkat.engine.trace.Any;
 import tefkat.engine.trace.BoolAny;
+import tefkat.engine.trace.DecimalAny;
 import tefkat.engine.trace.IntAny;
+import tefkat.engine.trace.NameValuePair;
 import tefkat.engine.trace.ObjectAny;
 import tefkat.engine.trace.StringAny;
 import tefkat.engine.trace.Trace;
@@ -69,6 +71,13 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    private EClass decimalAnyEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     private EClass stringAnyEClass = null;
 
     /**
@@ -77,6 +86,13 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
      * @generated
      */
     private EClass objectAnyEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass nameValuePairEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -203,6 +219,15 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getTrace_Extra() {
+        return (EReference)traceEClass.getEStructuralFeatures().get(4);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getAny() {
         return anyEClass;
     }
@@ -223,6 +248,24 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
      */
     public EAttribute getIntAny_Value() {
         return (EAttribute)intAnyEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getDecimalAny() {
+        return decimalAnyEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getDecimalAny_Value() {
+        return (EAttribute)decimalAnyEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -259,6 +302,33 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
      */
     public EReference getObjectAny_Value() {
         return (EReference)objectAnyEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getNameValuePair() {
+        return nameValuePairEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getNameValuePair_Name() {
+        return (EAttribute)nameValuePairEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getNameValuePair_Value() {
+        return (EAttribute)nameValuePairEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -312,11 +382,18 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
         createEReference(traceEClass, TRACE__SOURCES);
         createEReference(traceEClass, TRACE__TARGET);
         createEReference(traceEClass, TRACE__RULES);
+        createEReference(traceEClass, TRACE__EXTRA);
 
         anyEClass = createEClass(ANY);
 
+        boolAnyEClass = createEClass(BOOL_ANY);
+        createEAttribute(boolAnyEClass, BOOL_ANY__VALUE);
+
         intAnyEClass = createEClass(INT_ANY);
         createEAttribute(intAnyEClass, INT_ANY__VALUE);
+
+        decimalAnyEClass = createEClass(DECIMAL_ANY);
+        createEAttribute(decimalAnyEClass, DECIMAL_ANY__VALUE);
 
         stringAnyEClass = createEClass(STRING_ANY);
         createEAttribute(stringAnyEClass, STRING_ANY__VALUE);
@@ -324,8 +401,9 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
         objectAnyEClass = createEClass(OBJECT_ANY);
         createEReference(objectAnyEClass, OBJECT_ANY__VALUE);
 
-        boolAnyEClass = createEClass(BOOL_ANY);
-        createEAttribute(boolAnyEClass, BOOL_ANY__VALUE);
+        nameValuePairEClass = createEClass(NAME_VALUE_PAIR);
+        createEAttribute(nameValuePairEClass, NAME_VALUE_PAIR__NAME);
+        createEAttribute(nameValuePairEClass, NAME_VALUE_PAIR__VALUE);
     }
 
     /**
@@ -351,11 +429,16 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
         setNsPrefix(eNS_PREFIX);
         setNsURI(eNS_URI);
 
+        // Create type parameters
+
+        // Set bounds for type parameters
+
         // Add supertypes to classes
+        boolAnyEClass.getESuperTypes().add(this.getAny());
         intAnyEClass.getESuperTypes().add(this.getAny());
+        decimalAnyEClass.getESuperTypes().add(this.getAny());
         stringAnyEClass.getESuperTypes().add(this.getAny());
         objectAnyEClass.getESuperTypes().add(this.getAny());
-        boolAnyEClass.getESuperTypes().add(this.getAny());
 
         // Initialize classes and features; add operations and parameters
         initEClass(traceEClass, Trace.class, "Trace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -363,11 +446,18 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
         initEReference(getTrace_Sources(), this.getAny(), null, "sources", null, 0, -1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getTrace_Target(), ecorePackage.getEObject(), null, "target", null, 1, 1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getTrace_Rules(), ecorePackage.getEObject(), null, "rules", null, 1, -1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getTrace_Extra(), ecorePackage.getEObject(), null, "extra", null, 0, -1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(anyEClass, Any.class, "Any", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+        initEClass(boolAnyEClass, BoolAny.class, "BoolAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getBoolAny_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, BoolAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
         initEClass(intAnyEClass, IntAny.class, "IntAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getIntAny_Value(), ecorePackage.getEInt(), "value", null, 0, 1, IntAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIntAny_Value(), ecorePackage.getELong(), "value", null, 0, 1, IntAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(decimalAnyEClass, DecimalAny.class, "DecimalAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getDecimalAny_Value(), ecorePackage.getEBigDecimal(), "value", null, 0, 1, DecimalAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(stringAnyEClass, StringAny.class, "StringAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getStringAny_Value(), ecorePackage.getEString(), "value", null, 0, 1, StringAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -375,8 +465,9 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
         initEClass(objectAnyEClass, ObjectAny.class, "ObjectAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getObjectAny_Value(), ecorePackage.getEObject(), null, "value", null, 0, -1, ObjectAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(boolAnyEClass, BoolAny.class, "BoolAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getBoolAny_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, BoolAny.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(nameValuePairEClass, NameValuePair.class, "NameValuePair", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getNameValuePair_Name(), ecorePackage.getEString(), "name", null, 0, 1, NameValuePair.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getNameValuePair_Value(), ecorePackage.getEString(), "value", null, 0, 1, NameValuePair.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

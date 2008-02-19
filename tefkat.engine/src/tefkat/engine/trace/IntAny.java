@@ -47,12 +47,12 @@ public interface IntAny extends Any {
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Value</em>' attribute.
-     * @see #setValue(int)
+     * @see #setValue(long)
      * @see tefkat.engine.trace.TracePackage#getIntAny_Value()
      * @model
      * @generated
      */
-    int getValue();
+    long getValue();
 
     /**
      * Sets the value of the '{@link tefkat.engine.trace.IntAny#getValue <em>Value</em>}' attribute.
@@ -62,6 +62,6 @@ public interface IntAny extends Any {
      * @see #getValue()
      * @generated
      */
-    void setValue(int value);
+    void setValue(long value);
 
 } // IntAny

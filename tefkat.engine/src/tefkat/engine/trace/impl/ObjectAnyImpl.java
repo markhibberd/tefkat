@@ -55,7 +55,7 @@ public class ObjectAnyImpl extends AnyImpl implements ObjectAny {
      * @generated
      * @ordered
      */
-    protected EList value = null;
+    protected EList<EObject> value;
 
     /**
      * <!-- begin-user-doc -->
@@ -71,6 +71,7 @@ public class ObjectAnyImpl extends AnyImpl implements ObjectAny {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     protected EClass eStaticClass() {
         return TracePackage.Literals.OBJECT_ANY;
     }
@@ -80,9 +81,9 @@ public class ObjectAnyImpl extends AnyImpl implements ObjectAny {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getValue() {
+    public EList<EObject> getValue() {
         if (value == null) {
-            value = new EObjectResolvingEList(EObject.class, this, TracePackage.OBJECT_ANY__VALUE);
+            value = new EObjectResolvingEList<EObject>(EObject.class, this, TracePackage.OBJECT_ANY__VALUE);
         }
         return value;
     }
@@ -92,6 +93,7 @@ public class ObjectAnyImpl extends AnyImpl implements ObjectAny {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case TracePackage.OBJECT_ANY__VALUE:
@@ -105,11 +107,13 @@ public class ObjectAnyImpl extends AnyImpl implements ObjectAny {
      * <!-- end-user-doc -->
      * @generated
      */
+    @SuppressWarnings("unchecked")
+    @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case TracePackage.OBJECT_ANY__VALUE:
                 getValue().clear();
-                getValue().addAll((Collection)newValue);
+                getValue().addAll((Collection<? extends EObject>)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -120,6 +124,7 @@ public class ObjectAnyImpl extends AnyImpl implements ObjectAny {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void eUnset(int featureID) {
         switch (featureID) {
             case TracePackage.OBJECT_ANY__VALUE:
@@ -134,6 +139,7 @@ public class ObjectAnyImpl extends AnyImpl implements ObjectAny {
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
             case TracePackage.OBJECT_ANY__VALUE:

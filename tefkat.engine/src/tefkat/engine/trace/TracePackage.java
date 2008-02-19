@@ -120,13 +120,22 @@ public interface TracePackage extends EPackage {
     int TRACE__RULES = 3;
 
     /**
+     * The feature id for the '<em><b>Extra</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TRACE__EXTRA = 4;
+
+    /**
      * The number of structural features of the '<em>Trace</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int TRACE_FEATURE_COUNT = 4;
+    int TRACE_FEATURE_COUNT = 5;
 
     /**
      * The meta object id for the '{@link tefkat.engine.trace.impl.AnyImpl <em>Any</em>}' class.
@@ -155,7 +164,75 @@ public interface TracePackage extends EPackage {
      * @see tefkat.engine.trace.impl.TracePackageImpl#getIntAny()
      * @generated
      */
-    int INT_ANY = 2;
+    int INT_ANY = 3;
+
+    /**
+     * The meta object id for the '{@link tefkat.engine.trace.impl.DecimalAnyImpl <em>Decimal Any</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.engine.trace.impl.DecimalAnyImpl
+     * @see tefkat.engine.trace.impl.TracePackageImpl#getDecimalAny()
+     * @generated
+     */
+    int DECIMAL_ANY = 4;
+
+    /**
+     * The meta object id for the '{@link tefkat.engine.trace.impl.StringAnyImpl <em>String Any</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.engine.trace.impl.StringAnyImpl
+     * @see tefkat.engine.trace.impl.TracePackageImpl#getStringAny()
+     * @generated
+     */
+    int STRING_ANY = 5;
+
+    /**
+     * The meta object id for the '{@link tefkat.engine.trace.impl.ObjectAnyImpl <em>Object Any</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.engine.trace.impl.ObjectAnyImpl
+     * @see tefkat.engine.trace.impl.TracePackageImpl#getObjectAny()
+     * @generated
+     */
+    int OBJECT_ANY = 6;
+
+    /**
+     * The meta object id for the '{@link tefkat.engine.trace.impl.NameValuePairImpl <em>Name Value Pair</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.engine.trace.impl.NameValuePairImpl
+     * @see tefkat.engine.trace.impl.TracePackageImpl#getNameValuePair()
+     * @generated
+     */
+    int NAME_VALUE_PAIR = 7;
+
+    /**
+     * The meta object id for the '{@link tefkat.engine.trace.impl.BoolAnyImpl <em>Bool Any</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see tefkat.engine.trace.impl.BoolAnyImpl
+     * @see tefkat.engine.trace.impl.TracePackageImpl#getBoolAny()
+     * @generated
+     */
+    int BOOL_ANY = 2;
+
+    /**
+     * The feature id for the '<em><b>Value</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BOOL_ANY__VALUE = ANY_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Bool Any</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BOOL_ANY_FEATURE_COUNT = ANY_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -176,14 +253,22 @@ public interface TracePackage extends EPackage {
     int INT_ANY_FEATURE_COUNT = ANY_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link tefkat.engine.trace.impl.StringAnyImpl <em>String Any</em>}' class.
+     * The feature id for the '<em><b>Value</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see tefkat.engine.trace.impl.StringAnyImpl
-     * @see tefkat.engine.trace.impl.TracePackageImpl#getStringAny()
      * @generated
+     * @ordered
      */
-    int STRING_ANY = 3;
+    int DECIMAL_ANY__VALUE = ANY_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Decimal Any</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DECIMAL_ANY_FEATURE_COUNT = ANY_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -204,16 +289,6 @@ public interface TracePackage extends EPackage {
     int STRING_ANY_FEATURE_COUNT = ANY_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link tefkat.engine.trace.impl.ObjectAnyImpl <em>Object Any</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see tefkat.engine.trace.impl.ObjectAnyImpl
-     * @see tefkat.engine.trace.impl.TracePackageImpl#getObjectAny()
-     * @generated
-     */
-    int OBJECT_ANY = 4;
-
-    /**
      * The feature id for the '<em><b>Value</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -231,16 +306,14 @@ public interface TracePackage extends EPackage {
      */
     int OBJECT_ANY_FEATURE_COUNT = ANY_FEATURE_COUNT + 1;
 
-
     /**
-     * The meta object id for the '{@link tefkat.engine.trace.impl.BoolAnyImpl <em>Bool Any</em>}' class.
+     * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see tefkat.engine.trace.impl.BoolAnyImpl
-     * @see tefkat.engine.trace.impl.TracePackageImpl#getBoolAny()
      * @generated
+     * @ordered
      */
-    int BOOL_ANY = 5;
+    int NAME_VALUE_PAIR__NAME = 0;
 
     /**
      * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -249,16 +322,16 @@ public interface TracePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int BOOL_ANY__VALUE = ANY_FEATURE_COUNT + 0;
+    int NAME_VALUE_PAIR__VALUE = 1;
 
     /**
-     * The number of structural features of the '<em>Bool Any</em>' class.
+     * The number of structural features of the '<em>Name Value Pair</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int BOOL_ANY_FEATURE_COUNT = ANY_FEATURE_COUNT + 1;
+    int NAME_VALUE_PAIR_FEATURE_COUNT = 2;
 
 
     /**
@@ -316,6 +389,17 @@ public interface TracePackage extends EPackage {
     EReference getTrace_Rules();
 
     /**
+     * Returns the meta object for the containment reference list '{@link tefkat.engine.trace.Trace#getExtra <em>Extra</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Extra</em>'.
+     * @see tefkat.engine.trace.Trace#getExtra()
+     * @see #getTrace()
+     * @generated
+     */
+    EReference getTrace_Extra();
+
+    /**
      * Returns the meta object for class '{@link tefkat.engine.trace.Any <em>Any</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -345,6 +429,27 @@ public interface TracePackage extends EPackage {
      * @generated
      */
     EAttribute getIntAny_Value();
+
+    /**
+     * Returns the meta object for class '{@link tefkat.engine.trace.DecimalAny <em>Decimal Any</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Decimal Any</em>'.
+     * @see tefkat.engine.trace.DecimalAny
+     * @generated
+     */
+    EClass getDecimalAny();
+
+    /**
+     * Returns the meta object for the attribute '{@link tefkat.engine.trace.DecimalAny#getValue <em>Value</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Value</em>'.
+     * @see tefkat.engine.trace.DecimalAny#getValue()
+     * @see #getDecimalAny()
+     * @generated
+     */
+    EAttribute getDecimalAny_Value();
 
     /**
      * Returns the meta object for class '{@link tefkat.engine.trace.StringAny <em>String Any</em>}'.
@@ -387,6 +492,38 @@ public interface TracePackage extends EPackage {
      * @generated
      */
     EReference getObjectAny_Value();
+
+    /**
+     * Returns the meta object for class '{@link tefkat.engine.trace.NameValuePair <em>Name Value Pair</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Name Value Pair</em>'.
+     * @see tefkat.engine.trace.NameValuePair
+     * @generated
+     */
+    EClass getNameValuePair();
+
+    /**
+     * Returns the meta object for the attribute '{@link tefkat.engine.trace.NameValuePair#getName <em>Name</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Name</em>'.
+     * @see tefkat.engine.trace.NameValuePair#getName()
+     * @see #getNameValuePair()
+     * @generated
+     */
+    EAttribute getNameValuePair_Name();
+
+    /**
+     * Returns the meta object for the attribute '{@link tefkat.engine.trace.NameValuePair#getValue <em>Value</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Value</em>'.
+     * @see tefkat.engine.trace.NameValuePair#getValue()
+     * @see #getNameValuePair()
+     * @generated
+     */
+    EAttribute getNameValuePair_Value();
 
     /**
      * Returns the meta object for class '{@link tefkat.engine.trace.BoolAny <em>Bool Any</em>}'.
@@ -474,6 +611,14 @@ public interface TracePackage extends EPackage {
         EReference TRACE__RULES = eINSTANCE.getTrace_Rules();
 
         /**
+         * The meta object literal for the '<em><b>Extra</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference TRACE__EXTRA = eINSTANCE.getTrace_Extra();
+
+        /**
          * The meta object literal for the '{@link tefkat.engine.trace.impl.AnyImpl <em>Any</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -500,6 +645,24 @@ public interface TracePackage extends EPackage {
          * @generated
          */
         EAttribute INT_ANY__VALUE = eINSTANCE.getIntAny_Value();
+
+        /**
+         * The meta object literal for the '{@link tefkat.engine.trace.impl.DecimalAnyImpl <em>Decimal Any</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.engine.trace.impl.DecimalAnyImpl
+         * @see tefkat.engine.trace.impl.TracePackageImpl#getDecimalAny()
+         * @generated
+         */
+        EClass DECIMAL_ANY = eINSTANCE.getDecimalAny();
+
+        /**
+         * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute DECIMAL_ANY__VALUE = eINSTANCE.getDecimalAny_Value();
 
         /**
          * The meta object literal for the '{@link tefkat.engine.trace.impl.StringAnyImpl <em>String Any</em>}' class.
@@ -536,6 +699,32 @@ public interface TracePackage extends EPackage {
          * @generated
          */
         EReference OBJECT_ANY__VALUE = eINSTANCE.getObjectAny_Value();
+
+        /**
+         * The meta object literal for the '{@link tefkat.engine.trace.impl.NameValuePairImpl <em>Name Value Pair</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see tefkat.engine.trace.impl.NameValuePairImpl
+         * @see tefkat.engine.trace.impl.TracePackageImpl#getNameValuePair()
+         * @generated
+         */
+        EClass NAME_VALUE_PAIR = eINSTANCE.getNameValuePair();
+
+        /**
+         * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute NAME_VALUE_PAIR__NAME = eINSTANCE.getNameValuePair_Name();
+
+        /**
+         * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute NAME_VALUE_PAIR__VALUE = eINSTANCE.getNameValuePair_Value();
 
         /**
          * The meta object literal for the '{@link tefkat.engine.trace.impl.BoolAnyImpl <em>Bool Any</em>}' class.

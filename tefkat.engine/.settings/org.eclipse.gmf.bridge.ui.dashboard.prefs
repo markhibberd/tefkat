@@ -1,0 +1,8 @@
+#Tue Feb 19 20:35:18 EST 2008
+eclipse.preferences.version=1
+gmf_dashboard/domainGenerationModel=platform\:/resource/tefkat.engine/src/ExtendableTefkatTrace.genmodel
+gmf_dashboard/domainModel=platform\:/resource/tefkat.engine/src/TefkatTrace.ecore
+gmf_dashboard/generationModel=platform\:/resource/tefkat.engine/src/TefkatTrace1.gmfgen
+gmf_dashboard/graphicalDefinitionModel=platform\:/resource/tefkat.engine/src/TefkatTrace.gmfgraph
+gmf_dashboard/mappingModel=platform\:/resource/tefkat.engine/src/TefkatTrace1.gmfmap
+gmf_dashboard/toolingDefinitionModel=platform\:/resource/tefkat.engine/src/TefkatTrace.gmftool

@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link tefkat.engine.trace.Trace#getSources <em>Sources</em>}</li>
  *   <li>{@link tefkat.engine.trace.Trace#getTarget <em>Target</em>}</li>
  *   <li>{@link tefkat.engine.trace.Trace#getRules <em>Rules</em>}</li>
+ *   <li>{@link tefkat.engine.trace.Trace#getExtra <em>Extra</em>}</li>
  * </ul>
  * </p>
  *
@@ -81,10 +82,10 @@ public interface Trace extends EObject {
      * <!-- end-user-doc -->
      * @return the value of the '<em>Sources</em>' containment reference list.
      * @see tefkat.engine.trace.TracePackage#getTrace_Sources()
-     * @model type="tefkat.engine.trace.Any" containment="true"
+     * @model containment="true"
      * @generated
      */
-    EList getSources();
+    EList<Any> getSources();
 
     /**
      * Returns the value of the '<em><b>Target</b></em>' reference.
@@ -123,9 +124,25 @@ public interface Trace extends EObject {
      * <!-- end-user-doc -->
      * @return the value of the '<em>Rules</em>' reference list.
      * @see tefkat.engine.trace.TracePackage#getTrace_Rules()
-     * @model type="org.eclipse.emf.ecore.EObject" required="true"
+     * @model required="true"
      * @generated
      */
-    EList getRules();
+    EList<EObject> getRules();
+
+    /**
+     * Returns the value of the '<em><b>Extra</b></em>' containment reference list.
+     * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Extra</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Extra</em>' containment reference list.
+     * @see tefkat.engine.trace.TracePackage#getTrace_Extra()
+     * @model containment="true"
+     * @generated
+     */
+    EList<EObject> getExtra();
 
 } // Trace
