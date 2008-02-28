@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tefkat.config"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tefkat.config.edit"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tefkat.config.editor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tefkat.engine"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tefkat.model"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tefkat.model.edit"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tefkat.model.editor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tefkat.model.parser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tefkat.plugin"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.java.edit_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.java.editor_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping.ecore_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping.ecore.editor_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping.ecore2ecore_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping.ecore2ecore.editor_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping.ecore2xml_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping.ecore2xml.ui_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping.ui_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping.xsd2ecore_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.mapping.xsd2ecore.editor_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ocl_1.0.1.v200611161546.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ocl_1.1.1.v200709121956.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ocl.doc_1.0.1.v200611161546.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ocl.doc_1.1.0.v200706071450.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ocl.examples_1.0.1.v200611161546.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ocl.examples_1.1.0.v200706071450.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ocl.examples.interpreter_1.1.0.v200706071450.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.query_1.1.0.v200706071712.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.query.doc_1.1.0.v200706071712.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.query.examples_1.1.0.v200706131231.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.query.examples.ocl_1.1.0.v200706071712.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.query.examples.statements_1.0.100.v200706131231.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.query.ocl_1.1.0.v200706071712.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.transaction_1.1.1.v200708231948.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.transaction.doc_1.1.0.v200706071723.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.transaction.examples_1.0.100.v200706071723.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.transaction.ui_1.0.100.v200706071723.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.validation_1.1.1.v200708161445.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.validation.doc_1.1.0.v200706071520.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.validation.examples_1.1.0.v200706131235.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.validation.examples.adapter_1.0.100.v200706071520.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.validation.examples.general_1.0.100.v200706071520.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.validation.examples.ocl_1.1.0.v200706131235.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.validation.ocl_1.1.0.v200706071520.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.validation.ui_1.1.0.v200706071520.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.validation.ui.ide_1.0.100.v200706071520.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.workspace_1.1.1.v200707252036.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.workspace.doc_1.1.0.v200706071723.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.workspace.examples_1.0.100.v200706071723.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.workspace.examples.library.editor_1.0.100.v200706071723.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.workspace.ui_1.0.100.v200706071723.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xsd_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xsd.doc_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xsd.ecore.converter_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xsd.ecore.exporter_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xsd.ecore.importer_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xsd.edit_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xsd.editor_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xsd.mapping_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.xsd.mapping.editor_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

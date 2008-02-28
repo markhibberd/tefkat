@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="simpleuml"
+    nsURI="http://simpleuml" nsPrefix="uml">
+  <eClassifiers xsi:type="ecore:EClass" name="UMLClass" eSuperTypes="#//Classifier">
+    <eReferences name="parents" eType="#//UMLClass" upperBound="-1"/>
+    <eReferences name="attribute" eType="#//Attribute" upperBound="-1" containment="true"
+        eOpposite="#//Attribute/owner"/>
+    <eAttributes name="kind" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelElement" abstract="true">
+    <eAttributes name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Association" eSuperTypes="#//ModelElement">
+    <eReferences name="source" eType="#//UMLClass" lowerBound="1"/>
+    <eReferences name="target" eType="#//UMLClass" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Classifier" abstract="true" eSuperTypes="#//ModelElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//ModelElement">
+    <eReferences name="type" eType="#//Classifier" lowerBound="1"/>
+    <eReferences name="owner" eType="#//UMLClass" lowerBound="1" eOpposite="#//UMLClass/attribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveDataType" eSuperTypes="#//Classifier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UMLPackage">
+    <eReferences name="contents" eType="#//ModelElement" upperBound="-1" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

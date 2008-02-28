@@ -1,0 +1,14 @@
+TRANSFORMATION uml2rel : uml -> rel
+
+NAMESPACE http://simpleuml
+NAMESPACE http://relational
+
+RULE Class2Table(c, t, k)
+  FORALL  UMLClass c
+  WHERE   c.kind = "persistent"
+  MAKE    Table t, Key k
+  SET     t.name = c.name, t.key = k,
+          k.name = c.name
+;
+
+

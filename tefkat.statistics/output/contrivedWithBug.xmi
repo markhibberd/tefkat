@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:rel="http://relational">
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table name="Joe-Cletus"/>
+  <rel:Table name="Joe-Billy"/>
+  <rel:Table name="Joe-Bob"/>
+  <rel:Table/>
+  <rel:Table name="Cletus-Joe"/>
+  <rel:Table name="Cletus-Billy"/>
+  <rel:Table name="Cletus-Bob"/>
+  <rel:Table/>
+  <rel:Table name="Billy-Joe"/>
+  <rel:Table name="Billy-Cletus"/>
+  <rel:Table name="Billy-Bob"/>
+  <rel:Table/>
+  <rel:Table name="Bob-Joe"/>
+  <rel:Table name="Bob-Cletus"/>
+  <rel:Table name="Bob-Billy"/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table name="Joe-Cletus-Billy"/>
+  <rel:Table name="Joe-Cletus-Bob"/>
+  <rel:Table/>
+  <rel:Table name="Joe-Billy-Cletus"/>
+  <rel:Table name="Joe-Billy-Bob"/>
+  <rel:Table/>
+  <rel:Table name="Joe-Bob-Cletus"/>
+  <rel:Table name="Joe-Bob-Billy"/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table name="Cletus-Joe-Billy"/>
+  <rel:Table name="Cletus-Joe-Bob"/>
+  <rel:Table/>
+  <rel:Table name="Cletus-Billy-Joe"/>
+  <rel:Table name="Cletus-Billy-Bob"/>
+  <rel:Table/>
+  <rel:Table name="Cletus-Bob-Joe"/>
+  <rel:Table name="Cletus-Bob-Billy"/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table name="Billy-Joe-Cletus"/>
+  <rel:Table name="Billy-Joe-Bob"/>
+  <rel:Table/>
+  <rel:Table name="Billy-Cletus-Joe"/>
+  <rel:Table name="Billy-Cletus-Bob"/>
+  <rel:Table/>
+  <rel:Table name="Billy-Bob-Joe"/>
+  <rel:Table name="Billy-Bob-Cletus"/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table/>
+  <rel:Table name="Bob-Joe-Cletus"/>
+  <rel:Table name="Bob-Joe-Billy"/>
+  <rel:Table/>
+  <rel:Table name="Bob-Cletus-Joe"/>
+  <rel:Table name="Bob-Cletus-Billy"/>
+  <rel:Table/>
+  <rel:Table name="Bob-Billy-Joe"/>
+  <rel:Table name="Bob-Billy-Cletus"/>
+</xmi:XMI>

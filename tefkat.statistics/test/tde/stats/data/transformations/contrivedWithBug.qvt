@@ -1,0 +1,72 @@
+TRANSFORMATION uml2rel : uml -> rel
+
+NAMESPACE http://simpleuml
+NAMESPACE http://relational
+
+CLASS Cousins {
+    UMLClass foo;
+    UMLClass bar;
+};
+
+CLASS CousinsOfThe2ndVariety {
+    Table baa;
+    UMLClass ram;
+    UMLClass ewe;
+};
+
+
+RULE TrackCousins
+  FORALL UMLClass a, UMLClass b
+  WHERE  a.name
+  AND    b.name
+  LINKING Cousins WITH foo = a, bar = b;
+
+RULE Track2ndCousins
+  FORALL UMLClass a, UMLClass b, UMLClass c
+  WHERE  a.name
+  AND    b.name
+  AND    c.name
+  LINKING CousinsOfThe2ndVariety WITH baa = a, ram = b, ewe = c;
+
+
+RULE MakeCousins
+  FORALL UMLClass a, UMLClass b
+  WHERE  Cousins LINKS foo = a, bar = b
+  AND    NOT a.name = b.name
+  MAKE   Table t
+  SET    t.name = join("-", a.name, b.name);
+
+RULE Make2ndCousins
+  FORALL UMLClass a, UMLClass b, UMLClass c
+  WHERE  CousinsOfThe2ndVariety LINKS baa = a, ram = b, ewe = c
+  AND    NOT a.name = b.name
+  AND    NOT b.name = c.name
+  AND    NOT a.name = c.name
+  MAKE   Table t
+  SET    t.name = join("-", a.name, b.name, c.name);
+/*
+RULE NamesNamesNames
+  FORALL  UMLClass c
+  WHERE   c.name
+  MAKE    Table t
+  SET     t.name = c.name;
+
+
+RULE Red
+  FORALL  UMLClass c
+  WHERE   NOT c.name = "Bob"
+    AND   NOT c.name = "Billy"
+    AND   NOT c.name = "Joe"
+    AND   NOT c.name = "Cletus"
+  MAKE    Table t
+  SET     t.name = "I Don't Need No Stinking Name";
+
+
+RULE BillyBob
+  FORALL  UMLClass b1, UMLClass b2
+  WHERE   b1.name = "Billy" AND b2.name = "Bob"
+  MAKE    Table t
+  SET     t.name = "Billy-Bob";
+*/
+
+

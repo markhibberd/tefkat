@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt" xmlns:trace="http:///com/dstc/tefkat/TefkatTrace.ecore">
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </Cousins>
+  <Cousins>
+    <foo href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <bar href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </Cousins>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <target href="output/contrived.xmi#/0"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <target href="output/contrived.xmi#/1"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <target href="output/contrived.xmi#/2"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <target href="output/contrived.xmi#/3"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <target href="output/contrived.xmi#/4"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <target href="output/contrived.xmi#/5"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <target href="output/contrived.xmi#/6"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <target href="output/contrived.xmi#/7"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <target href="output/contrived.xmi#/8"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <target href="output/contrived.xmi#/9"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <target href="output/contrived.xmi#/10"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="MakeCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <target href="output/contrived.xmi#/11"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.2"/>
+  </trace:Trace>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+  </CousinsOfThe2ndVariety>
+  <CousinsOfThe2ndVariety>
+    <baa href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ram href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    <ewe href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+  </CousinsOfThe2ndVariety>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <target href="output/contrived.xmi#/12"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <target href="output/contrived.xmi#/13"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <target href="output/contrived.xmi#/14"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <target href="output/contrived.xmi#/15"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <target href="output/contrived.xmi#/16"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <target href="output/contrived.xmi#/17"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <target href="output/contrived.xmi#/18"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <target href="output/contrived.xmi#/19"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <target href="output/contrived.xmi#/20"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <target href="output/contrived.xmi#/21"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <target href="output/contrived.xmi#/22"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <target href="output/contrived.xmi#/23"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <target href="output/contrived.xmi#/24"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <target href="output/contrived.xmi#/25"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <target href="output/contrived.xmi#/26"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <target href="output/contrived.xmi#/27"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <target href="output/contrived.xmi#/28"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <target href="output/contrived.xmi#/29"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <target href="output/contrived.xmi#/30"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <target href="output/contrived.xmi#/31"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <target href="output/contrived.xmi#/32"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <target href="output/contrived.xmi#/33"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.0"/>
+    </sources>
+    <target href="output/contrived.xmi#/34"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+  <trace:Trace>
+    <sources xsi:type="trace:StringAny" value="Make2ndCousins t"/>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.3"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.2"/>
+    </sources>
+    <sources xsi:type="trace:ObjectAny">
+      <value href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/instances/contrived.xmi#//@contents.1"/>
+    </sources>
+    <target href="output/contrived.xmi#/35"/>
+    <rules href="file:/home/markh/workspace/3.3.1.1_pde/tefkat/tefkat.statistics/bin/tde/stats/data/transformations/contrived.qvt#/1/@tRule.3"/>
+  </trace:Trace>
+</xmi:XMI>

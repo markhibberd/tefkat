@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:UMLPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://simpleuml">
+  <contents xsi:type="uml:UMLClass" name="Account" kind="persistent">
+    <attribute name="owner" type="//@contents.1"/>
+  </contents>
+  <contents xsi:type="uml:UMLClass" name="Principal">
+    <attribute name="name"/>
+    <attribute name="savingsAccount" type="//@contents.0"/>
+  </contents>
+  <contents xsi:type="uml:UMLClass" name="Person" parents="//@contents.1" kind="persistent"/>
+  <contents xsi:type="uml:UMLClass" name="Company" parents="//@contents.1"/>
+  <contents xsi:type="uml:UMLClass" name="LocalCompany" parents="//@contents.3" kind="persistent"/>
+  <contents xsi:type="uml:UMLClass" name="OffShoreCompany" parents="//@contents.3" kind="persistent"/>
+</uml:UMLPackage>
