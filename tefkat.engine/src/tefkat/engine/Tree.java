@@ -28,33 +28,35 @@ import tefkat.model.Extent;
 public class Tree {
 
     static int counter = 0;
-    
+
     private final Extent trackingExtent;
-    
+
     private final Binding context;
 
     private final Context parentContext;
 
     private final Collection answers = new ArrayList();
-    
-    private final List unresolvedNodes = new ArrayList();
-    
+
+    private final List<Node> unresolvedNodes = new ArrayList<Node>();
+
     private final Set listeners = new HashSet();
 
     private final boolean isNegation;
-    
+
     private boolean completed;
-    
+
     private int level = Integer.MAX_VALUE;
+
+
 
     public Tree(Context parentContext, Node node, Binding context, Extent trackingExtent, boolean isNegation) {
         increment();
-        
+
         this.parentContext = parentContext;
         this.context = context;
         this.trackingExtent = trackingExtent;
         this.isNegation = isNegation;
-        
+
         if (null != node) {
             addUnresolvedNode(node);
         }
@@ -71,7 +73,7 @@ public class Tree {
     public void removeTreeListener(TreeListener listener) {
         listeners.remove(listener);
     }
-    
+
     void setLevel(int level) {
         this.level = level;
     }
@@ -88,6 +90,13 @@ public class Tree {
         return context;
     }
 
+    // FIXME MH: this shouldn't really need to be done, when I get around to it
+    //           the info should be exposed in a more controlled manner through
+    //           the callback interface.
+    public List<Node> getUnresolvedNodes() {
+        return this.unresolvedNodes;
+    }
+
     Node getUnresolvedNode() {
         if (unresolvedNodes.size() > 0) {
             return (Node) unresolvedNodes.remove(0);
@@ -95,7 +104,7 @@ public class Tree {
             return null;
         }
     }
-    
+
     void addUnresolvedNode(Node node) {
         // insert the node at the start of the list
         // This means we perform a depth-first traversal which will
@@ -122,10 +131,10 @@ public class Tree {
         Node child = new Node(childGoal, unifier, parent);
         addUnresolvedNode(child);
     }
-    
+
     public void completed() {
         completed = true;
-        
+
         // Need to avoid problems if the TreeListener tries to remove itself
         Object[] array = listeners.toArray();
         for (int i = array.length - 1; i >= 0; i--) {
@@ -133,7 +142,7 @@ public class Tree {
             listener.completed(this);
         }
     }
-    
+
     Node flounder(Collection reasons) {
         // Tell any listeners so they can clean up
         floundered();
@@ -151,7 +160,7 @@ public class Tree {
         }
         return null;
     }
-    
+
     private void floundered() {
         for (final Iterator itr = listeners.iterator(); itr.hasNext(); ) {
             TreeListener listener = (TreeListener) itr.next();
@@ -161,7 +170,7 @@ public class Tree {
 
     public void success(Node node) throws ResolutionException {
         node.setIsSuccess(true);
-        
+
         Binding answer = node.getBindings();
         if (!answers.contains(answer)) {
             answers.add(answer);
@@ -171,7 +180,7 @@ public class Tree {
                 listener.solution(answer);
             }
         }
-        
+
         if (isNegation) {
             completed();
         }
@@ -184,7 +193,7 @@ public class Tree {
     public boolean isSuccess() {
         return (answers.size() > 0);
     }
-    
+
     public boolean isCompleted() {
         return completed;
     }

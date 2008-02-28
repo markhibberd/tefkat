@@ -65,5 +65,44 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.xsd.editor_2.3.0.v200709252135.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.xsd.mapping_2.3.0.v200709252135.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.xsd.mapping.editor_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/antlr.jar"/>
+	<classpathentry kind="lib" path="lib/groovy-all-1.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/jline-0.9.93.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.activities_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ant_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.codegen_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.codegen.ecore_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.codegen.ecore.ui_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.codegen.ui_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.common_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.common.ui_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.commonj.sdo_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.converter_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.doc_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.change_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.change.edit_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.edit_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.editor_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.sdo_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.sdo.doc_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.sdo.edit_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.sdo.editor_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.xmi_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.edit_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.edit.ui_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.examples_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.examples.generator.validator_1.0.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.examples.library_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.examples.library.edit_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.examples.library.editor_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.exporter_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.exporter.html_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.importer_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.importer.ecore_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.importer.java_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.importer.rose_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.java_2.3.0.v200709252135.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
