@@ -38,41 +38,41 @@ final class Context {
         this.tree = tree;
         this.node = node;
     }
-    
+
     void createBranch() {
         List newGoal = newGoal();
         tree.createBranch(node, null, newGoal);
     }
-    
+
     void createBranch(Term term) {
         createBranch(term, null);
     }
-    
+
     void createBranch(Binding unifier) {
         List newGoal = newGoal();
         tree.createBranch(node, unifier, newGoal);
     }
-    
+
     void createBranch(Term term, Binding unifier) {
         List newGoal = newGoal();
         newGoal.add(term);
         tree.createBranch(node, unifier, newGoal);
     }
-    
+
     void createBranch(Collection terms) {
         List newGoal = newGoal();
         newGoal.addAll(terms);
         tree.createBranch(node, null, newGoal);
     }
-    
+
     void delay(String message) throws NotGroundException {
         throw new NotGroundException(node, message);
     }
-    
+
     void error(String message) throws ResolutionException {
         throw new ResolutionException(node, message);
     }
-    
+
     void error(String message, Exception e) throws ResolutionException {
         throw new ResolutionException(node, message, e);
     }
@@ -89,14 +89,14 @@ final class Context {
 
     /**
      * Find a binding for the variable in the current context.
-     * 
+     *
      * @param var   The var to lookup in this context
      * @return      The value that var is bound to in the context of this node or null
      */
     Object lookup(Var var) {
         return node.lookup(var);
     }
-    
+
     Tree createTree(Collection goal, Binding unifier, boolean isNegation, boolean subTree) {
         return createTree(new Node(goal, unifier), isNegation, subTree);
     }
@@ -108,11 +108,11 @@ final class Context {
         } else {
             result.setLevel(tree.getLevel());
         }
-        
+
 //        if (ruleEval.INCREMENTAL) {
             ruleEval.addUnresolvedTree(result);
 //        }
-        
+
         return result;
     }
 
@@ -123,7 +123,7 @@ final class Context {
     List expand(WrappedVar var) throws NotGroundException {
         return exprEval.expand(this, var);
     }
-    
+
     Function getFunction(String name) {
         return (Function) exprEval.funcMap.get(name);
     }
@@ -146,7 +146,7 @@ final class Context {
         if (obj instanceof DynamicObject) {
             throw new ResolutionException(node, "Illegal attempt to retrieve feature value from target object instance: " + obj);
         }
-        
+
             if (obj instanceof EObject) {
                 EObject instance = (EObject) obj;
                 // If instance is a DynamicObject or it's containing eResource is a target Extent
@@ -155,7 +155,7 @@ final class Context {
                 try {
                     EStructuralFeature eFeature = AbstractResolver.getFeature(this, instance.eClass(), featureName);
                     valuesObject = instance.eGet(eFeature);
-    
+
                     if (valuesObject != null || instance.eIsSet(eFeature) || !eFeature.isRequired()) {
                         ExtentUtil.highlightEdge(instance, valuesObject, ExtentUtil.FEATURE_LOOKUP);
                     } else {
@@ -174,7 +174,7 @@ final class Context {
                     return valuesObject;    // This was a valid feature - don't want to fall through
                 }
             }
-    
+
             String methName = "get" + featureName.substring(0, 1).toUpperCase() + featureName.substring(1, featureName.length());
             try {
                 try {
@@ -187,7 +187,7 @@ final class Context {
             } catch (Exception e) {
                 warn("Could not find a source of values for '" + featureName + "' in '" + obj + "' " + e.getMessage());
             }
-    
+
         return valuesObject;
     }
 
@@ -198,7 +198,7 @@ final class Context {
     void fireInfo(String mesg) {
         ruleEval.fireInfo(mesg);
     }
-    
+
     Tree getResultTree(final Term term, final Binding unifier) {
         final Map cache = ruleEval.getPatternCache(term);
         final Binding parameterContext;
@@ -209,27 +209,27 @@ final class Context {
             parameterContext.composeRight(tree.getContext());
         }
         Tree resultTree = (Tree) cache.get(parameterContext);
-        
+
         if (null == resultTree) {
             final Collection goal = new ArrayList();
             goal.add(term);
-            
+
 //            Collection patGoal = new ArrayList();
 //            Term pDefTerm = pDefn.getTerm();
 //            patGoal.add(pDefTerm);
 
 //            System.err.println("resolving " + patGoal + "\n  " + newContext);      // TODO delete
             Node patternNode = new Node(goal, parameterContext);
-        
+
             // Maybe Tree (via context) should construct the new tree?
             resultTree = createTree(patternNode, false, false);
 
             cache.put(parameterContext, resultTree);
         }
-        
+
         if (!resultTree.isCompleted()) {
             // Register listener for floundering (and remove from cache)
-            
+
             resultTree.addTreeListener(new TreeListener() {
 
                 public void solution(Binding answer) {
@@ -242,7 +242,7 @@ final class Context {
                 public void floundered(Tree theTree) {
                     cache.remove(parameterContext);
                 }
-                
+
             });
         }
 

@@ -9,7 +9,7 @@
  *     michael lawley
  *
  *
- * 
+ *
  */
 
 package tefkat.plugin.debug;
@@ -52,11 +52,11 @@ import tefkat.model.parser.ParserListener;
  *
  */
 public class DebugTarget extends AbstractDebugElement implements IDebugTarget, ParserListener {
-    
+
     private ILaunch launch;
     private IThread[] threads;
     private Map treeThreadMap = new HashMap();
-    
+
     private Tefkat engine;
     private Node currentNode = null;
 //    private TRule currentRule = null;
@@ -69,22 +69,22 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
     int suspendCount;
 
     /**
-     * 
+     *
      */
     public DebugTarget(ILaunch launch, Tefkat tefkat) {
         super(null);
-        
+
         target = this;
         this.launch = launch;
         this.engine = tefkat;
-        
+
 //        final DebugThread thread = new DebugThread(this);
         threads = new IThread[] {};
-        
+
         engine.addTefkatListener(new TefkatListener2() {
             // int depth = 0;
             boolean initial = true;
-            
+
             List threadList = new ArrayList();
 
             public void started() {
@@ -99,7 +99,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
             public void stopped() {
                 fireTerminateEvent();
             }
-            
+
             public void breakpoint(Term t) {
 //                System.out.println("BREAKPOINT");
                 suspended = true;
@@ -107,7 +107,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
                 thread.setStepping(true);
                 fireSuspendEvent(DebugEvent.BREAKPOINT);
             }
-            
+
             public void suspended() {
 //                System.out.println("SUSPENDED");
                 suspended = true;
@@ -121,7 +121,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
                     fireSuspendEvent(DebugEvent.STEP_END);
                 }
             }
-            
+
             public void resumed() {
                 suspended = false;
                 DebugThread thread = (DebugThread) treeThreadMap.get(trees.peek());
@@ -138,8 +138,8 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
             public void resourceLoaded(Resource res) {}
 
             public void transformationStarted(Transformation transformation, Extent[] srcs, Extent[] tgts, Extent trace, Binding context) {}
-
             public void transformationFinished() {}
+            public void transformationFinished(Transformation transformation) {}
 
             public void evaluateRule(TRule rule, Binding context, boolean cached) {
                 // This is not set correctly for incremental evaluation since we don't
@@ -176,7 +176,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
 //                System.err.println(" delayed");
 //                depth--;
             }
-            
+
 //            private void indent(int n, char c) {
 //                for (int i = 0; i < n; i++) {
 //                    System.err.print(c);
@@ -208,19 +208,19 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
                 threadList.remove(thread);
                 threads = (IThread[]) threadList.toArray(threads);
             }
- 
+
         });
     }
 
     /**
      * Returns the current stack frames in the target.
-     * 
+     *
      * @return the current stack frames in the target
      * @throws DebugException if unable to perform the request
      */
     protected IStackFrame[] getStackFrames(DebugThread thread) throws DebugException {
         List frames = new ArrayList();
-        
+
         if (thread.equals(treeThreadMap.get(trees.peek()))) {
             for (Node node = currentNode; node != null; ) {
                 frames.add(new NodeSelectedLiteralStackFrame(thread, node));
@@ -231,7 +231,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
 
         return (IStackFrame[]) frames.toArray(new IStackFrame[frames.size()]);
     }
-    
+
     protected boolean isCurrentThread(DebugThread thread) {
         return thread.equals(treeThreadMap.get(trees.peek()));
     }
@@ -242,7 +242,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
     public IProcess getProcess() {
         return null;
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.debug.core.model.IDebugTarget#getLaunch()
      */
@@ -334,7 +334,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
     public void suspend() throws DebugException {
         engine.pause();
     }
-    
+
     public void step() {
         engine.step();
     }
@@ -404,7 +404,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
         startCharMap.put(event.getObj(), new Integer(event.getStartChar()));
         endCharMap.put(event.getObj(), new Integer(event.getEndChar()));
     }
-    
+
     public int getStartChar(EObject obj) {
         System.err.println("getStartChar: " + obj);
         while (obj != null) {
@@ -421,7 +421,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
         System.err.println(startCharMap);
         return -1;
     }
-    
+
     public int getEndChar(EObject obj) {
         while (obj != null) {
             // look up position

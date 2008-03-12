@@ -14,18 +14,18 @@ public class TermStats {
     private Map<Term,TermStat> termStats = new HashMap<Term,TermStat>();
 
     public void entered(Node n) {
-        ++get(n).entered;
+        ++node(n).entered;
     }
 
     public void exited(Node n) {
-        ++get(n).exited;
+        ++node(n).exited;
     }
 
     public void delayed(Node n) {
-        ++get(n).delayed;
+        ++node(n).delayed;
     }
 
-    private TermStat get(Term t) {
+    private TermStat term(Term t) {
         TermStat s = termStats.get(t);
         if (s == null) {
             s = new TermStat(t);
@@ -34,7 +34,7 @@ public class TermStats {
         return s;
     }
 
-    private NodeStat get(Node n) {
+    private NodeStat node(Node n) {
         NodeStat s = nodeStats.get(n);
         if (s == null) {
             s = new NodeStat();
@@ -70,7 +70,7 @@ public class TermStats {
         int unsuccessfulLeaf = 0;
         int nonLeafNode = 0;
         for (Node n : nodeStats.keySet()) {
-            NodeStat s = get(n);
+            NodeStat s = node(n);
 //            System.out.println("Node (" + n + ") ::>");
 //            System.out.println("        entered: " + s.entered);
 //            System.out.println("        exited: " + s.exited);
@@ -79,14 +79,14 @@ public class TermStats {
                 ++successfulLeaf;
                 Term t = n.selectedLiteral();
                 if (t != null) {
-                    ++get(t).success;
+                    ++term(t).success;
                 }
 //                System.out.println("    Term Succeeded.");
             } else if (n.isFailure()) {
                 ++unsuccessfulLeaf;
                 Term t = n.selectedLiteral();
                 if (t != null) {
-                    ++get(t).failure;
+                    ++term(t).failure;
                 }
 
 //                System.out.println("    Term Failed.");
@@ -94,7 +94,7 @@ public class TermStats {
                 ++nonLeafNode;
                 Term t = n.selectedLiteral();
                 if (t != null) {
-                    ++get(t).nonleaf;
+                    ++term(t).nonleaf;
                 }
 //                System.out.println("    Non Leaf Node.");
             }
@@ -113,7 +113,7 @@ public class TermStats {
         List<TermStat> stats = new ArrayList<TermStat>(termStats.values());
         Collections.sort(stats);
         for (TermStat stat : stats) {
-            System.out.printf("Term (%s) ::> \n   [attempts=%d success=%d, failure=%d, non-leaf=%d] [success=%%%+1.1f, failure=%%%+1.1f, non-leaf=%%%+1.1f]\n", stat.t, stat.attempts(), stat.success, stat.failure, stat.nonleaf, (double) stat.success / stat.attempts() * 100, (double) stat.failure / stat.attempts() * 100, (double) stat.nonleaf / stat.attempts() * 100);
+            System.out.printf("Term (%s) ::> \n   [attempts=%d success=%d, failure=%d, non-leaf=%d] [success=%%%+1.1f, failure=%%%+1.1f, non-leaf=%%%+1.1f]\n\n", stat.t, stat.attempts(), stat.success, stat.failure, stat.nonleaf, (double) stat.success / stat.attempts() * 100, (double) stat.failure / stat.attempts() * 100, (double) stat.nonleaf / stat.attempts() * 100);
         }
 
         System.out.println(":: Successful Leaf Nodes: " + successfulLeaf);

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -38,6 +39,13 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -48,31 +56,39 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.xsd.util.XSDResourceImpl;
 
+import tefkat.engine.Tefkat;
 import tefkat.model.StratificationException;
+import tefkat.model.Term;
 import tefkat.model.Transformation;
 import tefkat.model.parser.ParserEvent;
 import tefkat.model.parser.ParserListener;
-
-import antlr.ANTLRException;
-import antlr.RecognitionException;
-import antlr.TokenStreamHiddenTokenFilter;
-import antlr.debug.MessageEvent;
-import antlr.debug.MessageAdapter;
-
 import tefkat.model.parser.TefkatLexer;
 import tefkat.model.parser.TefkatMessageEvent;
 import tefkat.model.parser.TefkatParser;
+import tefkat.plugin.stats.AnnotatedDocument;
+import tefkat.plugin.stats.AnnotatingStatsListener;
+import tefkat.plugin.stats.IndexedEObjectLookup;
+import tefkat.plugin.stats.TermStats.TermStat;
+import antlr.ANTLRException;
+import antlr.RecognitionException;
+import antlr.TokenStreamHiddenTokenFilter;
+import antlr.debug.MessageAdapter;
+import antlr.debug.MessageEvent;
 
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * @author lawley
  *
@@ -82,7 +98,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     final private static String PARSE_ERROR = TefkatPlugin.PLUGIN_ID + ".parser.error";
 
     private ParserThread runner = new ParserThread();
-    
+
     private static Map SERIALIZATION_OPTIONS;
 
     static {
@@ -96,30 +112,45 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     private int XMI_PAGE = -1;
     private int STRATIFICATION_PAGE = -1;
 
-    private TextEditor textEditor;
+    private TefkatTextEditor textEditor;
     private StyledText xmiText;
     private StyledText stratificationText;
-    
+
     private TefkatModelOutlinePage outline = null;
 
+    // FIXME MH: yeh well - data structure time here - I couldn't find
+    //           anything obvious in emf, maybe something like a feature
+    //           map could be used. whatever the case, HashMap is definately
+    //           not the one. EObject uses object identity only, requires
+    //           org.eclipse.emf.ecore.util.EcoreUtil for object equality +
+    //           hash. but..... i just don't have the time at the moment
+    //           so sirNastyHackALot was born for the time being.
     private Map startCharMap = new HashMap();
     private Map endCharMap = new HashMap();
 
+    private IndexedEObjectLookup termAreaLookup = new IndexedEObjectLookup();
+
     /**
-     * 
+     *
      */
     public TefkatModelEditor() {
         super();
     }
-    
+
+    private AnnotatingStatsListener annotatingStatsListener;
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.IWorkbenchPart#dispose()
      */
     public void dispose() {
         // TODO Auto-generated method stub
         super.dispose();
+        if (annotatingStatsListener != null) {
+            TefkatPlugin.getPlugin().getTefkat().removeTefkatListener(annotatingStatsListener);
+            annotatingStatsListener = null;
+        }
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.part.MultiPageEditorPart#createPages()
      */
@@ -142,11 +173,11 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                 }
             }
         });
-
         try {
             EDITOR_PAGE = addPage(textEditor, getEditorInput());
             setPartName(getEditorInput().getName());
             setPageText(EDITOR_PAGE, "Transformation");
+
         } catch (PartInitException e) {
             ErrorDialog.openError(
                            getSite().getShell(),
@@ -154,6 +185,12 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                            null,
                            e.getStatus());
         }
+
+        Tefkat engine = TefkatPlugin.getPlugin().getTefkat();
+        annotatingStatsListener = new AnnotatingStatsListener(textEditor, ((IFileEditorInput) getEditorInput()).getFile().getLocationURI());
+        engine.addTefkatListener(annotatingStatsListener);
+        engine.setPrintingStats(true);
+
     }
 
     private void createXMIPage() {
@@ -164,7 +201,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         composite.setLayout(layout);
         xmiText = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
         xmiText.setEditable(false);
-        
+
         XMI_PAGE = addPage(composite);
         setPageText(XMI_PAGE, "XMI Preview");
     }
@@ -175,7 +212,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         composite.setLayout(layout);
         stratificationText = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
         stratificationText.setEditable(false);
-        
+
         STRATIFICATION_PAGE = addPage(composite);
         setPageText(STRATIFICATION_PAGE, "Stratification");
     }
@@ -188,7 +225,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
             runner.requestParse();
         }
     }
-        
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
      */
@@ -224,13 +261,112 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         return true;
     }
 
-    private final class TefkatTextEditor extends TextEditor {
+    public final class TefkatTextEditor extends TextEditor {
 
         public TefkatTextEditor() {
             super();
             setSourceViewerConfiguration(new TefkatModelSourceViewerConfiguration());
+
         }
-        
+
+        public AnnotatedDocument createAnnotatedDocument() {
+            ITextViewer textViewer = getSourceViewer();
+            return new AnnotatedDocument(textViewer.getDocument(), getDocumentProvider(), getEditorInput(), termAreaLookup);
+        }
+
+         int idx = 0;
+         public void addAnnotation(Resource r, Term t, TermStat stats) {
+            ITextViewer textViewer = getSourceViewer();
+            if (textViewer == null) {
+                System.err.println("could not find text viewer");
+                return;
+            }
+
+            IDocument document= textViewer.getDocument();
+
+            if (document == null) {
+                System.err.println("could not find document");
+                return;
+            }
+
+            IDocumentProvider documentProvider= getDocumentProvider();
+            if (documentProvider == null) {
+                System.err.println("could not find documentProvider");
+                return;
+            }
+
+            IAnnotationModel annotationModel= documentProvider.getAnnotationModel(getEditorInput());
+            if (annotationModel == null) {
+                System.err.println("could not find annotationModel");
+                return;
+            }
+
+            EObject newT = sirNastyHackALot(t);
+            Integer start = getStartChar(newT);
+            Integer end = getEndChar(newT);
+            if (start == null) throw new NullPointerException(verboseSirNastyHackALot(t));
+            if (end == null) throw new NullPointerException();
+            int offset = start.intValue();
+            int length = end.intValue() - offset;
+
+            String type;
+            if (stats.success()) {
+                type = "tefkat.plugin.stats.always";
+            } else if (stats.failure()) {
+                type = "tefkat.plugin.stats.never";
+            } else {
+                type = "tefkat.plugin.stats.sometimes";
+            }
+            System.err.println(t + "  %" + stats.percent());
+            System.err.println(stats.success);
+            System.err.println(stats.failure);
+            System.err.println(stats.nonleaf);
+            createAnnotation(annotationModel, type, stats.percent(), offset, length);
+
+        }
+
+         private String verboseSirNastyHackALot(Term in) {
+             System.err.println("Matching: " + in);
+             for (EObject out : (Set<EObject>) startCharMap.keySet()) {
+                 System.err.println("  against: " + out);
+                 if (out.toString().equals(in.toString())) {
+                     return out.toString();
+                 }
+             }
+             return in.toString();
+        }
+
+        private EObject sirNastyHackALot(EObject in) {
+             for (EObject out : (Set<EObject>) startCharMap.keySet()) {
+                 if (EcoreUtil.equals(out, in)) {
+                     System.err.println("**EQUALS");
+                     return out;
+                 }
+                 if (out.toString().equals(in.toString())) {
+                     System.err.println("**TOSTRING");
+                     return out;
+                 }
+                 if (out.toString().equals("not [" + in.toString() + "]")) {
+                     System.err.println("**TOSTRING+NOT");
+                     return out;
+                 }
+             }
+             return in;
+         }
+
+        private void createAnnotation(IAnnotationModel annotationModel, String type, String msg, int offset, int length) {
+            Annotation annotation = new Annotation(type, false, msg);
+            annotation.setText(msg);
+            Position position = new Position(offset, length);
+            annotationModel.addAnnotation(annotation, position);
+        }
+
+        protected ISourceViewer createSourceViewer(Composite parent,
+                IVerticalRuler ruler, int styles) {
+            // TODO Auto-generated method stub
+            return super.createSourceViewer(parent, ruler, styles);
+        }
+
         /* (non-Javadoc)
          * @see org.eclipse.ui.IWorkbenchPart#dispose()
          */
@@ -250,10 +386,10 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         }
 
     }
-    
+
     class ParserThread extends Thread {
         private volatile boolean parseRequested = false;
-        
+
         synchronized final public void requestParse() {
             if (!parseRequested && !isAlive()) {
                 start();
@@ -261,7 +397,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
             parseRequested = true;
             notify();
         }
-        
+
         final public void run() {
             boolean doWork = false;
 
@@ -297,11 +433,11 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                 // nothing to do
                 return;
             }
-            
+
 //            TefkatPlugin.getPlugin().clearResourceSet();
 //            ResourceSet resourceSet = TefkatPlugin.getPlugin().getResourceSet();
             ResourceSet resourceSet = new ResourceSetImpl();
-            
+
             // Need to use a new ExtendedMetaData instance to avoid cached ePackage instances.
             //
             SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData(resourceSet.getPackageRegistry()));
@@ -314,7 +450,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
             } catch (CoreException e1) {
                 // TODO Log this
             }
-        
+
             String editorText = textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput()).get();
             Reader in = new StringReader(editorText);
             final TefkatLexer lexer = new TefkatLexer(in);
@@ -324,7 +460,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
             // hide not discard
             filter.hide(TefkatParser.COMMENT);
             filter.hide(TefkatParser.WS);
-        
+
             TefkatParser parser = new TefkatParser(filter);
 
             final MessageAdapter messageListener = new MessageAdapter() {
@@ -337,7 +473,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                                     createErrorMarker(resource, e.getText(), lexer.getLine());
                                 }
                             }
-            
+
                             public void reportWarning(MessageEvent e) {
                                 if (e instanceof TefkatMessageEvent) {
                                     final TefkatMessageEvent tme = (TefkatMessageEvent) e;
@@ -346,27 +482,29 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                                     createWarningMarker(resource, e.getText(), lexer.getLine());
                                 }
                             }
-                            
+
                             private String getMessage(int line, String msg) {
                                 Object[] args = {line, msg};
                                 return new Formatter().format("%4d: %s", args).toString();
                             }
                         };
             parser.addMessageListener(messageListener);
-            
+
             // store map of char position to parse terms
             startCharMap.clear();
             endCharMap.clear();
+            termAreaLookup.clear();
             parser.addParserListener(new ParserListener() {
                 public void matched(ParserEvent e) {
                     startCharMap.put(e.getObj(), new Integer(e.getStartChar()));
                     endCharMap.put(e.getObj(), new Integer(e.getEndChar()));
+                    termAreaLookup.add((EObject) e.getObj(), e.getStartChar(), e.getEndChar());
                 }
             });
 
             URI uri = URI.createPlatformResourceURI(resource.getFullPath().toString());
             final Resource res = resourceSet.createResource(uri);
-        
+
             final OutputStream out = new ByteArrayOutputStream();
             final StringBuffer sb = new StringBuffer();
             try {
@@ -376,7 +514,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
 
 //                ModelUtils.resolveTrackingClassNames(transformation, parser.trackingMap);
                 printStrata(sb, transformation.getStrata());
-                
+
             } catch (final RecognitionException e) {
                 createErrorMarker(resource, e.toString(), e.getLine());
             } catch (final ANTLRException e) {
@@ -454,10 +592,10 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     }
 
     private void createWarningMarker(final IResource resource, final String message, final int line, final int start, final int end) {
-	Display.getDefault().asyncExec(new Runnable() {
-	    public void run() {
-		try {
-		    Map map = new HashMap(6);
+    Display.getDefault().asyncExec(new Runnable() {
+        public void run() {
+        try {
+            Map map = new HashMap(6);
                     if (start >= 0) {
                         map.put(IMarker.CHAR_START, new Integer(start));
                     }
@@ -467,16 +605,16 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                     if (line > 0) {
                         map.put(IMarker.LINE_NUMBER, new Integer(line));
                     }
-		    map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
-		    map.put(IMarker.MESSAGE, message);
+            map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
+            map.put(IMarker.MESSAGE, message);
                     map.put(IMarker.LOCATION, message);
-		    createMarker(resource, map);
-		} catch (CoreException e) {
-		    // TODO Log later
-		    e.printStackTrace();
-		}
-	    }
-	});
+            createMarker(resource, map);
+        } catch (CoreException e) {
+            // TODO Log later
+            e.printStackTrace();
+        }
+        }
+    });
     }
 
     private void createMarker(final IResource resource, final Map map)
@@ -490,7 +628,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     }
 
     public Object getAdapter(Class adapter) {
-        
+
         if (adapter.equals(IContentOutlinePage.class)) {
             if (null == outline) {
                 outline = new TefkatModelOutlinePage();
@@ -527,10 +665,10 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         } else if (adapter.equals(ITextEditor.class)) {
             return textEditor;
         }
-        
+
         return super.getAdapter(adapter);
     }
-    
+
     public Integer getStartChar(EObject obj) {
         while (obj != null) {
             Integer pos = (Integer) startCharMap.get(obj);
@@ -541,7 +679,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         }
         return null;
     }
-    
+
     public Integer getEndChar(EObject obj) {
         while (obj != null) {
             Integer pos = (Integer) endCharMap.get(obj);

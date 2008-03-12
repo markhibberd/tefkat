@@ -67,7 +67,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
      * @generated
      */
     public static final String copyright = "Copyright michael lawley Pty Ltd 2003-2007";
-    
+
     /**
      * The cached value of the '{@link #getTRule() <em>TRule</em>}' containment reference list.
      * <!-- begin-user-doc -->
@@ -77,7 +77,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
      * @ordered
      */
     protected EList tRule = null;
-    
+
     /**
      * Maps from a TRule to a Collection of the TRules that supersede it
      * with respect to <em>this</em> Transformation.
@@ -102,7 +102,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
         Collection supersedingRules = getSupersedingRules(superseded);
         supersedingRules.add(superseder);
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -115,7 +115,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
         }
         supersedingRules.remove(superseder);
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -129,7 +129,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
         }
         return supersedingRules;
     }
-    
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -238,40 +238,41 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
      * @generated NOT
      */
     public List[] getStrata() throws TefkatException {
+        // TRAIL:MH stratification - dependency info
         // FIXME handle inheritance of tracking classes
         Collection rules = getTRule();
         Collection patterns = getPatternDefn();
-        
+
         final IntMap levelMapping = new IntMap(2 * (rules.size() + patterns.size()) + 1);
         final Stratifier stratifier = new Stratifier();
-        
+
         for (final Iterator ruleItr = rules.iterator(); ruleItr.hasNext(); ) {
             TRule rule = (TRule) ruleItr.next();
             Collection goal = rule.getGoal();
-            
+
             levelMapping.put(rule, 0);
-            
+
             for (final Iterator termItr = goal.iterator(); termItr.hasNext(); ) {
                 Term term = (Term) termItr.next();
                 stratifier.check(rule, term);
             }
         }
-        
+
         for (final Iterator patternItr = patterns.iterator(); patternItr.hasNext(); ) {
             PatternDefn pattern = (PatternDefn) patternItr.next();
 
             levelMapping.put(pattern, 0);
-            
+
             stratifier.check(pattern, pattern.getTerm());
         }
-        
+
         List less = new ArrayList();
         List lesseq = new ArrayList();
 
 //        fireInfo("    finding dependencies...");
-        
+
         // FIXME - handle subtyping and stratification
-        
+
         for (final Iterator itr = stratifier.readers.entrySet().iterator(); itr.hasNext(); ) {
             Map.Entry entry = (Map.Entry) itr.next();
             Object tc = entry.getKey();
@@ -319,7 +320,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
 //        fireInfo("    populating strata...");
 
         boolean done = false;
-        
+
         int maxLevel = 0;
         for (boolean acyclic = true; !done && acyclic && maxLevel <= levelMapping.size(); ) {
             done = true;
@@ -339,7 +340,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
                 }
                 acyclic |= (0 == lidx);
             }
-            
+
             for (final Iterator lItr = lesseq.iterator(); lItr.hasNext(); ) {
                 Object[] pair = (Object[]) lItr.next();
                 int lidx = levelMapping.get(pair[0]);
@@ -356,34 +357,34 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
                 acyclic |= (0 == lidx);
             }
         }
-        
+
         List[] strata = new List[maxLevel + 1];
         for (int level = 0; level < strata.length; level++) {
             strata[level] = new ArrayList();
         }
-        
+
         for (final Iterator itr = rules.iterator(); itr.hasNext(); ) {
             Object scope = itr.next();
             int level = levelMapping.get(scope);
 //            System.out.println(level + ": " + scope);
             strata[level].add(scope);
         }
-        
+
         for (final Iterator itr = patterns.iterator(); itr.hasNext(); ) {
             Object scope = itr.next();
             int level = levelMapping.get(scope);
 //            System.out.println(level + ": " + scope);
             strata[level].add(scope);
         }
-        
+
         if (!done) {
             String s = orderString(maxLevel, levelMapping, less, lesseq);
             throw new StratificationException(strata, "Rules are not stratifiable: " + s);
         }
-        
+
         return strata;
     }
-    
+
     private String orderString(int maxLevel, IntMap levelMapping, List less, List lesseq) {
         StringBuffer sb = new StringBuffer();
         for (final Iterator lItr = less.iterator(); lItr.hasNext(); ) {
@@ -410,7 +411,7 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
         }
         return sb.toString();
     }
-    
+
     private String getName(Object obj) {
         if (obj instanceof EClass) {
             return ((EClass) obj).getName();
@@ -428,15 +429,15 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
      */
     public String toString() {
         if (eIsProxy()) return super.toString();
-        
+
         String str = "";
         String sep = "";
         for (Iterator itr = getVars().iterator(); itr.hasNext(); ) {
             str = str + sep + itr.next();
             sep = ", ";
         }
-        
+
         return name + "(" + str + ")";
     }
-    
+
 } //TransformationImpl

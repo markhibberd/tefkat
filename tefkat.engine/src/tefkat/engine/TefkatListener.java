@@ -24,17 +24,17 @@ import tefkat.model.Transformation;
 
 /**
  * @author lawley
- *  
+ *
  */
 public interface TefkatListener {
     public void started();
 
     public void stopped();
-    
+
     public void breakpoint(Term term);
-    
+
     public void suspended();
-    
+
     public void resumed();
 
     public void info(String message);
@@ -46,7 +46,8 @@ public interface TefkatListener {
     public void transformationStarted(Transformation transformation, Extent[] srcs, Extent[] tgts, Extent trace, Binding context);
 
     public void transformationFinished();
-    
+    public void transformationFinished(Transformation transformation);
+
     public void resourceLoaded(Resource res);
 
     public void evaluateRule(TRule rule, Binding context, boolean cached);

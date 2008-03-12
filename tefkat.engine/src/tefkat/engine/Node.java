@@ -18,6 +18,7 @@ package tefkat.engine;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -25,27 +26,28 @@ import tefkat.model.*;
 
 public class Node {
     static int counter = 0;
-    
+
     private final Binding bindings;
     private final Node parentNode;
     private final Collection<Term> goal;  // A set of tefkat.model.Terms
-    
     private Collection<Term> delayed;     // A set of tefkat.model.Terms
     private Collection<NotGroundException> delayReasons;
     private Term selectedLiteral;
     private boolean isSuccess;
     private boolean isFailure;
-    
-    public Node(Collection<Term> goal, Binding binding, Node parent) {
+
+    private final List<Node> children = new ArrayList<Node>();
+
+    private Node(Collection<Term> goal, Binding binding, Node parent) {
         incrementCounter();
-        
+
         binding.freeze();
-        
+
         this.goal = goal;
         this.bindings = binding;
         this.parentNode = parent;
         isSuccess = isFailure = false;
-        
+
         if (null != parent && null != parent.getDelayed()) {
             goal.addAll(parent.getDelayed());
         }
@@ -54,11 +56,19 @@ public class Node {
     private static void incrementCounter() {
         counter++;
     }
-    
+
     public Node(Collection<Term> goal, Binding binding) {
         this(goal, binding, null);
     }
-    
+
+    public Node createChild(Collection<Term> goal, Binding binding) {
+        Node child = new Node(goal, binding, this);
+        this.children.add(child);
+        return child;
+    }
+
+
+
     public void delay(NotGroundException reason) {
         if (goal.remove(selectedLiteral)) {
             if (null == delayed) {
@@ -80,15 +90,15 @@ public class Node {
             delayReasons.addAll(reasons);
         }
     }
-    
+
     public Collection<Term> getDelayed() {
         return delayed;
     }
-    
+
     public Collection<NotGroundException> getDelayReasons() {
         return delayReasons;
     }
-    
+
     public String toString() {
         if (null == selectedLiteral) {
             return "Goal Terms: " + goal;
@@ -105,7 +115,7 @@ public class Node {
 
     /**
      * Find a binding for the variable in the current context.
-     * 
+     *
      * @param var   The var to lookup in this context
      * @return      The value that var is bound to in the context of this node or null
      */

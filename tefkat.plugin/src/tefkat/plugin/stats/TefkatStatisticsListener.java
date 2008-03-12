@@ -1,4 +1,4 @@
-package tde.stats;
+package tefkat.plugin.stats;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -14,7 +14,7 @@ import tefkat.model.Transformation;
 
 public class TefkatStatisticsListener extends TefkatListenerAdapter implements
         TefkatListener2, TreeListener {
-    private TermStats termStats = new TermStats();
+    protected TermStats termStats = new TermStats();
     private int resourceLoaded = 0;
     private int enterTree = 0;
     private int evaluateRule = 0;
@@ -28,19 +28,7 @@ public class TefkatStatisticsListener extends TefkatListenerAdapter implements
     private int solvedTree = 0;
     private int successfulTree = 0;
     private int unsuccessfulTree = 0;
-    /* (non-Javadoc)
-     * @see tefkat.engine.TefkatListener#started()
-     */
-    public void started() {
-        System.out.println("START++++");
-    }
 
-    /* (non-Javadoc)
-     * @see tefkat.engine.TefkatListener#stopped()
-     */
-    public void stopped() {
-        System.out.println("STOP++++");
-    }
     public void resourceLoaded(Resource res) { ++resourceLoaded; }
     public void enterTree(Tree tree) { ++enterTree; }
     public void evaluateRule(TRule rule, Binding context, boolean cached) { ++evaluateRule; }
@@ -80,13 +68,16 @@ public class TefkatStatisticsListener extends TefkatListenerAdapter implements
     }
 
     public void warning(String message) {
-        System.err.println("warning: " + message);
+        System.out.println("warning: " + message);
     }
 
     public void error(String message, Throwable cause) {
-        System.err.println("error:   " + message + ": " + cause.getMessage());
+        System.out.println("error:   " + message + ": " + cause.getMessage());
     }
 
+    public void computeAllStats() {
+        this.termStats.computeAllStats();
+    }
     public void printAllStats() {
         System.out.println();
         System.out.println("=================== TRANSFORMATION STATISTICS: BEGIN ===================");

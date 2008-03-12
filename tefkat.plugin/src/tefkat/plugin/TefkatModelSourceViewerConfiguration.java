@@ -24,9 +24,11 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
+import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
+
 /**
  * @author lawley
- * 
+ *
  */
 public class TefkatModelSourceViewerConfiguration extends
         SourceViewerConfiguration {
@@ -37,8 +39,38 @@ public class TefkatModelSourceViewerConfiguration extends
         if (scanner == null) {
             scanner = new TefkatModelRuleBasedScanner();
         }
+
         return scanner;
+
+
     }
+
+    // FIXME MH: this is what I have to implement to show stats over the top
+//    @Override
+//    public ITextHover getTextHover(ISourceViewer sourceViewer,
+//            String contentType) {
+//        // TODO Auto-generated method stub
+//        return new ITextHover() {
+//            public String getHoverInfo(ISourceViewer sourceViewer,
+//                    int lineNumber) {
+//                return "hello world";
+//            }
+//
+//            @Override
+//            public String getHoverInfo(ITextViewer textViewer,
+//                    IRegion hoverRegion) {
+//                // TODO Auto-generated method stub
+//                return null;
+//            }
+//
+//            @Override
+//            public IRegion getHoverRegion(ITextViewer textViewer, int offset) {
+//                // TODO Auto-generated method stub
+//                return null;
+//            }
+//        };
+//    }
+
 
     /* (non-Javadoc)
      * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getConfiguredContentTypes(org.eclipse.jface.text.source.ISourceViewer)
@@ -46,7 +78,7 @@ public class TefkatModelSourceViewerConfiguration extends
     public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
         return new String[] { IDocument.DEFAULT_CONTENT_TYPE, TefkatPartitionScanner.MULTILINE_COMMENT };
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getConfiguredDocumentPartitioning(org.eclipse.jface.text.source.ISourceViewer)
      */
@@ -67,24 +99,24 @@ public class TefkatModelSourceViewerConfiguration extends
     public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
         PresentationReconciler reconciler = new PresentationReconciler();
         reconciler.setDocumentPartitioning(getConfiguredDocumentPartitioning(sourceViewer));
-        
+
         DefaultDamagerRepairer dr;
-        
+
         dr = new DefaultDamagerRepairer(getTagScanner());
         reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
         reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
-        
+
         dr = new DefaultDamagerRepairer(new SingleTokenScanner(new TextAttribute(TefkatModelRuleBasedScanner.MULTILINE_COMMENT_COLOR)));
         reconciler.setDamager(dr, TefkatPartitionScanner.MULTILINE_COMMENT);
         reconciler.setRepairer(dr, TefkatPartitionScanner.MULTILINE_COMMENT);
-        
+
         return reconciler;
     }
-    
+
     static class SingleTokenScanner extends BufferedRuleBasedScanner {
         public SingleTokenScanner(TextAttribute attribute) {
             setDefaultReturnToken(new Token(attribute));
         }
     }
-    
+
 }

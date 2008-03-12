@@ -29,7 +29,7 @@ import tefkat.model.Transformation;
 public abstract class TefkatListenerAdapter implements TefkatListener {
 
     /**
-     * 
+     *
      */
     public TefkatListenerAdapter() {
         super();
@@ -94,6 +94,12 @@ public abstract class TefkatListenerAdapter implements TefkatListener {
      * @see tefkat.engine.TefkatListener#transformationFinished()
      */
     public void transformationFinished() {
+    }
+
+    /* (non-Javadoc)
+     * @see tefkat.engine.TefkatListener#transformationFinished()
+     */
+    public void transformationFinished(Transformation transformation) {
     }
 
     /* (non-Javadoc)

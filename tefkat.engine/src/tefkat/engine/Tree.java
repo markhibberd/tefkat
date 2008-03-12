@@ -120,15 +120,19 @@ public class Tree {
      *  @param parent   The parent node for the new edge.
      *  @param unifier  The unifier of the parent's selected literal.
      */
+    // FIXME MH: when does this method get called for parent == null
     void createBranch(Node parent, Binding unifier, Collection childGoal) {
+        Node child;
         if (null != parent) {
             if (null == unifier) {
                 unifier = parent.getBindings(); // Inherit bindings from parent
             } else {
                 unifier.composeLeft(parent.getBindings());
             }
+            child = parent.createChild(childGoal, unifier);
+        } else {
+            child = new Node(childGoal, unifier);
         }
-        Node child = new Node(childGoal, unifier, parent);
         addUnresolvedNode(child);
     }
 
