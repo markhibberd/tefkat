@@ -107,11 +107,6 @@
             class="tefkat.plugin.TefkatTransformationView"
             id="tefkat.plugin.TefkatTransformationView"
             name="Tefkat Transformation View"/>
-      <view
-            category="tefkat.plugin.view.category"
-            class="tefkat.plugin.TefkatQueryView"
-            id="tefkat.plugin.TefkatQueryView"
-            name="Tefkat Query"/>
       <category
             id="tefkat.plugin.view.category"
             name="Tefkat"/>
@@ -152,6 +147,12 @@
       <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
          <actionSet id="org.eclipse.debug.ui.launchActionSet"/>
       </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            class="tefkat.model.parser.TefkatResourceFactory"
+            type="qvt"/>
    </extension>
    
 </plugin>
