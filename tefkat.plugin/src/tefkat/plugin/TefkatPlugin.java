@@ -66,7 +66,12 @@ import tefkat.engine.TefkatListenerAdapter;
 import tefkat.model.Extent;
 import tefkat.model.TRule;
 import tefkat.model.Transformation;
+import tefkat.model.parser.TefkatResourceFactory;
 import tefkat.plugin.TefkatPreferencePage.URIMap;
+import tefkat.plugin.eventing.ManyToOneParseListenerAdapter;
+import tefkat.plugin.eventing.ManyToOneTefkatListenerAdapter;
+import tefkat.plugin.wip.objectmodel.TefkatObjectModel;
+import tefkat.plugin.wip.objectmodel.TefkatObjectModelManager;
 
 
 import java.io.IOException;
@@ -78,15 +83,16 @@ import java.util.*;
  * The main plugin class to be used in the desktop.
  */
 public class TefkatPlugin extends AbstractUIPlugin {
-
     public static final String PLUGIN_ID = "tefkat.plugin";
+
+    public static final String TEFKAT_EXPLORER = PLUGIN_ID + ".TefkatExplorer";
 
     public static final String TEFKAT_NATURE = PLUGIN_ID + ".TefkatNature";
 
     public static final String TEFKAT_BUILDER = PLUGIN_ID + ".TefkatBuilder";
-    
+
     public static final String TEFKAT_PARTITIONING = PLUGIN_ID + ".TefkatPartitioning";
-    
+
     public static final String PLUGIN_FUNCTION_SET = PLUGIN_ID + ".functionSet";
 
     public static final String CONFIGURATION_FILE = "tefkat.xmi";
@@ -94,12 +100,12 @@ public class TefkatPlugin extends AbstractUIPlugin {
     public static final String URIMAP_PREFERENCE = "URIMap";
 
 //    public static final TefkatResourceFactory TEFKAT_RESOURCE_FACTORY = Tefkat
-    
+
     private static final Resource.Factory ECORE_RESOURCE_FACTORY = new EcoreResourceFactoryImpl();
     private static final Resource.Factory XMI_RESOURCE_FACTORY = new XMIResourceFactoryImpl();
     private static final Resource.Factory XML_RESOURCE_FACTORY = new GenericXMLResourceFactoryImpl();
     private static final Resource.Factory XSD_RESOURCE_FACTORY = new XSDResourceFactoryImpl();
-    
+
     final static String TEFKAT_CONSOLE_NAME = "Tefkat";
 
     final static Color INFO_COLOR = new Color(null, 0, 0, 255);
@@ -119,7 +125,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
 
     // Resource bundle.
     private ResourceBundle resourceBundle;
-    
+
     // The QVT parser wrapped as a resource factory
 //    static {
 //        Map map = Registry.INSTANCE.getExtensionToFactoryMap();
@@ -128,7 +134,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
 
     // The Tefkat Transformation Engine
     private Tefkat theEngine;
-    
+
     private MessageConsole console;
     private MessageConsoleStream infoStream;
     private MessageConsoleStream warnStream;
@@ -165,7 +171,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
         public void evaluateRule(TRule rule, Binding context, boolean cached) {
             info("Evaluating " + rule.getName());
         }
-        
+
 //        public void enterTerm(Node node) {
 //            info("Enter: " + node);
 //        }
@@ -178,7 +184,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
 //            info("Delay: " + node);
 //        }
     };
-    
+
     private RuleBasedPartitionScanner scanner;
 
     /**
@@ -198,7 +204,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
      */
     public void start(BundleContext context) throws Exception {
         super.start(context);
-        
+        TefkatObjectModelManager.instance().init();
         List list = convertFromString(getPreferenceStore().getString(URIMAP_PREFERENCE));
         for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
             URIMap map = (URIMap) itr.next();
@@ -235,7 +241,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
             return key;
         }
     }
-    
+
     static List convertFromString(String preferenceValue) {
         List list = new ArrayList();
         String[] values = preferenceValue.split("[\t\n]");
@@ -248,7 +254,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
         }
         return list;
     }
-    
+
     static String convertToString(List list) {
         StringBuffer sb = new StringBuffer();
         for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
@@ -281,6 +287,14 @@ public class TefkatPlugin extends AbstractUIPlugin {
     public Tefkat getTefkat() {
         if (null == theEngine) {
             theEngine = new Tefkat();
+            // set up scaffolding for debugging listeners
+            // TODO-MH this should not be permenant, however i currenty
+            //         use it to dodge around some of the issues with the
+            //         single engine instance and lack of observability
+            //         via listener
+            ManyToOneTefkatListenerAdapter.register(theEngine);
+            // XXX-MH why is this commented out (see below where other factories are registered as well)?
+            //          for the time being I have uncommented the one in the registration block
 //            theEngine.registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
 
             ConsolePlugin plugin = ConsolePlugin.getDefault();
@@ -298,7 +312,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
             manager.showConsoleView(console);
             infoStream = console.newMessageStream();
             warnStream = console.newMessageStream();
-            
+
             PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
                 public void run() {
                     infoStream.setColor(INFO_COLOR);
@@ -311,7 +325,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
         }
         return theEngine;
     }
-    
+
     private void initFunctionSets() {
         IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(TefkatPlugin.PLUGIN_FUNCTION_SET);
         IConfigurationElement[] funcSetElements = extensionPoint.getConfigurationElements();
@@ -392,23 +406,23 @@ public class TefkatPlugin extends AbstractUIPlugin {
     public boolean getInterrupted() {
         return getTefkat().getInterrupted();
     }
-    
+
     public void setInterrupted(boolean state) {
         getTefkat().setInterrupted(state);
     }
-    
+
     public void pause() {
         getTefkat().pause();
     }
-    
+
     public void step() {
         getTefkat().step();
     }
-    
+
     public void resume() {
         getTefkat().resume();
     }
- 
+
     public void run(TransformationTask task, IProgressMonitor monitor)
             throws CoreException {
         String transformation = task.getTransformation().getLocationUri();
@@ -427,7 +441,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
         for (int i = 0; i < targets.length; i++) {
             targets[i] = ((Model) targetModels.get(i)).getLocationUri();
         }
-        
+
         List props = task.getUriMap();
 
         execute(transformation, sources, targets, trace, task.getMode(),
@@ -469,21 +483,21 @@ public class TefkatPlugin extends AbstractUIPlugin {
                 }
             }
             monitor.worked(1);
-            
+
             if (monitor.isCanceled()) {
                 throw new InterruptedException("Tefkat Build cancelled by user.");
             }
-            
+
             monitor.subTask("Running " + transformation);
             Tefkat engine = getTefkat();
             TefkatListener monitorListener = new TefkatListenerAdapter() {
-                
+
                 public void info(String message) {
                     if (message.equalsIgnoreCase("stratification")) {
                         monitor.subTask(message);
                     }
                 }
-                
+
                 public void evaluateRule(TRule rule, Binding context, boolean cached) {
                     monitor.subTask("Evaluating rule: " + rule.getName());
                 }
@@ -525,7 +539,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
                 traceR.save(SERIALIZATION_OPTIONS);
             }
             monitor.worked(1);
-            
+
         } catch (Exception e) {
             String message = e.getMessage();
             if (null == message) {
@@ -537,10 +551,10 @@ public class TefkatPlugin extends AbstractUIPlugin {
             getLog().log(status);
             throw new CoreException(status);
         } finally {
-            
+
             removeTefkatListener(consoleAdapter);
             theEngine = null;
-            
+
             // clear out loaded resources so that a reload is forced
             // next time through - things may have changed so we don't
             // want any cached state.
@@ -562,7 +576,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
             }
         }
     }
-    
+
     private void setObjectIds(Resource res) {
         if (res instanceof XMIResource) {
             XMIResource xres = (XMIResource) res;
@@ -594,7 +608,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
                     + t.getMessage(), t);
         }
     }
-    
+
     private Resource getResource(String modelURI, IProgressMonitor monitor) throws IOException {
         Resource resource;
         try {
@@ -617,20 +631,20 @@ public class TefkatPlugin extends AbstractUIPlugin {
             }
             throw new IOException(message);
         }
-        
+
         return resource;
     }
-    
+
     private Resource[] getResources(String[] modelURIs, IProgressMonitor monitor) throws IOException {
         Resource[] resources = new Resource[modelURIs.length];
 
         for (int i = 0; i < modelURIs.length; i++) {
             resources[i] = getResource(modelURIs[i], monitor);
         }
-        
+
         return resources;
     }
-    
+
 //    private void unloadResource(Resource res) {
 ////        System.out.println("unloading " + res.getURI());
 //        res.getContents().clear();
@@ -659,7 +673,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
     }
 
     private ResourceSet _resourceSet = null;
-    
+
     public ResourceSet getResourceSet() {
         if (null == _resourceSet) {
             _resourceSet = new ResourceSetImpl();
@@ -669,14 +683,14 @@ public class TefkatPlugin extends AbstractUIPlugin {
             map.put("ecore", ECORE_RESOURCE_FACTORY);
             map.put("xmi", XMI_RESOURCE_FACTORY);
             map.put("tefkat", XMI_RESOURCE_FACTORY);
-            // map.put("qvt", TEFKAT_RESOURCE_FACTORY);
+            map.put("qvt", new TefkatResourceFactory()); // XXX-MH why was this commented out?
             map.put("xsd", XSD_RESOURCE_FACTORY);
             map.put("wsdl", XSD_RESOURCE_FACTORY);
             map.put("xml", XML_RESOURCE_FACTORY);
         }
         return _resourceSet;
     }
-    
+
     public void clearResourceSet() {
         if (null != _resourceSet) {
             _resourceSet = null;
@@ -692,7 +706,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
         private Resource[] sources;
         private Resource[] targets;
         private Resource trace;
-        
+
         private Exception exception;
 
         public EngineThread(final Tefkat engine, final Resource transformation, final Resource[] sources, final Resource[] targets, final Resource trace) {
@@ -701,7 +715,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
             this.sources = sources;
             this.targets = targets;
             this.trace = trace;
-            
+
             final IWorkbench workbench = PlatformUI.getWorkbench();
             workbench.getDisplay().syncExec(new Runnable() {
                 public void run() {
@@ -725,7 +739,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
             });
 
         }
-        
+
         public Exception getException() {
             return exception;
         }
@@ -768,5 +782,5 @@ public class TefkatPlugin extends AbstractUIPlugin {
         }
         return scanner;
     }
-    
+
 }

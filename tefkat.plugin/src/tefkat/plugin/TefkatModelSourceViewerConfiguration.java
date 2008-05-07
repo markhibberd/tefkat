@@ -15,87 +15,47 @@
 package tefkat.plugin;
 
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.rules.BufferedRuleBasedScanner;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.Token;
+import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
-import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
-
 /**
  * @author lawley
- *
  */
-public class TefkatModelSourceViewerConfiguration extends
-        SourceViewerConfiguration {
-
+public class TefkatModelSourceViewerConfiguration extends SourceViewerConfiguration {
     private TefkatModelRuleBasedScanner scanner;
+    private TefkatHover hover = new TefkatHover();
+
+    public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType) { return hover; }
+    public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType, int stateMask) { return hover; }
+    public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) { return hover; }
 
     protected TefkatModelRuleBasedScanner getTagScanner() {
         if (scanner == null) {
             scanner = new TefkatModelRuleBasedScanner();
         }
-
         return scanner;
-
-
     }
 
-    // FIXME MH: this is what I have to implement to show stats over the top
-//    @Override
-//    public ITextHover getTextHover(ISourceViewer sourceViewer,
-//            String contentType) {
-//        // TODO Auto-generated method stub
-//        return new ITextHover() {
-//            public String getHoverInfo(ISourceViewer sourceViewer,
-//                    int lineNumber) {
-//                return "hello world";
-//            }
-//
-//            @Override
-//            public String getHoverInfo(ITextViewer textViewer,
-//                    IRegion hoverRegion) {
-//                // TODO Auto-generated method stub
-//                return null;
-//            }
-//
-//            @Override
-//            public IRegion getHoverRegion(ITextViewer textViewer, int offset) {
-//                // TODO Auto-generated method stub
-//                return null;
-//            }
-//        };
-//    }
-
-
-    /* (non-Javadoc)
-     * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getConfiguredContentTypes(org.eclipse.jface.text.source.ISourceViewer)
-     */
     public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
         return new String[] { IDocument.DEFAULT_CONTENT_TYPE, TefkatPartitionScanner.MULTILINE_COMMENT };
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getConfiguredDocumentPartitioning(org.eclipse.jface.text.source.ISourceViewer)
-     */
     public String getConfiguredDocumentPartitioning(ISourceViewer sourceViewer) {
         return TefkatPlugin.TEFKAT_PARTITIONING;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getTabWidth(org.eclipse.jface.text.source.ISourceViewer)
-     */
     public int getTabWidth(ISourceViewer sourceViewer) {
         return 8;   // godammit, a TAB is 8 spaces!
     }
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getPresentationReconciler(org.eclipse.jface.text.source.ISourceViewer)
-     */
+
     public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
         PresentationReconciler reconciler = new PresentationReconciler();
         reconciler.setDocumentPartitioning(getConfiguredDocumentPartitioning(sourceViewer));
@@ -118,5 +78,4 @@ public class TefkatModelSourceViewerConfiguration extends
             setDefaultReturnToken(new Token(attribute));
         }
     }
-
 }

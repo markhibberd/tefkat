@@ -1,17 +1,14 @@
 package tefkat.plugin.stats;
 
-import java.net.URI;
-
-import org.eclipse.emf.common.CommonPlugin;
-
 import tefkat.engine.Binding;
 import tefkat.model.Extent;
 import tefkat.model.Transformation;
 import tefkat.plugin.TefkatModelEditor.TefkatTextEditor;
+import tefkat.plugin.dom.TefkatDOM;
 import tefkat.plugin.stats.TermStats.TermStat;
 
 public class AnnotatingStatsListener extends TefkatStatisticsListener {
-    private URI file;
+    private static boolean enabled = false;
     private TefkatTextEditor textEditor;
 
     // set-up in transformationStarted / torn-down in transformationFinished
@@ -20,34 +17,31 @@ public class AnnotatingStatsListener extends TefkatStatisticsListener {
     private AnnotatedDocument annotatedDocument;
     private Transformation transformation;
 
-    public AnnotatingStatsListener(TefkatTextEditor textEditor, URI uri) {
-        this.file = uri;
+    public AnnotatingStatsListener(TefkatTextEditor textEditor) {
         this.textEditor = textEditor;
     }
 
     public void transformationStarted(Transformation transformation,
             Extent[] srcs, Extent[] tgts, Extent trace, Binding context) {
-        if (!associatedResource(transformation)) return;
-        System.out.println("Starting transformation...");
         this.transformation = transformation;
-        this.annotatedDocument = this.textEditor.createAnnotatedDocument();
+        if (this.annotatedDocument != null) annotatedDocument.clear();
+        this.annotatedDocument = this.textEditor.createAnnotatedDocument(TefkatDOM.getInstance(textEditor));
+        annotatedDocument.clear();
     }
 
-    public void transformationFinished() { /* nothing*/ }
-    public void transformationFinished(Transformation transformation) {
-        if (!associatedResource(transformation)) return;
-        System.out.println("Finished transformation...");
+    public void transformationFinished() {
         computeAllStats();
         printAllStats();
         for (TermStat stat : this.termStats.termStats.values()) {
-            this.annotatedDocument.annotate(stat.term(), stat.type());
+            this.annotatedDocument.annotate(stat.term(), stat.type(), "success rate: " + stat.percent() + "%");
         }
     }
 
-    private boolean associatedResource(Transformation transformation) {
-        org.eclipse.emf.common.util.URI resouce = transformation.eResource().getURI();
-        String fileURIString = CommonPlugin.asLocalURI(resouce).toString();
-        URI uri = URI.create(fileURIString);
-        return file.equals(uri);
+    public static boolean isEnabled() {
+        return enabled;
+    }
+
+    public static void setEnabled(boolean enabled) {
+        AnnotatingStatsListener.enabled = enabled;
     }
 }

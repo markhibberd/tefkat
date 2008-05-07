@@ -115,6 +115,12 @@
       <category
             id="tefkat.plugin.view.category"
             name="Tefkat"/>
+      <view
+            allowMultiple="false"
+            class="org.eclipse.ui.navigator.CommonNavigator"
+            id="tefkat.plugin.TefkatExplorer"
+            name="Tefkat Explorer">
+      </view>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
@@ -166,6 +172,10 @@
       <type
             markerSeverity="0"
             name="tefkat.plugin.stats.sometimes">
+      </type>
+      <type
+            markerSeverity="0"
+            name="tefkat.plugin.stats.creationrate">
       </type>
    </extension>
    <extension
@@ -248,7 +258,158 @@
             verticalRulerPreferenceKey="statsSometimesInVerticalRuler"
             verticalRulerPreferenceValue="false">
       </specification>
+
+      <specification
+            annotationType="tefkat.plugin.stats.creationrate"
+            colorPreferenceKey="statsCreationRateColour"
+            colorPreferenceValue="00,00,153"
+            contributesToHeader="false"
+            highlightPreferenceKey="statsCreationRateHighlighting"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            isGoToNextNavigationTarget="false"
+            isGoToNextNavigationTargetKey="statsCreationRateNextTargetKey"
+            isGoToPreviousNavigationTarget="false"
+            isGoToPreviousNavigationTargetKey="statsCreationRatePrevTargetKey"
+            label="%StatsCreationRate.label"
+            overviewRulerPreferenceKey="statsCreationRateInOverviewRuler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="4"
+            showInNextPrevDropdownToolbarAction="true"
+            showInNextPrevDropdownToolbarActionKey="statsCreationRateNextPrev"
+            symbolicIcon="info"
+            textPreferenceKey="statsCreationRateText"
+            textPreferenceValue="true"
+            textStylePreferenceKey="statsCreationRateStyle"
+            textStylePreferenceValue="UNDERLINE"
+            verticalRulerPreferenceKey="statsCreationRateInVerticalRuler"
+            verticalRulerPreferenceValue="true">
+      </specification>
    </extension>
-   
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewer
+            viewerId="tefkat.plugin.TefkatExplorer">
+                      <popupMenu
+                allowsPlatformContributions="true"
+                id="tefkat.plugin.TefkatExplorer#PopupMenu">
+             <insertionPoint name="group.new"/>
+             <insertionPoint
+                   name="group.open"
+                   separator="true"/>
+             <insertionPoint name="group.openWith"/>
+             <insertionPoint name="group.edit"
+                   separator="true"/>
+             <insertionPoint name="group.reorganize" />
+             <insertionPoint
+                   name="group.port"
+                   separator="true"/>
+             <insertionPoint
+                   name="group.build"
+                   separator="true"/>
+             <insertionPoint
+                   name="group.generate"
+                   separator="true"/>
+             <insertionPoint
+                   name="group.search"
+                   separator="true"/>
+             <insertionPoint
+                   name="additions"
+                   separator="true"/>
+             <insertionPoint
+                   name="group.properties"
+                   separator="true"/>
+
+          </popupMenu>
+      </viewer>
+      <viewerContentBinding
+            viewerId="tefkat.plugin.TefkatExplorer">
+         <includes>
+                <contentExtension
+                       pattern="org.eclipse.ui.navigator.resourceContent">
+                 </contentExtension>
+                 <contentExtension
+                       pattern="org.eclipse.ui.navigator.resources.*">
+                 </contentExtension>
+
+            <contentExtension
+                  pattern="tefkat.plugin.wip.explorer.*">
+            </contentExtension>
+            <contentExtension
+                  pattern="tefkat.plugin.wip.explorer.actions*">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+            <viewerActionBinding
+                 viewerId="tefkat.plugin.TefkatExplorer">
+              <includes>
+                 <actionExtension
+                       pattern="org.eclipse.ui.navigator.resources.*">
+                 </actionExtension>
+              </includes>
+           </viewerActionBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <commonFilter
+            activeByDefault="true"
+            class="tefkat.plugin.wip.explorer.HideNonTefkatProjects"
+            description="Hide Non-Tefkat Projects"
+            id="tefkat.plugin.wip.explorer.HideNonTefkatProjects"
+            name="Hide Non-Tefkat Projects">
+      </commonFilter>
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="tefkat.plugin.wip.explorer.TefkatContentProvider"
+            id="tefkat.plugin.wip.explorer.TefkatContent"
+            labelProvider="tefkat.plugin.wip.explorer.TefkatLabelProvider"
+            name="Tefkat Contents"
+            priority="normal">
+         <triggerPoints>
+            <or>
+               <!--and>
+                  <instanceof
+                        value="org.eclipse.core.resources.IResource">
+                  </instanceof>
+                  <test
+                        forcePluginActivation="true"
+                        property="org.eclipse.core.resources.extension"
+                        value="tefkatconfig">
+                  </test>
+               </and-->
+               <instanceof
+                     value="tefkat.plugin.wip.explorer.TefkatObjectModelPlaceHolder">
+               </instanceof>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <or>
+               <instanceof
+                     value="tefkat.plugin.wip.explorer.TefkatObjectModelPlaceHolder">
+               </instanceof>
+            </or>
+         </possibleChildren>
+         <actionProvider
+               class="tefkat.plugin.wip.explorer.actions.TefkatActionProvider"
+               id="tefkat.plugin.wip.explorer.actions.TefkatActionProvider">
+         </actionProvider>
+      </navigatorContent>
+   </extension>
+
+   <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution
+            adaptable="false"
+            id="tde.ui.explorer.actions.propertyResource"
+            objectClass="tefkat.plugin.wip.explorer.TefkatObjectModelPlaceHolder">
+         <action
+               class="tefkat.plugin.wip.explorer.actions.PlaceholderActionDelegate"
+               enablesFor="1"
+               id="tefkat.plugin.wip.explorer.actions.PlaceholderActionDelegate"
+               label="Do action through delegate"
+               menubarPath="group.edit"
+               tooltip="Do action through delegate"/>
+      </objectContribution>
+   </extension>
+
 </plugin>
 
