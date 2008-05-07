@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            class="tde.ui.views.workbench.TDEWorkbench"
+            icon="icons/debug_view.gif"
+            id="tde.ui.views.workbench.TDEWorkbench"
+            name="TDE Workbench">
+      </view>
+      <view
+            allowMultiple="false"
+            class="tde.ui.views.selector.TDESelector"
+            id="tde.ui.views.selector.TDESelector"
+            name="TDE Object Selector">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="tde.ui.perspectives.TDEPerspective"
+            icon="icons/debug_view.gif"
+            id="tde.ui.model.perspectives.TDEPerspective"
+            name="Tefkat Debug Environment"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="tde.popup.actions.TDEQuestions.EObject"
+            objectClass="org.eclipse.emf.ecore.EObject">
+         <menu
+               id="tde.questions"
+               label="Selection"
+               path="additions">
+            <separator
+                  name="eobject-selection">
+            </separator>
+         </menu>
+         <action
+               class="tde.popup.actions.TDEQuestions"
+               enablesFor="1"
+               id="tde.popup.actions.TDEQuestions"
+               label="Select this eobject!"
+               menubarPath="tde.questions/debugging-questions">
+         </action>
+         <filter
+               name="selectable"
+               value="true">
+         </filter>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.emf.ecore.EObject"
+            class="tde.ui.EObjectAdapter">
+         <adapter type="org.eclipse.ui.IActionFilter">
+         </adapter>
+      </factory>
+   </extension>
+
+
+</plugin>
