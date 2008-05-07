@@ -78,20 +78,20 @@ class SourceResolver extends AbstractResolver {
             if (context.tree.isCompleted()) {
                 context.error("INTERNAL ERROR: Tree completed too early: " + context);
             }
-        
+
             // Check each feature looking for a mismatch
             List oldBindings = new ArrayList();
             oldBindings.add(new Binding());
-            
+
             boolean isMatch = true;
             for (int i = 0; isMatch && i < map.length; i++) {
                 String featureName = (String) map[i][0];
                 List featureValues = (List) map[i][1];
                 List newBindings = null;
-                
+
                 EStructuralFeature sFeature = getFeature(context, class1, featureName);
                 Object value = inst.eGet(sFeature);
-        
+
                 if (value == null) {
                     // NOT_EQUAL, NULL
                     isMatch = false;
@@ -101,7 +101,7 @@ class SourceResolver extends AbstractResolver {
                     } else if (featureValues.size() == 1 && featureValues.get(0) instanceof WrappedVar) {
                         // UNIFY
                         final WrappedVar wrappedVar = (WrappedVar) featureValues.get(0);
-                        
+
                         newBindings = new ArrayList();
                         for (Iterator bindingItr = oldBindings.iterator(); bindingItr.hasNext(); ) {
                             Binding oldUnifier = (Binding) bindingItr.next();
@@ -153,15 +153,15 @@ class SourceResolver extends AbstractResolver {
                     // NOT_EQUAL, cardinality mismatch
                     isMatch = false;
                 }
-                
+
                 oldBindings = newBindings;
             }
-            
+
             if (isMatch) {
                 for (Iterator itr = oldBindings.iterator(); itr.hasNext(); ) {
                     Binding unifier = (Binding) itr.next();
                     /**
-                     * Create a new branch of the tree, and continue 
+                     * Create a new branch of the tree, and continue
                      * resolution from the newly created node.
                      */
                     context.createBranch(unifier);
@@ -171,19 +171,19 @@ class SourceResolver extends AbstractResolver {
     }
 
     SourceResolver(RuleEvaluator evaluator) {
-    	super(evaluator);
+        super(evaluator);
     }
 
     /**
      * Find instances of the referenced tracking class with matching feature values.
      * This may involve variable binding.
-     * 
+     *
      * Tracking queries are strictly match-only, so we don't need to concern
      * ourselves with tracking instance creation. So, the
      * basic algorithm is to scan all instances of the nominated tracking
      * class and filter out any instance that doesn't bind with the supplied
      * feature expressions.
-     * 
+     *
      * @param tree
      * @param node
      * @param goal
@@ -195,7 +195,7 @@ class SourceResolver extends AbstractResolver {
     throws ResolutionException, NotGroundException {
 
         // Get the properties of the TrackingUse
-        
+
         final EClass trackingClass = literal.getTracking();
         if (trackingClass.eIsProxy()) {
             // If it's still a proxy after the getTracking() call, the cross-document reference proxy has
@@ -206,7 +206,7 @@ class SourceResolver extends AbstractResolver {
 
         List featureList = literal.getFeatures();
         final Object[][] featureMap = new Object[featureList.size()][2];
-        
+
         int i = 0;
         for (Iterator itr = featureList.iterator(); itr.hasNext(); ) {
             Map.Entry entry = (Map.Entry) itr.next();
@@ -221,13 +221,13 @@ class SourceResolver extends AbstractResolver {
         //
         List trackings = ruleEval.getTrackingCache(trackingClass);
         ExtentUtil.highlightNodes(trackings, ExtentUtil.CLASS_LOOKUP);
-        
+
         // record that this rule has queried the tracking class
         ruleEval.trackingQuery(trackingClass, callback);
-        
+
         for (Iterator trackingItr = trackings.iterator(); trackingItr.hasNext(); ) {
             EObject inst = (EObject) trackingItr.next();
-            
+
             callback.handleInstance(inst);
         }
     }
@@ -265,7 +265,7 @@ class SourceResolver extends AbstractResolver {
                 }
             }
         }
-        
+
         Expression instanceExpr = literal.getInstance();
 
         // Our "package instance" wrapper around an EMOF ExtentUtil (EMF Resource)
@@ -274,10 +274,10 @@ class SourceResolver extends AbstractResolver {
         Collection instances = exprEval.eval(context, instanceExpr);
 
         boolean success = false;
-        
+
         for (Iterator itr = instances.iterator(); itr.hasNext(); ) {
             Object instance = itr.next();
-            
+
             if (instance instanceof WrappedVar) {
                 // handle the ??- mode
                 //
@@ -300,6 +300,7 @@ class SourceResolver extends AbstractResolver {
                     Binding unifier = new Binding();
                     unifier.add(wVar.getVar(), wVar);
                     context.createBranch(unifier);
+                    success = true;
                 }
             } else {
                 // handle the ??+ mode
@@ -315,9 +316,9 @@ class SourceResolver extends AbstractResolver {
                         (literal.isExact() ? theClass.equals(((EObject) instance).eClass()) : theClass.isInstance(instance));
                     if (isOfType) {
                         success = true;
-                    
+
                         /**
-                         * Create a new branch of the tree, and continue 
+                         * Create a new branch of the tree, and continue
                          * resolution from the newly created node.
                          */
                         context.createBranch(unifier);
@@ -336,7 +337,7 @@ class SourceResolver extends AbstractResolver {
         "<", "<=", ">", ">=", "!="
     };
     final private static List relOpList = Arrays.asList(relOpArray);
-   
+
     protected void resolveCondition(
         final Context context,
         final Condition term)
@@ -349,16 +350,16 @@ class SourceResolver extends AbstractResolver {
         if ("=".equals(relation)) {
             List vals1 = exprEval.eval(context, (Expression) args.get(0));
             List vals2 = exprEval.eval(context, (Expression) args.get(1));
-            
+
             // TODO need to check handling of all the possible cases
             // Eg X = Y, X = 3, 3 = X, 2 = 3, 3 = 3,
             // (Z = 1, X = Z), (Z = 1, 2 = Z), (X = Y, Z = X), etc
             for (final Iterator itr1 = vals1.iterator(); itr1.hasNext(); ) {
                 Object val1 = itr1.next();
-                
+
                 for (final Iterator itr2 = vals2.iterator(); itr2.hasNext(); ) {
                     Object val2 = itr2.next();
-                    
+
                     Binding unifier = Binding.createBinding(val1, val2);
 
                     if (null != unifier) {
@@ -373,7 +374,7 @@ class SourceResolver extends AbstractResolver {
             for (Iterator itr1 = vals1.iterator(); itr1.hasNext(); ) {
                 Object val1 = itr1.next();
                 // System.err.println("** " + val1);
-                
+
                 for (Iterator itr2 = vals2.iterator(); itr2.hasNext(); ) {
                     Object val2 = itr2.next();
                     // System.err.println("**** " + val2);
@@ -444,17 +445,17 @@ class SourceResolver extends AbstractResolver {
         } else {
             context.error("Unknown relation '" + relation + "' in Condition");
         }
-        
+
         if (!result) {
             context.fail();
         }
     }
-    
+
     private boolean compare(Context context, String relation, Object val1, Object val2)
         throws ResolutionException {
 
         long cmp;
-        
+
         if (val1 instanceof Number && val2 instanceof Number) {
             if (val1 instanceof Float || val1 instanceof Double ||
                 val2 instanceof Float || val2 instanceof Double) {
@@ -505,7 +506,7 @@ class SourceResolver extends AbstractResolver {
         final Context context,
         final NotTerm literal)
     throws ResolutionException, NotGroundException {
-        
+
         // Ensure that all non-local variables are already ground
         // (WrappedVars are handled by the Expander)
         for (final Iterator itr = literal.getNonLocalVars().iterator(); itr.hasNext(); ) {
@@ -515,14 +516,14 @@ class SourceResolver extends AbstractResolver {
                 context.delay("Non-local variable " + var + " is not bound.");
             }
         }
-        
+
         final Function2 f = new Function2() {
             public Object call(Context context, Binding unifier, Object[] params) throws ResolutionException {
                 evalNegatedGoal(context, unifier, new ArrayList(literal.getTerm()));
                 return null;
             }
         };
-        
+
         new VarExpander(context, literal.getNonLocalVars(), f, context.node.getBindings());
 
     }
@@ -537,7 +538,7 @@ class SourceResolver extends AbstractResolver {
     private void evalNegatedGoal(final Context context, final Binding unifier, final Collection negGoal)
     throws ResolutionException {
         // cannot pass node as context here or delayed terms will get pushed into the "NOT"
-        // leading to possible spurious flounderings -- see also resolveIfTerm 
+        // leading to possible spurious flounderings -- see also resolveIfTerm
         final Tree newTree = context.createTree(negGoal, unifier, true, true);
 
 //        if (ruleEval.INCREMENTAL) {
@@ -548,18 +549,18 @@ class SourceResolver extends AbstractResolver {
 
                 public void completed(Tree theTree) {
                     if (theTree.isSuccess()) {
-                    	newTree.removeTreeListener(this);
-                    	context.fail();
+                        newTree.removeTreeListener(this);
+                        context.fail();
                     } else {
-                    	// Negation tree finitely failed, regard as true.
-                    	//
+                        // Negation tree finitely failed, regard as true.
+                        //
                         context.createBranch(new Binding(unifier));
                     }
                 }
 
                 public void floundered(Tree theTree) {
                 }
-                
+
             });
 //        } else {
 //            // Any success nodes in the negation tree?
@@ -573,7 +574,7 @@ class SourceResolver extends AbstractResolver {
 //                context.createBranch(new Binding(unifier));
 //            }
 //        }
-        
+
     }
 
     protected void resolveOrTerm(
@@ -601,14 +602,14 @@ class SourceResolver extends AbstractResolver {
         List features = exprEval.eval(context, term.getFeature());
         List lesserObjects = exprEval.eval(context, term.getLesser());
         List greaterObjects = exprEval.eval(context, term.getGreater());
-        
+
         for (Iterator iItr = instances.iterator(); iItr.hasNext(); ) {
             Object instance = iItr.next();
-            
+
             if (instance instanceof WrappedVar) {
                 context.delay("Unsupported mode (unbound '" + term.getInstance() + "') for MofOrder: " + term);
             }
-            
+
             for (Iterator fItr = features.iterator(); fItr.hasNext(); ) {
                 Object featureRef = fItr.next();
 
@@ -617,16 +618,16 @@ class SourceResolver extends AbstractResolver {
                 } else if (featureRef instanceof EStructuralFeature) {
                     featureRef = ((EStructuralFeature) featureRef).getName();
                 }
-                
+
                 Object values = context.fetchFeature((String) featureRef, instance);
                 if (!(values instanceof List)) {
                     context.error("The feature " + featureRef + " of " + instance + " did not return an ordered collection.");
                 }
                 List valueList = (List) values;
-                
+
                 for (Iterator lItr = lesserObjects.iterator(); lItr.hasNext(); ) {
                     Object lesser = lItr.next();
-                    
+
                     if (lesser instanceof WrappedVar) {
                         for (int i = 0; i < valueList.size(); i++) {
                             Binding unifier = Binding.bindWrappedVar(null, (WrappedVar) lesser, valueList.get(i));
@@ -646,13 +647,13 @@ class SourceResolver extends AbstractResolver {
     throws ResolutionException {
         for (Iterator gItr = greaterObjects.iterator(); gItr.hasNext(); ) {
             Object greater = gItr.next();
-        
+
             if (greater instanceof WrappedVar) {
                 final WrappedVar wrappedVar = (WrappedVar) greater;
-                
+
                 for (int i = lindex + 1; i < valueList.size(); i++) {
                     Object val = valueList.get(i);
-                    
+
                     Binding unifier2 = Binding.bindWrappedVar(new Binding(unifier), wrappedVar, val);
                     if (null != unifier2) {
                         context.createBranch(unifier2);
