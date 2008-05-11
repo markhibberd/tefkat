@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: tefkat.model; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: tefkat.data,
+ tefkat.data.impl,
+ tefkat.data.util,
+ tefkat.model,
+ tefkat.model.impl,
+ tefkat.model.internal,
+ tefkat.model.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.xsd;visibility:=reexport
+Eclipse-LazyStart: true

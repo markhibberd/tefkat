@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<it.itc.sra.taom4e.model.core.gencore:BusinessModel
+	xmi:version="2.0"
+	xmlns:xmi="http://www.omg.org/XMI"
+	xmlns:it.itc.sra.taom4e.model.core.gencore="http:///it/itc/sra/taom4e/model/core/gencore.ecore"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http:///it/itc/sra/taom4e/model/core/gencore.ecore ../models/TAOM4E-MM.ecore#//core/gencore"
+	name="foobar"/>

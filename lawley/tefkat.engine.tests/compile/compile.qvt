@@ -1,0 +1,240 @@
+
+TRANSFORMATION compile : src -> tgt
+
+NAMESPACE R http:///TefkatRuntime-1.0.ecore
+NAMESPACE M http:///TefkatModel-2.5.ecore
+NAMESPACE http://www.eclipse.org/emf/2002/Ecore
+NAMESPACE http://CompilerTracking.ecore
+
+/* CLASS link {
+    EObject src;
+    EObject tgt;
+}; */
+
+/*
+CLASS dummy {
+};
+
+RULE a
+  WHERE NOT dummy LINKS src=1
+  LINKING dummy WITH src=1
+    ;
+*/
+
+PATTERN isTefkatClass(C)
+  WHERE C.ePackage.name = "model"
+;
+
+RULE copyTefkatObjects
+  FORALL _ S
+   WHERE SC = S.eClass()
+     AND isTefkatClass(SC)
+     AND TC = join("^", "R", SC.name)
+    MAKE $TC T
+      // , println("copy", S, SC.name, TC, S.eContainer())
+  LINKING link WITH src=S, tgt=T
+;
+
+//ABSTRACT
+RULE linkFeaturesReferences
+  WHERE  link LINKS src=so, tgt=to
+    AND  class = so.eClass()
+    AND  f = class.eAllReferences
+    AND  f.derived = false
+    AND  f.changeable = true
+    AND  so.eIsSet(f) = true
+    AND  n = f.name
+    AND  sv = so.$n
+    // AND  IF ::model::Transformation st THEN println(st, sv) ENDIF
+    SET  IF link LINKS src=sv, tgt=tv THEN
+//	   MAKE println(class.name, n)
+	   SET to.$n = tv
+	 ELSEIF EClass sv THEN
+//	   MAKE println("EClass", so.getClass(), n, sv.name, to.$(n).name, to.$(n).getEPackage().getNsURI(), sv.getEPackage().getNsURI())
+	   SET to.$n = sv
+//	   , IF TRUE THEN MAKE println(to.$n) ENDIF
+	 ELSEIF NOT EObject sv THEN
+//	   MAKE println("not EObject", so.getClass(), n, sv.getEPackage().getNsURI())
+	   SET to.$n = sv
+	 ELSE
+	   MAKE println("Ignoring", sv.hashCode(), sv.eClass().name, sv.name, "from", so.eClass().name, "via", n)
+	   , println(f.name, f.eOpposite.name, f.volatile, f.container, f.containment, f.many, f.ordered, f.required, f.transient)
+	   
+	 ENDIF
+;
+
+RULE orderFeatures
+  WHERE link LINKS src=so, tgt=to
+    AND class = so.eClass()
+    AND f = class.eAllReferences
+
+    AND n = f.name
+//    AND println("AA", n)
+
+    AND f.many = true
+    AND f.derived = false
+    AND f.changeable = true
+    AND so.eIsSet(f) = true
+    AND n = f.name
+//    AND println("BB", n, so.$n)
+    AND so1 BEFORE so2 IN so.$n
+//    AND println("XXXXXXXXXXXXX", so1, so2)
+    SET IF link LINKS src=so1, tgt=to1 AND
+           link LINKS src=so2, tgt=to2 THEN
+          SET to1 BEFORE to2 IN to.$n
+        ELSE
+          SET so1 BEFORE so2 IN to.$n
+        ENDIF
+;
+
+RULE copyAttributeValues
+  WHERE link LINKS src=s, tgt=t
+    AND c = s.eClass()
+    AND IF NOT isTefkatClass(c) THEN println("cAV", s, s.eAllAttributes.name) ENDIF
+    AND f = c.eAllAttributes
+    AND fn = f.name
+    AND v = s.$fn
+    SET t.$fn = v
+;
+
+RULE orderAttributes
+  WHERE link LINKS src=s, tgt=t
+    AND c = s.eClass()
+    AND IF NOT isTefkatClass(c) THEN println("oAV", s, s.eAllAttributes.name) ENDIF
+    AND f = c.eAllAttributes
+    AND f.many = true
+    AND fn = f.name
+    AND v1 BEFORE v2 IN s.$fn
+    SET v1 BEFORE v2 IN t.$fn
+;
+
+ABSTRACT
+RULE TU
+  FORALL M^TrackingUse stu
+   WHERE link LINKS src=stu, tgt=ttu
+     AND println("TU", stu.tracking)
+     SET ttu.tracking = <http://CompilerTracking.ecore#//link>
+;
+
+/*
+ABSTRACT
+RULE transformation(st, tt)
+   FORALL ::model::Transformation st
+     MAKE R^Transformation tt
+      SET tgt.add(tt)
+  LINKING link WITH src=st, tgt=tt
+;
+
+ABSTRACT
+RULE pattern
+   FORALL ::model::PatternDefn sp
+     MAKE R^PatternDefn tp
+      SET tgt.add(tp)
+  LINKING link WITH src=sp, tgt=tp
+;
+
+ABSTRACT
+RULE namespace
+  FORALL ::model::NamespaceDeclaration sn
+   WHERE ::model::Transformation st
+     AND st.namespaceDeclarations = sn
+     AND link LINKS src=st, tgt=tt
+    MAKE R^NamespaceDeclaration tn
+     SET tt.namespaceDeclarations = tn
+  LINKING link WITH src=sn, tgt=tn
+;
+
+ABSTRACT
+RULE trule
+  FORALL ::model::TRule sr
+   WHERE st = sr.transformation
+     AND link LINKS src=st, tgt=tt
+    MAKE R^TRule tr
+     SET tr.transformation = tt
+  LINKING link WITH src=sr, tgt=tr
+;
+
+ABSTRACT
+RULE term
+  FORALL ::model::Term st
+  WHERE  class = st.eClass()
+    // AND  println(class.eStructuralFeatures.name)
+  MAKE   $join("", "R^", class.name) tt
+  LINKING link WITH src=st, tgt=tt
+;
+
+ABSTRACT
+RULE linkCompoundTermChildren
+  FORALL ::model::CompoundTerm st
+  WHERE  sct = st.term
+    AND  link LINKS src=st, tgt=tt
+    AND  link LINKS src=sct, tgt=tct
+    SET  tt.term = tct
+;
+
+ABSTRACT
+RULE expression
+  FORALL ::model::Expression se
+  WHERE  class = se.eClass()
+    // AND  println("test", se, join("", "R^", class.name))
+    // AND IF ::model::VarUse se THEN println(se, se.eContainer()) ENDIF
+  MAKE   $join("", "R^", class.name) te
+  LINKING link WITH src=se, tgt=te
+;
+
+ABSTRACT
+RULE linkCompoundExprChildren
+  FORALL ::model::CompoundExpr se
+  WHERE  sce = se.arg
+    AND  link LINKS src=se, tgt=te
+    AND  link LINKS src=sce, tgt=tce
+    SET  te.arg = tce
+;
+
+ABSTRACT
+RULE varXXXX
+  FORALL ::model::Var sv
+  MAKE   R^Var tvXXXX
+  LINKING link WITH src=sv, tgt=tvXXXX
+;
+
+ABSTRACT
+RULE featureValuePair
+  FORALL ::model::FeatureValuePair sfv
+  MAKE   R^FeatureValuePair tfv
+  LINKING link WITH src=sfv, tgt=tfv
+;
+*/
+
+/*
+PATTERN print1(X)
+  WHERE println(X)
+;
+
+PATTERN print1(X, Y)
+  WHERE println(X, Y)
+;
+
+PATTERN print1(X, Y, Z)
+  WHERE println(X, Y, Z)
+;
+
+PATTERN print1(X, Y, Z, ZZ, ZZZ)
+  WHERE println(X, Y, Z, ZZ, ZZZ)
+;
+*/
+
+/*
+RULE miTerm
+  FORALL ::model::MofInstance sterm
+  MAKE R^MofInstance tterm
+  LINKING link WITH src=sterm, tgt=tterm
+;
+
+RULE condTerm
+  FORALL ::model::Condition sterm
+  MAKE R^Condition tterm
+  LINKING link WITH src=sterm, tgt=tterm
+;
+*/
+

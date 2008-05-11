@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:UMLPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http:///transformation/simpleuml.ecore">
+  <contents xsi:type="uml:UMLClass" xmi:id="oid1c" name="Account" kind="persistent">
+    <attribute xmi:id="oid1a" name="owner" type="//@contents.1"/>
+  </contents>
+  <contents xsi:type="uml:UMLClass" xmi:id="oid2c" name="Principal">
+    <attribute xmi:id="oid2a" name="name" type="//@contents.6"/>
+    <attribute xmi:id="oid3a" name="savingsAccount" type="//@contents.0"/>
+  </contents>
+  <contents xsi:type="uml:UMLClass" xmi:id="oid3c" name="Person" kind="persistent" parents="//@contents.1"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="oid4c" name="Company" parents="//@contents.1"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="oid5c" name="LocalCompany" kind="persistent" parents="//@contents.3"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="oid6c" name="OffShoreCompany" kind="persistent" parents="//@contents.3"/>
+  <contents xsi:type="uml:PrimitiveDataType" xmi:id="oid1dt" name="String"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="oid7c" name="thereAreTwoClassesWithTheSameName" kind="persistent"/>
+  <contents xsi:type="uml:UMLClass" xmi:id="oid8c" name="thereAreTwoClassesWithTheSameName" kind="persistent"/>
+</uml:UMLPackage>

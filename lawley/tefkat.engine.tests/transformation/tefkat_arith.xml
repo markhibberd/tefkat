@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<config:Configuration xmlns:config="http://www.dstc.edu.au:8080/qvt/TefkatConfig.ecore">
+  <transformationTasks enabled="true">
+    <transformation locationUri="platform:/resource/transformation/transformations/arithmetic.qvt"/>
+    <sourceModels locationUri="platform:/resource/transformation/instances/numbers_in.xmi"/>
+    <targetModels locationUri="platform:/resource/transformation/instances/numbers_out.xmi"/>
+    <trace locationUri="platform:/resource/transformation/instances/numbers_trace.xmi"/>
+    <uriMap key="http:///arithmetic.ecore" value="platform:/resource/transformation/models/arithmetic.ecore"/>
+    <properties key="incremental" value="true"/>
+  </transformationTasks>
+</config:Configuration>

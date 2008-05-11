@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: tefkat.model.edit; singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: tefkat.model.provider.TefkatModelEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: tefkat.data.provider,
+ tefkat.model.provider
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.edit;visibility:=reexport,
+ tefkat.model
+Eclipse-LazyStart: true

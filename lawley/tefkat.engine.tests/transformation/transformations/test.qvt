@@ -1,0 +1,76 @@
+
+TRANSFORMATION test: X -> Y
+
+IMPORT http://www.eclipse.org/emf/2002/Ecore
+IMPORT platform:/resource/transformation/models/arithmetic.ecore
+IMPORT http:///arithmetic.ecore
+IMPORT http:///arithmetic.ecore
+IMPORT http:///arithmetic.ecore
+IMPORT http:///arithmetic.ecore
+IMPORT http:///arithmetic.ecore
+
+RULE logical
+  MAKE Number _n
+;
+
+RULE SourceITE
+  WHERE
+      println("SourceITE") AND
+      y = 1 AND
+      IF x = 1 AND println(x)
+      THEN
+        println("xxx", x)
+      ELSE
+        TRUE
+      ENDIF AND
+      z = 1
+;
+
+RULE TargetITE
+  WHERE println("TargetITE") AND z = 1
+  MAKE EObject y
+  SET 
+      IF x = 1 AND println(x)
+      THEN
+        MAKE println("xxx"),
+             EObject _e FROM f("a"),
+             println("aaa")
+//      ELSE
+//        SET FALSE
+      ENDIF
+;
+
+CLASS Foo {
+    EObject x;
+    EString name;
+    string name2;
+};
+
+CLASS Bar {
+	Foo f;
+};
+
+RULE r
+  FORALL EClass c, EClass d { name: "foobar"; }
+  WHERE c.name = "RULE"
+    AND c.xyz = d
+    AND _x = [ 1, c.foo, d.baz ]
+    AND _y = c.bar{}
+  ;
+
+RULE objectLiteral
+  FORALL EObject _o
+  MAKE EObject _t /*,
+       Column child {name : "fiz";},
+       Table xx {
+                 name: "fdkfldk";
+                 size: 27;
+                 /*
+                 c: Column _x {name : "foo";};
+                 children: [ Column _x {name : "foz";},
+                             Column _y {name : "faz";}
+                           ];
+                           */
+//              }
+//  SET t.foo = xx 
+  ;

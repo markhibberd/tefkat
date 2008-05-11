@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="ASCII"?>
+<antlr:Grammar xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:antlr="http://antlr">
+  <lexer name="SimpleUMLLexer">
+    <options value="3"/>
+    <rules name="COLON">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value=":"/>
+      </alternatives>
+    </rules>
+    <rules name="EQUALS">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="="/>
+      </alternatives>
+    </rules>
+    <rules name="LCURLY">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="{"/>
+      </alternatives>
+    </rules>
+    <rules name="RCURLY">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="}"/>
+      </alternatives>
+    </rules>
+    <rules name="LPAREN">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="("/>
+      </alternatives>
+    </rules>
+    <rules name="RPAREN">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value=")"/>
+      </alternatives>
+    </rules>
+    <rules name="SEMI">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value=";"/>
+      </alternatives>
+    </rules>
+    <rules name="TILDE">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="~"/>
+      </alternatives>
+    </rules>
+    <rules name="DOT">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="."/>
+      </alternatives>
+    </rules>
+    <rules name="COLONCOLON">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="::"/>
+      </alternatives>
+    </rules>
+    <rules name="SLASH">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="/"/>
+      </alternatives>
+    </rules>
+    <rules name="LANGLE">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="&lt;"/>
+      </alternatives>
+    </rules>
+    <rules name="RANGLE">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value=">"/>
+      </alternatives>
+    </rules>
+    <rules name="LSQUARE">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="["/>
+      </alternatives>
+    </rules>
+    <rules name="RSQUARE">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="]"/>
+      </alternatives>
+    </rules>
+    <rules name="COMMA">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value=","/>
+      </alternatives>
+    </rules>
+    <rules name="MINUS" scope="PROTECTED">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="-"/>
+      </alternatives>
+    </rules>
+    <rules name="SQUOTE" scope="PROTECTED">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="\'"/>
+      </alternatives>
+    </rules>
+    <rules name="DQUOTE" scope="PROTECTED">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="&quot;"/>
+      </alternatives>
+    </rules>
+    <rules name="BQUOTE" scope="PROTECTED">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="`"/>
+      </alternatives>
+    </rules>
+    <rules name="NL" scope="PROTECTED">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="\r\n"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="\r"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents=" newline(); "/>
+      </alternatives>
+    </rules>
+    <rules name="WS">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value=" "/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="\t"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="\f"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.20"/>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents=" $setType(Token.SKIP); "/>
+      </alternatives>
+    </rules>
+    <rules name="ID">
+      <options type="TEST_LITERALS" value="true"/>
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.30"/>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.30"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.31"/>
+          </alternatives>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules name="NUMLITERAL">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule" type="POSITIVE_CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.31"/>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SubRule" type="OPTIONAL">
+          <alternatives>
+            <elements xsi:type="antlr:SimpleCodeFragment" contents="LA(1) == DOT &amp;&amp; LA(2) == DIGIT" type="SEMANTIC_PREDICATE"/>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.8"/>
+            <elements xsi:type="antlr:SubRule" type="POSITIVE_CLOSURE">
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.31"/>
+              </alternatives>
+            </elements>
+          </alternatives>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules name="QUOTEDLITERAL">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="\'"/>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.29"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:SubRule" negated="true">
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\\"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\'"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\r"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+                  </alternatives>
+                </elements>
+              </alternatives>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:QuotedLiteral" value="\'"/>
+      </alternatives>
+    </rules>
+    <rules name="DQUOTEDLITERAL">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="&quot;"/>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.29"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:SubRule" negated="true">
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\\"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="&quot;"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\r"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+                  </alternatives>
+                </elements>
+              </alternatives>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:QuotedLiteral" value="&quot;"/>
+      </alternatives>
+    </rules>
+    <rules name="BQUOTEDLITERAL">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="`"/>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.29"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:SubRule" negated="true">
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\\"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="`"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\r"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+                  </alternatives>
+                </elements>
+              </alternatives>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:QuotedLiteral" value="\'"/>
+      </alternatives>
+    </rules>
+    <rules name="SL_COMMENT">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="//"/>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:SubRule" negated="true">
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+              </alternatives>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="newline();"/>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="$setType(Token.SKIP);"/>
+      </alternatives>
+    </rules>
+    <rules name="ML_COMMENT">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="/*"/>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+            <elements xsi:type="antlr:SimpleCodeFragment" contents="newline();"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:SubRule" negated="true">
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="*"/>
+              </alternatives>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:QuotedLiteral" value="*"/>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="*"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+                <elements xsi:type="antlr:SimpleCodeFragment" contents="newline();"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:SubRule" negated="true">
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="/"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="*"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+                  </alternatives>
+                </elements>
+              </alternatives>
+            </elements>
+            <elements xsi:type="antlr:SubRule" type="CLOSURE">
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+                <elements xsi:type="antlr:SimpleCodeFragment" contents="newline();"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:SubRule" negated="true">
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="*"/>
+                  </alternatives>
+                  <alternatives>
+                    <elements xsi:type="antlr:QuotedLiteral" value="\n"/>
+                  </alternatives>
+                </elements>
+              </alternatives>
+            </elements>
+            <elements xsi:type="antlr:QuotedLiteral" value="*"/>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:QuotedLiteral" value="/"/>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents=" $setType(Token.SKIP);"/>
+      </alternatives>
+    </rules>
+    <rules name="ESC" scope="PROTECTED">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="\\"/>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="n"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="b"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="r"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="f"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="t"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="\'"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="&quot;"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="\\"/>
+          </alternatives>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules name="LETTER" scope="PROTECTED">
+      <alternatives>
+        <elements xsi:type="antlr:Range">
+          <begin value="a"/>
+          <end value="z"/>
+        </elements>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:Range">
+          <begin value="A"/>
+          <end value="Z"/>
+        </elements>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="_"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="-"/>
+      </alternatives>
+    </rules>
+    <rules name="DIGIT" scope="PROTECTED">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="0"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="1"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="2"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="3"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="4"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="5"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="6"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="7"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="8"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="9"/>
+      </alternatives>
+    </rules>
+  </lexer>
+  <parser name="SimpleUMLParser">
+    <preamble xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;import java.util.List;&#xA;&#x9;import java.util.ArrayList;&#xA;&#x9;import java.util.Iterator;&#xA;&#x9;import java.util.HashMap;&#xA;&#x9;import org.eclipse.emf.common.util.URI;&#xA;&#x9;import org.eclipse.emf.ecore.resource.Resource;&#xA;&#x9;import org.eclipse.emf.ecore.resource.ResourceSet;&#xA;&#x9;import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;&#xA;&#x9;import org.eclipse.emf.ecore.EAttribute;&#xA;&#x9;import org.eclipse.emf.ecore.EcorePackage;&#xA;&#x9;import org.eclipse.emf.ecore.EReference;&#xA;&#x9;import org.eclipse.emf.ecore.EPackage;&#xA;&#x9;import org.eclipse.emf.ecore.EClass;&#xA;&#x9;import org.eclipse.emf.ecore.EDataType;&#xA;&#x9;import org.eclipse.emf.ecore.EcoreFactory;&#xA;&#x9;import org.eclipse.emf.ecore.EFactory;&#xA;&#x9;import org.eclipse.emf.ecore.EStructuralFeature;&#xA;&#x9;import org.eclipse.emf.ecore.EObject;&#xA;&#x9;import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;&#xA;&#x9;import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;&#xA;&#x9;import org.eclipse.emf.ecore.plugin.EcorePlugin;&#xA;"/>
+    <options value="2"/>
+    <action xsi:type="antlr:SimpleCodeFragment" contents="// @generated-parserAction"/>
+    <rules name="document">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.1">
+              <returnValue xsi:type="antlr:SimpleCodeFragment" contents="res" type="RETURN_VALUE"/>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="//@generated-document"/>
+        <elements xsi:type="antlr:Terminal"/>
+      </alternatives>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;res = null;&#xA;&#x9;// TODO: Remove when running as a plugin&#xA;&#x9;EcorePlugin.getPlatformResourceMap().put(&quot;hutnTest&quot;, URI.createURI(&quot;file:///home/ajimenez/workspace/hutnTest/&quot;));&#xA;&#x9;Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(&quot;*&quot;, new XMIResourceFactoryImpl());&#xA;"/>
+      <returnValue xsi:type="antlr:SimpleCodeFragment" contents="Resource res" type="RETURNS_CLAUSE"/>
+    </rules>
+    <rules name="packageInstance">
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.2"/>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.2"/>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.3">
+          <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="res" type="RULE_ARGUMENT"/>
+        </elements>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.3"/>
+      </alternatives>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;res = new XMIResourceImpl();&#xA;"/>
+      <returnValue xsi:type="antlr:SimpleCodeFragment" contents="Resource res" type="RETURNS_CLAUSE"/>
+    </rules>
+    <rules name="packageHeader">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="Package"/>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.24">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="q" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.25">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="d" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.26">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="b" type="LABEL"/>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;ResourceSet resourceSet = new ResourceSetImpl();&#xA;&#x9;URI fileURI = null;&#xA;&#x9;if(q != null) {&#xA;&#x9;&#x9;fileURI = URI.createURI(noQuotes(q.getText()));&#xA;&#x9;} else if(d != null) {&#xA;&#x9;&#x9;fileURI = URI.createURI(noQuotes(d.getText()));&#xA;&#x9;} else if(b != null) {&#xA;&#x9;&#x9;fileURI = URI.createURI(noQuotes(b.getText()));&#xA;&#x9;} else {&#xA;&#x9;&#x9;throw new SemanticException(&quot;Must specify metamodel.&quot;);&#xA;&#x9;}&#xA;&#x9;&#xA;&#x9;// Get the package and factory from the specified metamodel&#xA;&#x9;Resource resource = resourceSet.getResource(fileURI, true);&#xA;&#x9;ePackage = (EPackage)resource.getContents().get(0);&#xA;&#x9;eFactory = ePackage.getEFactoryInstance();&#xA;"/>
+      </alternatives>
+    </rules>
+    <rules name="packageBody">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.4">
+              <returnValue xsi:type="antlr:SimpleCodeFragment" contents="eObj" type="RETURN_VALUE"/>
+            </elements>
+            <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;// add each class instance to the resource&#xA;&#x9;res.getContents().add(eObj);&#xA;"/>
+          </alternatives>
+        </elements>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="Resource res" type="RULE_ARGUMENT"/>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;EObject eObj = null;&#xA;"/>
+    </rules>
+    <rules name="classInstance">
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.5">
+          <returnValue xsi:type="antlr:SimpleCodeFragment" contents="eObj" type="RETURN_VALUE"/>
+        </elements>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.2"/>
+                <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.6">
+                  <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eObj" type="RULE_ARGUMENT"/>
+                </elements>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.3"/>
+              </alternatives>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.6"/>
+          </alternatives>
+        </elements>
+      </alternatives>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;eObj = null;&#xA;"/>
+      <returnValue xsi:type="antlr:SimpleCodeFragment" contents="EObject eObj" type="RETURNS_CLAUSE"/>
+    </rules>
+    <rules name="classHeader">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="UMLClass">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="c1" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="PrimitiveDataType">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="c2" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="UMLPackage">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="c3" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="Attribute">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="c4" type="LABEL"/>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SubRule" type="OPTIONAL">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.24">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="q" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.25">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="d" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.26">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="b" type="LABEL"/>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="// @generated-classHeader"/>
+      </alternatives>
+      <returnValue xsi:type="antlr:SimpleCodeFragment" contents="EObject eObj = null" type="RETURNS_CLAUSE"/>
+    </rules>
+    <rules name="classContents">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.12">
+                  <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eObj" type="RULE_ARGUMENT"/>
+                </elements>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.14">
+                  <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eObj" type="RULE_ARGUMENT"/>
+                </elements>
+              </alternatives>
+            </elements>
+            <elements xsi:type="antlr:SubRule" type="OPTIONAL">
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.6"/>
+              </alternatives>
+            </elements>
+          </alternatives>
+        </elements>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="EObject eObj" type="RULE_ARGUMENT"/>
+    </rules>
+    <rules name="classInstanceRef">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:SubRule" type="OPTIONAL">
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="UMLClass">
+                  <label xsi:type="antlr:SimpleCodeFragment" contents="c1" type="LABEL"/>
+                </elements>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="PrimitiveDataType">
+                  <label xsi:type="antlr:SimpleCodeFragment" contents="c2" type="LABEL"/>
+                </elements>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="UMLPackage">
+                  <label xsi:type="antlr:SimpleCodeFragment" contents="c3" type="LABEL"/>
+                </elements>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="Attribute">
+                  <label xsi:type="antlr:SimpleCodeFragment" contents="c4" type="LABEL"/>
+                </elements>
+              </alternatives>
+            </elements>
+            <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.8">
+              <returnValue xsi:type="antlr:SimpleCodeFragment" contents="s" type="RETURN_VALUE"/>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="// @generated&#xA;"/>
+      </alternatives>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;obj = null;&#xA;&#x9;String s = null;&#xA;&#x9;// may return a todo item if the refered object hasn't been parsed yet&#xA;"/>
+      <returnValue xsi:type="antlr:SimpleCodeFragment" contents="Object obj" type="RETURNS_CLAUSE"/>
+    </rules>
+    <rules name="classRefString">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.24">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="q" type="LABEL"/>
+            </elements>
+            <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;s = q.getText();&#xA;"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.25">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="d" type="LABEL"/>
+            </elements>
+            <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;s = d.getText();&#xA;"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.26">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="b" type="LABEL"/>
+            </elements>
+            <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;s = b.getText();&#xA;"/>
+          </alternatives>
+        </elements>
+      </alternatives>
+      <returnValue xsi:type="antlr:SimpleCodeFragment" contents="String s = null" type="RETURNS_CLAUSE"/>
+    </rules>
+    <rules name="packageRootRef">
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.11"/>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.24"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.25"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.26"/>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.11"/>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.24"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.25"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.26"/>
+              </alternatives>
+            </elements>
+          </alternatives>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules name="documentRootRef">
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.11"/>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.11"/>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.24"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.25"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.26"/>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.11"/>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.24"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.25"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.26"/>
+              </alternatives>
+            </elements>
+          </alternatives>
+        </elements>
+      </alternatives>
+    </rules>
+    <rules name="classRefSeparator">
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.9"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.8"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.10"/>
+      </alternatives>
+    </rules>
+    <rules name="attributeInstance">
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.13">
+          <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eObj" type="RULE_ARGUMENT"/>
+        </elements>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="EObject eObj" type="RULE_ARGUMENT"/>
+    </rules>
+    <rules name="normalAttribute">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="kind">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="a1" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="name">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="a2" type="LABEL"/>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="// @generated-normalAttribute1"/>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.0"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.1"/>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.17">
+              <returnValue xsi:type="antlr:SimpleCodeFragment" contents="val" type="RETURN_VALUE"/>
+              <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eDataType"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="null">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="n" type="LABEL"/>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="// @generated-normalAttribute2"/>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="EObject eObj" type="RULE_ARGUMENT"/>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;EDataType eDataType = null;&#xA;&#x9;Object val = null;&#xA;"/>
+    </rules>
+    <rules name="referenceInstance">
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.15">
+          <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eObj" type="RULE_ARGUMENT"/>
+        </elements>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.16">
+          <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eObj" type="RULE_ARGUMENT"/>
+        </elements>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="EObject eObj" type="RULE_ARGUMENT"/>
+    </rules>
+    <rules name="containedReference">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule" type="OPTIONAL">
+          <alternatives>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="attribute">
+                  <label xsi:type="antlr:SimpleCodeFragment" contents="r1" type="LABEL"/>
+                </elements>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="contents">
+                  <label xsi:type="antlr:SimpleCodeFragment" contents="r2" type="LABEL"/>
+                </elements>
+              </alternatives>
+            </elements>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.0"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.1"/>
+              </alternatives>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.4">
+              <returnValue xsi:type="antlr:SimpleCodeFragment" contents="ref" type="RETURN_VALUE"/>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="// @generated-containedReference"/>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="EObject eObj" type="RULE_ARGUMENT"/>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;EObject ref = null;&#xA;&#x9;EReference sf = null;&#xA;"/>
+    </rules>
+    <rules name="nonContReference">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="parents">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="r1" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="source">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="r2" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="target">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="r3" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="type">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="r4" type="LABEL"/>
+            </elements>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:QuotedLiteral" value="owner">
+              <label xsi:type="antlr:SimpleCodeFragment" contents="r5" type="LABEL"/>
+            </elements>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:SubRule">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.0"/>
+          </alternatives>
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.1"/>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.7">
+          <returnValue xsi:type="antlr:SimpleCodeFragment" contents="ref" type="RETURN_VALUE"/>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="// @generated-nonContReference"/>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="EObject eObj" type="RULE_ARGUMENT"/>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;Object ref = null;&#xA;&#x9;EReference sf = null;&#xA;"/>
+    </rules>
+    <rules name="dataValue">
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.18">
+          <returnValue xsi:type="antlr:SimpleCodeFragment" contents="obj" type="RETURN_VALUE"/>
+          <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eDataType"/>
+        </elements>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.20">
+          <returnValue xsi:type="antlr:SimpleCodeFragment" contents="obj" type="RETURN_VALUE"/>
+          <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eDataType"/>
+        </elements>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="EDataType eDataType" type="RULE_ARGUMENT"/>
+      <returnValue xsi:type="antlr:SimpleCodeFragment" contents="Object obj = null" type="RETURNS_CLAUSE"/>
+    </rules>
+    <rules name="singleValueData">
+      <alternatives>
+        <elements xsi:type="antlr:SubRule" type="SYNTACTIC_PREDICATE">
+          <alternatives>
+            <elements xsi:type="antlr:SubRule">
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="UMLClass"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="PrimitiveDataType"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="UMLPackage"/>
+              </alternatives>
+              <alternatives>
+                <elements xsi:type="antlr:QuotedLiteral" value="Attribute"/>
+              </alternatives>
+            </elements>
+            <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.8"/>
+          </alternatives>
+        </elements>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.7">
+          <returnValue xsi:type="antlr:SimpleCodeFragment" contents="obj" type="RETURN_VALUE"/>
+        </elements>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.4">
+          <returnValue xsi:type="antlr:SimpleCodeFragment" contents="obj" type="RETURN_VALUE"/>
+        </elements>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.24">
+          <label xsi:type="antlr:SimpleCodeFragment" contents="q" type="LABEL"/>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;obj = fac.createFromString(eDataType, noQuotes(q.getText()));&#xA;"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.25">
+          <label xsi:type="antlr:SimpleCodeFragment" contents="d" type="LABEL"/>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;obj = fac.createFromString(eDataType, noQuotes(d.getText()));&#xA;"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.26">
+          <label xsi:type="antlr:SimpleCodeFragment" contents="b" type="LABEL"/>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;obj = fac.createFromString(eDataType, noQuotes(b.getText()));&#xA;"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.23">
+          <label xsi:type="antlr:SimpleCodeFragment" contents="n" type="LABEL"/>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;obj = fac.createFromString(eDataType, n.getText());&#xA;"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.19">
+          <returnValue xsi:type="antlr:SimpleCodeFragment" contents="obj" type="RETURN_VALUE"/>
+        </elements>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="EDataType eDataType" type="RULE_ARGUMENT"/>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;EcoreFactory fac = EcorePackage.eINSTANCE.getEcoreFactory();&#xA;"/>
+      <returnValue xsi:type="antlr:SimpleCodeFragment" contents="Object obj = null" type="RETURNS_CLAUSE"/>
+    </rules>
+    <rules name="booleanValue">
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="true"/>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;b = fac.createFromString(EcorePackage.eINSTANCE.getEBoolean(), &quot;true&quot;); &#xA;"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:QuotedLiteral" value="false"/>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;b = fac.createFromString(EcorePackage.eINSTANCE.getEBoolean(), &quot;true&quot;); &#xA;"/>
+      </alternatives>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;EcoreFactory fac = EcorePackage.eINSTANCE.getEcoreFactory();&#xA;"/>
+      <returnValue xsi:type="antlr:SimpleCodeFragment" contents="Object b = null" type="RETURNS_CLAUSE"/>
+    </rules>
+    <rules name="multiValueData">
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.11"/>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.21">
+          <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eDataType, l" type="RULE_ARGUMENT"/>
+        </elements>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.12"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.13"/>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.21">
+          <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eDataType, l" type="RULE_ARGUMENT"/>
+        </elements>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.14"/>
+      </alternatives>
+      <alternatives>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.5"/>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.21">
+          <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eDataType, l" type="RULE_ARGUMENT"/>
+        </elements>
+        <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.4"/>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="EDataType eDataType" type="RULE_ARGUMENT"/>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;l = new ArrayList();&#xA;"/>
+      <returnValue xsi:type="antlr:SimpleCodeFragment" contents="List l" type="RETURNS_CLAUSE"/>
+    </rules>
+    <rules name="valueList">
+      <alternatives>
+        <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.17">
+          <returnValue xsi:type="antlr:SimpleCodeFragment" contents="obj" type="RETURN_VALUE"/>
+          <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eDataType"/>
+        </elements>
+        <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;l.add(obj);&#xA;"/>
+        <elements xsi:type="antlr:SubRule" type="CLOSURE">
+          <alternatives>
+            <elements xsi:type="antlr:Terminal" rule="//@lexer/@rules.15"/>
+            <elements xsi:type="antlr:NonTerminal" rule="//@parser/@rules.17">
+              <returnValue xsi:type="antlr:SimpleCodeFragment" contents="obj" type="RETURN_VALUE"/>
+              <actualParameters xsi:type="antlr:SimpleCodeFragment" contents="eDataType"/>
+            </elements>
+            <elements xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;l.add(obj);&#xA;"/>
+          </alternatives>
+        </elements>
+      </alternatives>
+      <formalParameters xsi:type="antlr:SimpleCodeFragment" contents="EDataType eDataType, List l" type="RULE_ARGUMENT"/>
+      <initAction xsi:type="antlr:SimpleCodeFragment" contents="&#xA;&#x9;// @static&#xA;&#x9;Object obj = null;&#xA;"/>
+    </rules>
+  </parser>
+</antlr:Grammar>

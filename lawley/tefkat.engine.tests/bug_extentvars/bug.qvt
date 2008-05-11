@@ -1,0 +1,49 @@
+
+TRANSFORMATION bug : src -> tgt
+
+NAMESPACE http:///TefkatModel-2.5.ecore
+
+RULE rule
+  WHERE println("src extent =", src, " in rule")
+    AND pattern()
+    AND pattern(_)
+    AND pattern(1)
+;
+
+PATTERN pattern()
+  WHERE println("src extent =", src, " in 0-arg pattern")
+;
+
+PATTERN pattern(arg)
+  WHERE println("src extent =", src, " in 1-arg pattern")
+;
+
+RULE ruleTwo
+  WHERE A = 1
+    AND println("A=", A)
+    AND two(A, B)
+    AND println("A,B=", A, B)
+    AND println("C=", C)
+    AND two(C,D)	// bug: C,D bound to Y from pattern
+    AND println("C,D=", C, D)
+    AND C=2
+    AND println("C,D=", C, D)
+    AND two(E,F)
+    AND println("E,F=", E, F)
+    AND F=3		// fails because of above bug
+    AND println("E,F=", E, F)
+;
+
+PATTERN two(X, Y)
+  WHERE X = Y
+;
+
+RULE ruleThree
+  WHERE three(A)
+    AND println("A=", A)
+;
+
+PATTERN three(X)
+  FORALL TRule X
+;
+

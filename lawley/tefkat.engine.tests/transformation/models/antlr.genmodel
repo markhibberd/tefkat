@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright DSTC Pty Ltd 2004"
+    modelDirectory="/transformation/src" editDirectory="/antlr.edit/src" editorDirectory="/antlr.editor/src"
+    modelPluginID="com.dstc.tok5.antlr" runtimeJar="true" modelName="Antlr" editPluginClass="antlr.provider.AntlrEditPlugin"
+    editorPluginClass="antlr.presentation.AntlrEditorPlugin" runtimeCompatibility="false">
+  <foreignModel>antlr.ecore</foreignModel>
+  <genPackages prefix="Antlr" basePackage="com.dstc.tok5" ecorePackage="antlr.ecore#/">
+    <genEnums ecoreEnum="antlr.ecore#//ANTLR_OPTIONS">
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/K"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/BUILD_AST"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/TEST_LITERALS"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/EXPORT_VOCAB"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/DEFAULT_ERROR_HANDLER"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/WARN_WHEN_FOLLOW_AMBIG"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/INTERACTIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/CHAR_VOCABULARY"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/GENERATE_AMBIG_WARNINGS"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/GREEDY"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/AST"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/LANGUAGE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/IMPORT_VOCAB"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/CODE_GEN_MAKE_SWITCH_THRESHOLD"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/CODE_GEN_BITSET_TEST_THRESHOLD"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/ANALYZER_DEBUG"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/CODE_GEN_DEBUG"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/AST_LABEL_TYPE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/IGNORE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/PARAPHRASE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/CASE_SENSITIVE_LITERALS"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/CLASS_HEADER_PREFIX"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/CLASS_HEADER_SUFFIX"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/MANGLE_LITERAL_PREFIX"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/FILTER"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/NAMESPACE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/NAMESPACE_STD"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/NAMESPACE_ANTLR"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/GEN_HASH_LINES"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/NO_CONSTRUCTORS"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//ANTLR_OPTIONS/CASE_SENSITIVE"/>
+    </genEnums>
+    <genEnums ecoreEnum="antlr.ecore#//SCOPE">
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SCOPE/DEFAULT"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SCOPE/PROTECTED"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SCOPE/PRIVATE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SCOPE/PUBLIC"/>
+    </genEnums>
+    <genEnums ecoreEnum="antlr.ecore#//CODE_FRAGMENT_TYPE">
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//CODE_FRAGMENT_TYPE/SEMANTIC_ACTION"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//CODE_FRAGMENT_TYPE/SEMANTIC_PREDICATE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//CODE_FRAGMENT_TYPE/RULE_ARGUMENT"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//CODE_FRAGMENT_TYPE/RETURNS_CLAUSE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//CODE_FRAGMENT_TYPE/THROWS_CLAUSE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//CODE_FRAGMENT_TYPE/RETURN_VALUE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//CODE_FRAGMENT_TYPE/LABEL"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//CODE_FRAGMENT_TYPE/COMMENT"/>
+    </genEnums>
+    <genEnums ecoreEnum="antlr.ecore#//SUB_RULE_TYPE">
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SUB_RULE_TYPE/SIMPLE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SUB_RULE_TYPE/CLOSURE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SUB_RULE_TYPE/POSITIVE_CLOSURE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SUB_RULE_TYPE/OPTIONAL"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SUB_RULE_TYPE/SYNTACTIC_PREDICATE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SUB_RULE_TYPE/TREE"/>
+    </genEnums>
+    <genEnums ecoreEnum="antlr.ecore#//AST_TYPE">
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//AST_TYPE/NONE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//AST_TYPE/EXCLUDE"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//AST_TYPE/NODE"/>
+    </genEnums>
+    <genEnums ecoreEnum="antlr.ecore#//SYMBOLS">
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SYMBOLS/WILDCARD"/>
+      <genEnumLiterals ecoreEnumLiteral="antlr.ecore#//SYMBOLS/EOF"/>
+    </genEnums>
+    <genClasses ecoreClass="antlr.ecore#//Grammar">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Grammar/header"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Grammar/options"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Grammar/lexer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Grammar/parser"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Grammar/treeParser"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//ClassDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//ClassDefinition/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//ClassDefinition/preamble"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//ClassDefinition/options"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//ClassDefinition/tokens"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//ClassDefinition/action"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//ClassDefinition/rules"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//ClassDefinition/comment"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//Rule">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Rule/scope"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Rule/formalParameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference antlr.ecore#//Rule/throwsClause"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Rule/initAction"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Rule/returnValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Rule/excluded"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Rule/exception"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Rule/comment"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//Option">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Option/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Option/value"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//Token">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Token/literal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Token/embedded"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//Element">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Element/ASTType"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//CodeFragment">
+      <genOperations ecoreOperation="antlr.ecore#//CodeFragment/getText"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//Terminal">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Terminal/options"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Terminal/negated"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//NonTerminal"/>
+    <genClasses ecoreClass="antlr.ecore#//AbstractRule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//AbstractRule/options"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//AbstractRule/alternatives"/>
+      <genOperations ecoreOperation="antlr.ecore#//AbstractRule/addElement">
+        <genParameters ecoreParameter="antlr.ecore#//AbstractRule/addElement/elem"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//NamedRule">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//NamedRule/name"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//LabelableElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference antlr.ecore#//LabelableElement/label"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//LabelableElement/exception"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//RuleReference">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference antlr.ecore#//RuleReference/rule"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//RuleReference/returnValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//RuleReference/actualParameters"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//SubRule">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//SubRule/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//SubRule/initAction"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//SubRule/negated"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//Range">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Range/begin"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Range/end"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//Alternative">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Alternative/elements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//Alternative/exception"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Alternative/excluded"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//ExceptionGroup">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference antlr.ecore#//ExceptionGroup/exceptions"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//ExceptionSpec">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//ExceptionSpec/label"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//ExceptionSpec/handlers"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//ExceptionHandler">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//ExceptionHandler/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference antlr.ecore#//ExceptionHandler/action"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//SimpleCodeFragment">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//SimpleCodeFragment/contents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//SimpleCodeFragment/type"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//Symbol">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Symbol/value"/>
+    </genClasses>
+    <genClasses ecoreClass="antlr.ecore#//Literal">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Literal/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute antlr.ecore#//Literal/negated"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,113 @@
+
+TRANSFORMATION testMap: x -> y
+
+IMPORT http:///TefkatModel-2.5.ecore
+
+/*
+RULE testListFunctions
+  WHERE x = split("foo/bar/baz", "/")
+    AND y = elementAt(x, 0)
+    AND println(y)
+    AND z = y.matches("oo")
+    AND println(z)
+;
+
+RULE testMethodTypeCasting
+  WHERE x = split("foo/bar", "/")
+    AND println(x)
+    AND y = x.get(0)
+;
+
+PATTERN p(a)
+  WHERE a = "foo bar"
+    AND println("p", a)
+;
+
+RULE foo(x)
+  WHERE println("in", x)
+  AND p(x)
+  AND println("foo", x)
+;
+
+RULE bar(y) EXTENDS foo(y)
+  WHERE // y = y1 AND
+        println("bar", y)
+        AND y = y1
+//        AND y1 = "xyz"
+;
+*/
+
+CLASS track {
+  string s1;
+  string s2;
+};
+
+PATTERN count(N)
+  WHERE IF N > 0 THEN count(N - 1) ELSE println("done") ENDIF
+  AND track LINKS s1 = s1, s2 = s2
+;
+
+PATTERN pc(x)
+WHERE println("pc", x) AND x = "x" AND count(1000)
+;
+
+RULE patternCacheTest
+  WHERE pc(Var) AND println("var", Var)
+  AND   pc(Var) AND println("var", Var)
+;
+
+RULE patternCacheTest
+  WHERE pc("x")
+  AND   pc(b) AND println("b", b)
+  AND   pc(c) AND println("c", c)
+;
+
+RULE triggerFixpoint
+  LINKING track WITH s1 = "s one", s2 = "s two"
+;
+
+/*
+MAP foo {
+  11 : 12,
+  1 : "bar",
+  "abc" : "def",
+  321 : [1, 2, "3"]
+};
+
+ABSTRACT
+RULE map_it
+  WHERE println(map("foo", 11))
+    AND println(map("foo", "abc"))
+    AND println(map("foo", 321))
+;
+*/
+
+ABSTRACT
+RULE split
+  WHERE println(["a", "b"])
+    AND println(split("1:2:3", ":"))
+    AND x = split("1:2:3", ":")
+    AND println(join(":", x))
+//    AND y = [1, 2, 3, 4]
+//    AND println(y)
+    AND println(join(":", [1, 2, 3, 4]))
+    AND println(1) AND println([1])
+    AND q = 2 AND println(q)
+    AND qq = [3] AND println(qq)
+    AND qqq = [4, 5, [6, 7]] AND println(qqq)
+    AND println(collect(1, 2, 3)) AND println(1, 2, 3)
+;
+
+ABSTRACT
+RULE match
+  WHERE TRule t
+  AND println(t.src.term)
+;
+
+ABSTRACT
+RULE make
+  MAKE
+  AndTerm _at2 {
+      term: [OrTerm _y, OrTerm _x {}];
+  }
+;

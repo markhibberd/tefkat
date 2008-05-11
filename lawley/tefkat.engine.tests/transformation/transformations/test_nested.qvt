@@ -1,0 +1,38 @@
+
+TRANSFORMATION test: a -> b
+
+// IMPORT http:///it/itc/sra/taom4e/model/core/gencore.ecore
+// IMPORT http:///it/itc/sra/taom4e/model.ecore
+IMPORT platform:/resource/transformation/models/TAOM4E-MM.ecore
+
+ABSTRACT
+RULE m0
+  MAKE BusinessModel bm
+  SET bm.name = "foo"
+;
+
+//ABSTRACT
+RULE r0
+  FORALL BusinessModel bm
+  WHERE println(bm.eClass())
+;
+
+//ABSTRACT
+RULE r1
+  FORALL ::model::core::gencore::BusinessModel bm
+  WHERE println(bm.eClass().eResource().hashCode())
+;
+
+
+RULE r11
+  WHERE x = <platform:/resource/transformation/models/TAOM4E-MM.ecore#/>
+    AND r = x.eResource().getResourceSet()
+    AND println(r.hashCode(), r)
+;
+
+//ABSTRACT
+RULE r2
+  FORALL _ x
+  WHERE println("x=", x.hashCode(), "R=", x.eClass().eResource().hashCode()) AND r = x.eClass().eResource().getResourceSet()
+    AND println(r.hashCode(), r)
+;
