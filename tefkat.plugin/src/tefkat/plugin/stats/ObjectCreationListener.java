@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -52,7 +53,13 @@ public class ObjectCreationListener extends TefkatStatisticsListener {
         } catch (Throwable t) { t.printStackTrace(); }
     }
 
+    private static final boolean DEMO = false;
+
     private void process() {
+        if (DEMO) {
+            demo();
+            return;
+        }
         if (!isEnabled()) return;
         Iterator<EObject> iter = this.trace.getAllContents();
         if (!iter.hasNext()) {
@@ -94,9 +101,9 @@ public class ObjectCreationListener extends TefkatStatisticsListener {
                 counter.put(rule, count);
             }
         }
-        printBuilt(builder);
-    }
 
+        realWIP(builder);
+    }
     private class Tuple {
         final EObject key;
         final Map<EObject,Integer> counter = new HashMap<EObject, Integer>();;
@@ -105,7 +112,35 @@ public class ObjectCreationListener extends TefkatStatisticsListener {
             return EcoreUtil.equals(key, other);
         }
     }
-    private void printBuilt(List<Tuple> built) {
+
+
+
+    private void demo() {
+        double ex = 0;
+        double post = 1;
+        double under = 2;
+        double total = 3;
+
+        double pex = ex / total * 100;
+        double ppost = post / total * 100;
+        double punder = under / total * 100;
+
+        String spex = String.format("%1.1f", pex);
+        String sppost = String.format("%1.1f", ppost);
+        String spunder = String.format("%1.1f", punder);
+        for (TRule rule : (EList<TRule>) transformation.getTRule()) {
+            if (rule.getName().equals("UnderGrads")) {
+                this.document.addCreationHover((TRule) rule, "Created " + spunder + "% of class[UMLClass]");
+            } else if (rule.getName().equals("PostGrads")) {
+                this.document.addCreationHover((TRule) rule, "Created " + sppost + "% of class[UMLClass]");
+            } else if (rule.getName().equals("ExStudent")) {
+                this.document.addCreationHover((TRule) rule, "Created " + spex + "% of class[UMLClass]");
+            }
+        }
+
+    }
+
+    private void realWIP(List<Tuple> built) {
         for (Tuple tuple : built) {
             Map<EObject, Integer> count = tuple.counter;
             int total = total(count);
@@ -135,11 +170,11 @@ public class ObjectCreationListener extends TefkatStatisticsListener {
             for (EObject rule : count.keySet()) {
                 int c = count.get(rule);
                 double dc = c;
-                System.out.println("    Rule(" + rule + "): " + ((dc/dt) * 100) + "%");
-                this.document.addCreationHover((TRule) rule, tuple.key, ((dc/dt) * 100));
+                double d = ((dc/dt) * 100);
+                System.out.println("    Rule(" + rule + "): " + d + "%");
+                this.document.addCreationHover((TRule) rule, "Created " + d + "% of object[" + EObjectUtil.buildToString(tuple.key) + "]");
             }
         }
-
     }
 
     private boolean match(EObject e) {

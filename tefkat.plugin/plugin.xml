@@ -235,7 +235,7 @@
       <specification
             annotationType="tefkat.plugin.stats.sometimes"
             colorPreferenceKey="statsSometimesColour"
-            colorPreferenceValue="142,229,238"
+            colorPreferenceValue="204,255,255"
             contributesToHeader="false"
             highlightPreferenceKey="statsSometimesHighlighting"
             highlightPreferenceValue="true"

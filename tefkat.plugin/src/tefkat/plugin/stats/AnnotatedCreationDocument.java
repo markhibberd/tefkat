@@ -48,7 +48,7 @@ public class AnnotatedCreationDocument {
         }
     }
 
-    public void addCreationHover(TRule rule, EObject key, double d) {
+    public void addCreationHover(TRule rule, String label) {
         if (!ObjectCreationListener.isEnabled()) return;
         TextSection area = dom.find(rule);
         if (area == null) {
@@ -56,7 +56,7 @@ public class AnnotatedCreationDocument {
             throw new RuntimeException("could not find rule");
         }
         area = refine(area);
-        annotate(rule, area, "Created " + d + "% of object[" + EObjectUtil.buildToString(key) + "]");
+        annotate(rule, area, label);
     }
 
     private void annotate(TRule rule, TextSection area, String msg) {
