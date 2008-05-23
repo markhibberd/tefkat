@@ -33,7 +33,7 @@
             objectClass="org.eclipse.emf.ecore.EObject">
          <menu
                id="tde.questions"
-               label="Selection"
+               label="Select"
                path="additions">
             <separator
                   name="eobject-selection">
@@ -43,13 +43,20 @@
                class="tde.popup.actions.TDEQuestions"
                enablesFor="1"
                id="tde.popup.actions.TDEQuestions"
-               label="Select this eobject!"
+               label="Interest in this class of object"
                menubarPath="tde.questions/debugging-questions">
          </action>
          <filter
                name="selectable"
                value="true">
          </filter>
+         <action
+               class="tde.popup.actions.TDEQuestions"
+               enablesFor="1"
+               id="tde.popup.actions.TDEQuestions"
+               label="Interest in objects with matching attributes"
+               menubarPath="tde.questions/debugging-questions">
+         </action>
       </objectContribution>
    </extension>
    <extension
