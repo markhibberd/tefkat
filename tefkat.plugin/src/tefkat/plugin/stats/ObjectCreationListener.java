@@ -53,10 +53,11 @@ public class ObjectCreationListener extends TefkatStatisticsListener {
         } catch (Throwable t) { t.printStackTrace(); }
     }
 
-    private static final boolean DEMO = false;
+    private static final boolean DEMO_MODE = true;
 
     private void process() {
-        if (DEMO) {
+        // FIXME demo mode is a call for two different paths - 1. for class based selection, 2. for attribute based selection
+        if (DEMO_MODE) {
             demo();
             return;
         }
@@ -116,10 +117,13 @@ public class ObjectCreationListener extends TefkatStatisticsListener {
 
 
     private void demo() {
+        // FIXME this is hacked in, to get it done, in reality it highlights a defficience in iteration approach
+        //       as you can not differentiate between 0% did not create any and could not of, and 0% because of bug
+        //      this just hard codes some known values so i can get a screen shot
         double ex = 0;
-        double post = 1;
+        double post = 0;
         double under = 2;
-        double total = 3;
+        double total = 2;
 
         double pex = ex / total * 100;
         double ppost = post / total * 100;
@@ -129,12 +133,10 @@ public class ObjectCreationListener extends TefkatStatisticsListener {
         String sppost = String.format("%1.1f", ppost);
         String spunder = String.format("%1.1f", punder);
         for (TRule rule : (EList<TRule>) transformation.getTRule()) {
-            if (rule.getName().equals("UnderGrads")) {
-                this.document.addCreationHover((TRule) rule, "Created " + spunder + "% of class[UMLClass]");
-            } else if (rule.getName().equals("PostGrads")) {
-                this.document.addCreationHover((TRule) rule, "Created " + sppost + "% of class[UMLClass]");
-            } else if (rule.getName().equals("ExStudent")) {
-                this.document.addCreationHover((TRule) rule, "Created " + spex + "% of class[UMLClass]");
+            if (rule.getName().equals("StudentsWithGPA")) {
+                this.document.addCreationHover((TRule) rule, "Supports " + spunder + "% of Report instances");
+            } else if (rule.getName().equals("StudentsWithoutGPA")) {
+                this.document.addCreationHover((TRule) rule, "Supports " + sppost + "% of Report instances");
             }
         }
 
