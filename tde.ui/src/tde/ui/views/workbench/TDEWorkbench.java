@@ -37,6 +37,8 @@ public class TDEWorkbench extends ViewPart implements ISelectionListener {
         GridLayout grid = new GridLayout(2, false);
         Group questions = new Group(parent, SWT.BORDER);
         questions.setText("Debugging Questions");
+        Group determinism = new Group(parent, SWT.BORDER);
+        determinism.setText("Show Determinism");
         Group branches = new Group(parent, SWT.BORDER);
         branches.setText("Branch Highlighting");
         Group creation = new Group(parent, SWT.BORDER);
@@ -47,23 +49,30 @@ public class TDEWorkbench extends ViewPart implements ISelectionListener {
         questions.setLayout(new FormLayout());
         branches.setLayout(grid);
         creation.setLayout(grid);
+        determinism.setLayout(grid);
         selection.setLayout(new FormLayout());
 
         ListViewer questionList = new ListViewer(questions, SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
-        questionList.add(new String[] {"Why are there no objects where _?"});
-        questionList.add(new String[] {"Why so many objects where _?"});
-        questionList.add(new String[] {"Who is responsible for objects where _?"});
-        questionList.add(new String[] {"What target objects were realised for source objects where _?"});
-        questionList.add(new String[] {"What target objects where _ did not realise source objects where _?"});
+        // TODO questions
+//        questionList.add(new String[] {"Why are there no objects where _?"});
+//        questionList.add(new String[] {"Why so many objects where _?"});
+//        questionList.add(new String[] {"Who is responsible for objects where _?"});
+//        questionList.add(new String[] {"What target objects were realised for source objects where _?"});
+//        questionList.add(new String[] {"What target objects where _ did not realise source objects where _?"});
+
+
+        final Button enableDeterminism = new Button(determinism, SWT.CHECK);
+        Label enableDeterminismLabel = new Label(determinism, SWT.NONE);
+        enableDeterminismLabel.setText("View determinism.");
 
         final Button enableBranches = new Button(branches, SWT.CHECK);
         Label enableBranchesLabel = new Label(branches, SWT.NONE);
-        enableBranchesLabel.setText("Enable branch colouring");
+        enableBranchesLabel.setText("Enable branch colouring.");
 
 
         final Button enableCreation = new Button(creation, SWT.CHECK);
         Label enableCreationLabel = new Label(creation, SWT.NONE);
-        enableCreationLabel.setText("Enable creation colouring");
+        enableCreationLabel.setText("Enable creation colouring.");
 
         final Button enableFold = new Button(creation, SWT.PUSH);
         enableFold.setText("Fold on selection");
@@ -83,9 +92,16 @@ public class TDEWorkbench extends ViewPart implements ISelectionListener {
         qData.right = new FormAttachment(50, 0);
         questions.setLayoutData(qData);
 
+        FormData dData = new FormData();
+        dData.top = new FormAttachment(0, 5);
+        dData.bottom = new FormAttachment(33, 0);
+        dData.left = new FormAttachment(questions);
+        dData.right = new FormAttachment(75, 0);
+        determinism.setLayoutData(dData);
+
         FormData bData = new FormData();
-        bData.top = new FormAttachment(0, 5);
-        bData.bottom = new FormAttachment(33, 0);
+        bData.top = new FormAttachment(determinism, 5);
+        bData.bottom = new FormAttachment(66, 0);
         bData.left = new FormAttachment(questions, 5);
         bData.right = new FormAttachment(75, 0);
         branches.setLayoutData(bData);
@@ -124,6 +140,9 @@ public class TDEWorkbench extends ViewPart implements ISelectionListener {
                 Class<?> clazz = c4n("tefkat.plugin.stats.AnnotatingStatsListener");
                 setEnabled(clazz, enableBranches.getSelection());
                 if (enableBranches.getSelection()) {
+                	enableDeterminism.setSelection(false);
+                    clazz = c4n("tefkat.plugin.stats.DeterminismThingo");
+                    setEnabled(clazz, enableDeterminism.getSelection());
                     enableCreation.setSelection(false);
                     clazz = c4n("tefkat.plugin.stats.ObjectCreationListener");
                     setEnabled(clazz, enableCreation.getSelection());
@@ -143,6 +162,9 @@ public class TDEWorkbench extends ViewPart implements ISelectionListener {
                 setEnabled(clazz, enableCreation.getSelection());
 
                 if (enableCreation.getSelection()) {
+                	enableDeterminism.setSelection(false);
+                    clazz = c4n("tefkat.plugin.stats.DeterminismThingo");
+                    setEnabled(clazz, enableDeterminism.getSelection());
                     enableBranches.setSelection(false);
                     clazz = c4n("tefkat.plugin.stats.AnnotatingStatsListener");
                     setEnabled(clazz, enableBranches.getSelection());
@@ -150,6 +172,27 @@ public class TDEWorkbench extends ViewPart implements ISelectionListener {
             }
         });
 
+        enableDeterminism.addSelectionListener(new SelectionListener() {
+            public void widgetDefaultSelected(SelectionEvent e) {
+//              ObjectCreationListener.setEnabled(enableCreation.getSelection());
+                Class<?> clazz = c4n("tefkat.plugin.stats.DeterminismThingo");
+                setEnabled(clazz, enableDeterminism.getSelection());
+            }
+            public void widgetSelected(SelectionEvent e) {
+//                ObjectCreationListener.setEnabled(enableCreation.getSelection());
+                Class<?> clazz = c4n("tefkat.plugin.stats.DeterminismThingo");
+                setEnabled(clazz, enableDeterminism.getSelection());
+
+                if (enableDeterminism.getSelection()) {
+                    enableBranches.setSelection(false);
+                    clazz = c4n("tefkat.plugin.stats.AnnotatingStatsListener");
+                    setEnabled(clazz, enableBranches.getSelection());
+                    enableCreation.setSelection(false);
+                    clazz = c4n("tefkat.plugin.stats.ObjectCreationListener");
+                    setEnabled(clazz, enableCreation.getSelection());
+                }
+            }
+        });
         getViewSite().getPage().addSelectionListener(TDEPlugin.ID_TDE_SELECTOR, this);
     }
 

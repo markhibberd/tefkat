@@ -25,7 +25,8 @@ import tefkat.model.Term;
 import tefkat.model.Var;
 import tefkat.model.internal.ModelUtils;
 
-final class Context {
+// FIX MH i need it in the outside world at the moment. ##public##
+public final class Context {
 
     final private RuleEvaluator ruleEval;
     final private Evaluator exprEval;

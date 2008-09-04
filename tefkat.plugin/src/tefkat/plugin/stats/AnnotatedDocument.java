@@ -55,10 +55,10 @@ public class AnnotatedDocument {
         a.setText(msg);
         Position position = area.toPosition();
         Position overlap = overlap(position);
-        if (overlap != null) {
-            // FIXME System.err.println("Overlap has occurred, " + t + "  -- overlaps with --  " + annotationPositions.get(overlap).term);
-            return;
-        }
+//        if (overlap != null) {
+//            System.err.println("Overlap has occurred, " + t + "  -- overlaps with --  " + annotationPositions.get(overlap).term);
+//            return;
+//        }
         annotationPositions.put(position, new AnnotatedTerm(a, t));
         model.addAnnotation(a, position);
     }

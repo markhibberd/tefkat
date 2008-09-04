@@ -42,6 +42,7 @@ public class ManyToOneTefkatListenerAdapter implements TefkatListener {
             return new TefkatListenerAdapter() {};
         }
     };
+
     private ConcurrentMap<URI,TefkatListener> uri2listener = new ConcurrentHashMap<URI, TefkatListener>();
 
     public synchronized static void register(Tefkat t) {

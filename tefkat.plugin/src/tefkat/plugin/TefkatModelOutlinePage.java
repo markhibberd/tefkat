@@ -9,7 +9,7 @@
  *     michael lawley
  *
  *
- * 
+ *
  */
 
 package tefkat.plugin;
@@ -55,9 +55,9 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
     private String resId;
     final private Map<String, Object> objMap = new HashMap<String, Object>();
     final private Map<Object, String> idMap = new HashMap<Object, String>();
-    
+
     /**
-     * 
+     *
      */
     public TefkatModelOutlinePage() {
         super();
@@ -68,7 +68,7 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
         boolean reparse = id.equals(resId);
 
         resId = id;
-        
+
         // leaks mem like a sieve without these two lines :-)
         idMap.clear();
         objMap.clear();
@@ -81,14 +81,14 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
             getTreeViewer().refresh(id);
         }
     }
-    
+
     private String getID(Object obj) {
         if (null == obj) {
             return "";
         }
-        
+
         String id = idMap.get(obj);
-        
+
         if (null == id) {
             if (obj instanceof Transformation) {
                 id = ((Transformation) obj).getName();
@@ -118,28 +118,28 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
             } else {
                 id = obj.getClass().getName() + obj.hashCode();
             }
-            
+
             objMap.put(id, obj);
             idMap.put(obj, id);
         }
-        
+
         return id;
     }
 
     private String[] getIDs(Object[] objects) {
         String[] strings = new String[objects.length];
-        
+
         for (int i = 0; i < objects.length; i++) {
             strings[i] = getID(objects[i]);
         }
-        
+
         return strings;
     }
 
-    
+
     /**
      * Return the real objects in the selection rather than their internal ID proxies
-     * 
+     *
      * @see org.eclipse.ui.views.contentoutline.ContentOutlinePage#fireSelectionChanged(org.eclipse.jface.viewers.ISelection)
      */
     protected void fireSelectionChanged(ISelection selection) {
@@ -150,7 +150,7 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
         }
         super.fireSelectionChanged(new StructuredSelection(elts));
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite)
      */
@@ -232,17 +232,17 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
 
             public void dispose() {
             }
-            
+
         });
     }
-    
+
     private boolean filter(final Object obj) {
         if (obj instanceof Var || obj instanceof NamespaceDeclaration || obj instanceof EPackage) {
             return false;
         }
         return true;
     }
-    
+
     private Collection<Object> filter(final Collection objects) {
         Collection<Object> result = new ArrayList<Object>();
         for (Object o: objects) {
@@ -258,5 +258,5 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
         objMap.clear();
         idMap.clear();
     }
-    
+
 }

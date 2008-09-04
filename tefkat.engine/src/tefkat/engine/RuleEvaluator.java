@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import tefkat.engine.events.EventWriter;
 import tefkat.model.Extent;
 import tefkat.model.Injection;
 import tefkat.model.MofInstance;
@@ -42,6 +43,7 @@ import tefkat.model.Var;
 import tefkat.model.VarScope;
 import tefkat.model.internal.ModelUtils;
 
+import static tefkat.engine.events.EventTuple.f;
 
 public class RuleEvaluator {
 
@@ -75,7 +77,7 @@ public class RuleEvaluator {
     private volatile int returnMode = 0;
 
     private volatile int step = 0;
-    
+
     private int depth = 0;
 
 //    // Used to manage simple coarse-grain fix-point evaluation
@@ -86,29 +88,30 @@ public class RuleEvaluator {
 //    final private Set trackingUpdateSet = new HashSet();
 
     final private Set<Term> breakpoints = new HashSet<Term>();
-    
+
     final private List<Tree> unresolvedTrees = new ArrayList<Tree>();
-    
+
     final Injections injections = new Injections();
 
+    private final EventWriter events;
 
     /**
-     *  
+     *
      */
-    RuleEvaluator(Binding context, Extent trackingExtent, Map nameMap, List listeners) {
-
+    RuleEvaluator(Binding context, Extent trackingExtent, Map nameMap, List listeners, EventWriter events) {
+        this.events = events;
         // TODO check for null target model, either here or in the engine
 
         this.trackingExtent = trackingExtent;
         this.listeners = listeners;
         this._context = context;
         this.nameMap = nameMap;
-        
+
         if (null != trackingExtent) {
             injections.loadTrace(trackingExtent);
         }
 
-        exprEval = new Evaluator(this);
+        exprEval = new Evaluator(this, events);
         srcResolver = new SourceResolver(this);
         tgtResolver = new TargetResolver(this, null, listeners);
         evalCache = new HashMap<TRule, Collection<Binding>>();
@@ -122,7 +125,7 @@ public class RuleEvaluator {
 //            return null;
 //        }
 //    }
-    
+
     void addUnresolvedTree(Tree tree) {
         // insert the tree at the start of the list
         // This means we perform a depth-first traversal which will
@@ -130,16 +133,16 @@ public class RuleEvaluator {
         unresolvedTrees.add(0, tree);
         fireTreeAdded(tree);
     }
-    
+
     void removeUnresolvedTree(Tree tree) {
         unresolvedTrees.remove(tree);
         fireTreeRemoved(tree);
     }
-    
+
     protected void addBreakpoint(Term t) {
         breakpoints.add(t);
     }
-    
+
     protected void removeBreakpoint(Term t) {
         breakpoints.remove(t);
     }
@@ -162,7 +165,7 @@ public class RuleEvaluator {
     public Collection<Binding> runQuery(final Query query) throws TefkatException {
         try {
             final Collection<Binding> answers = new ArrayList<Binding>();
-            
+
             final Tree tree = new Tree(null, null, _context, trackingExtent, false);
             tree.setLevel(0);
 
@@ -201,7 +204,7 @@ public class RuleEvaluator {
                     // floundering of top-level tree is handled in the
                     // resolve/resolveNode loop
                 }
-            
+
             });
 
             while (unresolvedTrees.size() > 0) {
@@ -236,7 +239,7 @@ public class RuleEvaluator {
 //              System.err.println(" #trees = " + unresolvedTrees.size());
 
             }
-            
+
             if (tree.isSuccess()) {
                 return answers;
             } else {
@@ -258,7 +261,7 @@ public class RuleEvaluator {
             throw new ResolutionException(null, "Internal error", e);
         }
     }
-    
+
     public void runTransformation(Transformation transformation, boolean force)
             throws TefkatException {
 //        if (INCREMENTAL) {
@@ -267,14 +270,14 @@ public class RuleEvaluator {
 //            runFixpointTransformation(transformation, force);
 //        }
     }
-    
+
 @SuppressWarnings("unchecked")
 //    void runFixpointTransformation(Transformation transformation, boolean force)
 //            throws TefkatException {
 //
 //        try {
 //            buildMaps(transformation);
-//            
+//
 //            fireInfo("Constructing stratification...");
 //            List[] strata = transformation.getStrata();
 //            fireInfo("... " + strata.length + " levels.");
@@ -301,20 +304,20 @@ public class RuleEvaluator {
 //            throw e;
 //        }
 //    }
-    
+
     void runIncrementalTransformation(Transformation transformation, boolean force)
             throws TefkatException {
 
         try {
             buildMaps(transformation);
-            
+
             fireInfo("Constructing stratification...");
             List<VarScope>[] strata = transformation.getStrata();
             fireInfo("... " + strata.length + " levels.");
-            
+
             for (int level = 0; level < strata.length; level++) {
                 fireInfo("Stratum " + level + " : " + formatStrata(strata[level]));
-                
+
                 // Currently, we use a single Tree per stratum which means
                 // that it's really a forest with one root Node per TRule
                 //
@@ -322,28 +325,28 @@ public class RuleEvaluator {
                 if (ONE_TREE) {
                     tree = new Tree(null, null, _context, trackingExtent, false);
                     tree.setLevel(level);
-                    
+
                     addUnresolvedTree(tree);
                 }
-                
+
                 for (final Iterator itr = strata[level].iterator(); itr.hasNext(); ) {
                     Object scope = itr.next();
-                    
+
                     if (scope instanceof TRule) {
                         TRule tRule = (TRule) scope;
-                        
+
                         if (!tRule.isAbstract()) {
                             if (!ONE_TREE) {
                                 tree = new Tree(null, null, _context, trackingExtent, false);
                                 tree.setLevel(level);
-                                
+
                                 addUnresolvedTree(tree);
                             }
                             incrementalEvaluate(tRule, tree);
                         }
                     }
                 }
-                
+
                 while (unresolvedTrees.size() > 0) {
                     try {
                         resolve();
@@ -360,7 +363,7 @@ public class RuleEvaluator {
                                 done.add(cTree);
                             }
                         }
-                        
+
                         if (done.size() == 0) {
                             // I don't think we should ever reach here...
                             throw new TefkatException("Internal Error.  Please file a bug report.");
@@ -402,7 +405,7 @@ public class RuleEvaluator {
             throw new ResolutionException(null, "Internal error", e);
         }
     }
-    
+
     private String formatStrata(List<VarScope> strata) {
         final StringBuilder sb = new StringBuilder();
         for (VarScope s: strata) {
@@ -483,9 +486,9 @@ public class RuleEvaluator {
 
         // FIXME - no rule caching any more
         final Collection<Binding> truleSolutions = new HashSet<Binding>();
-        
+
         if (ruleContexts.size() > 0) {
-            
+
             // IMPORTANT!!! took this out of the enclosing loop below!
             // only one listener required...
             //
@@ -507,7 +510,7 @@ public class RuleEvaluator {
                     // floundering of top-level tree is handled in the
                     // resolve/resolveNode loop
                 }
-            
+
             });
 
             for (Iterator<Binding> itr = ruleContexts.iterator(); itr.hasNext();) {
@@ -527,28 +530,28 @@ public class RuleEvaluator {
             stepMode = true;
         }
     }
-    
+
     final protected void step() {
         synchronized (unresolvedTrees) {
             step++;
             unresolvedTrees.notifyAll();
         }
     }
-    
+
     final protected void stepReturn() {
         synchronized (unresolvedTrees) {
             returnMode = depth;
             resume();
         }
     }
-    
+
     final protected void resume() {
         synchronized (unresolvedTrees) {
             stepMode = false;
             unresolvedTrees.notifyAll();
         }
     }
-    
+
     final private void breakpoint(Term t) {
         synchronized (unresolvedTrees) {
             pause();
@@ -560,7 +563,7 @@ public class RuleEvaluator {
             }
         }
     }
-    
+
     final private void waitStep() {
         synchronized (unresolvedTrees) {
             while (stepMode && step < 1) {
@@ -736,6 +739,7 @@ public class RuleEvaluator {
     }
 
     protected void fireExitTerm(Node node) {
+        events.write(RuleEvaluator.class, f(Node.class, node));
         for (Iterator itr = listeners.iterator(); itr.hasNext();) {
             try {
                 ((TefkatListener) itr.next()).exitTerm(node);
@@ -778,7 +782,7 @@ public class RuleEvaluator {
     //            ((TefkatListener) itr.next()).evaluateTarget(rule, context);
     //        }
     //    }
-    
+
 //    private void doEvaluate(TRule trule, Binding context)
 //            throws ResolutionException {
 //        Collection truleSolutions = new HashSet();
@@ -810,9 +814,9 @@ public class RuleEvaluator {
 //
 //                truleSolutions.addAll(tree.getAnswers());
 //            } else {
-//                
+//
 //                System.err.println(tree.getUnresolvedNode());
-//                
+//
 //                fireInfo("TRule: " + trule.getName() + " matched nothing.");
 //            }
 //        }
@@ -825,11 +829,11 @@ public class RuleEvaluator {
      * Iterate until no trees with unresolved nodes.
      * This should be called from within a loop over the unresolvedTrees
      * that completes all unresolvedTrees that belong to the minimum strata.
-     * 
+     *
      * @throws ResolutionException
      */
     void resolve() throws ResolutionException {
-        
+
         while (!isInterrupted && unresolvedTrees.size() > 0) {
             Tree tree = null;
             Node node = null;
@@ -841,7 +845,7 @@ public class RuleEvaluator {
                 // No Trees with unresolved nodes
                 break;
             }
-            
+
             try {
                 depth++;
                 fireEnterTree(tree);
@@ -872,7 +876,6 @@ public class RuleEvaluator {
                             }
                         }
                     }
-
                     fireExitTerm(node);
                 } else {
                     //  Select a literal for node.
@@ -939,7 +942,7 @@ public class RuleEvaluator {
     /**
      * Looks for a WrappedVar in the Node's Binding and creates new nodes with bindings to found instances.
      * If there are no instances to bind to then node fails.
-     * 
+     *
      * @param tree
      * @param node
      * @return true if no WrappedVars were found
@@ -947,19 +950,19 @@ public class RuleEvaluator {
      */
     private boolean groundWrappedVars(Tree tree, Node node) throws NotGroundException {
         boolean done = true;
-        
+
 //fireInfo("grounding...");
-        
+
         final Context context = new Context(this, exprEval, tree, node);
         final Binding binding = context.getBindings();
-        
+
         for (final Iterator itr = binding.entrySet().iterator(); done && itr.hasNext(); ) {
             final Map.Entry entry = (Map.Entry) itr.next();
             final Var var = (Var) entry.getKey();
             final Object v = entry.getValue();
             if (v instanceof WrappedVar) {
                 done = false;
-                
+
                 final List l = exprEval.expand(context, (WrappedVar) v);
 
 //fireInfo(var + " <- #instances: " + l.size());
@@ -978,11 +981,11 @@ public class RuleEvaluator {
         }
         return done;
     }
-    
+
 
     private String formatDelayedNoded(final Node node) {
         final StringBuilder sb = new StringBuilder();
-        
+
         sb.append("[\n");
         Collection<NotGroundException> reasons = node.getDelayReasons();
         for (final Iterator<NotGroundException> itr = reasons.iterator(); itr.hasNext(); ) {
@@ -996,7 +999,7 @@ public class RuleEvaluator {
             sb.append("  ").append(reason.getMessage()).append(" in ").append(c).append("\n");
         }
         sb.append("]");
-        
+
 //        sb.append("[\n");
 //        Collection<Term> terms = node.getDelayed();
 //        for (final Iterator<Term> itr = terms.iterator(); itr.hasNext(); ) {
@@ -1004,15 +1007,15 @@ public class RuleEvaluator {
 //            sb.append("  ").append(term).append("\n");
 //        }
 //        sb.append("]");
-//        
+//
 //        sb.append(node.getBindings());
-        
+
         return sb.toString();
     }
 
     /**
      * Grow the tree from the given node.
-     * 
+     *
      * @param node
      *            The node from which to grow the tree.
      * @param isNegation
@@ -1107,12 +1110,12 @@ public class RuleEvaluator {
 
     /**
      * Choose a literal from the goal of the given node.
-     * 
+     *
      * @param node
      *            The node containing the goal from which to choose a literal.
      * @return A chosen literal, or null if there were only delayed source terms but a WrappedVar had bindings
-     * @throws ResolutionException 
-     * @throws NotGroundException 
+     * @throws ResolutionException
+     * @throws NotGroundException
      */
     private Term selectLiteral(final Tree tree, final Node node) throws ResolutionException, NotGroundException {
         Term[] literals = (Term[]) node.goal().toArray(new Term[node.goal().size()]);
@@ -1137,11 +1140,11 @@ public class RuleEvaluator {
                 return literals[i];
             }
         }
-        
+
         if (!groundWrappedVars(tree, node)) {
             return null;
         }
-        
+
         if (null != node.getDelayed() && !node.getDelayed().isEmpty()) {
             throw new ResolutionException(node, "Flounder: All source terms delayed: "
                                                 + formatDelayedNoded(node));
@@ -1210,7 +1213,7 @@ public class RuleEvaluator {
     /**
      * Construct variable bindings required for extends relationships. Depends
      * on buildExtBindings(), buildSupBindings() and itself.
-     * 
+     *
      * @param rule
      * @return
      * @throws ResolutionException
@@ -1244,7 +1247,7 @@ public class RuleEvaluator {
     /**
      * Construct variable bindings required for superseding relationships.
      * Depends on invertedSupMap, sPrimeBinding() and itself.
-     * 
+     *
      * @param rule
      * @return
      * @throws ResolutionException
@@ -1276,7 +1279,7 @@ public class RuleEvaluator {
     /**
      * Populate the supMap and extMap fields with the (inverted) supersedes
      * references and the transitive closure of the extends references.
-     * 
+     *
      * @param tr
      * @throws ResolutionException
      */
@@ -1513,7 +1516,7 @@ public class RuleEvaluator {
     /**
      * Records a TRule's interest in a given tracking class for fix-point
      * computation.
-     * 
+     *
      * @param trackingClass
      * @param callback
      */
@@ -1537,10 +1540,10 @@ public class RuleEvaluator {
     }
 
     Map<EClass, List<EObject>> tcCache = new HashMap<EClass, List<EObject>>();
-    
+
     /**
      * Records that an instance of a given tracking class was created.
-     * 
+     *
      * @param trackingClass
      * @throws NotGroundException
      * @throws ResolutionException
@@ -1551,7 +1554,7 @@ public class RuleEvaluator {
             for (Iterator itr = trackingClass.getEAllSuperTypes().iterator(); itr.hasNext(); ) {
                 updateTrackingCache((EClass) itr.next(), instance);
             }
-            
+
             List callbacks = trackingQueryMap.get(trackingClass);
             if (null != callbacks) {
                 for (Iterator itr = callbacks.iterator(); itr.hasNext(); ) {
@@ -1605,14 +1608,14 @@ public class RuleEvaluator {
             final Map.Entry fEntry = (Map.Entry) fItr.next();
             final String feat = (String) fEntry.getKey();
             final Map featureOrderings = (Map) fEntry.getValue();
-            
+
             for (final Iterator iItr = featureOrderings.entrySet().iterator(); iItr.hasNext(); ) {
                 final Map.Entry iEntry = (Map.Entry) iItr.next();
                 final EObject inst = (EObject) iEntry.getKey();
                 final PartialOrder partialOrder = (PartialOrder) iEntry.getValue();
                 final EStructuralFeature feature = ModelUtils.getFeature(inst.eClass(), feat);
                 final Object val = inst.eGet(feature);
-                
+
                 if (!(val instanceof List)) {
                     throw new ResolutionException(null, "The feature " + feat + " of "
                             + inst + " did not return an ordered collection.");
@@ -1625,14 +1628,14 @@ public class RuleEvaluator {
 
     static class PartialOrder {
         final private String context;
-        
+
         final private Map<Object, Set<Object>> instanceOrderings = new HashMap<Object, Set<Object>>();
         final private Map<Object, Counter> instanceCounters = new HashMap<Object, Counter>();
 
         PartialOrder(String context) {
             this.context = context;
         }
-        
+
         void lessThan(Object lesser, Object greater) {
 //            System.out.println(lesser + " < " + greater);
             if (null == instanceOrderings.get(greater)) {
@@ -1650,7 +1653,7 @@ public class RuleEvaluator {
                 adjacentNodes.add(greater);
             }
         }
-        
+
         void lessThanEqual(Object lesser, Object greater) {
 //            System.out.println(lesser + " <= " + greater);
             if (null == instanceOrderings.get(greater)) {
@@ -1665,7 +1668,7 @@ public class RuleEvaluator {
             }
             adjacentNodes.add(greater);
         }
-        
+
         void sort(List<Object> vals) throws ResolutionException {
             List<Object> no_pred = new ArrayList<Object>();
 
@@ -1731,7 +1734,7 @@ public class RuleEvaluator {
 
         private static class Counter {
             int val = 0;
-            
+
             Counter() {
                 // no init required
             }
@@ -1749,7 +1752,7 @@ public class RuleEvaluator {
             }
         }
     }
-    
+
 //    private static class TestSort {
 //        public static void main(String[] args) {
 //            EClass inst = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEClass();
@@ -1766,9 +1769,9 @@ public class RuleEvaluator {
 //            a[3].setName("three");
 //            a[4].setName("four");
 //            inst.getEStructuralFeatures().addAll(java.util.Arrays.asList(a));
-//            
+//
 //            RuleEvaluator re = new RuleEvaluator(null, null, Collections.EMPTY_MAP, Collections.EMPTY_LIST);
-//            
+//
 //            re.addPartialOrder(inst, feat, a[4], a[3]);
 //            re.addPartialOrder(inst, feat, a[3], a[2]);
 //            re.addPartialOrder(inst, feat, a[2], a[1]);
@@ -1792,16 +1795,16 @@ public class RuleEvaluator {
 //    }
 
     final private Stack<PatternDefn> patternStack = new Stack<PatternDefn>();
-    
+
     /**
      * @param defn
      */
     void pushPattern(PatternDefn defn) {
         patternStack.push(defn);
     }
-    
+
     /**
-     * 
+     *
      */
     void popPattern() {
         patternStack.pop();
@@ -1819,5 +1822,5 @@ public class RuleEvaluator {
         }
         return cache;
     }
-    
+
 }

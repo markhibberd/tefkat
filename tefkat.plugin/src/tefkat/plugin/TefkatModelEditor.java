@@ -78,6 +78,7 @@ import org.eclipse.xsd.util.XSDResourceImpl;
 
 import tefkat.engine.Tefkat;
 import tefkat.engine.TefkatListener;
+import tefkat.engine.events.EventRegistry;
 import tefkat.model.NamespaceDeclaration;
 import tefkat.model.StratificationException;
 import tefkat.model.TRule;
@@ -94,6 +95,7 @@ import tefkat.plugin.eventing.TeeTefkatListenerAdapter;
 import tefkat.plugin.stats.AnnotatedCreationDocument;
 import tefkat.plugin.stats.AnnotatedDocument;
 import tefkat.plugin.stats.AnnotatingStatsListener;
+import tefkat.plugin.stats.DeterminismThingo;
 import tefkat.plugin.stats.ObjectCreationListener;
 import antlr.ANTLRException;
 import antlr.RecognitionException;
@@ -114,10 +116,9 @@ public class TefkatModelEditor extends MultiPageEditorPart {
 
     static {
         SERIALIZATION_OPTIONS = new HashMap();
-        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
         SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData());
+        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
         SERIALIZATION_OPTIONS.put(XSDResourceImpl.XSD_TRACK_LOCATION, Boolean.TRUE);
-
     }
     private int EDITOR_PAGE = -1;
     private int XMI_PAGE = -1;
@@ -140,6 +141,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     private Map endCharMap = new HashMap();
 
     private java.net.URI transformUri;
+    private DeterminismThingo thingo;
 
     /**
      *
@@ -196,6 +198,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         engine.setPrintingStats(true);
 
         transformUri = ((IFileEditorInput) getEditorInput()).getFile().getLocationURI();
+        thingo = new DeterminismThingo(textEditor);
         TefkatListener teeTefkatListener = new TeeTefkatListenerAdapter(new AnnotatingStatsListener(textEditor), new ObjectCreationListener(textEditor));
         ManyToOneTefkatListenerAdapter.addListener(transformUri, teeTefkatListener);
     }
@@ -307,6 +310,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
 
             annotationModel.modifyAnnotations(oldAnnotations, newAnnotations, null);
             oldAnnotations = annotations;
+
         }
 
         public IDocument getDocument() {
@@ -337,6 +341,10 @@ public class TefkatModelEditor extends MultiPageEditorPart {
             pageChange(EDITOR_PAGE);
             super.selectAndReveal(selectionStart, selectionLength, revealStart, revealLength);
         }
+
+		public void updateDeterminism(Resource res) {
+			thingo.go(res);
+		}
     }
 
     class ParserThread extends Thread {
@@ -521,6 +529,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                         }
                         positions.add(new Position(namespacerange[0], namespacerange[1] - namespacerange[0] + 1));
                         textEditor.updateFoldingStructure(positions);
+                        textEditor.updateDeterminism(res);
                         xmiText.setText(out.toString());
                         stratificationText.setText(sb.toString());
                     }

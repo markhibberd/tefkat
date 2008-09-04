@@ -48,6 +48,11 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import tefkat.config.TefkatConfig.ExecutionMode;
 import tefkat.config.TefkatConfig.Model;
 import tefkat.config.TefkatConfig.TransformationTask;
+import tefkat.engine.events.DefaultEvents;
+import tefkat.engine.events.EventRegistry;
+import tefkat.engine.events.EventWriter;
+import tefkat.engine.events.Events;
+import tefkat.engine.executiontrace.events.Bootstrap;
 import tefkat.model.PatternScope;
 import tefkat.model.Query;
 import tefkat.model.ReferenceExtent;
@@ -63,7 +68,7 @@ import tefkat.model.internal.IntMap;
 import tefkat.model.internal.ModelUtils;
 import tefkat.model.parser.ParserListener;
 import tefkat.model.parser.TefkatResourceFactory;
-
+import tefkat.model.util.TefkatAdapterFactory;
 
 /**
  * @author lawley
@@ -80,8 +85,10 @@ public class Tefkat {
 
     static {
         SERIALIZATION_OPTIONS = new HashMap();
-        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
-        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
+        SERIALIZATION_OPTIONS.put(
+                XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_USE_LEXICAL_HANDLER,
+                Boolean.TRUE);
     }
 
     private ResourceSet _resourceSet;
@@ -106,12 +113,16 @@ public class Tefkat {
 
     private List threads = new ArrayList();
 
+    private Events events = new DefaultEvents();
+    private Bootstrap excutiontrace = new Bootstrap();
+
     final private Adapter resourceLoadListener = new AdapterImpl() {
         public void notifyChanged(Notification notif) {
-            if (Notification.SET == notif.getEventType() &&
-                    notif.getNotifier() instanceof Resource &&
-                    Resource.RESOURCE__IS_LOADED == notif.getFeatureID(Resource.class) &&
-                    notif.getNewBooleanValue()) {
+            if (Notification.SET == notif.getEventType()
+                    && notif.getNotifier() instanceof Resource
+                    && Resource.RESOURCE__IS_LOADED == notif
+                            .getFeatureID(Resource.class)
+                    && notif.getNewBooleanValue()) {
                 Resource res = (Resource) notif.getNotifier();
                 fireResourceLoaded(res);
                 res.eAdapters().remove(resourceLoadListener);
@@ -124,12 +135,14 @@ public class Tefkat {
             if (Notification.ADD == notif.getEventType()) {
                 Resource res = (Resource) notif.getNewValue();
                 res.eAdapters().add(resourceLoadListener);
-            } else if (Notification.REMOVING_ADAPTER == notif.getEventType() && notif.getOldValue() instanceof Resource) {
+            } else if (Notification.REMOVING_ADAPTER == notif.getEventType()
+                    && notif.getOldValue() instanceof Resource) {
                 System.err.println("*********" + notif);
                 Resource res = (Resource) notif.getOldValue();
                 res.eAdapters().remove(resourceLoadListener);
             } else {
-                fireInfo("ResourceSet event " + notif.getEventType() + ": " + notif.getNewValue());
+                fireInfo("ResourceSet event " + notif.getEventType() + ": "
+                        + notif.getNewValue());
             }
         }
     };
@@ -139,12 +152,15 @@ public class Tefkat {
             if (_resourceSet.equals(rs)) {
                 return;
             }
-            throw new IllegalStateException("ResourceSet is already set - call clearResourceSet() first.");
+            throw new IllegalStateException(
+                    "ResourceSet is already set - call clearResourceSet() first.");
         }
         _resourceSet = rs;
-        // Need to use a new ExtendedMetaData instance to avoid cached ePackage instances.
+        // Need to use a new ExtendedMetaData instance to avoid cached ePackage
+        // instances.
         //
-        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData(_resourceSet.getPackageRegistry()));
+        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA,
+                new BasicExtendedMetaData(_resourceSet.getPackageRegistry()));
         _resourceSet.getLoadOptions().putAll(SERIALIZATION_OPTIONS);
 
         registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
@@ -182,11 +198,12 @@ public class Tefkat {
 
     @Deprecated
     public void setIncremental(boolean isIncremental) {
-        throw new UnsupportedOperationException("non-incremental model is deprecated");
-//        this.isIncremental = isIncremental;
-//        if (null != ruleEvaluator) {
-//            ruleEvaluator.INCREMENTAL = isIncremental;
-//        }
+        throw new UnsupportedOperationException(
+                "non-incremental model is deprecated");
+        // this.isIncremental = isIncremental;
+        // if (null != ruleEvaluator) {
+        // ruleEvaluator.INCREMENTAL = isIncremental;
+        // }
     }
 
     public boolean isPrintingStats() {
@@ -220,7 +237,7 @@ public class Tefkat {
         if (null != ruleEvaluator) {
             ruleEvaluator.setInterrupted(state);
         }
-        for (Iterator itr = threads.iterator(); itr.hasNext(); ) {
+        for (Iterator itr = threads.iterator(); itr.hasNext();) {
             Thread thread = (Thread) itr.next();
             thread.interrupt();
         }
@@ -260,29 +277,32 @@ public class Tefkat {
         transform(transformation, srcs, tgts, tracking);
     }
 
-    public void transform(Resource transformation, Resource[] srcs, Resource[] tgts)
-            throws TefkatException {
+    public void transform(Resource transformation, Resource[] srcs,
+            Resource[] tgts) throws TefkatException {
         transform(transformation, srcs, tgts, null);
     }
 
-    public void transform(Resource transformation, Resource[] srcs, Resource[] tgts,
-            Resource tracking) throws TefkatException {
+    public void transform(Resource transformation, Resource[] srcs,
+            Resource[] tgts, Resource tracking) throws TefkatException {
         transform(transformation, srcs, tgts, tracking, false);
     }
 
-    public void transform(Resource transformation, Resource[] srcs, Resource[] tgts,
-            Resource tracking, boolean force) throws TefkatException {
+    public void transform(Resource transformation, Resource[] srcs,
+            Resource[] tgts, Resource tracking, boolean force)
+            throws TefkatException {
         transform(transformation, null, srcs, tgts, tracking, force);
     }
 
-    public void transform(Resource transformation, Map parameters, Resource[] srcs, Resource[] tgts,
-            Resource tracking, boolean force) throws TefkatException {
+    public void transform(Resource transformation, Map parameters,
+            Resource[] srcs, Resource[] tgts, Resource tracking, boolean force)
+            throws TefkatException {
 
         setResourceSet(transformation.getResourceSet());
 
         final ContainerExtent[] srcEs = new ContainerExtent[srcs.length];
         final ContainerExtent[] tgtEs = new ContainerExtent[tgts.length];
-        final ContainerExtent trackingE = TefkatFactory.eINSTANCE.createContainerExtent();
+        final ContainerExtent trackingE = TefkatFactory.eINSTANCE
+                .createContainerExtent();
 
         for (int i = 0; i < srcs.length; i++) {
             srcEs[i] = TefkatFactory.eINSTANCE.createContainerExtent();
@@ -295,7 +315,8 @@ public class Tefkat {
         }
 
         if (null == tracking) {
-            trackingE.setResource(createTempResource("tefkat-tracking", ".xmi"));
+            trackingE
+                    .setResource(createTempResource("tefkat-tracking", ".xmi"));
         } else {
             trackingE.setResource(tracking);
         }
@@ -303,7 +324,8 @@ public class Tefkat {
         transform(transformation, parameters, srcEs, tgtEs, trackingE, force);
     }
 
-    public void query(Resource query, Map parameters, Extent[] srcs) throws TefkatException {
+    public void query(Resource query, Map parameters, Extent[] srcs)
+            throws TefkatException {
         setResourceSet(query.getResourceSet());
 
         List contents = query.getContents();
@@ -316,7 +338,7 @@ public class Tefkat {
 
                 final Collection answers = evaluateQuery(context, q);
 
-                for (Object b: answers) {
+                for (Object b : answers) {
                     System.out.println(b);
                 }
 
@@ -327,44 +349,50 @@ public class Tefkat {
                     fireInfo(Tree.counter + " Trees");
                     fireInfo(Node.counter + " Nodes");
                     fireInfo(Binding.counter + " Bindings");
-                    fireInfo("Binding/Node Ratio: " + Binding.counter / (float) Node.counter);
+                    fireInfo("Binding/Node Ratio: " + Binding.counter
+                            / (float) Node.counter);
 
                     timings("Source", ruleEvaluator.srcResolver);
                     timings("Target", ruleEvaluator.tgtResolver);
                     for (int i = 0; i < ruleEvaluator.tgtResolver.elapsed.length; i++) {
-                        fireInfo("TrackingUse breakdown: " + i + "  " + ruleEvaluator.tgtResolver.elapsed[i]);
+                        fireInfo("TrackingUse breakdown: " + i + "  "
+                                + ruleEvaluator.tgtResolver.elapsed[i]);
                     }
 
-                    fireInfo("Query time: " + (endTime - startTime) / 1000.0 + "s");
+                    fireInfo("Query time: " + (endTime - startTime) / 1000.0
+                            + "s");
                 }
 
-//                fireQueryFinished();
+                // fireQueryFinished();
             }
         }
 
     }
 
-    public Collection evaluateQuery(Binding context, Query q) throws ResolutionException, TefkatException {
+    public Collection evaluateQuery(Binding context, Query q)
+            throws ResolutionException, TefkatException {
         Tree.counter = 0;
         Node.counter = 0;
         Binding.counter = 0;
         DynamicObject.counter = 0;
-
-//                fireQueryStarted(q, srcs, context);
-        createRuleEvaluator(null, q, context);
+        EventWriter writer = events.nu(q, getResourceSet(), excutiontrace);
+        // fireQueryStarted(q, srcs, context);
+        createRuleEvaluator(null, q, context, writer);
 
         if (paused) {
             ruleEvaluator.pause();
         }
         final Collection answers = ruleEvaluator.runQuery(q);
+        writer.write(Query.class);
         return answers;
     }
 
-    private Binding setupQueryEnvironment(Map parameters, Extent[] srcs, Query q) throws ResolutionException {
+    private Binding setupQueryEnvironment(Map parameters, Extent[] srcs, Query q)
+            throws ResolutionException {
         Binding context = new Binding();
         List extentVars = q.getVars();
 
-        for (final Iterator itr = extentVars.iterator(); itr.hasNext(); ) {
+        for (final Iterator itr = extentVars.iterator(); itr.hasNext();) {
             final Var var = (Var) itr.next();
             final String varName = var.getName();
             if (parameters.containsKey(varName)) {
@@ -377,7 +405,11 @@ public class Tefkat {
             Var var;
             do {
                 if (idx >= extentVars.size()) {
-                    throw new ResolutionException(null, "Too many parameters while processing " + srcs[k] + ".  Expected " + extentVars.size() + ", got approximately " + (parameters.size() + srcs.length));
+                    throw new ResolutionException(null,
+                            "Too many parameters while processing " + srcs[k]
+                                    + ".  Expected " + extentVars.size()
+                                    + ", got approximately "
+                                    + (parameters.size() + srcs.length));
                 }
                 var = (Var) extentVars.get(idx++);
             } while (context.lookup(var) != null);
@@ -386,8 +418,9 @@ public class Tefkat {
         return context;
     }
 
-    void transform(Resource transformation, Map parameters, Extent[] srcs, Extent[] tgts,
-            Extent trackingExtent, boolean force) throws TefkatException {
+    void transform(Resource transformation, Map parameters, Extent[] srcs,
+            Extent[] tgts, Extent trackingExtent, boolean force)
+            throws TefkatException {
 
         setResourceSet(transformation.getResourceSet());
         Transformation t = null;
@@ -401,7 +434,8 @@ public class Tefkat {
                     Binding context = new Binding();
                     List extentVars = t.getVars();
 
-                    for (final Iterator itr = extentVars.iterator(); itr.hasNext(); ) {
+                    for (final Iterator itr = extentVars.iterator(); itr
+                            .hasNext();) {
                         final Var var = (Var) itr.next();
                         final String varName = var.getName();
                         if (parameters.containsKey(varName)) {
@@ -414,7 +448,15 @@ public class Tefkat {
                         Var var;
                         do {
                             if (idx >= extentVars.size()) {
-                                throw new ResolutionException(null, "Too many parameters while processing " + srcs[k] + ".  Expected " + extentVars.size() + ", got approximately " + (parameters.size() + srcs.length + tgts.length));
+                                throw new ResolutionException(
+                                        null,
+                                        "Too many parameters while processing "
+                                                + srcs[k]
+                                                + ".  Expected "
+                                                + extentVars.size()
+                                                + ", got approximately "
+                                                + (parameters.size()
+                                                        + srcs.length + tgts.length));
                             }
                             var = (Var) extentVars.get(idx++);
                         } while (context.lookup(var) != null);
@@ -425,7 +467,15 @@ public class Tefkat {
                         Var var;
                         do {
                             if (idx >= extentVars.size()) {
-                                throw new ResolutionException(null, "Too many parameters found while processing " + srcs[k] + ".  Expected " + extentVars.size() + ", got approximately " + (parameters.size() + srcs.length + tgts.length));
+                                throw new ResolutionException(
+                                        null,
+                                        "Too many parameters found while processing "
+                                                + srcs[k]
+                                                + ".  Expected "
+                                                + extentVars.size()
+                                                + ", got approximately "
+                                                + (parameters.size()
+                                                        + srcs.length + tgts.length));
                             }
                             var = (Var) extentVars.get(idx++);
                         } while (context.lookup(var) != null);
@@ -437,8 +487,10 @@ public class Tefkat {
                     Binding.counter = 0;
                     DynamicObject.counter = 0;
 
-                    fireTransformationStarted(t, srcs, tgts, trackingExtent, context);
-                    createRuleEvaluator(trackingExtent, t, context);
+                    fireTransformationStarted(t, srcs, tgts, trackingExtent,
+                            context);
+                    EventWriter writer = events.nu(t, getResourceSet(), excutiontrace);
+                    createRuleEvaluator(trackingExtent, t, context, writer);
 
                     if (paused) {
                         ruleEvaluator.pause();
@@ -452,25 +504,28 @@ public class Tefkat {
                         fireInfo(Tree.counter + " Trees");
                         fireInfo(Node.counter + " Nodes");
                         fireInfo(Binding.counter + " Bindings");
-                        fireInfo("Binding/Node Ratio: " + Binding.counter / (float) Node.counter);
+                        fireInfo("Binding/Node Ratio: " + Binding.counter
+                                / (float) Node.counter);
 
                         timings("Source", ruleEvaluator.srcResolver);
                         timings("Target", ruleEvaluator.tgtResolver);
                         for (int i = 0; i < ruleEvaluator.tgtResolver.elapsed.length; i++) {
-                            fireInfo("TrackingUse breakdown: " + i + "  " + ruleEvaluator.tgtResolver.elapsed[i]);
+                            fireInfo("TrackingUse breakdown: " + i + "  "
+                                    + ruleEvaluator.tgtResolver.elapsed[i]);
                         }
 
-//                    fireInfo("TrackingUse breakdown: " +
-//                            ruleEvaluator.tgtResolver.counter + "\t" +
-//                            ruleEvaluator.tgtResolver.elapsed[0] + "\t" +
-//                            ruleEvaluator.tgtResolver.elapsed[1] + "\t" +
-//                            ruleEvaluator.tgtResolver.elapsed[2] + "\t" +
-//                            ruleEvaluator.tgtResolver.elapsed[3]
-//                            );
+                        // fireInfo("TrackingUse breakdown: " +
+                        // ruleEvaluator.tgtResolver.counter + "\t" +
+                        // ruleEvaluator.tgtResolver.elapsed[0] + "\t" +
+                        // ruleEvaluator.tgtResolver.elapsed[1] + "\t" +
+                        // ruleEvaluator.tgtResolver.elapsed[2] + "\t" +
+                        // ruleEvaluator.tgtResolver.elapsed[3]
+                        // );
 
-                        fireInfo("Transformation time: " + (endTime - startTime) / 1000.0 + "s");
+                        fireInfo("Transformation time: "
+                                + (endTime - startTime) / 1000.0 + "s");
                     }
-
+                    writer.write(Transformation.class);
                     fireTransformationFinished(t);
                 }
             }
@@ -483,12 +538,14 @@ public class Tefkat {
         fireInfo("");
         fireInfo("    " + label + " Term\tCalls\tTime\tAvg (ms)");
         fireInfo("    ---------------------------------------");
-        for (Iterator itr = resolver.elapsedTime.entries().iterator(); itr.hasNext(); ) {
+        for (Iterator itr = resolver.elapsedTime.entries().iterator(); itr
+                .hasNext();) {
             IntMap.Entry entry = (IntMap.Entry) itr.next();
             if (null != entry) {
                 EClass cls = (EClass) entry.key;
                 int count = resolver.callCount.get(cls);
-                fireInfo("    " + cls.getName() + "\t" + count + "\t" + entry.value + "\t" + entry.value/(float)count);
+                fireInfo("    " + cls.getName() + "\t" + count + "\t"
+                        + entry.value + "\t" + entry.value / (float) count);
             }
         }
     }
@@ -499,23 +556,26 @@ public class Tefkat {
      * @param context
      * @throws ResolutionException
      */
-    private void createRuleEvaluator(Extent trackingExtent, PatternScope scope, Binding context) throws ResolutionException {
+    private void createRuleEvaluator(Extent trackingExtent, PatternScope scope,
+            Binding context, EventWriter writer) throws ResolutionException {
 
         // Get all the transitively referenced Resources
         final Map nameMap = new HashMap();
         buildPackageNameMap(scope, nameMap);
 
-//        try {
-//            ModelUtils.resolveTrackingClassNames(t, nameMap);
-//        } catch (TefkatException e) {
-//            throw new ResolutionException(null, "Could not resolve tracking class references", e);
-//        }
-
-        ruleEvaluator = new RuleEvaluator(context, trackingExtent, nameMap, engineListeners);
+        // try {
+        // ModelUtils.resolveTrackingClassNames(t, nameMap);
+        // } catch (TefkatException e) {
+        // throw new ResolutionException(null,
+        // "Could not resolve tracking class references", e);
+        // }
+        ruleEvaluator = new RuleEvaluator(context, trackingExtent, nameMap,
+                engineListeners, writer);
         ruleEvaluator.setInterrupted(false);
-//        ruleEvaluator.INCREMENTAL = isIncremental;
+        // ruleEvaluator.INCREMENTAL = isIncremental;
         Evaluator evaluator = ruleEvaluator.getEvaluator();
-        for (final Iterator itr = functions.entrySet().iterator(); itr.hasNext(); ) {
+        for (final Iterator itr = functions.entrySet().iterator(); itr
+                .hasNext();) {
             Map.Entry entry = (Map.Entry) itr.next();
             String name = (String) entry.getKey();
             Function function = (Function) entry.getValue();
@@ -523,13 +583,16 @@ public class Tefkat {
         }
     }
 
-    private void buildPackageNameMap(PatternScope scope, Map nameMap) throws ResolutionException {
+    private void buildPackageNameMap(PatternScope scope, Map nameMap)
+            throws ResolutionException {
         final Map<String, Set<EPackage>> importedNamespaces = new HashMap<String, Set<EPackage>>();
         importedNamespaces.put(null, new HashSet<EPackage>());
 
-        final EPackage.Registry registry = getResourceSet().getPackageRegistry();
+        final EPackage.Registry registry = getResourceSet()
+                .getPackageRegistry();
 
-        for (final Iterator itr = scope.getNamespaceDeclarations().iterator(); itr.hasNext(); ) {
+        for (final Iterator itr = scope.getNamespaceDeclarations().iterator(); itr
+                .hasNext();) {
             final NamespaceDeclaration nsd = (NamespaceDeclaration) itr.next();
             final String name = nsd.getPrefix();
             final String uriStr = nsd.getURI();
@@ -542,15 +605,18 @@ public class Tefkat {
         }
         final Set<EPackage> nullPackages = importedNamespaces.get(null);
         if (null != scope.eResource()) {
-            importPackage(nullPackages, registry, scope.eResource().getURI().toString());
+            importPackage(nullPackages, registry, scope.eResource().getURI()
+                    .toString());
         }
 
-        for (final Iterator itr = scope.getImportedPackages().iterator(); itr.hasNext(); ) {
+        for (final Iterator itr = scope.getImportedPackages().iterator(); itr
+                .hasNext();) {
             final String uriStr = (String) itr.next();
             importPackage(nullPackages, registry, uriStr);
         }
 
-        for (final Iterator itr = importedNamespaces.entrySet().iterator(); itr.hasNext(); ) {
+        for (final Iterator itr = importedNamespaces.entrySet().iterator(); itr
+                .hasNext();) {
             final Map.Entry entry = (Entry) itr.next();
             final String name = (String) entry.getKey();
             final Set packages = (Set) entry.getValue();
@@ -558,26 +624,28 @@ public class Tefkat {
         }
     }
 
-    private void importPackage(Set<EPackage> packages, EPackage.Registry registry, String uriStr) {
+    private void importPackage(Set<EPackage> packages,
+            EPackage.Registry registry, String uriStr) {
         final EPackage pkg = registry.getEPackage(uriStr);
         if (null != pkg) {
             packages.add(pkg);
         } else {
-            final Resource res = getResourceSet().getResource(URI.createURI(uriStr), true);
+            final Resource res = getResourceSet().getResource(
+                    URI.createURI(uriStr), true);
             if (null == res) {
                 fireWarning("Unable to load model for URI: " + uriStr);
                 return;
             }
 
-            if (false) {        // strict checking
+            if (false) { // strict checking
                 boolean found = false;
 
-                for (Object o: res.getContents()) {
+                for (Object o : res.getContents()) {
                     if (o instanceof EPackage) {
                         EPackage p = (EPackage) o;
                         if (uriStr.equals(p.getNsURI())) {
                             packages.add(p);
-//                          registry.put(uriStr, p);
+                            // registry.put(uriStr, p);
                             found = true;
                             break;
                         }
@@ -587,7 +655,7 @@ public class Tefkat {
                     fireWarning("Unable to find EPackage with NsURI: " + uriStr);
                 }
             } else {
-                for (Object o: res.getContents()) {
+                for (Object o : res.getContents()) {
                     if (o instanceof EPackage) {
                         EPackage p = (EPackage) o;
                         packages.add(p);
@@ -597,61 +665,68 @@ public class Tefkat {
         }
     }
 
-//    private void buildNameMap(Transformation t, Map nameMap) throws ResolutionException {
-//        Map importedNamespaces = new HashMap();
-//        importedNamespaces.put(null, new HashSet());
-//
-//        EPackage.Registry registry = getResourceSet().getPackageRegistry();
-//
-//        for (final Iterator itr = t.getNamespaceDeclarations().iterator(); itr.hasNext(); ) {
-//            NamespaceDeclaration nsd = (NamespaceDeclaration) itr.next();
-//            String name = nsd.getPrefix();
-//            String uriStr = nsd.getURI();
-//            Set resources = (Set) importedNamespaces.get(name);
-//            if (null == resources) {
-//                resources = new HashSet();
-//                importedNamespaces.put(name, resources);
-//            }
-//            importResource(resources, registry, uriStr);
-//        }
-//        Set resources = (Set) importedNamespaces.get(null);
-//        resources.add(t.eResource());
-//        for (final Iterator itr = t.getImportedPackages().iterator(); itr.hasNext(); ) {
-//            String uriStr = (String) itr.next();
-//            importResource(resources, registry, uriStr);
-//        }
-//
-//        for (final Iterator itr = importedNamespaces.entrySet().iterator(); itr.hasNext(); ) {
-//            Map.Entry entry = (Entry) itr.next();
-//            String name = (String) entry.getKey();
-//            resources = findAllResources((Collection) entry.getValue());
-//            ModelUtils.buildNameMaps(resources, nameMap, name);
-//        }
-//    }
+    // private void buildNameMap(Transformation t, Map nameMap) throws
+    // ResolutionException {
+    // Map importedNamespaces = new HashMap();
+    // importedNamespaces.put(null, new HashSet());
+    //
+    // EPackage.Registry registry = getResourceSet().getPackageRegistry();
+    //
+    // for (final Iterator itr = t.getNamespaceDeclarations().iterator();
+    // itr.hasNext(); ) {
+    // NamespaceDeclaration nsd = (NamespaceDeclaration) itr.next();
+    // String name = nsd.getPrefix();
+    // String uriStr = nsd.getURI();
+    // Set resources = (Set) importedNamespaces.get(name);
+    // if (null == resources) {
+    // resources = new HashSet();
+    // importedNamespaces.put(name, resources);
+    // }
+    // importResource(resources, registry, uriStr);
+    // }
+    // Set resources = (Set) importedNamespaces.get(null);
+    // resources.add(t.eResource());
+    // for (final Iterator itr = t.getImportedPackages().iterator();
+    // itr.hasNext(); ) {
+    // String uriStr = (String) itr.next();
+    // importResource(resources, registry, uriStr);
+    // }
+    //
+    // for (final Iterator itr = importedNamespaces.entrySet().iterator();
+    // itr.hasNext(); ) {
+    // Map.Entry entry = (Entry) itr.next();
+    // String name = (String) entry.getKey();
+    // resources = findAllResources((Collection) entry.getValue());
+    // ModelUtils.buildNameMaps(resources, nameMap, name);
+    // }
+    // }
 
-//    private void importResource(Set resources, EPackage.Registry registry, String uriStr) throws ResolutionException {
-//        // Avoid explicitly loading resources corresponding to packages that
-//        // have already been loaded (or dynamically created!)
-//        //
-//        try {
-//            if (registry.containsKey(uriStr)) {
-//                resources.add(registry.getEPackage(uriStr).eResource());
-//            } else {
-//                // gracefully handle the case where an XSD has no targetNamespace
-//                // (there can be only one :-)
-//                EPackage nullPkg = registry.getEPackage(null);
-//                if (null != nullPkg && uriStr.equals(nullPkg.getNsURI())) {
-//                    resources.add(nullPkg.eResource());
-//                } else {
-//                    resources.add(getResource(uriStr));
-//                }
-//            }
-//        } catch (IOException e) {
-//            throw new ResolutionException(null, "Could not import model: " + uriStr, e);
-//        }
-//    }
+    // private void importResource(Set resources, EPackage.Registry registry,
+    // String uriStr) throws ResolutionException {
+    // // Avoid explicitly loading resources corresponding to packages that
+    // // have already been loaded (or dynamically created!)
+    // //
+    // try {
+    // if (registry.containsKey(uriStr)) {
+    // resources.add(registry.getEPackage(uriStr).eResource());
+    // } else {
+    // // gracefully handle the case where an XSD has no targetNamespace
+    // // (there can be only one :-)
+    // EPackage nullPkg = registry.getEPackage(null);
+    // if (null != nullPkg && uriStr.equals(nullPkg.getNsURI())) {
+    // resources.add(nullPkg.eResource());
+    // } else {
+    // resources.add(getResource(uriStr));
+    // }
+    // }
+    // } catch (IOException e) {
+    // throw new ResolutionException(null, "Could not import model: " + uriStr,
+    // e);
+    // }
+    // }
 
-    // Attempting to use a separate thread to allow hung resource loads to be interrupted
+    // Attempting to use a separate thread to allow hung resource loads to be
+    // interrupted
     private Resource getResource(final String location) throws IOException {
         final Resource[] res = { null };
         final Exception[] error = { null };
@@ -676,7 +751,8 @@ public class Tefkat {
             error[0] = e;
         }
         if (null == res[0] || null != error[0]) {
-            IOException e = new IOException("Failed to load Resource from " + location);
+            IOException e = new IOException("Failed to load Resource from "
+                    + location);
             if (null != error[0]) {
                 e.initCause(error[0]);
             }
@@ -696,7 +772,6 @@ public class Tefkat {
         return res;
     }
 
-
     /**
      * Takes a TefkatConfig.TransformationTask and performs the described
      * transformation.
@@ -705,32 +780,36 @@ public class Tefkat {
      * @throws TefkatException
      */
     public void transform(TransformationTask task, boolean save, boolean force)
-    throws IOException, TefkatException {
+            throws IOException, TefkatException {
         try {
-//            String classpathList = (String) task.getProperties().get("classpaths");
-//            ClassLoader loader;
-//            if (null != classpathList) {
-//                String[] classpaths = classpathList.split("\\s*,\\s*");
-//                URL[] urls = new URL[classpaths.length];
-//                for (int i = 0; i < classpaths.length; i++) {
-//                    urls[i] = new URL(classpaths[i]);
-//                    System.err.println("[" + urls[i] + "]");
-//                }
-//                loader = new URLClassLoader(urls, this.getClass().getClassLoader());
-//            } else {
-//                loader = this.getClass().getClassLoader();
-//            }
-//            String packageList = (String) task.getProperties().get("packages");
-//            if (null != packageList) {
-//                String[] packages = packageList.split("\\s*,\\s*");
-//                for (int i = 0; i < packages.length; i++) {
-//                    System.err.println("<" + packages[i] + ">");
-//                    Class c;
-//                    c = loader.loadClass(packages[i]);
-//                    //c = Class.forName(packages[i]);
-//                    System.err.println(".eINSTANCE = " + c.getField("eINSTANCE").get(null));
-//                }
-//            }
+            // String classpathList = (String)
+            // task.getProperties().get("classpaths");
+            // ClassLoader loader;
+            // if (null != classpathList) {
+            // String[] classpaths = classpathList.split("\\s*,\\s*");
+            // URL[] urls = new URL[classpaths.length];
+            // for (int i = 0; i < classpaths.length; i++) {
+            // urls[i] = new URL(classpaths[i]);
+            // System.err.println("[" + urls[i] + "]");
+            // }
+            // loader = new URLClassLoader(urls,
+            // this.getClass().getClassLoader());
+            // } else {
+            // loader = this.getClass().getClassLoader();
+            // }
+            // String packageList = (String)
+            // task.getProperties().get("packages");
+            // if (null != packageList) {
+            // String[] packages = packageList.split("\\s*,\\s*");
+            // for (int i = 0; i < packages.length; i++) {
+            // System.err.println("<" + packages[i] + ">");
+            // Class c;
+            // c = loader.loadClass(packages[i]);
+            // //c = Class.forName(packages[i]);
+            // System.err.println(".eINSTANCE = " +
+            // c.getField("eINSTANCE").get(null));
+            // }
+            // }
 
             if (null != task.eResource()) {
                 setResourceSet(task.eResource().getResourceSet());
@@ -738,7 +817,8 @@ public class Tefkat {
 
             List uriMaps = task.getUriMap();
 
-            String incremental = (String) task.getProperties().get("incremental");
+            String incremental = (String) task.getProperties().get(
+                    "incremental");
             if (null != incremental) {
                 setIncremental(Boolean.valueOf(incremental).booleanValue());
             }
@@ -755,16 +835,17 @@ public class Tefkat {
 
             URIConverter converter = getResourceSet().getURIConverter();
             Map URIMap = converter.getURIMap();
-            for (Iterator itr = uriMaps.iterator(); itr.hasNext(); ) {
+            for (Iterator itr = uriMaps.iterator(); itr.hasNext();) {
                 Map.Entry entry = (Map.Entry) itr.next();
                 URI uri1 = URI.createURI((String) entry.getKey());
                 URI uri2 = URI.createURI((String) entry.getValue());
                 URIMap.put(uri1, uri2);
             }
 
-            transformationR = getResource(task.getTransformation().getLocationUri());
+            transformationR = getResource(task.getTransformation()
+                    .getLocationUri());
             List sources = task.getSourceModels();
-//            sourcesR = new Resource[sources.size()];
+            // sourcesR = new Resource[sources.size()];
             List sourcesL = new ArrayList();
             for (int i = 0; i < sources.size(); i++) {
                 final Model model = (Model) sources.get(i);
@@ -777,7 +858,8 @@ public class Tefkat {
                     if (parameters.containsKey(varGroup)) {
                         extent = (ReferenceExtent) parameters.get(varGroup);
                     } else {
-                        extent = TefkatFactory.eINSTANCE.createReferenceExtent();
+                        extent = TefkatFactory.eINSTANCE
+                                .createReferenceExtent();
                         parameters.put(varGroup, extent);
                     }
                     extent.getResources().add(resource);
@@ -785,28 +867,33 @@ public class Tefkat {
                     sourcesL.add(resource);
                 }
             }
-            sourcesR = (Resource[]) sourcesL.toArray(new Resource[sourcesL.size()]);
+            sourcesR = (Resource[]) sourcesL.toArray(new Resource[sourcesL
+                    .size()]);
 
             List targets = task.getTargetModels();
             targetsR = new Resource[targets.size()];
             if (ExecutionMode.REPLACE_LITERAL.equals(task.getMode())) {
                 for (int i = 0; i < targetsR.length; i++) {
-                    targetsR[i] = createResource(((Model) targets.get(i)).getLocationUri());
+                    targetsR[i] = createResource(((Model) targets.get(i))
+                            .getLocationUri());
                 }
                 if (null != task.getTrace()) {
                     traceR = createResource(task.getTrace().getLocationUri());
                 }
             } else {
                 for (int i = 0; i < targetsR.length; i++) {
-                    targetsR[i] = getResource(((Model) targets.get(i)).getLocationUri());
+                    targetsR[i] = getResource(((Model) targets.get(i))
+                            .getLocationUri());
                 }
                 if (null != task.getTrace()) {
                     traceR = getResource(task.getTrace().getLocationUri());
-                    throw new UnsupportedOperationException("Not yet implemented: need to initialise internal structures wrt loaded trace model");
+                    throw new UnsupportedOperationException(
+                            "Not yet implemented: need to initialise internal structures wrt loaded trace model");
                 }
             }
 
-            transform(transformationR, parameters, sourcesR, targetsR, traceR, force);
+            transform(transformationR, parameters, sourcesR, targetsR, traceR,
+                    force);
 
             for (int i = 0; i < targetsR.length; i++) {
                 setObjectIds(targetsR[i]);
@@ -821,16 +908,21 @@ public class Tefkat {
                 }
             }
 
-//        } catch (ClassNotFoundException e) {
-//            throw new ResolutionException(null, "Could not find requested model classes", e);
-//        } catch (IllegalArgumentException e) {
-//            throw new ResolutionException(null, "Could not initialise requested model classes", e);
-//        } catch (SecurityException e) {
-//            throw new ResolutionException(null, "Could not initialise requested model classes", e);
-//        } catch (IllegalAccessException e) {
-//            throw new ResolutionException(null, "Could not initialise requested model classes", e);
-//        } catch (NoSuchFieldException e) {
-//            throw new ResolutionException(null, "Could not initialise requested model classes", e);
+            // } catch (ClassNotFoundException e) {
+            // throw new ResolutionException(null,
+            // "Could not find requested model classes", e);
+            // } catch (IllegalArgumentException e) {
+            // throw new ResolutionException(null,
+            // "Could not initialise requested model classes", e);
+            // } catch (SecurityException e) {
+            // throw new ResolutionException(null,
+            // "Could not initialise requested model classes", e);
+            // } catch (IllegalAccessException e) {
+            // throw new ResolutionException(null,
+            // "Could not initialise requested model classes", e);
+            // } catch (NoSuchFieldException e) {
+            // throw new ResolutionException(null,
+            // "Could not initialise requested model classes", e);
         } finally {
             // clear out loaded resources so that a reload is forced
             // next time through - things may have changed so we don't
@@ -842,6 +934,7 @@ public class Tefkat {
 
     /**
      * Sets the XMI IDs of the objects and avoids duplicates in the XMIResource
+     *
      * @param res
      */
     private static void setObjectIds(Resource res) {
@@ -904,7 +997,7 @@ public class Tefkat {
     }
 
     protected void fireInfo(String message) {
-        for (Iterator itr = engineListeners.iterator(); itr.hasNext(); ) {
+        for (Iterator itr = engineListeners.iterator(); itr.hasNext();) {
             try {
                 ((TefkatListener) itr.next()).info(message);
             } catch (Throwable e) {
@@ -914,7 +1007,7 @@ public class Tefkat {
     }
 
     protected void fireWarning(String message) {
-        for (Iterator itr = engineListeners.iterator(); itr.hasNext(); ) {
+        for (Iterator itr = engineListeners.iterator(); itr.hasNext();) {
             try {
                 ((TefkatListener) itr.next()).warning(message);
             } catch (Throwable e) {
@@ -945,11 +1038,12 @@ public class Tefkat {
         }
     }
 
-    private void fireTransformationStarted(Transformation transformation, Extent[] srcs, Extent[] tgts, Extent trace,
-            Binding context) {
+    private void fireTransformationStarted(Transformation transformation,
+            Extent[] srcs, Extent[] tgts, Extent trace, Binding context) {
         for (Iterator itr = engineListeners.iterator(); itr.hasNext();) {
             try {
-                ((TefkatListener) itr.next()).transformationStarted(transformation, srcs, tgts, trace, context);
+                ((TefkatListener) itr.next()).transformationStarted(
+                        transformation, srcs, tgts, trace, context);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -960,7 +1054,8 @@ public class Tefkat {
         for (Iterator itr = engineListeners.iterator(); itr.hasNext();) {
             try {
                 ((TefkatListener) itr.next()).transformationFinished();
-                ((TefkatListener) itr.next()).transformationFinished(transformation);
+                ((TefkatListener) itr.next())
+                        .transformationFinished(transformation);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -968,7 +1063,8 @@ public class Tefkat {
     }
 
     /**
-     * Given a list of Resources, transitively load all resources that contain referenced stuff.
+     * Given a list of Resources, transitively load all resources that contain
+     * referenced stuff.
      *
      * @param resources
      * @return
@@ -978,24 +1074,28 @@ public class Tefkat {
 
         while (resources.size() > 0) {
             Set newResources = new HashSet();
-            System.err.println("warning, skipping load of referenced resources");
-            for (Iterator itr = resources.iterator(); false && itr.hasNext(); ) {
+            System.err
+                    .println("warning, skipping load of referenced resources");
+            for (Iterator itr = resources.iterator(); false && itr.hasNext();) {
                 Resource res = (Resource) itr.next();
-System.err.println("findAllResources: " + res);
+                System.err.println("findAllResources: " + res);
                 Map refs = EcoreUtil.ExternalCrossReferencer.find(res);
-                for (Iterator refItr = refs.keySet().iterator(); refItr.hasNext(); ) {
+                for (Iterator refItr = refs.keySet().iterator(); refItr
+                        .hasNext();) {
                     EObject o = (EObject) refItr.next();
                     Resource newRes = o.eResource();
                     // ignore things we've already seen
                     if (newRes != null && !result.contains(newRes)) {
                         newResources.add(newRes);
-//                        fireResourceLoaded(newRes);
+                        // fireResourceLoaded(newRes);
                     }
                 }
             }
-//            newResources.removeAll(result); // ignore things we've already seen
-            result.addAll(newResources);    // remember everything for result
-            resources = newResources;       // get ready to iterate over the new things
+            // newResources.removeAll(result); // ignore things we've already
+            // seen
+            result.addAll(newResources); // remember everything for result
+            resources = newResources; // get ready to iterate over the new
+                                      // things
         }
 
         return result;
@@ -1009,4 +1109,7 @@ System.err.println("findAllResources: " + res);
         TEFKAT_RESOURCE_FACTORY.removeParserListener(listener);
     }
 
+    public EventRegistry registry() {
+        return events;
+    }
 }

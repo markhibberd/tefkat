@@ -79,28 +79,28 @@ public class TefkatStatisticsListener extends TefkatListenerAdapter implements
         this.termStats.computeAllStats();
     }
     public void printAllStats() {
-//        System.out.println();
-//        System.out.println("=================== TRANSFORMATION STATISTICS: BEGIN ===================");
-//
-//        System.out.println("resourceLoaded:" + resourceLoaded);
-//        System.out.println("enterTree:" + enterTree);
-//        System.out.println("evaluateRule:" + evaluateRule);
-//        System.out.println("evaluateSource:" + evaluateSource);
-//        System.out.println("evaluateTarget:" + evaluateTarget);
-//        System.out.println("exitTree:" + exitTree);
-//        System.out.println("treeAdded:" + treeAdded);
-//        System.out.println("treeRemoved:" + treeRemoved);
-//        System.out.println("completedTree:" + completedTree);
-//        System.out.println("flounderedTree:" + flounderedTree);
-//        System.out.println("solvedTree:" + solvedTree);
-//        System.out.println("successfulTree:" + successfulTree);
-//        System.out.println("unsuccessfulTree:" + unsuccessfulTree);
-//
-//        termStats.printAllStats();
-//
-//        System.out.println();
-//        System.out.println("=================== TRANSFORMATION STATISTICS: END   ===================");
-//        System.out.println();
+        System.out.println();
+        System.out.println("=================== TRANSFORMATION STATISTICS: BEGIN ===================");
+
+        System.out.println("resourceLoaded:" + resourceLoaded);
+        System.out.println("enterTree:" + enterTree);
+        System.out.println("evaluateRule:" + evaluateRule);
+        System.out.println("evaluateSource:" + evaluateSource);
+        System.out.println("evaluateTarget:" + evaluateTarget);
+        System.out.println("exitTree:" + exitTree);
+        System.out.println("treeAdded:" + treeAdded);
+        System.out.println("treeRemoved:" + treeRemoved);
+        System.out.println("completedTree:" + completedTree);
+        System.out.println("flounderedTree:" + flounderedTree);
+        System.out.println("solvedTree:" + solvedTree);
+        System.out.println("successfulTree:" + successfulTree);
+        System.out.println("unsuccessfulTree:" + unsuccessfulTree);
+
+        termStats.printAllStats();
+
+        System.out.println();
+        System.out.println("=================== TRANSFORMATION STATISTICS: END   ===================");
+        System.out.println();
     }
 
 
