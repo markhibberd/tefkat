@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<uml:UMLPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://simpleuml">
-  <contents xsi:type="uml:UMLClass" name="Bob"/>
-  <contents xsi:type="uml:UMLClass" name="Billy"/>
-  <contents xsi:type="uml:UMLClass" name="Cletus"/>
-  <contents xsi:type="uml:UMLClass" name="Joe"/>
-  <contents xsi:type="uml:UMLClass" /><!-- My mum forgot to name me -->
-</uml:UMLPackage>
