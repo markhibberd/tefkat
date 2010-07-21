@@ -1562,6 +1562,17 @@ public class RuleEvaluator {
 //                    srcResolver.callCount.put(TefkatPackage.Literals.TRACKING_USE, count);
                 }
             }
+            for (EClass superClass : trackingClass.getEAllSuperTypes()) {
+            	List<TrackingCallback> superCallbacks = trackingQueryMap.get(superClass);
+                if (null != superCallbacks) {
+                    for (TrackingCallback callback : superCallbacks) {
+                        callback.handleInstance(instance);
+//                        int count = srcResolver.callCount.get(TefkatPackage.Literals.TRACKING_USE);
+//                        count++;
+//                        srcResolver.callCount.put(TefkatPackage.Literals.TRACKING_USE, count);
+                    }
+                }
+            }
 //        } else {
 //            trackingUpdateSet.add(trackingClass);
 //        }
