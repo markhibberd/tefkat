@@ -810,6 +810,7 @@ public class Tefkat {
             
             for (int i = 0; i < targetsR.length; i++) {
                 setObjectIds(targetsR[i]);
+                removeContainedObjectsFromResourceContents(targetsR[i]);
                 if (save) {
                     targetsR[i].save(SERIALIZATION_OPTIONS);
                 }
@@ -840,7 +841,20 @@ public class Tefkat {
         }
     }
 
-    /**
+    private void removeContainedObjectsFromResourceContents(Resource resource) {
+    	HashSet<EObject> toRemove = new HashSet<EObject>();
+		for (EObject eobj : resource.getContents()) {
+			if (null != eobj.eContainer()) {
+				//resource.getContents().remove(eobj);
+				//No concurrent collection removal!
+				toRemove.add(eobj);
+			}
+		}
+		resource.getContents().removeAll(toRemove);
+		
+	}
+
+	/**
      * Sets the XMI IDs of the objects and avoids duplicates in the XMIResource
      * @param res
      */
@@ -862,9 +876,11 @@ public class Tefkat {
             xres.setID(obj, String.valueOf(obj.hashCode()));
         }
         // remove direct containment for things that are transitively contained
+        /* Moved into removeContainedObjectsFromResourceContents()
         if (null != obj.eContainer()) {
             xres.getContents().remove(obj);
         }
+        */
         Object[] children = obj.eContents().toArray();
         for (int i = children.length - 1; i >= 0; i--) {
             fixObjectId(xres, (EObject) children[i]);
