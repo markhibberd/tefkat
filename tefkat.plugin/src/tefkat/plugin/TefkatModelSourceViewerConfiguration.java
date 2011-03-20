@@ -48,6 +48,9 @@ public class TefkatModelSourceViewerConfiguration extends SourceViewerConfigurat
         return new String[] { IDocument.DEFAULT_CONTENT_TYPE, TefkatPartitionScanner.MULTILINE_COMMENT };
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getConfiguredDocumentPartitioning(org.eclipse.jface.text.source.ISourceViewer)
+     */
     public String getConfiguredDocumentPartitioning(ISourceViewer sourceViewer) {
         return TefkatPlugin.TEFKAT_PARTITIONING;
     }

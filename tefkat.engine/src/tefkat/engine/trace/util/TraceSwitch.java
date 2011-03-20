@@ -33,7 +33,9 @@ import tefkat.engine.trace.*;
  * @see tefkat.engine.trace.TracePackage
  * @generated
  */
+
 public class TraceSwitch<T> {
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -151,6 +153,7 @@ public class TraceSwitch<T> {
             case TracePackage.NAME_VALUE_PAIR: {
                 NameValuePair nameValuePair = (NameValuePair)theEObject;
                 T result = caseNameValuePair(nameValuePair);
+                if (result == null) result = caseAny(boolAny);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }

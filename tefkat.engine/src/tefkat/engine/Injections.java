@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package tefkat.engine;
 
@@ -22,10 +22,10 @@ import tefkat.model.Extent;
 import tefkat.model.TRule;
 
 class Injections {
-
+    
     final private Map injections = new HashMap();
     final private Map traces = new HashMap();
-
+    
     void loadTrace(final Extent extent) {
         final List traceInstances = extent.getObjectsByClass(TracePackage.eINSTANCE.getTrace(), false);
         for (final Iterator itr = traceInstances.iterator(); itr.hasNext(); ) {
@@ -37,7 +37,7 @@ class Injections {
             traces.put(target, keys);
         }
     }
-
+    
     EObject lookup(Extent extent, List keys, TRule rule) {
         EObject obj = lookup(injections, keys, 0);
         Trace trace;
@@ -54,10 +54,10 @@ class Injections {
         }
         ExtentUtil.highlightNode(obj, ExtentUtil.OBJECT_LOOKUP);
         ExtentUtil.highlightNode(trace, ExtentUtil.OBJECT_LOOKUP);
-
+        
         return obj;
     }
-
+    
     /**
      * @param extent
      * @param keys
@@ -71,7 +71,7 @@ class Injections {
             DynamicObject dynObj = (DynamicObject) obj;
             dynObj.addReferenceFrom(trace, TracePackage.eINSTANCE.getTrace_Target());
         }
-
+        
         extent.add(trace);
 
         List sources = trace.getSources();
@@ -112,18 +112,18 @@ class Injections {
 
     /**
      * Update the injections mapping
-     *
+     * 
      * @param keys
      * @param value
      */
     private void store(List keys, EObject value) {
         store(injections, keys, value, 0);
     }
-
+    
     private EObject lookup(Map map, List keys, int idx) {
         Object key = keys.get(idx);
         Object keyVal = map.get(key);
-
+        
         if (null == keyVal) {
             return null;
         } else if ((idx + 1)  < keys.size() && keyVal instanceof Map) {
@@ -132,10 +132,10 @@ class Injections {
             return (EObject) keyVal;
         }
     }
-
+    
     private void store(Map map, List keys, EObject value, int idx) {
         Object key = keys.get(idx);
-
+        
         if ((idx + 1) < keys.size()) {
             Map subMap = (Map) map.get(key);
             if (null == subMap) {

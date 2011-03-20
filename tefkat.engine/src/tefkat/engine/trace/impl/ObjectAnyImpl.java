@@ -94,6 +94,7 @@ public class ObjectAnyImpl extends AnyImpl implements ObjectAny {
      * @generated
      */
     @Override
+
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case TracePackage.OBJECT_ANY__VALUE:

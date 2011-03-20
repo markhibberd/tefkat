@@ -44,11 +44,11 @@ public final class Context {
         List newGoal = newGoal();
         tree.createBranch(node, null, newGoal);
     }
-
+    
     void createBranch(Term term) {
         createBranch(term, null);
     }
-
+    
     void createBranch(Binding unifier) {
         List newGoal = newGoal();
         tree.createBranch(node, unifier, newGoal);
@@ -65,15 +65,15 @@ public final class Context {
         newGoal.addAll(terms);
         tree.createBranch(node, null, newGoal);
     }
-
+    
     void delay(String message) throws NotGroundException {
         throw new NotGroundException(node, message);
     }
-
+    
     void error(String message) throws ResolutionException {
         throw new ResolutionException(node, message);
     }
-
+    
     void error(String message, Exception e) throws ResolutionException {
         throw new ResolutionException(node, message, e);
     }
@@ -90,7 +90,7 @@ public final class Context {
 
     /**
      * Find a binding for the variable in the current context.
-     *
+     * 
      * @param var   The var to lookup in this context
      * @return      The value that var is bound to in the context of this node or null
      */
@@ -109,11 +109,11 @@ public final class Context {
         } else {
             result.setLevel(tree.getLevel());
         }
-
+        
 //        if (ruleEval.INCREMENTAL) {
             ruleEval.addUnresolvedTree(result);
 //        }
-
+        
         return result;
     }
 
@@ -210,11 +210,11 @@ public final class Context {
             parameterContext.composeRight(tree.getContext());
         }
         Tree resultTree = (Tree) cache.get(parameterContext);
-
+        
         if (null == resultTree) {
             final Collection goal = new ArrayList();
             goal.add(term);
-
+            
 //            Collection patGoal = new ArrayList();
 //            Term pDefTerm = pDefn.getTerm();
 //            patGoal.add(pDefTerm);
@@ -227,10 +227,10 @@ public final class Context {
 
             cache.put(parameterContext, resultTree);
         }
-
+        
         if (!resultTree.isCompleted()) {
             // Register listener for floundering (and remove from cache)
-
+            
             resultTree.addTreeListener(new TreeListener() {
 
                 public void solution(Binding answer) {
@@ -249,5 +249,4 @@ public final class Context {
 
         return resultTree;
     }
-
 }

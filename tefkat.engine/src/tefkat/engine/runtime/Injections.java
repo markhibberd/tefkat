@@ -65,9 +65,9 @@ public class Injections {
             DynamicObject dynObj = (DynamicObject) obj;
             dynObj.addReferenceFrom(trace, TracePackage.eINSTANCE.getTrace_Target());
         }
-
+        
         extent.add(trace);
-
+    
         List sources = trace.getSources();
         for (int i = 0; i < keys.size(); i++) {
             Object key = keys.get(i);

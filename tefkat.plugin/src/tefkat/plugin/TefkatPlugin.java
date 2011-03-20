@@ -74,6 +74,7 @@ import tefkat.plugin.wip.objectmodel.TefkatObjectModel;
 import tefkat.plugin.wip.objectmodel.TefkatObjectModelManager;
 
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -87,12 +88,16 @@ public class TefkatPlugin extends AbstractUIPlugin {
 
     public static final String TEFKAT_EXPLORER = PLUGIN_ID + ".TefkatExplorer";
 
+    public static final String PLUGIN_ID = "tefkat.plugin";
+
     public static final String TEFKAT_NATURE = PLUGIN_ID + ".TefkatNature";
 
     public static final String TEFKAT_BUILDER = PLUGIN_ID + ".TefkatBuilder";
 
     public static final String TEFKAT_PARTITIONING = PLUGIN_ID + ".TefkatPartitioning";
 
+    public static final String TEFKAT_PARTITIONING = PLUGIN_ID + ".TefkatPartitioning";
+    
     public static final String PLUGIN_FUNCTION_SET = PLUGIN_ID + ".functionSet";
 
     public static final String CONFIGURATION_FILE = "tefkat.xmi";
@@ -204,7 +209,9 @@ public class TefkatPlugin extends AbstractUIPlugin {
      */
     public void start(BundleContext context) throws Exception {
         super.start(context);
+
         TefkatObjectModelManager.instance().init();
+
         List list = convertFromString(getPreferenceStore().getString(URIMAP_PREFERENCE));
         for (final Iterator itr = list.iterator(); itr.hasNext(); ) {
             URIMap map = (URIMap) itr.next();
@@ -295,6 +302,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
             ManyToOneTefkatListenerAdapter.register(theEngine);
             // XXX-MH why is this commented out (see below where other factories are registered as well)?
             //          for the time being I have uncommented the one in the registration block
+
 //            theEngine.registerFactory("qvt", TEFKAT_RESOURCE_FACTORY);
 
             ConsolePlugin plugin = ConsolePlugin.getDefault();
@@ -491,7 +499,15 @@ public class TefkatPlugin extends AbstractUIPlugin {
             monitor.subTask("Running " + transformation);
             Tefkat engine = getTefkat();
             TefkatListener monitorListener = new TefkatListenerAdapter() {
-
+            
+            if (monitor.isCanceled()) {
+                throw new InterruptedException("Tefkat Build cancelled by user.");
+            }
+            
+            monitor.subTask("Running " + transformation);
+            Tefkat engine = getTefkat();
+            TefkatListener monitorListener = new TefkatListenerAdapter() {
+                
                 public void info(String message) {
                     if (message.equalsIgnoreCase("stratification")) {
                         monitor.subTask(message);
@@ -551,7 +567,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
             getLog().log(status);
             throw new CoreException(status);
         } finally {
-
+            
             removeTefkatListener(consoleAdapter);
             theEngine = null;
 
@@ -631,7 +647,6 @@ public class TefkatPlugin extends AbstractUIPlugin {
             }
             throw new IOException(message);
         }
-
         return resource;
     }
 
@@ -641,7 +656,6 @@ public class TefkatPlugin extends AbstractUIPlugin {
         for (int i = 0; i < modelURIs.length; i++) {
             resources[i] = getResource(modelURIs[i], monitor);
         }
-
         return resources;
     }
 
@@ -684,6 +698,7 @@ public class TefkatPlugin extends AbstractUIPlugin {
             map.put("xmi", XMI_RESOURCE_FACTORY);
             map.put("tefkat", XMI_RESOURCE_FACTORY);
             map.put("qvt", new TefkatResourceFactory()); // XXX-MH why was this commented out?
+            // map.put("qvt", TEFKAT_RESOURCE_FACTORY);
             map.put("xsd", XSD_RESOURCE_FACTORY);
             map.put("wsdl", XSD_RESOURCE_FACTORY);
             map.put("xml", XML_RESOURCE_FACTORY);
@@ -782,5 +797,4 @@ public class TefkatPlugin extends AbstractUIPlugin {
         }
         return scanner;
     }
-
 }

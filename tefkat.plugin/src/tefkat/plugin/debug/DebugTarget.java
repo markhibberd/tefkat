@@ -9,7 +9,7 @@
  *     michael lawley
  *
  *
- *
+ * 
  */
 
 package tefkat.plugin.debug;
@@ -52,7 +52,6 @@ import tefkat.model.parser.ParserListener;
  *
  */
 public class DebugTarget extends AbstractDebugElement implements IDebugTarget, ParserListener {
-
     private ILaunch launch;
     private IThread[] threads;
     private Map treeThreadMap = new HashMap();
@@ -69,22 +68,22 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
     int suspendCount;
 
     /**
-     *
+     * 
      */
     public DebugTarget(ILaunch launch, Tefkat tefkat) {
         super(null);
-
+        
         target = this;
         this.launch = launch;
         this.engine = tefkat;
-
+        
 //        final DebugThread thread = new DebugThread(this);
         threads = new IThread[] {};
-
+        
         engine.addTefkatListener(new TefkatListener2() {
             // int depth = 0;
             boolean initial = true;
-
+            
             List threadList = new ArrayList();
 
             public void started() {
@@ -122,6 +121,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
                 }
             }
 
+
             public void resumed() {
                 suspended = false;
                 DebugThread thread = (DebugThread) treeThreadMap.get(trees.peek());
@@ -138,6 +138,7 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
             public void resourceLoaded(Resource res) {}
 
             public void transformationStarted(Transformation transformation, Extent[] srcs, Extent[] tgts, Extent trace, Binding context) {}
+
             public void transformationFinished() {}
             public void transformationFinished(Transformation transformation) {}
 
@@ -208,13 +209,12 @@ public class DebugTarget extends AbstractDebugElement implements IDebugTarget, P
                 threadList.remove(thread);
                 threads = (IThread[]) threadList.toArray(threads);
             }
-
         });
     }
 
     /**
      * Returns the current stack frames in the target.
-     *
+     * 
      * @return the current stack frames in the target
      * @throws DebugException if unable to perform the request
      */

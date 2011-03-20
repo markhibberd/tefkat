@@ -10,6 +10,7 @@
  *
  *
  *
+ * 
  */
 
 package tefkat.plugin;
@@ -87,8 +88,6 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
             return "";
         }
 
-        String id = idMap.get(obj);
-
         if (null == id) {
             if (obj instanceof Transformation) {
                 id = ((Transformation) obj).getName();
@@ -118,7 +117,6 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
             } else {
                 id = obj.getClass().getName() + obj.hashCode();
             }
-
             objMap.put(id, obj);
             idMap.put(obj, id);
         }
@@ -136,10 +134,9 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
         return strings;
     }
 
-
     /**
      * Return the real objects in the selection rather than their internal ID proxies
-     *
+     * 
      * @see org.eclipse.ui.views.contentoutline.ContentOutlinePage#fireSelectionChanged(org.eclipse.jface.viewers.ISelection)
      */
     protected void fireSelectionChanged(ISelection selection) {
@@ -232,10 +229,9 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
 
             public void dispose() {
             }
-
         });
     }
-
+    
     private boolean filter(final Object obj) {
         if (obj instanceof Var || obj instanceof NamespaceDeclaration || obj instanceof EPackage) {
             return false;
@@ -258,5 +254,4 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
         objMap.clear();
         idMap.clear();
     }
-
 }

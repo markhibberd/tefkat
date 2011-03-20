@@ -262,17 +262,17 @@ public class TransformationImpl extends PatternScopeImpl implements Transformati
             PatternDefn pattern = (PatternDefn) patternItr.next();
 
             levelMapping.put(pattern, 0);
-
+            
             stratifier.check(pattern, pattern.getTerm());
         }
-
+        
         List less = new ArrayList();
         List lesseq = new ArrayList();
 
 //        fireInfo("    finding dependencies...");
-
+        
         // FIXME - handle subtyping and stratification
-
+        
         for (final Iterator itr = stratifier.readers.entrySet().iterator(); itr.hasNext(); ) {
             Map.Entry entry = (Map.Entry) itr.next();
             Object tc = entry.getKey();

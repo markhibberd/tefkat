@@ -72,10 +72,16 @@ import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.DefaultRangeIndicator;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.IWorkbenchPartConstants;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.ide.IGotoMarker;
+import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.xsd.util.XSDResourceImpl;
-
 import tefkat.engine.Tefkat;
 import tefkat.engine.TefkatListener;
 import tefkat.engine.events.EventRegistry;
@@ -102,6 +108,22 @@ import antlr.RecognitionException;
 import antlr.TokenStreamHiddenTokenFilter;
 import antlr.debug.MessageAdapter;
 import antlr.debug.MessageEvent;
+=======
+import tefkat.model.StratificationException;
+import tefkat.model.Transformation;
+import tefkat.model.parser.ParserEvent;
+import tefkat.model.parser.ParserListener;
+
+import antlr.ANTLRException;
+import antlr.RecognitionException;
+import antlr.TokenStreamHiddenTokenFilter;
+import antlr.debug.MessageEvent;
+import antlr.debug.MessageAdapter;
+
+import tefkat.model.parser.TefkatLexer;
+import tefkat.model.parser.TefkatMessageEvent;
+import tefkat.model.parser.TefkatParser;
+
 /**
  * @author lawley
  *
@@ -116,8 +138,9 @@ public class TefkatModelEditor extends MultiPageEditorPart {
 
     static {
         SERIALIZATION_OPTIONS = new HashMap();
-        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData());
+
         SERIALIZATION_OPTIONS.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+        SERIALIZATION_OPTIONS.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData());
         SERIALIZATION_OPTIONS.put(XSDResourceImpl.XSD_TRACK_LOCATION, Boolean.TRUE);
     }
     private int EDITOR_PAGE = -1;
@@ -181,11 +204,11 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                 }
             }
         });
+
         try {
             EDITOR_PAGE = addPage(textEditor, getEditorInput());
             setPartName(getEditorInput().getName());
             setPageText(EDITOR_PAGE, "Transformation");
-
         } catch (PartInitException e) {
             ErrorDialog.openError(
                            getSite().getShell(),
@@ -193,7 +216,6 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                            null,
                            e.getStatus());
         }
-
         Tefkat engine = TefkatPlugin.getPlugin().getTefkat();
         engine.setPrintingStats(true);
 
@@ -211,7 +233,6 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         composite.setLayout(layout);
         xmiText = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
         xmiText.setEditable(false);
-
         XMI_PAGE = addPage(composite);
         setPageText(XMI_PAGE, "XMI Preview");
     }
@@ -350,6 +371,37 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     class ParserThread extends Thread {
         private volatile boolean parseRequested = false;
 
+=======
+    private final class TefkatTextEditor extends TextEditor {
+
+        public TefkatTextEditor() {
+            super();
+            setSourceViewerConfiguration(new TefkatModelSourceViewerConfiguration());
+        }
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.IWorkbenchPart#dispose()
+         */
+        public void dispose() {
+            // TODO Auto-generated method stub
+            super.dispose();
+        }
+
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.texteditor.AbstractTextEditor#selectAndReveal(int, int, int, int)
+         */
+        protected void selectAndReveal(int selectionStart, int selectionLength,
+                int revealStart, int revealLength) {
+            pageChange(EDITOR_PAGE);
+            super.selectAndReveal(selectionStart, selectionLength, revealStart,
+                    revealLength);
+        }
+
+    }
+    
+    class ParserThread extends Thread {
+        private volatile boolean parseRequested = false;
+        
         synchronized final public void requestParse() {
             if (!parseRequested && !isAlive()) {
                 start();
@@ -393,10 +445,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                 // nothing to do
                 return;
             }
-
-
-
-
+            
 //            TefkatPlugin.getPlugin().clearResourceSet();
 //            ResourceSet resourceSet = TefkatPlugin.getPlugin().getResourceSet();
             ResourceSet resourceSet = new ResourceSetImpl();
@@ -465,7 +514,6 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                     endCharMap.put(e.getObj(), new Integer(e.getEndChar()));
                 }
             });
-
 
             final ArrayList positions = new ArrayList();
             // FIXME niave assumption that namespaces are grouped, this is fine for now, but is not a polished representation
@@ -587,10 +635,10 @@ public class TefkatModelEditor extends MultiPageEditorPart {
     }
 
     private void createWarningMarker(final IResource resource, final String message, final int line, final int start, final int end) {
-    Display.getDefault().asyncExec(new Runnable() {
-        public void run() {
-        try {
-            Map map = new HashMap(6);
+        Display.getDefault().asyncExec(new Runnable() {
+            public void run() {
+                try {
+                    Map map = new HashMap(6);
                     if (start >= 0) {
                         map.put(IMarker.CHAR_START, new Integer(start));
                     }
@@ -600,16 +648,16 @@ public class TefkatModelEditor extends MultiPageEditorPart {
                     if (line > 0) {
                         map.put(IMarker.LINE_NUMBER, new Integer(line));
                     }
-            map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
-            map.put(IMarker.MESSAGE, message);
+		    map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_WARNING));
+		    map.put(IMarker.MESSAGE, message);
                     map.put(IMarker.LOCATION, message);
-            createMarker(resource, map);
-        } catch (CoreException e) {
-            // TODO Log later
-            e.printStackTrace();
-        }
-        }
-    });
+		    createMarker(resource, map);
+		} catch (CoreException e) {
+		    // TODO Log later
+		    e.printStackTrace();
+		}
+	    }
+	});
     }
 
     private void createMarker(final IResource resource, final Map map)
@@ -660,10 +708,9 @@ public class TefkatModelEditor extends MultiPageEditorPart {
         } else if (adapter.equals(ITextEditor.class)) {
             return textEditor;
         }
-
         return super.getAdapter(adapter);
     }
-
+    
     public Integer getStartChar(EObject obj) {
         while (obj != null) {
             Integer pos = (Integer) startCharMap.get(obj);

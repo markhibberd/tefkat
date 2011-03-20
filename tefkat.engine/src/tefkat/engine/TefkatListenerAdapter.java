@@ -29,7 +29,7 @@ import tefkat.model.Transformation;
 public abstract class TefkatListenerAdapter implements TefkatListener {
 
     /**
-     *
+     * 
      */
     public TefkatListenerAdapter() {
         super();

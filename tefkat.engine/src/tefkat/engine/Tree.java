@@ -28,9 +28,9 @@ import tefkat.model.Extent;
 public class Tree {
 
     static int counter = 0;
-
+    
     private final Extent trackingExtent;
-
+    
     private final Binding context;
 
     private final Context parentContext;
@@ -51,7 +51,6 @@ public class Tree {
 
     public Tree(Context parentContext, Node node, Binding context, Extent trackingExtent, boolean isNegation) {
         increment();
-
         this.parentContext = parentContext;
         this.context = context;
         this.trackingExtent = trackingExtent;
@@ -120,9 +119,24 @@ public class Tree {
      *  @param parent   The parent node for the new edge.
      *  @param unifier  The unifier of the parent's selected literal.
      */
+
     // FIXME MH: when does this method get called for parent == null
     void createBranch(Node parent, Binding unifier, Collection childGoal) {
         Node child;
+
+        /*
+          Merge conflict: kept mine, trunk was --
+        if (null != parent) {
+            if (null == unifier) {
+                unifier = parent.getBindings(); // Inherit bindings from parent
+            } else {
+                unifier.composeLeft(parent.getBindings());
+            }
+        }
+        Node child = new Node(childGoal, unifier, parent);
+        addUnresolvedNode(child);
+    }
+         */
         if (null != parent) {
             if (null == unifier) {
                 unifier = parent.getBindings(); // Inherit bindings from parent
