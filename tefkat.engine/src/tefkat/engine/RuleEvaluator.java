@@ -93,7 +93,8 @@ public class RuleEvaluator {
     
     final Injections injections = new Injections();
 
-
+    private final EventWriter events;
+    
     /**
      *  
      */

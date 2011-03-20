@@ -341,7 +341,8 @@ public class Evaluator {
     final Map funcMap = new HashMap();
 
     private final RuleEvaluator ruleEval;
-
+    private final EventWriter events;
+    
     Evaluator(RuleEvaluator evaluator, EventWriter events) {
         this.events = events;
         ruleEval = evaluator;

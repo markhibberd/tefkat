@@ -4,6 +4,7 @@
 
 BRANCH=mthibberd
 E_HOME=/usr/local/lib/eclipse-devel
+#E_HOME=/usr/local/eclipse
 
 E_PLUGINS=${E_HOME}
 

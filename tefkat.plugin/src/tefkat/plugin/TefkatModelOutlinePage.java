@@ -87,7 +87,8 @@ public class TefkatModelOutlinePage extends ContentOutlinePage {
         if (null == obj) {
             return "";
         }
-
+        String id = idMap.get(obj);
+        
         if (null == id) {
             if (obj instanceof Transformation) {
                 id = ((Transformation) obj).getName();

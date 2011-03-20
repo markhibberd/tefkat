@@ -3,6 +3,7 @@
 	<name>tefkat.feature</name>
 	<comment></comment>
 	<projects>
+		<project>tefkat.config</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

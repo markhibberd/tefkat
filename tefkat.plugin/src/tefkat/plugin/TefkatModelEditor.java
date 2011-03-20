@@ -108,7 +108,7 @@ import antlr.RecognitionException;
 import antlr.TokenStreamHiddenTokenFilter;
 import antlr.debug.MessageAdapter;
 import antlr.debug.MessageEvent;
-=======
+
 import tefkat.model.StratificationException;
 import tefkat.model.Transformation;
 import tefkat.model.parser.ParserEvent;
@@ -368,37 +368,7 @@ public class TefkatModelEditor extends MultiPageEditorPart {
 		}
     }
 
-    class ParserThread extends Thread {
-        private volatile boolean parseRequested = false;
 
-=======
-    private final class TefkatTextEditor extends TextEditor {
-
-        public TefkatTextEditor() {
-            super();
-            setSourceViewerConfiguration(new TefkatModelSourceViewerConfiguration());
-        }
-        
-        /* (non-Javadoc)
-         * @see org.eclipse.ui.IWorkbenchPart#dispose()
-         */
-        public void dispose() {
-            // TODO Auto-generated method stub
-            super.dispose();
-        }
-
-        /* (non-Javadoc)
-         * @see org.eclipse.ui.texteditor.AbstractTextEditor#selectAndReveal(int, int, int, int)
-         */
-        protected void selectAndReveal(int selectionStart, int selectionLength,
-                int revealStart, int revealLength) {
-            pageChange(EDITOR_PAGE);
-            super.selectAndReveal(selectionStart, selectionLength, revealStart,
-                    revealLength);
-        }
-
-    }
-    
     class ParserThread extends Thread {
         private volatile boolean parseRequested = false;
         

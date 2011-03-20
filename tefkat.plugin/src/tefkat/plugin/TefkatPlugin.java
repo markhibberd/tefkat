@@ -88,16 +88,12 @@ public class TefkatPlugin extends AbstractUIPlugin {
 
     public static final String TEFKAT_EXPLORER = PLUGIN_ID + ".TefkatExplorer";
 
-    public static final String PLUGIN_ID = "tefkat.plugin";
-
     public static final String TEFKAT_NATURE = PLUGIN_ID + ".TefkatNature";
 
     public static final String TEFKAT_BUILDER = PLUGIN_ID + ".TefkatBuilder";
 
     public static final String TEFKAT_PARTITIONING = PLUGIN_ID + ".TefkatPartitioning";
 
-    public static final String TEFKAT_PARTITIONING = PLUGIN_ID + ".TefkatPartitioning";
-    
     public static final String PLUGIN_FUNCTION_SET = PLUGIN_ID + ".functionSet";
 
     public static final String CONFIGURATION_FILE = "tefkat.xmi";
@@ -492,14 +488,6 @@ public class TefkatPlugin extends AbstractUIPlugin {
             }
             monitor.worked(1);
 
-            if (monitor.isCanceled()) {
-                throw new InterruptedException("Tefkat Build cancelled by user.");
-            }
-
-            monitor.subTask("Running " + transformation);
-            Tefkat engine = getTefkat();
-            TefkatListener monitorListener = new TefkatListenerAdapter() {
-            
             if (monitor.isCanceled()) {
                 throw new InterruptedException("Tefkat Build cancelled by user.");
             }

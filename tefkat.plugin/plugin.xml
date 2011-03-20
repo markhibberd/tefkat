@@ -411,7 +411,7 @@
       </objectContribution>
    </extension>
 
-   <extension>
+   <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
             class="tefkat.model.parser.TefkatResourceFactory"
