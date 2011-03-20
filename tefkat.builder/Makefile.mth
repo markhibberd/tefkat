@@ -3,6 +3,7 @@
 # E_HOME=/Applications/eclipse-SDK-3.2
 
 BRANCH=mthibberd
+REVISION=1
 E_HOME=/usr/local/lib/eclipse-devel
 #E_HOME=/usr/local/eclipse
 
@@ -29,6 +30,7 @@ endif
 default: build
 
 init:
+	[ ! -d local-update-site ] || rm -rf local-update-site
 	rm -rf ~/eclipse.build
 	mkdir -p ~/eclipse.build/plugins
 	mkdir -p ~/eclipse.build/features
@@ -44,12 +46,12 @@ source: \
 	plugins/tefkat.engine \
 	plugins/tefkat.plugin \
 	features/tefkat.feature \
-	runAntlr
+	runAntlr 
 
 runAntlr:
 	(cd ~/eclipse.build/plugins/tefkat.model.parser/src/tefkat/model/parser ; java -cp ${E_PLUGINS}/plugins/org.antlr_2.7.6/antlr.jar antlr.Tool tefkat.g)
 
-build: init source compile
+build: init source compile local-update-site
 
 compile:
 	java -cp ${E_HOME}/startup.jar org.eclipse.core.launcher.Main -application org.eclipse.pde.build.Build -Dbase=${E_HOME} -DbaseLocation=${E_HOME} ${BOOTCLASSPATH} ${COMP_FLAGS}
@@ -68,3 +70,8 @@ features/tefkat.%: ../tefkat.%
 	mkdir -p ~/eclipse.build/$@
 	(cd ../`basename $@` && git archive ${BRANCH} | (cd ~/eclipse.build/$@ && tar xfp -))
 #	svn export -q -r${REVISION} $< ~/eclipse.build/$@
+
+local-update-site:
+	mkdir -p local-update-site
+	cp ~/eclipse.build/${BRANCH}${REVISION}/tefkat.feature-${BRANCH}${REVISION}.zip local-update-site/.
+	(cd local-update-site && unzip tefkat.feature-${BRANCH}${REVISION}.zip) 

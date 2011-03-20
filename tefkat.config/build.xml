@@ -7,7 +7,7 @@
 	<property name="basearch" value="${arch}"/>
 	<property name="basenl" value="${nl}"/>
 	<property name="bundleId" value="tefkat.config"/>
-	<property name="bundleVersion" value="2.1.0.201103210015"/>
+	<property name="bundleVersion" value="2.2.0.201103210114"/>
 	<property name="p2.publishonerror" value="false"/>
 
 	<!-- Compiler settings. -->
@@ -37,7 +37,7 @@
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="pluginTemp" value="${basedir}"/>
-		<condition property="build.result.folder" value="${pluginTemp}/tefkat.config_2.1.0.201103210015"		>
+		<condition property="build.result.folder" value="${pluginTemp}/tefkat.config_2.2.0.201103210114"		>
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="build.result.folder" value="${basedir}"/>
@@ -67,7 +67,7 @@
 		<antcall target="gather.bin.parts">
 			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<jar destfile="${plugin.destination}/tefkat.config_2.1.0.201103210015.jar" basedir="${temp.folder}/tefkat.config_2.1.0.201103210015" filesetmanifest="merge"/>
+		<jar destfile="${plugin.destination}/tefkat.config_2.2.0.201103210114.jar" basedir="${temp.folder}/tefkat.config_2.2.0.201103210114" filesetmanifest="merge"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
@@ -152,7 +152,7 @@
 	</target>
 
 	<target name="publish.bin.parts" depends="init" if="p2.publish.parts" unless="compilation.problem.marker.exists">
-		<mkdir dir="${build.result.folder}/tefkat.config_2.1.0.201103210015"/>
+		<mkdir dir="${build.result.folder}/tefkat.config_2.2.0.201103210114"/>
 		<copy todir="${build.result.folder}" failonerror="true" overwrite="true">
 			<fileset dir="${basedir}">
 				<include name="META-INF/MANIFEST.MF"/>
@@ -160,7 +160,7 @@
 				<include name="fragment.xml"/>
 			</fileset>
 		</copy>
-		<eclipse.versionReplacer path="${build.result.folder}" version="2.1.0.201103210015"/>
+		<eclipse.versionReplacer path="${build.result.folder}" version="2.2.0.201103210114"/>
 		<antcall target="apitools.generation">
 			<param name="target.folder" value="${build.result.folder}"/>
 			<param name="projectLocation" value="${basedir}"/>
@@ -171,19 +171,18 @@
 		   metadataRepository="${p2.build.repo}"
 		   artifactRepository="${p2.build.repo}"
 		   buildResultFolder="${build.result.folder}"
-		   unpack="false"
 		   baseDirectory="${basedir}"
 		/>
 	</target>
 
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/tefkat.config_2.1.0.201103210015"/>
-		<copy todir="${destination.temp.folder}/tefkat.config_2.1.0.201103210015" failonerror="true" overwrite="false">
+		<mkdir dir="${destination.temp.folder}/tefkat.config_2.2.0.201103210114"/>
+		<copy todir="${destination.temp.folder}/tefkat.config_2.2.0.201103210114" failonerror="true" overwrite="false">
 			<fileset dir="${build.result.folder}/@dot">
 				<include name="**"/>
 			</fileset>
 		</copy>
-		<copy todir="${destination.temp.folder}/tefkat.config_2.1.0.201103210015" failonerror="true" overwrite="true">
+		<copy todir="${destination.temp.folder}/tefkat.config_2.2.0.201103210114" failonerror="true" overwrite="true">
 			<fileset dir="${basedir}">
 				<include name="plugin.xml"/>
 				<include name="plugin.properties"/>
@@ -192,9 +191,9 @@
 				<include name="src/model/TefkatConfig.genmodel"/>
 			</fileset>
 		</copy>
-		<eclipse.versionReplacer path="${destination.temp.folder}/tefkat.config_2.1.0.201103210015" version="2.1.0.201103210015"/>
+		<eclipse.versionReplacer path="${destination.temp.folder}/tefkat.config_2.2.0.201103210114" version="2.2.0.201103210114"/>
 		<antcall target="apitools.generation">
-			<param name="target.folder" value="${destination.temp.folder}/tefkat.config_2.1.0.201103210015"/>
+			<param name="target.folder" value="${destination.temp.folder}/tefkat.config_2.2.0.201103210114"/>
 			<param name="projectLocation" value="${basedir}"/>
 			<param name="binary.folders" value="${build.result.folder}/@dot"/>
 			<param name="projectName" value="${bundleId}_${bundleVersion}"/>
@@ -205,10 +204,10 @@
 	</target>
 
 	<target name="gather.sources" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/tefkat.config_2.1.0.201103210015"/>
-		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/tefkat.config_2.1.0.201103210015" failonerror="false" overwrite="false"/>
+		<mkdir dir="${destination.temp.folder}/tefkat.config_2.2.0.201103210114"/>
+		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/tefkat.config_2.2.0.201103210114" failonerror="false" overwrite="false"/>
 		<antcall target="copy.src.includes">
-			<param name="source.destination.folder" value="${destination.temp.folder}/tefkat.config_2.1.0.201103210015"/>
+			<param name="source.destination.folder" value="${destination.temp.folder}/tefkat.config_2.2.0.201103210114"/>
 		</antcall>
 	</target>
 
@@ -225,8 +224,8 @@
 	</target>
 
 	<target name="gather.logs" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/tefkat.config_2.1.0.201103210015"/>
-		<copy todir="${destination.temp.folder}/tefkat.config_2.1.0.201103210015" failonerror="false" overwrite="false">
+		<mkdir dir="${destination.temp.folder}/tefkat.config_2.2.0.201103210114"/>
+		<copy todir="${destination.temp.folder}/tefkat.config_2.2.0.201103210114" failonerror="false" overwrite="false">
 			<fileset dir="${build.result.folder}">
 				<include name="@dot${logExtension}"/>
 			</fileset>
@@ -236,8 +235,8 @@
 	<target name="clean" depends="init" description="Clean the plug-in: tefkat.config of all the zips, jars and logs created.">
 		<delete dir="${build.result.folder}/@dot"/>
 		<delete file="${build.result.folder}/src.zip"/>
-		<delete file="${plugin.destination}/tefkat.config_2.1.0.201103210015.jar"/>
-		<delete file="${plugin.destination}/tefkat.config_2.1.0.201103210015.zip"/>
+		<delete file="${plugin.destination}/tefkat.config_2.2.0.201103210114.jar"/>
+		<delete file="${plugin.destination}/tefkat.config_2.2.0.201103210114.zip"/>
 		<delete dir="${temp.folder}"/>
 		<delete file="${compilation.problem.marker}" quiet="true"/>
 	</target>
@@ -263,7 +262,7 @@
 				<include name="**/*.bin${logExtension}"/>
 			</fileset>
 		</delete>
-		<zip destfile="${plugin.destination}/tefkat.config_2.1.0.201103210015.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<zip destfile="${plugin.destination}/tefkat.config_2.2.0.201103210114.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
