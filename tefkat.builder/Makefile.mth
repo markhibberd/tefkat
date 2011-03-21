@@ -3,7 +3,7 @@
 # E_HOME=/Applications/eclipse-SDK-3.2
 
 BRANCH=mthibberd
-REVISION=1
+REVISION=2
 E_HOME=/usr/local/lib/eclipse-devel
 #E_HOME=/usr/local/eclipse
 
@@ -60,16 +60,12 @@ vcompile:
 	java -cp ${E_HOME}/startup.jar org.eclipse.core.launcher.Main -application org.eclipse.pde.build.Build -Dbase=${E_HOME} -DbaseLocation=${E_HOME} ${BOOTCLASSPATH} -verbose ${COMP_FLAGS}
 
 plugins/tefkat.%: ../tefkat.%
-#	rm -rf ~/eclipse.build/
 	mkdir -p ~/eclipse.build/$@
 	(cd ../`basename $@` && git archive ${BRANCH} | (cd ~/eclipse.build/$@ && tar xfp -))
-#	svn export -q -r${REVISION} $< ~/eclipse.build/plugins
 
 features/tefkat.%: ../tefkat.%
-#	rm -rf ~/eclipse.build/
 	mkdir -p ~/eclipse.build/$@
 	(cd ../`basename $@` && git archive ${BRANCH} | (cd ~/eclipse.build/$@ && tar xfp -))
-#	svn export -q -r${REVISION} $< ~/eclipse.build/$@
 
 local-update-site:
 	mkdir -p local-update-site
