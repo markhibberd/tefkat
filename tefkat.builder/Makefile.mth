@@ -2,8 +2,8 @@
 # E_HOME=/Applications/eclipse
 # E_HOME=/Applications/eclipse-SDK-3.2
 
-BRANCH=mthibberd
-REVISION=2
+BRANCH=lawley-build
+REVISION=4
 E_HOME=/usr/local/lib/eclipse-devel
 #E_HOME=/usr/local/eclipse
 

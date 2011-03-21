@@ -7,7 +7,7 @@
 	<property name="basearch" value="${arch}"/>
 	<property name="basenl" value="${nl}"/>
 	<property name="bundleId" value="tefkat.model.edit"/>
-	<property name="bundleVersion" value="2.1.0.201103212006"/>
+	<property name="bundleVersion" value="2.1.0.201103212012"/>
 	<property name="p2.publishonerror" value="false"/>
 
 	<!-- Compiler settings. -->
@@ -37,7 +37,7 @@
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="pluginTemp" value="${basedir}"/>
-		<condition property="build.result.folder" value="${pluginTemp}/tefkat.model.edit_2.1.0.201103212006"		>
+		<condition property="build.result.folder" value="${pluginTemp}/tefkat.model.edit_2.1.0.201103212012"		>
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="build.result.folder" value="${basedir}"/>
@@ -67,7 +67,7 @@
 		<antcall target="gather.bin.parts">
 			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<jar destfile="${plugin.destination}/tefkat.model.edit_2.1.0.201103212006.jar" basedir="${temp.folder}/tefkat.model.edit_2.1.0.201103212006" filesetmanifest="merge"/>
+		<jar destfile="${plugin.destination}/tefkat.model.edit_2.1.0.201103212012.jar" basedir="${temp.folder}/tefkat.model.edit_2.1.0.201103212012" filesetmanifest="merge"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
@@ -101,7 +101,9 @@
 			<pathelement path="../../../../../../usr/local/lib/eclipse-devel/plugins/org.eclipse.core.filesystem.freebsd.x86_64_1.0.100.201006301956.jar"/>
 			<pathelement path="../../../../../../usr/local/lib/eclipse-devel/plugins/org.eclipse.emf.ecore.change_2.4.0.v200902171115.jar"/>
 			<pathelement path="../tefkat.model/runtime/"/>
-			<pathelement path="../tefkat.model/@dot"/>
+			<pathelement path="${build.result.folder}/../tefkat.model_2.1.0.201103212012/runtime/"/>
+			<pathelement path="${build.result.folder}/../tefkat.model/@dot"/>
+			<pathelement path="${build.result.folder}/../tefkat.model_2.1.0.201103212012/@dot"/>
 			<pathelement path="../../../../../../usr/local/lib/eclipse-devel/plugins/org.eclipse.xsd_2.4.2.v200902171115.jar"/>
 		</path>
 		<!-- compile the source code -->
@@ -157,7 +159,7 @@
 	</target>
 
 	<target name="publish.bin.parts" depends="init" if="p2.publish.parts" unless="compilation.problem.marker.exists">
-		<mkdir dir="${build.result.folder}/tefkat.model.edit_2.1.0.201103212006"/>
+		<mkdir dir="${build.result.folder}/tefkat.model.edit_2.1.0.201103212012"/>
 		<copy todir="${build.result.folder}" failonerror="true" overwrite="true">
 			<fileset dir="${basedir}">
 				<include name="META-INF/MANIFEST.MF"/>
@@ -165,7 +167,7 @@
 				<include name="fragment.xml"/>
 			</fileset>
 		</copy>
-		<eclipse.versionReplacer path="${build.result.folder}" version="2.1.0.201103212006"/>
+		<eclipse.versionReplacer path="${build.result.folder}" version="2.1.0.201103212012"/>
 		<antcall target="apitools.generation">
 			<param name="target.folder" value="${build.result.folder}"/>
 			<param name="projectLocation" value="${basedir}"/>
@@ -176,18 +178,19 @@
 		   metadataRepository="${p2.build.repo}"
 		   artifactRepository="${p2.build.repo}"
 		   buildResultFolder="${build.result.folder}"
+		   unpack="false"
 		   baseDirectory="${basedir}"
 		/>
 	</target>
 
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212006"/>
-		<copy todir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212006" failonerror="true" overwrite="false">
+		<mkdir dir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212012"/>
+		<copy todir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212012" failonerror="true" overwrite="false">
 			<fileset dir="${build.result.folder}/@dot">
 				<include name="**"/>
 			</fileset>
 		</copy>
-		<copy todir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212006" failonerror="true" overwrite="true">
+		<copy todir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212012" failonerror="true" overwrite="true">
 			<fileset dir="${basedir}">
 				<include name="icons/"/>
 				<include name="META-INF/"/>
@@ -195,9 +198,9 @@
 				<include name="plugin.properties"/>
 			</fileset>
 		</copy>
-		<eclipse.versionReplacer path="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212006" version="2.1.0.201103212006"/>
+		<eclipse.versionReplacer path="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212012" version="2.1.0.201103212012"/>
 		<antcall target="apitools.generation">
-			<param name="target.folder" value="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212006"/>
+			<param name="target.folder" value="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212012"/>
 			<param name="projectLocation" value="${basedir}"/>
 			<param name="binary.folders" value="${build.result.folder}/@dot"/>
 			<param name="projectName" value="${bundleId}_${bundleVersion}"/>
@@ -208,10 +211,10 @@
 	</target>
 
 	<target name="gather.sources" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212006"/>
-		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212006" failonerror="false" overwrite="false"/>
+		<mkdir dir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212012"/>
+		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212012" failonerror="false" overwrite="false"/>
 		<antcall target="copy.src.includes">
-			<param name="source.destination.folder" value="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212006"/>
+			<param name="source.destination.folder" value="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212012"/>
 		</antcall>
 	</target>
 
@@ -228,8 +231,8 @@
 	</target>
 
 	<target name="gather.logs" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212006"/>
-		<copy todir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212006" failonerror="false" overwrite="false">
+		<mkdir dir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212012"/>
+		<copy todir="${destination.temp.folder}/tefkat.model.edit_2.1.0.201103212012" failonerror="false" overwrite="false">
 			<fileset dir="${build.result.folder}">
 				<include name="@dot${logExtension}"/>
 			</fileset>
@@ -239,8 +242,8 @@
 	<target name="clean" depends="init" description="Clean the plug-in: tefkat.model.edit of all the zips, jars and logs created.">
 		<delete dir="${build.result.folder}/@dot"/>
 		<delete file="${build.result.folder}/src.zip"/>
-		<delete file="${plugin.destination}/tefkat.model.edit_2.1.0.201103212006.jar"/>
-		<delete file="${plugin.destination}/tefkat.model.edit_2.1.0.201103212006.zip"/>
+		<delete file="${plugin.destination}/tefkat.model.edit_2.1.0.201103212012.jar"/>
+		<delete file="${plugin.destination}/tefkat.model.edit_2.1.0.201103212012.zip"/>
 		<delete dir="${temp.folder}"/>
 		<delete file="${compilation.problem.marker}" quiet="true"/>
 	</target>
@@ -266,7 +269,7 @@
 				<include name="**/*.bin${logExtension}"/>
 			</fileset>
 		</delete>
-		<zip destfile="${plugin.destination}/tefkat.model.edit_2.1.0.201103212006.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<zip destfile="${plugin.destination}/tefkat.model.edit_2.1.0.201103212012.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
