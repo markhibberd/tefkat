@@ -125,7 +125,7 @@ public class Tree {
         Node child;
 
         /*
-          Merge conflict: kept mine, trunk was --
+          Merge conflict: kept mine, trunk was --, trying opisite */
         if (null != parent) {
             if (null == unifier) {
                 unifier = parent.getBindings(); // Inherit bindings from parent
@@ -136,7 +136,7 @@ public class Tree {
         Node child = new Node(childGoal, unifier, parent);
         addUnresolvedNode(child);
     }
-         */
+    /*
         if (null != parent) {
             if (null == unifier) {
                 unifier = parent.getBindings(); // Inherit bindings from parent
@@ -148,6 +148,7 @@ public class Tree {
             child = new Node(childGoal, unifier);
         }
         addUnresolvedNode(child);
+    */
     }
 
     public void completed() {
